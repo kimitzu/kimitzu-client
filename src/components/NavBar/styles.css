@@ -1,0 +1,32 @@
+#nav {
+  background-color: var(--primary);
+}
+#search-bar {
+  background-color: #fff;
+  color: var(--primary);
+  font-size: 0.85rem;
+}
+#search-bar-form {
+  flex: 1;
+}
+#title-logo {
+  font-size: 1.9rem;
+  flex: 1;
+  font-weight: bold;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#navbar-left-item {
+  width: 25%;
+}
+#navbar-right-item {
+  margin-right: 2%;
+}
+#navbar-center-item {
+  width: 50%;
+}
+#account {
+  text-align: right;
+  color: #fff;
+  margin-right: 5%;
+}

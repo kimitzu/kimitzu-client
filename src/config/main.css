@@ -1,7 +1,9 @@
 :root {
   --primary: #2699FB;
 }
-
+::placeholder {
+  color: var(--primary);
+}
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
