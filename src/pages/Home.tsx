@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import IntroductionCard from '../components/Card/IntroductionCard'
 import NavBar from '../components/NavBar/NavBar'
 
 class Home extends Component {
@@ -11,6 +12,7 @@ class Home extends Component {
     return (
       <div>
         <NavBar />
+        <IntroductionCard />
       </div>
     )
   }
