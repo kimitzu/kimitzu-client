@@ -1,14 +1,9 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
-  "rulesDirectory": [
-    "tslint-plugin-prettier"
-  ],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "rulesDirectory": ["tslint-plugin-prettier"],
   "rules": {
-    "prettier": true,
-    "interface-name": false
+    "prettier": [true, ".prettierrc"],
+    "interface-name": false,
+    "jsx-boolean-value": [true, "never"]
   }
 }

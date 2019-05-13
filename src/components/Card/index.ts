@@ -1,0 +1,1 @@
+import RegistrationCard from './RegistrationCard'

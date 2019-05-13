@@ -1,0 +1,20 @@
+#avatar-item {
+  border: 1px solid var(--border-color);
+  padding: 1.5%;
+}
+#description {
+  resize: none;
+}
+.uk-icon-button {
+  background: var(--border-color);
+}
+#form-select {
+  border: 1px solid var(--border-color);
+}
+.uk-form-stacked .uk-form-label {
+  font-size: 0.65rem;
+}
+#form-title {
+  font-size: 1.05rem;
+  font-weight: bold;
+}
