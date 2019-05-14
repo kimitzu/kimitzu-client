@@ -1,0 +1,29 @@
+#main-card {
+    margin: 3% 15% 15%;
+    width: auto;
+}
+
+#connection-text {
+    text-align: end;
+}
+
+#djali-text {
+    text-align: center;
+}
+
+#description-text {
+    padding-top: 4%;
+    text-align: center;
+    overflow: hidden;
+}
+
+#buy-sell-text {
+    text-align: center;
+}
+
+#get-started-btn {
+    padding-top: 1%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3%;
+}
