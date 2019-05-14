@@ -1,10 +1,12 @@
-import React, { Component, MouseEvent } from 'react'
+import React, { Component } from 'react'
 
-import RegistrationCard from '../components/Card/RegistrationCard'
+import { IntroductionCard, RegistrationCard } from '../components/Card'
 import { RegistrationForm, TermsOfService } from '../components/Form'
+import './UserRegistration.css'
 
 interface State {
   currentIndex: number
+  hasStarted: boolean
   numberOfPages: number
 }
 
@@ -13,11 +15,14 @@ class UserRegistration extends Component<{}, State> {
     super(props)
     this.state = {
       currentIndex: 1,
+      hasStarted: false,
       numberOfPages: 2,
     }
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
     this.getCurrentContent = this.getCurrentContent.bind(this)
+    this.handleGetStarted = this.handleGetStarted.bind(this)
+    this.renderCard = this.renderCard.bind(this)
   }
 
   public handleNext(event: React.FormEvent) {
@@ -46,20 +51,30 @@ class UserRegistration extends Component<{}, State> {
     }
   }
 
+  public handleGetStarted() {
+    this.setState({ hasStarted: true })
+  }
+
+  public renderCard() {
+    const { hasStarted, numberOfPages, currentIndex } = this.state
+    const { handleNext, handlePrev, getCurrentContent, handleGetStarted } = this
+    return hasStarted ? (
+      <RegistrationCard
+        content={getCurrentContent()}
+        currentIndex={currentIndex}
+        numberOfPages={numberOfPages}
+        handleNext={handleNext}
+        handlePrev={handlePrev}
+      />
+    ) : (
+      <IntroductionCard handleGetStarted={handleGetStarted} />
+    )
+  }
+
   public render() {
-    const { numberOfPages, currentIndex } = this.state
-    const { handleNext, handlePrev, getCurrentContent } = this
     return (
-      <div className="uk-container-expand">
-        <div className="uk-flex-center" data-uk-grid>
-          <RegistrationCard
-            content={getCurrentContent()}
-            currentIndex={currentIndex}
-            numberOfPages={numberOfPages}
-            handleNext={handleNext}
-            handlePrev={handlePrev}
-          />
-        </div>
+      <div id="reg-container" className="uk-container-expand">
+        {this.renderCard()}
       </div>
     )
   }

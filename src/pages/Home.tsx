@@ -12,7 +12,6 @@ class Home extends Component {
     return (
       <div>
         <NavBar />
-        <IntroductionCard />
       </div>
     )
   }

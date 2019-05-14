@@ -1,6 +1,6 @@
 :root {
-  --primary: #2699FB;
-  --border-color: #BCE0FD;
+  --primary: #2699fb;
+  --border-color: #bce0fd;
 }
 ::placeholder {
   color: var(--primary);
@@ -15,7 +15,8 @@ body * {
 .color-primary {
   color: var(--primary) !important;
 }
-.uk-input,.uk-textarea {
+.uk-input,
+.uk-textarea {
   border-color: var(--border-color);
   color: var(--primary) !important;
 }
