@@ -22,9 +22,6 @@ const renderSelectOptions = (options: Option[]) => {
 const RegistrationForm = (props: Props) => (
   <form className="uk-form-stacked">
     <fieldset className="uk-fieldset">
-      <legend id="form-title" className="uk-legend color-primary">
-        Set your information
-      </legend>
       <div className="uk-margin">
         <label className="uk-form-label color-primary">FULL NAME</label>
         <div className="uk-form-controls">

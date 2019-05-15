@@ -2,7 +2,11 @@ import React from 'react'
 
 import './NavBar.css'
 
-const NavBar = () => (
+interface Props {
+  handleSettings: () => void
+}
+
+const NavBar = (props: Props) => (
   <nav id="nav" className="uk-navbar-container" data-uk-navbar>
     <div id="navbar-left-item" className="uk-navbar-left">
       <a id="title-logo" className="uk-navbar-item uk-logo" href="/">
@@ -26,7 +30,13 @@ const NavBar = () => (
       </form>
     </div>
     <div id="navbar-right-item" className="uk-navbar-right">
-      <a id="account" className="uk-navbar-item uk-logo" href="/account" uk-icon="icon: user" />
+      <a
+        id="account"
+        className="uk-navbar-item uk-logo"
+        href="#settings"
+        data-uk-icon="icon: user"
+        onClick={props.handleSettings}
+      />
     </div>
   </nav>
 )

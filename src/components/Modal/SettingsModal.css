@@ -1,0 +1,38 @@
+#selected-list {
+  border-left: 4px var(--primary);
+}
+#settings-body {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+#settings-list {
+  width: 30%;
+  flex: 1;
+}
+#settings-list-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+#not-selected {
+  margin-left: 4px;
+}
+#selected {
+  border-left: 4px solid var(--primary);
+}
+#settings-modal-dialog {
+  width: 75%;
+}
+#modal-content {
+  flex: 4;
+  padding: 2.5% 5% 2.5% 5%;
+}
+#content-title {
+  text-align: center;
+  font-weight: bold;
+}
+.list-item {
+  color: #a3a3a3;
+  font-weight: bold;
+}

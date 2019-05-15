@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
 
-import IntroductionCard from '../components/Card/IntroductionCard'
+import { SettingsModal } from '../components/Modal'
 import NavBar from '../components/NavBar/NavBar'
 
 class Home extends Component {
   constructor(props: any) {
     super(props)
+    this.handleSettings = this.handleSettings.bind(this)
+  }
+
+  public handleSettings() {
+    window.UIkit.modal('#settings').show()
   }
 
   public render() {
     return (
       <div>
-        <NavBar />
+        <NavBar handleSettings={this.handleSettings} />
+        <SettingsModal />
       </div>
     )
   }
