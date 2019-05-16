@@ -1,0 +1,17 @@
+#address-card {
+  padding: 2.5% 5%;
+  margin-bottom: 1%;
+}
+#address-right-label {
+  top: 5%;
+  right: 2.5%;
+}
+#address-title {
+  font-size: 1.1rem;
+}
+#address-text {
+  font-size: 0.85rem;
+}
+.address-card-font {
+  color: #a3a3a3;
+}

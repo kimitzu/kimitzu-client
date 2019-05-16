@@ -32,6 +32,9 @@
   text-align: center;
   font-weight: bold;
 }
+#settings-content {
+  margin-top: 5%;
+}
 .list-item {
   color: #a3a3a3;
   font-weight: bold;
