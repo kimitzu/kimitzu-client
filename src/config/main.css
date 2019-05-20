@@ -12,6 +12,10 @@ body * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+label .required {
+  color: #ff0000;
+  font-size: 0.8rem;
+}
 .color-primary {
   color: var(--primary) !important;
 }

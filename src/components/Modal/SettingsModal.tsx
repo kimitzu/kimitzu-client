@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Location } from '../../common/types'
 import { AddressesCardGroup } from '../CardGroup'
-import { RegistrationForm } from '../Form'
+import { AddressForm, RegistrationForm } from '../Form'
 import './SettingsModal.css'
 
 const sampleLocations = [
@@ -46,6 +46,16 @@ const contents = [
   },
   {
     component: () => <AddressesCardGroup locations={sampleLocations} />,
+    title: 'Addresses',
+  },
+  {
+    component: () => (
+      <AddressForm
+        handleSave={() => {
+          console.log('WIP')
+        }}
+      />
+    ),
     title: 'Addresses',
   },
 ]

@@ -1,22 +1,11 @@
 import React from 'react'
 
+import { FormSelector } from '../Selector'
+
 import './RegistrationForm.css'
 
 interface Props {
   [key: string]: any
-}
-
-interface Option {
-  label: string
-  value: string
-}
-
-const renderSelectOptions = (options: Option[]) => {
-  return options.map((option: Option) => (
-    <option key={option.value} value={option.value}>
-      {option.label}
-    </option>
-  ))
 }
 
 const RegistrationForm = (props: Props) => (
@@ -50,13 +39,17 @@ const RegistrationForm = (props: Props) => (
       <div className="uk-margin">
         <label className="uk-form-label color-primary">COUNTRY</label>
         <div id="form-select" className="uk-form-controls">
-          <select className="uk-select">{renderSelectOptions(props.availableCountries)}</select>
+          <select className="uk-select">
+            <FormSelector options={props.availableCountries} />
+          </select>
         </div>
       </div>
       <div className="uk-margin">
         <label className="uk-form-label color-primary">CURRENCY</label>
         <div id="form-select" className="uk-form-controls">
-          <select className="uk-select">{renderSelectOptions(props.availableCurrencies)}</select>
+          <select className="uk-select">
+            <FormSelector options={props.availableCurrencies} />
+          </select>
         </div>
       </div>
     </fieldset>
