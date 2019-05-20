@@ -1,0 +1,12 @@
+#two-inputs {
+  display: flex;
+  flex-direction: row;
+}
+#input1 {
+  padding-right: 2%;
+  margin-bottom: 2%;
+}
+#input2 {
+  padding-left: 2%;
+  margin-bottom: 2%;
+}
