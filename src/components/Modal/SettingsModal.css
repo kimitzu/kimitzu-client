@@ -18,8 +18,16 @@
 #not-selected {
   margin-left: 4px;
 }
-#selected {
+li#selected {
   border-left: 4px solid var(--primary);
+}
+li#selected > a {
+  color: var(--primary);
+  font-weight: bold;
+}
+a#selected {
+  color: var(--primary);
+  font-weight: 400;
 }
 #settings-modal-dialog {
   width: 75%;

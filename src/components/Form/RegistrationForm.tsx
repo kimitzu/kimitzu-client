@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
 import './RegistrationForm.css'
@@ -12,13 +13,19 @@ const RegistrationForm = (props: Props) => (
   <form className="uk-form-stacked">
     <fieldset className="uk-fieldset">
       <div className="uk-margin">
-        <label className="uk-form-label color-primary">FULL NAME</label>
+        <FormLabel label="USERNAME" required />
         <div className="uk-form-controls">
           <input className="uk-input" type="text" placeholder="John Doe" />
         </div>
       </div>
       <div className="uk-margin">
-        <label className="uk-form-label color-primary">DESCRIPTION</label>
+        <FormLabel label="FULL NAME" required />
+        <div className="uk-form-controls">
+          <input className="uk-input" type="text" placeholder="John Doe" />
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="DESCRIPTION" />
         <div className="uk-form-controls">
           <textarea
             id="description"
@@ -29,7 +36,7 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <label className="uk-form-label color-primary">AVATAR</label>
+        <FormLabel label="AVATAR" />
         <div id="avatar-item" className="uk-form-controls">
           <div>
             <a className="uk-icon-button uk-margin-small-right color-primary" uk-icon="user" />
@@ -37,7 +44,7 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <label className="uk-form-label color-primary">COUNTRY</label>
+        <FormLabel label="COUNTRY" required />
         <div id="form-select" className="uk-form-controls">
           <select className="uk-select">
             <FormSelector options={props.availableCountries} />
@@ -45,7 +52,15 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <label className="uk-form-label color-primary">CURRENCY</label>
+        <FormLabel label="WHAT CURRENCY SHOULD WE DISPLAY THE PRICES?" required />
+        <div id="form-select" className="uk-form-controls">
+          <select className="uk-select">
+            <FormSelector options={props.availableCurrencies} />
+          </select>
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="PREFERRED FIAT CURRENCY" required />
         <div id="form-select" className="uk-form-controls">
           <select className="uk-select">
             <FormSelector options={props.availableCurrencies} />

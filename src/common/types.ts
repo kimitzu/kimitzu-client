@@ -17,3 +17,26 @@ export interface Location {
   longitude: number
   plusCode: string
 }
+
+export interface ExtendedLocation {
+  primary: number | null
+  shipping: number | null
+  billing: number | null
+  return: number | null
+  addresses: Location[]
+}
+
+export interface UserProfile {
+  extendedLocation: ExtendedLocation
+}
+
+export interface SettingsActions {
+  NONE: number
+  ADD_SOCIAL_MEDIA: number
+  ADD_EDUCATION: number
+  UPDATE_EDUCATION: number
+  ADD_WORK: number
+  UPDATE_WORK: number
+  ADD_ADDRESS: number
+  UPDATE_ADDRESS: number
+}
