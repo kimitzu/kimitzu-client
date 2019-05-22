@@ -75,7 +75,7 @@ class Home extends Component<{}, State> {
   }
 
   public handleSettings() {
-    window.UIkit.modal('#settings').show()
+    window.UIkit.modal('#settings-modal').show()
   }
 
   public updateSettingsIndex(e: React.FormEvent, index: number) {

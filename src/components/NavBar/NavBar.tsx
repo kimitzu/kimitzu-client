@@ -33,7 +33,6 @@ const NavBar = (props: Props) => (
       <a
         id="account"
         className="uk-navbar-item uk-logo"
-        href="#settings"
         data-uk-icon="icon: user"
         onClick={props.handleSettings}
       />

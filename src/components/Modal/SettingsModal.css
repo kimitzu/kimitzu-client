@@ -1,9 +1,13 @@
+#settings-modal {
+  display: none;
+}
 #selected-list {
   border-left: 4px var(--primary);
 }
 #settings-body {
   padding: 0;
   flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: row;
 }
@@ -31,17 +35,20 @@ a#selected {
 }
 #settings-modal-dialog {
   width: 75%;
+  height: 100%;
 }
 #modal-content {
   flex: 4;
-  padding: 2.5% 5% 2.5% 5%;
+  padding: 2.5% 0 2.5% 0;
 }
 #content-title {
   text-align: center;
   font-weight: bold;
 }
 #settings-content {
-  margin-top: 5%;
+  height: 95%;
+  border: none;
+  padding: 2% 5% 0 5%;
 }
 .list-item {
   color: #a3a3a3;

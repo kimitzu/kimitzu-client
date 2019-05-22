@@ -17,10 +17,10 @@ const SettingsModal = (props: Props) => {
   const getListId = (index: number) => (selectedIndex === index ? 'selected' : 'not-selected')
   const getLinkId = (index: number) => (currentLinkIndex === index ? 'selected' : '')
   return (
-    <div id="settings" uk-modal>
+    <div id="settings-modal" uk-modal>
       <div id="settings-modal-dialog" className="uk-modal-dialog">
         <button className="uk-modal-close-default" type="button" data-uk-close />
-        <div id="settings-body" className="uk-modal-body" data-uk-overflow-auto>
+        <div id="settings-body" className="uk-modal-body">
           <div id="settings-list" className="uk-card uk-card-default uk-card-body uk-width-1-2@s">
             <ul className="uk-nav-default" data-uk-nav>
               <li id="settings-list-title" className="uk-nav-header color-primary">
@@ -64,7 +64,9 @@ const SettingsModal = (props: Props) => {
             <h4 id="content-title" className="color-primary">
               {content.title}
             </h4>
-            <div id="settings-content">{content.component}</div>
+            <div id="settings-content" className="uk-panel uk-panel-scrollable">
+              {content.component}
+            </div>
           </div>
         </div>
       </div>
