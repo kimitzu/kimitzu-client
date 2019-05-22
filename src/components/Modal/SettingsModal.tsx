@@ -64,7 +64,7 @@ const SettingsModal = () => {
   const [selectedIndex, setIndex] = useState(0)
   const getListId = (index: number) => (selectedIndex === index ? 'selected' : 'not-selected')
   return (
-    <div id="settings" uk-modal>
+    <div id="settings" uk-modal="container=false">
       <div id="settings-modal-dialog" className="uk-modal-dialog">
         <button className="uk-modal-close-default" type="button" data-uk-close />
         <div id="settings-body" className="uk-modal-body">

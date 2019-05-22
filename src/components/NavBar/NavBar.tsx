@@ -2,11 +2,13 @@ import React from 'react'
 
 import './NavBar.css'
 
-interface Props {
+interface NavBarProps {
+  onQueryChange: (fieldName: string, value: string) => void
+  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void
   handleSettings: () => void
 }
 
-const NavBar = (props: Props) => (
+const NavBar = ({ onQueryChange, onSearchSubmit, handleSettings }: NavBarProps) => (
   <nav id="nav" className="uk-navbar-container" data-uk-navbar>
     <div id="navbar-left-item" className="uk-navbar-left">
       <a id="title-logo" className="uk-navbar-item uk-logo" href="/">
@@ -14,7 +16,7 @@ const NavBar = (props: Props) => (
       </a>
     </div>
     <div id="navbar-center-item" className="uk-navbar-center">
-      <form id="search-bar-form" className="uk-search uk-search-default">
+      <form id="search-bar-form" className="uk-search uk-search-default" onSubmit={onSearchSubmit}>
         <a
           href="/"
           className="uk-search-icon-flip color-primary"
@@ -26,6 +28,7 @@ const NavBar = (props: Props) => (
           className="uk-search-input"
           type="search"
           placeholder="What are you looking for?"
+          onChange={event => onQueryChange('searchQuery', event.target.value)}
         />
       </form>
     </div>
@@ -35,7 +38,7 @@ const NavBar = (props: Props) => (
         className="uk-navbar-item uk-logo"
         href="#settings"
         data-uk-icon="icon: user"
-        onClick={props.handleSettings}
+        onClick={handleSettings}
       />
     </div>
   </nav>
