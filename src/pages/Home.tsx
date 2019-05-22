@@ -58,10 +58,11 @@ class Home extends Component<HomeProps, HomeState> {
       profile: {
         extendedLocation: {
           addresses: [],
-          billing: null,
-          primary: null,
+          home: null,
+          work: null,
           return: null,
           shipping: null,
+          mailing: null,
         },
       },
       addressForm: {
@@ -104,7 +105,7 @@ class Home extends Component<HomeProps, HomeState> {
         longitude: 276.1344,
         plusCode: '424E+',
         state: 'Ioliol',
-        type: 'Primary',
+        type: 'Home',
         zipCode: '1005',
       },
       {
@@ -117,17 +118,18 @@ class Home extends Component<HomeProps, HomeState> {
         longitude: 226.1614,
         plusCode: '444A+',
         state: 'Ioliol',
-        type: 'Billing',
+        type: 'Shipping',
         zipCode: '1009',
       },
     ]
     const profile = {
       extendedLocation: {
         addresses,
-        billing: null,
-        primary: 1,
+        home: 0,
+        work: null,
         return: null,
-        shipping: 0,
+        shipping: 1,
+        mailing: null,
       },
     }
     this.setState({ profile })

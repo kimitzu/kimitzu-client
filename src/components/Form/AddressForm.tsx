@@ -10,12 +10,12 @@ import './AddressForm.css'
 
 const options = [
   {
-    label: 'Primary',
-    value: 'Primary',
+    label: 'Home',
+    value: 'Home',
   },
   {
-    label: 'Billing',
-    value: 'Billing',
+    label: 'Work',
+    value: 'Hork',
   },
   {
     label: 'Shipping',
@@ -24,6 +24,10 @@ const options = [
   {
     label: 'Return',
     value: 'Return',
+  },
+  {
+    label: 'Mailing',
+    value: 'Mailing',
   },
 ]
 

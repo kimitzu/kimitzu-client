@@ -19,10 +19,11 @@ export interface Location {
 }
 
 export interface ExtendedLocation {
-  primary: number | null
+  home: number | null
+  work: number | null
   shipping: number | null
-  billing: number | null
   return: number | null
+  mailing: number | null
   addresses: Location[]
 }
 
