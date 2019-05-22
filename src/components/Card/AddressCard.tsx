@@ -1,16 +1,22 @@
 import React from 'react'
 
 import { Location } from '../../common/types'
+
 import './AddressCard.css'
 
 interface Props {
   location: Location
+  handleSelectAddress: () => void
 }
 
 const AddressCard = (props: Props) => {
   const { location } = props
   return (
-    <div id="address-card" className="uk-card uk-card-default uk-card-body">
+    <div
+      id="address-card"
+      className="uk-card uk-card-default uk-card-body"
+      onClick={props.handleSelectAddress}
+    >
       {location.isDefault ? (
         <div id="address-right-label" className="uk-card-badge uk-label">
           DEFAULT

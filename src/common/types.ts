@@ -32,7 +32,6 @@ export interface UserProfile {
 
 export interface SettingsActions {
   NONE: number
-  ADD_SOCIAL_MEDIA: number
   ADD_EDUCATION: number
   UPDATE_EDUCATION: number
   ADD_WORK: number

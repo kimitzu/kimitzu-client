@@ -5,12 +5,14 @@ import { AddressForm, RegistrationForm } from '../components/Form'
 import { SettingsModal } from '../components/Modal'
 import NavBar from '../components/NavBar/NavBar'
 
-import { SettingsActions, UserProfile } from '../common/types'
+import actions from '../common/constants'
+import { Location, UserProfile } from '../common/types'
 
 interface State {
   profile: UserProfile
   settingsIndex: number
   currentAction: number
+  addressForm: Location
 }
 
 class Home extends Component<{}, State> {
@@ -27,10 +29,26 @@ class Home extends Component<{}, State> {
           shipping: null,
         },
       },
+      addressForm: {
+        type: 'primary',
+        isDefault: false,
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        latitude: 0,
+        longitude: 0,
+        plusCode: '',
+      },
       settingsIndex: 0,
     }
     this.handleSettings = this.handleSettings.bind(this)
     this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
+    this.handleSelectAddress = this.handleSelectAddress.bind(this)
+    this.refreshForms = this.refreshForms.bind(this)
+    this.handleSettingsBackBtn = this.handleSettingsBackBtn.bind(this)
   }
 
   public componentDidMount() {
@@ -45,7 +63,7 @@ class Home extends Component<{}, State> {
         longitude: 276.1344,
         plusCode: '424E+',
         state: 'Ioliol',
-        type: 'Home',
+        type: 'Primary',
         zipCode: '1005',
       },
       {
@@ -58,7 +76,7 @@ class Home extends Component<{}, State> {
         longitude: 226.1614,
         plusCode: '444A+',
         state: 'Ioliol',
-        type: 'Work',
+        type: 'Billing',
         zipCode: '1009',
       },
     ]
@@ -78,14 +96,51 @@ class Home extends Component<{}, State> {
     window.UIkit.modal('#settings-modal').show()
   }
 
+  public refreshForms() {
+    const addressForm = {
+      type: 'primary',
+      isDefault: false,
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      latitude: 0,
+      longitude: 0,
+      plusCode: '',
+    }
+    this.setState({ addressForm })
+  }
+
+  public handleSettingsBackBtn() {
+    this.setState({ currentAction: actions.settings.NONE })
+    this.refreshForms()
+  }
+
   public updateSettingsIndex(e: React.FormEvent, index: number) {
     e.preventDefault()
     this.setState({ settingsIndex: index })
   }
 
-  get getCurrentContent() {
+  public handleSettingsAction(currentAction: number) {
+    this.setState({ currentAction })
+  }
+
+  public handleSelectAddress(addressIndex: number) {
+    console.log(addressIndex)
     const { profile } = this.state
-    return [
+    console.log(profile)
+    this.setState({
+      currentAction: actions.settings.UPDATE_ADDRESS,
+      addressForm: profile.extendedLocation.addresses[addressIndex],
+    })
+  }
+
+  get getCurrentContent() {
+    const { profile, currentAction, settingsIndex, addressForm } = this.state
+    const { settings } = actions
+    const mainContents = [
       {
         component: (
           <RegistrationForm key="regform" availableCountries={[]} availableCurrencies={[]} />
@@ -106,15 +161,49 @@ class Home extends Component<{}, State> {
       },
       {
         component: (
-          <AddressesCardGroup key="addresses" locations={profile.extendedLocation.addresses} />
+          <AddressesCardGroup
+            key="addresses"
+            locations={profile.extendedLocation.addresses}
+            handleAddAddressBtn={() => this.handleSettingsAction(settings.ADD_ADDRESS)}
+            handleSelectAddress={this.handleSelectAddress}
+          />
         ),
         title: 'ADDRESSES',
       },
-      {
-        component: <AddressForm key="addressform" handleSave={this.handleSaveAddress} />,
+    ]
+    const subContents = {
+      [settings.ADD_EDUCATION]: {
+        component: <div />,
+        title: 'ADD EDUCATION',
+      },
+      [settings.UPDATE_EDUCATION]: {
+        component: <div />,
+        title: 'UPDATE EDUCATION',
+      },
+      [settings.ADD_WORK]: {
+        component: <div />,
+        title: 'ADD WORK',
+      },
+      [settings.UPDATE_EDUCATION]: {
+        component: <div />,
+        title: 'UPDATE WORK',
+      },
+      [settings.ADD_ADDRESS]: {
+        component: (
+          <AddressForm key="addressform" data={addressForm} handleSave={this.handleSaveAddress} />
+        ),
         title: 'ADD ADDRESS',
       },
-    ]
+      [settings.UPDATE_ADDRESS]: {
+        component: (
+          <AddressForm key="addressform" data={addressForm} handleSave={this.handleSaveAddress} />
+        ),
+        title: 'UPDATE ADDRESS',
+      },
+    }
+    return currentAction === settings.NONE
+      ? mainContents[settingsIndex]
+      : subContents[currentAction]
   }
 
   public handleSaveAddress() {
@@ -122,14 +211,16 @@ class Home extends Component<{}, State> {
   }
 
   public render() {
-    const { settingsIndex } = this.state
+    const { settingsIndex, currentAction } = this.state
     return (
       <div>
         <NavBar handleSettings={this.handleSettings} />
         <SettingsModal
           currentLinkIndex={settingsIndex}
           updateSettingsIndex={this.updateSettingsIndex}
-          content={this.getCurrentContent[settingsIndex]}
+          content={this.getCurrentContent}
+          handleBackBtn={this.handleSettingsBackBtn}
+          currentAction={currentAction}
         />
       </div>
     )

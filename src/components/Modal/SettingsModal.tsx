@@ -1,5 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 
+import actions from '../../common/constants'
+
 import './SettingsModal.css'
 
 interface Props {
@@ -9,15 +11,17 @@ interface Props {
   }
   currentLinkIndex: number
   updateSettingsIndex: (event: React.FormEvent, index: number) => void
+  handleBackBtn: () => void
+  currentAction: number
 }
 
 const SettingsModal = (props: Props) => {
-  const { content, updateSettingsIndex, currentLinkIndex } = props
+  const { content, updateSettingsIndex, handleBackBtn, currentLinkIndex, currentAction } = props
   const [selectedIndex, setIndex] = useState(0)
   const getListId = (index: number) => (selectedIndex === index ? 'selected' : 'not-selected')
   const getLinkId = (index: number) => (currentLinkIndex === index ? 'selected' : '')
   return (
-    <div id="settings-modal" uk-modal>
+    <div id="settings-modal" data-uk-modal>
       <div id="settings-modal-dialog" className="uk-modal-dialog">
         <button className="uk-modal-close-default" type="button" data-uk-close />
         <div id="settings-body" className="uk-modal-body">
@@ -61,6 +65,9 @@ const SettingsModal = (props: Props) => {
             </ul>
           </div>
           <div id="modal-content">
+            {currentAction !== actions.settings.NONE ? (
+              <a id="settings-back-btn" data-uk-icon="arrow-left" onClick={handleBackBtn} />
+            ) : null}
             <h4 id="content-title" className="color-primary">
               {content.title}
             </h4>

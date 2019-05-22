@@ -34,11 +34,11 @@ a#selected {
   font-weight: 400;
 }
 #settings-modal-dialog {
-  width: 75%;
+  width: 85%;
   height: 100%;
 }
 #modal-content {
-  flex: 4;
+  flex: 6;
   padding: 2.5% 0 2.5% 0;
 }
 #content-title {
@@ -48,7 +48,13 @@ a#selected {
 #settings-content {
   height: 95%;
   border: none;
-  padding: 2% 5% 0 5%;
+  padding: 2% 10% 0 10%;
+}
+#settings-back-btn {
+  float: left;
+  margin-left: 2.5%;
+  font-size: 1.75rem;
+  color: var(--primary);
 }
 .list-item {
   color: #a3a3a3;

@@ -47,7 +47,8 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="COUNTRY" required />
         <div id="form-select" className="uk-form-controls">
           <select className="uk-select">
-            <FormSelector options={props.availableCountries} />
+            {/* TODO: update default val */}
+            <FormSelector options={props.availableCountries} defaultVal="ph" />
           </select>
         </div>
       </div>
@@ -55,7 +56,8 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="WHAT CURRENCY SHOULD WE DISPLAY THE PRICES?" required />
         <div id="form-select" className="uk-form-controls">
           <select className="uk-select">
-            <FormSelector options={props.availableCurrencies} />
+            {/* TODO: update default val */}
+            <FormSelector options={props.availableCurrencies} defaultVal="usd" />
           </select>
         </div>
       </div>
@@ -63,7 +65,8 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="PREFERRED FIAT CURRENCY" required />
         <div id="form-select" className="uk-form-controls">
           <select className="uk-select">
-            <FormSelector options={props.availableCurrencies} />
+            {/* TODO: update default val */}
+            <FormSelector options={props.availableCurrencies} defaultVal="btc" />
           </select>
         </div>
       </div>

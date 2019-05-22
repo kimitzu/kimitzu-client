@@ -7,12 +7,13 @@ interface Option {
 
 interface Props {
   options: Option[]
+  defaultVal: string
 }
 
 const FormSelector = (props: Props) => (
-  <select className="uk-select">
+  <select className="uk-select form-field-border color-primary">
     {props.options.map((option: Option) => (
-      <option key={option.value} value={option.value}>
+      <option key={option.value} selected={props.defaultVal === option.value} value={option.value}>
         {option.label}
       </option>
     ))}
