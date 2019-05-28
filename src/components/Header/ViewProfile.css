@@ -1,0 +1,18 @@
+#cover-photo {
+    background: url(https://images.pexels.com/photos/949587/pexels-photo-949587.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
+    background-repeat: repeat;
+    background-size: auto;
+    color: white;
+    text-align: right;
+    padding-bottom: 20%; 
+    padding-top: 0.5%;
+}
+
+#header-icon {
+    padding: 0.4%;
+}
+
+#header-tab {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
