@@ -70,6 +70,7 @@ class UserRegistration extends Component<{}, State> {
     this.renderCard = this.renderCard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleAgree = this.handleAgree.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   public handleNext(event?: React.FormEvent) {
@@ -172,6 +173,7 @@ class UserRegistration extends Component<{}, State> {
 
   private handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    this.handleNext(event)
   }
 
   private async handleAgree() {

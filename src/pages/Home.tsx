@@ -13,6 +13,7 @@ import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
 import SidebarFilter from '../components/Sidebar/Filter'
 import config from '../config'
+import Config from '../config'
 import Countries from '../constants/Countries.json'
 import CryptoCurrencies from '../constants/CryptoCurrencies.json'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
@@ -32,7 +33,6 @@ interface HomeState {
   profile: UserProfile
   settingsIndex: number
   currentAction: number
-  addressForm: Location
   locationRadius: number
   modifiers: { [x: string]: any }
   plusCode: string
@@ -130,6 +130,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this)
     this.executeSearchRequest = this.executeSearchRequest.bind(this)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
 
   public async componentDidMount() {
@@ -153,8 +154,6 @@ class Home extends Component<HomeProps, HomeState> {
 
   public refreshForms() {
     const addressForm = {
-      type: 'primary',
-      isDefault: false,
       address1: '',
       address2: '',
       city: '',
@@ -206,9 +205,7 @@ class Home extends Component<HomeProps, HomeState> {
             languages={Languages}
             unitOfMeasurements={UnitsOfMeasurement}
             onChange={this.handleChange}
-            onSubmit={() => {
-              console.log('WIP')
-            }}
+            onSubmit={this.handleFormSubmit}
           />
         ),
         title: 'GENERAL',
@@ -308,6 +305,12 @@ class Home extends Component<HomeProps, HomeState> {
         </div>
       </div>
     )
+  }
+
+  private async handleFormSubmit(event: React.FormEvent) {
+    event.preventDefault()
+    await axios.put(`${Config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    alert('Profile updated')
   }
 
   private handleChange(field: string, value: any): void {

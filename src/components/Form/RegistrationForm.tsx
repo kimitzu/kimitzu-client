@@ -148,6 +148,9 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
     </fieldset>
+    <button className="uk-button uk-button-primary uk-align-center" type="submit">
+      Submit
+    </button>
   </form>
 )
 
