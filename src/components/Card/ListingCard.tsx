@@ -1,4 +1,5 @@
 import React from 'react'
+import config from '../../config'
 import { Listing } from '../../models/listing'
 import './ListingCard.css'
 
@@ -17,7 +18,7 @@ const generateStars = (averageRating: number) => {
 const ListingCard = ({ listing }: ListingProps) => (
   <div className="uk-card uk-card-default uk-card-hover listing">
     <div className="uk-card-media-top">
-      <img src={`http://localhost:8109/djali/media?id=${listing.thumbnail.tiny}`} alt="" />
+      <img src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny}`} alt="" />
     </div>
     <div className="uk-card-body">
       <div className="listing-title">{listing.title}</div>

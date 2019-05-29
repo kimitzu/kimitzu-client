@@ -6,22 +6,72 @@ import { FormSelector } from '../Selector'
 import './RegistrationForm.css'
 
 interface Props {
-  [key: string]: any
+  data: {
+    handle: string
+    name: string
+    about: string
+    extLocation: {
+      primary: number
+      shipping: number
+      billing: number
+      return: number
+      addresses: [
+        {
+          latitude: string
+          longitude: string
+          plusCode: string
+          addressOne: string
+          addressTwo: string
+          city: string
+          state: string
+          country: string
+          zipCode: string
+        }
+      ]
+    }
+    preferences: {
+      currencyDisplay: string
+      fiat: string
+      cryptocurrency: string
+      language: string
+      measurementUnit: string
+    }
+  }
+  availableCountries: Array<{ label: string; value: string }>
+  currencyTypes: Array<{ label: string; value: string }>
+  fiatCurrencies: Array<{ label: string; value: string }>
+  cryptoCurrencies: Array<{ label: string; value: string }>
+  languages: Array<{ label: string; value: string }>
+  unitOfMeasurements: Array<{ label: string; value: string }>
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onChange: (field: string, value: any) => void
 }
 
 const RegistrationForm = (props: Props) => (
-  <form className="uk-form-stacked">
+  <form className="uk-form-stacked" onSubmit={props.onSubmit}>
     <fieldset className="uk-fieldset">
       <div className="uk-margin">
         <FormLabel label="USERNAME" required />
         <div className="uk-form-controls">
-          <input className="uk-input" type="text" placeholder="John Doe" />
+          <input
+            className="uk-input"
+            type="text"
+            placeholder="John Doe"
+            value={props.data.handle || ''}
+            onChange={event => props.onChange('handle', event.target.value)}
+          />
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="FULL NAME" required />
+        <FormLabel label="FULL NAME" />
         <div className="uk-form-controls">
-          <input className="uk-input" type="text" placeholder="John Doe" />
+          <input
+            className="uk-input"
+            type="text"
+            placeholder="John Doe"
+            value={props.data.name || ''}
+            onChange={event => props.onChange('name', event.target.value)}
+          />
         </div>
       </div>
       <div className="uk-margin">
@@ -31,43 +81,90 @@ const RegistrationForm = (props: Props) => (
             id="description"
             className="uk-textarea"
             rows={3}
-            placeholder="Say something..."
+            placeholder="In 500 words or less tell us something about yourself and the services you offer..."
+            value={props.data.about || ''}
+            onChange={event => props.onChange('about', event.target.value)}
           />
         </div>
       </div>
       <div className="uk-margin">
         <FormLabel label="AVATAR" />
         <div id="avatar-item" className="uk-form-controls">
-          <div>
-            <a className="uk-icon-button uk-margin-small-right color-primary" uk-icon="user" />
+          <div id="child-icon">
+            <a className="uk-icon-button color-primary" uk-icon="user" />
+          </div>
+          <div id="child-slider">
+            <input className="uk-range" type="range" value="2" min="0" max="10" step="0.1" />
+          </div>
+          <div id="child-btn">
+            <button className="uk-button uk-button-primary">CHANGE</button>
           </div>
         </div>
       </div>
       <div className="uk-margin">
         <FormLabel label="COUNTRY" required />
         <div id="form-select" className="uk-form-controls">
-          <select className="uk-select">
-            {/* TODO: update default val */}
-            <FormSelector options={props.availableCountries} defaultVal="ph" />
-          </select>
+          <FormSelector
+            options={props.availableCountries}
+            defaultVal={
+              props.data.extLocation
+                ? props.data.extLocation.addresses[props.data.extLocation.primary].country
+                : ''
+            }
+            onChange={event =>
+              props.onChange('extLocation.addresses', [{ country: event.target.value }])
+            }
+          />
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="WHAT CURRENCY SHOULD WE DISPLAY THE PRICES?" required />
+        <FormLabel label="WHAT CURRENCY SHOULD WE DISPLAY THE PRICES" required />
         <div id="form-select" className="uk-form-controls">
-          <select className="uk-select">
-            {/* TODO: update default val */}
-            <FormSelector options={props.availableCurrencies} defaultVal="usd" />
-          </select>
+          <FormSelector
+            options={props.currencyTypes}
+            defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
+            onChange={event => props.onChange('preferences.currencyDisplay', event.target.value)}
+          />
         </div>
       </div>
       <div className="uk-margin">
         <FormLabel label="PREFERRED FIAT CURRENCY" required />
         <div id="form-select" className="uk-form-controls">
-          <select className="uk-select">
-            {/* TODO: update default val */}
-            <FormSelector options={props.availableCurrencies} defaultVal="btc" />
-          </select>
+          <FormSelector
+            options={props.fiatCurrencies}
+            defaultVal={props.data.preferences ? props.data.preferences.fiat : ''}
+            onChange={event => props.onChange('preferences.fiat', event.target.value)}
+          />
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="PREFERRED CRYPTO CURRENCY" required />
+        <div id="form-select" className="uk-form-controls">
+          <FormSelector
+            options={props.cryptoCurrencies}
+            defaultVal={props.data.preferences ? props.data.preferences.cryptocurrency : ''}
+            onChange={event => props.onChange('preferences.cryptocurrency', event.target.value)}
+          />
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="PREFERRED LANGUAGE" />
+        <div id="form-select" className="uk-form-controls">
+          <FormSelector
+            options={props.languages}
+            defaultVal={props.data.preferences ? props.data.preferences.language : ''}
+            onChange={event => props.onChange('preferences.language', event.target.value)}
+          />
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="PREFERRED UNITS" />
+        <div id="form-select" className="uk-form-controls">
+          <FormSelector
+            options={props.unitOfMeasurements}
+            defaultVal={props.data.preferences ? props.data.preferences.measurementUnit : ''}
+            onChange={event => props.onChange('preferences.measurementUnit', event.target.value)}
+          />
         </div>
       </div>
     </fieldset>
