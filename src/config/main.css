@@ -24,6 +24,9 @@ label .required {
   border-color: var(--border-color);
   color: var(--primary) !important;
 }
+textarea {
+  resize: none;
+}
 .form-field-border {
   border: 1px solid var(--border-color);
 }

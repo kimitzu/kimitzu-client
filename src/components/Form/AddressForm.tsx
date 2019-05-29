@@ -43,7 +43,11 @@ const AddressForm = (props: Props) => {
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
           <FormLabel label="TYPE" />
-          <FormSelector defaultVal={data.type} options={options} />
+          <FormSelector
+            defaultVal={data.type}
+            options={options}
+            onChange={event => console.log(event.target.value)}
+          />
         </div>
         <TwoInputs
           input1={{
