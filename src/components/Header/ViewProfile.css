@@ -1,18 +1,61 @@
 #cover-photo {
-    background: url(https://images.pexels.com/photos/949587/pexels-photo-949587.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
-    background-repeat: repeat;
+    background: url(https://www.solidbackgrounds.com/images/1600x900/1600x900-light-sky-blue-solid-color-background.jpg);
     background-size: auto;
     color: white;
     text-align: right;
-    padding-bottom: 20%; 
+    padding-bottom: 14%; 
     padding-top: 0.5%;
 }
 
+#header{
+    box-shadow: 1px 1px 3px 3px #ccc;
+    position:absolute;
+    width:100%;
+}
+
+#header > div{
+    float:left;
+}
+
 #header-icon {
-    padding: 0.4%;
+    padding: 0.8%;
+}
+
+#tab-label {
+    font-weight: bold;
+    color: dodgerblue;
+}
+
+#label-number {
+    color: gray;
+    padding-left: 5%;
 }
 
 #header-tab {
     padding-top: 2%;
-    padding-bottom: 2%;
+    width:80%;
+}
+
+#profile-picture {
+    margin-top: -9%;
+    width: 15%;
+    padding-bottom: 0.1%;
+    padding-left: 3%;
+}
+
+#profile-picture > img {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+    border: solid 9px white;
+}
+
+#seller-name {
+    margin-top: -7%;
+    padding-bottom: 3%;
+}
+
+#seller-name > h3 {
+    color: dodgerblue;
+    font-weight: bolder;
 }
