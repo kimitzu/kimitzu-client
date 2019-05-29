@@ -4,11 +4,11 @@
     "value": ""
   },
   {
-    "label": "Metric System (Mile, Foot, Inch, Pound)",
+    "label": "Metric System (Kilometer, Meter, Centimeter, Grams)",
     "value": "METRIC"
   },
   {
-    "label": "English System (Kilometer, Meter, Centimeter, Grams)",
+    "label": "English System  (Mile, Foot, Inch, Pound)",
     "value": "ENGLISH"
   }
 ]

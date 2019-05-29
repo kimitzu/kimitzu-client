@@ -3,40 +3,12 @@ import React from 'react'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
+import ProfileInterface from '../../models/Profile'
+
 import './RegistrationForm.css'
 
 interface Props {
-  data: {
-    handle: string
-    name: string
-    about: string
-    extLocation: {
-      primary: number
-      shipping: number
-      billing: number
-      return: number
-      addresses: [
-        {
-          latitude: string
-          longitude: string
-          plusCode: string
-          addressOne: string
-          addressTwo: string
-          city: string
-          state: string
-          country: string
-          zipCode: string
-        }
-      ]
-    }
-    preferences: {
-      currencyDisplay: string
-      fiat: string
-      cryptocurrency: string
-      language: string
-      measurementUnit: string
-    }
-  }
+  data: ProfileInterface
   availableCountries: Array<{ label: string; value: string }>
   currencyTypes: Array<{ label: string; value: string }>
   fiatCurrencies: Array<{ label: string; value: string }>
@@ -59,11 +31,12 @@ const RegistrationForm = (props: Props) => (
             placeholder="John Doe"
             value={props.data.handle || ''}
             onChange={event => props.onChange('handle', event.target.value)}
+            required
           />
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="FULL NAME" />
+        <FormLabel label="FULL NAME" required />
         <div className="uk-form-controls">
           <input
             className="uk-input"
@@ -71,6 +44,7 @@ const RegistrationForm = (props: Props) => (
             placeholder="John Doe"
             value={props.data.name || ''}
             onChange={event => props.onChange('name', event.target.value)}
+            required
           />
         </div>
       </div>
@@ -114,6 +88,7 @@ const RegistrationForm = (props: Props) => (
             onChange={event =>
               props.onChange('extLocation.addresses', [{ country: event.target.value }])
             }
+            required
           />
         </div>
       </div>
@@ -124,6 +99,7 @@ const RegistrationForm = (props: Props) => (
             options={props.currencyTypes}
             defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
             onChange={event => props.onChange('preferences.currencyDisplay', event.target.value)}
+            required
           />
         </div>
       </div>
@@ -134,6 +110,7 @@ const RegistrationForm = (props: Props) => (
             options={props.fiatCurrencies}
             defaultVal={props.data.preferences ? props.data.preferences.fiat : ''}
             onChange={event => props.onChange('preferences.fiat', event.target.value)}
+            required
           />
         </div>
       </div>
@@ -144,26 +121,29 @@ const RegistrationForm = (props: Props) => (
             options={props.cryptoCurrencies}
             defaultVal={props.data.preferences ? props.data.preferences.cryptocurrency : ''}
             onChange={event => props.onChange('preferences.cryptocurrency', event.target.value)}
+            required
           />
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="PREFERRED LANGUAGE" />
+        <FormLabel label="PREFERRED LANGUAGE" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.languages}
             defaultVal={props.data.preferences ? props.data.preferences.language : ''}
             onChange={event => props.onChange('preferences.language', event.target.value)}
+            required
           />
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="PREFERRED UNITS" />
+        <FormLabel label="PREFERRED UNITS" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.unitOfMeasurements}
             defaultVal={props.data.preferences ? props.data.preferences.measurementUnit : ''}
             onChange={event => props.onChange('preferences.measurementUnit', event.target.value)}
+            required
           />
         </div>
       </div>
