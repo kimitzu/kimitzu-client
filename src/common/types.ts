@@ -4,33 +4,6 @@ declare global {
   }
 }
 
-export interface Location {
-  type: string
-  isDefault: boolean
-  address1: string
-  address2: string
-  city: string
-  state: string
-  zipCode: string
-  country: string
-  latitude: number
-  longitude: number
-  plusCode: string
-}
-
-export interface ExtendedLocation {
-  home: number | null
-  work: number | null
-  shipping: number | null
-  return: number | null
-  mailing: number | null
-  addresses: Location[]
-}
-
-export interface UserProfile {
-  extendedLocation: ExtendedLocation
-}
-
 export interface SettingsActions {
   NONE: number
   ADD_EDUCATION: number

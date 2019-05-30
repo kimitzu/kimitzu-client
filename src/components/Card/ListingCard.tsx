@@ -1,6 +1,6 @@
 import React from 'react'
 import config from '../../config'
-import { Listing } from '../../models/listing'
+import { Listing } from '../../models/Listing'
 import './ListingCard.css'
 
 interface ListingProps {

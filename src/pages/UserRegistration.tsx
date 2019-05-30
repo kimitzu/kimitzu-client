@@ -14,6 +14,7 @@ import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
 
 import ProfileInterface from '../models/Profile'
+import nestedJson from '../utils/nested-json'
 import './UserRegistration.css'
 
 interface State {
@@ -42,6 +43,7 @@ class UserRegistration extends Component<{}, State> {
           return: 0,
           addresses: [
             {
+              type: [''],
               latitude: '',
               longitude: '',
               plusCode: '',
@@ -156,15 +158,7 @@ class UserRegistration extends Component<{}, State> {
   private handleChange(field: string, value: any) {
     const { registrationForm } = this.state
 
-    const path = field.split('.')
-    let update = registrationForm
-
-    for (let index = 0; index < path.length - 1; index++) {
-      const element = path[index]
-      update = update[element]
-    }
-
-    update[path[path.length - 1]] = value
+    nestedJson(registrationForm, field, value)
 
     this.setState({
       registrationForm,
