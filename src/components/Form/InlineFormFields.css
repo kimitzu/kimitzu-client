@@ -1,0 +1,12 @@
+#multi-fields {
+  display: flex;
+  flex-direction: row;
+}
+#field {
+  padding-right: 2%;
+  margin-bottom: 2%;
+}
+#last-field {
+  padding-left: 2%;
+  margin-bottom: 2%;
+}

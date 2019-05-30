@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Physical Good",
+    "value": "physical"
+  },
+  {
+    "label": "Digital Good",
+    "value": "digital"
+  },
+  {
+    "label": "Service",
+    "value": "service"
+  }
+]

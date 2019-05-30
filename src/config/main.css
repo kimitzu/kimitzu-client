@@ -30,3 +30,18 @@ textarea {
 .form-field-border {
   border: 1px solid var(--border-color);
 }
+.form-label-desciptor {
+  font-size: 0.6rem;
+  color: var(--primary);
+}
+.submit-btn-div {
+  display: flex;
+  justify-content: flex-end;
+}
+.uk-button-primary {
+  background-color: var(--primary);
+}
+.uk-button {
+  border-radius: 7.5%;
+  font-size: 0.75rem;
+}

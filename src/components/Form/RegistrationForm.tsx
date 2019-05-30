@@ -52,7 +52,6 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="DESCRIPTION" />
         <div className="uk-form-controls">
           <textarea
-            id="description"
             className="uk-textarea"
             rows={3}
             placeholder="In 500 words or less tell us something about yourself and the services you offer..."
