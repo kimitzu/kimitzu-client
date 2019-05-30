@@ -81,7 +81,7 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.availableCountries}
             defaultVal={
-              props.data.extLocation
+              props.data.extLocation && props.data.extLocation.primary > -1
                 ? props.data.extLocation.addresses[props.data.extLocation.primary].country
                 : ''
             }

@@ -31,7 +31,10 @@ const options = [
 interface Props {
   onSaveAddress: (event: React.FormEvent<HTMLFormElement>) => void
   onAddressChange: (field: string, value: string | string[]) => void
+  onDeleteAddress?: (index: number) => void
+  updateIndex?: number
   data: Location
+  isEdit: boolean
 }
 
 const AddressForm = (props: Props) => {
@@ -41,11 +44,6 @@ const AddressForm = (props: Props) => {
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
           <FormLabel label="TYPE" />
-          {/* <FormSelector
-            defaultVal={data.type ? data.type : 'primary'}
-            options={options}
-            onChange={event => props.onAddressChange('type', event.target.value)}
-          /> */}
           {options.map((o, index) => (
             <label key={index}>
               <input
@@ -164,6 +162,15 @@ const AddressForm = (props: Props) => {
         </div>
       </fieldset>
       <div id="save-btn-div">
+        {props.isEdit ? (
+          <button
+            className="uk-button uk-button-danger uk-margin-right"
+            type="button"
+            onClick={() => props.onDeleteAddress!(props.updateIndex!)}
+          >
+            DELETE
+          </button>
+        ) : null}
         <button className="uk-button uk-button-primary" type="submit">
           SAVE
         </button>

@@ -27,6 +27,7 @@ import './Home.css'
 interface HomeProps {
   props: any
 }
+
 interface HomeState {
   [x: string]: any
   filters: { [x: string]: any }
@@ -40,17 +41,8 @@ interface HomeState {
   registrationForm: Profile
   addressFormUpdateIndex: number
 }
-interface CodesFrom {
-  location: Location
-  distance: number
-}
-export interface Location {
-  cou: string
-  zip: string
-  add: string
-  x: string
-  y: string
-}
+
+const locationTypes = ['primary', 'shipping', 'billing', 'return']
 
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
@@ -125,6 +117,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleSettingsBackBtn = this.handleSettingsBackBtn.bind(this)
     this.refreshForms = this.refreshForms.bind(this)
     this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
+    this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
   }
 
   public async componentDidMount() {
@@ -212,6 +205,7 @@ class Home extends Component<HomeProps, HomeState> {
             key="addressform"
             onAddressChange={this.handleAddressChange}
             onSaveAddress={this.handleSaveAddress}
+            isEdit={false}
           />
         ),
         title: 'ADD ADDRESS',
@@ -223,6 +217,9 @@ class Home extends Component<HomeProps, HomeState> {
             key="addressform"
             onAddressChange={this.handleAddressChange}
             onSaveAddress={this.handleSaveAddress}
+            isEdit
+            onDeleteAddress={this.handleDeleteAddress}
+            updateIndex={this.state.addressFormUpdateIndex}
           />
         ),
         title: 'UPDATE ADDRESS',
@@ -275,21 +272,53 @@ class Home extends Component<HomeProps, HomeState> {
     )
   }
 
+  private async handleDeleteAddress(index: number) {
+    const { registrationForm } = this.state
+    const { extLocation } = registrationForm
+
+    const address = extLocation.addresses[index]
+
+    address.type.forEach(t => {
+      extLocation[t] = -1
+    })
+
+    extLocation.addresses.splice(index, 1)
+
+    locationTypes.forEach(type => {
+      const tempIndex = extLocation[type]
+      if (tempIndex > index) {
+        extLocation[type] = extLocation[type] - 1
+      }
+    })
+
+    this.setState({
+      registrationForm,
+    })
+    await axios.put(`${Config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    alert('Profile updated')
+    const profileData = this.processAddresses(registrationForm)
+    this.setState({
+      registrationForm: profileData,
+    })
+    this.handleSettingsBackBtn()
+  }
+
   private processAddresses(profile: Profile): Profile {
     const { extLocation } = profile
-    const primaryIndex = extLocation.primary
-    const shippingIndex = extLocation.shipping
-    const billingIndex = extLocation.billing
-    const returnIndex = extLocation.return
 
-    profile.extLocation.addresses.forEach(a => {
+    extLocation.addresses.forEach(a => {
       a.type = []
     })
 
-    profile.extLocation.addresses[primaryIndex].type.push('primary')
-    profile.extLocation.addresses[shippingIndex].type.push('shipping')
-    profile.extLocation.addresses[billingIndex].type.push('billing')
-    profile.extLocation.addresses[returnIndex].type.push('return')
+    locationTypes.forEach(type => {
+      const index = extLocation[type] as number
+      if (index === -1) {
+        return
+      }
+      profile.extLocation.addresses[index].type.push(type)
+    })
+
+    console.log(profile)
 
     return profile
   }

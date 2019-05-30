@@ -10,7 +10,7 @@ export default interface ProfileInterface {
     billing: number
     return: number
     addresses: Location[]
-    [key: string]: number | object[]
+    [key: string]: number | any
   }
   preferences: {
     currencyDisplay: string
