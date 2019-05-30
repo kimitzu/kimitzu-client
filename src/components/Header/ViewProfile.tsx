@@ -2,6 +2,7 @@ import React from 'react'
 
 import './ViewProfile.css'
 
+import ProfessionalBackgroundCard from './../Card/ProfessionalBackgroundCard'
 import SocialMediaCard from './../Card/SocialMediaCard'
 
 const ViewProfile = () => (
@@ -59,6 +60,8 @@ const ViewProfile = () => (
       </div>
     </div>
     <SocialMediaCard />
+    <ProfessionalBackgroundCard />
+    <ProfessionalBackgroundCard />
   </div>
 )
 
