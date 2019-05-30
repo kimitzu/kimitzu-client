@@ -28,7 +28,6 @@
 
 #label-number {
     color: gray;
-    padding-left: 5%;
 }
 
 #header-tab {
@@ -58,4 +57,17 @@
 #seller-name > h3 {
     color: dodgerblue;
     font-weight: bolder;
+}
+
+#profile-about {
+    padding-top: 8%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-left:auto;
+    margin-right:auto;
+    overflow: hidden;
+}
+
+#title-about {
+    color: dodgerblue;
 }

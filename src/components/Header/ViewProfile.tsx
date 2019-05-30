@@ -2,6 +2,8 @@ import React from 'react'
 
 import './ViewProfile.css'
 
+import SocialMediaCard from './../Card/SocialMediaCard'
+
 const ViewProfile = () => (
   <div>
     <div id="cover-photo">
@@ -41,6 +43,22 @@ const ViewProfile = () => (
         </ul>
       </div>
     </div>
+    <div id="profile-about">
+      <div className="uk-card uk-card-default uk-card-body">
+        <h3 id="title-about" className="uk-card-title">
+          About
+        </h3>
+        <p>
+          Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua. Lorem ipsum sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum sit amet,
+          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut bore et dolore magna
+          aliqua. Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua.
+        </p>
+      </div>
+    </div>
+    <SocialMediaCard />
   </div>
 )
 
