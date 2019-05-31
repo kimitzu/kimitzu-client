@@ -14,6 +14,7 @@ import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
 
 import ProfileInterface from '../models/Profile'
+import nestedJson from '../utils/nested-json'
 import './UserRegistration.css'
 
 interface State {
@@ -42,6 +43,7 @@ class UserRegistration extends Component<{}, State> {
           return: 0,
           addresses: [
             {
+              type: [''],
               latitude: '',
               longitude: '',
               plusCode: '',
@@ -70,6 +72,7 @@ class UserRegistration extends Component<{}, State> {
     this.renderCard = this.renderCard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleAgree = this.handleAgree.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   public handleNext(event?: React.FormEvent) {
@@ -155,15 +158,7 @@ class UserRegistration extends Component<{}, State> {
   private handleChange(field: string, value: any) {
     const { registrationForm } = this.state
 
-    const path = field.split('.')
-    let update = registrationForm
-
-    for (let index = 0; index < path.length - 1; index++) {
-      const element = path[index]
-      update = update[element]
-    }
-
-    update[path[path.length - 1]] = value
+    nestedJson(registrationForm, field, value)
 
     this.setState({
       registrationForm,
@@ -172,6 +167,7 @@ class UserRegistration extends Component<{}, State> {
 
   private handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    this.handleNext(event)
   }
 
   private async handleAgree() {

@@ -1,4 +1,6 @@
-interface ProfileInterface {
+import Location from './Location'
+
+export default interface ProfileInterface {
   handle: string
   name: string
   about: string
@@ -7,19 +9,8 @@ interface ProfileInterface {
     shipping: number
     billing: number
     return: number
-    addresses: [
-      {
-        latitude: string
-        longitude: string
-        plusCode: string
-        addressOne: string
-        addressTwo: string
-        city: string
-        state: string
-        country: string
-        zipCode: string
-      }
-    ]
+    addresses: Location[]
+    [key: string]: number | any
   }
   preferences: {
     currencyDisplay: string
@@ -30,5 +21,3 @@ interface ProfileInterface {
   }
   [key: string]: any
 }
-
-export default ProfileInterface
