@@ -246,6 +246,7 @@ class Home extends Component<HomeProps, HomeState> {
           handleSettings={this.handleSettings}
           onQueryChange={this.handleChange}
           onSearchSubmit={this.handleSearchSubmit}
+          isSearchBarShow={false}
         />
         <SettingsModal
           content={this.getCurrentContent}
