@@ -1,6 +1,0 @@
-{
-  "bakedFloodHost": "http://localhost:8108",
-  "bakedFloodEndpoints": {
-    "search": "/djali/search"
-  }
-}

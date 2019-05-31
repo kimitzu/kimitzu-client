@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 import './RegistrationCard.css'
 
@@ -8,6 +8,7 @@ interface Props {
   numberOfPages: number
   handleNext: (event: React.FormEvent) => void
   handlePrev: (event: React.FormEvent) => void
+  onAgree: () => void
 }
 
 const RegistrationCard = (props: Props) => (
@@ -32,7 +33,9 @@ const RegistrationCard = (props: Props) => (
       </div>
       <div id="footer-right">
         {props.currentIndex === 2 ? (
-          <button className="uk-button uk-button-primary uk-button-small">I AGREE</button>
+          <button className="uk-button uk-button-primary uk-button-small" onClick={props.onAgree}>
+            I AGREE
+          </button>
         ) : (
           <a
             className="color-primary"

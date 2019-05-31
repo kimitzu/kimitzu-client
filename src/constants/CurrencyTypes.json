@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Select preferred currency display",
+    "value": ""
+  },
+  {
+    "label": "Fiat",
+    "value": "FIAT"
+  },
+  {
+    "label": "Cryptocurrency",
+    "value": "CRYPTO"
+  }
+]

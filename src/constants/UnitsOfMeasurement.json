@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Select preferred measurement units",
+    "value": ""
+  },
+  {
+    "label": "Metric System (Kilometer, Meter, Centimeter, Grams)",
+    "value": "METRIC"
+  },
+  {
+    "label": "English System  (Mile, Foot, Inch, Pound)",
+    "value": "ENGLISH"
+  }
+]

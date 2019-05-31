@@ -1,18 +1,25 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
+import { Location, UserProfile } from '../common/types'
 import { AddressesCardGroup } from '../components/CardGroup'
-import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { AddressForm, RegistrationForm } from '../components/Form'
 import { SettingsModal } from '../components/Modal'
-import NavBar from '../components/NavBar/NavBar'
-import SidebarFilter from '../components/Sidebar/Filter'
+import { Listing } from '../models/listing'
 
 import actions from '../common/constants'
 import PlusCode from '../common/PlusCode'
-import { Location, UserProfile } from '../common/types'
-import config from '../config/config.json'
-import { Listing } from '../models/listing'
+import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
+import NavBar from '../components/NavBar/NavBar'
+import SidebarFilter from '../components/Sidebar/Filter'
+import config from '../config'
+import Countries from '../constants/Countries.json'
+import CryptoCurrencies from '../constants/CryptoCurrencies.json'
+import CurrencyTypes from '../constants/CurrencyTypes.json'
+import FiatCurrencies from '../constants/FiatCurrencies.json'
+import Languages from '../constants/Languages.json'
+import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
+import Profile from '../models/Profile'
 
 import './Home.css'
 
@@ -31,6 +38,7 @@ interface HomeState {
   plusCode: string
   searchQuery: string
   searchResults: Listing[]
+  registrationForm: Profile
 }
 interface CodesFrom {
   location: Location
@@ -79,6 +87,37 @@ class Home extends Component<HomeProps, HomeState> {
         plusCode: '',
       },
       settingsIndex: 0,
+      registrationForm: {
+        handle: '',
+        name: '',
+        about: '',
+        extLocation: {
+          primary: 0,
+          shipping: 0,
+          billing: 0,
+          return: 0,
+          addresses: [
+            {
+              latitude: '',
+              longitude: '',
+              plusCode: '',
+              addressOne: '',
+              addressTwo: '',
+              city: '',
+              state: '',
+              country: '',
+              zipCode: '',
+            },
+          ],
+        },
+        preferences: {
+          cryptocurrency: '',
+          currencyDisplay: '',
+          fiat: '',
+          language: '',
+          measurementUnit: '',
+        },
+      },
     }
     this.handleSettings = this.handleSettings.bind(this)
     this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
@@ -93,46 +132,19 @@ class Home extends Component<HomeProps, HomeState> {
     this.executeSearchRequest = this.executeSearchRequest.bind(this)
   }
 
-  public componentDidMount() {
-    const addresses = [
-      {
-        address1: 'Awesome house',
-        address2: 'Brgy. Labuglabug',
-        city: 'Avipa',
-        country: 'Felipens',
-        isDefault: true,
-        latitude: 1.292826,
-        longitude: 276.1344,
-        plusCode: '424E+',
-        state: 'Ioliol',
-        type: 'Home',
-        zipCode: '1005',
-      },
-      {
-        address1: 'Awesome Building',
-        address2: 'Kasilyas Street',
-        city: 'Roja',
-        country: 'Felipens',
-        isDefault: false,
-        latitude: 1.495826,
-        longitude: 226.1614,
-        plusCode: '444A+',
-        state: 'Ioliol',
-        type: 'Shipping',
-        zipCode: '1009',
-      },
-    ]
-    const profile = {
-      extendedLocation: {
-        addresses,
-        home: 0,
-        work: null,
-        return: null,
-        shipping: 1,
-        mailing: null,
-      },
+  public async componentDidMount() {
+    try {
+      const profileRequest = await axios.get(`${config.openBazaarHost}/ob/profile`)
+      this.setState({
+        registrationForm: profileRequest.data,
+      })
+    } catch (error) {
+      if (error.response) {
+        if (!error.response.data.success) {
+          window.location.href = '/register'
+        }
+      }
     }
-    this.setState({ profile })
   }
 
   public handleSettings() {
@@ -171,9 +183,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   public handleSelectAddress(addressIndex: number) {
-    console.log(addressIndex)
     const { profile } = this.state
-    console.log(profile)
     this.setState({
       currentAction: actions.settings.UPDATE_ADDRESS,
       addressForm: profile.extendedLocation.addresses[addressIndex],
@@ -186,7 +196,20 @@ class Home extends Component<HomeProps, HomeState> {
     const mainContents = [
       {
         component: (
-          <RegistrationForm key="regform" availableCountries={[]} availableCurrencies={[]} />
+          <RegistrationForm
+            key="regform"
+            data={this.state.registrationForm}
+            availableCountries={Countries}
+            fiatCurrencies={FiatCurrencies}
+            currencyTypes={CurrencyTypes}
+            cryptoCurrencies={CryptoCurrencies}
+            languages={Languages}
+            unitOfMeasurements={UnitsOfMeasurement}
+            onChange={this.handleChange}
+            onSubmit={() => {
+              console.log('WIP')
+            }}
+          />
         ),
         title: 'GENERAL',
       },
@@ -288,10 +311,27 @@ class Home extends Component<HomeProps, HomeState> {
     )
   }
 
-  private handleChange(fieldName: string, value: string): void {
-    this.setState({
-      [fieldName]: value,
-    })
+  private handleChange(field: string, value: any): void {
+    const { registrationForm } = this.state
+
+    const path = field.split('.')
+    let update = registrationForm
+
+    for (let index = 0; index < path.length - 1; index++) {
+      const element = path[index]
+      update = update[element]
+    }
+
+    update[path[path.length - 1]] = value
+
+    this.setState(
+      {
+        registrationForm,
+      },
+      () => {
+        console.log(this.state.registrationForm)
+      }
+    )
   }
 
   private async handleSearchSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -303,18 +343,14 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  private async executeSearchRequest(searchQuery: string, extendedQuery?: string): Promise<void> {
-    console.log(
-      'Sending...',
-      `${config.bakedFloodHost}${config.bakedFloodEndpoints.search}?query=${searchQuery}${
-        extendedQuery ? extendedQuery : ''
-      }`
-    )
-    const result = await axios.get(
-      `${config.bakedFloodHost}${config.bakedFloodEndpoints.search}?query=${searchQuery}${
-        extendedQuery ? extendedQuery : ''
-      }`
-    )
+  private async executeSearchRequest(searchQuery: string): Promise<void> {
+    const searchObject = {
+      query: searchQuery,
+      limit: 25,
+    }
+
+    const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
+    console.log(result)
     this.setState({
       searchResults: result.data,
     })
@@ -364,9 +400,10 @@ class Home extends Component<HomeProps, HomeState> {
     const searchObject = {
       filters: extendedFilters,
       query: this.state.searchQuery,
+      limit: 25,
     }
 
-    const result = await axios.post('http://localhost:8108/advquery', searchObject)
+    const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
 
     this.setState({
       searchResults: result.data,
