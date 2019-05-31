@@ -261,6 +261,7 @@ class Home extends Component<HomeProps, HomeState> {
           onQueryChange={this.handleChange}
           onSearchSubmit={this.handleSearchSubmit}
           handleSettings={this.handleSettings}
+          isSearchBarShow={false}
         />
         <SettingsModal
           currentLinkIndex={settingsIndex}
