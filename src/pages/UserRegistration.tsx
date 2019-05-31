@@ -1,13 +1,28 @@
+import axios from 'axios'
 import React, { Component } from 'react'
 
 import { IntroductionCard, RegistrationCard } from '../components/Card'
+import SuccessCard from '../components/Card/SuccessCard'
 import { RegistrationForm, TermsOfService } from '../components/Form'
+import Countries from '../constants/Countries.json'
+
+import config from '../config'
+import CryptoCurrencies from '../constants/CryptoCurrencies.json'
+import CurrencyTypes from '../constants/CurrencyTypes.json'
+import FiatCurrencies from '../constants/FiatCurrencies.json'
+import Languages from '../constants/Languages.json'
+import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
+
+import ProfileInterface from '../models/Profile'
+import nestedJson from '../utils/nested-json'
 import './UserRegistration.css'
 
 interface State {
   currentIndex: number
   hasStarted: boolean
   numberOfPages: number
+  registrationForm: ProfileInterface
+  [key: string]: any
 }
 
 class UserRegistration extends Component<{}, State> {
@@ -16,17 +31,54 @@ class UserRegistration extends Component<{}, State> {
     this.state = {
       currentIndex: 1,
       hasStarted: false,
-      numberOfPages: 2,
+      numberOfPages: 3,
+      registrationForm: {
+        handle: '',
+        name: '',
+        about: '',
+        extLocation: {
+          primary: 0,
+          shipping: 0,
+          billing: 0,
+          return: 0,
+          addresses: [
+            {
+              type: [''],
+              latitude: '',
+              longitude: '',
+              plusCode: '',
+              addressOne: '',
+              addressTwo: '',
+              city: '',
+              state: '',
+              country: '',
+              zipCode: '',
+            },
+          ],
+        },
+        preferences: {
+          cryptocurrency: '',
+          currencyDisplay: '',
+          fiat: '',
+          language: '',
+          measurementUnit: '',
+        },
+      },
     }
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
     this.getCurrentContent = this.getCurrentContent.bind(this)
     this.handleGetStarted = this.handleGetStarted.bind(this)
     this.renderCard = this.renderCard.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleAgree = this.handleAgree.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  public handleNext(event: React.FormEvent) {
-    event.preventDefault()
+  public handleNext(event?: React.FormEvent) {
+    if (event) {
+      event.preventDefault()
+    }
     const { numberOfPages } = this.state
     let { currentIndex } = this.state
     if (currentIndex < numberOfPages) {
@@ -44,10 +96,33 @@ class UserRegistration extends Component<{}, State> {
 
   public getCurrentContent() {
     const { currentIndex } = this.state
-    if (currentIndex === 1) {
-      return <RegistrationForm availableCountries={[]} availableCurrencies={[]} />
-    } else if (currentIndex === 2) {
-      return <TermsOfService />
+    switch (currentIndex) {
+      case 1: {
+        return (
+          <RegistrationForm
+            data={this.state.registrationForm}
+            availableCountries={Countries}
+            fiatCurrencies={FiatCurrencies}
+            currencyTypes={CurrencyTypes} // Fiat or Crypto
+            cryptoCurrencies={CryptoCurrencies}
+            languages={Languages}
+            unitOfMeasurements={UnitsOfMeasurement} // Metric or English System
+            onChange={this.handleChange}
+            onSubmit={this.handleSubmit}
+          />
+        )
+      }
+      case 2: {
+        return <TermsOfService />
+      }
+      case 3: {
+        return (
+          <SuccessCard
+            name={this.state.registrationForm.name}
+            onSuccessHome={this.handleSuccessHome}
+          />
+        )
+      }
     }
   }
 
@@ -65,6 +140,7 @@ class UserRegistration extends Component<{}, State> {
         numberOfPages={numberOfPages}
         handleNext={handleNext}
         handlePrev={handlePrev}
+        onAgree={this.handleAgree}
       />
     ) : (
       <IntroductionCard handleGetStarted={handleGetStarted} />
@@ -77,6 +153,31 @@ class UserRegistration extends Component<{}, State> {
         {this.renderCard()}
       </div>
     )
+  }
+
+  private handleChange(field: string, value: any) {
+    const { registrationForm } = this.state
+
+    nestedJson(registrationForm, field, value)
+
+    this.setState({
+      registrationForm,
+    })
+  }
+
+  private handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    this.handleNext(event)
+  }
+
+  private async handleAgree() {
+    await axios.post(`${config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    alert('Registration Successful')
+    this.handleNext()
+  }
+
+  private handleSuccessHome() {
+    window.location.href = '/'
   }
 }
 

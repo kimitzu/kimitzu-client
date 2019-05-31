@@ -1,6 +1,6 @@
 #main-card {
   padding: 1%;
-  width: 75%;
+  width: 50%;
   left: 0;
   right: 0;
   position: absolute;
@@ -22,9 +22,9 @@
   overflow: hidden;
 }
 #buy-sell-text {
-  font-size: 2rem;
+  font-size: 1.15rem;
   text-align: center;
-  font-weight: 900;
+  font-weight: 400;
 }
 #card-title {
   padding: 5%;
