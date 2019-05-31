@@ -42,7 +42,7 @@ class UserRegistration extends Component<{}, State> {
         name: '',
         about: '',
         nsfw: false,
-        vendor: false,
+        vendor: true,
         moderator: false,
         avatarHashes: {
           tiny: '',

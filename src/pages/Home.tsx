@@ -79,7 +79,7 @@ class Home extends Component<HomeProps, HomeState> {
         name: '',
         about: '',
         nsfw: false,
-        vendor: false,
+        vendor: true,
         moderator: false,
         avatarHashes: {
           tiny: '',
@@ -513,7 +513,7 @@ class Home extends Component<HomeProps, HomeState> {
 
     const keys = Object.keys(filters)
     const values = Object.values(filters)
-    const extendedFilters = keys.map((key, index) => {
+    let extendedFilters = keys.map((key, index) => {
       if (values[index] === '') {
         return
       }
@@ -521,9 +521,15 @@ class Home extends Component<HomeProps, HomeState> {
     })
 
     if (locationRadius > -1 && filters['location.zipCode']) {
-      extendedFilters[0] = `zipWithin("${filters['location.zipCode']}", "${
-        filters['location.country']
-      }", doc.location.zipCode, doc.location.country, ${locationRadius})`
+      extendedFilters = extendedFilters.map(filter => {
+        if (filter && filter.includes(filters['location.zipCode'])) {
+          return `zipWithin("${filters['location.zipCode']}", "${
+            filters['location.country']
+          }", doc.location.zipCode, doc.location.country, ${locationRadius})`
+        } else {
+          return filter
+        }
+      })
     }
 
     if (plusCode) {
