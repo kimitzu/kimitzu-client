@@ -5,13 +5,12 @@
 
 #profile-header {
     display: flex;
-    background-color: red;
+    /* background-color: red; */
     width: 100%;
 }
 
 #left-content {
     flex: 1;
-    background-color: blue;
     position: 'relative'
 }
 
