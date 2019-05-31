@@ -3,7 +3,7 @@
  *
  * Current limitation: Property must exist on the original object.
  */
-function nestedJson(originalObject: object, path: string, value?: any) {
+function NestedJSONUpdater(originalObject: object, path: string, value?: any) {
   const key = path.split('.')
   let reference = originalObject as any
 
@@ -28,4 +28,4 @@ function nestedJson(originalObject: object, path: string, value?: any) {
   return reference
 }
 
-export default nestedJson
+export default NestedJSONUpdater

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 import ViewProfile from '../components/Header/ViewProfile'
 import config from '../config'
+
 import { Profile } from '../models/Profile'
 
 interface ProfilePageState {
@@ -26,6 +27,13 @@ class ProfilePage extends Component<{}, ProfilePageState> {
         bitcoinPubkey: '',
         lastModified: '',
         currencies: ['BCH', 'ZEC', 'LTC', 'BTC'],
+        avatarHashes: {
+          tiny: '',
+          small: '',
+          medium: '',
+          large: '',
+          original: '',
+        },
         extLocation: {
           primary: 0,
           shipping: 0,

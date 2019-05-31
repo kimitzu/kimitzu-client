@@ -5,6 +5,7 @@ import { AddressesCardGroup } from '../components/CardGroup'
 import { AddressForm, RegistrationForm } from '../components/Form'
 import { SettingsModal } from '../components/Modal'
 import { Listing } from '../models/Listing'
+import { Profile } from '../models/Profile'
 
 import actions from '../common/constants'
 import PlusCode from '../common/PlusCode'
@@ -19,8 +20,8 @@ import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
-import { Profile } from '../models/Profile'
-import nestedJson from '../utils/nested-json'
+import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import './Home.css'
 
@@ -40,6 +41,8 @@ interface HomeState {
   searchResults: Listing[]
   registrationForm: Profile
   addressFormUpdateIndex: number
+  avatar: string
+  isSubmitting: boolean
 }
 
 const locationTypes = ['primary', 'shipping', 'billing', 'return']
@@ -57,6 +60,7 @@ class Home extends Component<HomeProps, HomeState> {
       searchQuery: '',
       searchResults: [],
       settingsIndex: 0,
+      isSubmitting: false,
       addressForm: {
         type: [''],
         addressOne: '',
@@ -69,6 +73,7 @@ class Home extends Component<HomeProps, HomeState> {
         longitude: '',
         plusCode: '',
       },
+      avatar: '',
       registrationForm: {
         handle: '',
         name: '',
@@ -76,6 +81,13 @@ class Home extends Component<HomeProps, HomeState> {
         nsfw: false,
         vendor: false,
         moderator: false,
+        avatarHashes: {
+          tiny: '',
+          small: '',
+          medium: '',
+          large: '',
+          original: '',
+        },
         extLocation: {
           primary: 0,
           shipping: 0,
@@ -140,7 +152,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   get getCurrentContent() {
-    const { currentAction, settingsIndex, addressForm, registrationForm } = this.state
+    const { currentAction, settingsIndex, addressForm, registrationForm, avatar } = this.state
     const { settings } = actions
     const mainContents = [
       {
@@ -156,6 +168,8 @@ class Home extends Component<HomeProps, HomeState> {
             onChange={this.handleChange}
             onSubmit={this.handleFormSubmit}
             unitOfMeasurements={UnitsOfMeasurement}
+            avatar={avatar}
+            isSubmitting={this.state.isSubmitting}
           />
         ),
         title: 'GENERAL',
@@ -235,7 +249,7 @@ class Home extends Component<HomeProps, HomeState> {
 
   public handleAddressChange(field: string, value: string | string[]) {
     const { addressForm } = this.state
-    nestedJson(addressForm, field, value)
+    NestedJsonUpdater(addressForm, field, value)
     this.setState({
       addressForm,
     })
@@ -321,8 +335,6 @@ class Home extends Component<HomeProps, HomeState> {
       }
       profile.extLocation.addresses[index].type.push(type)
     })
-
-    console.log(profile)
 
     return profile
   }
@@ -422,14 +434,32 @@ class Home extends Component<HomeProps, HomeState> {
 
   private async handleFormSubmit(event: React.FormEvent) {
     event.preventDefault()
+
+    this.setState({
+      isSubmitting: true,
+    })
+
+    if (this.state.avatar) {
+      const avatarHashes = await ImageUploaderInstance.uploadImage(this.state.avatar)
+      this.state.registrationForm.avatarHashes = avatarHashes
+    }
+
     await axios.put(`${Config.openBazaarHost}/ob/profile`, this.state.registrationForm)
     alert('Profile updated')
+    this.setState({
+      isSubmitting: false,
+    })
   }
 
-  private handleChange(field: string, value: any, subField?: string): void {
-    if (subField) {
-      const subFieldData = this.state[subField]
-      nestedJson(subFieldData, field, value)
+  private async handleChange(field: string, value: any, parentField?: string): Promise<any> {
+    if (field === 'avatar') {
+      const base64ImageStr = await ImageUploaderInstance.convertToBase64(value[0])
+      value = base64ImageStr
+    }
+
+    if (parentField) {
+      const subFieldData = this.state[parentField]
+      NestedJsonUpdater(subFieldData, field, value)
       this.setState({ subFieldData })
     } else {
       this.setState({

@@ -43,8 +43,9 @@
 }
 
 #profile-picture > img {
-    height: 80%;
-    width: 80%;
+    height: 161px;
+    width: 161px;
+    object-fit: cover;
     border-radius: 50%;
     border: solid 9px white;
 }

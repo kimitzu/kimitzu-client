@@ -6,6 +6,7 @@ import OtherInformationCard from './../Card/OtherInformationCard'
 import ProfessionalBackgroundCard from './../Card/ProfessionalBackgroundCard'
 import SocialMediaCard from './../Card/SocialMediaCard'
 
+import config from '../../config'
 import { Profile } from '../../models/Profile'
 
 interface ViewProfileInterface {
@@ -21,11 +22,15 @@ const ViewProfile = (props: ViewProfileInterface) => (
     </div>
     <div id="header">
       <div id="profile-picture">
-        <img src="https://profilepicturesdp.com/wp-content/uploads/2018/07/profile-avatar-pictures-6.png" />
+        <img
+          src={`${config.openBazaarHost}/ob/images/${
+            props.data.avatarHashes ? props.data.avatarHashes.medium : ''
+          }`}
+        />
       </div>
       <div id="header-tab">
         <div id="seller-name">
-          <h3> Anonymous Seller </h3>
+          <h3> {props.data.name} </h3>
         </div>
         <ul data-uk-tab>
           <li className="uk-active">

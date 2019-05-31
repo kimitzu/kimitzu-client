@@ -1,22 +1,25 @@
 import Location from './Location'
 
 export interface Profile {
-  peerID?: string
-  handle: string
-  name: string
-  location?: string
   about: string
-  shortDescription?: string
+  avatarHashes: RHashes
+  extLocation: EXTLocation
+  handle: string
+  moderator: boolean
+  name: string
   nsfw: boolean
   vendor: boolean
-  moderator: boolean
   bitcoinPubkey?: string
-  lastModified?: string
   currencies?: string[]
-  extLocation: EXTLocation
-  profileType?: string
+  headerHashes?: RHashes
+  lastModified?: string
+  location?: string
   metaTags?: MetaTags
+  peerID?: string
   preferences: Preferences
+  profileType?: string
+  shortDescription?: string
+  stats?: Stats
 }
 
 export interface EXTLocation {
@@ -38,4 +41,21 @@ export interface Preferences {
   cryptocurrency: string
   language: string
   measurementUnit: string
+}
+
+export interface Stats {
+  followerCount: number
+  followingCount: number
+  listingCount: number
+  ratingCount: number
+  postCount: number
+  averageRating: number
+}
+
+export interface RHashes {
+  tiny: string
+  small: string
+  medium: string
+  large: string
+  original: string
 }
