@@ -6,7 +6,13 @@ import OtherInformationCard from './../Card/OtherInformationCard'
 import ProfessionalBackgroundCard from './../Card/ProfessionalBackgroundCard'
 import SocialMediaCard from './../Card/SocialMediaCard'
 
-const ViewProfile = () => (
+import { Profile } from '../../models/Profile'
+
+interface ViewProfileInterface {
+  data: Profile
+}
+
+const ViewProfile = (props: ViewProfileInterface) => (
   <div>
     <div id="cover-photo">
       <span id="header-icon" data-uk-icon="ban" />
@@ -50,20 +56,12 @@ const ViewProfile = () => (
         <h3 id="title-about" className="uk-card-title">
           About
         </h3>
-        <p>
-          Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Lorem ipsum sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut bore et dolore magna
-          aliqua. Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua.
-        </p>
+        <p>{props.data.about}</p>
       </div>
     </div>
     <SocialMediaCard />
     <ProfessionalBackgroundCard />
-    <ProfessionalBackgroundCard />
-    <OtherInformationCard />
+    <OtherInformationCard data={props.data} />
   </div>
 )
 

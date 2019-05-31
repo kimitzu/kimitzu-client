@@ -3,12 +3,12 @@ import React from 'react'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import ProfileInterface from '../../models/Profile'
+import { Profile } from '../../models/Profile'
 
 import './RegistrationForm.css'
 
 interface Props {
-  data: ProfileInterface
+  data: Profile
   availableCountries: Array<{ label: string; value: string }>
   currencyTypes: Array<{ label: string; value: string }>
   fiatCurrencies: Array<{ label: string; value: string }>

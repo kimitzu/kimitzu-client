@@ -13,7 +13,7 @@ import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
 
-import ProfileInterface from '../models/Profile'
+import { Profile } from '../models/Profile'
 import nestedJson from '../utils/nested-json'
 import './UserRegistration.css'
 
@@ -21,7 +21,7 @@ interface State {
   currentIndex: number
   hasStarted: boolean
   numberOfPages: number
-  registrationForm: ProfileInterface
+  registrationForm: Profile
   [key: string]: any
 }
 
@@ -36,6 +36,9 @@ class UserRegistration extends Component<{}, State> {
         handle: '',
         name: '',
         about: '',
+        nsfw: false,
+        vendor: false,
+        moderator: false,
         extLocation: {
           primary: 0,
           shipping: 0,

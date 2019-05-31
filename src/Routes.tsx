@@ -1,8 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import Profile from './components/Header/ViewProfile'
-import { Home, ListingProfile, UserRegistration } from './pages'
+import { Home, ListingProfile, Profile, UserRegistration } from './pages'
 
 const Routes = () => (
   <BrowserRouter>

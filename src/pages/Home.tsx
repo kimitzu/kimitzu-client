@@ -19,7 +19,7 @@ import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
-import Profile from '../models/Profile'
+import { Profile } from '../models/Profile'
 import nestedJson from '../utils/nested-json'
 
 import './Home.css'
@@ -73,6 +73,9 @@ class Home extends Component<HomeProps, HomeState> {
         handle: '',
         name: '',
         about: '',
+        nsfw: false,
+        vendor: false,
+        moderator: false,
         extLocation: {
           primary: 0,
           shipping: 0,
