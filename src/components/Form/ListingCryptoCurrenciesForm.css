@@ -1,0 +1,13 @@
+#crypto-checkers {
+  flex-direction: column;
+}
+#checker {
+  margin-bottom: 2%;
+}
+#input-checker {
+  margin-right: 2%;
+}
+.uk-checkbox {
+  width: 25px;
+  height: 25px;
+}

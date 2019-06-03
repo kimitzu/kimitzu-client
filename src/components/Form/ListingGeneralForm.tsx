@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { InputSelector } from '../Input'
 import { FormLabel } from '../Label'
 import { RadioButtons } from '../RadioButton'
 import { FormSelector } from '../Selector'
@@ -7,6 +8,17 @@ import InlineFormFields from './InlineFormFields'
 
 import ListingConditions from '../../constants/ListingConditions.json'
 import ListingTypes from '../../constants/ListingTypes.json'
+
+const currencies = [
+  {
+    label: 'USD',
+    value: 'usd',
+  },
+  {
+    label: 'BTC',
+    value: 'btc',
+  },
+]
 
 // TODO: move if necessary
 interface GeneralListingInfo {
@@ -44,7 +56,15 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
       <InlineFormFields
         fields={[
           {
-            component: <input className="uk-input" type="number" value={data.price} />,
+            component: (
+              <InputSelector
+                options={currencies}
+                inputProps={{
+                  value: data.price,
+                  type: 'number',
+                }}
+              />
+            ),
             label: {
               name: 'PRICE',
               required: true,
