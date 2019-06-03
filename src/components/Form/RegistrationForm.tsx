@@ -47,7 +47,6 @@ const RegistrationForm = (props: Props) => (
             placeholder="John Doe"
             value={props.data.name || ''}
             onChange={event => props.onChange('name', event.target.value, 'registrationForm')}
-            required
           />
         </div>
       </div>
@@ -108,19 +107,6 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="WHAT CURRENCY SHOULD WE DISPLAY THE PRICES" required />
-        <div id="form-select" className="uk-form-controls">
-          <FormSelector
-            options={props.currencyTypes}
-            defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
-            onChange={event =>
-              props.onChange('preferences.currencyDisplay', event.target.value, 'registrationForm')
-            }
-            required
-          />
-        </div>
-      </div>
-      <div className="uk-margin">
         <FormLabel label="PREFERRED FIAT CURRENCY" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
@@ -134,13 +120,26 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="PREFERRED CRYPTO CURRENCY" required />
+        <FormLabel label="PREFERRED CRYPTOCURRENCY" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.cryptoCurrencies}
             defaultVal={props.data.preferences ? props.data.preferences.cryptocurrency : ''}
             onChange={event =>
               props.onChange('preferences.cryptocurrency', event.target.value, 'registrationForm')
+            }
+            required
+          />
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="DISPLAY CURRENCY" required />
+        <div id="form-select" className="uk-form-controls">
+          <FormSelector
+            options={props.currencyTypes}
+            defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
+            onChange={event =>
+              props.onChange('preferences.currencyDisplay', event.target.value, 'registrationForm')
             }
             required
           />
