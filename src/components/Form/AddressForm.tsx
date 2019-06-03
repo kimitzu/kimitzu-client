@@ -89,12 +89,21 @@ const AddressForm = (props: Props) => {
         </div>
         <div className="uk-margin">
           <FormLabel label="PLUS CODE" />
-          <input
-            className="uk-input"
-            value={data.plusCode}
-            type="text"
-            onChange={event => props.onAddressChange('plusCode', event.target.value)}
-          />
+          <div className="uk-inline uk-width-1-1">
+            <a
+              className="uk-form-icon uk-form-icon-flip"
+              href="https://plus.codes/howitworks"
+              target="_blank"
+              uk-icon="icon: question"
+              uk-tooltip="What is a Plus Code?"
+            />
+            <input
+              className="uk-input"
+              value={data.plusCode}
+              type="text"
+              onChange={event => props.onAddressChange('plusCode', event.target.value)}
+            />
+          </div>
         </div>
         <TwoInputs
           input1={{
