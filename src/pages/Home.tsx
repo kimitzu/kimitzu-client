@@ -1,17 +1,18 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
-import { Location, UserProfile } from '../common/types'
 import { AddressesCardGroup } from '../components/CardGroup'
 import { AddressForm, RegistrationForm } from '../components/Form'
 import { SettingsModal } from '../components/Modal'
-import { Listing } from '../models/listing'
+import { Listing } from '../models/Listing'
+import { Profile } from '../models/Profile'
 
 import actions from '../common/constants'
 import PlusCode from '../common/PlusCode'
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
 import SidebarFilter from '../components/Sidebar/Filter'
+import Config from '../config'
 import config from '../config'
 import Countries from '../constants/Countries.json'
 import CryptoCurrencies from '../constants/CryptoCurrencies.json'
@@ -19,43 +20,38 @@ import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
-import Profile from '../models/Profile'
+import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import './Home.css'
 
 interface HomeProps {
   props: any
 }
+
 interface HomeState {
   [x: string]: any
   filters: { [x: string]: any }
-  profile: UserProfile
   settingsIndex: number
   currentAction: number
-  addressForm: Location
   locationRadius: number
   modifiers: { [x: string]: any }
   plusCode: string
   searchQuery: string
   searchResults: Listing[]
   registrationForm: Profile
+  addressFormUpdateIndex: number
+  avatar: string
+  isSubmitting: boolean
 }
-interface CodesFrom {
-  location: Location
-  distance: number
-}
-export interface Location {
-  cou: string
-  zip: string
-  add: string
-  x: string
-  y: string
-}
+
+const locationTypes = ['primary', 'shipping', 'billing', 'return']
 
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
     super(props)
     this.state = {
+      addressFormUpdateIndex: -1,
       currentAction: 0,
       filters: {},
       locationRadius: -1,
@@ -63,34 +59,35 @@ class Home extends Component<HomeProps, HomeState> {
       plusCode: '',
       searchQuery: '',
       searchResults: [],
-      profile: {
-        extendedLocation: {
-          addresses: [],
-          home: null,
-          work: null,
-          return: null,
-          shipping: null,
-          mailing: null,
-        },
-      },
+      settingsIndex: 0,
+      isSubmitting: false,
       addressForm: {
-        type: 'primary',
-        isDefault: false,
-        address1: '',
-        address2: '',
+        type: [''],
+        addressOne: '',
+        addressTwo: '',
         city: '',
         state: '',
         zipCode: '',
         country: '',
-        latitude: 0,
-        longitude: 0,
+        latitude: '',
+        longitude: '',
         plusCode: '',
       },
-      settingsIndex: 0,
+      avatar: '',
       registrationForm: {
         handle: '',
         name: '',
         about: '',
+        nsfw: false,
+        vendor: true,
+        moderator: false,
+        avatarHashes: {
+          tiny: '',
+          small: '',
+          medium: '',
+          large: '',
+          original: '',
+        },
         extLocation: {
           primary: 0,
           shipping: 0,
@@ -98,6 +95,7 @@ class Home extends Component<HomeProps, HomeState> {
           return: 0,
           addresses: [
             {
+              type: [''],
               latitude: '',
               longitude: '',
               plusCode: '',
@@ -119,24 +117,30 @@ class Home extends Component<HomeProps, HomeState> {
         },
       },
     }
-    this.handleSettings = this.handleSettings.bind(this)
-    this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
-    this.handleSelectAddress = this.handleSelectAddress.bind(this)
-    this.refreshForms = this.refreshForms.bind(this)
-    this.handleSettingsBackBtn = this.handleSettingsBackBtn.bind(this)
+    this.executeSearchRequest = this.executeSearchRequest.bind(this)
+    this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
-    this.handleSettings = this.handleSettings.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this)
-    this.executeSearchRequest = this.executeSearchRequest.bind(this)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.handleSaveAddress = this.handleSaveAddress.bind(this)
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
+    this.handleSelectAddress = this.handleSelectAddress.bind(this)
+    this.handleSelectAddress = this.handleSelectAddress.bind(this)
+    this.handleSettings = this.handleSettings.bind(this)
+    this.handleSettings = this.handleSettings.bind(this)
+    this.handleSettingsBackBtn = this.handleSettingsBackBtn.bind(this)
+    this.refreshForms = this.refreshForms.bind(this)
+    this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
+    this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
   }
 
   public async componentDidMount() {
     try {
       const profileRequest = await axios.get(`${config.openBazaarHost}/ob/profile`)
+      const profileData = this.processAddresses(profileRequest.data)
       this.setState({
-        registrationForm: profileRequest.data,
+        registrationForm: profileData,
       })
     } catch (error) {
       if (error.response) {
@@ -147,68 +151,25 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  public handleSettings() {
-    window.UIkit.modal('#settings-modal').show()
-  }
-
-  public refreshForms() {
-    const addressForm = {
-      type: 'primary',
-      isDefault: false,
-      address1: '',
-      address2: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: '',
-      latitude: 0,
-      longitude: 0,
-      plusCode: '',
-    }
-    this.setState({ addressForm })
-  }
-
-  public handleSettingsBackBtn() {
-    this.setState({ currentAction: actions.settings.NONE })
-    this.refreshForms()
-  }
-
-  public updateSettingsIndex(e: React.FormEvent, index: number) {
-    e.preventDefault()
-    this.setState({ settingsIndex: index })
-  }
-
-  public handleSettingsAction(currentAction: number) {
-    this.setState({ currentAction })
-  }
-
-  public handleSelectAddress(addressIndex: number) {
-    const { profile } = this.state
-    this.setState({
-      currentAction: actions.settings.UPDATE_ADDRESS,
-      addressForm: profile.extendedLocation.addresses[addressIndex],
-    })
-  }
-
   get getCurrentContent() {
-    const { profile, currentAction, settingsIndex, addressForm } = this.state
+    const { currentAction, settingsIndex, addressForm, registrationForm, avatar } = this.state
     const { settings } = actions
     const mainContents = [
       {
         component: (
           <RegistrationForm
-            key="regform"
-            data={this.state.registrationForm}
             availableCountries={Countries}
-            fiatCurrencies={FiatCurrencies}
-            currencyTypes={CurrencyTypes}
             cryptoCurrencies={CryptoCurrencies}
+            currencyTypes={CurrencyTypes}
+            data={registrationForm}
+            fiatCurrencies={FiatCurrencies}
+            key="regform"
             languages={Languages}
-            unitOfMeasurements={UnitsOfMeasurement}
             onChange={this.handleChange}
-            onSubmit={() => {
-              console.log('WIP')
-            }}
+            onSubmit={this.handleFormSubmit}
+            unitOfMeasurements={UnitsOfMeasurement}
+            avatar={avatar}
+            isSubmitting={this.state.isSubmitting}
           />
         ),
         title: 'GENERAL',
@@ -228,10 +189,10 @@ class Home extends Component<HomeProps, HomeState> {
       {
         component: (
           <AddressesCardGroup
-            key="addresses"
-            locations={profile.extendedLocation.addresses}
             handleAddAddressBtn={() => this.handleSettingsAction(settings.ADD_ADDRESS)}
             handleSelectAddress={this.handleSelectAddress}
+            key="addresses"
+            locations={registrationForm.extLocation.addresses}
           />
         ),
         title: 'ADDRESSES',
@@ -256,13 +217,27 @@ class Home extends Component<HomeProps, HomeState> {
       },
       [settings.ADD_ADDRESS]: {
         component: (
-          <AddressForm key="addressform" data={addressForm} handleSave={this.handleSaveAddress} />
+          <AddressForm
+            data={addressForm}
+            key="addressform"
+            onAddressChange={this.handleAddressChange}
+            onSaveAddress={this.handleSaveAddress}
+            isEdit={false}
+          />
         ),
         title: 'ADD ADDRESS',
       },
       [settings.UPDATE_ADDRESS]: {
         component: (
-          <AddressForm key="addressform" data={addressForm} handleSave={this.handleSaveAddress} />
+          <AddressForm
+            data={addressForm}
+            key="addressform"
+            onAddressChange={this.handleAddressChange}
+            onSaveAddress={this.handleSaveAddress}
+            isEdit
+            onDeleteAddress={this.handleDeleteAddress}
+            updateIndex={this.state.addressFormUpdateIndex}
+          />
         ),
         title: 'UPDATE ADDRESS',
       },
@@ -272,73 +247,235 @@ class Home extends Component<HomeProps, HomeState> {
       : subContents[currentAction]
   }
 
-  public handleSaveAddress() {
-    console.log('WIP')
+  public handleAddressChange(field: string, value: string | string[]) {
+    const { addressForm } = this.state
+    NestedJsonUpdater(addressForm, field, value)
+    this.setState({
+      addressForm,
+    })
   }
 
   public render() {
-    const { settingsIndex, currentAction } = this.state
+    const { settingsIndex, currentAction, locationRadius, plusCode, searchResults } = this.state
     return (
       <div>
         <NavBar
+          handleSettings={this.handleSettings}
           onQueryChange={this.handleChange}
           onSearchSubmit={this.handleSearchSubmit}
-          handleSettings={this.handleSettings}
+          isSearchBarShow
         />
         <SettingsModal
-          currentLinkIndex={settingsIndex}
-          updateSettingsIndex={this.updateSettingsIndex}
           content={this.getCurrentContent}
-          handleBackBtn={this.handleSettingsBackBtn}
           currentAction={currentAction}
+          currentLinkIndex={settingsIndex}
+          handleBackBtn={this.handleSettingsBackBtn}
+          updateSettingsIndex={this.updateSettingsIndex}
         />
         <div className="uk-flex uk-flex-row uk-flex-left">
           <div className="sidebar">
             <SidebarFilter
+              locationRadius={locationRadius}
+              onChange={this.handleChange}
               onFilterChange={this.handleFilterChange}
               onFilterSubmit={this.handleFilterSubmit}
-              onChange={this.handleChange}
-              locationRadius={this.state.locationRadius}
-              plusCode={this.state.plusCode}
+              plusCode={plusCode}
             />
           </div>
           <div className="content">
-            <ListingCardGroup data={this.state.searchResults} />
+            <ListingCardGroup data={searchResults} />
           </div>
         </div>
       </div>
     )
   }
 
-  private handleChange(field: string, value: any): void {
+  private async handleDeleteAddress(index: number) {
     const { registrationForm } = this.state
+    const { extLocation } = registrationForm
 
-    const path = field.split('.')
-    let update = registrationForm
+    const address = extLocation.addresses[index]
 
-    for (let index = 0; index < path.length - 1; index++) {
-      const element = path[index]
-      update = update[element]
+    address.type.forEach(t => {
+      extLocation[t] = -1
+    })
+
+    extLocation.addresses.splice(index, 1)
+
+    locationTypes.forEach(type => {
+      const tempIndex = extLocation[type]
+      if (tempIndex > index) {
+        extLocation[type] = extLocation[type] - 1
+      }
+    })
+
+    this.setState({
+      registrationForm,
+    })
+    await axios.put(`${Config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    alert('Profile updated')
+    const profileData = this.processAddresses(registrationForm)
+    this.setState({
+      registrationForm: profileData,
+    })
+    this.handleSettingsBackBtn()
+  }
+
+  private processAddresses(profile: Profile): Profile {
+    const { extLocation } = profile
+
+    extLocation.addresses.forEach(a => {
+      a.type = []
+    })
+
+    locationTypes.forEach(type => {
+      const index = extLocation[type] as number
+      if (index === -1) {
+        return
+      }
+      profile.extLocation.addresses[index].type.push(type)
+    })
+
+    return profile
+  }
+
+  private handleSettings() {
+    window.UIkit.modal('#settings-modal').show()
+  }
+
+  private refreshForms() {
+    const addressForm = {
+      type: [''],
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      latitude: '',
+      longitude: '',
+      plusCode: '',
+    }
+    this.setState({ addressForm, addressFormUpdateIndex: -1 })
+  }
+
+  private handleSettingsBackBtn() {
+    this.setState({ currentAction: actions.settings.NONE })
+    this.refreshForms()
+  }
+
+  private updateSettingsIndex(e: React.FormEvent, index: number) {
+    e.preventDefault()
+    this.setState({ settingsIndex: index })
+  }
+
+  private handleSettingsAction(currentAction: number) {
+    this.setState({ currentAction })
+  }
+
+  private handleSelectAddress(addressIndex: number) {
+    const { profile, registrationForm } = this.state
+    this.setState({
+      currentAction: actions.settings.UPDATE_ADDRESS,
+      addressForm: registrationForm.extLocation.addresses[addressIndex],
+      addressFormUpdateIndex: addressIndex,
+    })
+  }
+
+  private async handleSaveAddress(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const { registrationForm, addressForm, addressFormUpdateIndex } = this.state
+    const { extLocation } = registrationForm
+
+    const {
+      type,
+      addressOne,
+      addressTwo,
+      city,
+      state,
+      zipCode,
+      country,
+      latitude,
+      longitude,
+      plusCode,
+    } = addressForm
+
+    const address = {
+      type,
+      addressOne,
+      addressTwo,
+      city,
+      state,
+      zipCode,
+      country,
+      latitude,
+      longitude,
+      plusCode,
     }
 
-    update[path[path.length - 1]] = value
+    if (addressFormUpdateIndex === -1) {
+      extLocation.addresses.push(address) // Create new entry
+    }
 
-    this.setState(
-      {
-        registrationForm,
-      },
-      () => {
-        console.log(this.state.registrationForm)
-      }
-    )
+    type.forEach((t: string) => {
+      extLocation[t] =
+        addressFormUpdateIndex > -1 ? addressFormUpdateIndex : extLocation.addresses.length - 1
+    })
+
+    await axios.put(`${Config.openBazaarHost}/ob/profile`, registrationForm)
+    alert('Addresses updated')
+
+    const profileData = this.processAddresses(registrationForm)
+    this.setState({
+      registrationForm: profileData,
+    })
+    this.handleSettingsBackBtn()
+  }
+
+  private async handleFormSubmit(event: React.FormEvent) {
+    event.preventDefault()
+
+    this.setState({
+      isSubmitting: true,
+    })
+
+    if (this.state.avatar) {
+      const avatarHashes = await ImageUploaderInstance.uploadImage(this.state.avatar)
+      this.state.registrationForm.avatarHashes = avatarHashes
+    }
+
+    await axios.put(`${Config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    alert('Profile updated')
+    this.setState({
+      isSubmitting: false,
+    })
+  }
+
+  private async handleChange(field: string, value: any, parentField?: string): Promise<any> {
+    if (field === 'avatar') {
+      const base64ImageStr = await ImageUploaderInstance.convertToBase64(value[0])
+      value = base64ImageStr
+    }
+
+    if (parentField) {
+      const subFieldData = this.state[parentField]
+      NestedJsonUpdater(subFieldData, field, value)
+      this.setState({ subFieldData })
+    } else {
+      this.setState({
+        [field]: value,
+      })
+    }
   }
 
   private async handleSearchSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault()
-    if (Object.keys(this.state.filters).length > 0) {
+    const { filters, searchQuery } = this.state
+
+    if (Object.keys(filters).length > 0) {
       await this.handleFilterSubmit(event)
     } else {
-      await this.executeSearchRequest(this.state.searchQuery)
+      await this.executeSearchRequest(searchQuery)
     }
   }
 
@@ -349,15 +486,13 @@ class Home extends Component<HomeProps, HomeState> {
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
-    console.log(result)
     this.setState({
       searchResults: result.data,
     })
   }
 
   private handleFilterChange(field: string, value: string, modifier?: string) {
-    const filters = this.state.filters
-    const modifiers = this.state.modifiers
+    const { filters, modifiers } = this.state
     filters[field] = value
     modifiers[field] = modifier ? modifier : '=='
 
@@ -374,31 +509,38 @@ class Home extends Component<HomeProps, HomeState> {
 
   private async handleFilterSubmit(event: React.FormEvent<HTMLElement>): Promise<void> {
     event.preventDefault()
+    const { filters, modifiers, plusCode, locationRadius, searchQuery } = this.state
 
-    const keys = Object.keys(this.state.filters)
-    const values = Object.values(this.state.filters)
-    const extendedFilters = keys.map((key, index) => {
+    const keys = Object.keys(filters)
+    const values = Object.values(filters)
+    let extendedFilters = keys.map((key, index) => {
       if (values[index] === '') {
         return
       }
-      return 'doc.' + key + ' ' + this.state.modifiers[key] + ' "' + values[index] + '"'
+      return 'doc.' + key + ' ' + modifiers[key] + ' "' + values[index] + '"'
     })
 
-    if (this.state.locationRadius > -1 && this.state.filters['location.zipCode']) {
-      extendedFilters[0] = `zipWithin("${this.state.filters['location.zipCode']}", "${
-        this.state.filters['location.country']
-      }", doc.location.zipCode, doc.location.country, ${this.state.locationRadius})`
+    if (locationRadius > -1 && filters['location.zipCode']) {
+      extendedFilters = extendedFilters.map(filter => {
+        if (filter && filter.includes(filters['location.zipCode'])) {
+          return `zipWithin("${filters['location.zipCode']}", "${
+            filters['location.country']
+          }", doc.location.zipCode, doc.location.country, ${locationRadius})`
+        } else {
+          return filter
+        }
+      })
     }
 
-    if (this.state.plusCode) {
-      const locationRadius = this.state.locationRadius > -1 ? this.state.locationRadius : 0
-      const { latitudeCenter, longitudeCenter } = PlusCode.decode(this.state.plusCode)
-      extendedFilters[0] = `coordsWithin(${latitudeCenter}, ${longitudeCenter}, doc.location.zipCode, doc.location.country, ${locationRadius})`
+    if (plusCode) {
+      const locationRadiusFilter = locationRadius > -1 ? locationRadius : 0
+      const { latitudeCenter, longitudeCenter } = PlusCode.decode(plusCode)
+      extendedFilters[0] = `coordsWithin(${latitudeCenter}, ${longitudeCenter}, doc.location.zipCode, doc.location.country, ${locationRadiusFilter})`
     }
 
     const searchObject = {
       filters: extendedFilters,
-      query: this.state.searchQuery,
+      query: searchQuery,
       limit: 25,
     }
 

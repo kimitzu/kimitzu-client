@@ -1,5 +1,5 @@
 import React from 'react'
-import { Listing } from '../../models/listing'
+import { Listing } from '../../models/Listing'
 import ListingCard from '../Card/ListingCard'
 
 import './ListingCardGroup.css'

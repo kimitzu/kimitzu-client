@@ -3,20 +3,23 @@ import React from 'react'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import ProfileInterface from '../../models/Profile'
+import { Profile } from '../../models/Profile'
 
+import config from '../../config'
 import './RegistrationForm.css'
 
 interface Props {
-  data: ProfileInterface
+  avatar: string
+  data: Profile
+  isSubmitting: boolean
   availableCountries: Array<{ label: string; value: string }>
+  cryptoCurrencies: Array<{ label: string; value: string }>
   currencyTypes: Array<{ label: string; value: string }>
   fiatCurrencies: Array<{ label: string; value: string }>
-  cryptoCurrencies: Array<{ label: string; value: string }>
   languages: Array<{ label: string; value: string }>
   unitOfMeasurements: Array<{ label: string; value: string }>
+  onChange: (field: string, value: any, parentField?: string) => void
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
-  onChange: (field: string, value: any) => void
 }
 
 const RegistrationForm = (props: Props) => (
@@ -30,7 +33,7 @@ const RegistrationForm = (props: Props) => (
             type="text"
             placeholder="John Doe"
             value={props.data.handle || ''}
-            onChange={event => props.onChange('handle', event.target.value)}
+            onChange={event => props.onChange('handle', event.target.value, 'registrationForm')}
             required
           />
         </div>
@@ -43,8 +46,7 @@ const RegistrationForm = (props: Props) => (
             type="text"
             placeholder="John Doe"
             value={props.data.name || ''}
-            onChange={event => props.onChange('name', event.target.value)}
-            required
+            onChange={event => props.onChange('name', event.target.value, 'registrationForm')}
           />
         </div>
       </div>
@@ -56,7 +58,7 @@ const RegistrationForm = (props: Props) => (
             rows={3}
             placeholder="In 500 words or less tell us something about yourself and the services you offer..."
             value={props.data.about || ''}
-            onChange={event => props.onChange('about', event.target.value)}
+            onChange={event => props.onChange('about', event.target.value, 'registrationForm')}
           />
         </div>
       </div>
@@ -64,13 +66,21 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="AVATAR" />
         <div id="avatar-item" className="uk-form-controls">
           <div id="child-icon">
-            <a className="uk-icon-button color-primary" uk-icon="user" />
-          </div>
-          <div id="child-slider">
-            <input className="uk-range" type="range" value="2" min="0" max="10" step="0.1" />
+            {props.data.avatarHashes.tiny && !props.avatar ? (
+              <img src={`${config.openBazaarHost}/ob/images/${props.data.avatarHashes.tiny}`} />
+            ) : null}
+            {props.avatar ? <img src={props.avatar} /> : null}
+            {!props.avatar && !props.data.avatarHashes.tiny ? (
+              <a className="uk-icon-button color-primary" uk-icon="user" />
+            ) : null}
           </div>
           <div id="child-btn">
-            <button className="uk-button uk-button-primary">CHANGE</button>
+            <input
+              type="file"
+              accept="image/*"
+              className="uk-button uk-button-primary"
+              onChange={event => props.onChange('avatar', event.target.files)}
+            />
           </div>
         </div>
       </div>
@@ -80,24 +90,17 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.availableCountries}
             defaultVal={
-              props.data.extLocation
+              props.data.extLocation && props.data.extLocation.primary > -1
                 ? props.data.extLocation.addresses[props.data.extLocation.primary].country
                 : ''
             }
             onChange={event =>
-              props.onChange('extLocation.addresses', [{ country: event.target.value }])
+              props.onChange(
+                'extLocation.addresses',
+                [{ country: event.target.value }],
+                'registrationForm'
+              )
             }
-            required
-          />
-        </div>
-      </div>
-      <div className="uk-margin">
-        <FormLabel label="WHAT CURRENCY SHOULD WE DISPLAY THE PRICES" required />
-        <div id="form-select" className="uk-form-controls">
-          <FormSelector
-            options={props.currencyTypes}
-            defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
-            onChange={event => props.onChange('preferences.currencyDisplay', event.target.value)}
             required
           />
         </div>
@@ -108,18 +111,35 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.fiatCurrencies}
             defaultVal={props.data.preferences ? props.data.preferences.fiat : ''}
-            onChange={event => props.onChange('preferences.fiat', event.target.value)}
+            onChange={event =>
+              props.onChange('preferences.fiat', event.target.value, 'registrationForm')
+            }
             required
           />
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="PREFERRED CRYPTO CURRENCY" required />
+        <FormLabel label="PREFERRED CRYPTOCURRENCY" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.cryptoCurrencies}
             defaultVal={props.data.preferences ? props.data.preferences.cryptocurrency : ''}
-            onChange={event => props.onChange('preferences.cryptocurrency', event.target.value)}
+            onChange={event =>
+              props.onChange('preferences.cryptocurrency', event.target.value, 'registrationForm')
+            }
+            required
+          />
+        </div>
+      </div>
+      <div className="uk-margin">
+        <FormLabel label="DISPLAY CURRENCY" required />
+        <div id="form-select" className="uk-form-controls">
+          <FormSelector
+            options={props.currencyTypes}
+            defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
+            onChange={event =>
+              props.onChange('preferences.currencyDisplay', event.target.value, 'registrationForm')
+            }
             required
           />
         </div>
@@ -130,7 +150,9 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.languages}
             defaultVal={props.data.preferences ? props.data.preferences.language : ''}
-            onChange={event => props.onChange('preferences.language', event.target.value)}
+            onChange={event =>
+              props.onChange('preferences.language', event.target.value, 'registrationForm')
+            }
             required
           />
         </div>
@@ -141,12 +163,24 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.unitOfMeasurements}
             defaultVal={props.data.preferences ? props.data.preferences.measurementUnit : ''}
-            onChange={event => props.onChange('preferences.measurementUnit', event.target.value)}
+            onChange={event =>
+              props.onChange('preferences.measurementUnit', event.target.value, 'registrationForm')
+            }
             required
           />
         </div>
       </div>
     </fieldset>
+
+    <div className="uk-position-relative uk-position-center uk-margin-top">
+      {props.isSubmitting ? (
+        <div uk-spinner="ratio: 1" />
+      ) : (
+        <button className="uk-button uk-button-primary" type="submit">
+          Submit
+        </button>
+      )}
+    </div>
   </form>
 )
 

@@ -2,25 +2,29 @@ import axios from 'axios'
 import React, { Component } from 'react'
 
 import { IntroductionCard, RegistrationCard } from '../components/Card'
-import SuccessCard from '../components/Card/SuccessCard'
 import { RegistrationForm, TermsOfService } from '../components/Form'
-import Countries from '../constants/Countries.json'
+import { Profile } from '../models/Profile'
 
+import SuccessCard from '../components/Card/SuccessCard'
 import config from '../config'
+import Countries from '../constants/Countries.json'
 import CryptoCurrencies from '../constants/CryptoCurrencies.json'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
+import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
-import ProfileInterface from '../models/Profile'
 import './UserRegistration.css'
 
 interface State {
+  avatar: string
   currentIndex: number
   hasStarted: boolean
+  isSubmitting: boolean
   numberOfPages: number
-  registrationForm: ProfileInterface
+  registrationForm: Profile
   [key: string]: any
 }
 
@@ -28,13 +32,25 @@ class UserRegistration extends Component<{}, State> {
   constructor(props: any) {
     super(props)
     this.state = {
+      avatar: '',
       currentIndex: 1,
       hasStarted: false,
+      isSubmitting: false,
       numberOfPages: 3,
       registrationForm: {
         handle: '',
         name: '',
         about: '',
+        nsfw: false,
+        vendor: true,
+        moderator: false,
+        avatarHashes: {
+          tiny: '',
+          small: '',
+          medium: '',
+          large: '',
+          original: '',
+        },
         extLocation: {
           primary: 0,
           shipping: 0,
@@ -42,6 +58,7 @@ class UserRegistration extends Component<{}, State> {
           return: 0,
           addresses: [
             {
+              type: [''],
               latitude: '',
               longitude: '',
               plusCode: '',
@@ -63,13 +80,14 @@ class UserRegistration extends Component<{}, State> {
         },
       },
     }
+    this.getCurrentContent = this.getCurrentContent.bind(this)
+    this.handleAgree = this.handleAgree.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleGetStarted = this.handleGetStarted.bind(this)
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
-    this.getCurrentContent = this.getCurrentContent.bind(this)
-    this.handleGetStarted = this.handleGetStarted.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.renderCard = this.renderCard.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleAgree = this.handleAgree.bind(this)
   }
 
   public handleNext(event?: React.FormEvent) {
@@ -106,6 +124,8 @@ class UserRegistration extends Component<{}, State> {
             unitOfMeasurements={UnitsOfMeasurement} // Metric or English System
             onChange={this.handleChange}
             onSubmit={this.handleSubmit}
+            avatar={this.state.avatar}
+            isSubmitting={this.state.isSubmitting}
           />
         )
       }
@@ -152,26 +172,40 @@ class UserRegistration extends Component<{}, State> {
     )
   }
 
-  private handleChange(field: string, value: any) {
-    const { registrationForm } = this.state
-
-    const path = field.split('.')
-    let update = registrationForm
-
-    for (let index = 0; index < path.length - 1; index++) {
-      const element = path[index]
-      update = update[element]
+  private async handleChange(field: string, value: any, parentField?: string) {
+    if (field === 'avatar') {
+      const base64ImageStr = await ImageUploaderInstance.convertToBase64(value[0])
+      value = base64ImageStr
     }
 
-    update[path[path.length - 1]] = value
-
-    this.setState({
-      registrationForm,
-    })
+    if (parentField) {
+      const subFieldData = this.state[parentField]
+      NestedJSONUpdater(subFieldData, field, value)
+      this.setState({ subFieldData })
+    } else {
+      this.setState({
+        [field]: value,
+      })
+    }
   }
 
-  private handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  private async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    this.setState({
+      isSubmitting: true,
+    })
+
+    if (this.state.avatar) {
+      const avatarHashes = await ImageUploaderInstance.uploadImage(this.state.avatar)
+      this.state.registrationForm.avatarHashes = avatarHashes
+    }
+
+    this.setState({
+      isSubmitting: false,
+    })
+
+    this.handleNext(event)
   }
 
   private async handleAgree() {

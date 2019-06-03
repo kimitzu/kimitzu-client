@@ -1,0 +1,24 @@
+#profile-social-media {
+    padding-top: 2%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#title-social-media {
+    color: dodgerblue;
+    font-weight: bold;
+}
+
+#social-media{
+    /* margin-bottom: 2%; */
+    margin-top: 2%;
+    display: flex;
+}
+
+#social-media > div{
+    float:left;
+}
+
+#account-icon {
+    padding-right: 2%;
+}
