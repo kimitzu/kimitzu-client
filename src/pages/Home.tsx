@@ -19,10 +19,12 @@ import CryptoCurrencies from '../constants/CryptoCurrencies.json'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
+import SortOptions from '../constants/SortOptions.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
+import { FormSelector } from '../components/Selector'
 import './Home.css'
 
 interface HomeProps {
@@ -58,6 +60,7 @@ class Home extends Component<HomeProps, HomeState> {
       modifiers: {},
       plusCode: '',
       searchQuery: '',
+      sort: 'x.title <= y.title',
       searchResults: [],
       settingsIndex: 0,
       isSubmitting: false,
@@ -133,6 +136,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.refreshForms = this.refreshForms.bind(this)
     this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
     this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
+    this.handleSortChange = this.handleSortChange.bind(this)
   }
 
   public async componentDidMount() {
@@ -273,7 +277,7 @@ class Home extends Component<HomeProps, HomeState> {
           updateSettingsIndex={this.updateSettingsIndex}
         />
         <div className="uk-flex uk-flex-row uk-flex-left">
-          <div className="sidebar">
+          <div className="uk-width-1-4">
             <SidebarFilter
               locationRadius={locationRadius}
               onChange={this.handleChange}
@@ -282,11 +286,35 @@ class Home extends Component<HomeProps, HomeState> {
               plusCode={plusCode}
             />
           </div>
-          <div className="content">
+          <div className="uk-flex uk-flex-column uk-width-3-4">
+            <div className="uk-flex uk-flex-right">
+              <div className="uk-width-1-4 uk-margin-top uk-margin-right uk-margin-bottom">
+                <FormSelector
+                  options={SortOptions}
+                  defaultVal={this.state.sort}
+                  onChange={event => this.handleSortChange(event.target.value)}
+                />
+              </div>
+            </div>
             <ListingCardGroup data={searchResults} />
           </div>
         </div>
       </div>
+    )
+  }
+
+  private handleSortChange(target: string) {
+    const data = target.split('_')
+    const field = data[0]
+    const condition = data[1]
+    const sort = `x.${field} ${condition} y.${field}`
+    this.setState(
+      {
+        sort,
+      },
+      async () => {
+        await this.handleSearchSubmit()
+      }
     )
   }
 
@@ -468,8 +496,10 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  private async handleSearchSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-    event.preventDefault()
+  private async handleSearchSubmit(event?: React.FormEvent<HTMLFormElement>): Promise<void> {
+    if (event) {
+      event.preventDefault()
+    }
     const { filters, searchQuery } = this.state
 
     if (Object.keys(filters).length > 0) {
@@ -483,6 +513,7 @@ class Home extends Component<HomeProps, HomeState> {
     const searchObject = {
       query: searchQuery,
       limit: 25,
+      sort: this.state.sort,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
@@ -507,8 +538,10 @@ class Home extends Component<HomeProps, HomeState> {
     })
   }
 
-  private async handleFilterSubmit(event: React.FormEvent<HTMLElement>): Promise<void> {
-    event.preventDefault()
+  private async handleFilterSubmit(event?: React.FormEvent<HTMLElement>): Promise<void> {
+    if (event) {
+      event.preventDefault()
+    }
     const { filters, modifiers, plusCode, locationRadius, searchQuery } = this.state
 
     const keys = Object.keys(filters)
@@ -542,6 +575,7 @@ class Home extends Component<HomeProps, HomeState> {
       filters: extendedFilters,
       query: searchQuery,
       limit: 25,
+      sort: this.state.sort,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)

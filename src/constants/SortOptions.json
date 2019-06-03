@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Alphabetically (A → Z)",
+    "value": "title_<="
+  },
+  {
+    "label": "Alphabetically (Z → A)",
+    "value": "title_>="
+  },
+  {
+    "label": "Price (Low → High)",
+    "value": "price.amount_<="
+  },
+  {
+    "label": "Price (High → Low)",
+    "value": "price.amount_>="
+  },
+  {
+    "label": "Rating (Low → High)",
+    "value": "averageRating_<="
+  },
+  {
+    "label": "Rating (High → Low)",
+    "value": "averageRating_>="
+  }
+]

@@ -18,7 +18,11 @@ const generateStars = (averageRating: number) => {
 const ListingCard = ({ listing }: ListingProps) => (
   <div className="uk-card uk-card-default uk-card-hover listing">
     <div className="uk-card-media-top">
-      <img src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny}`} alt="" />
+      <img
+        className="uk-margin-top"
+        src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny}`}
+        alt=""
+      />
     </div>
     <div className="uk-card-body">
       <div className="listing-title">{listing.title}</div>
