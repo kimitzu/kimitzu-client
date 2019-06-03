@@ -21,13 +21,9 @@ const InlineFormFields = (props: Props) => {
   const { fields } = props
   const numberOfFields = fields.length
   return (
-    <div id="multi-fields" className="uk-margin">
+    <div id="multi-fields" className="uk-margin uk-flex">
       {fields.map((field: Field, index: number) => (
-        <div
-          key={index.toString()}
-          id={index === numberOfFields - 1 ? 'last-field' : 'field'}
-          className={`uk-width-1-${numberOfFields}@s`}
-        >
+        <div key={index.toString()} id="field" className={`uk-width-1-${numberOfFields}@s`}>
           {field.label ? (
             <FormLabel required={field.label.required} label={field.label.name} />
           ) : null}

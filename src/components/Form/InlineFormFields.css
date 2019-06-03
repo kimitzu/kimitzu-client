@@ -1,12 +1,6 @@
 #multi-fields {
-  display: flex;
-  flex-direction: row;
+  margin-left: 1%;
 }
 #field {
   padding-right: 2%;
-  margin-bottom: 2%;
-}
-#last-field {
-  padding-left: 2%;
-  margin-bottom: 2%;
 }

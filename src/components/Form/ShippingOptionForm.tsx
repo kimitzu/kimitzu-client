@@ -4,8 +4,6 @@ import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 import InlineFormFields from './InlineFormFields'
 
-import './ShippingOptionForm.css'
-
 const typeOptions = [
   {
     label: 'New',
@@ -100,7 +98,7 @@ const ShippingOptionForm = ({
                   className="uk-input"
                   type="text"
                   placeholder="e.g. Standard Express"
-                  value={shippingService1.name}
+                  value={shippingService1 ? shippingService1.name : ''}
                   onChange={handleInputChange}
                 />
               ),
@@ -115,7 +113,7 @@ const ShippingOptionForm = ({
                   className="uk-input"
                   type="text"
                   placeholder="e.g. 5-7 days"
-                  value={shippingService1.deliveryTime}
+                  value={shippingService1 ? shippingService1.deliveryTime : ''}
                   onChange={handleInputChange}
                 />
               ),
@@ -130,7 +128,7 @@ const ShippingOptionForm = ({
                   className="uk-input"
                   type="number"
                   placeholder="0.00"
-                  value={shippingService1.price}
+                  value={shippingService1 ? shippingService1.price : ''}
                   onChange={handleInputChange}
                 />
               ),
@@ -208,7 +206,7 @@ const ShippingOptionForm = ({
           />
         ))}
         <div>
-          <a id="add-service" onClick={handleAddShippingService}>
+          <a className="add-field" onClick={handleAddShippingService}>
             + ADD SERVICE
           </a>
         </div>

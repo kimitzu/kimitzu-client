@@ -1,3 +1,4 @@
+import InputSelector from './InputSelector'
 import TwoInputs from './TwoInputs'
 
-export { TwoInputs }
+export { InputSelector, TwoInputs }

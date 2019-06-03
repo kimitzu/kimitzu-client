@@ -1,0 +1,12 @@
+#input-selector {
+  border: 1px solid var(--border-color);
+}
+#input {
+  flex: 3;
+  border: none;
+  border-right: 1px solid var(--border-color);
+}
+#selector {
+  flex: 2;
+  border: none;
+}

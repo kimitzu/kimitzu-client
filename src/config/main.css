@@ -45,3 +45,10 @@ textarea {
   border-radius: 7.5%;
   font-size: 0.75rem;
 }
+.add-field {
+  font-size: 0.65rem;
+  margin-top: -20px;
+  position: absolute;
+  text-decoration: underline;
+  color: var(--primary);
+}
