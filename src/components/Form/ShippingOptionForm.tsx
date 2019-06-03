@@ -36,6 +36,7 @@ interface Props {
   handleInputChange: () => void
   handleSelectChange: () => void
   handleAddShippingService: () => void
+  handleContinue: () => void
 }
 
 const ShippingOptionForm = ({
@@ -43,6 +44,7 @@ const ShippingOptionForm = ({
   handleInputChange,
   handleSelectChange,
   handleAddShippingService,
+  handleContinue,
 }: Props) => {
   const { destination, optionTitle, shippingServices, type } = data
   const shippingService1 = shippingServices.splice(0, 1)[0]
@@ -211,6 +213,11 @@ const ShippingOptionForm = ({
           </a>
         </div>
       </fieldset>
+      <div className="submit-btn-div">
+        <button className="uk-button uk-button-primary" onClick={handleContinue}>
+          CONTINUE
+        </button>
+      </div>
     </form>
   )
 }
