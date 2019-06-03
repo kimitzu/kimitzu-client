@@ -65,6 +65,29 @@ const AddressForm = (props: Props) => {
           ))}
         </div>
         <div className="uk-margin">
+          <FormLabel label="STREET ADDRESSES" />
+          <input
+            id="street-address"
+            className="uk-input"
+            type="text"
+            value={data.addressOne}
+            placeholder="Street Address 1"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              props.onAddressChange('addressOne', event.target.value)
+            }
+          />
+          <input
+            id="street-address"
+            className="uk-input"
+            type="text"
+            value={data.addressTwo}
+            placeholder="Street Address 2"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              props.onAddressChange('addressTwo', event.target.value)
+            }
+          />
+        </div>
+        <div className="uk-margin">
           <FormLabel label="PLUS CODE" />
           <input
             className="uk-input"
@@ -93,29 +116,6 @@ const AddressForm = (props: Props) => {
             },
           }}
         />
-        <div className="uk-margin">
-          <FormLabel label="STREET ADDRESSES" />
-          <input
-            id="street-address"
-            className="uk-input"
-            type="text"
-            value={data.addressOne}
-            placeholder="Street Address 1"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              props.onAddressChange('addressOne', event.target.value)
-            }
-          />
-          <input
-            id="street-address"
-            className="uk-input"
-            type="text"
-            value={data.addressTwo}
-            placeholder="Street Address 2"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              props.onAddressChange('addressTwo', event.target.value)
-            }
-          />
-        </div>
         <TwoInputs
           input1={{
             label: 'CITY',
