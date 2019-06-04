@@ -5,6 +5,7 @@ import { AddressesCardGroup } from '../components/CardGroup'
 import { AddressForm, RegistrationForm } from '../components/Form'
 import { SettingsModal } from '../components/Modal'
 import { Listing } from '../models/Listing'
+import { Profile } from '../models/Profile'
 
 import actions from '../common/constants'
 import PlusCode from '../common/PlusCode'
@@ -18,10 +19,12 @@ import CryptoCurrencies from '../constants/CryptoCurrencies.json'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
+import SortOptions from '../constants/SortOptions.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
-import Profile from '../models/Profile'
-import nestedJson from '../utils/nested-json'
+import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
+import { FormSelector } from '../components/Selector'
 import './Home.css'
 
 interface HomeProps {
@@ -40,6 +43,8 @@ interface HomeState {
   searchResults: Listing[]
   registrationForm: Profile
   addressFormUpdateIndex: number
+  avatar: string
+  isSubmitting: boolean
 }
 
 const locationTypes = ['primary', 'shipping', 'billing', 'return']
@@ -55,8 +60,10 @@ class Home extends Component<HomeProps, HomeState> {
       modifiers: {},
       plusCode: '',
       searchQuery: '',
+      sort: 'x.title <= y.title',
       searchResults: [],
       settingsIndex: 0,
+      isSubmitting: false,
       addressForm: {
         type: [''],
         addressOne: '',
@@ -69,10 +76,21 @@ class Home extends Component<HomeProps, HomeState> {
         longitude: '',
         plusCode: '',
       },
+      avatar: '',
       registrationForm: {
         handle: '',
         name: '',
         about: '',
+        nsfw: false,
+        vendor: true,
+        moderator: false,
+        avatarHashes: {
+          tiny: '',
+          small: '',
+          medium: '',
+          large: '',
+          original: '',
+        },
         extLocation: {
           primary: 0,
           shipping: 0,
@@ -118,6 +136,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.refreshForms = this.refreshForms.bind(this)
     this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
     this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
+    this.handleSortChange = this.handleSortChange.bind(this)
   }
 
   public async componentDidMount() {
@@ -137,7 +156,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   get getCurrentContent() {
-    const { currentAction, settingsIndex, addressForm, registrationForm } = this.state
+    const { currentAction, settingsIndex, addressForm, registrationForm, avatar } = this.state
     const { settings } = actions
     const mainContents = [
       {
@@ -153,6 +172,8 @@ class Home extends Component<HomeProps, HomeState> {
             onChange={this.handleChange}
             onSubmit={this.handleFormSubmit}
             unitOfMeasurements={UnitsOfMeasurement}
+            avatar={avatar}
+            isSubmitting={this.state.isSubmitting}
           />
         ),
         title: 'GENERAL',
@@ -232,7 +253,7 @@ class Home extends Component<HomeProps, HomeState> {
 
   public handleAddressChange(field: string, value: string | string[]) {
     const { addressForm } = this.state
-    nestedJson(addressForm, field, value)
+    NestedJsonUpdater(addressForm, field, value)
     this.setState({
       addressForm,
     })
@@ -256,7 +277,7 @@ class Home extends Component<HomeProps, HomeState> {
           updateSettingsIndex={this.updateSettingsIndex}
         />
         <div className="uk-flex uk-flex-row uk-flex-left">
-          <div className="sidebar">
+          <div className="uk-width-1-4">
             <SidebarFilter
               locationRadius={locationRadius}
               onChange={this.handleChange}
@@ -265,11 +286,35 @@ class Home extends Component<HomeProps, HomeState> {
               plusCode={plusCode}
             />
           </div>
-          <div className="content">
+          <div className="uk-flex uk-flex-column uk-width-3-4">
+            <div className="uk-flex uk-flex-right">
+              <div className="uk-width-1-4 uk-margin-top uk-margin-right uk-margin-bottom">
+                <FormSelector
+                  options={SortOptions}
+                  defaultVal={this.state.sort}
+                  onChange={event => this.handleSortChange(event.target.value)}
+                />
+              </div>
+            </div>
             <ListingCardGroup data={searchResults} />
           </div>
         </div>
       </div>
+    )
+  }
+
+  private handleSortChange(target: string) {
+    const data = target.split('_')
+    const field = data[0]
+    const condition = data[1]
+    const sort = `x.${field} ${condition} y.${field}`
+    this.setState(
+      {
+        sort,
+      },
+      async () => {
+        await this.handleSearchSubmit()
+      }
     )
   }
 
@@ -318,8 +363,6 @@ class Home extends Component<HomeProps, HomeState> {
       }
       profile.extLocation.addresses[index].type.push(type)
     })
-
-    console.log(profile)
 
     return profile
   }
@@ -419,14 +462,32 @@ class Home extends Component<HomeProps, HomeState> {
 
   private async handleFormSubmit(event: React.FormEvent) {
     event.preventDefault()
+
+    this.setState({
+      isSubmitting: true,
+    })
+
+    if (this.state.avatar) {
+      const avatarHashes = await ImageUploaderInstance.uploadImage(this.state.avatar)
+      this.state.registrationForm.avatarHashes = avatarHashes
+    }
+
     await axios.put(`${Config.openBazaarHost}/ob/profile`, this.state.registrationForm)
     alert('Profile updated')
+    this.setState({
+      isSubmitting: false,
+    })
   }
 
-  private handleChange(field: string, value: any, subField?: string): void {
-    if (subField) {
-      const subFieldData = this.state[subField]
-      nestedJson(subFieldData, field, value)
+  private async handleChange(field: string, value: any, parentField?: string): Promise<any> {
+    if (field === 'avatar') {
+      const base64ImageStr = await ImageUploaderInstance.convertToBase64(value[0])
+      value = base64ImageStr
+    }
+
+    if (parentField) {
+      const subFieldData = this.state[parentField]
+      NestedJsonUpdater(subFieldData, field, value)
       this.setState({ subFieldData })
     } else {
       this.setState({
@@ -435,8 +496,10 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  private async handleSearchSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-    event.preventDefault()
+  private async handleSearchSubmit(event?: React.FormEvent<HTMLFormElement>): Promise<void> {
+    if (event) {
+      event.preventDefault()
+    }
     const { filters, searchQuery } = this.state
 
     if (Object.keys(filters).length > 0) {
@@ -450,6 +513,7 @@ class Home extends Component<HomeProps, HomeState> {
     const searchObject = {
       query: searchQuery,
       limit: 25,
+      sort: this.state.sort,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
@@ -474,13 +538,15 @@ class Home extends Component<HomeProps, HomeState> {
     })
   }
 
-  private async handleFilterSubmit(event: React.FormEvent<HTMLElement>): Promise<void> {
-    event.preventDefault()
+  private async handleFilterSubmit(event?: React.FormEvent<HTMLElement>): Promise<void> {
+    if (event) {
+      event.preventDefault()
+    }
     const { filters, modifiers, plusCode, locationRadius, searchQuery } = this.state
 
     const keys = Object.keys(filters)
     const values = Object.values(filters)
-    const extendedFilters = keys.map((key, index) => {
+    let extendedFilters = keys.map((key, index) => {
       if (values[index] === '') {
         return
       }
@@ -488,9 +554,15 @@ class Home extends Component<HomeProps, HomeState> {
     })
 
     if (locationRadius > -1 && filters['location.zipCode']) {
-      extendedFilters[0] = `zipWithin("${filters['location.zipCode']}", "${
-        filters['location.country']
-      }", doc.location.zipCode, doc.location.country, ${locationRadius})`
+      extendedFilters = extendedFilters.map(filter => {
+        if (filter && filter.includes(filters['location.zipCode'])) {
+          return `zipWithin("${filters['location.zipCode']}", "${
+            filters['location.country']
+          }", doc.location.zipCode, doc.location.country, ${locationRadius})`
+        } else {
+          return filter
+        }
+      })
     }
 
     if (plusCode) {
@@ -503,6 +575,7 @@ class Home extends Component<HomeProps, HomeState> {
       filters: extendedFilters,
       query: searchQuery,
       limit: 25,
+      sort: this.state.sort,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)

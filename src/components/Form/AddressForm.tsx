@@ -65,35 +65,6 @@ const AddressForm = (props: Props) => {
           ))}
         </div>
         <div className="uk-margin">
-          <FormLabel label="PLUS CODE" />
-          <input
-            className="uk-input"
-            value={data.plusCode}
-            type="text"
-            onChange={event => props.onAddressChange('plusCode', event.target.value)}
-          />
-        </div>
-        <TwoInputs
-          input1={{
-            label: 'LONGITUDE',
-            props: {
-              type: 'number',
-              value: data.longitude,
-              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('longitude', event.target.value),
-            },
-          }}
-          input2={{
-            label: 'LATITUDE',
-            props: {
-              type: 'number',
-              value: data.latitude,
-              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('latitude', event.target.value),
-            },
-          }}
-        />
-        <div className="uk-margin">
           <FormLabel label="STREET ADDRESSES" />
           <input
             id="street-address"
@@ -116,6 +87,44 @@ const AddressForm = (props: Props) => {
             }
           />
         </div>
+        <div className="uk-margin">
+          <FormLabel label="PLUS CODE" />
+          <div className="uk-inline uk-width-1-1">
+            <a
+              className="uk-form-icon uk-form-icon-flip"
+              href="https://plus.codes/howitworks"
+              target="_blank"
+              uk-icon="icon: question"
+              uk-tooltip="What is a Plus Code?"
+            />
+            <input
+              className="uk-input"
+              value={data.plusCode}
+              type="text"
+              onChange={event => props.onAddressChange('plusCode', event.target.value)}
+            />
+          </div>
+        </div>
+        <TwoInputs
+          input1={{
+            label: 'LONGITUDE',
+            props: {
+              type: 'number',
+              value: data.longitude,
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+                props.onAddressChange('longitude', event.target.value),
+            },
+          }}
+          input2={{
+            label: 'LATITUDE',
+            props: {
+              type: 'number',
+              value: data.latitude,
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+                props.onAddressChange('latitude', event.target.value),
+            },
+          }}
+        />
         <TwoInputs
           input1={{
             label: 'CITY',
