@@ -1,0 +1,44 @@
+.imageSelected {
+  border: 3px solid rgb(0, 89, 255);
+}
+.mainImg {
+  max-height: 400px;
+  height: 400px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+}
+.mainImgChild {
+  flex: 1
+} 
+.btnNavLeft {
+  height: 5rem;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  pointer-events: none
+}
+.btnNavRight {
+  height: 5rem;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none
+}
+
+.navShadowLeft {
+  /* box-shadow:inset 100px 0 100px -100px #1F1719; */
+  box-shadow:inset 150px 0 100px -100px #1F1719;
+}
+.navShadowRight {
+  /* box-shadow:inset 100px 0 100px -100px #1F1719; */
+  box-shadow:inset -150px 0 100px -100px #1F1719;
+}
+.imageListLi {
+  display: flex;
+  justify-content: center;
+}
+.imgHeight {
+  height: 5rem;
+}
