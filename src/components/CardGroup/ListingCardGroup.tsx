@@ -10,20 +10,13 @@ interface ListingCardGroupProps {
 
 const ListingCardGroup = ({ data }: ListingCardGroupProps) => (
   <div>
-    {data.length > 0 ? (
-      <div className="uk-text-center uk-grid-medium uk-grid-match" uk-grid="masonry: true">
-        {data.map((listing: Listing, index) => (
-          <div className="listing-wrapper" key={index}>
-            <ListingCard listing={listing} />
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div>
-        <h2>No Results ¯\_(ツ)_/¯</h2>
-        <p>Try a different search keyword or filter</p>
-      </div>
-    )}
+    <div className="uk-text-center uk-grid-medium uk-grid-match" uk-grid="masonry: true">
+      {data.map((listing: Listing, index) => (
+        <div className="listing-wrapper" key={index}>
+          <ListingCard listing={listing} />
+        </div>
+      ))}
+    </div>
   </div>
 )
 
