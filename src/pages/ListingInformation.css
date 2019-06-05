@@ -1,0 +1,76 @@
+#reg-container {
+    background-color: #f1f9ff;
+    padding: 1rem;
+}
+#profile-header {
+    display: flex;
+    /* background-color: red; */
+    width: 100%;
+}
+#left-content {
+    flex: 1.5;
+    position: 'relative'
+}
+#right-content {
+    flex: 2;
+    /* background-color: red; */
+    padding-left: 30px;
+}
+#card-head {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#head-content {
+    display: flex;
+    flex-direction: column;
+    /* background-color: blue; */
+}
+.text-blue {
+    color: #2699FB;
+}
+polygon {
+    fill: #2699FB;
+}
+#rating {
+    height: 24px;
+    font-size: 19px;
+}
+.priceSize {
+    font-size: 30px;
+}
+#footerContent {
+    display: flex;
+}
+#footerContentLeft {
+    flex: 1;
+}
+#footerContentRight {
+    flex: 1;
+}
+#hourSelector {
+    background-color: rgb(228, 225, 225);
+    padding: 7px;
+    border-radius: 5px;
+}
+.btnRound {
+    border-radius: 5px;
+}
+#soldByCont {
+    display: flex;
+}
+#soldByContRight {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+#soldByContLeft {
+    flex: 1;
+}
+.underlinedText {
+    text-decoration: underline;
+}
+#soldbytext {
+    line-height: 34px;
+}
