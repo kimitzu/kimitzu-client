@@ -1,6 +1,6 @@
 import Home from './Home'
-import ListingProfile from './ListingProfile'
+import ListingInformation from './ListingInformation'
 import Profile from './Profile'
 import UserRegistration from './UserRegistration'
 
-export { Home, UserRegistration, ListingProfile, Profile }
+export { Home, UserRegistration, ListingInformation, Profile }
