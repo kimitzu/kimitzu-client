@@ -1,0 +1,20 @@
+#add-update-listing-card {
+  padding: 0;
+  min-height: 85%;
+}
+#add-update-listing-card-nav {
+  flex: 1;
+}
+#add-update-listing-card-content {
+  flex: 3;
+  padding: 1.5% 0;
+}
+#add-update-listing-card-content-component {
+  padding: 2% 10% 0 10%;
+  min-height: 80%;
+  display: flex;
+}
+#add-update-listing-content-title {
+  text-align: center;
+  font-weight: bold;
+}

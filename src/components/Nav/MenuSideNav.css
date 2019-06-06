@@ -1,6 +1,10 @@
+#menu-side-nav {
+  padding: 5% 0%;
+}
 #nav-title {
   font-weight: 700;
   font-size: 1.05rem;
+  margin-bottom: 7.5%;
 }
 #nav-item-parent {
   margin-left: 4px;

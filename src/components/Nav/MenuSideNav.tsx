@@ -2,32 +2,33 @@ import React, { useState } from 'react'
 
 import './MenuSideNav.css'
 
-interface NavItem {
+// TODO: Move these interfaces if possible(duplicate interface with ListingAddUpdateCard.tsx)
+interface SubNavItem {
   label: string
-  handler?: () => {}
+  handler?: () => void
 }
 
-interface ParentNavItem extends NavItem {
-  subItems?: NavItem[]
+interface NavItem extends SubNavItem {
+  subItems?: SubNavItem[]
 }
 
 interface Props {
   title: string
-  navItems: ParentNavItem[]
+  navItems: NavItem[]
 }
 
 const MenuSideNav = ({ title, navItems }: Props) => {
   const [navIndex, setNavIndex] = useState(0)
   const [subNavIndex, setSubNavIndex] = useState(0)
-  const getNavParentId = (index: number) => (navIndex === index ? 'selected' : 'not-selected')
+  const getNavId = (index: number) => (navIndex === index ? 'selected' : 'not-selected')
   const getSubNavId = (index: number) => (subNavIndex === index ? 'selected' : '')
-  const changeNavIndex = (index: number, handler?: () => {}) => {
+  const changeNavIndex = (index: number, handler?: () => void) => {
     setNavIndex(index)
     if (handler) {
       handler()
     }
   }
-  const changeSubNavIndex = (index: number, parentIndex: number, handler?: () => {}) => {
+  const changeSubNavIndex = (index: number, parentIndex: number, handler?: () => void) => {
     setNavIndex(parentIndex)
     setSubNavIndex(index)
     if (handler) {
@@ -35,13 +36,13 @@ const MenuSideNav = ({ title, navItems }: Props) => {
     }
   }
   return (
-    <ul className="uk-nav-default" data-uk-nav>
+    <ul id="menu-side-nav" className="uk-nav-default" data-uk-nav>
       <li id="nav-title" className="uk-nav-header color-primary">
         {title}
       </li>
-      {navItems.map((parentItem: ParentNavItem, index: number) => (
+      {navItems.map((parentItem: NavItem, index: number) => (
         <li
-          id={getNavParentId(index)}
+          id={getNavId(index)}
           key={`${parentItem}${index}`}
           className={parentItem.subItems ? 'uk-parent' : ''}
         >

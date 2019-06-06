@@ -9,16 +9,16 @@ import './TagsForm.css'
 interface Props {
   tags: string[]
   handleContinue: () => void
-  handleChange: () => void
+  handleInputChange: () => void
 }
 
-const TagsForm = ({ tags, handleChange, handleContinue }: Props) => {
+const TagsForm = ({ tags, handleInputChange, handleContinue }: Props) => {
   return (
-    <form className="uk-form-stacked">
+    <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
           <FormLabel label="TAGS" required />
-          <TagsInput value={tags} onChange={handleChange} />
+          <TagsInput value={tags} onChange={handleInputChange} />
           <label className="form-label-desciptor">Press "Enter" to add a tag</label>
         </div>
       </fieldset>

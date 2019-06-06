@@ -3,24 +3,24 @@ import React from 'react'
 import { FormLabel } from '../Label'
 
 interface Props {
-  handleChange: () => void
+  handleInputChange: () => void
   termsAndConditions: string
   handleContinue: () => void
 }
 
 const ListingTermsAndConditionsForm = ({
-  handleChange,
+  handleInputChange,
   handleContinue,
   termsAndConditions,
 }: Props) => (
-  <form className="uk-form-stacked">
+  <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
       <div className="uk-margin">
         <FormLabel label="TERMS AND CONDITIONS" />
         <textarea
           className="uk-textarea"
           rows={10}
-          onChange={handleChange}
+          onChange={handleInputChange}
           value={termsAndConditions}
           placeholder="What are the terms and conditions of the listing? What are you as responsible for as a vendor? is there a warranty? When is the transaction final? etc"
         />

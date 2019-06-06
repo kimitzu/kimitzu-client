@@ -12,12 +12,12 @@ interface Options {
 }
 
 interface Props {
-  handleAddListing: () => void
+  handleSubmit: () => void
   // TODO: Add list of selected cryptos
 }
 
-const ListingCryptoCurrenciesForm = ({ handleAddListing }: Props) => (
-  <form className="uk-form-stacked">
+const ListingCryptoCurrenciesForm = ({ handleSubmit }: Props) => (
+  <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
       <div id="crypto-checkers" className="uk-margin uk-flex">
         {CryptoCurrencies.map((crypto: Options) => (
@@ -33,7 +33,7 @@ const ListingCryptoCurrenciesForm = ({ handleAddListing }: Props) => (
       </div>
     </fieldset>
     <div className="submit-btn-div">
-      <button className="uk-button uk-button-primary" onClick={handleAddListing}>
+      <button className="uk-button uk-button-primary" onClick={handleSubmit}>
         ADD LISTING
       </button>
     </div>

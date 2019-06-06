@@ -33,16 +33,22 @@ interface GeneralListingInfo {
 
 interface Props {
   data: GeneralListingInfo
-  handleOnChange: () => void
+  handleInputChange: () => void
+  handleSelectChange: () => void
   handleContinue: () => void
 }
 
-const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => (
-  <form className="uk-form-stacked">
+const ListingGeneralForm = ({
+  data,
+  handleInputChange,
+  handleSelectChange,
+  handleContinue,
+}: Props) => (
+  <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
       <div className="uk-margin">
         <FormLabel label="TITLE" required />
-        <input className="uk-input" type="text" value={data.title} />
+        <input className="uk-input" type="text" value={data.title} onChange={handleInputChange} />
         <label className="form-label-desciptor">
           Something descriptive that clearly explains what you're selling
         </label>
@@ -50,7 +56,7 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
       <div className="uk-margin">
         <FormLabel label="TYPE" required />
         {/* TODO: update onChange handler */}
-        <FormSelector defaultVal={data.type} options={ListingTypes} onChange={handleOnChange} />
+        <FormSelector defaultVal={data.type} options={ListingTypes} onChange={handleSelectChange} />
         <label className="form-label-desciptor">Choose from 4 types</label>
       </div>
       <InlineFormFields
@@ -62,6 +68,7 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
                 inputProps={{
                   value: data.price,
                   type: 'number',
+                  onChange: handleInputChange,
                 }}
               />
             ),
@@ -76,7 +83,7 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
               <FormSelector
                 defaultVal={data.condition}
                 options={ListingConditions}
-                onChange={handleOnChange} // TODO: Update onChange handler
+                onChange={handleSelectChange} // TODO: Update onChange handler
               />
             ),
             label: {
@@ -90,7 +97,14 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
       <InlineFormFields
         fields={[
           {
-            component: <input className="uk-input" type="text" value={data.sku} />,
+            component: (
+              <input
+                className="uk-input"
+                type="text"
+                value={data.sku}
+                onChange={handleInputChange}
+              />
+            ),
             label: {
               name: 'SKU',
             },
@@ -110,9 +124,7 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
                   },
                 ]}
                 selectedVal={data.nsfw ? 'yes' : 'no'} // TODO: update props
-                handleOnChange={() => {
-                  console.log('WIP')
-                }}
+                handleOnChange={handleInputChange}
               />
             ),
             label: {
@@ -129,6 +141,7 @@ const ListingGeneralForm = ({ data, handleOnChange, handleContinue }: Props) => 
           rows={5}
           value={data.description}
           placeholder="Describe your listing as best as you can.."
+          onChange={handleInputChange}
         />
       </div>
     </fieldset>

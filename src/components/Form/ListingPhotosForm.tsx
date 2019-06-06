@@ -10,7 +10,7 @@ interface Props {
 
 const ListingPhotosForm = ({ images, handleContinue }: Props) => {
   return (
-    <form className="uk-form-stacked">
+    <form className="uk-form-stacked  uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
           <FormLabel label="ADD PHOTO" required />

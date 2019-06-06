@@ -1,6 +1,7 @@
 :root {
   --primary: #2699fb;
   --border-color: #bce0fd;
+  --background-body: #f1f9ff;
 }
 ::placeholder {
   color: var(--primary);
@@ -15,6 +16,9 @@ body * {
 label .required {
   color: #ff0000;
   font-size: 0.8rem;
+}
+.background-body {
+  background: var(--background-body);
 }
 .color-primary {
   color: var(--primary) !important;
@@ -37,6 +41,8 @@ textarea {
 .submit-btn-div {
   display: flex;
   justify-content: flex-end;
+  flex: 1;
+  align-items: flex-end;
 }
 .uk-button-primary {
   background-color: var(--primary);
@@ -47,8 +53,14 @@ textarea {
 }
 .add-field {
   font-size: 0.65rem;
-  margin-top: -20px;
+  margin-top: -10px;
   position: absolute;
   text-decoration: underline;
   color: var(--primary);
+}
+.full-vh {
+  height: 100vh;
+}
+.full-width {
+  width: 100%;
 }

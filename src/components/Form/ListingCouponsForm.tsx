@@ -24,7 +24,7 @@ interface Coupon {
 interface Props {
   coupons: Coupon[]
   handleInputChange: () => void
-  handleSelectorChange: () => void
+  handleSelectChange: () => void
   handleAddCoupon: () => void
   handleContinue: () => void
 }
@@ -34,11 +34,12 @@ const ListingCouponsForm = ({
   handleAddCoupon,
   handleContinue,
   handleInputChange,
-  handleSelectorChange,
+  handleSelectChange,
 }: Props) => {
-  const coupon1 = coupons.splice(0, 1)[0]
+  const coupon1 = coupons[0]
+  const remainingCoupons = coupons.slice(1, coupons.length)
   return (
-    <form className="uk-form-stacked">
+    <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <InlineFormFields
           fields={[
@@ -79,7 +80,7 @@ const ListingCouponsForm = ({
                     onChange: handleInputChange,
                   }}
                   selectProps={{
-                    onChange: handleSelectorChange,
+                    onChange: handleSelectChange,
                   }}
                   defaultSelectorVal={coupon1 ? coupon1.discountType : 'percent'}
                 />
@@ -91,9 +92,9 @@ const ListingCouponsForm = ({
             },
           ]}
         />
-        {coupons.map((coupon: Coupon) => (
+        {remainingCoupons.map((coupon: Coupon, index: number) => (
           <InlineFormFields
-            key={coupon.code}
+            key={`coupons${index}`}
             fields={[
               {
                 component: (
@@ -124,7 +125,7 @@ const ListingCouponsForm = ({
                       onChange: handleInputChange,
                     }}
                     selectProps={{
-                      onChange: handleSelectorChange,
+                      onChange: handleSelectChange,
                     }}
                     defaultSelectorVal={coupon.discountType}
                   />

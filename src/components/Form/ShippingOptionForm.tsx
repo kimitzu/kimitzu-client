@@ -45,9 +45,10 @@ const ShippingOptionForm = ({
   handleContinue,
 }: Props) => {
   const { destination, optionTitle, shippingServices, type } = data
-  const shippingService1 = shippingServices.splice(0, 1)[0]
+  const shippingService1 = shippingServices[0]
+  const remainingShippingServices = shippingServices.slice(1, shippingServices.length)
   return (
-    <form className="uk-form-stacked">
+    <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
           <FormLabel label="DESTINATION" required />
@@ -154,9 +155,9 @@ const ShippingOptionForm = ({
             },
           ]}
         />
-        {shippingServices.map((shippingService: ShippingService) => (
+        {remainingShippingServices.map((shippingService: ShippingService, index: number) => (
           <InlineFormFields
-            key={shippingService.name}
+            key={`services${index}`}
             fields={[
               {
                 component: (
