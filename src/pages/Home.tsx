@@ -19,10 +19,12 @@ import CryptoCurrencies from '../constants/CryptoCurrencies.json'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
+import SortOptions from '../constants/SortOptions.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
+import { FormSelector } from '../components/Selector'
 import './Home.css'
 
 interface HomeProps {
@@ -38,7 +40,18 @@ interface HomeState {
   modifiers: { [x: string]: any }
   plusCode: string
   searchQuery: string
-  searchResults: Listing[]
+  searchResults: {
+    data: Listing[]
+    count: number
+    limit: number
+    nextStart: number
+  }
+  paginate: {
+    limit: number
+    start: number
+    totalPages: number
+    currentPage: number
+  }
   registrationForm: Profile
   addressFormUpdateIndex: number
   avatar: string
@@ -58,9 +71,22 @@ class Home extends Component<HomeProps, HomeState> {
       modifiers: {},
       plusCode: '',
       searchQuery: '',
-      searchResults: [],
+      sort: 'x.title <= y.title',
       settingsIndex: 0,
       isSubmitting: false,
+      isSearching: false,
+      searchResults: {
+        data: [],
+        count: 0,
+        limit: 0,
+        nextStart: 0,
+      },
+      paginate: {
+        limit: 25,
+        start: 0,
+        totalPages: 0,
+        currentPage: 0,
+      },
       addressForm: {
         type: [''],
         addressOne: '',
@@ -133,6 +159,10 @@ class Home extends Component<HomeProps, HomeState> {
     this.refreshForms = this.refreshForms.bind(this)
     this.updateSettingsIndex = this.updateSettingsIndex.bind(this)
     this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
+    this.handleSortChange = this.handleSortChange.bind(this)
+    this.handlePaginate = this.handlePaginate.bind(this)
+    this.handleNewSearch = this.handleNewSearch.bind(this)
+    this.handleFilterReset = this.handleFilterReset.bind(this)
   }
 
   public async componentDidMount() {
@@ -256,7 +286,52 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   public render() {
-    const { settingsIndex, currentAction, locationRadius, plusCode, searchResults } = this.state
+    const {
+      settingsIndex,
+      currentAction,
+      locationRadius,
+      plusCode,
+      searchResults,
+      paginate,
+      isSearching,
+    } = this.state
+
+    const pages = []
+    let startIndex = 0
+    let paginationLimit = 9
+
+    if (paginate.currentPage < 5) {
+      startIndex = 0
+      paginationLimit = 9
+    } else {
+      startIndex = paginate.currentPage - 4
+      paginationLimit = paginate.currentPage + 5
+    }
+
+    if (paginationLimit > paginate.totalPages) {
+      paginationLimit = paginate.totalPages
+    }
+
+    for (let index = startIndex; index < paginationLimit; index++) {
+      let isActive = false
+
+      if (paginate.currentPage === index) {
+        isActive = true
+      }
+
+      pages.push(
+        <li key={index}>
+          <a
+            href="#"
+            className={isActive ? 'uk-badge' : ''}
+            onClick={() => this.handlePaginate(index)}
+          >
+            {index + 1}
+          </a>
+        </li>
+      )
+    }
+
     return (
       <div>
         <NavBar
@@ -273,20 +348,100 @@ class Home extends Component<HomeProps, HomeState> {
           updateSettingsIndex={this.updateSettingsIndex}
         />
         <div className="uk-flex uk-flex-row uk-flex-left">
-          <div className="sidebar">
+          <div className="uk-width-1-4">
             <SidebarFilter
               locationRadius={locationRadius}
               onChange={this.handleChange}
               onFilterChange={this.handleFilterChange}
               onFilterSubmit={this.handleFilterSubmit}
               plusCode={plusCode}
+              onFilterReset={this.handleFilterReset}
             />
           </div>
-          <div className="content">
-            <ListingCardGroup data={searchResults} />
-          </div>
+          {searchResults.data.length > 0 ? (
+            <div className="uk-flex uk-flex-column uk-width-3-4">
+              <div className="uk-flex uk-flex-right">
+                <div className="uk-width-3-4 uk-margin-top uk-margin-right uk-margin-bottom">
+                  <div className="uk-flex uk-flex-row uk-flex-right">
+                    <div className="uk-margin-small-right">
+                      <ul className="uk-pagination">
+                        <li>
+                          <a href="#" onClick={() => this.handlePaginate(paginate.currentPage - 1)}>
+                            <span uk-icon="icon: chevron-left" />
+                          </a>
+                        </li>
+                        {pages.map(p => p)}
+                        <li>
+                          <a href="#" onClick={() => this.handlePaginate(paginate.currentPage + 1)}>
+                            <span uk-icon="icon: chevron-right" />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="uk-expand">
+                      <FormSelector
+                        options={SortOptions}
+                        defaultVal={this.state.sort}
+                        onChange={event => this.handleSortChange(event.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ListingCardGroup data={searchResults.data} />
+            </div>
+          ) : isSearching ? (
+            <div className="uk-align-center">
+              <div uk-spinner="ratio: 3" />
+            </div>
+          ) : (
+            <div className="uk-align-center">
+              <h2>No Results ¯\_(ツ)_/¯</h2>
+              <p>Try a different search keyword or filter</p>
+            </div>
+          )}
         </div>
       </div>
+    )
+  }
+
+  private handlePaginate(direction: number) {
+    const { paginate, searchResults } = this.state
+
+    if (direction === -1 && paginate.start <= 0) {
+      return
+    }
+
+    paginate.start = direction * paginate.limit
+
+    if (paginate.start >= searchResults.count) {
+      return
+    }
+
+    paginate.currentPage = direction
+
+    this.setState(
+      {
+        paginate,
+      },
+      async () => {
+        await this.handleSearchSubmit(false)
+      }
+    )
+  }
+
+  private handleSortChange(target: string) {
+    const data = target.split('_')
+    const field = data[0]
+    const condition = data[1]
+    const sort = `x.${field} ${condition} y.${field}`
+    this.setState(
+      {
+        sort,
+      },
+      async () => {
+        await this.handleSearchSubmit(false)
+      }
     )
   }
 
@@ -468,26 +623,87 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  private async handleSearchSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-    event.preventDefault()
+  private async handleSearchSubmit(isNewSearch: boolean): Promise<void> {
     const { filters, searchQuery } = this.state
 
+    if (isNewSearch) {
+      await this.handleNewSearch()
+    }
+
+    this.setState({
+      isSearching: true,
+    })
+
     if (Object.keys(filters).length > 0) {
-      await this.handleFilterSubmit(event)
+      await this.handleFilterSubmit()
     } else {
       await this.executeSearchRequest(searchQuery)
     }
+
+    this.setState({
+      isSearching: false,
+    })
   }
 
-  private async executeSearchRequest(searchQuery: string): Promise<void> {
+  private async handleFilterReset() {
+    const filters = {}
+    const locationRadius = -1
+    const modifiers = {}
+    const plusCode = ''
+    this.setState({
+      filters,
+      locationRadius,
+      modifiers,
+      plusCode,
+    })
+  }
+
+  private async handleNewSearch() {
+    const searchResults = {
+      data: [],
+      count: 0,
+      limit: 0,
+      nextStart: 0,
+    }
+    const paginate = {
+      limit: 25,
+      start: 0,
+      totalPages: 0,
+      currentPage: 0,
+    }
+
+    return new Promise(resolve => {
+      this.setState(
+        {
+          searchResults,
+          paginate,
+        },
+        () => {
+          resolve(this.state)
+        }
+      )
+    })
+  }
+
+  private async executeSearchRequest(searchQuery: string, newSearch?: boolean): Promise<void> {
+    const { paginate } = this.state
+
+    if (newSearch) {
+      this.handleNewSearch()
+    }
+
     const searchObject = {
       query: searchQuery,
-      limit: 25,
+      limit: paginate.limit,
+      start: paginate.start,
+      sort: this.state.sort,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
+    paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
     this.setState({
       searchResults: result.data,
+      paginate,
     })
   }
 
@@ -507,9 +723,11 @@ class Home extends Component<HomeProps, HomeState> {
     })
   }
 
-  private async handleFilterSubmit(event: React.FormEvent<HTMLElement>): Promise<void> {
-    event.preventDefault()
-    const { filters, modifiers, plusCode, locationRadius, searchQuery } = this.state
+  private async handleFilterSubmit(event?: React.FormEvent<HTMLElement>): Promise<void> {
+    if (event) {
+      event.preventDefault()
+    }
+    const { filters, modifiers, plusCode, locationRadius, searchQuery, paginate } = this.state
 
     const keys = Object.keys(filters)
     const values = Object.values(filters)
@@ -541,13 +759,16 @@ class Home extends Component<HomeProps, HomeState> {
     const searchObject = {
       filters: extendedFilters,
       query: searchQuery,
-      limit: 25,
+      limit: paginate.limit,
+      start: paginate.start,
+      sort: this.state.sort,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
-
+    paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
     this.setState({
       searchResults: result.data,
+      paginate,
     })
   }
 }

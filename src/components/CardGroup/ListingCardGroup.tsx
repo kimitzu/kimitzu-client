@@ -9,12 +9,14 @@ interface ListingCardGroupProps {
 }
 
 const ListingCardGroup = ({ data }: ListingCardGroupProps) => (
-  <div className="uk-text-center uk-grid-medium uk-grid-match" uk-grid="masonry: true">
-    {data.map((listing: Listing, index) => (
-      <div className="listing-wrapper" key={index}>
-        <ListingCard listing={listing} />
-      </div>
-    ))}
+  <div>
+    <div className="uk-text-center uk-grid-medium uk-grid-match" uk-grid="masonry: true">
+      {data.map((listing: Listing, index) => (
+        <div className="listing-wrapper" key={index}>
+          <ListingCard listing={listing} />
+        </div>
+      ))}
+    </div>
   </div>
 )
 

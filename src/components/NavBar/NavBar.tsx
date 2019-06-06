@@ -4,7 +4,7 @@ import './NavBar.css'
 
 interface NavBarProps {
   onQueryChange: (fieldName: string, value: string) => void
-  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onSearchSubmit: (isNewSearch: boolean) => void
   handleSettings: () => void
   isSearchBarShow: boolean
 }
@@ -26,7 +26,10 @@ const NavBar = ({
         <form
           id="search-bar-form"
           className="uk-search uk-search-default"
-          onSubmit={onSearchSubmit}
+          onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault()
+            onSearchSubmit(true)
+          }}
         >
           <a
             href="/"
