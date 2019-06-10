@@ -1,0 +1,8 @@
+#image-nav {
+  max-height: 75px;
+  max-width: 75px;
+}
+#select-upload {
+  cursor: pointer;
+  color: var(--primary);
+}

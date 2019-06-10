@@ -1,0 +1,13 @@
+#radio-btns {
+  display: flex;
+  height: 40px;
+  align-items: center;
+}
+#radio-label {
+  flex: 1;
+}
+#radio-input {
+  margin-right: 5%;
+  width: 25px;
+  height: 25px;
+}

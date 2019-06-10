@@ -1,0 +1,17 @@
+.react-tagsinput {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  padding-left: 5px;
+  padding-top: 5px;
+  height: 100px;
+}
+.react-tagsinput--focused {
+  border-color: var(--primary);
+}
+.react-tagsinput-tag {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  color: var(--primary);
+  font-weight: 300;
+}
