@@ -1,5 +1,7 @@
 import React, { Component, ReactNode } from 'react'
 
+import Axios from 'axios'
+import slugify from 'slugify'
 import { ListingAddUpdateCard } from '../components/Card'
 import {
   ListingCouponsForm,
@@ -10,6 +12,10 @@ import {
   ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
+import config from '../config'
+import { ListingCreate } from '../models/ListingCreate'
+import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
 interface CardContent {
   component: ReactNode
@@ -21,25 +27,72 @@ interface CreateListingProps {
 }
 
 interface CreateListingState {
-  [x: string]: any
+  listing: ListingCreate
+  currentFormIndex: number
+  tempImages: string[]
+  [key: string]: any
 }
 
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
   constructor(props: CreateListingProps) {
     super(props)
+    const expirationDate = new Date()
+    expirationDate.setMonth(expirationDate.getMonth() + 1)
     this.state = {
       currentFormIndex: 0,
-      generalForm: {
-        title: '',
-        type: '',
-        price: 0,
-        condition: '',
-        sku: '',
-        nsfw: false,
-        description: '',
+      tempImages: [],
+      // === Formal Schema
+      listing: {
+        metadata: {
+          contractType: 'SERVICE',
+          expiry: expirationDate.toISOString(),
+          format: 'FIXED_PRICE',
+          pricingCurrency: 'usd',
+          acceptedCurrencies: [],
+        },
+        item: {
+          title: '',
+          description: '',
+          price: 0,
+          tags: [],
+          images: [],
+          categories: [],
+          condition: 'New',
+          options: [],
+          skus: [],
+          nsfw: false,
+        },
+        coupons: [
+          {
+            title: '',
+            code: {
+              discountCode: '',
+            },
+            discount: {
+              percentDiscount: 0,
+              type: 'percent',
+            },
+          },
+        ],
+        termsAndConditions: '',
+        // === TODO: Implement handlers for the fields below
+        taxes: [],
+        moderators: [],
+        shippingOptions: [],
+        refundPolicy: 'None',
+        location: {
+          latitude: '',
+          longitude: '',
+          plusCode: '',
+          addressOne: '',
+          addressTwo: '',
+          city: 'Iloilo City',
+          state: 'Iloilo',
+          country: 'PH',
+          zipCode: '5000',
+        },
       },
-      images: [],
-      shippingOptionForm: {
+      shippingOptions: {
         destination: '',
         optionTitle: '',
         type: '',
@@ -52,64 +105,46 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           },
         ],
       },
-      tags: [],
-      termsAndConditions: '',
-      coupons: [
-        {
-          title: '',
-          code: '',
-          discountType: '',
-          discount: 0,
-        },
-      ],
     }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleSelectChange = this.handleSelectChange.bind(this)
-    this.handleSubmitForm = this.handleSubmitForm.bind(this)
-    this.handleAddShippingService = this.handleAddShippingService.bind(this)
     this.handleAddCoupons = this.handleAddCoupons.bind(this)
+    this.handleAddShippingService = this.handleAddShippingService.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmitForm = this.handleSubmitForm.bind(this)
+    this.handleFullSubmit = this.handleFullSubmit.bind(this)
+    this.handleImageOpen = this.handleImageOpen.bind(this)
   }
 
   get contents() {
-    const {
-      generalForm,
-      images,
-      shippingOptionForm,
-      tags,
-      termsAndConditions,
-      coupons,
-    } = this.state
-    const {
-      handleInputChange,
-      handleSelectChange,
-      handleSubmitForm,
-      handleAddShippingService,
-      handleAddCoupons,
-    } = this
+    const { handleInputChange, handleSubmitForm, handleAddShippingService, handleAddCoupons } = this
     return [
       {
         component: (
           <ListingGeneralForm
-            data={generalForm}
+            data={this.state.listing}
             handleContinue={handleSubmitForm}
             handleInputChange={handleInputChange}
-            handleSelectChange={handleSelectChange}
           />
         ),
         title: 'General',
       },
       {
-        component: <ListingPhotosForm handleContinue={handleSubmitForm} images={images} />,
+        component: (
+          <ListingPhotosForm
+            handleContinue={handleSubmitForm}
+            images={this.state.tempImages}
+            onImageOpen={this.handleImageOpen}
+          />
+        ),
         title: 'Photos',
       },
       {
         component: (
           <ShippingOptionForm
-            data={shippingOptionForm}
+            data={this.state.shippingOptions}
             handleAddShippingService={handleAddShippingService}
             handleContinue={handleSubmitForm}
             handleInputChange={handleInputChange}
-            handleSelectChange={handleSelectChange}
+            disabled={this.state.listing.metadata.contractType === 'SERVICE'}
           />
         ),
         title: 'Shipping',
@@ -119,7 +154,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           <TagsForm
             handleInputChange={handleInputChange}
             handleContinue={handleSubmitForm}
-            tags={tags}
+            tags={this.state.listing.item.tags}
           />
         ),
         title: 'Tags',
@@ -129,7 +164,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           <ListingTermsAndConditionsForm
             handleInputChange={handleInputChange}
             handleContinue={handleSubmitForm}
-            termsAndConditions={termsAndConditions}
+            termsAndConditions={this.state.listing.termsAndConditions}
           />
         ),
         title: 'Terms and Conditions',
@@ -137,17 +172,22 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <ListingCouponsForm
-            coupons={coupons}
+            coupons={this.state.listing.coupons}
             handleAddCoupon={handleAddCoupons}
             handleContinue={handleSubmitForm}
             handleInputChange={handleInputChange}
-            handleSelectChange={handleSelectChange}
           />
         ),
         title: 'Coupons',
       },
       {
-        component: <ListingCryptoCurrenciesForm handleSubmit={handleSubmitForm} />,
+        component: (
+          <ListingCryptoCurrenciesForm
+            handleContinue={this.handleFullSubmit}
+            handleInputChange={handleInputChange}
+            acceptedCurrencies={this.state.listing.metadata.acceptedCurrencies}
+          />
+        ),
         title: 'Accepted Currencies',
       },
     ]
@@ -169,34 +209,99 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     return this.contents[currentFormIndex]
   }
 
-  public handleInputChange() {
-    // TODO
+  public async handleImageOpen(event: React.ChangeEvent<HTMLInputElement>) {
+    const imageFiles = event.target.files
+    let base64ImageFiles = []
+
+    if (!imageFiles) {
+      return
+    }
+
+    // tslint:disable-next-line:prefer-for-of
+    for (let index = 0; index < imageFiles.length; index++) {
+      const imageElement = imageFiles[index]
+      base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
+    }
+
+    base64ImageFiles = await Promise.all(base64ImageFiles)
+    this.setState({
+      tempImages: base64ImageFiles,
+    })
   }
 
-  public handleSelectChange() {
-    // TODO
+  public handleInputChange(field: string, value: any, parentField?: string) {
+    if (parentField) {
+      const subFieldData = this.state[parentField]
+      NestedJSONUpdater(subFieldData, field, value)
+      this.setState({ ...this.state })
+    } else {
+      this.setState({
+        [field]: value,
+      })
+    }
   }
 
-  public handleSubmitForm() {
-    // TODO
+  public handleSubmitForm(event: React.FormEvent) {
+    event.preventDefault()
+    this.setState({
+      currentFormIndex: this.state.currentFormIndex + 1,
+    })
   }
 
-  // TODO:
   public handleAddShippingService() {
-    const shippingOptionForm = { ...this.state.shippingOptionForm }
-    shippingOptionForm.shippingServices.push({
+    const tempShippingService = {
       name: '',
       deliveryTime: '',
       price: 0,
       priceAddtl: 0,
-    })
-    this.setState({ shippingOptionForm })
+    }
+    const shippingOptions = this.state.shippingOptions
+    shippingOptions.shippingServices = [...shippingOptions.shippingServices, tempShippingService]
+    this.setState({ shippingOptions })
   }
 
   public handleAddCoupons() {
-    this.setState(prevState => ({
-      coupons: [...prevState.coupons, { title: '', code: '', discountType: '', discount: 0 }],
-    }))
+    const tempCoupon = {
+      title: '',
+      code: {
+        discountCode: '',
+      },
+      discount: {
+        percentDiscount: 0,
+        type: 'percent',
+      },
+    }
+    const listing = this.state.listing
+    listing.coupons = [...listing.coupons, tempCoupon]
+    this.setState({
+      listing: this.state.listing,
+    })
+  }
+
+  public async handleFullSubmit(event: React.FormEvent) {
+    event.preventDefault()
+    const listing = this.state.listing
+    listing.coupons = []
+
+    const imageUpload = this.state.tempImages.map(base64Image =>
+      ImageUploaderInstance.uploadImage(base64Image)
+    )
+    const images = await Promise.all(imageUpload)
+
+    listing.item.images = images
+    listing.slug = slugify(listing.item.title)
+    listing.item.processingTime = '1 day'
+    listing.item.categories = ['TEST']
+
+    console.log(listing)
+
+    try {
+      const listingSaveRequest = await Axios.post(`${config.openBazaarHost}/ob/listing`, listing)
+      console.log(listingSaveRequest)
+      alert('Listing Successfully Posted')
+    } catch (e) {
+      alert(e.message)
+    }
   }
 
   public render() {

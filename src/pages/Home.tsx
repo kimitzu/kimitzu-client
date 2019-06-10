@@ -451,7 +451,7 @@ class Home extends Component<HomeProps, HomeState> {
 
     const address = extLocation.addresses[index]
 
-    address.type.forEach(t => {
+    address.type!.forEach(t => {
       extLocation[t] = -1
     })
 
@@ -488,7 +488,7 @@ class Home extends Component<HomeProps, HomeState> {
       if (index === -1) {
         return
       }
-      profile.extLocation.addresses[index].type.push(type)
+      profile.extLocation.addresses[index].type!.push(type)
     })
 
     return profile

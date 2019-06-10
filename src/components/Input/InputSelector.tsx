@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, SelectHTMLAttributes } from 'react'
+import React, { ChangeEvent, InputHTMLAttributes, SelectHTMLAttributes } from 'react'
 
 import './InputSelector.css'
 
@@ -10,8 +10,8 @@ interface Option {
 interface Props {
   options: Option[]
   defaultSelectorVal?: string
-  inputProps?: InputHTMLAttributes<object>
-  selectProps?: SelectHTMLAttributes<object>
+  inputProps?: InputHTMLAttributes<any>
+  selectProps?: SelectHTMLAttributes<any>
 }
 
 const InputSelector = ({ defaultSelectorVal, inputProps, options, selectProps }: Props) => (

@@ -1,5 +1,5 @@
 export default interface Location {
-  type: string[]
+  type?: string[]
   latitude: string
   longitude: string
   plusCode: string

@@ -8,8 +8,8 @@ import './TagsForm.css'
 
 interface Props {
   tags: string[]
-  handleContinue: () => void
-  handleInputChange: () => void
+  handleContinue: (event: React.FormEvent) => void
+  handleInputChange: (field: string, value: any, parentField?: string) => void
 }
 
 const TagsForm = ({ tags, handleInputChange, handleContinue }: Props) => {
@@ -18,7 +18,10 @@ const TagsForm = ({ tags, handleInputChange, handleContinue }: Props) => {
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
           <FormLabel label="TAGS" required />
-          <TagsInput value={tags} onChange={handleInputChange} />
+          <TagsInput
+            value={tags}
+            onChange={changedTags => handleInputChange('item.tags', changedTags, 'listing')}
+          />
           <label className="form-label-desciptor">Press "Enter" to add a tag</label>
         </div>
       </fieldset>

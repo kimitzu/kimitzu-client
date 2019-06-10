@@ -52,10 +52,10 @@ const AddressForm = (props: Props) => {
                 checked={data.type ? data.type.includes(o.value) : false}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   if (event.target.checked) {
-                    const newData = data.type.push(o.value)
-                    props.onAddressChange('type', data.type)
+                    data.type!.push(o.value)
+                    props.onAddressChange('type', data.type!)
                   } else {
-                    const newData = data.type.filter(e => e !== o.value)
+                    const newData = data.type!.filter(e => e !== o.value)
                     props.onAddressChange('type', newData)
                   }
                 }}

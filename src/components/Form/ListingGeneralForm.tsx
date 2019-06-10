@@ -8,55 +8,49 @@ import InlineFormFields from './InlineFormFields'
 
 import ListingConditions from '../../constants/ListingConditions.json'
 import ListingTypes from '../../constants/ListingTypes.json'
+import { ListingCreate } from '../../models/ListingCreate'
 
 const currencies = [
   {
     label: 'USD',
-    value: 'usd',
+    value: 'USD',
   },
   {
     label: 'BTC',
-    value: 'btc',
+    value: 'BTC',
   },
 ]
 
-// TODO: move if necessary
-interface GeneralListingInfo {
-  title: string
-  type: string
-  price: number
-  condition: string
-  sku: string
-  nsfw: boolean
-  description: string
-}
-
 interface Props {
-  data: GeneralListingInfo
-  handleInputChange: () => void
-  handleSelectChange: () => void
-  handleContinue: () => void
+  data: ListingCreate
+  handleInputChange: (field: string, value: any, parentField?: string) => void
+  handleContinue: (event: React.FormEvent) => void
 }
 
-const ListingGeneralForm = ({
-  data,
-  handleInputChange,
-  handleSelectChange,
-  handleContinue,
-}: Props) => (
+const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) => (
   <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
       <div className="uk-margin">
         <FormLabel label="TITLE" required />
-        <input className="uk-input" type="text" value={data.title} onChange={handleInputChange} />
+        <input
+          className="uk-input"
+          type="text"
+          value={data.item.title}
+          onChange={event => handleInputChange('item.title', event.target.value, 'listing')}
+        />
         <label className="form-label-desciptor">
           Something descriptive that clearly explains what you're selling
         </label>
       </div>
       <div className="uk-margin">
         <FormLabel label="TYPE" required />
-        {/* TODO: update onChange handler */}
-        <FormSelector defaultVal={data.type} options={ListingTypes} onChange={handleSelectChange} />
+        <FormSelector
+          defaultVal={data.metadata.contractType}
+          options={ListingTypes}
+          onChange={event =>
+            handleInputChange('metadata.contractType', event.target.value, 'listing')
+          }
+        />
         <label className="form-label-desciptor">Choose from 4 types</label>
       </div>
       <InlineFormFields
@@ -66,9 +60,13 @@ const ListingGeneralForm = ({
               <InputSelector
                 options={currencies}
                 inputProps={{
-                  value: data.price,
+                  value: data.item.price,
                   type: 'number',
-                  onChange: handleInputChange,
+                  onChange: event => handleInputChange('item.price', event.target.value, 'listing'),
+                }}
+                selectProps={{
+                  onChange: event =>
+                    handleInputChange('metadata.pricingCurrency', event.target.value, 'listing'),
                 }}
               />
             ),
@@ -81,9 +79,11 @@ const ListingGeneralForm = ({
           {
             component: (
               <FormSelector
-                defaultVal={data.condition}
+                defaultVal={data.item.condition}
                 options={ListingConditions}
-                onChange={handleSelectChange} // TODO: Update onChange handler
+                onChange={event =>
+                  handleInputChange('item.condition', event.target.value, 'listing')
+                }
               />
             ),
             label: {
@@ -101,8 +101,12 @@ const ListingGeneralForm = ({
               <input
                 className="uk-input"
                 type="text"
-                value={data.sku}
-                onChange={handleInputChange}
+                value={''}
+                disabled
+                onChange={event => {
+                  // TODO: Update SKU implementation
+                  // handleInputChange('sku', event.target.value, 'generalForm')
+                }}
               />
             ),
             label: {
@@ -116,14 +120,16 @@ const ListingGeneralForm = ({
                 options={[
                   {
                     label: 'Yes',
-                    value: 'yes',
+                    value: true,
                   },
                   {
                     label: 'No',
-                    value: 'no',
+                    value: false,
                   },
                 ]}
-                selectedVal={data.nsfw ? 'yes' : 'no'} // TODO: update props
+                field={'item.nsfw'}
+                parentField={'listing'}
+                selectedVal={data.item.nsfw.toString()}
                 handleOnChange={handleInputChange}
               />
             ),
@@ -139,9 +145,9 @@ const ListingGeneralForm = ({
         <textarea
           className="uk-textarea"
           rows={5}
-          value={data.description}
+          value={data.item.description}
           placeholder="Describe your listing as best as you can.."
-          onChange={handleInputChange}
+          onChange={event => handleInputChange('item.description', event.target.value, 'listing')}
         />
       </div>
     </fieldset>
