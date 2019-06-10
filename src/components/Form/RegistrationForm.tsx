@@ -74,7 +74,13 @@ const RegistrationForm = (props: Props) => (
               <a className="uk-icon-button color-primary" uk-icon="user" />
             ) : null}
           </div>
-          <div id="child-btn">
+          <div id="child-slider">
+            <input className="uk-range" type="range" value="2" min="0" max="10" step="0.1" />
+          </div>
+          <div id="btn-wrapper" className="upload-btn-wrapper">
+            <button id="btn-upload" className="btn">
+              CHANGE
+            </button>
             <input
               type="file"
               accept="image/*"

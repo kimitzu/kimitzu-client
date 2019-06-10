@@ -21,14 +21,17 @@
   flex: 1;
   margin: auto;
   display: inline-block;
-  text-align: center;
+  text-align: left;
+}
+#child-icon > img {
+  width: 800px;
+  height: 800px;
 }
 #child-slider {
-  padding-left: 1%;
-  padding-right: 1%;
-  flex: 6;
+  padding-left: 7%;
+  padding-right: 7%;
+  flex: 9;  
   justify-content: center;
-  align-items: center;
   display: flex;
 }
 #child-btn {
@@ -43,4 +46,28 @@
   float: left;
   width: auto;
   padding-right: 20%;
+}
+
+#btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+#btn-upload {
+  border: 2px solid dodgerblue;
+  color: white;
+  background-color: dodgerblue;
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+
+}
+
+#btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }
