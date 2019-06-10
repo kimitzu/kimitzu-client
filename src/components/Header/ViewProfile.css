@@ -61,15 +61,15 @@
 }
 
 #profile-about {
-    padding-top: 8%;
-    padding-left: 5%;
-    padding-right: 5%;
-    margin-left:auto;
-    margin-right:auto;
-    overflow: hidden;
+    margin-bottom: 2rem;
 }
 
 #title-about {
     color: dodgerblue;
     font-weight: bold;
+}
+
+#container-profile {
+    background-color: #f1f9ff;
+    padding: 2rem 10% 2rem 10%;
 }

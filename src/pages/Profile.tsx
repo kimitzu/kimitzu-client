@@ -65,6 +65,40 @@ class ProfilePage extends Component<{}, ProfilePageState> {
           language: '',
           measurementUnit: '',
         },
+        background: {
+          educationHistory: [
+            {
+              title: 'Central Philippine University',
+              subtitle: 'BSCS',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the education',
+            },
+            {
+              title: 'Central Philippine University',
+              subtitle: 'BSCS',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the education',
+            },
+          ],
+          employmentHistory: [
+            {
+              title: 'Developer',
+              subtitle: 'Kingsland University',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the work',
+            },
+            {
+              title: 'Developer',
+              subtitle: 'Kingsland University',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the work',
+            },
+          ],
+        },
       },
     }
   }
