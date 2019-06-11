@@ -16,14 +16,10 @@ const discountOptions = [
 
 interface Coupon {
   title: string
-  code: {
-    discountCode: string
-  }
-  discount: {
-    percentDiscount?: number
-    priceDiscount?: number
-    type: string
-  }
+  discountCode: string
+  percentDiscount?: number
+  priceDiscount?: number
+  type: string
 }
 
 interface Props {
@@ -66,9 +62,9 @@ const ListingCouponsForm = ({
                   <input
                     className="uk-input"
                     type="text"
-                    value={coupons[index].code.discountCode}
+                    value={coupons[index].discountCode}
                     onChange={event => {
-                      coupons[index].code.discountCode = event.target.value
+                      coupons[index].discountCode = event.target.value
                       handleInputChange('coupons', coupons, 'listing')
                     }}
                   />
@@ -79,30 +75,30 @@ const ListingCouponsForm = ({
                   <InputSelector
                     options={discountOptions}
                     inputProps={{
-                      value: coupons[index].discount.percentDiscount,
+                      value: coupons[index].percentDiscount || coupons[index].priceDiscount,
                       onChange: event => {
-                        if (coupons[index].discount.type === 'percent') {
-                          coupons[index].discount.percentDiscount = parseFloat(event.target.value)
+                        if (coupons[index].type === 'percent') {
+                          coupons[index].percentDiscount = parseFloat(event.target.value)
                         } else {
-                          coupons[index].discount.priceDiscount = parseFloat(event.target.value)
+                          coupons[index].priceDiscount = parseFloat(event.target.value)
                         }
                         handleInputChange('coupons', coupons, 'listing')
                       },
                     }}
                     selectProps={{
                       onChange: event => {
-                        coupons[index].discount.type = event.target.value
-                        if (coupons[index].discount.type === 'percent') {
-                          coupons[index].discount.percentDiscount = parseFloat(event.target.value)
-                          delete coupons[index].discount.percentDiscount
+                        coupons[index].type = event.target.value
+                        if (coupons[index].type === 'percent') {
+                          coupons[index].percentDiscount = coupons[index].priceDiscount
+                          delete coupons[index].priceDiscount
                         } else {
-                          coupons[index].discount.priceDiscount = parseFloat(event.target.value)
-                          delete coupons[index].discount.priceDiscount
+                          coupons[index].priceDiscount = coupons[index].percentDiscount
+                          delete coupons[index].percentDiscount
                         }
                         handleInputChange('coupons', coupons, 'listing')
                       },
                     }}
-                    defaultSelectorVal={coupons[index].discount.type}
+                    defaultSelectorVal={coupons[index].type}
                   />
                 ),
               },
@@ -133,9 +129,9 @@ const ListingCouponsForm = ({
                 <input
                   className="uk-input"
                   type="text"
-                  value={couponPointer.code.discountCode}
+                  value={couponPointer.discountCode}
                   onChange={event => {
-                    couponPointer.code.discountCode = event.target.value
+                    couponPointer.discountCode = event.target.value
                     handleInputChange('coupons', coupons, 'listing')
                   }}
                 />
@@ -150,30 +146,30 @@ const ListingCouponsForm = ({
                 <InputSelector
                   options={discountOptions}
                   inputProps={{
-                    value: couponPointer.discount.percentDiscount,
+                    value: couponPointer.percentDiscount || couponPointer.priceDiscount || 0,
                     onChange: event => {
-                      if (couponPointer.discount.type === 'percent') {
-                        couponPointer.discount.percentDiscount = parseFloat(event.target.value)
+                      if (couponPointer.type === 'percent') {
+                        couponPointer.percentDiscount = parseFloat(event.target.value)
                       } else {
-                        couponPointer.discount.priceDiscount = parseFloat(event.target.value)
+                        couponPointer.priceDiscount = parseFloat(event.target.value)
                       }
                       handleInputChange('coupons', coupons, 'listing')
                     },
                   }}
                   selectProps={{
                     onChange: event => {
-                      couponPointer.discount.type = event.target.value
-                      if (couponPointer.discount.type === 'percent') {
-                        couponPointer.discount.percentDiscount = parseFloat(event.target.value)
-                        delete couponPointer.discount.percentDiscount
+                      couponPointer.type = event.target.value
+                      if (couponPointer.type === 'percent') {
+                        couponPointer.percentDiscount = couponPointer.priceDiscount
+                        delete couponPointer.priceDiscount
                       } else {
-                        couponPointer.discount.priceDiscount = parseFloat(event.target.value)
-                        delete couponPointer.discount.priceDiscount
+                        couponPointer.priceDiscount = couponPointer.percentDiscount
+                        delete couponPointer.percentDiscount
                       }
                       handleInputChange('coupons', coupons, 'listing')
                     },
                   }}
-                  defaultSelectorVal={couponPointer.discount.type}
+                  defaultSelectorVal={couponPointer.type}
                 />
               ),
               label: {

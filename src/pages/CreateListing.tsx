@@ -4,6 +4,7 @@ import Axios from 'axios'
 import slugify from 'slugify'
 import { ListingAddUpdateCard } from '../components/Card'
 import {
+  AddressForm,
   ListingCouponsForm,
   ListingCryptoCurrenciesForm,
   ListingGeneralForm,
@@ -65,13 +66,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         coupons: [
           {
             title: '',
-            code: {
-              discountCode: '',
-            },
-            discount: {
-              percentDiscount: 0,
-              type: 'percent',
-            },
+            discountCode: '',
+            percentDiscount: 0,
+            type: 'percent',
           },
         ],
         termsAndConditions: '',
@@ -112,6 +109,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleSubmitForm = this.handleSubmitForm.bind(this)
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
     this.handleImageOpen = this.handleImageOpen.bind(this)
+    this.handleAddressChange = this.handleAddressChange.bind(this)
   }
 
   get contents() {
@@ -126,6 +124,21 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           />
         ),
         title: 'General',
+      },
+      {
+        component: (
+          <AddressForm
+            onSaveAddress={handleSubmitForm}
+            onAddressChange={this.handleAddressChange}
+            onDeleteAddress={() => {
+              console.log('WIP')
+            }}
+            data={this.state.listing.location}
+            isEdit={false}
+            isListing
+          />
+        ),
+        title: 'Location',
       },
       {
         component: (
@@ -209,6 +222,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     return this.contents[currentFormIndex]
   }
 
+  public handleAddressChange(field: string, value: string | string[]) {
+    this.handleInputChange(`location.${field}`, value, 'listing')
+  }
+
   public async handleImageOpen(event: React.ChangeEvent<HTMLInputElement>) {
     const imageFiles = event.target.files
     let base64ImageFiles = []
@@ -263,13 +280,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   public handleAddCoupons() {
     const tempCoupon = {
       title: '',
-      code: {
-        discountCode: '',
-      },
-      discount: {
-        percentDiscount: 0,
-        type: 'percent',
-      },
+      discountCode: '',
+      percentDiscount: 0,
+      type: 'percent',
     }
     const listing = this.state.listing
     listing.coupons = [...listing.coupons, tempCoupon]
@@ -281,19 +294,16 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   public async handleFullSubmit(event: React.FormEvent) {
     event.preventDefault()
     const listing = this.state.listing
-    listing.coupons = []
 
     const imageUpload = this.state.tempImages.map(base64Image =>
       ImageUploaderInstance.uploadImage(base64Image)
     )
+
     const images = await Promise.all(imageUpload)
 
     listing.item.images = images
     listing.slug = slugify(listing.item.title)
     listing.item.processingTime = '1 day'
-    listing.item.categories = ['TEST']
-
-    console.log(listing)
 
     try {
       const listingSaveRequest = await Axios.post(`${config.openBazaarHost}/ob/listing`, listing)
