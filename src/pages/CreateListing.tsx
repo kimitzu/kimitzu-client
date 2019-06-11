@@ -31,6 +31,7 @@ interface CreateListingState {
   listing: ListingCreate
   currentFormIndex: number
   tempImages: string[]
+  isLoading: boolean
   [key: string]: any
 }
 
@@ -42,6 +43,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.state = {
       currentFormIndex: 0,
       tempImages: [],
+      isLoading: false,
       // === Formal Schema
       listing: {
         metadata: {
@@ -199,6 +201,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleContinue={this.handleFullSubmit}
             handleInputChange={handleInputChange}
             acceptedCurrencies={this.state.listing.metadata.acceptedCurrencies}
+            isLoading={this.state.isLoading}
           />
         ),
         title: 'Accepted Currencies',
@@ -295,6 +298,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     event.preventDefault()
     const listing = this.state.listing
 
+    this.setState({
+      isLoading: true,
+    })
+
     const imageUpload = this.state.tempImages.map(base64Image =>
       ImageUploaderInstance.uploadImage(base64Image)
     )
@@ -307,11 +314,17 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
     try {
       const listingSaveRequest = await Axios.post(`${config.openBazaarHost}/ob/listing`, listing)
-      console.log(listingSaveRequest)
       alert('Listing Successfully Posted')
     } catch (e) {
       alert(e.message)
+      this.setState({
+        isLoading: false,
+      })
     }
+
+    this.setState({
+      isLoading: false,
+    })
   }
 
   public render() {

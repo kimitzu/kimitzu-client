@@ -15,12 +15,14 @@ interface Props {
   handleContinue: (event: React.FormEvent) => void
   handleInputChange: (field: string, value: any, parentField?: string) => void
   acceptedCurrencies: string[]
+  isLoading: boolean
 }
 
 const ListingCryptoCurrenciesForm = ({
   handleContinue,
   handleInputChange,
   acceptedCurrencies,
+  isLoading,
 }: Props) => (
   <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
@@ -51,9 +53,13 @@ const ListingCryptoCurrenciesForm = ({
       </div>
     </fieldset>
     <div className="submit-btn-div">
-      <button className="uk-button uk-button-primary" onClick={handleContinue}>
-        ADD LISTING
-      </button>
+      {isLoading ? (
+        <div uk-spinner="ratio: 2">Creating Listing... </div>
+      ) : (
+        <button className="uk-button uk-button-primary" onClick={handleContinue}>
+          ADD LISTING
+        </button>
+      )}
     </div>
   </form>
 )
