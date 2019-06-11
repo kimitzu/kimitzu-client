@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react'
 
-import { ListingAddUpdateCard } from '../components/Card'
+import { SideMenuWithContentCard } from '../components/Card'
 import {
   ListingCouponsForm,
   ListingCryptoCurrenciesForm,
@@ -203,7 +203,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const { contents, navItems, currentForm } = this
     return (
       <div className="background-body full-vh uk-padding-small">
-        <ListingAddUpdateCard
+        <SideMenuWithContentCard
           mainContentTitle={currentForm.title}
           menuContent={{
             title: 'CREATE LISTING',

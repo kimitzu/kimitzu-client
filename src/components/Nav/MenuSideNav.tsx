@@ -15,11 +15,13 @@ interface NavItem extends SubNavItem {
 interface Props {
   title: string
   navItems: NavItem[]
+  defaultNavIndex?: number
+  defaultSubNavIndex?: number
 }
 
-const MenuSideNav = ({ title, navItems }: Props) => {
-  const [navIndex, setNavIndex] = useState(0)
-  const [subNavIndex, setSubNavIndex] = useState(0)
+const MenuSideNav = ({ title, navItems, defaultNavIndex = 0, defaultSubNavIndex = 0 }: Props) => {
+  const [navIndex, setNavIndex] = useState(defaultNavIndex)
+  const [subNavIndex, setSubNavIndex] = useState(defaultSubNavIndex)
   const getNavId = (index: number) => (navIndex === index ? 'selected' : 'not-selected')
   const getSubNavId = (index: number) => (subNavIndex === index ? 'selected' : '')
   const changeNavIndex = (index: number, handler?: () => void) => {
@@ -44,7 +46,7 @@ const MenuSideNav = ({ title, navItems }: Props) => {
         <li
           id={getNavId(index)}
           key={`${parentItem}${index}`}
-          className={parentItem.subItems ? 'uk-parent' : ''}
+          className={parentItem.subItems ? 'uk-parent uk-open' : ''}
         >
           <a className="list-item" onClick={() => changeNavIndex(index, parentItem.handler)}>
             {parentItem.label}
