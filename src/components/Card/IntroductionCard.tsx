@@ -8,11 +8,11 @@ interface Props {
 
 const IntroductionCard = (props: Props) => (
   <div id="main-card" className="uk-card uk-card-default uk-card-body uk-width-1-2@m">
-    <div>
+    {/* <div>
       <p className="color-primary" id="connection-text">
         <a className="uk-margin-small-right color-primary" uk-icon="cog" />
       </p>
-    </div>
+    </div> */}
     <div id="card-title">
       <h1 className="color-primary" id="djali-text">
         D J A L I
