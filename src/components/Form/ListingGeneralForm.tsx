@@ -81,6 +81,7 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
               <FormSelector
                 defaultVal={data.item.condition}
                 options={ListingConditions}
+                disabled={data.metadata.contractType === 'SERVICE'}
                 onChange={event =>
                   handleInputChange('item.condition', event.target.value, 'listing')
                 }

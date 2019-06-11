@@ -133,7 +133,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             onSaveAddress={handleSubmitForm}
             onAddressChange={this.handleAddressChange}
             onDeleteAddress={() => {
-              console.log('WIP')
+              console.log('Function Not Available')
             }}
             data={this.state.listing.location}
             isEdit={false}
