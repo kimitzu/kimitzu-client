@@ -1,8 +1,8 @@
-import React, { Component, ReactNode } from 'react'
-
 import Axios from 'axios'
+import React, { Component, ReactNode } from 'react'
 import slugify from 'slugify'
-import { ListingAddUpdateCard } from '../components/Card'
+
+import { SideMenuWithContentCard } from '../components/Card'
 import {
   AddressForm,
   ListingCouponsForm,
@@ -328,16 +328,18 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public render() {
-    const { contents, navItems, currentForm } = this
+    const { navItems, currentForm } = this
+    console.log(this.state.currentFormIndex)
     return (
       <div className="background-body full-vh uk-padding-small">
-        <ListingAddUpdateCard
+        <SideMenuWithContentCard
           mainContentTitle={currentForm.title}
           menuContent={{
             title: 'CREATE LISTING',
             navItems,
           }}
           mainContent={currentForm.component}
+          currentNavIndex={this.state.currentFormIndex}
         />
       </div>
     )

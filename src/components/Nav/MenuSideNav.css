@@ -15,6 +15,7 @@ li#selected {
 li#selected > a {
   color: var(--primary);
   font-weight: bold;
+  margin-left: -4px;
 }
 a#selected {
   color: var(--primary);

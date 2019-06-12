@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { CreateListing, Home, ListingInformation, Profile, UserRegistration } from './pages'
+import { ProfileSettings } from './pages/Settings'
 
 const Routes = () => (
   <BrowserRouter>
@@ -11,6 +12,7 @@ const Routes = () => (
       <Route path="/profile" exact component={Profile} />
       <Route path="/listing/create" exact component={CreateListing} />
       <Route path="/listing/information" exact component={ListingInformation} />
+      <Route path="/settings/profile" exact component={ProfileSettings} />
     </Switch>
   </BrowserRouter>
 )

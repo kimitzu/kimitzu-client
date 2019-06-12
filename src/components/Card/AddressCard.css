@@ -3,9 +3,15 @@
   margin-bottom: 1%;
   cursor: pointer;
 }
+#address-types {
+  margin-bottom: 1.5%;
+}
+#address-type-label {
+  margin-right: 1%;
+}
 #address-right-label {
   top: 5%;
-  right: 2.5%;
+  left: 2.5%;
 }
 #address-title {
   font-size: 1.1rem;

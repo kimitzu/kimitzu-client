@@ -35,7 +35,7 @@ interface Props {
   updateIndex?: number
   data: Location
   isEdit: boolean
-  isListing: boolean
+  isListing?: boolean
 }
 
 const AddressForm = (props: Props) => {
