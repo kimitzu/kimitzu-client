@@ -209,7 +209,13 @@ class UserRegistration extends Component<{}, State> {
   }
 
   private async handleAgree() {
-    await axios.post(`${config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    const registrationForm = this.state.registrationForm
+
+    if (!registrationForm.name) {
+      registrationForm.name = registrationForm.handle
+    }
+
+    await axios.post(`${config.openBazaarHost}/ob/profile`, registrationForm)
     alert('Registration Successful')
     this.handleNext()
   }
