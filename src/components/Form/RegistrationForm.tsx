@@ -169,7 +169,7 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
     </fieldset>
-    <div className="uk-position-relative uk-position-center uk-margin-top">
+    <div className="uk-margin-top">
       {props.isSubmitting ? (
         <div uk-spinner="ratio: 1" />
       ) : (
