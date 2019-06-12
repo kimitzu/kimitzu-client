@@ -1,21 +1,12 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
-import { AddressesCardGroup } from '../components/CardGroup'
-import { AddressForm, RegistrationForm } from '../components/Form'
-import { DjaliListing } from '../models/Listing'
-import { Profile } from '../models/Profile'
+import { DjaliListing, Listing } from '../models/Listing'
 
-import actions from '../common/constants'
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
 import SidebarFilter from '../components/Sidebar/Filter'
-import Config from '../config'
-import Countries from '../constants/Countries.json'
-import CryptoCurrencies from '../constants/CryptoCurrencies.json'
-import CurrencyTypes from '../constants/CurrencyTypes.json'
-import FiatCurrencies from '../constants/FiatCurrencies.json'
-import Languages from '../constants/Languages.json'
+import config from '../config'
 import SortOptions from '../constants/SortOptions.json'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import PlusCode from '../utils/Location/PlusCode'
@@ -64,13 +55,7 @@ interface HomeState {
     currentPage: number
   }
   transforms: Transform[]
-  registrationForm: Profile
-  addressFormUpdateIndex: number
-  avatar: string
-  isSubmitting: boolean
 }
-
-const locationTypes = ['primary', 'shipping', 'billing', 'return']
 
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
@@ -108,61 +93,6 @@ class Home extends Component<HomeProps, HomeState> {
           },
         },
       ],
-      addressForm: {
-        type: [''],
-        addressOne: '',
-        addressTwo: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: '',
-        latitude: '',
-        longitude: '',
-        plusCode: '',
-      },
-      avatar: '',
-      registrationForm: {
-        handle: '',
-        name: '',
-        about: '',
-        nsfw: false,
-        vendor: true,
-        moderator: false,
-        avatarHashes: {
-          tiny: '',
-          small: '',
-          medium: '',
-          large: '',
-          original: '',
-        },
-        extLocation: {
-          primary: 0,
-          shipping: 0,
-          billing: 0,
-          return: 0,
-          addresses: [
-            {
-              type: [''],
-              latitude: '',
-              longitude: '',
-              plusCode: '',
-              addressOne: '',
-              addressTwo: '',
-              city: '',
-              state: '',
-              country: '',
-              zipCode: '',
-            },
-          ],
-        },
-        preferences: {
-          cryptocurrency: '',
-          currencyDisplay: '',
-          fiat: '',
-          language: '',
-          measurementUnit: '',
-        },
-      },
     }
     this.executeSearchRequest = this.executeSearchRequest.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -175,128 +105,6 @@ class Home extends Component<HomeProps, HomeState> {
     this.handlePaginate = this.handlePaginate.bind(this)
     this.handleNewSearch = this.handleNewSearch.bind(this)
     this.handleFilterReset = this.handleFilterReset.bind(this)
-  }
-
-  public async componentDidMount() {
-    try {
-      const profileRequest = await axios.get(`${Config.openBazaarHost}/ob/profile`)
-      const profileData = this.processAddresses(profileRequest.data)
-      this.setState({
-        registrationForm: profileData,
-      })
-    } catch (error) {
-      if (error.response) {
-        if (!error.response.data.success) {
-          window.location.href = '/register'
-        }
-      }
-    }
-  }
-
-  get getCurrentContent() {
-    const { currentAction, settingsIndex, addressForm, registrationForm, avatar } = this.state
-    const { settings } = actions
-    const mainContents = [
-      {
-        component: (
-          <RegistrationForm
-            availableCountries={Countries}
-            cryptoCurrencies={CryptoCurrencies}
-            currencyTypes={CurrencyTypes}
-            data={registrationForm}
-            fiatCurrencies={FiatCurrencies}
-            key="regform"
-            languages={Languages}
-            onChange={this.handleChange}
-            onSubmit={this.handleFormSubmit}
-            unitOfMeasurements={UnitsOfMeasurement}
-            avatar={avatar}
-            isSubmitting={this.state.isSubmitting}
-          />
-        ),
-        title: 'GENERAL',
-      },
-      {
-        component: <div />,
-        title: 'SOCIAL MEDIA',
-      },
-      {
-        component: <div />,
-        title: 'EDUCATION',
-      },
-      {
-        component: <div />,
-        title: 'WORK HISTORY',
-      },
-      {
-        component: (
-          <AddressesCardGroup
-            handleAddAddressBtn={() => this.handleSettingsAction(settings.ADD_ADDRESS)}
-            handleSelectAddress={this.handleSelectAddress}
-            key="addresses"
-            locations={registrationForm.extLocation.addresses}
-          />
-        ),
-        title: 'ADDRESSES',
-      },
-    ]
-    const subContents = {
-      [settings.ADD_EDUCATION]: {
-        component: <div />,
-        title: 'ADD EDUCATION',
-      },
-      [settings.UPDATE_EDUCATION]: {
-        component: <div />,
-        title: 'UPDATE EDUCATION',
-      },
-      [settings.ADD_WORK]: {
-        component: <div />,
-        title: 'ADD WORK',
-      },
-      [settings.UPDATE_EDUCATION]: {
-        component: <div />,
-        title: 'UPDATE WORK',
-      },
-      [settings.ADD_ADDRESS]: {
-        component: (
-          <AddressForm
-            data={addressForm}
-            isEdit={false}
-            isListing={false}
-            key="addressform"
-            onAddressChange={this.handleAddressChange}
-            onSaveAddress={this.handleSaveAddress}
-          />
-        ),
-        title: 'ADD ADDRESS',
-      },
-      [settings.UPDATE_ADDRESS]: {
-        component: (
-          <AddressForm
-            data={addressForm}
-            isEdit
-            isListing={false}
-            key="addressform"
-            onAddressChange={this.handleAddressChange}
-            onDeleteAddress={this.handleDeleteAddress}
-            onSaveAddress={this.handleSaveAddress}
-            updateIndex={this.state.addressFormUpdateIndex}
-          />
-        ),
-        title: 'UPDATE ADDRESS',
-      },
-    }
-    return currentAction === settings.NONE
-      ? mainContents[settingsIndex]
-      : subContents[currentAction]
-  }
-
-  public handleAddressChange(field: string, value: string | string[]) {
-    const { addressForm } = this.state
-    NestedJsonUpdater(addressForm, field, value)
-    this.setState({
-      addressForm,
-    })
   }
 
   public render() {
@@ -370,7 +178,7 @@ class Home extends Component<HomeProps, HomeState> {
                             <span uk-icon="icon: chevron-left" />
                           </a>
                         </li>
-                        {pages}
+                        {pages.map(p => p)}
                         <li>
                           <a href="#" onClick={() => this.handlePaginate(paginate.currentPage + 1)}>
                             <span uk-icon="icon: chevron-right" />
@@ -543,7 +351,7 @@ class Home extends Component<HomeProps, HomeState> {
       transforms: this.state.transforms,
     }
 
-    const result = await axios.post(`${Config.djaliHost}/djali/search`, searchObject)
+    const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
     this.setState({
       searchResults: result.data,
@@ -609,7 +417,7 @@ class Home extends Component<HomeProps, HomeState> {
       transforms: this.state.transforms,
     }
 
-    const result = await axios.post(`${Config.djaliHost}/djali/search`, searchObject)
+    const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
     this.setState({
       searchResults: result.data,

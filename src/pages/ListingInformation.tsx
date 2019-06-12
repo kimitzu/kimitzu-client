@@ -265,6 +265,9 @@ class ListingProfile extends Component<Props, State> {
     const peerRequest = await Axios.get(
       `${config.djaliHost}/djali/peer/get?id=${djaliListing.parentPeer}`
     )
+
+    console.log(peerRequest)
+
     const profile = peerRequest.data.profile
 
     // TODO: Implement handlers for the following placeholders
