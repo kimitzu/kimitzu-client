@@ -39,7 +39,7 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="FULL NAME" required />
+        <FormLabel label="NAME" />
         <div className="uk-form-controls">
           <input
             className="uk-input"
@@ -90,9 +90,7 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.availableCountries}
             defaultVal={
-              props.data.extLocation && props.data.extLocation.primary > -1
-                ? props.data.extLocation.addresses[props.data.extLocation.primary].country
-                : ''
+              props.data.extLocation.addresses[props.data.extLocation.primary].country || 'US'
             }
             onChange={event =>
               props.onChange(
@@ -110,7 +108,7 @@ const RegistrationForm = (props: Props) => (
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.fiatCurrencies}
-            defaultVal={props.data.preferences ? props.data.preferences.fiat : ''}
+            defaultVal={props.data.preferences.fiat || 'USD'}
             onChange={event =>
               props.onChange('preferences.fiat', event.target.value, 'registrationForm')
             }
@@ -123,7 +121,7 @@ const RegistrationForm = (props: Props) => (
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.cryptoCurrencies}
-            defaultVal={props.data.preferences ? props.data.preferences.cryptocurrency : ''}
+            defaultVal={props.data.preferences.cryptocurrency || 'BTC'}
             onChange={event =>
               props.onChange('preferences.cryptocurrency', event.target.value, 'registrationForm')
             }
@@ -136,7 +134,7 @@ const RegistrationForm = (props: Props) => (
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.currencyTypes}
-            defaultVal={props.data.preferences ? props.data.preferences.currencyDisplay : ''}
+            defaultVal={props.data.preferences.currencyDisplay || 'FIAT'}
             onChange={event =>
               props.onChange('preferences.currencyDisplay', event.target.value, 'registrationForm')
             }
@@ -149,7 +147,7 @@ const RegistrationForm = (props: Props) => (
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.languages}
-            defaultVal={props.data.preferences ? props.data.preferences.language : ''}
+            defaultVal={props.data.preferences.language || 'EN'}
             onChange={event =>
               props.onChange('preferences.language', event.target.value, 'registrationForm')
             }
@@ -162,7 +160,7 @@ const RegistrationForm = (props: Props) => (
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={props.unitOfMeasurements}
-            defaultVal={props.data.preferences ? props.data.preferences.measurementUnit : ''}
+            defaultVal={props.data.preferences.measurementUnit || 'ENGLISH'}
             onChange={event =>
               props.onChange('preferences.measurementUnit', event.target.value, 'registrationForm')
             }
@@ -171,7 +169,6 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
     </fieldset>
-
     <div className="uk-position-relative uk-position-center uk-margin-top">
       {props.isSubmitting ? (
         <div uk-spinner="ratio: 1" />
