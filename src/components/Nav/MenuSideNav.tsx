@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './MenuSideNav.css'
 
@@ -15,13 +15,21 @@ interface NavItem extends SubNavItem {
 interface Props {
   title: string
   navItems: NavItem[]
-  defaultNavIndex?: number
-  defaultSubNavIndex?: number
+  currentNavIndex?: number
+  currentSubNavIndex?: number
 }
 
-const MenuSideNav = ({ title, navItems, defaultNavIndex = 0, defaultSubNavIndex = 0 }: Props) => {
-  const [navIndex, setNavIndex] = useState(defaultNavIndex)
-  const [subNavIndex, setSubNavIndex] = useState(defaultSubNavIndex)
+const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex }: Props) => {
+  const [navIndex, setNavIndex] = useState(0)
+  const [subNavIndex, setSubNavIndex] = useState(0)
+  useEffect(() => {
+    if (currentNavIndex) {
+      setNavIndex(currentNavIndex)
+    }
+    if (currentSubNavIndex) {
+      setSubNavIndex(currentSubNavIndex)
+    }
+  })
   const getNavId = (index: number) => (navIndex === index ? 'selected' : 'not-selected')
   const getSubNavId = (index: number) => (subNavIndex === index ? 'selected' : '')
   const changeNavIndex = (index: number, handler?: () => void) => {

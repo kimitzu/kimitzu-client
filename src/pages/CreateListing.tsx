@@ -328,7 +328,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public render() {
-    const { contents, navItems, currentForm } = this
+    const { navItems, currentForm } = this
+    console.log(this.state.currentFormIndex)
     return (
       <div className="background-body full-vh uk-padding-small">
         <SideMenuWithContentCard
@@ -338,6 +339,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             navItems,
           }}
           mainContent={currentForm.component}
+          currentNavIndex={this.state.currentFormIndex}
         />
       </div>
     )

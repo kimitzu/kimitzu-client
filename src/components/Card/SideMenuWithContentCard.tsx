@@ -25,8 +25,8 @@ interface Props {
   mainContentTitle: string
   showBackBtn?: boolean
   handleBackBtn?: () => void
-  defaultMenuNavIndex?: number
-  defaultMenuSubNavIndex?: number
+  currentNavIndex?: number
+  currentSubNavIndex?: number
 }
 
 const SideMenuWithContentCard = ({
@@ -35,8 +35,8 @@ const SideMenuWithContentCard = ({
   mainContentTitle,
   menuContent,
   showBackBtn,
-  defaultMenuNavIndex,
-  defaultMenuSubNavIndex,
+  currentNavIndex,
+  currentSubNavIndex,
 }: Props) => {
   return (
     <div
@@ -47,8 +47,8 @@ const SideMenuWithContentCard = ({
         <MenuSideNav
           navItems={menuContent.navItems}
           title={menuContent.title}
-          defaultNavIndex={defaultMenuNavIndex}
-          defaultSubNavIndex={defaultMenuSubNavIndex}
+          currentNavIndex={currentNavIndex}
+          currentSubNavIndex={currentSubNavIndex}
         />
       </div>
       <div id="side-menu-with-content-main">
