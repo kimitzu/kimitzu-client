@@ -3,9 +3,9 @@ import React from 'react'
 import { FormLabel } from '../Label'
 
 interface Props {
-  handleInputChange: () => void
+  handleInputChange: (field: string, value: string, parentField?: string) => void
   termsAndConditions: string
-  handleContinue: () => void
+  handleContinue: (event: React.FormEvent) => void
 }
 
 const ListingTermsAndConditionsForm = ({
@@ -20,7 +20,7 @@ const ListingTermsAndConditionsForm = ({
         <textarea
           className="uk-textarea"
           rows={10}
-          onChange={handleInputChange}
+          onChange={event => handleInputChange('termsAndConditions', event.target.value, 'listing')}
           value={termsAndConditions}
           placeholder="What are the terms and conditions of the listing? What are you as responsible for as a vendor? is there a warranty? When is the transaction final? etc"
         />

@@ -2,33 +2,44 @@ import React from 'react'
 
 import './ProfessionalBackgroundCard.css'
 
-const ProfessionalBackgroundCard = () => (
-  <div id="profile-background-history">
-    <div className="uk-card uk-card-default uk-card-body">
-      <h3 id="title-background" className="uk-card-title">
-        Education
-      </h3>
-      <div id="background-history">
-        <p>
-          <b> Central Philippine University </b>
-        </p>
-        <p>BSCS</p>
-        <p>2013-2018</p>
-        <p>Jaro Iloilo City Philippines</p>
-        <p>A short description about the education</p>
-      </div>
-      <hr />
-      <div id="background-history">
-        <p>
-          <b> Central Philippine University </b>
-        </p>
-        <p>BSCS</p>
-        <p>2013-2018</p>
-        <p>Jaro Iloilo City Philippines</p>
-        <p>A short description about the education</p>
+import { Background, EducationHistory } from '../../models/Profile'
+
+interface ProfessionalBackgoundInterface {
+  data: Background
+  name: string
+}
+
+const ProfessionalBackgroundCard = (props: ProfessionalBackgoundInterface) => {
+  const { data, name } = props
+  let background
+  if (name === 'Education') {
+    background = data.educationHistory
+  } else {
+    background = data.employmentHistory
+  }
+  return (
+    <div id="profile-background-history">
+      <div className="uk-card uk-card-default uk-card-body">
+        <h3 id="title-background" className="uk-card-title">
+          {name}
+        </h3>
+        {background.map((d, i) => (
+          <div key={`bgid${i}`}>
+            <div id="background-history">
+              <p>
+                <b> {d.title} </b>
+              </p>
+              <p>{d.subtitle}</p>
+              <p>{d.date}</p>
+              <p>{d.address}</p>
+              <p>{d.desc}</p>
+            </div>
+            {background.length !== i + 1 ? <hr /> : null}
+          </div>
+        ))}
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default ProfessionalBackgroundCard

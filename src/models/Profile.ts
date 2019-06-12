@@ -20,6 +20,9 @@ export interface Profile {
   profileType?: string
   shortDescription?: string
   stats?: Stats
+  background?: Background
+  spokenLanguages?: string[]
+  programmingLanguages?: string[]
 }
 
 export interface EXTLocation {
@@ -58,4 +61,25 @@ export interface RHashes {
   medium: string
   large: string
   original: string
+}
+// TODO: added backgound interface
+export interface Background {
+  educationHistory: EducationHistory[]
+  employmentHistory: EmploymentHistory[]
+}
+
+export interface EducationHistory {
+  title: string
+  subtitle: string
+  date: string
+  address: string
+  desc: string
+}
+
+export interface EmploymentHistory {
+  title: string
+  subtitle: string
+  date: string
+  address: string
+  desc: string
 }

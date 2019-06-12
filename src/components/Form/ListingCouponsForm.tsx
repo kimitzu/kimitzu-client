@@ -9,24 +9,24 @@ const discountOptions = [
     value: 'percent',
   },
   {
-    label: 'USD',
-    value: 'usd',
+    label: 'Price',
+    value: 'price',
   },
 ]
 
 interface Coupon {
   title: string
-  code: string
-  discountType: string
-  discount: number
+  discountCode: string
+  percentDiscount?: number
+  priceDiscount?: number
+  type: string
 }
 
 interface Props {
   coupons: Coupon[]
-  handleInputChange: () => void
-  handleSelectChange: () => void
+  handleInputChange: (field: string, value: any, parentField?: string) => void
   handleAddCoupon: () => void
-  handleContinue: () => void
+  handleContinue: (event: React.FormEvent) => void
 }
 
 const ListingCouponsForm = ({
@@ -34,13 +34,77 @@ const ListingCouponsForm = ({
   handleAddCoupon,
   handleContinue,
   handleInputChange,
-  handleSelectChange,
 }: Props) => {
-  const coupon1 = coupons[0]
-  const remainingCoupons = coupons.slice(1, coupons.length)
+  const couponPointer = coupons[coupons.length - 1]
+  const remainingCoupons = coupons.slice(0, coupons.length - 1)
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
+        {remainingCoupons.map((coupon: Coupon, index: number) => (
+          <InlineFormFields
+            key={`coupons${index}`}
+            fields={[
+              {
+                component: (
+                  <input
+                    className="uk-input"
+                    type="text"
+                    value={coupon.title}
+                    onChange={event => {
+                      coupons[index].title = event.target.value
+                      handleInputChange('coupons', coupons, 'listing')
+                    }}
+                  />
+                ),
+              },
+              {
+                component: (
+                  <input
+                    className="uk-input"
+                    type="text"
+                    value={coupons[index].discountCode}
+                    onChange={event => {
+                      coupons[index].discountCode = event.target.value
+                      handleInputChange('coupons', coupons, 'listing')
+                    }}
+                  />
+                ),
+              },
+              {
+                component: (
+                  <InputSelector
+                    options={discountOptions}
+                    inputProps={{
+                      value: coupons[index].percentDiscount || coupons[index].priceDiscount,
+                      onChange: event => {
+                        if (coupons[index].type === 'percent') {
+                          coupons[index].percentDiscount = parseFloat(event.target.value)
+                        } else {
+                          coupons[index].priceDiscount = parseFloat(event.target.value)
+                        }
+                        handleInputChange('coupons', coupons, 'listing')
+                      },
+                    }}
+                    selectProps={{
+                      onChange: event => {
+                        coupons[index].type = event.target.value
+                        if (coupons[index].type === 'percent') {
+                          coupons[index].percentDiscount = coupons[index].priceDiscount
+                          delete coupons[index].priceDiscount
+                        } else {
+                          coupons[index].priceDiscount = coupons[index].percentDiscount
+                          delete coupons[index].percentDiscount
+                        }
+                        handleInputChange('coupons', coupons, 'listing')
+                      },
+                    }}
+                    defaultSelectorVal={coupons[index].type}
+                  />
+                ),
+              },
+            ]}
+          />
+        ))}
         <InlineFormFields
           fields={[
             {
@@ -48,8 +112,11 @@ const ListingCouponsForm = ({
                 <input
                   className="uk-input"
                   type="text"
-                  value={coupon1 ? coupon1.title : ''}
-                  onChange={handleInputChange}
+                  value={couponPointer.title}
+                  onChange={event => {
+                    couponPointer.title = event.target.value
+                    handleInputChange('coupons', coupons, 'listing')
+                  }}
                 />
               ),
               label: {
@@ -62,8 +129,11 @@ const ListingCouponsForm = ({
                 <input
                   className="uk-input"
                   type="text"
-                  value={coupon1 ? coupon1.code : ''}
-                  onChange={handleInputChange}
+                  value={couponPointer.discountCode}
+                  onChange={event => {
+                    couponPointer.discountCode = event.target.value
+                    handleInputChange('coupons', coupons, 'listing')
+                  }}
                 />
               ),
               label: {
@@ -76,13 +146,30 @@ const ListingCouponsForm = ({
                 <InputSelector
                   options={discountOptions}
                   inputProps={{
-                    value: coupon1 ? coupon1.discount : '',
-                    onChange: handleInputChange,
+                    value: couponPointer.percentDiscount || couponPointer.priceDiscount || 0,
+                    onChange: event => {
+                      if (couponPointer.type === 'percent') {
+                        couponPointer.percentDiscount = parseFloat(event.target.value)
+                      } else {
+                        couponPointer.priceDiscount = parseFloat(event.target.value)
+                      }
+                      handleInputChange('coupons', coupons, 'listing')
+                    },
                   }}
                   selectProps={{
-                    onChange: handleSelectChange,
+                    onChange: event => {
+                      couponPointer.type = event.target.value
+                      if (couponPointer.type === 'percent') {
+                        couponPointer.percentDiscount = couponPointer.priceDiscount
+                        delete couponPointer.priceDiscount
+                      } else {
+                        couponPointer.priceDiscount = couponPointer.percentDiscount
+                        delete couponPointer.percentDiscount
+                      }
+                      handleInputChange('coupons', coupons, 'listing')
+                    },
                   }}
-                  defaultSelectorVal={coupon1 ? coupon1.discountType : 'percent'}
+                  defaultSelectorVal={couponPointer.type}
                 />
               ),
               label: {
@@ -92,48 +179,6 @@ const ListingCouponsForm = ({
             },
           ]}
         />
-        {remainingCoupons.map((coupon: Coupon, index: number) => (
-          <InlineFormFields
-            key={`coupons${index}`}
-            fields={[
-              {
-                component: (
-                  <input
-                    className="uk-input"
-                    type="text"
-                    value={coupon.title}
-                    onChange={handleInputChange}
-                  />
-                ),
-              },
-              {
-                component: (
-                  <input
-                    className="uk-input"
-                    type="text"
-                    value={coupon.code}
-                    onChange={handleInputChange}
-                  />
-                ),
-              },
-              {
-                component: (
-                  <InputSelector
-                    options={discountOptions}
-                    inputProps={{
-                      value: coupon.discount,
-                      onChange: handleInputChange,
-                    }}
-                    selectProps={{
-                      onChange: handleSelectChange,
-                    }}
-                    defaultSelectorVal={coupon.discountType}
-                  />
-                ),
-              },
-            ]}
-          />
-        ))}
         <div>
           <a className="add-field" onClick={handleAddCoupon}>
             ADD COUPON +

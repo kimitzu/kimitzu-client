@@ -6,14 +6,19 @@ import './ThumbnavSlideshow.css'
 
 interface Props {
   images: string[]
+  onImageOpen: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const ThumbnavSlideshow = ({ images }: Props) => {
+const ThumbnavSlideshow = ({ images, onImageOpen }: Props) => {
   return (
     <div className="uk-position-relative" data-uk-slideshow="animation: fade">
       <ul className="uk-slideshow-items">
         {images.length === 0 ? (
-          <DropArea placeholder=" Drag and drop a photo or " selectLabel="select" />
+          <DropArea
+            placeholder=" Drag and drop a photo or "
+            selectLabel="select"
+            onImageOpen={onImageOpen}
+          />
         ) : (
           images.map((image: string) => (
             <li key={image}>
