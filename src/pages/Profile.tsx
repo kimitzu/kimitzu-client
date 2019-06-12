@@ -108,7 +108,6 @@ class ProfilePage extends Component<{}, ProfilePageState> {
     this.setState({
       profile: profileRequest.data,
     })
-    console.log(this.state.profile)
   }
 
   public render() {

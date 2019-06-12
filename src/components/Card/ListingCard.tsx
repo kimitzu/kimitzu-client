@@ -1,10 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import config from '../../config'
-import { Listing } from '../../models/Listing'
+import { DjaliListing } from '../../models/Listing'
+
 import './ListingCard.css'
 
 interface ListingProps {
-  listing: Listing
+  listing: DjaliListing
 }
 
 const generateStars = (averageRating: number) => {
@@ -17,22 +19,24 @@ const generateStars = (averageRating: number) => {
 
 const ListingCard = ({ listing }: ListingProps) => (
   <div className="uk-card uk-card-default uk-card-hover listing">
-    <div className="uk-card-media-top">
-      <img
-        className="uk-margin-top"
-        src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny}`}
-        alt=""
-      />
-    </div>
-    <div className="uk-card-body">
-      <div className="listing-title">{listing.title}</div>
-      <p>
-        {listing.price.amount} {listing.price.currencyCode}
-      </p>
-      <div>
-        {generateStars(listing.averageRating)} ({listing.averageRating})
+    <Link to={`/listing/${listing.hash}`}>
+      <div className="uk-card-media-top">
+        <img
+          className="uk-margin-top"
+          src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny}`}
+          alt=""
+        />
       </div>
-    </div>
+      <div className="uk-card-body">
+        <div className="listing-title">{listing.title}</div>
+        <p>
+          {listing.price.amount} {listing.price.currencyCode}
+        </p>
+        <div>
+          {generateStars(listing.averageRating)} ({listing.averageRating})
+        </div>
+      </div>
+    </Link>
   </div>
 )
 

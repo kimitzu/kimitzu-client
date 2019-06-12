@@ -1,16 +1,15 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
-import { Listing } from '../models/Listing'
-import { Profile } from '../models/Profile'
+import { DjaliListing, Listing } from '../models/Listing'
 
-import PlusCode from '../common/PlusCode'
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
 import SidebarFilter from '../components/Sidebar/Filter'
 import config from '../config'
 import SortOptions from '../constants/SortOptions.json'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import PlusCode from '../utils/Location/PlusCode'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import { FormSelector } from '../components/Selector'
@@ -18,6 +17,20 @@ import './Home.css'
 
 interface HomeProps {
   props: any
+}
+
+interface Transform {
+  operation: string
+  spec: Spec
+}
+
+interface Spec {
+  hash: string
+  thumbnail: string
+  title: string
+  'price.amount': string
+  'price.currencyCode': string
+  averageRating: string
 }
 
 interface HomeState {
@@ -30,7 +43,7 @@ interface HomeState {
   plusCode: string
   searchQuery: string
   searchResults: {
-    data: Listing[]
+    data: DjaliListing[]
     count: number
     limit: number
     nextStart: number
@@ -41,9 +54,8 @@ interface HomeState {
     totalPages: number
     currentPage: number
   }
+  transforms: Transform[]
 }
-
-const locationTypes = ['primary', 'shipping', 'billing', 'return']
 
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
@@ -68,6 +80,19 @@ class Home extends Component<HomeProps, HomeState> {
         totalPages: 0,
         currentPage: 0,
       },
+      transforms: [
+        {
+          operation: 'shift',
+          spec: {
+            hash: 'hash',
+            thumbnail: 'thumbnail',
+            title: 'title',
+            'price.amount': 'price.amount',
+            'price.currencyCode': 'price.currencyCode',
+            averageRating: 'averageRating',
+          },
+        },
+      ],
     }
     this.executeSearchRequest = this.executeSearchRequest.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -323,6 +348,7 @@ class Home extends Component<HomeProps, HomeState> {
       limit: paginate.limit,
       start: paginate.start,
       sort: this.state.sort,
+      transforms: this.state.transforms,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
@@ -388,6 +414,7 @@ class Home extends Component<HomeProps, HomeState> {
       limit: paginate.limit,
       start: paginate.start,
       sort: this.state.sort,
+      transforms: this.state.transforms,
     }
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)

@@ -30,7 +30,10 @@
 .text-blue {
     color: #2699FB !important;
 }
-polygon {
+.empty-fill * {
+    fill: none;
+}
+.blue-fill * {
     fill: #2699FB;
 }
 #rating {

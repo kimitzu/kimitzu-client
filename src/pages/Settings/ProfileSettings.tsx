@@ -277,7 +277,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         <SideMenuWithContentCard
           mainContentTitle={currentCardContent.label}
           menuContent={{
-            title: 'CREATE LISTING',
+            title: 'SETTINGS',
             navItems: profileMenuSubItems,
           }}
           mainContent={currentCardContent.component}
