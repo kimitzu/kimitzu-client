@@ -228,24 +228,6 @@ class Home extends Component<HomeProps, HomeState> {
     )
   }
 
-  private processAddresses(profile: Profile): Profile {
-    const { extLocation } = profile
-
-    extLocation.addresses.forEach(a => {
-      a.type = []
-    })
-
-    locationTypes.forEach(type => {
-      const index = extLocation[type] as number
-      if (index === -1) {
-        return
-      }
-      profile.extLocation.addresses[index].type.push(type)
-    })
-
-    return profile
-  }
-
   private handleSettings() {
     window.location.href = '/settings/profile'
   }

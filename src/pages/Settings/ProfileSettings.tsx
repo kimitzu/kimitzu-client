@@ -300,7 +300,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       if (index === -1) {
         return
       }
-      profile.extLocation.addresses[index].type.push(type)
+      profile.extLocation.addresses[index].type!.push(type)
     })
 
     return profile
@@ -375,7 +375,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       extLocation.addresses.push(address) // Create new entry
     }
 
-    type.forEach((t: string) => {
+    type!.forEach((t: string) => {
       extLocation[t] =
         addressFormUpdateIndex > -1 ? addressFormUpdateIndex : extLocation.addresses.length - 1
     })
@@ -441,7 +441,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
     const address = extLocation.addresses[index]
 
-    address.type.forEach(t => {
+    address.type!.forEach(t => {
       extLocation[t] = -1
     })
 

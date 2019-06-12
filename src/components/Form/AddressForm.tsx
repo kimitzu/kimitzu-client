@@ -35,35 +35,38 @@ interface Props {
   updateIndex?: number
   data: Location
   isEdit: boolean
+  isListing?: boolean
 }
 
 const AddressForm = (props: Props) => {
-  const { onSaveAddress, data } = props
+  const { onSaveAddress, data, isListing } = props
   return (
     <form className="uk-form-stacked" onSubmit={onSaveAddress}>
       <fieldset className="uk-fieldset">
-        <div className="uk-margin">
-          <FormLabel label="TYPE" />
-          {options.map((o, index) => (
-            <label key={index}>
-              <input
-                className="uk-checkbox uk-margin-small-left"
-                type="checkbox"
-                checked={data.type ? data.type.includes(o.value) : false}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  if (event.target.checked) {
-                    const newData = data.type.push(o.value)
-                    props.onAddressChange('type', data.type)
-                  } else {
-                    const newData = data.type.filter(e => e !== o.value)
-                    props.onAddressChange('type', newData)
-                  }
-                }}
-              />
-              {` ${o.label}`}
-            </label>
-          ))}
-        </div>
+        {isListing ? null : (
+          <div className="uk-margin">
+            <FormLabel label="TYPE" />
+            {options.map((o, index) => (
+              <label key={index}>
+                <input
+                  className="uk-checkbox uk-margin-small-left"
+                  type="checkbox"
+                  checked={data.type ? data.type.includes(o.value) : false}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    if (event.target.checked) {
+                      data.type!.push(o.value)
+                      props.onAddressChange('type', data.type!)
+                    } else {
+                      const newData = data.type!.filter(e => e !== o.value)
+                      props.onAddressChange('type', newData)
+                    }
+                  }}
+                />
+                {` ${o.label}`}
+              </label>
+            ))}
+          </div>
+        )}
         <div className="uk-margin">
           <FormLabel label="STREET ADDRESSES" />
           <input
@@ -181,7 +184,7 @@ const AddressForm = (props: Props) => {
           </button>
         ) : null}
         <button className="uk-button uk-button-primary" type="submit">
-          SAVE
+          {isListing ? 'CONTINUE' : 'SAVE'}
         </button>
       </div>
     </form>

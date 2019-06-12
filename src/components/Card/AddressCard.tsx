@@ -17,7 +17,7 @@ const AddressCard = (props: Props) => {
       onClick={props.handleSelectAddress}
     >
       <div id="address-types">
-        {location.type.map((t: string, index: number) => (
+        {location.type!.map((t: string, index: number) => (
           <span key={`${t}${index}`} id="address-type-label" className="uk-label">
             {t.toUpperCase()}
           </span>

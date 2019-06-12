@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
+import {
+  PayoutCard,
+  ProfessionalBackgroundCard,
+  SocialMediaCard,
+  TagsCard,
+  TermsOfServiceCard,
+} from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
 import NavBar from '../components/NavBar/NavBar'
+import { Profile } from '../models/Profile'
 
 import './ListingInformation.css'
 
@@ -13,6 +21,7 @@ interface State {
   hasStarted: boolean
   numberOfPages: number
   data: Image[]
+  profile: Profile
 }
 
 class ListingProfile extends Component<{}, State> {
@@ -52,13 +61,102 @@ class ListingProfile extends Component<{}, State> {
             'https://ph-test-11.slatic.net/p/096d7bbdc85794ca701b9cc3f2071f1c.jpg_340x340q80.jpg_.webp',
         },
       ],
+      profile: {
+        peerID: '',
+        handle: '',
+        name: '',
+        location: '',
+        about: '',
+        shortDescription: '',
+        nsfw: false,
+        vendor: false,
+        moderator: false,
+        bitcoinPubkey: '',
+        lastModified: '',
+        currencies: ['BCH', 'ZEC', 'LTC', 'BTC'],
+        avatarHashes: {
+          tiny: '',
+          small: '',
+          medium: '',
+          large: '',
+          original: '',
+        },
+        extLocation: {
+          primary: 0,
+          shipping: 0,
+          billing: 0,
+          return: 0,
+          addresses: [
+            {
+              type: [''],
+              latitude: '',
+              longitude: '',
+              plusCode: '',
+              addressOne: '',
+              addressTwo: '',
+              city: '',
+              state: '',
+              country: '',
+              zipCode: '',
+            },
+          ],
+        },
+        profileType: 'djali',
+        metaTags: {
+          DjaliVersion: '0.0.1-dev',
+        },
+        preferences: {
+          currencyDisplay: '',
+          fiat: '',
+          cryptocurrency: '',
+          language: '',
+          measurementUnit: '',
+        },
+        background: {
+          educationHistory: [
+            {
+              title: 'Central Philippine University',
+              subtitle: 'BSCS',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the education',
+            },
+            {
+              title: 'Central Philippine University',
+              subtitle: 'BSCS',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the education',
+            },
+          ],
+          employmentHistory: [
+            {
+              title: 'Developer',
+              subtitle: 'Kingsland University',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the work',
+            },
+            {
+              title: 'Developer',
+              subtitle: 'Kingsland University',
+              date: '2013-2018',
+              address: 'Jaro Iloilo City Philippines',
+              desc: 'A short description about the work',
+            },
+          ],
+        },
+        spokenLanguages: ['English', 'Tagalog', 'British'],
+        programmingLanguages: ['Javascript', 'Golang', 'C++'],
+      },
     }
   }
 
   public render() {
+    const { background, spokenLanguages, programmingLanguages } = this.state.profile
     return (
-      <div id="reg-container">
-        <div id="card-head" className="uk-card uk-card-default uk-card-body">
+      <div id="container">
+        <div className="uk-card uk-card-default uk-card-body card-head">
           <div id="profile-header">
             <div id="left-content">
               <CarouselListing data={this.state.data} />
@@ -103,7 +201,7 @@ class ListingProfile extends Component<{}, State> {
                       />
                     </div>
                     <button className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold btnRound">
-                      BUY
+                      BUY NOW
                     </button>
                   </div>
                   <div id="footerContentRight">
@@ -135,6 +233,39 @@ class ListingProfile extends Component<{}, State> {
             </div>
           </div>
         </div>
+        <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
+          <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
+          <p className="inside-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+            mollit anim id est laborum.
+          </p>
+        </div>
+        <PayoutCard />
+        <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
+          <h3 className="uk-card-title text-blue uk-text-bold">Contact Information</h3>
+          <div className="inside-content">
+            <p className="uk-text-bold">Email</p>
+            <p>johndoe@gmail.com</p>
+          </div>
+        </div>
+        <SocialMediaCard />
+        {background && background.educationHistory ? (
+          <ProfessionalBackgroundCard data={background} name="Education" />
+        ) : null}
+        {background && background.employmentHistory ? (
+          <ProfessionalBackgroundCard data={background} name="Work History" />
+        ) : null}
+        <TagsCard data={spokenLanguages || []} name="Spoken Langguages" />
+        <TagsCard data={programmingLanguages || []} name="Programming Langguages" />
+        <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
+          <h3 className="uk-card-title text-blue uk-text-bold">Programming Expertise Level</h3>
+          <h4 className="uk-text-bold text-gray inside-content">Level 1</h4>
+        </div>
+        <TermsOfServiceCard data={'data'} />
       </div>
     )
   }
