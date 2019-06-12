@@ -249,10 +249,11 @@ class Home extends Component<HomeProps, HomeState> {
         component: (
           <AddressForm
             data={addressForm}
+            isEdit={false}
+            isListing={false}
             key="addressform"
             onAddressChange={this.handleAddressChange}
             onSaveAddress={this.handleSaveAddress}
-            isEdit={false}
           />
         ),
         title: 'ADD ADDRESS',
@@ -261,11 +262,12 @@ class Home extends Component<HomeProps, HomeState> {
         component: (
           <AddressForm
             data={addressForm}
+            isEdit
+            isListing={false}
             key="addressform"
             onAddressChange={this.handleAddressChange}
-            onSaveAddress={this.handleSaveAddress}
-            isEdit
             onDeleteAddress={this.handleDeleteAddress}
+            onSaveAddress={this.handleSaveAddress}
             updateIndex={this.state.addressFormUpdateIndex}
           />
         ),
@@ -451,7 +453,7 @@ class Home extends Component<HomeProps, HomeState> {
 
     const address = extLocation.addresses[index]
 
-    address.type.forEach(t => {
+    address.type!.forEach(t => {
       extLocation[t] = -1
     })
 
@@ -488,7 +490,7 @@ class Home extends Component<HomeProps, HomeState> {
       if (index === -1) {
         return
       }
-      profile.extLocation.addresses[index].type.push(type)
+      profile.extLocation.addresses[index].type!.push(type)
     })
 
     return profile

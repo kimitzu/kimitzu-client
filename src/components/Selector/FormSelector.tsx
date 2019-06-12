@@ -9,6 +9,7 @@ interface Props {
   options: Option[]
   defaultVal: string
   required?: boolean
+  disabled?: boolean
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
@@ -17,6 +18,7 @@ const FormSelector = (props: Props) => (
     className="uk-select form-field-border color-primary"
     onChange={props.onChange}
     required={props.required || false}
+    disabled={props.disabled}
   >
     {props.options ? (
       props.options.map((option: Option) => (

@@ -16,10 +16,10 @@ const AddressCard = (props: Props) => {
       className="uk-card uk-card-default uk-card-body"
       onClick={props.handleSelectAddress}
     >
-      {location.type.length > 0 ? (
+      {location.type!.length > 0 ? (
         <div id="address-right-label" className="uk-card-badge uk-label">
-          {location.type.map((t, index) => {
-            return `${t.toUpperCase()}${index < location.type.length - 1 ? ' | ' : ''}`
+          {location.type!.map((t, index) => {
+            return `${t.toUpperCase()}${index < location.type!.length - 1 ? ' | ' : ''}`
           })}
         </div>
       ) : null}
