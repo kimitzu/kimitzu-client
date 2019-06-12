@@ -6,7 +6,7 @@
     transition: height 0.5s;
     -webkit-transition: height 1s;
     overflow: hidden;
-    height: 350px;
+    height: 250px;
 }
 #title-terms {
     color: dodgerblue;

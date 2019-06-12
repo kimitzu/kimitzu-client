@@ -85,10 +85,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           plusCode: '',
           addressOne: '',
           addressTwo: '',
-          city: 'Iloilo City',
-          state: 'Iloilo',
-          country: 'PH',
-          zipCode: '5000',
+          city: '',
+          state: '',
+          country: '',
+          zipCode: '',
         },
       },
       shippingOptions: {
@@ -315,6 +315,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     try {
       const listingSaveRequest = await Axios.post(`${config.openBazaarHost}/ob/listing`, listing)
       alert('Listing Successfully Posted')
+      window.location.href = '/'
     } catch (e) {
       alert(e.message)
       this.setState({

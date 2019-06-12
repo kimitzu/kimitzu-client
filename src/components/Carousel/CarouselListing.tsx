@@ -92,6 +92,7 @@ const CarouselListing = ({ data }: Props) => {
               className="uk-inline"
               href={img.src}
               data-caption={`${i} of ${data.length}`}
+              data-type="image"
             />
           )
         })}
