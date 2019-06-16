@@ -8,7 +8,7 @@ import InlineFormFields from './InlineFormFields'
 
 import ListingConditions from '../../constants/ListingConditions.json'
 import ListingTypes from '../../constants/ListingTypes.json'
-import { ListingCreate } from '../../models/ListingCreate'
+import { Listing } from '../../interfaces/Listing'
 
 const currencies = [
   {
@@ -22,7 +22,7 @@ const currencies = [
 ]
 
 interface Props {
-  data: ListingCreate
+  data: Listing
   handleInputChange: (field: string, value: any, parentField?: string) => void
   handleContinue: (event: React.FormEvent) => void
 }

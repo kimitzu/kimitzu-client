@@ -3,7 +3,7 @@ import React from 'react'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import { Profile } from '../../models/Profile'
+import { Profile } from '../../interfaces/Profile'
 
 import config from '../../config'
 import './RegistrationForm.css'
@@ -90,7 +90,9 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.availableCountries}
             defaultVal={
-              props.data.extLocation.addresses[props.data.extLocation.primary].country || 'US'
+              props.data.extLocation.primary > -1
+                ? props.data.extLocation.addresses[props.data.extLocation.primary].country || ''
+                : ''
             }
             onChange={event =>
               props.onChange(

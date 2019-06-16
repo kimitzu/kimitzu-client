@@ -1,6 +1,4 @@
-import Axios from 'axios'
 import React, { Component, ReactNode } from 'react'
-import slugify from 'slugify'
 
 import { SideMenuWithContentCard } from '../components/Card'
 import {
@@ -13,8 +11,7 @@ import {
   ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
-import config from '../config'
-import { ListingCreate } from '../models/ListingCreate'
+import Listing from '../models/Listing'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
@@ -28,7 +25,7 @@ interface CreateListingProps {
 }
 
 interface CreateListingState {
-  listing: ListingCreate
+  listing: Listing
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
@@ -38,59 +35,15 @@ interface CreateListingState {
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
   constructor(props: CreateListingProps) {
     super(props)
-    const expirationDate = new Date()
-    expirationDate.setMonth(expirationDate.getMonth() + 1)
+    const listing = new Listing()
+
     this.state = {
       currentFormIndex: 0,
       tempImages: [],
       isLoading: false,
       // === Formal Schema
-      listing: {
-        metadata: {
-          contractType: 'SERVICE',
-          expiry: expirationDate.toISOString(),
-          format: 'FIXED_PRICE',
-          pricingCurrency: 'usd',
-          acceptedCurrencies: [],
-        },
-        item: {
-          title: '',
-          description: '',
-          price: 0,
-          tags: [],
-          images: [],
-          categories: [],
-          condition: 'New',
-          options: [],
-          skus: [],
-          nsfw: false,
-        },
-        coupons: [
-          {
-            title: '',
-            discountCode: '',
-            percentDiscount: 0,
-            type: 'percent',
-          },
-        ],
-        termsAndConditions: '',
-        // === TODO: Implement handlers for the fields below
-        taxes: [],
-        moderators: [],
-        shippingOptions: [],
-        refundPolicy: 'None',
-        location: {
-          latitude: '',
-          longitude: '',
-          plusCode: '',
-          addressOne: '',
-          addressTwo: '',
-          city: '',
-          state: '',
-          country: '',
-          zipCode: '',
-        },
-      },
+      listing,
+      // === TODO: Implement handlers
       shippingOptions: {
         destination: '',
         optionTitle: '',
@@ -268,6 +221,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     })
   }
 
+  // TODO: Handle properly
   public handleAddShippingService() {
     const tempShippingService = {
       name: '',
@@ -281,14 +235,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public handleAddCoupons() {
-    const tempCoupon = {
-      title: '',
-      discountCode: '',
-      percentDiscount: 0,
-      type: 'percent',
-    }
-    const listing = this.state.listing
-    listing.coupons = [...listing.coupons, tempCoupon]
+    this.state.listing.addCoupon()
     this.setState({
       listing: this.state.listing,
     })
@@ -309,11 +256,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const images = await Promise.all(imageUpload)
 
     listing.item.images = images
-    listing.slug = slugify(listing.item.title)
-    listing.item.processingTime = '1 day'
 
     try {
-      const listingSaveRequest = await Axios.post(`${config.openBazaarHost}/ob/listing`, listing)
+      await listing.save()
       alert('Listing Successfully Posted')
       window.location.href = '/'
     } catch (e) {
@@ -330,7 +275,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   public render() {
     const { navItems, currentForm } = this
-    console.log(this.state.currentFormIndex)
     return (
       <div className="background-body full-vh uk-padding-small">
         <SideMenuWithContentCard

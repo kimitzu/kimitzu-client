@@ -2,7 +2,7 @@ import React from 'react'
 
 import './OtherInformationCard.css'
 
-import { Profile } from '../../models/Profile'
+import { Profile } from '../../interfaces/Profile'
 
 interface OtherInformationCardInterface {
   data: Profile

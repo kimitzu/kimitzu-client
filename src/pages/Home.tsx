@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
-import { DjaliListing, Listing } from '../models/Listing'
+import { Listing } from '../interfaces/Listing'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
@@ -43,7 +43,7 @@ interface HomeState {
   plusCode: string
   searchQuery: string
   searchResults: {
-    data: DjaliListing[]
+    data: Listing[]
     count: number
     limit: number
     nextStart: number
@@ -353,6 +353,14 @@ class Home extends Component<HomeProps, HomeState> {
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
+
+    // TODO: Remove once Djali schema is finalized
+    result.data.data = result.data.data.map((d: any) => {
+      d.price = d.amount
+      const info = { item: d, ...d, metadata: { pricingCurrency: d.currencyCode } }
+      return info
+    })
+
     this.setState({
       searchResults: result.data,
       paginate,
@@ -419,6 +427,14 @@ class Home extends Component<HomeProps, HomeState> {
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
+
+    // TODO: Remove once Djali schema is finalized
+    result.data.data = result.data.data.map((d: any) => {
+      d.price = d.amount
+      const info = { item: d, ...d, metadata: { pricingCurrency: d.currencyCode } }
+      return info
+    })
+
     this.setState({
       searchResults: result.data,
       paginate,

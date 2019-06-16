@@ -1,21 +1,18 @@
-import axios from 'axios'
 import React, { Component, ReactNode } from 'react'
 
 import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
 import { AddressForm, RegistrationForm } from '../../components/Form'
-import Location from '../../models/Location'
-import { Profile } from '../../models/Profile'
+import Location from '../../interfaces/Location'
 
-import config from '../../config'
 import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies.json'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
 import SettingsNavItems from '../../constants/SettingsNavItems.json'
-import SortOptions from '../../constants/SortOptions.json'
 import UnitsOfMeasurement from '../../constants/UnitsOfMeasurement.json'
+import Profile from '../../models/Profile'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../../utils/NestedJSONUpdater'
 
@@ -64,6 +61,7 @@ interface GeneralProfileState {
 class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   constructor(props: ProfileSettings) {
     super(props)
+    const profile = new Profile()
     this.state = {
       addressFormUpdateIndex: -1,
       currentAction: actions.NONE,
@@ -82,48 +80,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         plusCode: '',
       },
       avatar: '',
-      registrationForm: {
-        handle: '',
-        name: '',
-        about: '',
-        nsfw: false,
-        vendor: true,
-        moderator: false,
-        avatarHashes: {
-          tiny: '',
-          small: '',
-          medium: '',
-          large: '',
-          original: '',
-        },
-        extLocation: {
-          primary: 0,
-          shipping: 0,
-          billing: 0,
-          return: 0,
-          addresses: [
-            {
-              type: [''],
-              latitude: '',
-              longitude: '',
-              plusCode: '',
-              addressOne: '',
-              addressTwo: '',
-              city: '',
-              state: '',
-              country: '',
-              zipCode: '',
-            },
-          ],
-        },
-        preferences: {
-          cryptocurrency: '',
-          currencyDisplay: '',
-          fiat: '',
-          language: '',
-          measurementUnit: '',
-        },
-      },
+      registrationForm: profile,
     }
     this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -139,8 +96,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
   public async componentDidMount() {
     try {
-      const profileRequest = await axios.get(`${config.openBazaarHost}/ob/profile`)
-      const profileData = this.processAddresses(profileRequest.data)
+      const profileData = await Profile.retrieve()
       this.setState({
         registrationForm: profileData,
       })
@@ -288,24 +244,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     )
   }
 
-  private processAddresses(profile: Profile): Profile {
-    const { extLocation } = profile
-
-    extLocation.addresses.forEach(a => {
-      a.type = []
-    })
-
-    locationTypes.forEach(type => {
-      const index = extLocation[type] as number
-      if (index === -1) {
-        return
-      }
-      profile.extLocation.addresses[index].type!.push(type)
-    })
-
-    return profile
-  }
-
   private refreshForms() {
     const addressForm = {
       type: [''],
@@ -371,21 +309,13 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       plusCode,
     }
 
-    if (addressFormUpdateIndex === -1) {
-      extLocation.addresses.push(address) // Create new entry
-    }
+    registrationForm.addAddress(address, addressFormUpdateIndex)
 
-    type!.forEach((t: string) => {
-      extLocation[t] =
-        addressFormUpdateIndex > -1 ? addressFormUpdateIndex : extLocation.addresses.length - 1
-    })
-
-    await axios.put(`${config.openBazaarHost}/ob/profile`, registrationForm)
+    const updatedProfile = await registrationForm.update()
     alert('Addresses updated')
 
-    const profileData = this.processAddresses(registrationForm)
     this.setState({
-      registrationForm: profileData,
+      registrationForm: updatedProfile,
     })
     this.handleBackBtn()
   }
@@ -402,7 +332,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       this.state.registrationForm.avatarHashes = avatarHashes
     }
 
-    await axios.put(`${config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    await this.state.registrationForm.update()
     alert('Profile updated')
     this.setState({
       isSubmitting: false,
@@ -437,29 +367,15 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
   private async handleDeleteAddress(index: number) {
     const { registrationForm } = this.state
-    const { extLocation } = registrationForm
-
-    const address = extLocation.addresses[index]
-
-    address.type!.forEach(t => {
-      extLocation[t] = -1
-    })
-
-    extLocation.addresses.splice(index, 1)
-
-    locationTypes.forEach(type => {
-      const tempIndex = extLocation[type]
-      if (tempIndex > index) {
-        extLocation[type] = extLocation[type] - 1
-      }
-    })
+    registrationForm.deleteAddress(index)
 
     this.setState({
       registrationForm,
     })
-    await axios.put(`${config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+
+    const profileData = await registrationForm.update()
     alert('Profile updated')
-    const profileData = this.processAddresses(registrationForm)
+
     this.setState({
       registrationForm: profileData,
     })
