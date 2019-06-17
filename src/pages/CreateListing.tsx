@@ -13,6 +13,7 @@ import {
 } from '../components/Form'
 import Listing from '../models/Listing'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import PlusCode from '../utils/Location/PlusCode'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
 interface CardContent {
@@ -205,6 +206,14 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   public handleInputChange(field: string, value: any, parentField?: string) {
     if (parentField) {
       const subFieldData = this.state[parentField]
+      if (field === 'location.plusCode') {
+        if (PlusCode.isValid(value)) {
+          const plusCodeBounds = PlusCode.decode(value)
+          const { longitudeCenter, latitudeCenter } = plusCodeBounds
+          NestedJSONUpdater(subFieldData, 'location.latitude', latitudeCenter)
+          NestedJSONUpdater(subFieldData, 'location.longitude', longitudeCenter)
+        }
+      }
       NestedJSONUpdater(subFieldData, field, value)
       this.setState({ ...this.state })
     } else {
