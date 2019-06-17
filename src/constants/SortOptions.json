@@ -1,19 +1,19 @@
 [
   {
     "label": "Alphabetically (A → Z)",
-    "value": "title_<="
+    "value": "item.title_<="
   },
   {
     "label": "Alphabetically (Z → A)",
-    "value": "title_>="
+    "value": "item.title_>="
   },
   {
     "label": "Price (Low → High)",
-    "value": "price.amount_<="
+    "value": "item.price_<="
   },
   {
     "label": "Price (High → Low)",
-    "value": "price.amount_>="
+    "value": "item.price_>="
   },
   {
     "label": "Rating (Low → High)",

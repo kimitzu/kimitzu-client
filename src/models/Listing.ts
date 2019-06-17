@@ -20,22 +20,14 @@ class Listing implements ListingInterface {
   public static async retrieve(
     id: string
   ): Promise<{ profile: Profile; listing: Listing; imageData: [{ src: string }] }> {
-    const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/search`, {
-      filters: [`contains(doc.hash, "${id}")`],
-    })
-    const djaliListing = djaliListingRequest.data.data[0]
+    const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/listing?hash=${id}`)
 
-    const ipfsListingRequest = await Axios.get(`${config.openBazaarHost}/ob/listing/ipfs/${id}`)
-    const ipfsListing = ipfsListingRequest.data.listing
+    const djaliListing = djaliListingRequest.data
+    const profile = await Profile.retrieve(djaliListing.vendorID.peerID)
 
-    const profile = await Profile.retrieve(ipfsListing.vendorID.peerID)
-
-    const imageData = ipfsListing.item.images.map((image: Image) => {
+    const imageData = djaliListing.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
     })
-
-    // TODO: Remove when Djali schema is formalized
-    Object.assign(djaliListing, ipfsListing)
 
     const listing = new Listing(djaliListing)
 

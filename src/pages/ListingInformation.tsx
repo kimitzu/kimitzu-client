@@ -72,12 +72,14 @@ class ListingProfile extends Component<Props, State> {
     for (let index = 0; index < 5; index++) {
       if (index < rating) {
         ratingStars.push(
-          <span className="blue-fill">
+          <span className="blue-fill" key={index}>
             <a data-uk-icon="icon: star;" className="text-blue" />
           </span>
         )
       } else {
-        ratingStars.push(<a data-uk-icon="icon: star;" className="empty-fill text-blue" />)
+        ratingStars.push(
+          <a key={index} data-uk-icon="icon: star;" className="empty-fill text-blue" />
+        )
       }
     }
 
