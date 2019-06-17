@@ -2,7 +2,7 @@ import React from 'react'
 
 import './ProfessionalBackgroundCard.css'
 
-import { Background, EducationHistory } from '../../models/Profile'
+import { Background, EducationHistory } from '../../interfaces/Profile'
 
 interface ProfessionalBackgoundInterface {
   data: Background

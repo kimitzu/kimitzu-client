@@ -9,13 +9,13 @@ import {
   TermsOfServiceCard,
 } from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
-import { Profile } from '../models/Profile'
 
-import Axios from 'axios'
 import config from '../config'
-import { DjaliListing, Image as ListingImage, IpfsListing, Listing } from '../models/Listing'
 import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
+
+import Listing from '../models/Listing'
+import Profile from '../models/Profile'
 
 interface Image {
   src: string
@@ -39,293 +39,34 @@ interface Props extends RouteComponentProps<RouteProps> {}
 class ListingProfile extends Component<Props, State> {
   constructor(props: any) {
     super(props)
+    const listing = new Listing()
+    const profile = new Profile()
+
     this.state = {
       currentIndex: 1,
       hasStarted: false,
       numberOfPages: 2,
       imageData: [],
-      listing: {
-        djali: {
-          acceptedCurrencies: [''],
-          averageRating: 0,
-          categories: [''],
-          coinType: '',
-          contractType: '',
-          description: '',
-          hash: '',
-          language: '',
-          location: {
-            addressOne: '',
-            addressTwo: '',
-            city: '',
-            country: '',
-            latitude: '',
-            longitude: '',
-            plusCode: '',
-            state: '',
-            zipCode: '',
-          },
-          moderators: [],
-          nsfw: false,
-          parentPeer: '',
-          peerSlug: '',
-          price: {
-            amount: 0,
-            currencyCode: '',
-            modifier: 0,
-          },
-          ratingCount: 0,
-          slug: '',
-          thumbnail: {
-            medium: '',
-            small: '',
-            tiny: '',
-          },
-          title: '',
-        },
-        ipfs: {
-          listing: {
-            slug: '',
-            vendorID: {
-              peerID: '',
-              handle: '',
-              pubkeys: {
-                identity: '',
-                bitcoin: '',
-              },
-              bitcoinSig: '',
-            },
-            metadata: {
-              version: 4,
-              contractType: '',
-              format: '',
-              expiry: '',
-              acceptedCurrencies: [],
-              pricingCurrency: '',
-              language: '',
-              escrowTimeoutHours: 0,
-              coinType: '',
-              coinDivisibility: 0,
-              priceModifier: 0,
-              serviceRateMethod: '',
-            },
-            item: {
-              title: '',
-              description: '',
-              processingTime: '',
-              price: 300,
-              nsfw: false,
-              tags: [],
-              images: [],
-              categories: [],
-              grams: 0,
-              condition: '',
-              options: [],
-              skus: [
-                {
-                  productID: '',
-                  surcharge: 0,
-                  quantity: 0,
-                },
-              ],
-            },
-            shippingOptions: [
-              {
-                name: '',
-                type: '',
-                regions: [],
-                services: [
-                  {
-                    name: '',
-                    price: 0,
-                    estimatedDelivery: '',
-                    additionalItemPrice: 0,
-                  },
-                ],
-              },
-            ],
-            coupons: [],
-            moderators: [],
-            termsAndConditions: '',
-            refundPolicy: '',
-          },
-          hash: '',
-          signature: '',
-        },
-      },
-      profile: {
-        about: '',
-        avatarHashes: {
-          large: '',
-          medium: '',
-          original: '',
-          small: '',
-          tiny: '',
-        },
-        bitcoinPubkey: '',
-        currencies: [],
-        extLocation: {
-          addresses: [
-            {
-              addressOne: '',
-              addressTwo: '',
-              city: '',
-              country: '',
-              latitude: '',
-              longitude: '',
-              plusCode: '',
-              state: '',
-              zipCode: '',
-            },
-          ],
-          billing: 0,
-          primary: 0,
-          return: 0,
-          shipping: 0,
-        },
-        handle: '',
-        lastModified: '',
-        location: '',
-        metaTags: {
-          DjaliVersion: '',
-        },
-        moderator: false,
-        name: '',
-        nsfw: false,
-        peerID: '',
-        preferences: {
-          cryptocurrency: '',
-          currencyDisplay: '',
-          fiat: '',
-          language: '',
-          measurementUnit: '',
-        },
-        profileType: '',
-        shortDescription: '',
-        stats: {
-          averageRating: 0,
-          followerCount: 0,
-          followingCount: 0,
-          listingCount: 0,
-          postCount: 0,
-          ratingCount: 0,
-        },
-        vendor: true,
-        // TODO: ============== Implement handlers
-        background: {
-          educationHistory: [
-            {
-              title: 'Central Philippine University',
-              subtitle: 'BSCS',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the education',
-            },
-            {
-              title: 'Central Philippine University',
-              subtitle: 'BSCS',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the education',
-            },
-          ],
-          employmentHistory: [
-            {
-              title: 'Developer',
-              subtitle: 'Kingsland University',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the work',
-            },
-            {
-              title: 'Developer',
-              subtitle: 'Kingsland University',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the work',
-            },
-          ],
-        },
-        spokenLanguages: ['English', 'Tagalog', 'British'],
-        programmingLanguages: ['Javascript', 'Golang', 'C++'],
-      },
+      listing,
+      profile,
     }
   }
 
   public async componentDidMount() {
     const id = this.props.match.params.id
-    const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/search`, {
-      filters: [`contains(doc.hash, "${id}")`],
-    })
-
-    const djaliListing = djaliListingRequest.data.data[0] as DjaliListing
-    const ipfsListingRequest = await Axios.get(`${config.openBazaarHost}/ob/listing/ipfs/${id}`)
-    const ipfsListing = ipfsListingRequest.data as IpfsListing
-
-    const peerRequest = await Axios.get(
-      `${config.djaliHost}/djali/peer/get?id=${djaliListing.parentPeer}`
-    )
-
-    console.log(peerRequest)
-
-    const profile = peerRequest.data.profile
-
-    // TODO: Implement handlers for the following placeholders
-    profile.background = {
-      educationHistory: [
-        {
-          title: 'Central Philippine University',
-          subtitle: 'BSCS',
-          date: '2013-2018',
-          address: 'Jaro Iloilo City Philippines',
-          desc: 'A short description about the education',
-        },
-        {
-          title: 'Central Philippine University',
-          subtitle: 'BSCS',
-          date: '2013-2018',
-          address: 'Jaro Iloilo City Philippines',
-          desc: 'A short description about the education',
-        },
-      ],
-      employmentHistory: [
-        {
-          title: 'Developer',
-          subtitle: 'Kingsland University',
-          date: '2013-2018',
-          address: 'Jaro Iloilo City Philippines',
-          desc: 'A short description about the work',
-        },
-        {
-          title: 'Developer',
-          subtitle: 'Kingsland University',
-          date: '2013-2018',
-          address: 'Jaro Iloilo City Philippines',
-          desc: 'A short description about the work',
-        },
-      ],
-    }
-    profile.spokenLanguages = ['English', 'Tagalog', 'British']
-    profile.programmingLanguages = ['Javascript', 'Golang', 'C++']
-
-    const imageData = ipfsListing.listing.item.images.map((image: ListingImage) => {
-      return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
-    })
+    const listing = await Listing.retrieve(id)
 
     this.setState({
-      listing: {
-        djali: djaliListing,
-        ipfs: ipfsListing,
-      },
-      profile,
-      imageData,
+      listing: listing.listing,
+      imageData: listing.imageData,
+      profile: listing.profile,
     })
   }
 
   public render() {
     const { background, spokenLanguages, programmingLanguages } = this.state.profile
 
-    const rating = Math.floor(this.state.listing.djali.averageRating)
+    const rating = Math.floor(this.state.listing.averageRating)
     const ratingStars = []
 
     for (let index = 0; index < 5; index++) {
@@ -350,16 +91,16 @@ class ListingProfile extends Component<Props, State> {
             <div id="right-content">
               <div id="head-content">
                 <p className="uk-text-large uk-text-bold text-blue">
-                  {decodeHtml(this.state.listing.djali.title)}
+                  {decodeHtml(this.state.listing.item.title)}
                 </p>
                 <div className="uk-text-small">
                   Type:{' '}
                   <p className="uk-display-inline uk-text-bold">
-                    {this.state.listing.djali.contractType}
+                    {this.state.listing.metadata.contractType}
                   </p>
                   &nbsp; &nbsp; Condition:{' '}
                   <p className="uk-display-inline uk-text-bold">
-                    {this.state.listing.ipfs.listing.item.condition}
+                    {this.state.listing.item.condition}
                   </p>
                 </div>
                 <div id="starsContainer" className="uk-margin-small-top">
@@ -374,8 +115,7 @@ class ListingProfile extends Component<Props, State> {
                 <br />
                 <hr />
                 <p className="text-blue priceSize uk-margin-small-top">
-                  {this.state.listing.djali.price.amount}{' '}
-                  {this.state.listing.djali.price.currencyCode}
+                  {this.state.listing.item.price} {this.state.listing.metadata.pricingCurrency}
                 </p>
                 <div id="footerContent" className="uk-margin-medium-top">
                   <div id="footerContentLeft">
@@ -432,9 +172,9 @@ class ListingProfile extends Component<Props, State> {
         </div>
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
-          <p className="inside-content">{this.state.listing.djali.description}</p>
+          <p className="inside-content">{this.state.listing.item.description}</p>
         </div>
-        <PayoutCard acceptedPayments={this.state.listing.djali.acceptedCurrencies} />
+        <PayoutCard acceptedPayments={this.state.listing.metadata.acceptedCurrencies} />
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Contact Information</h3>
           <div className="inside-content">
@@ -455,9 +195,7 @@ class ListingProfile extends Component<Props, State> {
           <h3 className="uk-card-title text-blue uk-text-bold">Programming Expertise Level</h3>
           <h4 className="uk-text-bold text-gray inside-content">Level 1</h4>
         </div>
-        <TermsOfServiceCard
-          data={this.state.listing.ipfs.listing.termsAndConditions || 'Nothing specified.'}
-        />
+        <TermsOfServiceCard data={this.state.listing.termsAndConditions || 'Nothing specified.'} />
       </div>
     )
   }

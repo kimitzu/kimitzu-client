@@ -7,7 +7,7 @@ import ProfessionalBackgroundCard from './../Card/ProfessionalBackgroundCard'
 import SocialMediaCard from './../Card/SocialMediaCard'
 
 import config from '../../config'
-import { Profile } from '../../models/Profile'
+import { Profile } from '../../interfaces/Profile'
 
 interface ViewProfileInterface {
   data: Profile

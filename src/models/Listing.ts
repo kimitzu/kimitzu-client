@@ -1,130 +1,165 @@
-import Location from './Location'
+import slugify from 'slugify'
 
-export interface Listing {
-  djali: DjaliListing
-  ipfs: IpfsListing
+import Axios from 'axios'
+import config from '../config'
+import Image from '../interfaces/Image'
+import {
+  Coupon,
+  Item,
+  Listing as ListingInterface,
+  Metadata,
+  Price,
+  ShippingOption,
+  Thumbnail,
+  VendorID,
+} from '../interfaces/Listing'
+import Location from '../interfaces/Location'
+import Profile from './Profile'
+
+class Listing implements ListingInterface {
+  public static async retrieve(
+    id: string
+  ): Promise<{ profile: Profile; listing: Listing; imageData: [{ src: string }] }> {
+    const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/search`, {
+      filters: [`contains(doc.hash, "${id}")`],
+    })
+    const djaliListing = djaliListingRequest.data.data[0]
+
+    const ipfsListingRequest = await Axios.get(`${config.openBazaarHost}/ob/listing/ipfs/${id}`)
+    const ipfsListing = ipfsListingRequest.data.listing
+
+    const profile = await Profile.retrieve(ipfsListing.vendorID.peerID)
+
+    const imageData = ipfsListing.item.images.map((image: Image) => {
+      return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
+    })
+
+    // TODO: Remove when Djali schema is formalized
+    Object.assign(djaliListing, ipfsListing)
+
+    const listing = new Listing(djaliListing)
+
+    return { profile, listing, imageData }
+  }
+
+  public item: Item = {
+    title: '',
+    description: '',
+    processingTime: '1 day',
+    price: 0,
+    nsfw: false,
+    tags: [],
+    images: [
+      {
+        filename: '',
+        original: '',
+        large: '',
+        medium: '',
+        small: '',
+        tiny: '',
+      },
+    ],
+    categories: [],
+    grams: 0,
+    condition: 'New',
+    options: [],
+    skus: [
+      {
+        productID: '',
+        surcharge: 0,
+        quantity: 0,
+      },
+    ],
+  }
+
+  public averageRating: number = 0
+  public hash: string = ''
+  public location: Location = {
+    addressOne: '',
+    addressTwo: '',
+    city: '',
+    country: '',
+    latitude: '',
+    longitude: '',
+    plusCode: '',
+    state: '',
+    zipCode: '',
+  }
+  public parentPeer: string = ''
+  public peerSlug: string = ''
+  public price: Price = {
+    amount: 0,
+    currencyCode: '',
+    modifier: 0,
+  }
+  public ratingCount: number = 0
+  public thumbnail: Thumbnail = {
+    medium: '',
+    small: '',
+    tiny: '',
+  }
+
+  public signature: string = ''
+  public slug: string = ''
+  public vendorID: VendorID = {
+    peerID: '',
+    handle: '',
+    pubkeys: {
+      identity: '',
+      bitcoin: '',
+    },
+    bitcoinSig: '',
+  }
+  public metadata: Metadata = {
+    version: 0,
+    contractType: 'SERVICE',
+    format: 'FIXED_PRICE',
+    expiry: '',
+    acceptedCurrencies: [],
+    pricingCurrency: 'usd',
+    language: '',
+    escrowTimeoutHours: 0,
+    coinType: '',
+    coinDivisibility: 0,
+    priceModifier: 0,
+    serviceRateMethod: 'FIXED',
+  }
+  public shippingOptions: ShippingOption[] = []
+  public coupons: Coupon[] = [
+    {
+      title: '',
+      discountCode: '',
+      percentDiscount: 0,
+      type: 'percent',
+    },
+  ]
+  public moderators: string[] = []
+  public termsAndConditions: string = ''
+  public refundPolicy: string = ''
+
+  constructor(props?: Listing) {
+    const expirationDate = new Date()
+    expirationDate.setMonth(expirationDate.getMonth() + 1)
+    this.metadata.expiry = expirationDate.toISOString()
+    if (props) {
+      Object.assign(this, props)
+    }
+  }
+
+  public async save() {
+    this.slug = slugify(this.item.title)
+    await Axios.post(`${config.openBazaarHost}/ob/listing`, this)
+  }
+
+  public addCoupon() {
+    const tempCoupon = {
+      title: '',
+      discountCode: '',
+      percentDiscount: 0,
+      type: 'percent',
+    }
+    this.coupons = [...this.coupons, tempCoupon]
+  }
 }
 
-export interface DjaliListing {
-  acceptedCurrencies: string[]
-  averageRating: number
-  categories: string[]
-  coinType: string
-  contractType: string
-  description: string
-  hash: string
-  language: string
-  location: Location
-  moderators: string[]
-  nsfw: boolean
-  parentPeer: string
-  peerSlug: string
-  price: Price
-  ratingCount: number
-  slug: string
-  thumbnail: Thumbnail
-  title: string
-}
-
-export interface Price {
-  amount: number
-  currencyCode: string
-  modifier: number
-}
-
-export interface Thumbnail {
-  medium: string
-  small: string
-  tiny: string
-}
-
-// ================================================
-
-export interface IpfsListing {
-  listing: IpfsListingInfo
-  hash: string
-  signature: string
-}
-
-export interface IpfsListingInfo {
-  slug: string
-  vendorID: VendorID
-  metadata: Metadata
-  item: Item
-  shippingOptions: ShippingOption[]
-  coupons: any[]
-  moderators: string[]
-  termsAndConditions: string
-  refundPolicy: string
-}
-
-export interface Item {
-  title: string
-  description: string
-  processingTime: string
-  price: number
-  nsfw: boolean
-  tags: string[]
-  images: Image[]
-  categories: string[]
-  grams: number
-  condition: string
-  options: any[]
-  skus: Skus[]
-}
-
-export interface Image {
-  filename: string
-  original: string
-  large: string
-  medium: string
-  small: string
-  tiny: string
-}
-
-export interface Skus {
-  productID: string
-  surcharge: number
-  quantity: number
-}
-
-export interface Metadata {
-  version: number
-  contractType: string
-  format: string
-  expiry: string
-  acceptedCurrencies: string[]
-  pricingCurrency: string
-  language: string
-  escrowTimeoutHours: number
-  coinType: string
-  coinDivisibility: number
-  priceModifier: number
-  serviceRateMethod: string
-}
-
-export interface ShippingOption {
-  name: string
-  type: string
-  regions: string[]
-  services: Service[]
-}
-
-export interface Service {
-  name: string
-  price: number
-  estimatedDelivery: string
-  additionalItemPrice: number
-}
-
-export interface VendorID {
-  peerID: string
-  handle: string
-  pubkeys: Pubkeys
-  bitcoinSig: string
-}
-
-export interface Pubkeys {
-  identity: string
-  bitcoin: string
-}
+export default Listing

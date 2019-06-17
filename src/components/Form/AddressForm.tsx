@@ -5,7 +5,7 @@ import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
 import Countries from '../../constants/Countries.json'
-import Location from '../../models/Location'
+import Location from '../../interfaces/Location'
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
 

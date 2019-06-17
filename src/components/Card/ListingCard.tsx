@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import config from '../../config'
-import { DjaliListing } from '../../models/Listing'
+import { Listing } from '../../interfaces/Listing'
 
 import './ListingCard.css'
 
 interface ListingProps {
-  listing: DjaliListing
+  listing: Listing
 }
 
 const generateStars = (averageRating: number) => {
@@ -23,14 +23,15 @@ const ListingCard = ({ listing }: ListingProps) => (
       <div className="uk-card-media-top">
         <img
           className="uk-margin-top"
-          src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny}`}
+          src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny ||
+            listing.thumbnail.small}`}
           alt=""
         />
       </div>
       <div className="uk-card-body">
-        <div className="listing-title">{listing.title}</div>
+        <div className="listing-title">{listing.item.title}</div>
         <p>
-          {listing.price.amount} {listing.price.currencyCode}
+          {listing.item.price} {listing.metadata.pricingCurrency}
         </p>
         <div>
           {generateStars(listing.averageRating)} ({listing.averageRating})

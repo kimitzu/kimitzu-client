@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Location from '../../models/Location'
+import Location from '../../interfaces/Location'
 import { AddAddressCard, AddressCard } from '../Card'
 
 interface Props {

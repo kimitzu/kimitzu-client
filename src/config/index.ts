@@ -28,6 +28,9 @@ function getConfig(): Config {
     case 'production': {
       return production
     }
+    case 'test': {
+      return development
+    }
     default: {
       throw new Error('Unsupported environment: ' + process.env.NODE_ENV)
     }
