@@ -22,11 +22,7 @@ const FormSelector = (props: Props) => (
   >
     {props.options ? (
       props.options.map((option: Option) => (
-        <option
-          key={option.value}
-          selected={props.defaultVal === option.value}
-          value={option.value}
-        >
+        <option key={option.value} value={option.value}>
           {option.label}
         </option>
       ))
