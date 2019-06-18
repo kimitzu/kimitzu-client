@@ -2,10 +2,37 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 10vw;
+    width: 100%;
+    font-size: 14px;
+    color: rgb(88, 88, 88);
 }
 
 .listing {
-    width: 50%;
-    height: 50%;
+    height: 300px;
+    background-color: white;
+}
+
+.img-list {
+    height: 200px;
+    width: 100%;
+}
+
+.listing-small-info {
+    padding: 10px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.rating-text {
+    color: rgb(116, 115, 115);
+    font-size: 14px;
+}
+
+.uk-badge {
+    color: white !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }

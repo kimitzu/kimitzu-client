@@ -155,24 +155,9 @@ class Home extends Component<HomeProps, HomeState> {
           onSearchSubmit={this.handleSearchSubmit}
           isSearchBarShow
         />
-        <div
-          style={{
-            backgroundColor: 'red',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: 'blue',
-              display: 'flex',
-              flexDirection: 'row',
-              maxWidth: '95%',
-              width: '95%',
-            }}
-          >
-            <div style={{ backgroundColor: 'green', width: '20%' }}>
+        <div className="main-container">
+          <div className="child-main-container">
+            <div className="custom-width">
               <SidebarFilter
                 locationRadius={locationRadius}
                 onChange={this.handleChange}
@@ -183,18 +168,9 @@ class Home extends Component<HomeProps, HomeState> {
               />
             </div>
             {searchResults.data.length > 0 ? (
-              <div style={{ backgroundColor: 'violet', width: '80%' }}>
-                <div style={{ backgroundColor: 'pink', display: 'flex', flexDirection: 'column' }}>
-                  <div
-                    style={{
-                      backgroundColor: 'yellow',
-                      display: 'flex',
-                      height: '50px',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                    }}
-                  >
+              <div className="custom-width-two">
+                <div className="pagination-cont">
+                  <div className="left-side-container">
                     <ul className="uk-pagination">
                       <li>
                         <a href="#" onClick={() => this.handlePaginate(paginate.currentPage - 1)}>
@@ -208,7 +184,7 @@ class Home extends Component<HomeProps, HomeState> {
                         </a>
                       </li>
                     </ul>
-                    <div className="uk-expand">
+                    <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
                         options={SortOptions}
                         defaultVal={this.state.sort}
@@ -216,42 +192,14 @@ class Home extends Component<HomeProps, HomeState> {
                       />
                     </div>
                   </div>
-                  {/* <div className="uk-flex uk-flex-right">
-                <div className="uk-width-4-4 uk-margin-top uk-margin-right uk-margin-bottom">
-                  <div className="uk-flex uk-flex-row uk-flex-right">
-                    <div className="uk-margin-small-right">
-                      <ul className="uk-pagination">
-                        <li>
-                          <a href="#" onClick={() => this.handlePaginate(paginate.currentPage - 1)}>
-                            <span uk-icon="icon: chevron-left" />
-                          </a>
-                        </li>
-                        {pages.map(p => p)}
-                        <li>
-                          <a href="#" onClick={() => this.handlePaginate(paginate.currentPage + 1)}>
-                            <span uk-icon="icon: chevron-right" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="uk-expand">
-                      <FormSelector
-                        options={SortOptions}
-                        defaultVal={this.state.sort}
-                        onChange={event => this.handleSortChange(event.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-                  <div style={{ flex: 1, backgroundColor: 'gray' }}>
+                  <div style={{ flex: 1 }}>
                     <ListingCardGroup data={searchResults.data} />
                   </div>
                 </div>
               </div>
             ) : isSearching ? (
               <div className="uk-align-center">
-                <div dat-uk-spinner="ratio: 3" />
+                <div data-uk-spinner="ratio: 3" />
               </div>
             ) : (
               <div className="uk-align-center">

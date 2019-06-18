@@ -5,3 +5,42 @@
 .content {
   width: 80%;
 }
+
+.margin-custom {
+  margin-right: 15px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.child-main-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 95%;
+  width: 95%;
+}
+
+.custom-width {
+  width: 20%;
+  padding-top: 17px;
+}
+
+.custom-width-two {
+  width: 80%;
+}
+
+.left-side-container {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.pagination-cont {
+  display: flex;
+  flex-direction: column;
+}
