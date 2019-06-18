@@ -29,9 +29,9 @@ const ListingCard = ({ listing }: ListingProps) => (
         />
       </div>
       <div className="listing-small-info">
-        <div className="listing-title">{listing.item.title}Name Test here</div>
+        <div className="listing-title">{listing.item.title}</div>
         <p className="price">
-          $20{listing.item.price} {listing.metadata.pricingCurrency}
+          {listing.item.price} {listing.metadata.pricingCurrency}
         </p>
         <div className="rating-text">
           {generateStars(listing.averageRating)} ({listing.averageRating})
