@@ -65,10 +65,17 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
     this.handleImageOpen = this.handleImageOpen.bind(this)
     this.handleAddressChange = this.handleAddressChange.bind(this)
+    this.handleRemoveRow = this.handleRemoveRow.bind(this)
   }
 
   get contents() {
-    const { handleInputChange, handleSubmitForm, handleAddShippingService, handleAddCoupons } = this
+    const {
+      handleInputChange,
+      handleSubmitForm,
+      handleRemoveRow,
+      handleAddShippingService,
+      handleAddCoupons,
+    } = this
     return [
       {
         component: (
@@ -144,6 +151,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleAddCoupon={handleAddCoupons}
             handleContinue={handleSubmitForm}
             handleInputChange={handleInputChange}
+            handleRemoveRow={handleRemoveRow}
           />
         ),
         title: 'Coupons',
@@ -288,6 +296,14 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         />
       </div>
     )
+  }
+
+  private handleRemoveRow(type: string, index: number) {
+    const { listing } = this.state
+    if (type === 'coupon') {
+      listing.removeCoupon(index)
+    }
+    this.setState({ listing })
   }
 }
 

@@ -4,3 +4,8 @@
 #field {
   padding-right: 2%;
 }
+#side-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -158,7 +158,11 @@ class Listing implements ListingInterface {
       percentDiscount: 0,
       type: 'percent',
     }
-    this.coupons = [...this.coupons, tempCoupon]
+    this.coupons.push(tempCoupon)
+  }
+
+  public removeCoupon(index: number) {
+    this.coupons.splice(index, 1)
   }
 }
 

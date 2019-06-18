@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react'
+import React from 'react'
 
 import './RadioButtons.css'
 
@@ -26,7 +26,7 @@ const RadioButtons = (props: Props) => {
             className="uk-radio"
             type="radio"
             checked={option.value.toString() === selectedVal}
-            onClick={event => handleOnChange(field, option.value, parentField!)}
+            onChange={() => handleOnChange(field, option.value, parentField!)}
             name={option.value.toString()}
           />
           {option.label}
