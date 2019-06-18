@@ -18,8 +18,8 @@ const NavBar = ({
 }: NavBarProps) => (
   <nav id="nav" className="uk-navbar-container" data-uk-navbar>
     <div id="navbar-left-item" className="uk-navbar-left">
-      <a id="title-logo" className="uk-navbar-item uk-logo" href="/">
-        DJALI
+      <a className="uk-navbar-item uk-logo" href="/">
+        <img id="logo-img" src="./images/Logo/White/SVG/Djali-White-Horizontal.svg" />
       </a>
     </div>
     <div id="navbar-center-item" className="uk-navbar-center">

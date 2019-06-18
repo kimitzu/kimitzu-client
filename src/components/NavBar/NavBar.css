@@ -1,6 +1,10 @@
 #nav {
   background-color: var(--primary);
 }
+#logo-img {
+  width: 130px;
+  height: 80px;
+}
 #search-bar {
   background-color: #fff;
   /* color: var(--primary); */
@@ -8,12 +12,6 @@
 }
 #search-bar-form {
   flex: 1;
-}
-#title-logo {
-  font-size: 1.9rem;
-  flex: 1;
-  font-weight: bold;
-  color: #fff !important;
 }
 #navbar-left-item {
   width: 25%;
@@ -30,5 +28,5 @@
   margin-right: 5%;
 }
 #create-listing {
-  color: white
+  color: white;
 }
