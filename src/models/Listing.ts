@@ -140,6 +140,7 @@ class Listing implements ListingInterface {
 
   public async save() {
     this.slug = slugify(this.item.title)
+    this.coupons = this.coupons.filter(coupon => coupon.discountCode !== '' || coupon.title !== '')
     await Axios.post(`${config.openBazaarHost}/ob/listing`, this)
   }
 

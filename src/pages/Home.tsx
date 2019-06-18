@@ -27,7 +27,7 @@ interface Transform {
 interface Spec {
   hash: string
   thumbnail: string
-  title: string
+  'item.title': string
   'item.price': string
   'metadata.pricingCurrency': string
   averageRating: string
@@ -86,7 +86,7 @@ class Home extends Component<HomeProps, HomeState> {
           spec: {
             hash: 'hash',
             thumbnail: 'thumbnail',
-            title: 'item.title',
+            'item.title': 'item.title',
             'item.price': 'item.price',
             'metadata.pricingCurrency': 'metadata.pricingCurrency',
             averageRating: 'averageRating',

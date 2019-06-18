@@ -33,10 +33,13 @@ const NavBar = ({
             }}
           >
             <a
-              href="/"
+              href="#"
               className="uk-search-icon-flip color-primary"
               uk-icon="icon: search"
               data-uk-search-icon
+              onClick={() => {
+                onSearchSubmit(true)
+              }}
             />
             <input
               id="search-bar"
