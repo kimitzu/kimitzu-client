@@ -155,38 +155,36 @@ class Home extends Component<HomeProps, HomeState> {
           onSearchSubmit={this.handleSearchSubmit}
           isSearchBarShow
         />
-        <div className="uk-flex uk-flex-row uk-flex-left">
-          <div className="uk-width-1-4">
-            <SidebarFilter
-              locationRadius={locationRadius}
-              onChange={this.handleChange}
-              onFilterChange={this.handleFilterChange}
-              onFilterSubmit={this.handleFilterSubmit}
-              plusCode={plusCode}
-              onFilterReset={this.handleFilterReset}
-            />
-          </div>
-          {searchResults.data.length > 0 ? (
-            <div className="uk-flex uk-flex-column uk-width-3-4">
-              <div className="uk-flex uk-flex-right">
-                <div className="uk-width-3-4 uk-margin-top uk-margin-right uk-margin-bottom">
-                  <div className="uk-flex uk-flex-row uk-flex-right">
-                    <div className="uk-margin-small-right">
-                      <ul className="uk-pagination">
-                        <li>
-                          <a href="#" onClick={() => this.handlePaginate(paginate.currentPage - 1)}>
-                            <span uk-icon="icon: chevron-left" />
-                          </a>
-                        </li>
-                        {pages.map(p => p)}
-                        <li>
-                          <a href="#" onClick={() => this.handlePaginate(paginate.currentPage + 1)}>
-                            <span uk-icon="icon: chevron-right" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="uk-expand">
+        <div className="main-container">
+          <div className="child-main-container">
+            <div className="custom-width">
+              <SidebarFilter
+                locationRadius={locationRadius}
+                onChange={this.handleChange}
+                onFilterChange={this.handleFilterChange}
+                onFilterSubmit={this.handleFilterSubmit}
+                plusCode={plusCode}
+                onFilterReset={this.handleFilterReset}
+              />
+            </div>
+            {searchResults.data.length > 0 ? (
+              <div className="custom-width-two">
+                <div className="pagination-cont">
+                  <div className="left-side-container">
+                    <ul className="uk-pagination">
+                      <li>
+                        <a href="#" onClick={() => this.handlePaginate(paginate.currentPage - 1)}>
+                          <span uk-icon="icon: chevron-left" />
+                        </a>
+                      </li>
+                      {pages.map(p => p)}
+                      <li>
+                        <a href="#" onClick={() => this.handlePaginate(paginate.currentPage + 1)}>
+                          <span uk-icon="icon: chevron-right" />
+                        </a>
+                      </li>
+                    </ul>
+                    <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
                         options={SortOptions}
                         defaultVal={this.state.sort}
@@ -194,20 +192,22 @@ class Home extends Component<HomeProps, HomeState> {
                       />
                     </div>
                   </div>
+                  <div style={{ flex: 1 }}>
+                    <ListingCardGroup data={searchResults.data} />
+                  </div>
                 </div>
               </div>
-              <ListingCardGroup data={searchResults.data} />
-            </div>
-          ) : isSearching ? (
-            <div className="uk-align-center">
-              <div uk-spinner="ratio: 3" />
-            </div>
-          ) : (
-            <div className="uk-align-center">
-              <h2>No Results ¯\_(ツ)_/¯</h2>
-              <p>Try a different search keyword or filter</p>
-            </div>
-          )}
+            ) : isSearching ? (
+              <div className="uk-align-center">
+                <div data-uk-spinner="ratio: 3" />
+              </div>
+            ) : (
+              <div className="uk-align-center">
+                <h2>No Results ¯\_(ツ)_/¯</h2>
+                <p>Try a different search keyword or filter</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     )
