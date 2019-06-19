@@ -45,8 +45,8 @@ const ShippingOptionForm = ({
   handleContinue,
 }: Props) => {
   const { destination, optionTitle, shippingServices, type } = data
-  const pointer = shippingServices[shippingServices.length - 1]
-  const remainingShippingServices = shippingServices.slice(0, shippingServices.length - 1)
+  const pointer = shippingServices[0]
+  const remainingShippingServices = shippingServices.slice(1, shippingServices.length)
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
