@@ -119,7 +119,7 @@ class Home extends Component<HomeProps, HomeState> {
     const { locationRadius, plusCode, searchResults, paginate, isSearching } = this.state
 
     // TODO: move to a separate function if possible
-    const pages = []
+    const pages: JSX.Element[] = []
     let startIndex = 0
     let paginationLimit = 9
 

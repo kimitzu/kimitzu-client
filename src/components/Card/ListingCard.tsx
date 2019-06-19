@@ -10,7 +10,7 @@ interface ListingProps {
 }
 
 const generateStars = (averageRating: number) => {
-  const stars = []
+  const stars: JSX.Element[] = []
   for (let index = 0; index < averageRating; index++) {
     stars.push(<span key={index} uk-icon="icon: star; ratio: 0.5" />)
   }

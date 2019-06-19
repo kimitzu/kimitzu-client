@@ -193,7 +193,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   public async handleImageOpen(event: React.ChangeEvent<HTMLInputElement>) {
     const imageFiles = event.target.files
-    let base64ImageFiles = []
+    const base64ImageFiles: Array<Promise<string>> = []
 
     if (!imageFiles) {
       return
@@ -205,9 +205,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
     }
 
-    base64ImageFiles = await Promise.all(base64ImageFiles)
+    const base64ImageFilesUploadResults = await Promise.all(base64ImageFiles)
     this.setState({
-      tempImages: base64ImageFiles,
+      tempImages: base64ImageFilesUploadResults,
     })
   }
 
