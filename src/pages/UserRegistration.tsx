@@ -4,7 +4,7 @@ import { IntroductionCard, RegistrationCard } from '../components/Card'
 import SuccessCard from '../components/Card/SuccessCard'
 import { RegistrationForm, TermsOfService } from '../components/Form'
 import Countries from '../constants/Countries.json'
-import CryptoCurrencies from '../constants/CryptoCurrencies.json'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
@@ -14,6 +14,8 @@ import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
 import Profile from '../models/Profile'
 import './UserRegistration.css'
+
+const cryptoCurrencies = CryptoCurrencies()
 
 interface State {
   avatar: string
@@ -76,7 +78,7 @@ class UserRegistration extends Component<{}, State> {
             availableCountries={Countries}
             fiatCurrencies={FiatCurrencies}
             currencyTypes={CurrencyTypes} // Fiat or Crypto
-            cryptoCurrencies={CryptoCurrencies}
+            cryptoCurrencies={cryptoCurrencies}
             languages={Languages}
             unitOfMeasurements={UnitsOfMeasurement} // Metric or English System
             onChange={this.handleChange}

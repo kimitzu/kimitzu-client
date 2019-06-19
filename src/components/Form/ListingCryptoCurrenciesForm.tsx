@@ -1,10 +1,11 @@
 import React from 'react'
 
-import CryptoCurrencies from '../../constants/CryptoCurrencies.json'
+import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
 import './ListingCryptoCurrenciesForm.css'
 
-CryptoCurrencies.splice(0, 1)
+const cryptoCurrencies = CryptoCurrencies()
+cryptoCurrencies.splice(0, 1)
 
 interface Options {
   value: string
@@ -27,7 +28,7 @@ const ListingCryptoCurrenciesForm = ({
   <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
       <div id="crypto-checkers" className="uk-margin uk-flex">
-        {CryptoCurrencies.map((crypto: Options) => (
+        {cryptoCurrencies.map((crypto: Options) => (
           <label id="checker" className="color-primary" key={crypto.value}>
             <input
               id="input-checker"
