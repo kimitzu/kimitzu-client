@@ -3,7 +3,7 @@
   width: 80%;
   left: 0;
   right: 0;
-  position: absolute;
+  /* position: absolute; */
   margin: auto;
   margin-top: 2%;
 }
@@ -32,11 +32,6 @@
   text-align: center;
   font-weight: bold;
   margin-right: 2%;
-}
-#card-title {
-  margin-top: 5%;
-  display: flex;
-  justify-content: center;
 }
 #body-item {
   padding-bottom: 4%;
