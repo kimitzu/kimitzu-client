@@ -57,11 +57,10 @@ class Listing implements ListingInterface {
     options: [],
     skus: [
       {
-        productID: '',
-        surcharge: 0,
-        quantity: 0,
+        quantity: NaN,
       },
     ],
+    serviceRateMethod: 'PER_HOUR',
   }
 
   public averageRating: number = 0

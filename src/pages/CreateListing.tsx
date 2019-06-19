@@ -106,18 +106,18 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         ),
         title: 'Photos',
       },
-      {
-        component: (
-          <ShippingOptionForm
-            data={this.state.shippingOptions}
-            handleAddShippingService={handleAddShippingService}
-            handleContinue={handleSubmitForm}
-            handleInputChange={handleInputChange}
-            disabled={this.state.listing.metadata.contractType === 'SERVICE'}
-          />
-        ),
-        title: 'Shipping',
-      },
+      // {
+      //   component: (
+      //     <ShippingOptionForm
+      //       data={this.state.shippingOptions}
+      //       handleAddShippingService={handleAddShippingService}
+      //       handleContinue={handleSubmitForm}
+      //       handleInputChange={handleInputChange}
+      //       disabled={this.state.listing.metadata.contractType === 'SERVICE'}
+      //     />
+      //   ),
+      //   title: 'Shipping',
+      // },
       {
         component: (
           <TagsForm

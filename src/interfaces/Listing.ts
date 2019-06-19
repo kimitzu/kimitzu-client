@@ -56,11 +56,10 @@ export interface Item {
   condition: string
   options: any[]
   skus: Skus[]
+  serviceRateMethod: string
 }
 
 export interface Skus {
-  productID: string
-  surcharge: number
   quantity: number
 }
 
