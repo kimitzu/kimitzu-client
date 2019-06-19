@@ -150,12 +150,13 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                   type="text"
                   value={skuPointer.quantity < 0 ? '' : skuPointer.quantity}
                   onChange={event => {
+                    const value = Number(event.target.value)
                     if (event.target.value === '') {
                       skuPointer.quantity = -1
-                    } else if (!Number(event.target.value)) {
-                      return
+                    } else if (value || value === 0) {
+                      skuPointer.quantity = value
                     } else {
-                      skuPointer.quantity = Number(event.target.value)
+                      skuPointer.quantity = -1
                     }
                     handleInputChange('item.skus', data.item.skus, 'listing')
                   }}
