@@ -61,9 +61,13 @@ class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      filters: {},
+      filters: {
+        'metadata.contractType': 'SERVICE',
+      },
       locationRadius: -1,
-      modifiers: {},
+      modifiers: {
+        'metadata.contractType': '==',
+      },
       plusCode: '',
       searchQuery: '',
       sort: 'x.item.title <= y.item.title',
@@ -105,6 +109,10 @@ class Home extends Component<HomeProps, HomeState> {
     this.handlePaginate = this.handlePaginate.bind(this)
     this.handleNewSearch = this.handleNewSearch.bind(this)
     this.handleFilterReset = this.handleFilterReset.bind(this)
+  }
+
+  public async componentDidMount() {
+    await this.handleSearchSubmit(true)
   }
 
   public render() {
@@ -297,10 +305,15 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private async handleFilterReset() {
-    const filters = {}
+    const filters = {
+      'metadata.contractType': 'SERVICE',
+    }
+    const modifiers = {
+      'metadata.contractType': '==',
+    }
     const locationRadius = -1
-    const modifiers = {}
     const plusCode = ''
+
     this.setState({
       filters,
       locationRadius,
