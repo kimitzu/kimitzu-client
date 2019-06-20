@@ -69,7 +69,7 @@ const Filter = ({
             className="uk-input"
             type="number"
             placeholder="MIN"
-            onChange={event => onFilterChange('price.min', event.target.value)}
+            onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
           />
         </div>
         <span data-uk-icon="icon: triangle-right; ratio: 2" />
@@ -79,7 +79,7 @@ const Filter = ({
             className="uk-input"
             type="number"
             placeholder="MAX"
-            onChange={event => onFilterChange('price.max', event.target.value)}
+            onChange={event => onFilterChange('priceMax', event.target.value, '>=')}
           />
         </div>
       </div>

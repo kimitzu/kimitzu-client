@@ -397,8 +397,20 @@ class Home extends Component<HomeProps, HomeState> {
     }
     const { filters, modifiers, plusCode, locationRadius, searchQuery, paginate } = this.state
 
+    const priceMin = filters.priceMin * 100
+    const priceMax = filters.priceMax * 100
+    let priceRange
+
+    if (priceMin >= 0 && priceMax >= 0) {
+      priceRange = `doc.item.price >= ${priceMin} && doc.item.price <= ${priceMax}`
+    }
+
+    delete filters.priceMin
+    delete filters.priceMax
+
     const keys = Object.keys(filters)
     const values = Object.values(filters)
+
     let extendedFilters = keys.map((key, index) => {
       if (values[index] === '') {
         return
@@ -425,6 +437,10 @@ class Home extends Component<HomeProps, HomeState> {
       const locationRadiusFilter = locationRadius > -1 ? locationRadius : 0
       const { latitudeCenter, longitudeCenter } = PlusCode.decode(plusCode)
       extendedFilters[0] = `coordsWithin(${latitudeCenter}, ${longitudeCenter}, doc.location.zipCode, doc.location.country, ${locationRadiusFilter})`
+    }
+
+    if (priceRange) {
+      extendedFilters.push(priceRange)
     }
 
     const searchObject = {
