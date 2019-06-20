@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
 import './NavBar.css'
 
 interface NavBarProps {
@@ -17,34 +18,45 @@ const NavBar = ({
 }: NavBarProps) => (
   <nav id="nav" className="uk-navbar-container" data-uk-navbar>
     <div id="navbar-left-item" className="uk-navbar-left">
-      <a id="title-logo" className="uk-navbar-item uk-logo" href="/">
-        DJALI
+      <a className="uk-navbar-item uk-logo" href="/">
+        <img id="logo-img" src="./images/Logo/White/SVG/Djali-White-Horizontal.svg" />
       </a>
     </div>
     <div id="navbar-center-item" className="uk-navbar-center">
       {isSearchBarShow ? (
-        <form
-          id="search-bar-form"
-          className="uk-search uk-search-default"
-          onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault()
-            onSearchSubmit(true)
-          }}
-        >
-          <a
-            href="/"
-            className="uk-search-icon-flip color-primary"
-            uk-icon="icon: search"
-            data-uk-search-icon
-          />
-          <input
-            id="search-bar"
-            className="uk-search-input"
-            type="search"
-            placeholder="What are you looking for?"
-            onChange={event => onQueryChange('searchQuery', event.target.value)}
-          />
-        </form>
+        <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-1">
+          <form
+            className="uk-search uk-search-default uk-width-1-1"
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault()
+              onSearchSubmit(true)
+            }}
+          >
+            <a
+              href="#"
+              className="uk-search-icon-flip color-primary"
+              uk-icon="icon: search"
+              data-uk-search-icon
+              onClick={() => {
+                onSearchSubmit(true)
+              }}
+            />
+            <input
+              id="search-bar"
+              className="uk-search-input"
+              type="search"
+              placeholder="What are you looking for?"
+              onChange={event => onQueryChange('searchQuery', event.target.value)}
+            />
+          </form>
+          <div className="uk-width-1-2">
+            <Link to="/listing/create">
+              <a id="create-listing" className="uk-button uk-button-link uk-margin-left">
+                <span uk-icon="plus-circle" /> Create Listing
+              </a>
+            </Link>
+          </div>
+        </div>
       ) : null}
     </div>
     <div id="navbar-right-item" className="uk-navbar-right">

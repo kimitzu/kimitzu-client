@@ -5,6 +5,7 @@ import ListingAddUpdateCard from './ListingAddUpdateCard'
 import PayoutCard from './PayoutCard'
 import ProfessionalBackgroundCard from './ProfessionalBackgroundCard'
 import RegistrationCard from './RegistrationCard'
+import SideMenuWithContentCard from './SideMenuWithContentCard'
 import SocialMediaCard from './SocialMediaCard'
 import TagsCard from './TagsCard'
 import TermsOfServiceCard from './TermsOfServiceCard'
@@ -15,6 +16,7 @@ export {
   ListingAddUpdateCard,
   RegistrationCard,
   IntroductionCard,
+  SideMenuWithContentCard,
   PayoutCard,
   SocialMediaCard,
   ProfessionalBackgroundCard,

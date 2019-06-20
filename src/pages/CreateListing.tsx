@@ -1,8 +1,6 @@
 import React, { Component, ReactNode } from 'react'
 
-import Axios from 'axios'
-import slugify from 'slugify'
-import { ListingAddUpdateCard } from '../components/Card'
+import { SideMenuWithContentCard } from '../components/Card'
 import {
   AddressForm,
   ListingCouponsForm,
@@ -13,9 +11,9 @@ import {
   ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
-import config from '../config'
-import { ListingCreate } from '../models/ListingCreate'
+import Listing from '../models/Listing'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
+import PlusCode from '../utils/Location/PlusCode'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
 interface CardContent {
@@ -28,7 +26,7 @@ interface CreateListingProps {
 }
 
 interface CreateListingState {
-  listing: ListingCreate
+  listing: Listing
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
@@ -38,59 +36,15 @@ interface CreateListingState {
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
   constructor(props: CreateListingProps) {
     super(props)
-    const expirationDate = new Date()
-    expirationDate.setMonth(expirationDate.getMonth() + 1)
+    const listing = new Listing()
+
     this.state = {
       currentFormIndex: 0,
       tempImages: [],
       isLoading: false,
       // === Formal Schema
-      listing: {
-        metadata: {
-          contractType: 'SERVICE',
-          expiry: expirationDate.toISOString(),
-          format: 'FIXED_PRICE',
-          pricingCurrency: 'usd',
-          acceptedCurrencies: [],
-        },
-        item: {
-          title: '',
-          description: '',
-          price: 0,
-          tags: [],
-          images: [],
-          categories: [],
-          condition: 'New',
-          options: [],
-          skus: [],
-          nsfw: false,
-        },
-        coupons: [
-          {
-            title: '',
-            discountCode: '',
-            percentDiscount: 0,
-            type: 'percent',
-          },
-        ],
-        termsAndConditions: '',
-        // === TODO: Implement handlers for the fields below
-        taxes: [],
-        moderators: [],
-        shippingOptions: [],
-        refundPolicy: 'None',
-        location: {
-          latitude: '',
-          longitude: '',
-          plusCode: '',
-          addressOne: '',
-          addressTwo: '',
-          city: 'Iloilo City',
-          state: 'Iloilo',
-          country: 'PH',
-          zipCode: '5000',
-        },
-      },
+      listing,
+      // === TODO: Implement handlers
       shippingOptions: {
         destination: '',
         optionTitle: '',
@@ -112,10 +66,17 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
     this.handleImageOpen = this.handleImageOpen.bind(this)
     this.handleAddressChange = this.handleAddressChange.bind(this)
+    this.handleRemoveRow = this.handleRemoveRow.bind(this)
   }
 
   get contents() {
-    const { handleInputChange, handleSubmitForm, handleAddShippingService, handleAddCoupons } = this
+    const {
+      handleInputChange,
+      handleSubmitForm,
+      handleRemoveRow,
+      handleAddShippingService,
+      handleAddCoupons,
+    } = this
     return [
       {
         component: (
@@ -152,18 +113,18 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         ),
         title: 'Photos',
       },
-      {
-        component: (
-          <ShippingOptionForm
-            data={this.state.shippingOptions}
-            handleAddShippingService={handleAddShippingService}
-            handleContinue={handleSubmitForm}
-            handleInputChange={handleInputChange}
-            disabled={this.state.listing.metadata.contractType === 'SERVICE'}
-          />
-        ),
-        title: 'Shipping',
-      },
+      // {
+      //   component: (
+      //     <ShippingOptionForm
+      //       data={this.state.shippingOptions}
+      //       handleAddShippingService={handleAddShippingService}
+      //       handleContinue={handleSubmitForm}
+      //       handleInputChange={handleInputChange}
+      //       disabled={this.state.listing.metadata.contractType === 'SERVICE'}
+      //     />
+      //   ),
+      //   title: 'Shipping',
+      // },
       {
         component: (
           <TagsForm
@@ -191,6 +152,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleAddCoupon={handleAddCoupons}
             handleContinue={handleSubmitForm}
             handleInputChange={handleInputChange}
+            handleRemoveRow={handleRemoveRow}
           />
         ),
         title: 'Coupons',
@@ -231,7 +193,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   public async handleImageOpen(event: React.ChangeEvent<HTMLInputElement>) {
     const imageFiles = event.target.files
-    let base64ImageFiles = []
+    const base64ImageFiles: Array<Promise<string>> = []
 
     if (!imageFiles) {
       return
@@ -243,15 +205,23 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
     }
 
-    base64ImageFiles = await Promise.all(base64ImageFiles)
+    const base64ImageFilesUploadResults = await Promise.all(base64ImageFiles)
     this.setState({
-      tempImages: base64ImageFiles,
+      tempImages: base64ImageFilesUploadResults,
     })
   }
 
   public handleInputChange(field: string, value: any, parentField?: string) {
     if (parentField) {
       const subFieldData = this.state[parentField]
+      if (field === 'location.plusCode') {
+        if (PlusCode.isValid(value)) {
+          const plusCodeBounds = PlusCode.decode(value)
+          const { longitudeCenter, latitudeCenter } = plusCodeBounds
+          NestedJSONUpdater(subFieldData, 'location.latitude', latitudeCenter)
+          NestedJSONUpdater(subFieldData, 'location.longitude', longitudeCenter)
+        }
+      }
       NestedJSONUpdater(subFieldData, field, value)
       this.setState({ ...this.state })
     } else {
@@ -268,6 +238,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     })
   }
 
+  // TODO: Handle properly
   public handleAddShippingService() {
     const tempShippingService = {
       name: '',
@@ -281,14 +252,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public handleAddCoupons() {
-    const tempCoupon = {
-      title: '',
-      discountCode: '',
-      percentDiscount: 0,
-      type: 'percent',
-    }
-    const listing = this.state.listing
-    listing.coupons = [...listing.coupons, tempCoupon]
+    this.state.listing.addCoupon()
     this.setState({
       listing: this.state.listing,
     })
@@ -309,12 +273,11 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const images = await Promise.all(imageUpload)
 
     listing.item.images = images
-    listing.slug = slugify(listing.item.title)
-    listing.item.processingTime = '1 day'
 
     try {
-      const listingSaveRequest = await Axios.post(`${config.openBazaarHost}/ob/listing`, listing)
+      await listing.save()
       alert('Listing Successfully Posted')
+      window.location.href = '/'
     } catch (e) {
       alert(e.message)
       this.setState({
@@ -328,19 +291,28 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public render() {
-    const { contents, navItems, currentForm } = this
+    const { navItems, currentForm } = this
     return (
       <div className="background-body full-vh uk-padding-small">
-        <ListingAddUpdateCard
+        <SideMenuWithContentCard
           mainContentTitle={currentForm.title}
           menuContent={{
             title: 'CREATE LISTING',
             navItems,
           }}
           mainContent={currentForm.component}
+          currentNavIndex={this.state.currentFormIndex}
         />
       </div>
     )
+  }
+
+  private handleRemoveRow(type: string, index: number) {
+    const { listing } = this.state
+    if (type === 'coupon') {
+      listing.removeCoupon(index)
+    }
+    this.setState({ listing })
   }
 }
 

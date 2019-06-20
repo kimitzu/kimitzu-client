@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+
+import { RouteComponentProps } from 'react-router-dom'
 import {
   PayoutCard,
   ProfessionalBackgroundCard,
@@ -7,10 +9,13 @@ import {
   TermsOfServiceCard,
 } from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
-import NavBar from '../components/NavBar/NavBar'
-import { Profile } from '../models/Profile'
 
+import config from '../config'
+import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
+
+import Listing from '../models/Listing'
+import Profile from '../models/Profile'
 
 interface Image {
   src: string
@@ -20,162 +25,90 @@ interface State {
   currentIndex: number
   hasStarted: boolean
   numberOfPages: number
-  data: Image[]
+  imageData: Image[]
   profile: Profile
+  listing: Listing
 }
 
-class ListingProfile extends Component<{}, State> {
+interface RouteProps {
+  id: string
+}
+
+interface Props extends RouteComponentProps<RouteProps> {}
+
+class ListingProfile extends Component<Props, State> {
   constructor(props: any) {
     super(props)
+    const listing = new Listing()
+    const profile = new Profile()
+
     this.state = {
       currentIndex: 1,
       hasStarted: false,
       numberOfPages: 2,
-      data: [
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/d73d6b78132305098d0ad001d5988f4c.jpg_340x340q80.jpg_.webp',
-        },
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/c3610c01927bcc7a30d224952ed741e5.jpg_340x340q80.jpg_.webp',
-        },
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/d777cae80931e046f1ba301de13c85b4.jpg_340x340q80.jpg_.webp',
-        },
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/ff6e1303f814fbde8e01dcf7117c0124.jpg_340x340q80.jpg_.webp',
-        },
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/592f1ff4e19dfc79869066ef618fce77.jpg_340x340q80.jpg_.webp',
-        },
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/0a2d68aa293e6be515377c2edf7937b8.jpg_340x340q80.jpg_.webp',
-        },
-        {
-          src:
-            'https://ph-test-11.slatic.net/p/096d7bbdc85794ca701b9cc3f2071f1c.jpg_340x340q80.jpg_.webp',
-        },
-      ],
-      profile: {
-        peerID: '',
-        handle: '',
-        name: '',
-        location: '',
-        about: '',
-        shortDescription: '',
-        nsfw: false,
-        vendor: false,
-        moderator: false,
-        bitcoinPubkey: '',
-        lastModified: '',
-        currencies: ['BCH', 'ZEC', 'LTC', 'BTC'],
-        avatarHashes: {
-          tiny: '',
-          small: '',
-          medium: '',
-          large: '',
-          original: '',
-        },
-        extLocation: {
-          primary: 0,
-          shipping: 0,
-          billing: 0,
-          return: 0,
-          addresses: [
-            {
-              type: [''],
-              latitude: '',
-              longitude: '',
-              plusCode: '',
-              addressOne: '',
-              addressTwo: '',
-              city: '',
-              state: '',
-              country: '',
-              zipCode: '',
-            },
-          ],
-        },
-        profileType: 'djali',
-        metaTags: {
-          DjaliVersion: '0.0.1-dev',
-        },
-        preferences: {
-          currencyDisplay: '',
-          fiat: '',
-          cryptocurrency: '',
-          language: '',
-          measurementUnit: '',
-        },
-        background: {
-          educationHistory: [
-            {
-              title: 'Central Philippine University',
-              subtitle: 'BSCS',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the education',
-            },
-            {
-              title: 'Central Philippine University',
-              subtitle: 'BSCS',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the education',
-            },
-          ],
-          employmentHistory: [
-            {
-              title: 'Developer',
-              subtitle: 'Kingsland University',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the work',
-            },
-            {
-              title: 'Developer',
-              subtitle: 'Kingsland University',
-              date: '2013-2018',
-              address: 'Jaro Iloilo City Philippines',
-              desc: 'A short description about the work',
-            },
-          ],
-        },
-        spokenLanguages: ['English', 'Tagalog', 'British'],
-        programmingLanguages: ['Javascript', 'Golang', 'C++'],
-      },
+      imageData: [],
+      listing,
+      profile,
     }
+  }
+
+  public async componentDidMount() {
+    const id = this.props.match.params.id
+    const listing = await Listing.retrieve(id)
+
+    this.setState({
+      listing: listing.listing,
+      imageData: listing.imageData,
+      profile: listing.profile,
+    })
   }
 
   public render() {
     const { background, spokenLanguages, programmingLanguages } = this.state.profile
+
+    const rating = Math.floor(this.state.listing.averageRating)
+    const ratingStars: JSX.Element[] = []
+
+    for (let index = 0; index < 5; index++) {
+      if (index < rating) {
+        ratingStars.push(
+          <span className="blue-fill" key={index}>
+            <a data-uk-icon="icon: star;" className="text-blue" />
+          </span>
+        )
+      } else {
+        ratingStars.push(
+          <a key={index} data-uk-icon="icon: star;" className="empty-fill text-blue" />
+        )
+      }
+    }
+
     return (
       <div id="container">
         <div className="uk-card uk-card-default uk-card-body card-head">
           <div id="profile-header">
             <div id="left-content">
-              <CarouselListing data={this.state.data} />
+              <CarouselListing data={this.state.imageData} />
             </div>
             <div id="right-content">
               <div id="head-content">
-                <p className="uk-text-large uk-text-bold text-blue">Listing Name</p>
-                <p className="uk-text-small">
-                  Type: <p className="uk-display-inline uk-text-bold">Physical Good</p>
-                  &nbsp; &nbsp; Condition: <p className="uk-display-inline uk-text-bold">New</p>
+                <p className="uk-text-large uk-text-bold text-blue">
+                  {decodeHtml(this.state.listing.item.title)}
                 </p>
+                <div className="uk-text-small">
+                  Type:{' '}
+                  <p className="uk-display-inline uk-text-bold">
+                    {this.state.listing.metadata.contractType}
+                  </p>
+                  &nbsp; &nbsp; Condition:{' '}
+                  <p className="uk-display-inline uk-text-bold">
+                    {this.state.listing.item.condition}
+                  </p>
+                </div>
                 <div id="starsContainer" className="uk-margin-small-top">
-                  <a data-uk-icon="icon: star;" className="text-blue" />
-                  <a data-uk-icon="icon: star;" className="text-blue uk-margin-left" />
-                  <a data-uk-icon="icon: star;" className="text-blue uk-margin-left" />
-                  <a data-uk-icon="icon: star;" className="text-blue uk-margin-left" />
-                  <a data-uk-icon="icon: star;" className="text-blue uk-margin-left" />
+                  {ratingStars}
                   <a id="rating" className="text-blue uk-margin-left uk-text-bold rating">
-                    4.0
+                    {rating} star{rating !== 1 ? 's' : ''}
                   </a>
                 </div>
                 <a className="uk-text-small text-blue uk-margin-small-top">
@@ -183,11 +116,13 @@ class ListingProfile extends Component<{}, State> {
                 </a>
                 <br />
                 <hr />
-                <p className="text-blue priceSize uk-margin-small-top">$20.00/hr</p>
+                <p className="text-blue priceSize uk-margin-small-top">
+                  {this.state.listing.displayValue} {this.state.listing.metadata.pricingCurrency}
+                </p>
                 <div id="footerContent" className="uk-margin-medium-top">
                   <div id="footerContentLeft">
                     <div>
-                      <span>Hour:</span>
+                      <span>Buy:</span>
                       <a
                         id="hourSelector"
                         data-uk-icon="icon: plus;"
@@ -210,14 +145,18 @@ class ListingProfile extends Component<{}, State> {
                       <div id="soldByContLeft">
                         <img
                           className="uk-border-circle"
-                          src="https://getuikit.com/docs/images/avatar.jpg"
+                          src={`${config.openBazaarHost}/ob/images/${
+                            this.state.profile.avatarHashes.small
+                          }`}
                           width="65"
                           height="65"
                           alt="Border circle"
                         />
                       </div>
                       <div id="soldByContRight">
-                        <p className="uk-text-medium uk-text-bold text-blue">John Doe</p>
+                        <p className="uk-text-medium uk-text-bold text-blue">
+                          {this.state.profile.name}
+                        </p>
                         <div>
                           <a data-uk-icon="icon: mail; ratio: 1.5;" className="text-blue" />
                           <span className="uk-text-small uk-margin-small-left">Message</span>
@@ -235,16 +174,9 @@ class ListingProfile extends Component<{}, State> {
         </div>
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
-          <p className="inside-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum.
-          </p>
+          <p className="inside-content">{this.state.listing.item.description}</p>
         </div>
-        <PayoutCard />
+        <PayoutCard acceptedPayments={this.state.listing.metadata.acceptedCurrencies} />
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Contact Information</h3>
           <div className="inside-content">
@@ -265,7 +197,7 @@ class ListingProfile extends Component<{}, State> {
           <h3 className="uk-card-title text-blue uk-text-bold">Programming Expertise Level</h3>
           <h4 className="uk-text-bold text-gray inside-content">Level 1</h4>
         </div>
-        <TermsOfServiceCard data={'data'} />
+        <TermsOfServiceCard data={this.state.listing.termsAndConditions || 'Nothing specified.'} />
       </div>
     )
   }

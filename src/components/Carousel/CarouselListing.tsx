@@ -1,6 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
-
-// import actions from '../../common/constants'
+import React, { useEffect, useState } from 'react'
 
 import './CarouselListing.css'
 
@@ -94,6 +92,7 @@ const CarouselListing = ({ data }: Props) => {
               className="uk-inline"
               href={img.src}
               data-caption={`${i} of ${data.length}`}
+              data-type="image"
             />
           )
         })}

@@ -12,12 +12,13 @@ interface Props {
 }
 
 const RegistrationCard = (props: Props) => (
-  <div id="regcard" className="uk-card-default uk-card-large uk-card-body uk-flex-center">
-    <h3 id="regcard-title" className="color-primary uk-card-title">
-      DJALI
-    </h3>
-    {props.content}
-    <div className="uk-flex uk-flex-center">
+  <div
+    id="regcard"
+    className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-column uk-flex-middle"
+  >
+    <img className="djali-logo-form" src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg" />
+    <div className="uk-width-1-1">{props.content}</div>
+    <div className="uk-flex uk-flex-center uk-width-1-1">
       <div id="footer-left">
         <a
           className="color-primary"

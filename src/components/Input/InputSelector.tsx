@@ -1,4 +1,4 @@
-import React, { ChangeEvent, InputHTMLAttributes, SelectHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, SelectHTMLAttributes } from 'react'
 
 import './InputSelector.css'
 
@@ -17,13 +17,14 @@ interface Props {
 const InputSelector = ({ defaultSelectorVal, inputProps, options, selectProps }: Props) => (
   <div id="input-selector" className="uk-flex">
     <input id="input" className="uk-input" {...inputProps} />
-    <select id="selector" className="uk-select color-primary" {...selectProps}>
+    <select
+      id="selector"
+      defaultValue={defaultSelectorVal}
+      className="uk-select color-primary"
+      {...selectProps}
+    >
       {options.map((option: Option) => (
-        <option
-          key={option.value}
-          value={option.value}
-          selected={option.value === defaultSelectorVal}
-        >
+        <option key={option.value} value={option.value}>
           {option.label}
         </option>
       ))}

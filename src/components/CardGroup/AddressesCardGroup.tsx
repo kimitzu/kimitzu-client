@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Location from '../../models/Location'
+import Location from '../../interfaces/Location'
 import { AddAddressCard, AddressCard } from '../Card'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 const AddressesCardGroup = (props: Props) => {
   const { locations, handleAddAddressBtn, handleSelectAddress } = props
   return (
-    <div>
+    <div className="uk-flex-1">
       {locations.map((location: Location, index: number) => (
         <AddressCard
           key={index}

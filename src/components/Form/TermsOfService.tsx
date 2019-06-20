@@ -1,6 +1,6 @@
 import React from 'react'
 
-import tos from '../../common/tos.json'
+import tos from '../../constants/TermsOfService.json'
 
 // TODO: move somewhere else
 const termsOfService = tos.content

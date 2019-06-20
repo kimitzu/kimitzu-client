@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Location from '../../models/Location'
+import Location from '../../interfaces/Location'
 import './AddressCard.css'
 
 interface Props {
@@ -16,17 +16,13 @@ const AddressCard = (props: Props) => {
       className="uk-card uk-card-default uk-card-body"
       onClick={props.handleSelectAddress}
     >
-      {location.type!.length > 0 ? (
-        <div id="address-right-label" className="uk-card-badge uk-label">
-          {location.type!.map((t, index) => {
-            return `${t.toUpperCase()}${index < location.type!.length - 1 ? ' | ' : ''}`
-          })}
-        </div>
-      ) : null}
-
-      <h4 id="address-title" className="uk-card-title address-card-font">
-        Address
-      </h4>
+      <div id="address-types">
+        {location.type!.map((t: string, index: number) => (
+          <span key={`${t}${index}`} id="address-type-label" className="uk-label">
+            {t.toUpperCase()}
+          </span>
+        ))}
+      </div>
 
       {location.latitude && location.longitude ? (
         <p id="address-text" className="address-card-font">

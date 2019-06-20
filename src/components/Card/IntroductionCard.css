@@ -1,11 +1,16 @@
 #main-card {
-  padding: 1%;
-  width: 50%;
+  padding: 2.5%;
+  width: 80%;
   left: 0;
   right: 0;
-  position: absolute;
+  /* position: absolute; */
   margin: auto;
-  margin-top: 5%;
+  margin-top: 2%;
+}
+#introduction-logo {
+  width: 45%;
+  height: 22.5%;
+  margin-right: 7.5%;
 }
 #connection-text {
   text-align: end;
@@ -18,19 +23,26 @@
 #description-text {
   text-align: center;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 2rem;
   overflow: hidden;
+  opacity: 0.68;
 }
-#buy-sell-text {
-  font-size: 1.15rem;
+#new-to-djali-text {
+  font-size: 1.05rem;
   text-align: center;
-  font-weight: 400;
-}
-#card-title {
-  padding: 5%;
+  font-weight: bold;
+  margin-right: 2%;
 }
 #body-item {
   padding-bottom: 4%;
   justify-content: center;
   display: flex;
+}
+#introduction-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#introduction-footer > button {
+  padding: 0 15px;
 }

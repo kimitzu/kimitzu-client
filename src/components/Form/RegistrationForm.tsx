@@ -3,7 +3,7 @@ import React from 'react'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import { Profile } from '../../models/Profile'
+import { Profile } from '../../interfaces/Profile'
 
 import config from '../../config'
 import './RegistrationForm.css'
@@ -96,7 +96,9 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.availableCountries}
             defaultVal={
-              props.data.extLocation.addresses[props.data.extLocation.primary].country || 'US'
+              props.data.extLocation.primary > -1
+                ? props.data.extLocation.addresses[props.data.extLocation.primary].country || ''
+                : ''
             }
             onChange={event =>
               props.onChange(
@@ -175,15 +177,7 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
     </fieldset>
-    <div className="uk-position-relative uk-position-center uk-margin-top">
-      {props.isSubmitting ? (
-        <div uk-spinner="ratio: 1" />
-      ) : (
-        <button className="uk-button uk-button-primary" type="submit">
-          Submit
-        </button>
-      )}
-    </div>
+    <div className="uk-margin-top">{props.isSubmitting ? <div uk-spinner="ratio: 1" /> : null}</div>
   </form>
 )
 

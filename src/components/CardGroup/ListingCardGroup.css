@@ -1,3 +1,9 @@
 .listing-wrapper {
   display: inline-block;
 }
+
+.listing-container {
+  width: 97%;
+  margin-right: 15px;
+  margin-left: auto;
+}

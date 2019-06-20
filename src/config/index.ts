@@ -13,10 +13,10 @@ const development = {
 }
 
 const production = {
-  locationHost: 'https://djali-api-loc.nauxe.com',
-  djaliHost: 'https://djali-api.nauxe.com',
-  openBazaarHost: 'https://djali-ob.nauxe.com',
-  host: 'https://djali.nauxe.com',
+  locationHost: 'https://djali-api-loc.djali.org',
+  djaliHost: 'https://djali-api.djali.org',
+  openBazaarHost: 'https://djali-ob.djali.org',
+  host: 'https://test.djali.org',
 }
 
 function getConfig(): Config {
@@ -27,6 +27,9 @@ function getConfig(): Config {
     }
     case 'production': {
       return production
+    }
+    case 'test': {
+      return development
     }
     default: {
       throw new Error('Unsupported environment: ' + process.env.NODE_ENV)

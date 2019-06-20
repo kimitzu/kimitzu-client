@@ -1,37 +1,34 @@
 import React from 'react'
+import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
 import './PayoutCard.css'
 
-const PayoutCard = () => (
+const cryptoCurrencies = CryptoCurrencies()
+
+interface Props {
+  acceptedPayments: string[]
+}
+
+const PayoutCard = (props: Props) => (
   <div id="profile-payout">
     <div className="uk-card uk-card-default uk-card-body">
       <h3 id="title-social-media" className="uk-card-title">
         Payout Method
       </h3>
-      <div id="social-media">
-        <div id="account-icon">
-          <span uk-icon="icon: check" className="blueIcon" />
-        </div>
-        <div id="account-name">
-          <p> Bitcoin </p>
-        </div>
-      </div>
-      <div id="social-media">
-        <div id="account-icon">
-          <span uk-icon="icon: check" className="blueIcon" />
-        </div>
-        <div id="account-name">
-          <p> Bitcoin Cash </p>
-        </div>
-      </div>
-      <div id="social-media">
-        <div id="account-icon">
-          <span uk-icon="icon: check" className="blueIcon" />
-        </div>
-        <div id="account-name">
-          <p> Zcash </p>
-        </div>
-      </div>
+      {cryptoCurrencies.map((crypto, index) => {
+        if (props.acceptedPayments.includes(crypto.value)) {
+          return (
+            <div id="social-media" key={index}>
+              <div id="account-icon">
+                <span uk-icon="icon: check" className="blueIcon" />
+              </div>
+              <div id="account-name">
+                <p>{crypto.label}</p>
+              </div>
+            </div>
+          )
+        }
+      })}
     </div>
   </div>
 )

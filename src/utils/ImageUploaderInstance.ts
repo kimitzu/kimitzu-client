@@ -1,9 +1,9 @@
 import Axios from 'axios'
 import config from '../config'
-import { RHashes } from '../models/Profile'
+import Image from '../interfaces/Image'
 
 class ImageUploader {
-  public async uploadImage(base64Image: string): Promise<RHashes> {
+  public async uploadImage(base64Image: string): Promise<Image> {
     const avatar = base64Image.split(',')
     const response = await Axios.post(`${config.openBazaarHost}/ob/images`, [
       {

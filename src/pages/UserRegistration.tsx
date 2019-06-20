@@ -1,14 +1,10 @@
-import axios from 'axios'
 import React, { Component } from 'react'
 
 import { IntroductionCard, RegistrationCard } from '../components/Card'
-import { RegistrationForm, TermsOfService } from '../components/Form'
-import { Profile } from '../models/Profile'
-
 import SuccessCard from '../components/Card/SuccessCard'
-import config from '../config'
+import { RegistrationForm, TermsOfService } from '../components/Form'
 import Countries from '../constants/Countries.json'
-import CryptoCurrencies from '../constants/CryptoCurrencies.json'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
@@ -16,7 +12,10 @@ import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
+import Profile from '../models/Profile'
 import './UserRegistration.css'
+
+const cryptoCurrencies = CryptoCurrencies()
 
 interface State {
   avatar: string
@@ -31,54 +30,14 @@ interface State {
 class UserRegistration extends Component<{}, State> {
   constructor(props: any) {
     super(props)
+    const profile = new Profile()
     this.state = {
       avatar: '',
       currentIndex: 1,
       hasStarted: false,
       isSubmitting: false,
       numberOfPages: 3,
-      registrationForm: {
-        handle: '',
-        name: '',
-        about: '',
-        nsfw: false,
-        vendor: true,
-        moderator: false,
-        avatarHashes: {
-          tiny: '',
-          small: '',
-          medium: '',
-          large: '',
-          original: '',
-        },
-        extLocation: {
-          primary: 0,
-          shipping: 0,
-          billing: 0,
-          return: 0,
-          addresses: [
-            {
-              type: [''],
-              latitude: '',
-              longitude: '',
-              plusCode: '',
-              addressOne: '',
-              addressTwo: '',
-              city: '',
-              state: '',
-              country: 'US',
-              zipCode: '',
-            },
-          ],
-        },
-        preferences: {
-          cryptocurrency: 'BTC',
-          currencyDisplay: 'FIAT',
-          fiat: 'USD',
-          language: 'EN',
-          measurementUnit: 'ENGLISH',
-        },
-      },
+      registrationForm: profile,
     }
     this.getCurrentContent = this.getCurrentContent.bind(this)
     this.handleAgree = this.handleAgree.bind(this)
@@ -119,7 +78,7 @@ class UserRegistration extends Component<{}, State> {
             availableCountries={Countries}
             fiatCurrencies={FiatCurrencies}
             currencyTypes={CurrencyTypes} // Fiat or Crypto
-            cryptoCurrencies={CryptoCurrencies}
+            cryptoCurrencies={cryptoCurrencies}
             languages={Languages}
             unitOfMeasurements={UnitsOfMeasurement} // Metric or English System
             onChange={this.handleChange}
@@ -209,7 +168,13 @@ class UserRegistration extends Component<{}, State> {
   }
 
   private async handleAgree() {
-    await axios.post(`${config.openBazaarHost}/ob/profile`, this.state.registrationForm)
+    const registrationForm = this.state.registrationForm
+
+    if (!registrationForm.name) {
+      registrationForm.name = registrationForm.handle
+    }
+
+    await this.state.registrationForm.save()
     alert('Registration Successful')
     this.handleNext()
   }

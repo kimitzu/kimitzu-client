@@ -1,6 +1,10 @@
 #nav {
   background-color: var(--primary);
 }
+#logo-img {
+  width: 130px;
+  height: 80px;
+}
 #search-bar {
   background-color: #fff;
   /* color: var(--primary); */
@@ -9,23 +13,20 @@
 #search-bar-form {
   flex: 1;
 }
-#title-logo {
-  font-size: 1.9rem;
-  flex: 1;
-  font-weight: bold;
-  color: #fff !important;
-}
 #navbar-left-item {
-  width: 25%;
+  width: 22%;
 }
 #navbar-right-item {
   margin-right: 2%;
 }
 #navbar-center-item {
-  width: 50%;
+  width: 52%;
 }
 #account {
   text-align: right;
   color: #fff !important;
   margin-right: 5%;
+}
+#create-listing {
+  color: white;
 }
