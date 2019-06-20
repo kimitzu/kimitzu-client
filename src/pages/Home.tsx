@@ -403,6 +403,9 @@ class Home extends Component<HomeProps, HomeState> {
       if (values[index] === '') {
         return
       }
+      if (key === 'item.categories') {
+        return `containsInArr(doc.item.categories, "${values[index]}")`
+      }
       return 'doc.' + key + ' ' + modifiers[key] + ' "' + values[index] + '"'
     })
 
