@@ -6,7 +6,7 @@ import { AddressForm, RegistrationForm } from '../../components/Form'
 import Location from '../../interfaces/Location'
 
 import Countries from '../../constants/Countries.json'
-import CryptoCurrencies from '../../constants/CryptoCurrencies.json'
+import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
@@ -16,7 +16,7 @@ import Profile from '../../models/Profile'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../../utils/NestedJSONUpdater'
 
-const locationTypes = ['primary', 'shipping', 'billing', 'return']
+const cryptoCurrencies = CryptoCurrencies()
 
 const actions = {
   NONE: 0,
@@ -117,7 +117,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         component: (
           <RegistrationForm
             availableCountries={Countries}
-            cryptoCurrencies={CryptoCurrencies}
+            cryptoCurrencies={cryptoCurrencies}
             currencyTypes={CurrencyTypes}
             fiatCurrencies={FiatCurrencies}
             languages={Languages}

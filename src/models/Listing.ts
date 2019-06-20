@@ -2,6 +2,7 @@ import slugify from 'slugify'
 
 import Axios from 'axios'
 import config from '../config'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Image from '../interfaces/Image'
 import {
   Coupon,
@@ -15,6 +16,8 @@ import {
 } from '../interfaces/Listing'
 import Location from '../interfaces/Location'
 import Profile from './Profile'
+
+const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
 
 class Listing implements ListingInterface {
   public static async retrieve(
@@ -57,7 +60,7 @@ class Listing implements ListingInterface {
     options: [],
     skus: [
       {
-        quantity: NaN,
+        quantity: -1,
       },
     ],
     serviceRateMethod: 'PER_HOUR',
@@ -111,7 +114,7 @@ class Listing implements ListingInterface {
     language: '',
     escrowTimeoutHours: 0,
     coinType: '',
-    coinDivisibility: 0,
+    coinDivisibility: 100000000, // USD Default
     priceModifier: 0,
     serviceRateMethod: 'FIXED',
   }
@@ -138,9 +141,17 @@ class Listing implements ListingInterface {
   }
 
   public async save() {
-    this.slug = slugify(this.item.title)
-    this.coupons = this.coupons.filter(coupon => coupon.discountCode !== '' || coupon.title !== '')
-    await Axios.post(`${config.openBazaarHost}/ob/listing`, this)
+    /**
+     * Clone listing before doing any operation to prevent mutation
+     * of original listing object which contains DOM rendering information
+     */
+    const listingClone = JSON.parse(JSON.stringify(this)) as ListingInterface
+    listingClone.slug = slugify(listingClone.item.title)
+    listingClone.coupons = listingClone.coupons.filter(
+      coupon => coupon.discountCode !== '' || coupon.title !== ''
+    )
+    listingClone.item.price = Number(listingClone.item.price.toString().replace('.', ''))
+    await Axios.post(`${config.openBazaarHost}/ob/listing`, listingClone)
   }
 
   public addCoupon() {
@@ -155,6 +166,13 @@ class Listing implements ListingInterface {
 
   public removeCoupon(index: number) {
     this.coupons.splice(index, 1)
+  }
+
+  public get displayValue(): string {
+    if (cryptoCurrencies.includes(this.metadata.pricingCurrency)) {
+      return (this.item.price / this.metadata.coinDivisibility).toString()
+    }
+    return (this.item.price / 100).toFixed(2)
   }
 }
 

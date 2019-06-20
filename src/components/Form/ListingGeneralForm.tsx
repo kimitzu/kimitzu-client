@@ -8,16 +8,35 @@ import InlineFormFields from './InlineFormFields'
 
 import ListingTypes from '../../constants/ListingTypes.json'
 import ServiceRateMethods from '../../constants/ServiceRateMethods.json'
+import ServiceTypes from '../../constants/ServiceTypes.json'
 import { Listing } from '../../interfaces/Listing'
+
+const serviceTypeIds = Object.keys(ServiceTypes)
+
+const serviceTypes = serviceTypeIds
+  .map(type => {
+    const item = {
+      label: ServiceTypes[type],
+      value: type,
+    }
+    return item
+  })
+  .sort((a, b) => {
+    if (a.label === b.label) {
+      return 0
+    }
+    return a.label < b.label ? -1 : 1
+  })
+
+serviceTypes.unshift({
+  label: 'Select the classification that best describes your service',
+  value: '',
+})
 
 const currencies = [
   {
     label: 'USD',
     value: 'USD',
-  },
-  {
-    label: 'BTC',
-    value: 'BTC',
   },
 ]
 
@@ -32,6 +51,26 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
+        <div className="uk-margin">
+          <FormLabel label="Occupation Classification" required />
+          <div id="form-select" className="uk-form-controls">
+            <FormSelector
+              options={serviceTypes}
+              defaultVal={''}
+              onChange={event => {
+                const occupationIndex = event.target.value
+                handleInputChange('item.title', `${ServiceTypes[occupationIndex]}: `, 'listing')
+                handleInputChange(
+                  'item.categories',
+                  [occupationIndex, ServiceTypes[occupationIndex]],
+                  'listing'
+                )
+              }}
+              required
+            />
+          </div>
+        </div>
+
         <div className="uk-margin">
           <FormLabel label="TITLE" required />
           <input
@@ -60,12 +99,11 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                 name: 'TYPE',
                 required: true,
               },
-              descriptiveLabel: 'Choose from 4 types',
             },
             {
               component: (
                 <InputSelector
-                  options={currencies} // TODO: Update currencies selection
+                  options={currencies}
                   inputProps={{
                     value: data.item.price,
                     type: 'number',
@@ -99,7 +137,7 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                 name: 'RATE METHOD',
                 required: true,
               },
-              descriptiveLabel: 'Choose from different service methods',
+              descriptiveLabel: 'How would you like to charge clients?',
             },
           ]}
         />
@@ -110,23 +148,25 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                 <input
                   className="uk-input"
                   type="text"
-                  value={
-                    skuPointer.quantity === 0 || skuPointer.quantity ? skuPointer.quantity : ''
-                  }
+                  value={skuPointer.quantity < 0 ? '' : skuPointer.quantity}
                   onChange={event => {
-                    if (/^\s*$/.test(event.target.value)) {
-                      skuPointer.quantity = NaN
+                    const value = Number(event.target.value)
+                    if (event.target.value === '') {
+                      skuPointer.quantity = -1
+                    } else if (value || value === 0) {
+                      skuPointer.quantity = value
                     } else {
-                      skuPointer.quantity = Number(event.target.value)
+                      skuPointer.quantity = -1
                     }
                     handleInputChange('item.skus', data.item.skus, 'listing')
                   }}
                 />
               ),
               label: {
-                name: 'SKU',
+                name: 'Service Quantity',
               },
-              descriptiveLabel: 'A unique identifier for your listing',
+              descriptiveLabel:
+                'How many service units would you like to offer? (Leave blank if you do not want to use this field).',
             },
             {
               component: (

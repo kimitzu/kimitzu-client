@@ -1,7 +1,9 @@
 import React from 'react'
-import CryptoCurrencies from '../../constants/CryptoCurrencies.json'
+import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
 import './PayoutCard.css'
+
+const cryptoCurrencies = CryptoCurrencies()
 
 interface Props {
   acceptedPayments: string[]
@@ -13,7 +15,7 @@ const PayoutCard = (props: Props) => (
       <h3 id="title-social-media" className="uk-card-title">
         Payout Method
       </h3>
-      {CryptoCurrencies.map((crypto, index) => {
+      {cryptoCurrencies.map((crypto, index) => {
         if (props.acceptedPayments.includes(crypto.value)) {
           return (
             <div id="social-media" key={index}>

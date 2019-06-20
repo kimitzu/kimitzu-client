@@ -1,7 +1,7 @@
 import React from 'react'
-import { Listing } from '../../interfaces/Listing'
 import ListingCard from '../Card/ListingCard'
 
+import Listing from '../../models/Listing'
 import './ListingCardGroup.css'
 
 interface ListingCardGroupProps {

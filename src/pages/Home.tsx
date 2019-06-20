@@ -1,8 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
-import { Listing } from '../interfaces/Listing'
-
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
 import SidebarFilter from '../components/Sidebar/Filter'
@@ -13,6 +11,7 @@ import PlusCode from '../utils/Location/PlusCode'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import { FormSelector } from '../components/Selector'
+import Listing from '../models/Listing'
 import './Home.css'
 
 interface HomeProps {
@@ -61,9 +60,13 @@ class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      filters: {},
+      filters: {
+        'metadata.contractType': 'SERVICE',
+      },
       locationRadius: -1,
-      modifiers: {},
+      modifiers: {
+        'metadata.contractType': '==',
+      },
       plusCode: '',
       searchQuery: '',
       sort: 'x.item.title <= y.item.title',
@@ -107,11 +110,15 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleFilterReset = this.handleFilterReset.bind(this)
   }
 
+  public async componentDidMount() {
+    await this.handleSearchSubmit(true)
+  }
+
   public render() {
     const { locationRadius, plusCode, searchResults, paginate, isSearching } = this.state
 
     // TODO: move to a separate function if possible
-    const pages = []
+    const pages: JSX.Element[] = []
     let startIndex = 0
     let paginationLimit = 9
 
@@ -297,10 +304,15 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private async handleFilterReset() {
-    const filters = {}
+    const filters = {
+      'metadata.contractType': 'SERVICE',
+    }
+    const modifiers = {
+      'metadata.contractType': '==',
+    }
     const locationRadius = -1
-    const modifiers = {}
     const plusCode = ''
+
     this.setState({
       filters,
       locationRadius,
@@ -353,6 +365,9 @@ class Home extends Component<HomeProps, HomeState> {
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
+
+    const listings = result.data.data.map(d => new Listing(d))
+    result.data.data = listings
 
     this.setState({
       searchResults: result.data,
@@ -420,6 +435,9 @@ class Home extends Component<HomeProps, HomeState> {
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
+
+    const listings = result.data.data.map(d => new Listing(d))
+    result.data.data = listings
 
     this.setState({
       searchResults: result.data,

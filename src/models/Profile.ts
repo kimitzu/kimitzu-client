@@ -22,11 +22,49 @@ class Profile implements ProfileSchema {
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
       return profile
+    } else {
+      const profileRequest = await Axios.get(`${config.openBazaarHost}/ob/profile`)
+      profile = new Profile(profileRequest.data)
+      profile.extLocation = profile.processAddresses(profile.extLocation)
     }
 
-    const profileRequest = await Axios.get(`${config.openBazaarHost}/ob/profile`)
-    profile = new Profile(profileRequest.data)
-    profile.extLocation = profile.processAddresses(profile.extLocation)
+    profile.background = {
+      educationHistory: [
+        {
+          title: 'Central Philippine University',
+          subtitle: 'BSCS',
+          date: '2013-2018',
+          address: 'Jaro Iloilo City Philippines',
+          desc: 'A short description about the education',
+        },
+        {
+          title: 'Central Philippine University',
+          subtitle: 'BSCS',
+          date: '2013-2018',
+          address: 'Jaro Iloilo City Philippines',
+          desc: 'A short description about the education',
+        },
+      ],
+      employmentHistory: [
+        {
+          title: 'Developer',
+          subtitle: 'Kingsland University',
+          date: '2013-2018',
+          address: 'Jaro Iloilo City Philippines',
+          desc: 'A short description about the work',
+        },
+        {
+          title: 'Developer',
+          subtitle: 'Kingsland University',
+          date: '2013-2018',
+          address: 'Jaro Iloilo City Philippines',
+          desc: 'A short description about the work',
+        },
+      ],
+    }
+    profile.spokenLanguages = ['English', 'Tagalog']
+    profile.programmingLanguages = ['Javascript', 'Golang', 'C++']
+
     return profile
   }
 
