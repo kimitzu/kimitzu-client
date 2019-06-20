@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import config from '../../config'
-import { Listing } from '../../interfaces/Listing'
+import Listing from '../../models/Listing'
 
 import './ListingCard.css'
 
@@ -31,7 +31,7 @@ const ListingCard = ({ listing }: ListingProps) => (
       <div className="listing-small-info">
         <div className="listing-title">{listing.item.title}</div>
         <p className="price">
-          {listing.item.price} {listing.metadata.pricingCurrency}
+          {listing.displayValue} {listing.metadata.pricingCurrency}
         </p>
         <div className="rating-text">
           {generateStars(listing.averageRating)} ({listing.averageRating})

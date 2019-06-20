@@ -2,6 +2,7 @@ import slugify from 'slugify'
 
 import Axios from 'axios'
 import config from '../config'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Image from '../interfaces/Image'
 import {
   Coupon,
@@ -15,6 +16,8 @@ import {
 } from '../interfaces/Listing'
 import Location from '../interfaces/Location'
 import Profile from './Profile'
+
+const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
 
 class Listing implements ListingInterface {
   public static async retrieve(
@@ -163,6 +166,13 @@ class Listing implements ListingInterface {
 
   public removeCoupon(index: number) {
     this.coupons.splice(index, 1)
+  }
+
+  public get displayValue(): string {
+    if (cryptoCurrencies.includes(this.metadata.pricingCurrency)) {
+      return (this.item.price / this.metadata.coinDivisibility).toString()
+    }
+    return (this.item.price / 100).toFixed(2)
   }
 }
 

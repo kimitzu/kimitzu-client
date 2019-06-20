@@ -1,8 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 
-import { Listing } from '../interfaces/Listing'
-
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import NavBar from '../components/NavBar/NavBar'
 import SidebarFilter from '../components/Sidebar/Filter'
@@ -13,6 +11,7 @@ import PlusCode from '../utils/Location/PlusCode'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import { FormSelector } from '../components/Selector'
+import Listing from '../models/Listing'
 import './Home.css'
 
 interface HomeProps {
@@ -367,6 +366,9 @@ class Home extends Component<HomeProps, HomeState> {
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
 
+    const listings = result.data.data.map(d => new Listing(d))
+    result.data.data = listings
+
     this.setState({
       searchResults: result.data,
       paginate,
@@ -433,6 +435,9 @@ class Home extends Component<HomeProps, HomeState> {
 
     const result = await axios.post(`${config.djaliHost}/djali/search`, searchObject)
     paginate.totalPages = Math.ceil(result.data.count / paginate.limit)
+
+    const listings = result.data.data.map(d => new Listing(d))
+    result.data.data = listings
 
     this.setState({
       searchResults: result.data,
