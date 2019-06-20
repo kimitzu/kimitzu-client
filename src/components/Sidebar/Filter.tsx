@@ -31,18 +31,26 @@ const Filter = ({
         </select>
       </div>
       <p> PRICE RANGE </p>
-      <div className="uk-margin">
-        <input
-          className="uk-range"
-          type="range"
-          defaultValue="8"
-          min="0"
-          max="10"
-          step="0.1"
-          onChange={event => {
-            onFilterChange('priceRange', event.target.value)
-          }}
-        />
+      <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
+        <div className="uk-inline">
+          {/* <span className="uk-form-icon" data-uk-icon="" /> */}
+          <input
+            className="uk-input"
+            type="number"
+            placeholder="MIN"
+            onChange={event => onFilterChange('price.min', event.target.value)}
+          />
+        </div>
+        <span data-uk-icon="icon: triangle-right; ratio: 2" />
+        <div className="uk-inline">
+          {/* <span className="uk-form-icon" data-uk-icon="" /> */}
+          <input
+            className="uk-input"
+            type="number"
+            placeholder="MAX"
+            onChange={event => onFilterChange('price.max', event.target.value)}
+          />
+        </div>
       </div>
       <p> LOCATION </p>
       <div className="uk-margin">
