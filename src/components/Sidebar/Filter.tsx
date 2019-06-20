@@ -24,7 +24,7 @@ const serviceTypes = serviceTypeIds
   })
 
 serviceTypes.unshift({
-  label: 'Select service',
+  label: 'All',
   value: '',
 })
 
@@ -49,7 +49,7 @@ const Filter = ({
     <form onSubmit={onFilterSubmit}>
       <legend className="uk-legend">FILTERS</legend>
       <div className="uk-margin">
-        <FormLabel label="Occupation Classification" required />
+        <FormLabel label="Occupation Classification" />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             options={serviceTypes}
