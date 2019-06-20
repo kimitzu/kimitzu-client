@@ -67,7 +67,7 @@ class ListingProfile extends Component<Props, State> {
     const { background, spokenLanguages, programmingLanguages } = this.state.profile
 
     const rating = Math.floor(this.state.listing.averageRating)
-    const ratingStars = []
+    const ratingStars: JSX.Element[] = []
 
     for (let index = 0; index < 5; index++) {
       if (index < rating) {
@@ -117,7 +117,7 @@ class ListingProfile extends Component<Props, State> {
                 <br />
                 <hr />
                 <p className="text-blue priceSize uk-margin-small-top">
-                  {this.state.listing.item.price} {this.state.listing.metadata.pricingCurrency}
+                  {this.state.listing.displayValue} {this.state.listing.metadata.pricingCurrency}
                 </p>
                 <div id="footerContent" className="uk-margin-medium-top">
                   <div id="footerContentLeft">

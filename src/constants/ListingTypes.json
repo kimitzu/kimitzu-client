@@ -1,22 +1,6 @@
 [
   {
-    "label": "Physical Good",
-    "value": "PHYSICAL_GOOD"
-  },
-  {
-    "label": "Digital Good",
-    "value": "DIGITAL_GOOD"
-  },
-  {
     "label": "Service",
     "value": "SERVICE"
-  },
-  {
-    "label": "Crowd Fund",
-    "value": "CROWD_FUND"
-  },
-  {
-    "label": "Cryptocurrency",
-    "value": "CRYPTOCURRENCY"
   }
 ]
