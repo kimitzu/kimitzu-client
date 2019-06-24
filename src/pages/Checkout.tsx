@@ -15,6 +15,7 @@ import './Checkout.css'
 
 interface RouteProps {
   id: string
+  quantity: string
 }
 
 interface CheckoutProps extends RouteComponentProps<RouteProps> {}
@@ -46,10 +47,11 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
   public async componentDidMount() {
     const id = this.props.match.params.id
+    const quantity = this.props.match.params.quantity
     const listing = await Listing.retrieve(id)
-    console.log(listing, 'ahjdgfhasjfashjefgve')
     this.setState({
       listing: listing.listing,
+      quantity: Number(quantity),
     })
   }
 
@@ -72,8 +74,8 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             </div>
           ) : (
             <div>
-              <div className="uk-margin-bottom">
-                {/* TODO: Update shipping Address */}
+              {/* <div className="uk-margin-bottom">
+                // TODO: Update shipping address
                 <AddressCard
                   header="Shipping Address"
                   location={{
@@ -91,15 +93,15 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                     // TODO: Update method
                   }}
                 />
-              </div>
+              </div> */}
               <div className="uk-margin-bottom">
                 <div className="uk-card uk-card-default uk-card-body uk-card-small">
                   <h3>Additional Information</h3>
                   <div className="uk-margin">
                     <FormLabel label="MEMO" />
-                    <input
-                      className="uk-input"
-                      type="text"
+                    <textarea
+                      rows={4}
+                      className="uk-textarea"
                       placeholder="Provide additional details for the vendor (Optional)"
                       // TODO: update handler and value
                     />

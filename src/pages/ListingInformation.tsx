@@ -28,6 +28,7 @@ interface State {
   imageData: Image[]
   profile: Profile
   listing: Listing
+  quantity: number
 }
 
 interface RouteProps {
@@ -49,6 +50,7 @@ class ListingProfile extends Component<Props, State> {
       imageData: [],
       listing,
       profile,
+      quantity: 1,
     }
     this.handleBuy = this.handleBuy.bind(this)
   }
@@ -126,14 +128,29 @@ class ListingProfile extends Component<Props, State> {
                       <span>Buy:</span>
                       <a
                         id="hourSelector"
-                        data-uk-icon="icon: plus;"
-                        className="text-blue uk-margin-left "
+                        data-uk-icon="icon: minus;"
+                        className="text-blue uk-margin-left"
+                        onClick={e => {
+                          e.preventDefault()
+                          this.handleQuantityChange(this.state.quantity - 1)
+                        }}
                       />
-                      <span className="uk-margin-left">1</span>
+                      <input
+                        type="text"
+                        className="uk-margin-left uk-input uk-width-1-6"
+                        value={this.state.quantity}
+                        onChange={e => {
+                          this.handleQuantityChange(Number(e.target.value))
+                        }}
+                      />
                       <a
                         id="hourSelector"
-                        data-uk-icon="icon: minus;"
-                        className="text-blue uk-margin-left "
+                        data-uk-icon="icon: plus;"
+                        className="text-blue uk-margin-left"
+                        onClick={e => {
+                          e.preventDefault()
+                          this.handleQuantityChange(this.state.quantity + 1)
+                        }}
                       />
                     </div>
                     <button
@@ -207,7 +224,18 @@ class ListingProfile extends Component<Props, State> {
   }
 
   private handleBuy() {
-    window.location.href = `/listing/checkout/${this.state.listing.hash}`
+    window.location.href = `/listing/checkout/${this.state.listing.hash}/${this.state.quantity}`
+  }
+
+  private handleQuantityChange(quantity: number) {
+    if (quantity < 1) {
+      return 1
+    }
+    if (quantity) {
+      this.setState({
+        quantity,
+      })
+    }
   }
 }
 
