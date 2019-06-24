@@ -279,6 +279,61 @@ class Order implements OrderInterface {
       return e
     }
   }
+
+  public async estimate(
+    listingHash: string,
+    quantity: number,
+    memo: string,
+    paymentCoin: string,
+    coupons?: string
+  ): Promise<number> {
+    const order = {
+      shipTo: '',
+      address: '',
+      city: '',
+      state: '',
+      countryCode: '',
+      postalCode: '',
+      addressNotes: '',
+      items: [
+        {
+          listingHash,
+          quantity,
+          memo,
+          coupons: [],
+        },
+      ],
+      moderator: '',
+      paymentCoin,
+    }
+    try {
+      const estimateRequest = await Axios.post(`${config.openBazaarHost}/ob/estimatetotal`, order)
+      const estimate = estimateRequest.data
+      return estimate
+    } catch (e) {
+      return e
+    }
+  }
+
+  public async fulfill() {
+    try {
+      await Axios.post(`${config.openBazaarHost}/ob/orderfulfillment`, {
+        orderId: this.contract.vendorOrderConfirmation.orderID,
+      })
+    } catch (e) {
+      alert(e.message)
+    }
+  }
+
+  public async complete() {
+    try {
+      await Axios.post(`${config.openBazaarHost}/ob/ordercompletion`, {
+        orderId: this.contract.vendorOrderConfirmation.orderID,
+      })
+    } catch (e) {
+      alert(e.message)
+    }
+  }
 }
 
 export default Order
