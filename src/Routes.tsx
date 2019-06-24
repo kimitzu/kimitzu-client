@@ -1,7 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { CreateListing, Home, ListingInformation, Profile, UserRegistration } from './pages'
+import {
+  Checkout,
+  CreateListing,
+  Home,
+  ListingInformation,
+  Profile,
+  UserRegistration,
+} from './pages'
 import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
 
@@ -15,6 +22,7 @@ const Routes = () => (
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
       <Route path="/order/:id" exact component={OrderView} />
+      <Route path="/listing/checkout/:id" exact component={Checkout} />
     </Switch>
   </BrowserRouter>
 )

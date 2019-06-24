@@ -1,0 +1,37 @@
+#listing-checkout-card {
+  padding: 2%;
+}
+#listing-checkout-card > div > div {
+  padding-top: 2%;
+}
+#listing-checkout-card-main {
+  flex: 4;
+}
+#listing-checkout-card-img {
+  flex: 3;
+}
+#listing-checkout-card-details {
+  flex: 5;
+}
+#listing-checkout-card-side-data {
+  margin-top: 20px;
+}
+#listing-checkout-card-column-header {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+#listing-checkout-card-main > div > div > img {
+  min-width: 100%;
+  max-height: 150px;
+}
+#listing-checkout-card-main > div > div > h5 {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 2.5%;
+}
+#listing-checkout-card-main > div > div > p {
+  font-size: 0.9rem;
+}
+#listing-checkout-card-main > div > div > p > label {
+  font-weight: bold;
+}

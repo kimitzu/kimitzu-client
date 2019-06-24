@@ -47,7 +47,7 @@ const OrderSummaryCard = props => (
             <div>Image</div>
             <div className="uk-margin-left">
               <InfoGroupBlock title={'Service Name'} info={'Type: Service'} />
-              <InfoGroupBlock title={'Hours'} info={'20 Hours'} />
+              <InfoGroupBlock title={'Requested Units'} info={'20 Hours'} />
               <InfoGroupBlock title={'Total'} info={'$2.01'} />
             </div>
           </div>

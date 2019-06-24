@@ -5,68 +5,46 @@ import './AddressCard.css'
 
 interface Props {
   location: Location
+  header?: string
   handleSelectAddress: () => void
 }
 
+const displayLocationKey = (key: string) => (key ? `, ${key}` : '')
+
 const AddressCard = (props: Props) => {
-  const { location } = props
+  const { location, header } = props
   return (
     <div
       id="address-card"
-      className="uk-card uk-card-default uk-card-body"
+      className="uk-card uk-card-default uk-card-body uk-card-small"
       onClick={props.handleSelectAddress}
     >
+      {header ? <h3>Shipping Address</h3> : null}
       <div id="address-types">
-        {location.type!.map((t: string, index: number) => (
-          <span key={`${t}${index}`} id="address-type-label" className="uk-label">
-            {t.toUpperCase()}
-          </span>
-        ))}
+        {location.type &&
+          location.type!.map((t: string, index: number) => (
+            <span key={`${t}${index}`} id="address-type-label" className="uk-label">
+              {t.toUpperCase()}
+            </span>
+          ))}
       </div>
+      <p id="address-text" className="address-card-font">
+        {`${location.addressOne || ''}${displayLocationKey(
+          location.addressTwo
+        )}${displayLocationKey(location.city)}${displayLocationKey(
+          location.state
+        )}${displayLocationKey(location.zipCode)} ${location.country || ''}`}
+      </p>
 
       {location.latitude && location.longitude ? (
         <p id="address-text" className="address-card-font">
-          Coordinates: ({location.latitude}, {location.longitude})
+          {location.latitude}, {location.longitude}
         </p>
       ) : null}
 
       {location.plusCode ? (
         <p id="address-text" className="address-card-font">
-          Plus Code: {location.plusCode}
-        </p>
-      ) : null}
-
-      {location.addressOne ? (
-        <p id="address-text" className="address-card-font">
-          Street Address 1: {location.addressOne}
-        </p>
-      ) : null}
-
-      {location.addressTwo ? (
-        <p id="address-text" className="address-card-font">
-          Street Address 2: {location.addressTwo}
-        </p>
-      ) : null}
-
-      {location.city ? (
-        <p id="address-text" className="address-card-font">
-          City: {location.city}
-        </p>
-      ) : null}
-
-      {location.state ? (
-        <p id="address-text" className="address-card-font">
-          State: {location.state}
-        </p>
-      ) : null}
-      {location.zipCode ? (
-        <p id="address-text" className="address-card-font">
-          Zip Code: {location.zipCode}
-        </p>
-      ) : null}
-      {location.country ? (
-        <p id="address-text" className="address-card-font">
-          Country: {location.country}
+          {location.plusCode}
         </p>
       ) : null}
     </div>

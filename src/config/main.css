@@ -13,6 +13,17 @@ body * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+label,
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary);
+}
 label .required {
   color: #ff0000;
   font-size: 0.8rem;
@@ -22,6 +33,9 @@ label .required {
 }
 .color-primary {
   color: var(--primary) !important;
+}
+.color-secondary {
+  color: #a3a3a3;
 }
 .uk-input,
 .uk-textarea {
@@ -66,4 +80,7 @@ textarea {
 }
 .djali-logo-form {
   width: 15%;
+}
+.text-underline {
+  text-decoration: underline;
 }
