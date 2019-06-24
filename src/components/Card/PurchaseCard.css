@@ -1,0 +1,19 @@
+#purchase-listing-image {
+    padding-left: 15%;
+    padding-top: 5%;
+    padding-right: 20%;
+    padding-bottom: 20%; 
+}
+
+#purchase-listing-title {
+    color: dodgerblue;
+    padding-top: 3%;
+    font-size: 1em;
+    font-weight: bolder;
+}
+
+#purchase-listing-text > p {
+    color: dodgerblue;
+    font-size: 0.8em;
+}
+
