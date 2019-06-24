@@ -12,6 +12,7 @@ import {
   TagsForm,
 } from '../components/Form'
 import Listing from '../models/Listing'
+import Profile from '../models/Profile'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import PlusCode from '../utils/Location/PlusCode'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
@@ -27,6 +28,7 @@ interface CreateListingProps {
 
 interface CreateListingState {
   listing: Listing
+  profile: Profile
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
@@ -37,8 +39,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   constructor(props: CreateListingProps) {
     super(props)
     const listing = new Listing()
+    const profile = new Profile()
 
     this.state = {
+      profile,
       currentFormIndex: 0,
       tempImages: [],
       isLoading: false,
@@ -67,6 +71,13 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleImageOpen = this.handleImageOpen.bind(this)
     this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleRemoveRow = this.handleRemoveRow.bind(this)
+  }
+
+  public async componentDidMount() {
+    const profile = await Profile.retrieve()
+    this.setState({
+      profile,
+    })
   }
 
   get contents() {
@@ -218,8 +229,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         if (PlusCode.isValid(value)) {
           const plusCodeBounds = PlusCode.decode(value)
           const { longitudeCenter, latitudeCenter } = plusCodeBounds
-          NestedJSONUpdater(subFieldData, 'location.latitude', latitudeCenter)
-          NestedJSONUpdater(subFieldData, 'location.longitude', longitudeCenter)
+          NestedJSONUpdater(subFieldData, 'location.latitude', latitudeCenter.toString())
+          NestedJSONUpdater(subFieldData, 'location.longitude', longitudeCenter.toString())
         }
       }
       NestedJSONUpdater(subFieldData, field, value)
@@ -276,6 +287,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
     try {
       await listing.save()
+      await this.state.profile.crawlOwnListings()
       alert('Listing Successfully Posted')
       window.location.href = '/'
     } catch (e) {

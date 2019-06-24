@@ -31,7 +31,7 @@ serviceTypes.unshift({
 interface FilterProps {
   onFilterChange: (field: string, value: string, modifier?: string) => void
   onFilterSubmit: (event?: React.FormEvent<HTMLFormElement>) => void
-  onChange: (fieldName: string, value: string) => void
+  onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
   locationRadius: number
   plusCode: string
@@ -46,7 +46,12 @@ const Filter = ({
   onFilterReset,
 }: FilterProps) => (
   <div id="main-div">
-    <form onSubmit={onFilterSubmit}>
+    <form
+      onSubmit={async event => {
+        event.preventDefault()
+        await onFilterSubmit()
+      }}
+    >
       <legend className="uk-legend">FILTERS</legend>
       <div className="uk-margin">
         <FormLabel label="Occupation Classification" />
@@ -126,7 +131,7 @@ const Filter = ({
           type="text"
           placeholder="Plus Code"
           value={plusCode}
-          onChange={event => onChange('plusCode', event.target.value)}
+          onChange={event => onChange('plusCode', event.target.value, 'search')}
         />
       </div>
       <div className="uk-margin">
@@ -149,7 +154,7 @@ const Filter = ({
             max="200000"
             step="1"
             onChange={event => {
-              onChange('locationRadius', event.target.value)
+              onChange('locationRadius', event.target.value, 'search')
             }}
           />
         </div>
