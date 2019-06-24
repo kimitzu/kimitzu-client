@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
 import { RouteComponentProps } from 'react-router-dom'
+
 import {
   PayoutCard,
   ProfessionalBackgroundCard,
@@ -50,6 +50,7 @@ class ListingProfile extends Component<Props, State> {
       listing,
       profile,
     }
+    this.handleBuy = this.handleBuy.bind(this)
   }
 
   public async componentDidMount() {
@@ -135,7 +136,10 @@ class ListingProfile extends Component<Props, State> {
                         className="text-blue uk-margin-left "
                       />
                     </div>
-                    <button className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold btnRound">
+                    <button
+                      className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold btnRound"
+                      onClick={this.handleBuy}
+                    >
                       BUY NOW
                     </button>
                   </div>
@@ -200,6 +204,10 @@ class ListingProfile extends Component<Props, State> {
         <TermsOfServiceCard data={this.state.listing.termsAndConditions || 'Nothing specified.'} />
       </div>
     )
+  }
+
+  private handleBuy() {
+    window.location.href = `/listing/checkout/${this.state.listing.hash}`
   }
 }
 
