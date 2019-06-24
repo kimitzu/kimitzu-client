@@ -7,6 +7,12 @@
 #listing-checkout-card-main {
   flex: 4;
 }
+#listing-checkout-card-img {
+  flex: 3;
+}
+#listing-checkout-card-details {
+  flex: 5;
+}
 #listing-checkout-card-side-data {
   margin-top: 20px;
 }
