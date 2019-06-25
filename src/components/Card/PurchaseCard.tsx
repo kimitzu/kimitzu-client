@@ -1,36 +1,46 @@
 import React from 'react'
 
+import config from '../../config'
+import Purchase from '../../models/Purchase'
 import './PurchaseCard.css'
 
-const PurchaseCard = () => (
+interface PurchaseCardProps {
+  data: Purchase
+}
+
+const PurchaseCard = ({ data }: PurchaseCardProps) => (
   <div>
     <div className="uk-card uk-card-default uk-grid-collapse uk-margin" data-uk-grid>
-      <div className="uk-card-media-left uk-cover-container">
+      <div className="uk-card-media-left uk-cover-container uk-margin-left">
         <img
           id="purchase-listing-image"
-          src="https://cdn.shopify.com/s/files/1/0882/3478/articles/Book_Log_1400x.progressive.jpg?v=1549548939"
+          src={data.thumbnail ? `${config.djaliHost}/djali/media?id=${data.thumbnail}` : ''}
           alt=""
           data-uk-cover
         />
         <canvas width="200" height="150" />
       </div>
-      <div>
-        <p id="purchase-listing-title"> Listing Name </p>
+      <div className="uk-margin-left">
+        <p id="purchase-listing-title"> {data.title} </p>
         <div id="purchase-listing-text">
           <p>
-            Total: <b> $20/hr </b>
+            Total:{' '}
+            <b>
+              {' '}
+              {data.displayValue} {data.paymentCoin}{' '}
+            </b>
           </p>
           <p>
-            Order#: <b> QWGMKOILHYGTBDESWAZXDCFGTYHB </b>
+            Order#: <b> {data.orderId} </b>
           </p>
           <p>
-            Vendor: <b> Vendor Name </b>
+            Vendor: <b> {data.vendor.name || 'Unknown'} </b>
           </p>
           <p>
-            Date: <b> June 24, 2020 4:40 PM </b>
+            Date: <b> {new Date(data.timestamp).toLocaleString()} </b>
           </p>
           <p>
-            Status: <b> Awaiting Payment </b>
+            Status: <b> {data.state} </b>
           </p>
         </div>
       </div>
