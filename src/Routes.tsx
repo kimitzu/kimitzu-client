@@ -7,6 +7,7 @@ import {
   Home,
   ListingInformation,
   Profile,
+  PurchaseHistory,
   UserRegistration,
 } from './pages'
 import OrderView from './pages/OrderView'
@@ -21,6 +22,7 @@ const Routes = () => (
       <Route path="/listing/create" exact component={CreateListing} />
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
+      <Route path="/purchase-history" exact component={PurchaseHistory} />
       <Route path="/order/:id" exact component={OrderView} />
       <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
     </Switch>

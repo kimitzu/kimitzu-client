@@ -300,7 +300,7 @@ class Order implements OrderInterface {
       paymentInformation.amount = paymentInformation.amount / 100000000
       return paymentInformation
     } catch (e) {
-      return e
+      throw new Error(e.response.data.reason)
     }
   }
 
@@ -335,7 +335,7 @@ class Order implements OrderInterface {
       const estimate = estimateRequest.data
       return estimate / 100000000
     } catch (e) {
-      return e
+      throw e
     }
   }
 

@@ -1,11 +1,18 @@
 import Axios from 'axios'
 import config from '../config'
 import { Purchase as PurchaseInterface } from '../interfaces/Purchase'
+import Profile from '../models/Profile'
 
 class Purchase implements PurchaseInterface {
   public static async getPurchases(): Promise<Purchase[]> {
     const orders = await Axios.get(`${config.openBazaarHost}/ob/purchases`)
-    return orders.data.purchases.map(p => new Purchase(p))
+    const purchaseProfileRelationship = orders.data.purchases.map(async p => {
+      const purchase = new Purchase(p)
+      const profile = await Profile.retrieve(purchase.vendorId)
+      purchase.vendor = profile
+      return purchase
+    })
+    return Promise.all(purchaseProfileRelationship)
   }
 
   public coinType: string = ''
@@ -24,9 +31,14 @@ class Purchase implements PurchaseInterface {
   public unreadChatMessages: number = 0
   public vendorHandle: string = ''
   public vendorId: string = ''
+  public vendor: Profile = new Profile()
 
   constructor(props) {
     Object.assign(this, props)
+  }
+
+  get displayValue() {
+    return this.total / 1000000000
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 
 import {
   // AddressCard,
@@ -17,6 +17,18 @@ import './Checkout.css'
 
 const cryptoCurrencies = CryptoCurrencies()
 
+export interface Payment {
+  notification: Notification
+}
+
+export interface Notification {
+  coinType: string
+  fundingTotal: number
+  notificationId: string
+  orderId: string
+  type: string
+}
+
 interface RouteProps {
   id: string
   quantity: string
@@ -29,6 +41,7 @@ interface CheckoutState {
   amountToPay: string // Includes the amount and its currency
   estimate: number
   isPending: boolean
+  isEstimating: boolean
   listing: Listing
   memo: string
   order: Order
@@ -36,9 +49,13 @@ interface CheckoutState {
   qrValue: string
   quantity: number
   selectedCurrency: string
+  payment: Notification
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
+  private socket: WebSocket
+  private modal: React.ReactNode
+
   constructor(props: CheckoutProps) {
     super(props)
     const listing = new Listing()
@@ -48,6 +65,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       amountToPay: '',
       estimate: 0,
       isPending: false,
+      isEstimating: false,
       listing,
       memo: '',
       order,
@@ -55,10 +73,18 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       qrValue: '',
       quantity: 1,
       selectedCurrency: '',
+      payment: {
+        coinType: '',
+        fundingTotal: 0,
+        notificationId: '',
+        orderId: '',
+        type: '',
+      },
     }
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
+    this.socket = window.socket
   }
 
   public async componentDidMount() {
@@ -70,6 +96,25 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       listing: listing.listing,
       quantity: Number(quantity),
     })
+
+    this.socket.onmessage = event => {
+      const rawData = JSON.parse(event.data)
+      if (rawData.notification) {
+        const data = JSON.parse(event.data) as Payment
+        this.setState(
+          {
+            payment: data.notification,
+          },
+          () => {
+            window.UIkit.modal(this.modal).show()
+          }
+        )
+      }
+    }
+  }
+
+  public componentWillUnmount() {
+    window.UIkit.modal(this.modal).hide()
   }
 
   public render() {
@@ -151,7 +196,20 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             handlePlaceOrder={this.handlePlaceOrder}
             isPending={this.state.isPending}
             selectedCurrency={this.state.selectedCurrency}
+            isEstimating={this.state.isEstimating}
           />
+        </div>
+
+        <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
+          <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
+            <img width="15%" height="15%" src="/images/check.png" />
+            <h4>
+              Payment of {this.state.payment.fundingTotal / 100000000} {this.state.payment.coinType}{' '}
+              Received!
+            </h4>
+            <p>Thank you for your purchase!</p>
+            <Link to={`/order/${this.state.payment.orderId}`}>Check the status of your order.</Link>
+          </div>
         </div>
       </div>
     )
@@ -163,6 +221,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
   private async handleChange(field: string, value: any) {
     if (field === 'selectedCurrency') {
+      this.setState({
+        isEstimating: true,
+      })
       const estimate = await this.state.order.estimate(
         this.state.listing.hash,
         this.state.quantity,
@@ -171,6 +232,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       )
       this.setState({
         estimate,
+        isEstimating: false,
       })
     }
 
@@ -180,12 +242,20 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   private async handlePlaceOrder() {
-    const paymentInformation = await this.state.order.create(
-      this.state.listing.hash,
-      this.state.quantity,
-      this.state.memo,
-      this.state.selectedCurrency
-    )
+    let paymentInformation
+
+    try {
+      paymentInformation = await this.state.order.create(
+        this.state.listing.hash,
+        this.state.quantity,
+        this.state.memo,
+        this.state.selectedCurrency
+      )
+    } catch (e) {
+      alert(e.message)
+      return
+    }
+
     this.setState({
       paymentAddress: paymentInformation.paymentAddress,
       amountToPay: paymentInformation.amount.toString(),

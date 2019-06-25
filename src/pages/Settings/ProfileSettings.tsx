@@ -115,19 +115,29 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     return [
       {
         component: (
-          <RegistrationForm
-            availableCountries={Countries}
-            cryptoCurrencies={cryptoCurrencies}
-            currencyTypes={CurrencyTypes}
-            fiatCurrencies={FiatCurrencies}
-            languages={Languages}
-            unitOfMeasurements={UnitsOfMeasurement}
-            data={registrationForm}
-            onChange={handleChange}
-            onSubmit={handleFormSubmit}
-            isSubmitting={isSubmitting}
-            avatar={avatar}
-          />
+          <div>
+            <RegistrationForm
+              availableCountries={Countries}
+              cryptoCurrencies={cryptoCurrencies}
+              currencyTypes={CurrencyTypes}
+              fiatCurrencies={FiatCurrencies}
+              languages={Languages}
+              unitOfMeasurements={UnitsOfMeasurement}
+              data={registrationForm}
+              onChange={handleChange}
+              onSubmit={handleFormSubmit}
+              isSubmitting={isSubmitting}
+              avatar={avatar}
+            />
+            {!isSubmitting ? (
+              <button
+                className="uk-button uk-button-primary uk-align-center"
+                onClick={handleFormSubmit}
+              >
+                Save
+              </button>
+            ) : null}
+          </div>
         ),
         label: 'General',
       },

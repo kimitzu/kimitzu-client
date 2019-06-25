@@ -2,8 +2,8 @@ import React from 'react'
 import Countries from '../../constants/Countries.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
 import { FormLabel } from '../Label'
-import { FormSelector } from '../Selector'
 
+import { AutoCompleteSelect } from '../Input'
 import './Filter.css'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
@@ -25,7 +25,7 @@ const serviceTypes = serviceTypeIds
 
 serviceTypes.unshift({
   label: 'All',
-  value: '',
+  value: '~',
 })
 
 interface FilterProps {
@@ -56,11 +56,10 @@ const Filter = ({
       <div className="uk-margin">
         <FormLabel label="Occupation Classification" />
         <div id="form-select" className="uk-form-controls">
-          <FormSelector
+          <AutoCompleteSelect
             options={serviceTypes}
-            defaultVal={''}
             onChange={async event => {
-              onFilterChange('item.categories', event.target.value)
+              onFilterChange('item.categories', event.value)
               await onFilterSubmit()
             }}
           />

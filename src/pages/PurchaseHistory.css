@@ -1,0 +1,70 @@
+#side-menu-filters {
+  flex: 1;
+  padding: 1.5% 2%;
+}
+  
+#side-menu-purchases {
+  flex: 3;
+  width: 100%;
+  padding: 2%;
+}
+  
+#purchase-history {
+  padding: 0;
+  min-height: 85%;
+  margin-top: 2%;
+}
+
+#side-menu-purchases-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+#side-menu-filters-title {
+  text-align: left;
+  font-weight: bold;
+}  
+
+#side-menu-purchases-content {
+  padding: 2% 10% 0 0;
+  min-height: 80%;
+  display: flex;
+}
+
+#left {
+    float:left;
+}
+
+#center {
+    display: inline-block;
+    width:80%;
+}
+
+#right {
+    float:right;
+}
+  
+#side-menu-filter-label > label {
+    padding: 4%;
+}
+
+#purchase-search-text {
+    border-color: var(--primary);
+}
+
+::placeholder {
+    color: var(--primary);
+}
+
+#number-purchases-text {
+    color: var(--primary);
+    margin: 2%;
+}
+
+.no-underline-on-link {
+  text-decoration: none;
+}
+
+.no-underline-on-link:hover {
+  text-decoration: none;
+}

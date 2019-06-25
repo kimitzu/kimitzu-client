@@ -25,6 +25,7 @@ interface Props {
   orderSummary: OrderSummary
   acceptedCurrencies: Option[]
   selectedCurrency?: string
+  isEstimating: boolean
 }
 
 const CheckoutPaymentCard = ({
@@ -34,6 +35,7 @@ const CheckoutPaymentCard = ({
   orderSummary,
   acceptedCurrencies,
   selectedCurrency,
+  isEstimating,
 }: Props) => {
   const {
     couponAmount,
@@ -137,13 +139,18 @@ const CheckoutPaymentCard = ({
               </label>
             </div>
           </div>
-          {estimate ? (
-            <div className="uk-flex">
+          {isEstimating ? (
+            <div className="uk-align-right uk-margin-top">
+              <div uk-spinner="ratio: 1" /> Estimating...
+            </div>
+          ) : null}
+          {estimate && !isEstimating ? (
+            <div className="uk-flex uk-margin-top">
               <div className="uk-flex-1">
                 <label>Estimate</label>
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
-                <label>{`(${estimate} ${selectedCurrency})`}</label>
+                <label>{`${estimate} ${selectedCurrency}`}</label>
               </div>
             </div>
           ) : null}
