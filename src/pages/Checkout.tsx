@@ -29,6 +29,7 @@ interface CheckoutState {
   amountToPay: string // Includes the amount and its currency
   estimate: number
   isPending: boolean
+  isEstimating: boolean
   listing: Listing
   memo: string
   order: Order
@@ -48,6 +49,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       amountToPay: '',
       estimate: 0,
       isPending: false,
+      isEstimating: false,
       listing,
       memo: '',
       order,
@@ -151,6 +153,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             handlePlaceOrder={this.handlePlaceOrder}
             isPending={this.state.isPending}
             selectedCurrency={this.state.selectedCurrency}
+            isEstimating={this.state.isEstimating}
           />
         </div>
       </div>
@@ -163,6 +166,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
   private async handleChange(field: string, value: any) {
     if (field === 'selectedCurrency') {
+      this.setState({
+        isEstimating: true,
+      })
       const estimate = await this.state.order.estimate(
         this.state.listing.hash,
         this.state.quantity,
@@ -171,6 +177,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       )
       this.setState({
         estimate,
+        isEstimating: false,
       })
     }
 

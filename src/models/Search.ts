@@ -50,11 +50,11 @@ export interface Spec {
 
 class Search implements State {
   public filters: Ers = {
-    // 'metadata.contractType': 'SERVICE',
+    'metadata.contractType': 'SERVICE',
   }
   public locationRadius: number = -1
   public modifiers: Ers = {
-    // 'metadata.contractType': '==',
+    'metadata.contractType': '==',
   }
   public plusCode: string = ''
   public query: string = ''
