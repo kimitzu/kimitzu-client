@@ -13,9 +13,22 @@ import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Listing from '../models/Listing'
 import Order from '../models/Order'
 
+import config from '../config'
 import './Checkout.css'
 
 const cryptoCurrencies = CryptoCurrencies()
+
+export interface Payment {
+  notification: Notification
+}
+
+export interface Notification {
+  coinType: string
+  fundingTotal: number
+  notificationId: string
+  orderId: string
+  type: string
+}
 
 interface RouteProps {
   id: string
@@ -40,6 +53,8 @@ interface CheckoutState {
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
+  public socket: WebSocket
+
   constructor(props: CheckoutProps) {
     super(props)
     const listing = new Listing()
@@ -61,6 +76,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
+    this.socket = new WebSocket(`${config.websocketHost}`)
   }
 
   public async componentDidMount() {
@@ -72,6 +88,24 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       listing: listing.listing,
       quantity: Number(quantity),
     })
+
+    // const webSocket = new WebSocket(`${config.websocketHost}`)
+    this.socket.onmessage = event => {
+      const rawData = JSON.parse(event.data)
+      if (rawData.notification) {
+        const data = JSON.parse(event.data) as Payment
+        // TODO: Handle show real modal component
+        alert(
+          `Payment of ${data.notification.fundingTotal / 100000000} ${
+            data.notification.coinType
+          } received!`
+        )
+      }
+    }
+  }
+
+  public componentWillUnmount() {
+    this.socket.close()
   }
 
   public render() {
@@ -187,12 +221,20 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   private async handlePlaceOrder() {
-    const paymentInformation = await this.state.order.create(
-      this.state.listing.hash,
-      this.state.quantity,
-      this.state.memo,
-      this.state.selectedCurrency
-    )
+    let paymentInformation
+
+    try {
+      paymentInformation = await this.state.order.create(
+        this.state.listing.hash,
+        this.state.quantity,
+        this.state.memo,
+        this.state.selectedCurrency
+      )
+    } catch (e) {
+      alert(e.message)
+      return
+    }
+
     this.setState({
       paymentAddress: paymentInformation.paymentAddress,
       amountToPay: paymentInformation.amount.toString(),
