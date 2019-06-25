@@ -9,7 +9,7 @@ interface PurchaseCardProps {
 }
 
 const PurchaseCard = ({ data }: PurchaseCardProps) => (
-  <div>
+  <div className="emphasize-on-hover">
     <div className="uk-card uk-card-default uk-grid-collapse uk-margin" data-uk-grid>
       <div className="uk-card-media-left uk-cover-container uk-margin-left">
         <img

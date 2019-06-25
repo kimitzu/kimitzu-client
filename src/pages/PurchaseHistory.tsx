@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import PurchaseCard from '../components/Card/PurchaseCard'
 import Purchase from '../models/Purchase'
@@ -116,7 +117,13 @@ class PurchaseHistory extends React.Component<{}, PurchaseHistoryState> {
             <div uk-spinner="ratio: 2" />
           ) : (
             this.state.purchases.map(purchase => (
-              <PurchaseCard key={purchase.orderId} data={purchase} />
+              <Link
+                to={`/order/${purchase.orderId}`}
+                key={purchase.orderId}
+                className="no-underline-on-link"
+              >
+                <PurchaseCard data={purchase} />
+              </Link>
             ))
           )}
         </div>

@@ -60,3 +60,11 @@
     color: dodgerblue;
     margin: 2%;
 }
+
+.no-underline-on-link {
+  text-decoration: none;
+}
+
+.no-underline-on-link:hover {
+  text-decoration: none;
+}
