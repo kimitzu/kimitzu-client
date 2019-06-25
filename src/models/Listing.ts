@@ -146,11 +146,12 @@ class Listing implements ListingInterface {
      * of original listing object which contains DOM rendering information
      */
     const listingClone = JSON.parse(JSON.stringify(this)) as ListingInterface
-    listingClone.slug = slugify(listingClone.item.title)
+    listingClone.slug = slugify(listingClone.item.title, { remove: /[*+~.()'"!:@]/g })
     listingClone.coupons = listingClone.coupons.filter(
       coupon => coupon.discountCode !== '' || coupon.title !== ''
     )
-    listingClone.item.price = Number(listingClone.item.price.toString().replace('.', ''))
+    // TODO: Multiply to correct divisibility when using Crypto
+    listingClone.item.price = listingClone.item.price * 100
     await Axios.post(`${config.openBazaarHost}/ob/listing`, listingClone)
   }
 
@@ -172,7 +173,8 @@ class Listing implements ListingInterface {
     if (cryptoCurrencies.includes(this.metadata.pricingCurrency)) {
       return (this.item.price / this.metadata.coinDivisibility).toString()
     }
-    return (this.item.price / 100).toFixed(2)
+    const realPrice = this.item.price / 100
+    return realPrice.toFixed(2)
   }
 }
 

@@ -14,11 +14,9 @@ const AddressesCardGroup = (props: Props) => {
   return (
     <div className="uk-flex-1">
       {locations.map((location: Location, index: number) => (
-        <AddressCard
-          key={index}
-          location={location}
-          handleSelectAddress={() => handleSelectAddress(index)}
-        />
+        <div className="uk-margin-bottom" key={index}>
+          <AddressCard location={location} handleSelectAddress={() => handleSelectAddress(index)} />
+        </div>
       ))}
       <AddAddressCard handleAddBtn={handleAddAddressBtn} />
     </div>

@@ -1,12 +1,37 @@
 import React from 'react'
 import Countries from '../../constants/Countries.json'
+import ServiceTypes from '../../constants/ServiceTypes.json'
+import { FormLabel } from '../Label'
+import { FormSelector } from '../Selector'
 
 import './Filter.css'
 
+const serviceTypeIds = Object.keys(ServiceTypes)
+
+const serviceTypes = serviceTypeIds
+  .map(type => {
+    const item = {
+      label: ServiceTypes[type],
+      value: type,
+    }
+    return item
+  })
+  .sort((a, b) => {
+    if (a.label === b.label) {
+      return 0
+    }
+    return a.label < b.label ? -1 : 1
+  })
+
+serviceTypes.unshift({
+  label: 'All',
+  value: '',
+})
+
 interface FilterProps {
   onFilterChange: (field: string, value: string, modifier?: string) => void
-  onFilterSubmit: (event: React.FormEvent<HTMLFormElement>) => void
-  onChange: (fieldName: string, value: string) => void
+  onFilterSubmit: (event?: React.FormEvent<HTMLFormElement>) => void
+  onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
   locationRadius: number
   plusCode: string
@@ -21,28 +46,47 @@ const Filter = ({
   onFilterReset,
 }: FilterProps) => (
   <div id="main-div">
-    <form onSubmit={onFilterSubmit}>
+    <form
+      onSubmit={async event => {
+        event.preventDefault()
+        await onFilterSubmit()
+      }}
+    >
       <legend className="uk-legend">FILTERS</legend>
       <div className="uk-margin">
-        <select className="uk-select">
-          <option>All Categories</option>
-          <option>Option 01</option>
-          <option>Option 02</option>
-        </select>
+        <FormLabel label="Occupation Classification" />
+        <div id="form-select" className="uk-form-controls">
+          <FormSelector
+            options={serviceTypes}
+            defaultVal={''}
+            onChange={async event => {
+              onFilterChange('item.categories', event.target.value)
+              await onFilterSubmit()
+            }}
+          />
+        </div>
       </div>
       <p> PRICE RANGE </p>
-      <div className="uk-margin">
-        <input
-          className="uk-range"
-          type="range"
-          defaultValue="8"
-          min="0"
-          max="10"
-          step="0.1"
-          onChange={event => {
-            onFilterChange('priceRange', event.target.value)
-          }}
-        />
+      <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
+        <div className="uk-inline">
+          {/* <span className="uk-form-icon" data-uk-icon="" /> */}
+          <input
+            className="uk-input"
+            type="number"
+            placeholder="MIN"
+            onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
+          />
+        </div>
+        <span data-uk-icon="icon: triangle-right; ratio: 2" />
+        <div className="uk-inline">
+          {/* <span className="uk-form-icon" data-uk-icon="" /> */}
+          <input
+            className="uk-input"
+            type="number"
+            placeholder="MAX"
+            onChange={event => onFilterChange('priceMax', event.target.value, '>=')}
+          />
+        </div>
       </div>
       <p> LOCATION </p>
       <div className="uk-margin">
@@ -87,7 +131,7 @@ const Filter = ({
           type="text"
           placeholder="Plus Code"
           value={plusCode}
-          onChange={event => onChange('plusCode', event.target.value)}
+          onChange={event => onChange('plusCode', event.target.value, 'search')}
         />
       </div>
       <div className="uk-margin">
@@ -110,7 +154,7 @@ const Filter = ({
             max="200000"
             step="1"
             onChange={event => {
-              onChange('locationRadius', event.target.value)
+              onChange('locationRadius', event.target.value, 'search')
             }}
           />
         </div>

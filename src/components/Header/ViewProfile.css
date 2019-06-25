@@ -60,17 +60,14 @@
     font-weight: bolder;
 }
 
-#profile-about {
-    margin-top: 3rem;
-    margin-bottom: 2rem;
-}
-
 #title-about {
     color: dodgerblue;
     font-weight: bold;
 }
 
 #container-profile {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
     background-color: #f1f9ff;
     padding: 2rem 10% 2rem 10%;
 }

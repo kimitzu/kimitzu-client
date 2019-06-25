@@ -14,7 +14,7 @@ import {
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
-  public static async retrieve(id?: string) {
+  public static async retrieve(id?: string): Promise<Profile> {
     let profile
 
     if (id) {
@@ -184,6 +184,10 @@ class Profile implements ProfileSchema {
     await Axios.put(`${config.openBazaarHost}/ob/profile`, this)
     this.extLocation = this.processAddresses(this.extLocation)
     return this
+  }
+
+  public async crawlOwnListings() {
+    await Axios.get(`${config.djaliHost}/djali/peer/add?id=${this.peerID}`)
   }
 
   public processAddresses(extLocation: EXTLocation) {

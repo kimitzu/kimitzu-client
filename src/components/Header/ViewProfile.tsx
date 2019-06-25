@@ -2,19 +2,18 @@ import React from 'react'
 
 import './ViewProfile.css'
 
-import OtherInformationCard from './../Card/OtherInformationCard'
-import ProfessionalBackgroundCard from './../Card/ProfessionalBackgroundCard'
-import SocialMediaCard from './../Card/SocialMediaCard'
-
 import config from '../../config'
-import { Profile } from '../../interfaces/Profile'
+import Listing from '../../models/Listing'
+import Profile from '../../models/Profile'
+import AboutCard from '../Card/Profile/AboutCard'
+import ListingCardGroup from '../CardGroup/ListingCardGroup'
 
 interface ViewProfileInterface {
   data: Profile
+  listings: Listing[]
 }
 
 const ViewProfile = (props: ViewProfileInterface) => {
-  const { background } = props.data
   return (
     <div>
       <div id="cover-photo">
@@ -34,7 +33,7 @@ const ViewProfile = (props: ViewProfileInterface) => {
           <div id="seller-name">
             <h3> {props.data.name} </h3>
           </div>
-          <ul data-uk-tab>
+          <ul data-uk-tab="connect: #container-profile">
             <li className="uk-active">
               <a href="#" id="tab-label">
                 Profile
@@ -42,40 +41,32 @@ const ViewProfile = (props: ViewProfileInterface) => {
             </li>
             <li>
               <a href="#" id="tab-label">
-                Store <span id="label-number"> 28 </span>
+                Store <span id="label-number"> {props.data.stats!.listingCount} </span>
               </a>
             </li>
             <li>
               <a href="#" id="tab-label">
-                Followers <span id="label-number"> 55 </span>
+                Followers <span id="label-number"> {props.data.stats!.followerCount} </span>
               </a>
             </li>
             <li>
               <a href="#" id="tab-label">
-                Following <span id="label-number"> 36 </span>
+                Following <span id="label-number"> {props.data.stats!.followingCount} </span>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <div id="container-profile">
-        <div id="profile-about">
-          <div className="uk-card uk-card-default uk-card-body">
-            <h3 id="title-about" className="uk-card-title">
-              About
-            </h3>
-            <p>{props.data.about}</p>
-          </div>
-        </div>
-        <SocialMediaCard />
-        {background && background.educationHistory ? (
-          <ProfessionalBackgroundCard data={background} name="Education" />
-        ) : null}
-        {background && background.employmentHistory ? (
-          <ProfessionalBackgroundCard data={background} name="Work History" />
-        ) : null}
-        <OtherInformationCard data={props.data} />
-      </div>
+      <ul id="container-profile" className="uk-switcher">
+        <li>
+          <AboutCard data={props.data} />
+        </li>
+        <li>
+          <ListingCardGroup data={props.listings} />
+        </li>
+        <li>Coming soon!</li>
+        <li>Coming soon!</li>
+      </ul>
     </div>
   )
 }

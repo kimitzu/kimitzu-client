@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import {
+  Checkout,
   CreateListing,
   Home,
   ListingInformation,
@@ -9,6 +10,7 @@ import {
   PurchaseHistory,
   UserRegistration,
 } from './pages'
+import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
 
 const Routes = () => (
@@ -21,6 +23,8 @@ const Routes = () => (
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
       <Route path="/purchase-history" exact component={PurchaseHistory} />
+      <Route path="/order/:id" exact component={OrderView} />
+      <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
     </Switch>
   </BrowserRouter>
 )
