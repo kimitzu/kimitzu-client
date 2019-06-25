@@ -24,7 +24,6 @@ class Listing implements ListingInterface {
     id: string
   ): Promise<{ profile: Profile; listing: Listing; imageData: [{ src: string }] }> {
     const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/listing?hash=${id}`)
-
     const djaliListing = djaliListingRequest.data
     const profile = await Profile.retrieve(djaliListing.vendorID.peerID)
 

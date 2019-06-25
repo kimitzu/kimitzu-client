@@ -19,7 +19,7 @@ class Profile implements ProfileSchema {
 
     if (id) {
       const peerRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}`)
-      const peerInfo = peerRequest.data.profile as Profile
+      const peerInfo = peerRequest.data as Profile
       profile = new Profile(peerInfo)
       return profile
     } else {
