@@ -1,0 +1,85 @@
+#input-selector {
+    border: 1px solid var(--border-color);
+    position: relative;
+    width: auto;
+    padding-left: 1px;
+    display: flex;
+    flex-direction: row;
+}
+#input {
+    border: none;
+}
+#selector {
+    border: 1px 1px 1px 1px solid var(--border-color);
+    width: 100%;
+}
+#option-container {
+  margin-top: 25px;
+  width: 100%;
+  background-color: white;
+  position: absolute;
+  height: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 2px;
+  transition: 200ms .20s ease;
+  opacity: 0;
+  pointer-events: none;
+  outline: none;
+  z-index: 99;
+}
+
+#option-container ul {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#option-container li {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  border-bottom: 1px solid rgb(240, 239, 239);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#option-container li:last-child {
+  border-bottom: 0px solid rgb(201, 201, 201);
+}
+
+#option-container li:hover{
+  background-color: rgb(74, 165, 255);
+}
+
+#option-container li:hover p{
+  color: white !important;
+}
+
+
+#option-container li p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+}
+
+.showDropdown {
+  opacity: 1 !important;
+  margin-top: 50px !important;
+  pointer-events: all !important;
+}
+
+.untouch {
+  pointer-events: none;
+}
