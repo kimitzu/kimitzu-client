@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import './NavBar.css'
 
 interface NavBarProps {
-  onQueryChange: (fieldName: string, value: string) => void
+  onQueryChange: (fieldName: string, value: string, parentField?: string) => void
   onSearchSubmit: (isNewSearch: boolean) => void
   handleSettings: () => void
   isSearchBarShow: boolean
@@ -46,7 +46,7 @@ const NavBar = ({
               className="uk-search-input"
               type="search"
               placeholder="What are you looking for?"
-              onChange={event => onQueryChange('searchQuery', event.target.value)}
+              onChange={event => onQueryChange('query', event.target.value, 'search')}
             />
           </form>
           <div className="uk-width-1-2">

@@ -15,6 +15,7 @@ body * {
 }
 label,
 p,
+a,
 h1,
 h2,
 h3,
@@ -79,4 +80,7 @@ textarea {
 }
 .djali-logo-form {
   width: 15%;
+}
+.text-underline {
+  text-decoration: underline;
 }
