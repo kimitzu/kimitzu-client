@@ -14,7 +14,7 @@ const Stepper = ({ options, currentIndex }: Props) => {
           const checkNormal = (
             <>
               <div className="stepperCircle">
-                <img src="./images/checked.svg" alt="check" height="30" width="30" />
+                <img src="/images/checked.svg" alt="check" height="30" width="30" />
               </div>
               <div className="stepper-Bridge" />
             </>
@@ -22,7 +22,7 @@ const Stepper = ({ options, currentIndex }: Props) => {
 
           const checkLast = (
             <div className="stepperCircle">
-              <img src="./images/checked.svg" alt="check" height="30" width="30" />
+              <img src="/images/checked.svg" alt="check" height="30" width="30" />
             </div>
           )
 

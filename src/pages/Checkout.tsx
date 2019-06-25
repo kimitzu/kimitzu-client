@@ -46,7 +46,6 @@ interface CheckoutState {
   memo: string
   order: Order
   paymentAddress: string
-  qrValue: string
   quantity: number
   selectedCurrency: string
   payment: Notification
@@ -70,7 +69,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       memo: '',
       order,
       paymentAddress: '',
-      qrValue: '',
       quantity: 1,
       selectedCurrency: '',
       payment: {
@@ -118,7 +116,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   public render() {
-    const { listing, isPending, quantity, amountToPay, paymentAddress, qrValue } = this.state
+    const { listing, isPending, quantity, amountToPay, paymentAddress } = this.state
     return (
       <div id="checkout-container" className="uk-flex uk-flex-row uk-margin">
         <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
@@ -131,7 +129,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                 address={paymentAddress}
                 amount={amountToPay}
                 handleCopyToClipboard={this.copyToClipboard}
-                qrValue={qrValue}
                 cryptocurrency={this.state.selectedCurrency}
                 handlePay={() => alert('Feature coming soon')}
               />
@@ -259,11 +256,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.setState({
       paymentAddress: paymentInformation.paymentAddress,
       amountToPay: paymentInformation.amount.toString(),
-      qrValue: Order.getQRCodeValue(
-        this.state.selectedCurrency,
-        paymentInformation.paymentAddress,
-        paymentInformation.amount.toString()
-      ),
       isPending: true,
     })
   }

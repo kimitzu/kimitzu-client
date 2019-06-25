@@ -1,6 +1,10 @@
 import Axios from 'axios'
 import config from '../config'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import { Contract, Order as OrderInterface, OrderPaymentInformation } from '../interfaces/Order'
+import Profile from './Profile'
+
+const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
 
 class Order implements OrderInterface {
   public static getQRCodeValue(crypto: string, address: string, amount: string) {
@@ -26,11 +30,17 @@ class Order implements OrderInterface {
     }
   }
 
-  public static async getOrder(id: string): Promise<Order> {
-    const order = await Axios.get(`${config.openBazaarHost}/ob/order/${id}`)
-    return new Order(order.data)
+  public static async retrieve(id: string): Promise<Order> {
+    const orderRequest = await Axios.get(`${config.openBazaarHost}/ob/order/${id}`)
+    const order = new Order(orderRequest.data)
+    order.vendor = await Profile.retrieve(order.contract.vendorListings[0].vendorID.peerID)
+    order.buyer = await Profile.retrieve()
+    console.log(order)
+    return order
   }
 
+  public vendor?: Profile
+  public buyer?: Profile
   public contract: Contract = {
     vendorListings: [
       {
@@ -136,7 +146,7 @@ class Order implements OrderInterface {
         chaincode: '',
         address: '',
         redeemScript: '',
-        coin: '',
+        coin: 'BTC',
       },
       ratingKeys: [''],
       alternateContactInfo: '',
@@ -248,7 +258,7 @@ class Order implements OrderInterface {
       },
     ],
   }
-  public state: string = ''
+  public state: string = 'PENDING'
   public read: boolean = false
   public funded: boolean = false
   public unreadChatMessages: number = 0
@@ -264,7 +274,7 @@ class Order implements OrderInterface {
 
   constructor(props?) {
     if (props) {
-      Object.assign(props)
+      Object.assign(this, props)
     }
   }
 
@@ -297,7 +307,7 @@ class Order implements OrderInterface {
     try {
       const orderRequest = await Axios.post(`${config.openBazaarHost}/ob/purchase`, order)
       const paymentInformation = orderRequest.data as OrderPaymentInformation
-      paymentInformation.amount = paymentInformation.amount / 100000000
+      paymentInformation.amount = this.calculateCryptoDecimals(paymentInformation.amount)
       return paymentInformation
     } catch (e) {
       throw new Error(e.response.data.reason)
@@ -333,7 +343,7 @@ class Order implements OrderInterface {
     try {
       const estimateRequest = await Axios.post(`${config.openBazaarHost}/ob/estimatetotal`, order)
       const estimate = estimateRequest.data
-      return estimate / 100000000
+      return this.calculateCryptoDecimals(estimate)
     } catch (e) {
       throw e
     }
@@ -356,6 +366,66 @@ class Order implements OrderInterface {
       })
     } catch (e) {
       alert(e.message)
+    }
+  }
+
+  public get fiatValue(): string {
+    const listing = this.contract.vendorListings[0]
+    const currency = listing.metadata.pricingCurrency
+
+    if (cryptoCurrencies.includes(currency)) {
+      return `${(listing.item.price / listing.metadata.coinDivisibility).toString()} ${currency}`
+    }
+    const realPrice = listing.item.price / 100
+    return `${realPrice.toFixed(2)} ${currency}`
+  }
+
+  public get cryptoValue(): string {
+    return this.parseCrypto(this.contract.buyerOrder.payment.amount)
+  }
+
+  public parseCrypto(value: number): string {
+    return `${this.calculateCryptoDecimals(value)} ${this.contract.buyerOrder.payment.coin}`
+  }
+
+  public calculateCryptoDecimals(value: number): number {
+    return value / 100000000
+  }
+
+  public get step(): number {
+    switch (this.state) {
+      case 'PENDING':
+        return 0
+      case 'AWAITING_PAYMENT':
+        return 0
+      case 'AWAITING_PICKUP':
+        return 1
+      case 'AWAITING_FULFILLMENT':
+        return 2
+      case 'PARTIALLY_FULFILLED':
+        return 2
+      case 'FULFILLED':
+        return 3
+      case 'COMPLETED':
+        return 4
+      case 'CANCELED':
+        return 5
+      case 'DECLINED':
+        return 6
+      case 'REFUNDED':
+        return 7
+      case 'DISPUTED':
+        return 8
+      case 'DECIDED':
+        return 9
+      case 'RESOLVED':
+        return 10
+      case 'PAYMENT_FINALIZED':
+        return 11
+      case 'PROCESSING_ERROR':
+        return 12
+      default:
+        throw new Error('Unknown event #' + this.state)
     }
   }
 }
