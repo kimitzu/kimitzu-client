@@ -9,6 +9,7 @@ interface OrderSummary {
   couponAmount?: number
   subTotalAmount: number
   totalAmount: number
+  estimate?: number
 }
 
 interface Option {
@@ -41,6 +42,7 @@ const CheckoutPaymentCard = ({
     shippingAmount,
     subTotalAmount,
     totalAmount,
+    estimate,
   } = orderSummary
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-column uk-height-1-1">
@@ -54,7 +56,7 @@ const CheckoutPaymentCard = ({
         </button>
         <div className="uk-margin">
           <p className="uk-text-center color-secondary">
-            Clicking will advanced you the final step
+            {isPending ? 'Awaiting payment...' : 'Clicking will advance you to the payment step'}
           </p>
         </div>
       </div>
@@ -68,7 +70,7 @@ const CheckoutPaymentCard = ({
                 className="uk-radio uk-margin-small-right"
                 type="radio"
                 checked={option.value.toString() === selectedCurrency}
-                onChange={() => handleOnChange('currency', option.value)}
+                onChange={() => handleOnChange('selectedCurrency', option.value)}
                 name={option.value.toString()}
               />
               {option.label}
@@ -89,7 +91,7 @@ const CheckoutPaymentCard = ({
               </label>
             </div>
           </div>
-          {shippingAmount ? (
+          {shippingAmount! >= 0 ? (
             <div className="uk-flex">
               <div className="uk-flex-1">
                 <label>Shipping</label>
@@ -113,7 +115,7 @@ const CheckoutPaymentCard = ({
               </label>
             </div>
           </div>
-          {couponAmount ? (
+          {couponAmount! >= 0 ? (
             <div className="uk-flex">
               <div className="uk-flex-1">
                 <label>Coupon</label>
@@ -135,6 +137,16 @@ const CheckoutPaymentCard = ({
               </label>
             </div>
           </div>
+          {estimate ? (
+            <div className="uk-flex">
+              <div className="uk-flex-1">
+                <label>Estimate</label>
+              </div>
+              <div className="uk-flex-1 uk-text-right uk-text-bold">
+                <label>{`(${estimate} ${selectedCurrency})`}</label>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

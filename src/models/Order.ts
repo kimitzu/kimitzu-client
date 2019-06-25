@@ -3,6 +3,29 @@ import config from '../config'
 import { Contract, Order as OrderInterface, OrderPaymentInformation } from '../interfaces/Order'
 
 class Order implements OrderInterface {
+  public static getQRCodeValue(crypto: string, address: string, amount: string) {
+    switch (crypto.toUpperCase()) {
+      case 'TBTC':
+      case 'BTC': {
+        return `bitcoin:${address}?amount=${amount}`
+      }
+      case 'TLTC':
+      case 'LTC': {
+        return `litecoin:${crypto.toLowerCase()}:${address}?amount=${amount}`
+      }
+      case 'ZEC':
+      case 'TZEC': {
+        return `zcash:${crypto.toLowerCase()}:${address}?amount=${amount}`
+      }
+      case 'TBCH':
+      case 'BCH': {
+        return `bch:${crypto.toLowerCase()}:${address}?amount=${amount}`
+      }
+      default:
+        throw new Error('Unrecognized cryptocurrency: ' + crypto)
+    }
+  }
+
   public static async getOrder(id: string): Promise<Order> {
     const order = await Axios.get(`${config.openBazaarHost}/ob/order/${id}`)
     return new Order(order.data)
@@ -274,6 +297,7 @@ class Order implements OrderInterface {
     try {
       const orderRequest = await Axios.post(`${config.openBazaarHost}/ob/purchase`, order)
       const paymentInformation = orderRequest.data as OrderPaymentInformation
+      paymentInformation.amount = paymentInformation.amount / 100000000
       return paymentInformation
     } catch (e) {
       return e
@@ -309,7 +333,7 @@ class Order implements OrderInterface {
     try {
       const estimateRequest = await Axios.post(`${config.openBazaarHost}/ob/estimatetotal`, order)
       const estimate = estimateRequest.data
-      return estimate
+      return estimate / 100000000
     } catch (e) {
       return e
     }
