@@ -6,7 +6,7 @@
 }
 
 #title-social-media {
-    color: dodgerblue;
+    color: var(--primary);
     font-weight: bold;
 }
 
@@ -25,5 +25,5 @@
 }
 
 .blueIcon {
-    color: dodgerblue;
+    color: var(--primary);
 }

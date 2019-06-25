@@ -49,15 +49,15 @@
 }
 
 #purchase-search-text {
-    border-color: dodgerblue;
+    border-color: var(--primary);
 }
 
 ::placeholder {
-    color: dodgerblue;
+    color: var(--primary);
 }
 
 #number-purchases-text {
-    color: dodgerblue;
+    color: var(--primary);
     margin: 2%;
 }
 

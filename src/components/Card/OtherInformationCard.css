@@ -3,7 +3,7 @@
 }
 
 #title-other-information {
-    color: dodgerblue;
+    color: var(--primary);
     font-weight: bold;
 }
 

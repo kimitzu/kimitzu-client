@@ -9,7 +9,7 @@
     height: 250px;
 }
 #title-terms {
-    color: dodgerblue;
+    color: var(--primary);
     font-weight: bold;
 }
 #terms-content {
@@ -38,7 +38,7 @@
     justify-content: center;
 }
 .moreBtn {
-    color: dodgerblue;
+    color: var(--primary);
     margin-bottom: 1.5rem;
     cursor: pointer;
 }
