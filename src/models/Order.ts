@@ -35,7 +35,6 @@ class Order implements OrderInterface {
     const order = new Order(orderRequest.data)
     order.vendor = await Profile.retrieve(order.contract.vendorListings[0].vendorID.peerID)
     order.buyer = await Profile.retrieve()
-    console.log(order)
     return order
   }
 

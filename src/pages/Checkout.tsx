@@ -13,21 +13,10 @@ import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Listing from '../models/Listing'
 import Order from '../models/Order'
 
+import PaymentNotification, { Notification } from '../interfaces/PaymentNotification'
 import './Checkout.css'
 
 const cryptoCurrencies = CryptoCurrencies()
-
-export interface Payment {
-  notification: Notification
-}
-
-export interface Notification {
-  coinType: string
-  fundingTotal: number
-  notificationId: string
-  orderId: string
-  type: string
-}
 
 interface RouteProps {
   id: string
@@ -98,7 +87,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.socket.onmessage = event => {
       const rawData = JSON.parse(event.data)
       if (rawData.notification) {
-        const data = JSON.parse(event.data) as Payment
+        const data = JSON.parse(event.data) as PaymentNotification
         this.setState(
           {
             payment: data.notification,

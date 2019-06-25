@@ -2,9 +2,6 @@ import React from 'react'
 
 import { RouteComponentProps } from 'react-router'
 import { PaymentQRCard, SideMenuWithContentCard } from '../components/Card'
-import NavigationCard from '../components/Card/Order/NavigationCard'
-import OrderSummaryCard from '../components/Card/Order/OrderSummaryCard'
-import SellerInformationCard from '../components/Card/Order/SellerInformationCard'
 import {
   OrderDetailsSegment,
   OrderSummaryItemSegment,
@@ -12,6 +9,7 @@ import {
 } from '../components/Segment'
 import Stepper from '../components/Stepper/Stepper'
 import config from '../config'
+import PaymentNotification from '../interfaces/PaymentNotification'
 import Order from '../models/Order'
 
 interface RouteParams {
@@ -42,6 +40,18 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       order,
       isLoading: false,
     })
+    window.socket.onmessage = async message => {
+      const info = JSON.parse(message.data)
+      if (info.notification) {
+        const payment = info as PaymentNotification
+        if (payment.notification.orderId === id) {
+          const orderUpdate = await Order.retrieve(id)
+          this.setState({
+            order: orderUpdate,
+          })
+        }
+      }
+    }
   }
 
   public render() {
