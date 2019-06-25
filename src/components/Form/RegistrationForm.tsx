@@ -66,17 +66,20 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="AVATAR" />
         <div id="avatar-item" className="uk-form-controls">
           <div id="child-icon">
-            {props.data.avatarHashes.tiny && !props.avatar ? (
-              <img src={`${config.openBazaarHost}/ob/images/${props.data.avatarHashes.tiny}`} />
+            {props.data.avatarHashes.original && !props.avatar ? (
+              <img src={`${config.openBazaarHost}/ob/images/${props.data.avatarHashes.original}`} />
             ) : null}
             {props.avatar ? <img src={props.avatar} /> : null}
-            {!props.avatar && !props.data.avatarHashes.tiny ? (
+            {!props.avatar && !props.data.avatarHashes.original ? (
               <a className="uk-icon-button color-primary" uk-icon="user" />
             ) : null}
           </div>
-          <div id="child-slider">
-            <input className="uk-range" type="range" value="2" min="0" max="10" step="0.1" />
-          </div>
+          {/* 
+            TODO: Implement avatar zoom
+            <div id="child-slider">
+              <input className="uk-range" type="range" value="2" min="0" max="10" step="0.1" />
+            </div> 
+          */}
           <div id="btn-wrapper" className="upload-btn-wrapper">
             <button id="btn-upload" className="btn">
               CHANGE
