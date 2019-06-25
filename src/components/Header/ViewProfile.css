@@ -23,7 +23,7 @@
 
 #tab-label {
     font-weight: bold;
-    color: dodgerblue;
+    color: var(--primary);
 }
 
 #label-number {
@@ -56,12 +56,12 @@
 }
 
 #seller-name > h3 {
-    color: dodgerblue;
+    color: var(--primary);
     font-weight: bolder;
 }
 
 #title-about {
-    color: dodgerblue;
+    color: var(--primary);
     font-weight: bold;
 }
 

@@ -55,9 +55,9 @@
 }
 
 #btn-upload {
-  border: 2px solid dodgerblue;
+  border: 2px solid var(--primary);
   color: white;
-  background-color: dodgerblue;
+  background-color: var(--primary);
   padding: 8px 20px;
   border-radius: 5px;
   font-weight: bold;
