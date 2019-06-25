@@ -4,21 +4,20 @@ import React, { InputHTMLAttributes, SelectHTMLAttributes, useEffect, useState }
 import './AutoCompleteSelect.css'
 
 interface Props {
-  options: string
+  options: Options[]
   defaultSelectorVal?: string
   inputProps?: InputHTMLAttributes<any>
   selectProps?: SelectHTMLAttributes<any>
-  onChange: (value: Options) => void
+  onChange?: (value: Options) => void
 }
 
 interface Options {
+  label: string
   value: string
-  code: string
 }
 
 let searchResults: Options[] = []
-const selectOptions: any[] = []
-let trigerred = true
+let selectOptions: Options[] = []
 
 const AutoCompleteSelect = ({
   defaultSelectorVal,
@@ -32,26 +31,17 @@ const AutoCompleteSelect = ({
   const [show, setShow] = useState(false)
   const [focused, setFocused] = useState(false)
 
-  const serviceObj = JSON.parse(options)
+  selectOptions = options
 
-  useEffect(() => {
-    if (trigerred) {
-      trigerred = false
-      Object.keys(serviceObj).map(key => {
-        selectOptions.push({ value: serviceObj[key], code: key })
-      })
-    }
-  })
-
-  async function inputChange(e) {
+  function inputChange(e) {
     setInputValue(e.target.value)
     const query = e.target.value.toLowerCase()
     const len = query.length
     const res = selectOptions.filter(
       o =>
-        o.value.toLowerCase().substring(0, len) === query ||
-        o.code.substring(0, len) === Number(query).toString() ||
-        o.value.toLowerCase().includes(query)
+        o.label.toLowerCase().substring(0, len) === query ||
+        o.value.substring(0, len) === Number(query).toString() ||
+        o.label.toLowerCase().includes(query)
     )
     searchResults = res
     setShow(true)
@@ -68,7 +58,6 @@ const AutoCompleteSelect = ({
     } else {
       setShow(true)
     }
-    console.log(selectOptions)
   }
 
   function dropdownOnBlur(e) {
@@ -83,13 +72,14 @@ const AutoCompleteSelect = ({
       const el2 = el.getElementsByTagName('p')[0].innerHTML
       setInputValue(el2)
       setCode(e.target.id)
-      onChange({ value: el2, code: e.target.id })
+      if (onChange) {
+        onChange({ label: el2, value: e.target.id.replace('~', '') })
+      }
     }
     setShow(false)
   }
 
   function dropdownFocused(e) {
-    console.log(true)
     setFocused(true)
   }
 
@@ -107,8 +97,8 @@ const AutoCompleteSelect = ({
       <div id="option-container" className={dropdownClass} tabIndex={1}>
         <ul id="uloptions">
           {searchResults.map(op => (
-            <li id={op.code} key={op.code} onClick={selectValue} onFocus={dropdownFocused}>
-              <p className="untouch">{op.value}</p>
+            <li id={op.value} key={op.value} onClick={selectValue} onFocus={dropdownFocused}>
+              <p className="untouch">{op.label}</p>
             </li>
           ))}
         </ul>

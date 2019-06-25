@@ -26,6 +26,7 @@
   opacity: 0;
   pointer-events: none;
   outline: none;
+  z-index: 99;
 }
 
 #option-container ul {
