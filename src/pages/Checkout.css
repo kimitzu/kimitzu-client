@@ -4,3 +4,15 @@
 #checkout-order-summary {
   flex: 3;
 }
+#payment-modal {
+  padding: 5%;
+  text-align: center;
+}
+#payment-modal > h4{
+  font-weight: bolder;
+  padding-bottom: 4%;
+  padding-top: 4%;
+}
+#payment-modal > p{
+  color: black;
+}

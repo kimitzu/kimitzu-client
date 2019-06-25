@@ -1,9 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import config from './config'
 import './config/main.css'
 import * as serviceWorker from './serviceWorker'
 
+declare global {
+  interface Window {
+    socket: WebSocket
+  }
+}
+
+window.socket = new WebSocket(`${config.websocketHost}`)
 ReactDOM.render(<App />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change

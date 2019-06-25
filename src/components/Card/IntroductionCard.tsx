@@ -23,28 +23,6 @@ const IntroductionCard = (props: Props) => (
       <button className="uk-button uk-button-primary" onClick={props.handleGetStarted}>
         Get Started
       </button>
-      <button
-        className="uk-button uk-button-default uk-margin-small-right"
-        type="button"
-        uk-toggle="target: #modal-close-default"
-      >
-        Default
-      </button>
-      <div id="modal-close-default" data-uk-modal>
-        <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
-          <button className="uk-modal-close-default" type="button" data-uk-close />
-          <img
-            width="15%"
-            height="15%"
-            src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-1/254000/52-512.png"
-          />
-          <h4>Payment Sucessful!</h4>
-          <p>
-            Thank you for your purchase! If you'd like to check the status of your order view your
-            Purchases page.
-          </p>
-        </div>
-      </div>
     </div>
   </div>
 )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 
 import {
   // AddressCard,
@@ -13,7 +13,6 @@ import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Listing from '../models/Listing'
 import Order from '../models/Order'
 
-import config from '../config'
 import './Checkout.css'
 
 const cryptoCurrencies = CryptoCurrencies()
@@ -50,10 +49,12 @@ interface CheckoutState {
   qrValue: string
   quantity: number
   selectedCurrency: string
+  payment: Notification
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
-  public socket: WebSocket
+  private socket: WebSocket
+  private modal: React.ReactNode
 
   constructor(props: CheckoutProps) {
     super(props)
@@ -72,11 +73,18 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       qrValue: '',
       quantity: 1,
       selectedCurrency: '',
+      payment: {
+        coinType: '',
+        fundingTotal: 0,
+        notificationId: '',
+        orderId: '',
+        type: '',
+      },
     }
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
-    this.socket = new WebSocket(`${config.websocketHost}`)
+    this.socket = window.socket
   }
 
   public async componentDidMount() {
@@ -89,23 +97,24 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       quantity: Number(quantity),
     })
 
-    // const webSocket = new WebSocket(`${config.websocketHost}`)
     this.socket.onmessage = event => {
       const rawData = JSON.parse(event.data)
       if (rawData.notification) {
         const data = JSON.parse(event.data) as Payment
-        // TODO: Handle show real modal component
-        alert(
-          `Payment of ${data.notification.fundingTotal / 100000000} ${
-            data.notification.coinType
-          } received!`
+        this.setState(
+          {
+            payment: data.notification,
+          },
+          () => {
+            window.UIkit.modal(this.modal).show()
+          }
         )
       }
     }
   }
 
   public componentWillUnmount() {
-    this.socket.close()
+    window.UIkit.modal(this.modal).hide()
   }
 
   public render() {
@@ -189,6 +198,18 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             selectedCurrency={this.state.selectedCurrency}
             isEstimating={this.state.isEstimating}
           />
+        </div>
+
+        <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
+          <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
+            <img width="15%" height="15%" src="/images/check.png" />
+            <h4>
+              Payment of {this.state.payment.fundingTotal / 100000000} {this.state.payment.coinType}{' '}
+              Received!
+            </h4>
+            <p>Thank you for your purchase!</p>
+            <Link to={`/order/${this.state.payment.orderId}`}>Check the status of your order.</Link>
+          </div>
         </div>
       </div>
     )
