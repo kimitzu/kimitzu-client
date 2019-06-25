@@ -22,7 +22,7 @@ const Routes = () => (
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
       <Route path="/order/:id" exact component={OrderView} />
-      <Route path="/listing/checkout/:id" exact component={Checkout} />
+      <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
     </Switch>
   </BrowserRouter>
 )
