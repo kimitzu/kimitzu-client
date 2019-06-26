@@ -171,7 +171,7 @@ class Home extends Component<HomeProps, HomeState> {
               <div className="uk-align-center">
                 {/* <Stepper
                   options={['PAID', 'ACCEPTED', 'FULLFILED', 'COMPLETED']}
-                  currentIndex={2}
+                  currentIndex={4} /> */}
                 {/* <AutoCompleteSelect
                   onChange={(ret) => {console.log(ret)}}
                   defaultSelectorVal="Test"
