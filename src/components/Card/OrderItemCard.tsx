@@ -1,11 +1,11 @@
 import React from 'react'
 
 import config from '../../config'
-import History from '../../interfaces/History'
+import OrderHistory from '../../models/OrderHistory'
 import './OrderItemCard.css'
 
 interface OrderItemCardProps {
-  data: History
+  data: OrderHistory
 }
 
 const OrderItemCard = ({ data }: OrderItemCardProps) => (
@@ -34,7 +34,8 @@ const OrderItemCard = ({ data }: OrderItemCardProps) => (
             Order#: <b> {data.orderId} </b>
           </p>
           <p>
-            {data.type}: <b> {data.name || 'Unknown'} </b>
+            {data.source === 'sales' ? 'Buyer' : 'Vendor'}:{' '}
+            <b> {(data.source === 'sales' ? data.buyerHandle : data.vendorHandle) || 'Unknown'} </b>
           </p>
           <p>
             Date: <b> {new Date(data.timestamp).toLocaleString()} </b>

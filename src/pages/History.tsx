@@ -2,13 +2,12 @@ import React from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
 import OrderItemCard from '../components/Card/OrderItemCard'
-import HistoryInterface from '../interfaces/History'
-import Purchase from '../models/Purchase'
-import Sale from '../models/Sale'
+
+import OrderHistory from '../models/OrderHistory'
 import './History.css'
 
 interface HistoryState {
-  orders: HistoryInterface[]
+  orders: OrderHistory[]
   isLoading: boolean
   viewType: string
 }
@@ -30,49 +29,22 @@ class History extends React.Component<HistoryProps, HistoryState> {
   }
 
   public async componentDidMount() {
-    let orders: HistoryInterface[] = []
+    let orders: OrderHistory[] = []
     const viewType = this.props.match.params.view
 
     switch (viewType) {
       case 'purchases': {
-        const purchases = await Purchase.getPurchases()
-        orders = purchases.map(purchase => {
-          const obj: HistoryInterface = {
-            thumbnail: purchase.thumbnail,
-            title: purchase.title,
-            displayValue: purchase.displayValue.toString(),
-            paymentCoin: purchase.paymentCoin,
-            orderId: purchase.orderId,
-            name: purchase.vendorId,
-            timestamp: purchase.timestamp,
-            state: purchase.state,
-            type: 'Vendor',
-          }
-          return obj
-        })
+        orders = await OrderHistory.getPurchases()
         break
       }
       case 'sales': {
-        const sales = await Sale.getSales()
-        orders = sales.map(sale => {
-          const obj: HistoryInterface = {
-            thumbnail: sale.thumbnail,
-            title: sale.title,
-            displayValue: sale.displayValue.toString(),
-            paymentCoin: sale.paymentCoin,
-            orderId: sale.orderId,
-            name: sale.buyerId,
-            timestamp: sale.timestamp,
-            state: sale.state,
-            type: 'Buyer',
-          }
-          return obj
-        })
+        orders = await OrderHistory.getSales()
         break
       }
       default:
         throw new Error('Page not found')
     }
+
     this.setState({
       orders,
       isLoading: false,
