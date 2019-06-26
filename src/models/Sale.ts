@@ -28,6 +28,10 @@ class Sale implements SaleInterface {
   constructor(props) {
     Object.assign(this, props)
   }
+
+  get displayValue() {
+    return this.total / 1000000000
+  }
 }
 
 export default Sale

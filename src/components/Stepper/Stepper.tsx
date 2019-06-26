@@ -12,35 +12,35 @@ const Stepper = ({ options, currentIndex }: Props) => {
       <div id="stepperMain">
         {options.map((val, i) => {
           const checkNormal = (
-            <>
+            <React.Fragment key={val}>
               <div className="stepperCircle">
                 <img src="/images/checked.svg" alt="check" height="30" width="30" />
               </div>
               <div className="stepper-Bridge" />
-            </>
+            </React.Fragment>
           )
 
           const checkLast = (
-            <div className="stepperCircle">
+            <div className="stepperCircle" key={val}>
               <img src="/images/checked.svg" alt="check" height="30" width="30" />
             </div>
           )
 
           const dotLast = (
-            <div className="stepperCircleInactive">
+            <div key={val} className="stepperCircleInactive">
               <div className="stepper-Bridge-Half" />
               <div className="blueDot" />
             </div>
           )
 
           const dotNormal = (
-            <>
+            <React.Fragment key={val}>
               <div className="stepperCircleInactiveNormal">
                 <div className="stepper-Bridge" />
                 <div className="blueDotNormal" />
               </div>
               <div className="stepper-Bridge" />
-            </>
+            </React.Fragment>
           )
 
           let render
@@ -67,13 +67,17 @@ const Stepper = ({ options, currentIndex }: Props) => {
       <div id="contentContainerMain">
         {options.map((val, i) => {
           if (i === options.length - 1) {
-            return <div className="textCont">{val}</div>
+            return (
+              <div key={val} className="textCont">
+                {val}
+              </div>
+            )
           } else {
             return (
-              <>
+              <React.Fragment key={val}>
                 <div className="textCont">{val}</div>
                 <div className="divmargin" />
-              </>
+              </React.Fragment>
             )
           }
         })}
