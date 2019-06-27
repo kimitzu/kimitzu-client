@@ -5,6 +5,7 @@ import ListingGeneralForm from './ListingGeneralForm'
 import ListingPhotosForm from './ListingPhotosForm'
 import ListingTermsAndConditionsForm from './ListingTermsAndConditionsForm'
 import RegistrationForm from './RegistrationForm'
+import ReviewListingForm from './ReviewListingForm'
 import ShippingOptionForm from './ShippingOptionForm'
 import TagsForm from './TagsForm'
 import TermsOfService from './TermsOfService'
@@ -17,6 +18,7 @@ export {
   ListingPhotosForm,
   ListingTermsAndConditionsForm,
   RegistrationForm,
+  ReviewListingForm,
   ShippingOptionForm,
   TagsForm,
   TermsOfService,

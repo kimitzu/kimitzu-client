@@ -114,7 +114,7 @@ class Profile implements ProfileSchema {
     large: '',
     original: '',
   }
-  public lastModified?: string = ''
+  // public lastModified?: string = ''
   public location?: string = ''
   public metaTags?: MetaTags = {
     DjaliVersion: '',
@@ -142,14 +142,14 @@ class Profile implements ProfileSchema {
       {
         title: 'Central Philippine University',
         subtitle: 'BSCS',
-        date: '2013-2018',
+        date: new Date().toISOString(),
         address: 'Jaro Iloilo City Philippines',
         desc: 'A short description about the education',
       },
       {
         title: 'Central Philippine University',
         subtitle: 'BSCS',
-        date: '2013-2018',
+        date: new Date().toISOString(),
         address: 'Jaro Iloilo City Philippines',
         desc: 'A short description about the education',
       },
@@ -158,14 +158,14 @@ class Profile implements ProfileSchema {
       {
         title: 'Developer',
         subtitle: 'Kingsland University',
-        date: '2013-2018',
+        date: new Date().toISOString(),
         address: 'Jaro Iloilo City Philippines',
         desc: 'A short description about the work',
       },
       {
         title: 'Developer',
         subtitle: 'Kingsland University',
-        date: '2013-2018',
+        date: new Date().toISOString(),
         address: 'Jaro Iloilo City Philippines',
         desc: 'A short description about the work',
       },

@@ -17,8 +17,11 @@ const SimpleBorderedSegment = ({ children, icon, imageSrc, sideButtons, title }:
   >
     {imageSrc ? <img className="uk-border-circle" width="40" height="40" src={imageSrc} /> : null}
     {icon ? <span className="color-primary uk-flex" uk-icon={`icon: ${icon}; ratio: 2`} /> : null}
-    <div className="uk-flex uk-flex-column uk-flex-middle uk-width-1-1">
-      <div className={imageSrc || icon ? 'uk-margin-small-left uk-width-1-1' : 'uk-width-1-1'}>
+    <div className="uk-flex uk-flex-middle uk-width-1-1">
+      <div
+        id="simple-bordered-segment-content"
+        className={imageSrc || icon ? 'uk-margin-small-left uk-width-1-1' : 'uk-width-1-1'}
+      >
         {title ? <h5 className="uk-text-bold">{title}</h5> : null}
         {children}
       </div>
