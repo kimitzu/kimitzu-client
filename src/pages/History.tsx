@@ -1,29 +1,54 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 
-import PurchaseCard from '../components/Card/PurchaseCard'
-import Purchase from '../models/Purchase'
-import './PurchaseHistory.css'
+import OrderItemCard from '../components/Card/OrderItemCard'
 
-interface PurchaseHistoryState {
-  purchases: Purchase[]
+import OrderHistory from '../models/OrderHistory'
+import './History.css'
+
+interface HistoryState {
+  orders: OrderHistory[]
   isLoading: boolean
+  viewType: string
 }
 
-class PurchaseHistory extends React.Component<{}, PurchaseHistoryState> {
+interface RouteProps {
+  view: string
+}
+
+interface HistoryProps extends RouteComponentProps<RouteProps> {}
+
+class History extends React.Component<HistoryProps, HistoryState> {
   constructor(props) {
     super(props)
     this.state = {
-      purchases: [],
+      viewType: '',
+      orders: [],
       isLoading: true,
     }
   }
 
   public async componentDidMount() {
-    const purchases = await Purchase.getPurchases()
+    let orders: OrderHistory[] = []
+    const viewType = this.props.match.params.view
+
+    switch (viewType) {
+      case 'purchases': {
+        orders = await OrderHistory.getPurchases()
+        break
+      }
+      case 'sales': {
+        orders = await OrderHistory.getSales()
+        break
+      }
+      default:
+        throw new Error('Page not found')
+    }
+
     this.setState({
-      purchases,
+      orders,
       isLoading: false,
+      viewType: viewType.toUpperCase(),
     })
   }
 
@@ -86,7 +111,7 @@ class PurchaseHistory extends React.Component<{}, PurchaseHistoryState> {
             </div>
             <div id="center">
               <h4 id="side-menu-purchases-title" className="color-primary">
-                PURCHASES
+                {this.state.viewType}
               </h4>
             </div>
             <div id="right">
@@ -112,17 +137,17 @@ class PurchaseHistory extends React.Component<{}, PurchaseHistoryState> {
               <span className="uk-margin-small-right" uk-icon="thumbnails" />
             </div>
           </div>
-          <p id="number-purchases-text"> {this.state.purchases.length || 0} purchases found </p>
+          <p id="number-purchases-text"> {this.state.orders.length || 0} purchases found </p>
           {this.state.isLoading ? (
             <div uk-spinner="ratio: 2" />
           ) : (
-            this.state.purchases.map(purchase => (
+            this.state.orders.map(order => (
               <Link
-                to={`/order/${purchase.orderId}`}
-                key={purchase.orderId}
+                to={`/order/${order.orderId}`}
+                key={order.orderId}
                 className="no-underline-on-link"
               >
-                <PurchaseCard data={purchase} />
+                <OrderItemCard data={order} />
               </Link>
             ))
           )}
@@ -132,4 +157,4 @@ class PurchaseHistory extends React.Component<{}, PurchaseHistoryState> {
   }
 }
 
-export default PurchaseHistory
+export default History

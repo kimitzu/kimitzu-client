@@ -4,10 +4,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import {
   Checkout,
   CreateListing,
+  History,
   Home,
   ListingInformation,
   Profile,
-  PurchaseHistory,
   UserRegistration,
 } from './pages'
 import OrderView from './pages/OrderView'
@@ -22,7 +22,7 @@ const Routes = () => (
       <Route path="/listing/create" exact component={CreateListing} />
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
-      <Route path="/purchases" exact component={PurchaseHistory} />
+      <Route path="/history/:view" exact component={History} />
       <Route path="/order/:id" exact component={OrderView} />
       <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
     </Switch>

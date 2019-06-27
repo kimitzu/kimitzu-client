@@ -1,4 +1,4 @@
-export interface Purchase {
+export default interface OrderHistory {
   coinType: string
   moderated: boolean
   orderId: string
@@ -13,6 +13,9 @@ export interface Purchase {
   title: string
   total: number
   unreadChatMessages: number
-  vendorHandle: string
-  vendorId: string
+
+  vendorHandle?: string
+  vendorId?: string
+  buyerHandle?: string
+  buyerId?: string
 }

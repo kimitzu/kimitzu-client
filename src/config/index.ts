@@ -19,7 +19,7 @@ const production = {
   host: 'https://test.djali.org',
   locationHost: 'https://djali-api-loc.djali.org',
   openBazaarHost: 'https://djali-ob.djali.org',
-  websocketHost: 'ws://djali-ob.djali.org/ws',
+  websocketHost: 'wss://djali-ob.djali.org/ws',
 }
 
 function getConfig(): Config {

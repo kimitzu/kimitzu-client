@@ -19,10 +19,6 @@ class Profile implements ProfileSchema {
 
     if (id) {
       const peerRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}`)
-      if (!peerRequest.data.profile) {
-        // Fallback for own listing, TODO: Update GO side to handle this special case automatically
-        peerRequest.data.profile = peerRequest.data
-      }
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
       return profile

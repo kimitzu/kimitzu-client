@@ -1,14 +1,14 @@
 import React from 'react'
 
 import config from '../../config'
-import Purchase from '../../models/Purchase'
-import './PurchaseCard.css'
+import OrderHistory from '../../models/OrderHistory'
+import './OrderItemCard.css'
 
-interface PurchaseCardProps {
-  data: Purchase
+interface OrderItemCardProps {
+  data: OrderHistory
 }
 
-const PurchaseCard = ({ data }: PurchaseCardProps) => (
+const OrderItemCard = ({ data }: OrderItemCardProps) => (
   <div className="emphasize-on-hover">
     <div className="uk-card uk-card-default uk-grid-collapse uk-margin" data-uk-grid>
       <div className="uk-card-media-left uk-cover-container uk-margin-left">
@@ -34,7 +34,8 @@ const PurchaseCard = ({ data }: PurchaseCardProps) => (
             Order#: <b> {data.orderId} </b>
           </p>
           <p>
-            Vendor: <b> {data.vendor.name || 'Unknown'} </b>
+            {data.source === 'sales' ? 'Buyer' : 'Vendor'}:{' '}
+            <b> {(data.source === 'sales' ? data.buyerHandle : data.vendorHandle) || 'Unknown'} </b>
           </p>
           <p>
             Date: <b> {new Date(data.timestamp).toLocaleString()} </b>
@@ -48,4 +49,4 @@ const PurchaseCard = ({ data }: PurchaseCardProps) => (
   </div>
 )
 
-export default PurchaseCard
+export default OrderItemCard
