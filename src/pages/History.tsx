@@ -140,7 +140,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
           <p id="number-purchases-text"> {this.state.orders.length || 0} purchases found </p>
           {this.state.isLoading ? (
             <div uk-spinner="ratio: 2" />
-          ) : (
+          ) : this.state.orders.length > 0 ? (
             this.state.orders.map(order => (
               <Link
                 to={`/order/${order.orderId}`}
@@ -150,6 +150,8 @@ class History extends React.Component<HistoryProps, HistoryState> {
                 <OrderItemCard data={order} />
               </Link>
             ))
+          ) : (
+            <div>No {this.state.viewType.toLowerCase()}.</div>
           )}
         </div>
       </div>

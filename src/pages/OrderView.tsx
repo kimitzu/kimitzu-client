@@ -21,14 +21,25 @@ interface RouteParams {
 interface OrderViewProps extends RouteComponentProps<RouteParams> {}
 
 interface OrderViewState {
+  [key: string]: any
   order: Order
   isLoading: boolean
   currentContent: number
+  note: string
+  review: string
+  isAnonymous: boolean
+  loadIndicator: number
 }
 
-const contentConstants = {
+const CONTENT_CONSTANTS = {
   MAIN_CONTENT: 0,
-  FULLFILL_FORM: 1,
+  FULFILL_FORM: 1,
+}
+
+const LOAD_INDICATOR = {
+  NO_LOAD: 0,
+  FULFILL: 1,
+  COMPLETE: 2,
 }
 
 class OrderView extends React.Component<OrderViewProps, OrderViewState> {
@@ -38,11 +49,17 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.state = {
       order,
       isLoading: true,
-      currentContent: contentConstants.MAIN_CONTENT,
+      currentContent: CONTENT_CONSTANTS.MAIN_CONTENT,
+      note: '',
+      review: '',
+      isAnonymous: false,
+      loadIndicator: LOAD_INDICATOR.NO_LOAD,
     }
     this.handleBackBtn = this.handleBackBtn.bind(this)
-    this.handleFullfillOrderBtn = this.handleFullfillOrderBtn.bind(this)
+    this.handleFulfillOrderBtn = this.handleFulfillOrderBtn.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleFulfillSubmit = this.handleFulfillSubmit.bind(this)
+    this.handleCompleteSubmit = this.handleCompleteSubmit.bind(this)
   }
 
   public async componentDidMount() {
@@ -73,12 +90,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         <SideMenuWithContentCard
           isLoading={this.state.isLoading}
           mainContentTitle={
-            currentContent === contentConstants.FULLFILL_FORM ? 'FULLFILL ORDER' : 'SUMMARY'
+            currentContent === CONTENT_CONSTANTS.FULFILL_FORM ? 'FULFILL ORDER' : 'SUMMARY'
           }
-          showBackBtn={currentContent !== contentConstants.MAIN_CONTENT}
+          showBackBtn={currentContent !== CONTENT_CONSTANTS.MAIN_CONTENT}
           handleBackBtn={this.handleBackBtn}
           menuContent={{
-            title: 'PURCHASE HISTORY',
+            title: this.state.order.role === 'buyer' ? 'Purchase' : 'Sale',
             navItems: [
               {
                 label: 'Summary',
@@ -92,15 +109,31 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             ],
           }}
           mainContent={
-            currentContent === contentConstants.FULLFILL_FORM ? (
-              <form className="uk-form-stacked uk-width-1-1">
+            currentContent === CONTENT_CONSTANTS.FULFILL_FORM ? (
+              <form
+                className="uk-form-stacked uk-width-1-1"
+                onSubmit={async evt => {
+                  evt.preventDefault()
+                  await this.handleFulfillSubmit()
+                }}
+              >
                 <fieldset className="uk-fieldset">
                   <div className="uk-margin uk-width-1-1">
                     <FormLabel label="Note" />
-                    <textarea className="uk-text-area uk-width-1-1" rows={15} />
+                    <textarea
+                      className="uk-text-area uk-width-1-1"
+                      rows={15}
+                      onChange={evt => {
+                        this.handleInputChange('note', evt.target.value)
+                      }}
+                    />
                   </div>
                 </fieldset>
-                <button className="uk-button uk-button-primary uk-align-right">CONTINUE</button>
+                {this.state.loadIndicator === LOAD_INDICATOR.FULFILL ? (
+                  <div uk-spinner="ratio: 2" />
+                ) : (
+                  <button className="uk-button uk-button-primary uk-align-right">FULFILL</button>
+                )}
               </form>
             ) : (
               <div className="uk-width-1-1">
@@ -108,31 +141,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   options={['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']}
                   currentIndex={this.state.order.step}
                 />
-                <div className="uk-margin-bottom">
-                  <OrderSummaryItemSegment title="Order Complete" date={new Date()}>
-                    <SimpleBorderedSegment title="NoobMaster69's Review">
-                      <ReviewListingForm
-                        advertiseRating={4}
-                        deliveryRating={3}
-                        overallRating={4}
-                        qualityRating={5}
-                        // disableTextArea
-                        review="Great work. Will order again."
-                        serviceRating={4}
-                        handleChange={() => {
-                          // TODO
-                        }}
-                      />
-                    </SimpleBorderedSegment>
-                    <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
-                      <button className="uk-button uk-button-primary">COMPLETE ORDER</button>
-                      <label className="uk-margin-left">
-                        <input className="uk-checkbox uk-margin-small-right" type="checkbox" />
-                        Include my name (Seen Publicly)
-                      </label>
-                    </div>
-                  </OrderSummaryItemSegment>
-                </div>
                 {this.state.order.step >= 4 ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment
@@ -159,10 +167,52 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     </OrderSummaryItemSegment>
                   </div>
                 ) : null}
+                {this.state.order.step === 3 && this.state.order.role === 'buyer' ? (
+                  <div className="uk-margin-bottom">
+                    <OrderSummaryItemSegment title="Order Complete" date={new Date()}>
+                      <SimpleBorderedSegment title={`${this.state.order.buyer!.name}'s review`}>
+                        <ReviewListingForm
+                          advertiseRating={4}
+                          deliveryRating={3}
+                          overallRating={4}
+                          qualityRating={5}
+                          disableTextArea={this.state.order.step > 3}
+                          review={this.state.review}
+                          serviceRating={4}
+                          handleChange={this.handleInputChange}
+                        />
+                      </SimpleBorderedSegment>
+                      <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
+                        {this.state.loadIndicator === LOAD_INDICATOR.COMPLETE ? (
+                          <div uk-spinner="ratio: 2" />
+                        ) : (
+                          <button
+                            className="uk-button uk-button-primary"
+                            onClick={this.handleCompleteSubmit}
+                          >
+                            COMPLETE ORDER
+                          </button>
+                        )}
+                        <label className="uk-margin-left">
+                          <input
+                            className="uk-checkbox uk-margin-small-right"
+                            type="checkbox"
+                            checked={this.state.isAnonymous}
+                            onChange={() => {
+                              const isAnonymous = !this.state.isAnonymous
+                              this.handleInputChange('isAnonymous', isAnonymous)
+                            }}
+                          />
+                          Include my name (Seen Publicly)
+                        </label>
+                      </div>
+                    </OrderSummaryItemSegment>
+                  </div>
+                ) : null}
                 {this.state.order.step >= 3 ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment
-                      title="Fullfilled"
+                      title="Fulfilled"
                       date={new Date(this.state.order.contract.vendorOrderFulfillment[0].timestamp)}
                     >
                       <SimpleBorderedSegment
@@ -205,15 +255,23 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                               : ''
                           }
                           sideButtons={
-                            <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                              <a className="margin-small-right text-underline">Refund</a>
-                              <button
-                                className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
-                                onClick={this.handleFullfillOrderBtn}
-                              >
-                                FULLFILL ORDER
-                              </button>
-                            </div>
+                            this.state.order.role === 'vendor' && this.state.order.step === 2 ? (
+                              <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                                <a
+                                  href="#"
+                                  className="margin-small-right text-underline"
+                                  onClick={() => alert('Coming soon')}
+                                >
+                                  Refund
+                                </a>
+                                <button
+                                  className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
+                                  onClick={this.handleFulfillOrderBtn}
+                                >
+                                  FULFILL ORDER
+                                </button>
+                              </div>
+                            ) : null
                           }
                         >
                           <p className="color-secondary">Your order is now being processed...</p>
@@ -288,16 +346,56 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     )
   }
 
-  private handleInputChange() {
-    // TODO
+  private async handleCompleteSubmit() {
+    this.setState({
+      loadIndicator: LOAD_INDICATOR.COMPLETE,
+    })
+    try {
+      await this.state.order.complete(this.state.review, this.state.isAnonymous)
+      alert('Order completed!')
+      const order = await Order.retrieve(this.state.order.contract.vendorOrderConfirmation.orderID)
+      this.setState({
+        order,
+      })
+    } catch (e) {
+      alert(e.message)
+    }
+    this.setState({ loadIndicator: LOAD_INDICATOR.NO_LOAD })
   }
 
-  private handleFullfillOrderBtn() {
-    this.setState({ currentContent: contentConstants.FULLFILL_FORM })
+  private async handleFulfillSubmit() {
+    try {
+      this.setState({
+        loadIndicator: LOAD_INDICATOR.FULFILL,
+      })
+      await this.state.order.fulfill(this.state.note)
+      const order = await Order.retrieve(this.state.order.contract.vendorOrderConfirmation.orderID)
+      this.setState({
+        order,
+      })
+      alert('Order fulfilled!')
+    } catch (e) {
+      alert(e.message)
+    }
+
+    this.setState({
+      currentContent: CONTENT_CONSTANTS.MAIN_CONTENT,
+      loadIndicator: LOAD_INDICATOR.NO_LOAD,
+    })
+  }
+
+  private handleInputChange(field: string, value: any) {
+    this.setState({
+      [field]: value,
+    })
+  }
+
+  private handleFulfillOrderBtn() {
+    this.setState({ currentContent: CONTENT_CONSTANTS.FULFILL_FORM })
   }
 
   private handleBackBtn() {
-    this.setState({ currentContent: contentConstants.MAIN_CONTENT })
+    this.setState({ currentContent: CONTENT_CONSTANTS.MAIN_CONTENT })
   }
 }
 

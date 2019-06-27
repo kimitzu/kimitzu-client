@@ -50,7 +50,7 @@ export default function get() {
       return development
     }
     case 'production': {
-      return production
+      return development
     }
     case 'test': {
       return development

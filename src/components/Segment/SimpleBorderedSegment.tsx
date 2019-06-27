@@ -7,7 +7,7 @@ interface Props {
   imageSrc?: string
   icon?: string
   title?: string
-  sideButtons?: JSX.Element | JSX.Element[]
+  sideButtons?: JSX.Element | JSX.Element[] | null
 }
 
 const SimpleBorderedSegment = ({ children, icon, imageSrc, sideButtons, title }: Props) => (

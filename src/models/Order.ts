@@ -34,10 +34,19 @@ class Order implements OrderInterface {
     const orderRequest = await Axios.get(`${config.openBazaarHost}/ob/order/${id}`)
     const order = new Order(orderRequest.data)
     order.vendor = await Profile.retrieve(order.contract.vendorListings[0].vendorID.peerID)
-    order.buyer = await Profile.retrieve()
+    order.buyer = await Profile.retrieve(order.contract.buyerOrder.buyerID.peerID)
+
+    const owner = await Profile.retrieve()
+    if (order.buyer!.peerID === owner.peerID) {
+      order.role = 'buyer'
+    } else {
+      order.role = 'vendor'
+    }
+
     return order
   }
 
+  public role?: string
   public vendor?: Profile
   public buyer?: Profile
   public contract: Contract = {
@@ -348,23 +357,36 @@ class Order implements OrderInterface {
     }
   }
 
-  public async fulfill() {
+  public async fulfill(note?: string) {
     try {
       await Axios.post(`${config.openBazaarHost}/ob/orderfulfillment`, {
         orderId: this.contract.vendorOrderConfirmation.orderID,
+        note: note || '',
       })
     } catch (e) {
-      alert(e.message)
+      throw e
     }
   }
 
-  public async complete() {
+  public async complete(review: string, anonymous: boolean) {
     try {
       await Axios.post(`${config.openBazaarHost}/ob/ordercompletion`, {
         orderId: this.contract.vendorOrderConfirmation.orderID,
+        ratings: [
+          {
+            slug: this.contract.vendorListings[0].slug,
+            overall: 3,
+            quality: 4,
+            description: 5,
+            deliverySpeed: 5,
+            customerService: 3,
+            review,
+            anonymous,
+          },
+        ],
       })
     } catch (e) {
-      alert(e.message)
+      throw e
     }
   }
 
