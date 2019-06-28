@@ -14,6 +14,10 @@ import {
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
+  public static async addToIndex(id: string): Promise<void> {
+    await Axios.get(`${config.djaliHost}/djali/peer/add?id=${id}`)
+  }
+
   public static async broadcast(): Promise<void> {
     await Axios.post(`${config.openBazaarHost}/ob/publish`, {})
   }
@@ -119,7 +123,7 @@ class Profile implements ProfileSchema {
   public metaTags?: MetaTags = {
     DjaliVersion: '',
   }
-  public peerID?: string = ''
+  public peerID: string = ''
   public preferences: Preferences = {
     currencyDisplay: '',
     fiat: '',

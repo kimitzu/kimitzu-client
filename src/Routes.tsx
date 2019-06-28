@@ -19,6 +19,7 @@ const Routes = () => (
       <Route path="/" exact component={Home} />
       <Route path="/register" exact component={UserRegistration} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/profile/:id" exact component={Profile} />
       <Route path="/listing/create" exact component={CreateListing} />
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />

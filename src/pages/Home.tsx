@@ -188,9 +188,16 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private async handleSearchSubmit() {
-    const search = await this.state.search.execute()
+    const { search } = this.state
+    search.isSearching = true
     this.setState({
       search,
+    })
+
+    const newSearch = await this.state.search.execute()
+    search.isSearching = false
+    this.setState({
+      search: newSearch,
     })
   }
 

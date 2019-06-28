@@ -23,39 +23,45 @@ const ViewProfile = (props: ViewProfileInterface) => {
       </div>
       <div id="header">
         <div id="profile-picture">
-          <img
-            src={`${config.openBazaarHost}/ob/images/${
-              props.data.avatarHashes ? props.data.avatarHashes.medium : ''
-            }`}
-          />
+          {props.data.avatarHashes.medium ? (
+            <img
+              src={`${config.openBazaarHost}/ob/images/${
+                props.data.avatarHashes ? props.data.avatarHashes.medium : ''
+              }`}
+            />
+          ) : (
+            <div uk-spinner="ratio: 3" />
+          )}
         </div>
-        <div id="header-tab">
-          <div id="seller-name">
-            <h3> {props.data.name} </h3>
+        {props.data.name ? (
+          <div id="header-tab">
+            <div id="seller-name">
+              <h3> {props.data.name} </h3>
+            </div>
+            <ul data-uk-tab="connect: #container-profile">
+              <li className="uk-active">
+                <a href="#" id="tab-label">
+                  Profile
+                </a>
+              </li>
+              <li>
+                <a href="#" id="tab-label">
+                  Store <span id="label-number"> {props.data.stats!.listingCount} </span>
+                </a>
+              </li>
+              <li>
+                <a href="#" id="tab-label">
+                  Followers <span id="label-number"> {props.data.stats!.followerCount} </span>
+                </a>
+              </li>
+              <li>
+                <a href="#" id="tab-label">
+                  Following <span id="label-number"> {props.data.stats!.followingCount} </span>
+                </a>
+              </li>
+            </ul>
           </div>
-          <ul data-uk-tab="connect: #container-profile">
-            <li className="uk-active">
-              <a href="#" id="tab-label">
-                Profile
-              </a>
-            </li>
-            <li>
-              <a href="#" id="tab-label">
-                Store <span id="label-number"> {props.data.stats!.listingCount} </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" id="tab-label">
-                Followers <span id="label-number"> {props.data.stats!.followerCount} </span>
-              </a>
-            </li>
-            <li>
-              <a href="#" id="tab-label">
-                Following <span id="label-number"> {props.data.stats!.followingCount} </span>
-              </a>
-            </li>
-          </ul>
-        </div>
+        ) : null}
       </div>
       <ul id="container-profile" className="uk-switcher">
         <li>

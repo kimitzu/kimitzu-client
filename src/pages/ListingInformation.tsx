@@ -184,9 +184,14 @@ class ListingProfile extends Component<Props, State> {
                         </div>
                       </div>
                     </div>
-                    <p className="uk-text-medium uk-text-bold text-blue uk-margin-small-top underlinedText">
+                    <a
+                      className="uk-text-medium uk-text-bold text-blue uk-margin-small-top underlinedText"
+                      onClick={() => {
+                        window.location.href = `/profile/${this.state.listing.vendorID.peerID}`
+                      }}
+                    >
                       GO TO STORE
-                    </p>
+                    </a>
                   </div>
                 </div>
               </div>
