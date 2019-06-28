@@ -14,6 +14,10 @@ import {
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
+  public static async broadcast(): Promise<void> {
+    await Axios.post(`${config.openBazaarHost}/ob/publish`, {})
+  }
+
   public static async retrieve(id?: string): Promise<Profile> {
     let profile
 

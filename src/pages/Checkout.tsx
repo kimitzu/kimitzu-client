@@ -171,12 +171,12 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             })}
             orderSummary={{
               couponAmount: 0,
-              currency: 'USD',
+              currency: this.state.listing.metadata.pricingCurrency,
               estimate: this.state.estimate,
-              listingAmount: 140,
+              listingAmount: parseFloat(this.state.listing.displayValue),
               shippingAmount: 0,
-              subTotalAmount: 140,
-              totalAmount: 140,
+              subTotalAmount: parseFloat(this.state.listing.displayValue),
+              totalAmount: parseFloat(this.state.listing.displayValue),
             }}
             handleOnChange={this.handleChange}
             handlePlaceOrder={this.handlePlaceOrder}
@@ -229,6 +229,12 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
   private async handlePlaceOrder() {
     let paymentInformation
+
+    const isOwner = this.state.listing
+    if (isOwner) {
+      alert('This is how your listing looks like to other users.')
+      return
+    }
 
     try {
       paymentInformation = await this.state.order.create(

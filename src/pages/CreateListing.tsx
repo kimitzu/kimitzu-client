@@ -287,6 +287,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
     try {
       await listing.save()
+      await Profile.broadcast()
       await this.state.profile.crawlOwnListings()
       alert('Listing Successfully Posted')
       window.location.href = '/'

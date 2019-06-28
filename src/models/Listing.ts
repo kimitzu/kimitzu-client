@@ -175,6 +175,11 @@ class Listing implements ListingInterface {
     const realPrice = this.item.price / 100
     return realPrice.toFixed(2)
   }
+
+  public async isOwner(): Promise<boolean> {
+    const user = await Profile.retrieve()
+    return user.peerID === this.vendorID.peerID
+  }
 }
 
 export default Listing
