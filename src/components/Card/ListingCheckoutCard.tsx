@@ -1,6 +1,7 @@
 import React from 'react'
 
 import config from '../../config'
+import ServiceTypes from '../../constants/ServiceTypes.json'
 import Listing from '../../models/Listing'
 
 import './ListingCheckoutCard.css'
@@ -27,8 +28,12 @@ const ListingCheckoutCard = ({ listing, quantity }: Props) => (
             Type: <label>{listing.metadata.contractType}</label>
           </p>
           <p>
-            {/* TODO: Update classification */}
-            Classification: <label>Software and application developers and analyst</label>
+            {listing.metadata.serviceClassification ? (
+              <>
+                Classification:{' '}
+                <label>{ServiceTypes[listing.metadata.serviceClassification]}</label>
+              </>
+            ) : null}
           </p>
         </div>
       </div>
@@ -37,7 +42,7 @@ const ListingCheckoutCard = ({ listing, quantity }: Props) => (
       <label id="listing-checkout-card-column-header">Price</label>
       <div id="listing-checkout-card-side-data">
         <p>{`${listing.displayValue} ${listing.metadata.pricingCurrency.toUpperCase()}${
-          listing.item.serviceRateMethod ? `/${listing.item.serviceRateMethod}` : ''
+          listing.metadata.serviceRateMethod ? ` ${listing.metadata.serviceRateMethod}` : ''
         }`}</p>
       </div>
     </div>

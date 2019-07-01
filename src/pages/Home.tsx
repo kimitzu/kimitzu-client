@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
-import AutoCompleteSelect from '../components/Input/AutoCompleteSelect'
 import NavBar from '../components/NavBar/NavBar'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
-import Stepper from '../components/Stepper/Stepper'
-import config from '../config'
-import ServiceTypes from '../constants/ServiceTypes.json'
 import SortOptions from '../constants/SortOptions.json'
 import Search from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
@@ -169,14 +165,6 @@ class Home extends Component<HomeProps, HomeState> {
               </div>
             ) : (
               <div className="uk-align-center">
-                {/* <Stepper
-                  options={['PAID', 'ACCEPTED', 'FULLFILED', 'COMPLETED']}
-                  currentIndex={4} /> */}
-                {/* <AutoCompleteSelect
-                  onChange={(ret) => {console.log(ret)}}
-                  defaultSelectorVal="Test"
-                  options={JSON.stringify(ServiceTypes)}
-                /> */}
                 <h2>No Results ¯\_(ツ)_/¯</h2>
                 <p>Try a different search keyword or filter</p>
               </div>

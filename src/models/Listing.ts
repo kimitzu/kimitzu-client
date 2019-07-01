@@ -62,7 +62,6 @@ class Listing implements ListingInterface {
         quantity: -1,
       },
     ],
-    serviceRateMethod: 'PER_HOUR',
   }
 
   public averageRating: number = 0
@@ -115,7 +114,8 @@ class Listing implements ListingInterface {
     coinType: '',
     coinDivisibility: 100000000, // USD Default
     priceModifier: 0,
-    serviceRateMethod: 'FIXED',
+    serviceRateMethod: 'PER_HOUR',
+    serviceClassification: '',
   }
   public shippingOptions: ShippingOption[] = []
   public coupons: Coupon[] = [
@@ -149,7 +149,6 @@ class Listing implements ListingInterface {
     listingClone.coupons = listingClone.coupons.filter(
       coupon => coupon.discountCode !== '' || coupon.title !== ''
     )
-    // TODO: Multiply to correct divisibility when using Crypto
     listingClone.item.price = listingClone.item.price * 100
     await Axios.post(`${config.openBazaarHost}/ob/listing`, listingClone)
   }

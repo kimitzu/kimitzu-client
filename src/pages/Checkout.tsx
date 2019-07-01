@@ -124,6 +124,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             </div>
           ) : (
             <div>
+              {/* TODO: Implementation */}
               {/* <div className="uk-margin-bottom">
                 // TODO: Update shipping address
                 <AddressCard

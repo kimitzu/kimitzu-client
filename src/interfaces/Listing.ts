@@ -56,7 +56,6 @@ export interface Item {
   condition: string
   options: any[]
   skus: Skus[]
-  serviceRateMethod: string
 }
 
 export interface Skus {
@@ -76,6 +75,7 @@ export interface Metadata {
   coinDivisibility: number
   priceModifier: number
   serviceRateMethod: string
+  serviceClassification?: string
 }
 
 export interface ShippingOption {

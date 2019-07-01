@@ -65,6 +65,7 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                   [occupationIndex, ServiceTypes[occupationIndex]],
                   'listing'
                 )
+                handleInputChange('metadata.serviceClassification', occupationIndex, 'listing')
               }}
               required
             />
@@ -125,11 +126,11 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
             {
               component: (
                 <FormSelector
-                  defaultVal={data.item.serviceRateMethod}
+                  defaultVal={data.metadata.serviceRateMethod}
                   options={ServiceRateMethods}
                   disabled={data.metadata.contractType !== 'SERVICE'}
                   onChange={event =>
-                    handleInputChange('item.serviceRateMethod', event.target.value, 'listing')
+                    handleInputChange('metadata.serviceRateMethod', event.target.value, 'listing')
                   }
                 />
               ),
