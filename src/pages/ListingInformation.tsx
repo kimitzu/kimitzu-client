@@ -11,6 +11,7 @@ import {
 import { CarouselListing } from '../components/Carousel'
 
 import config from '../config'
+import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
 
@@ -66,10 +67,18 @@ class ListingProfile extends Component<Props, State> {
     })
   }
 
+  get serviceRateMethod() {
+    const { serviceRateMethod } = this.state.listing.metadata
+    if (serviceRateMethod && serviceRateMethod !== 'FIXED') {
+      const index = ServiceRateMethods.findIndex(method => method.value === serviceRateMethod)
+      return ServiceRateMethods[index].label
+    }
+    return ''
+  }
+
   public render() {
     const { listing, profile, imageData, quantity } = this.state
     const { background, spokenLanguages, programmingLanguages } = profile
-    const { serviceRateMethod } = listing.metadata
 
     const rating = Math.floor(listing.averageRating)
     const ratingStars: JSX.Element[] = []
@@ -118,10 +127,8 @@ class ListingProfile extends Component<Props, State> {
                 <br />
                 <hr />
                 <p className="text-blue priceSize uk-margin-small-top">
-                  {listing.displayValue} {listing.metadata.pricingCurrency}{' '}
-                  {listing.metadata.serviceRateMethod && serviceRateMethod !== 'FIXED'
-                    ? `/${serviceRateMethod}`
-                    : ''}
+                  {listing.displayValue} {listing.metadata.pricingCurrency.toUpperCase()}{' '}
+                  {this.serviceRateMethod}
                 </p>
                 <div id="footerContent" className="uk-margin-medium-top">
                   <div id="footerContentLeft">
