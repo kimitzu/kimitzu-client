@@ -11,6 +11,7 @@ import ListingCardGroup from '../CardGroup/ListingCardGroup'
 interface ViewProfileInterface {
   data: Profile
   listings: Listing[]
+  isOwner: boolean
 }
 
 const ViewProfile = (props: ViewProfileInterface) => {
@@ -59,6 +60,32 @@ const ViewProfile = (props: ViewProfileInterface) => {
                   Following <span id="label-number"> {props.data.stats!.followingCount} </span>
                 </a>
               </li>
+              {props.isOwner ? (
+                <>
+                  <li>
+                    <a
+                      href="/history/sales"
+                      id="tab-label"
+                      onClick={() => {
+                        window.location.href = '/history/sales'
+                      }}
+                    >
+                      Sales History
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/history/purchases"
+                      id="tab-label"
+                      onClick={() => {
+                        window.location.href = '/history/purchases'
+                      }}
+                    >
+                      Purchase History
+                    </a>
+                  </li>
+                </>
+              ) : null}
             </ul>
           </div>
         ) : null}
@@ -72,6 +99,8 @@ const ViewProfile = (props: ViewProfileInterface) => {
         </li>
         <li>Coming soon!</li>
         <li>Coming soon!</li>
+        <li>Redirecting...</li>
+        <li>Redirecting...</li>
       </ul>
     </div>
   )

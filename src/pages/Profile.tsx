@@ -8,6 +8,7 @@ import Search from '../models/Search'
 interface ProfilePageState {
   profile: Profile
   search: Search
+  isOwner: boolean
 }
 
 interface RouteProps {
@@ -24,20 +25,24 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     this.state = {
       profile,
       search,
+      isOwner: false,
     }
   }
 
   public async componentDidMount() {
     const id = this.props.match.params.id
     let profile: Profile = new Profile()
+    let isOwner
 
     if (id) {
       await Profile.addToIndex(id)
       profile = await Profile.retrieve(id)
+      isOwner = false
     } else {
       profile = await Profile.retrieve()
       await Profile.addToIndex(profile.peerID)
       profile = await Profile.retrieve()
+      isOwner = true
     }
 
     const search = this.state.search
@@ -46,14 +51,22 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     search.paginate.limit = 0
     search.saveAsOriginal()
     await search.execute()
+
     this.setState({
       profile,
       search,
+      isOwner,
     })
   }
 
   public render() {
-    return <ViewProfile data={this.state.profile} listings={this.state.search.results.data} />
+    return (
+      <ViewProfile
+        data={this.state.profile}
+        listings={this.state.search.results.data}
+        isOwner={this.state.isOwner}
+      />
+    )
   }
 }
 
