@@ -67,9 +67,11 @@ class ListingProfile extends Component<Props, State> {
   }
 
   public render() {
-    const { background, spokenLanguages, programmingLanguages } = this.state.profile
+    const { listing, profile, imageData, quantity } = this.state
+    const { background, spokenLanguages, programmingLanguages } = profile
+    const { serviceRateMethod } = listing.metadata
 
-    const rating = Math.floor(this.state.listing.averageRating)
+    const rating = Math.floor(listing.averageRating)
     const ratingStars: JSX.Element[] = []
 
     for (let index = 0; index < 5; index++) {
@@ -91,22 +93,18 @@ class ListingProfile extends Component<Props, State> {
         <div className="uk-card uk-card-default uk-card-body card-head">
           <div id="profile-header">
             <div id="left-content">
-              <CarouselListing data={this.state.imageData} />
+              <CarouselListing data={imageData} />
             </div>
             <div id="right-content">
               <div id="head-content">
                 <p className="uk-text-large uk-text-bold text-blue">
-                  {decodeHtml(this.state.listing.item.title)}
+                  {decodeHtml(listing.item.title)}
                 </p>
                 <div className="uk-text-small">
                   Type:{' '}
-                  <p className="uk-display-inline uk-text-bold">
-                    {this.state.listing.metadata.contractType}
-                  </p>
+                  <p className="uk-display-inline uk-text-bold">{listing.metadata.contractType}</p>
                   &nbsp; &nbsp; Condition:{' '}
-                  <p className="uk-display-inline uk-text-bold">
-                    {this.state.listing.item.condition}
-                  </p>
+                  <p className="uk-display-inline uk-text-bold">{listing.item.condition}</p>
                 </div>
                 <div id="starsContainer" className="uk-margin-small-top">
                   {ratingStars}
@@ -120,7 +118,10 @@ class ListingProfile extends Component<Props, State> {
                 <br />
                 <hr />
                 <p className="text-blue priceSize uk-margin-small-top">
-                  {this.state.listing.displayValue} {this.state.listing.metadata.pricingCurrency}
+                  {listing.displayValue} {listing.metadata.pricingCurrency}{' '}
+                  {listing.metadata.serviceRateMethod && serviceRateMethod !== 'FIXED'
+                    ? `/${serviceRateMethod}`
+                    : ''}
                 </p>
                 <div id="footerContent" className="uk-margin-medium-top">
                   <div id="footerContentLeft">
@@ -132,13 +133,13 @@ class ListingProfile extends Component<Props, State> {
                         className="text-blue uk-margin-left"
                         onClick={e => {
                           e.preventDefault()
-                          this.handleQuantityChange(this.state.quantity - 1)
+                          this.handleQuantityChange(quantity - 1)
                         }}
                       />
                       <input
                         type="text"
                         className="uk-margin-left uk-input uk-width-1-6"
-                        value={this.state.quantity}
+                        value={quantity}
                         onChange={e => {
                           this.handleQuantityChange(Number(e.target.value))
                         }}
@@ -149,7 +150,7 @@ class ListingProfile extends Component<Props, State> {
                         className="text-blue uk-margin-left"
                         onClick={e => {
                           e.preventDefault()
-                          this.handleQuantityChange(this.state.quantity + 1)
+                          this.handleQuantityChange(quantity + 1)
                         }}
                       />
                     </div>
@@ -166,18 +167,14 @@ class ListingProfile extends Component<Props, State> {
                       <div id="soldByContLeft">
                         <img
                           className="uk-border-circle"
-                          src={`${config.openBazaarHost}/ob/images/${
-                            this.state.profile.avatarHashes.small
-                          }`}
+                          src={`${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`}
                           width="65"
                           height="65"
                           alt="Border circle"
                         />
                       </div>
                       <div id="soldByContRight">
-                        <p className="uk-text-medium uk-text-bold text-blue">
-                          {this.state.profile.name}
-                        </p>
+                        <p className="uk-text-medium uk-text-bold text-blue">{profile.name}</p>
                         <div>
                           <a data-uk-icon="icon: mail; ratio: 1.5;" className="text-blue" />
                           <span className="uk-text-small uk-margin-small-left">Message</span>
@@ -187,7 +184,7 @@ class ListingProfile extends Component<Props, State> {
                     <a
                       className="uk-text-medium uk-text-bold text-blue uk-margin-small-top underlinedText"
                       onClick={() => {
-                        window.location.href = `/profile/${this.state.listing.vendorID.peerID}`
+                        window.location.href = `/profile/${listing.vendorID.peerID}`
                       }}
                     >
                       GO TO STORE
@@ -200,9 +197,9 @@ class ListingProfile extends Component<Props, State> {
         </div>
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
-          <p className="inside-content">{this.state.listing.item.description}</p>
+          <p className="inside-content">{listing.item.description}</p>
         </div>
-        <PayoutCard acceptedPayments={this.state.listing.metadata.acceptedCurrencies} />
+        <PayoutCard acceptedPayments={listing.metadata.acceptedCurrencies} />
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Contact Information</h3>
           <div className="inside-content">
@@ -223,7 +220,7 @@ class ListingProfile extends Component<Props, State> {
           <h3 className="uk-card-title text-blue uk-text-bold">Programming Expertise Level</h3>
           <h4 className="uk-text-bold text-gray inside-content">Level 1</h4>
         </div>
-        <TermsOfServiceCard data={this.state.listing.termsAndConditions || 'Nothing specified.'} />
+        <TermsOfServiceCard data={listing.termsAndConditions || 'Nothing specified.'} />
       </div>
     )
   }
