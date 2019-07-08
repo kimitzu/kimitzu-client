@@ -107,7 +107,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   public render() {
     const { listing, isPending, quantity, amountToPay, paymentAddress } = this.state
     return (
-      <div id="checkout-container" className="uk-flex uk-flex-row uk-margin">
+      <div id="checkout-container" className="uk-flex uk-flex-row uk-margin background-body">
         <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
           <div className="uk-margin-bottom">
             <ListingCheckoutCard listing={listing} quantity={quantity} />

@@ -1,6 +1,7 @@
 import React from 'react'
-
 import { RouteComponentProps } from 'react-router'
+
+import { Button } from '../components/Button'
 import { PaymentQRCard, SideMenuWithContentCard } from '../components/Card'
 import { ReviewListingForm } from '../components/Form'
 import { FormLabel } from '../components/Label'
@@ -121,7 +122,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   <div className="uk-margin uk-width-1-1">
                     <FormLabel label="Note" />
                     <textarea
-                      className="uk-text-area uk-width-1-1"
+                      className="uk-textarea uk-width-1-1"
                       rows={15}
                       onChange={evt => {
                         this.handleInputChange('note', evt.target.value)
@@ -129,11 +130,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     />
                   </div>
                 </fieldset>
-                {this.state.loadIndicator === LOAD_INDICATOR.FULFILL ? (
-                  <div uk-spinner="ratio: 2" />
-                ) : (
-                  <button className="uk-button uk-button-primary uk-align-right">FULFILL</button>
-                )}
+                <Button
+                  className="uk-button uk-button-primary uk-align-right"
+                  showSpinner={this.state.loadIndicator === LOAD_INDICATOR.FULFILL}
+                >
+                  FULFILL
+                </Button>
               </form>
             ) : (
               <div className="uk-width-1-1">
@@ -183,16 +185,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                         />
                       </SimpleBorderedSegment>
                       <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
-                        {this.state.loadIndicator === LOAD_INDICATOR.COMPLETE ? (
-                          <div uk-spinner="ratio: 2" />
-                        ) : (
-                          <button
-                            className="uk-button uk-button-primary"
-                            onClick={this.handleCompleteSubmit}
-                          >
-                            COMPLETE ORDER
-                          </button>
-                        )}
+                        <Button
+                          className="uk-button uk-button-primary"
+                          showSpinner={this.state.loadIndicator === LOAD_INDICATOR.COMPLETE}
+                          onClick={this.handleCompleteSubmit}
+                        >
+                          COMPLETE ORDER
+                        </Button>
                         <label className="uk-margin-left">
                           <input
                             className="uk-checkbox uk-margin-small-right"

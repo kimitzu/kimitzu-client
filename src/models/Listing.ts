@@ -3,6 +3,7 @@ import slugify from 'slugify'
 import Axios from 'axios'
 import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
+import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import Image from '../interfaces/Image'
 import {
   Coupon,
@@ -173,6 +174,12 @@ class Listing implements ListingInterface {
     }
     const realPrice = this.item.price / 100
     return realPrice.toFixed(2)
+  }
+
+  public get displayServiceRateMethod(): string | undefined {
+    const { serviceRateMethod } = this.metadata
+    const index = ServiceRateMethods.findIndex(method => method.value === serviceRateMethod)
+    return ServiceRateMethods[index].display
   }
 
   public async isOwner(): Promise<boolean> {

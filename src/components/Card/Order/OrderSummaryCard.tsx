@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { Button } from '../../Button'
 import InfoGroupBlock from './InfoGroupBlock'
 import ItemDetailCard from './ItemDetailCard'
 
@@ -28,7 +30,7 @@ const OrderSummaryCard = props => (
             title={'Order Accepted'}
             info={'Thank you for your purchase'}
           >
-            <button className="uk-button uk-button-primary">Fulfill Order</button>
+            <Button className="uk-button uk-button-primary">Fulfill Order</Button>
           </InfoGroupBlock>
         </ItemDetailCard>
       </div>
