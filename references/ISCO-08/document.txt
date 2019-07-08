@@ -1,3 +1,10 @@
+0 Armed forces occupations
+01 Commissioned armed forces officers
+011 Commissioned armed forces officers
+02 Non-commissioned armed forces officers
+021 Non-commissioned armed forces officers
+03 Armed forces occupations, other ranks
+031 Armed forces occupations, other ranks 
 1 Managers
 11 Chief executives, senior officials and legislators
 111 Legislators and senior officials
@@ -608,10 +615,3 @@
 9623 Meter readers and vending-machine collectors
 9624 Water and firewood collectors
 9629 Elementary workers not elsewhere classified
-0 Armed forces occupations
-01 Commissioned armed forces officers
-011 Commissioned armed forces officers
-02 Non-commissioned armed forces officers
-021 Non-commissioned armed forces officers
-03 Armed forces occupations, other ranks
-031 Armed forces occupations, other ranks 
