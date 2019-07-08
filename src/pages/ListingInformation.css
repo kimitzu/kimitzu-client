@@ -4,7 +4,6 @@
 }
 #profile-header {
   display: flex;
-  /* background-color: red; */
   width: 100%;
 }
 #left-content {
@@ -13,7 +12,6 @@
 }
 #right-content {
   flex: 2;
-  /* background-color: red; */
   padding-left: 30px;
 }
 .card-head {
@@ -25,7 +23,6 @@
 #head-content {
   display: flex;
   flex-direction: column;
-  /* background-color: blue; */
 }
 .text-blue {
   color: #2699fb !important;
