@@ -302,7 +302,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     </div>
                   </>
                 ) : null}
-                {this.state.order.step === 0 ? (
+                {this.state.order.step === 0 && this.state.order.role === 'buyer' ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment title="Send Payment To">
                       <PaymentQRCard
@@ -318,6 +318,18 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                         }}
                       />
                     </OrderSummaryItemSegment>
+                  </div>
+                ) : null}
+                {this.state.order.step === 0 && this.state.order.role === 'vendor' ? (
+                  <div className="uk-margin-bottom">
+                    <SimpleBorderedSegment
+                      title={`Waiting for buyer to send payment...`}
+                      icon="info"
+                    >
+                      <p className="color-secondary">
+                        Buyer has <b>NOT</b> paid for the order, yet.
+                      </p>
+                    </SimpleBorderedSegment>
                   </div>
                 ) : null}
                 <div className="uk-margin-bottom uk-width-1-1">
