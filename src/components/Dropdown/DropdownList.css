@@ -1,0 +1,7 @@
+.dropdown-keep-open {
+  display: block !important;
+}
+.uk-dropdown-nav > li > a:hover,
+.uk-dropdown-nav > li:hover {
+  color: var(--primary);
+}
