@@ -21,6 +21,7 @@
   },
   {
     "label": "Fixed",
-    "value": "FIXED"
+    "value": "FIXED",
+    "display": " fixed"
   }
 ]
