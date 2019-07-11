@@ -1,22 +1,27 @@
 [
   {
     "label": "Hourly",
-    "value": "PER_HOUR"
+    "value": "PER_HOUR",
+    "display": "/hour"
   },
   {
     "label": "Daily",
-    "value": "PER_DAY"
+    "value": "PER_DAY",
+    "display": "/day"
   },
   {
     "label": "Monthly",
-    "value": "PER_MONTH"
+    "value": "PER_MONTH",
+    "display": "/month"
   },
   {
     "label": "Per Milestone",
-    "value": "PER_MILESTONE"
+    "value": "PER_MILESTONE",
+    "display": "/milestone"
   },
   {
     "label": "Fixed",
-    "value": "FIXED"
+    "value": "FIXED",
+    "display": " fixed"
   }
 ]

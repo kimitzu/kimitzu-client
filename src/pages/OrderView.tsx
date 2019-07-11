@@ -1,6 +1,7 @@
 import React from 'react'
-
 import { RouteComponentProps } from 'react-router'
+
+import { Button } from '../components/Button'
 import { PaymentQRCard, SideMenuWithContentCard } from '../components/Card'
 import { ReviewListingForm } from '../components/Form'
 import { FormLabel } from '../components/Label'
@@ -60,6 +61,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleFulfillSubmit = this.handleFulfillSubmit.bind(this)
     this.handleCompleteSubmit = this.handleCompleteSubmit.bind(this)
+    this.handleRefund = this.handleRefund.bind(this)
   }
 
   public async componentDidMount() {
@@ -81,6 +83,40 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         }
       }
     }
+
+    window.UIkit.util.on('#js-modal-prompt', 'click', e => {
+      e.preventDefault()
+      e.target.blur()
+      window.UIkit.modal.prompt(this.renderModal(), ' ').then(async memo => {
+        if (memo) {
+          memo = memo.trim()
+          await this.handleRefund(memo)
+        }
+      })
+    })
+  }
+
+  public renderModal() {
+    return `
+      <div>
+        <div class="uk-text-center">
+          <p class="uk-text-lead uk-text-primary uk-text-bold">REFUND</p>
+          <p class="uk-text-meta">
+            <b>Order ID: ${this.state.order.contract.vendorOrderConfirmation.orderID}</b>
+          </p>
+          <p class="uk-margin-top">Are you sure you want to refund</p>
+          <p class="uk-text-bold">
+            ${this.state.order.cryptoValue}
+          </p>
+          <p>to</p>
+          <p>
+            <span class="uk-text-bold">${this.state.order.contract.buyerOrder.refundAddress}</span>?
+          </p>
+        </div>
+        <hr class="uk-margin" />
+        <p>Additional memo:</p>
+      </div>
+    `
   }
 
   public render() {
@@ -121,7 +157,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   <div className="uk-margin uk-width-1-1">
                     <FormLabel label="Note" />
                     <textarea
-                      className="uk-text-area uk-width-1-1"
+                      className="uk-textarea uk-width-1-1"
                       rows={15}
                       onChange={evt => {
                         this.handleInputChange('note', evt.target.value)
@@ -129,19 +165,49 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     />
                   </div>
                 </fieldset>
-                {this.state.loadIndicator === LOAD_INDICATOR.FULFILL ? (
-                  <div uk-spinner="ratio: 2" />
-                ) : (
-                  <button className="uk-button uk-button-primary uk-align-right">FULFILL</button>
-                )}
+                <Button
+                  className="uk-button uk-button-primary uk-align-right"
+                  showSpinner={this.state.loadIndicator === LOAD_INDICATOR.FULFILL}
+                >
+                  FULFILL
+                </Button>
               </form>
             ) : (
               <div className="uk-width-1-1">
                 <Stepper
-                  options={['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']}
+                  options={
+                    this.state.order.step === 7
+                      ? ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
+                      : ['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']
+                  }
                   currentIndex={this.state.order.step}
                 />
-                {this.state.order.step >= 4 ? (
+                {this.state.order.step === 7 ? (
+                  <div className="uk-margin-bottom">
+                    <OrderSummaryItemSegment
+                      title="Refunded"
+                      date={new Date(this.state.order.contract.refund!.timestamp)}
+                    >
+                      <SimpleBorderedSegment
+                        title={this.state.order.vendor ? this.state.order.vendor!.name : ''}
+                        imageSrc={
+                          this.state.order.vendor!.avatarHashes.original
+                            ? `${config.djaliHost}/djali/media?id=${
+                                this.state.order.vendor!.avatarHashes.original
+                              }`
+                            : ''
+                        }
+                      >
+                        <p className="color-secondary">
+                          Order Refunded. Transaction ID:
+                          <br />
+                          {this.state.order.contract.refund!.refundTransaction.txid}
+                        </p>
+                      </SimpleBorderedSegment>
+                    </OrderSummaryItemSegment>
+                  </div>
+                ) : null}
+                {this.state.order.step === 4 ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment
                       title="Completed"
@@ -183,16 +249,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                         />
                       </SimpleBorderedSegment>
                       <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
-                        {this.state.loadIndicator === LOAD_INDICATOR.COMPLETE ? (
-                          <div uk-spinner="ratio: 2" />
-                        ) : (
-                          <button
-                            className="uk-button uk-button-primary"
-                            onClick={this.handleCompleteSubmit}
-                          >
-                            COMPLETE ORDER
-                          </button>
-                        )}
+                        <Button
+                          className="uk-button uk-button-primary"
+                          showSpinner={this.state.loadIndicator === LOAD_INDICATOR.COMPLETE}
+                          onClick={this.handleCompleteSubmit}
+                        >
+                          COMPLETE ORDER
+                        </Button>
                         <label className="uk-margin-left">
                           <input
                             className="uk-checkbox uk-margin-small-right"
@@ -209,7 +272,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     </OrderSummaryItemSegment>
                   </div>
                 ) : null}
-                {this.state.order.step >= 3 ? (
+                {this.state.order.step >= 3 && this.state.order.step <= 4 ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment
                       title="Fulfilled"
@@ -260,7 +323,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                                 <a
                                   href="#"
                                   className="margin-small-right text-underline"
-                                  onClick={() => alert('Coming soon')}
+                                  id="js-modal-prompt"
                                 >
                                   Refund
                                 </a>
@@ -303,7 +366,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     </div>
                   </>
                 ) : null}
-                {this.state.order.step === 0 ? (
+                {this.state.order.step === 0 && this.state.order.role === 'buyer' ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment title="Send Payment To">
                       <PaymentQRCard
@@ -319,6 +382,18 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                         }}
                       />
                     </OrderSummaryItemSegment>
+                  </div>
+                ) : null}
+                {this.state.order.step === 0 && this.state.order.role === 'vendor' ? (
+                  <div className="uk-margin-bottom">
+                    <SimpleBorderedSegment
+                      title={`Waiting for buyer to send payment...`}
+                      icon="info"
+                    >
+                      <p className="color-secondary">
+                        Buyer has <b>NOT</b> paid for the order, yet.
+                      </p>
+                    </SimpleBorderedSegment>
                   </div>
                 ) : null}
                 <div className="uk-margin-bottom uk-width-1-1">
@@ -344,6 +419,16 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         />
       </div>
     )
+  }
+
+  private async handleRefund(memo: string) {
+    try {
+      await this.state.order.refund(memo)
+      alert('Order successfully refunded!')
+      window.location.reload()
+    } catch (e) {
+      alert('Refund failed: ' + e.message)
+    }
   }
 
   private async handleCompleteSubmit() {

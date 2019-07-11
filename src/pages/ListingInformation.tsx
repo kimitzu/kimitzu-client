@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
+import { Button } from '../components/Button'
 import {
   PayoutCard,
   ProfessionalBackgroundCard,
@@ -126,9 +127,9 @@ class ListingProfile extends Component<Props, State> {
                 </a>
                 <br />
                 <hr />
-                <p className="text-blue priceSize uk-margin-small-top">
-                  {listing.displayValue} {listing.metadata.pricingCurrency.toUpperCase()}{' '}
-                  {this.serviceRateMethod}
+                <p className="priceSize uk-margin-small-top uk-text-uppercase">
+                  {listing.displayValue} {listing.metadata.pricingCurrency.toUpperCase()}
+                  {listing.displayServiceRateMethod || ''}
                 </p>
                 <div id="footerContent" className="uk-margin-medium-top">
                   <div id="footerContentLeft">
@@ -145,7 +146,7 @@ class ListingProfile extends Component<Props, State> {
                       />
                       <input
                         type="text"
-                        className="uk-margin-left uk-input uk-width-1-6"
+                        className="uk-margin-left uk-input uk-width-1-6 uk-text-center"
                         value={quantity}
                         onChange={e => {
                           this.handleQuantityChange(Number(e.target.value))
@@ -161,12 +162,12 @@ class ListingProfile extends Component<Props, State> {
                         }}
                       />
                     </div>
-                    <button
-                      className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold btnRound"
+                    <Button
+                      className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold"
                       onClick={this.handleBuy}
                     >
                       BUY NOW
-                    </button>
+                    </Button>
                   </div>
                   <div id="footerContentRight">
                     <span id="soldbytext">Sold by:</span>
@@ -202,10 +203,12 @@ class ListingProfile extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
-          <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
-          <p className="inside-content">{listing.item.description}</p>
-        </div>
+        {listing.item.description ? (
+          <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
+            <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
+            <p className="inside-content">{listing.item.description}</p>
+          </div>
+        ) : null}
         <PayoutCard acceptedPayments={listing.metadata.acceptedCurrencies} />
         <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
           <h3 className="uk-card-title text-blue uk-text-bold">Contact Information</h3>

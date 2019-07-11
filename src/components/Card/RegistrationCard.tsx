@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react'
 
+import { Button } from '../Button'
+
 import './RegistrationCard.css'
 
 interface Props {
@@ -34,9 +36,9 @@ const RegistrationCard = (props: Props) => (
       </div>
       <div id="footer-right">
         {props.currentIndex === 2 ? (
-          <button className="uk-button uk-button-primary uk-button-small" onClick={props.onAgree}>
+          <Button className="uk-button uk-button-primary uk-button-small" onClick={props.onAgree}>
             I AGREE
-          </button>
+          </Button>
         ) : (
           <a
             className="color-primary"

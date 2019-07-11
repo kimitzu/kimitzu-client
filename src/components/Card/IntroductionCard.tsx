@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Button } from '../Button'
+
 import './IntroductionCard.css'
 
 interface Props {
@@ -20,9 +22,9 @@ const IntroductionCard = (props: Props) => (
       <a id="new-to-djali-text" className="color-primary">
         New to Djali?
       </a>
-      <button className="uk-button uk-button-primary" onClick={props.handleGetStarted}>
-        Get Started
-      </button>
+      <Button className="uk-button uk-button-primary" onClick={props.handleGetStarted}>
+        GET STARTED
+      </Button>
     </div>
   </div>
 )

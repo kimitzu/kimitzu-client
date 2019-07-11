@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Button } from '../Button'
+
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
 import './ListingCryptoCurrenciesForm.css'
@@ -54,13 +56,14 @@ const ListingCryptoCurrenciesForm = ({
       </div>
     </fieldset>
     <div className="submit-btn-div">
-      {isLoading ? (
-        <div uk-spinner="ratio: 2">Creating Listing... </div>
-      ) : (
-        <button className="uk-button uk-button-primary" onClick={handleContinue}>
-          ADD LISTING
-        </button>
-      )}
+      <Button
+        className="uk-button uk-button-primary"
+        showSpinner={isLoading}
+        disabled={isLoading}
+        onClick={handleContinue}
+      >
+        ADD LISTING
+      </Button>
     </div>
   </form>
 )

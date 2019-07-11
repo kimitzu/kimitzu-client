@@ -1,7 +1,12 @@
 import Axios from 'axios'
 import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
-import { Contract, Order as OrderInterface, OrderPaymentInformation } from '../interfaces/Order'
+import {
+  Contract,
+  Order as OrderInterface,
+  OrderPaymentInformation,
+  Refund,
+} from '../interfaces/Order'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -265,6 +270,15 @@ class Order implements OrderInterface {
         signatureBytes: '',
       },
     ],
+    refund: {
+      orderID: '',
+      timestamp: '',
+      refundTransaction: {
+        txid: '',
+        value: 0,
+      },
+      memo: '',
+    },
   }
   public state: string = 'PENDING'
   public read: boolean = false
@@ -411,6 +425,17 @@ class Order implements OrderInterface {
 
   public calculateCryptoDecimals(value: number): number {
     return value / 100000000
+  }
+
+  public async refund(memo: string) {
+    try {
+      await Axios.post(`${config.openBazaarHost}/ob/refund`, {
+        orderId: this.contract.vendorOrderConfirmation.orderID,
+        memo,
+      })
+    } catch (e) {
+      throw e
+    }
   }
 
   public get step(): number {

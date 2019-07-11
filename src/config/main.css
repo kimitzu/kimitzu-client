@@ -68,6 +68,11 @@ textarea {
 .uk-button {
   border-radius: 7.5%;
   font-size: 0.75rem;
+  padding: 0 20px;
+}
+.uk-button:disabled {
+  background-color: var(--primary);
+  opacity: 0.75;
 }
 .uk-checkbox:checked {
   background-color: var(--primary);

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Button } from '../Button'
+
 import { Listing } from '../../interfaces/Listing'
 
 interface OrderSummary {
@@ -49,13 +51,13 @@ const CheckoutPaymentCard = ({
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-column uk-height-1-1">
       <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle">
-        <button
+        <Button
           className="uk-button uk-button-primary"
           disabled={isPending}
           onClick={handlePlaceOrder}
         >
           {isPending ? 'PENDING...' : 'PLACE ORDER NOW'}
-        </button>
+        </Button>
         <div className="uk-margin">
           <p className="uk-text-center color-secondary">
             {isPending ? 'Awaiting payment...' : 'Clicking will advance you to the payment step'}

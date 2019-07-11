@@ -1,6 +1,8 @@
 import QRCode from 'qrcode.react'
 import React from 'react'
+
 import Order from '../../models/Order'
+import { Button } from '../Button'
 
 interface Props {
   amount: string // amount + currency
@@ -41,9 +43,9 @@ const PaymentQRCard = ({
         </a> */}
       </div>
       <div className="uk-margin uk-margin-remove-horizontal">
-        <button className="uk-button uk-button-primary" onClick={handlePay}>
+        <Button className="uk-button uk-button-primary" onClick={handlePay}>
           PAY FROM WALLET
-        </button>
+        </Button>
       </div>
       <div>
         <p className="color-secondary">

@@ -5,6 +5,7 @@ export interface Order {
   funded: boolean
   unreadChatMessages: number
   paymentAddressTransactions: PaymentAddressTransaction[]
+  refundAddressTransaction?: PaymentAddressTransaction
 }
 
 export interface OrderPaymentInformation {
@@ -21,6 +22,7 @@ export interface Contract {
   vendorOrderFulfillment: VendorOrderFulfillment[]
   buyerOrderCompletion: BuyerOrderCompletion
   signatures: Signature[]
+  refund?: Refund
 }
 
 export interface BuyerOrder {
@@ -204,4 +206,16 @@ export interface PaymentAddressTransaction {
   confirmations: number
   height: number
   timestamp: string
+}
+
+export interface Refund {
+  orderID: string
+  timestamp: string
+  refundTransaction: RefundTransaction
+  memo: string
+}
+
+export interface RefundTransaction {
+  txid: string
+  value: number
 }
