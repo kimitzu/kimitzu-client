@@ -12,13 +12,16 @@ interface Item {
   children?: Item[]
 }
 
-// const useForceUpdate = () => useState()[1]
+interface InlineMultiDropdownsProps {
+  handleItemSelect: (selectedItem: string) => void
+}
 
-const InlineMultiDropdowns = () => {
+const InlineMultiDropdowns = ({ handleItemSelect }: InlineMultiDropdownsProps) => {
   const forceUpdate = useForceUpdate()
   const [listItems, setListItems] = useState<Item[][]>([ServiceCategories])
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const [minHeight, setMinHeight] = useState('300px')
+
   const handlePointerLeave = (dropdownIndex: number) => {
     if (focusedIndex === dropdownIndex) {
       setFocusedIndex(-1)
@@ -32,7 +35,7 @@ const InlineMultiDropdowns = () => {
     setListItems(listItems)
     forceUpdate()
   }
-  console.log(listItems)
+
   return (
     <ul className="uk-subnav uk-subnav-pill">
       <li>
@@ -51,6 +54,7 @@ const InlineMultiDropdowns = () => {
             items={items}
             handlePointerLeave={handlePointerLeave}
             handleHoverItem={handleHoverItem}
+            handleItemSelect={handleItemSelect}
           />
         ))}
       </li>

@@ -54,7 +54,12 @@ const Filter = ({
       }}
     >
       <legend className="uk-legend">FILTERS</legend>
-      <InlineMultiDropdowns />
+      <InlineMultiDropdowns
+        handleItemSelect={async selectedItem => {
+          onFilterChange('item.categories', selectedItem)
+          await onFilterSubmit()
+        }}
+      />
       <div className="uk-margin">
         <FormLabel label="Occupation Classification" />
         <div id="form-select" className="uk-form-controls">

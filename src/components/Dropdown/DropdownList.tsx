@@ -16,6 +16,7 @@ interface Props {
   dataUkDropdown?: string
   handleHoverItem?: (dropdownIndex: number, itemIndex: number) => void
   handlePointerLeave?: (dropdownIndex) => void
+  handleItemSelect: (selectedItem: string) => void
 }
 
 const DropdownList = ({
@@ -25,6 +26,7 @@ const DropdownList = ({
   show,
   handleHoverItem,
   handlePointerLeave,
+  handleItemSelect,
 }: Props) => {
   return (
     <div
@@ -53,6 +55,9 @@ const DropdownList = ({
                   }
             }
             className="uk-flex uk-flex-row uk-flex-middle"
+            onClick={() => {
+              handleItemSelect(item.id)
+            }}
           >
             <a style={{ whiteSpace: 'initial', width: '90%' }}>{item.title}</a>
             {item.children && item.children.length > 0 ? (
