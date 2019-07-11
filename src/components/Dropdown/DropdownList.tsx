@@ -9,6 +9,10 @@ interface Item {
   children?: Item[]
 }
 
+interface Style {
+  [key: string]: string
+}
+
 interface Props {
   items: Item[]
   listIndex: number
@@ -17,6 +21,7 @@ interface Props {
   handleHoverItem?: (dropdownIndex: number, itemIndex: number) => void
   handlePointerLeave?: (dropdownIndex) => void
   handleItemSelect: (selectedItem: string) => void
+  style?: Style
 }
 
 const DropdownList = ({
@@ -27,10 +32,11 @@ const DropdownList = ({
   handleHoverItem,
   handlePointerLeave,
   handleItemSelect,
+  style,
 }: Props) => {
   return (
     <div
-      style={{ height: '424px', width: '250px' }}
+      style={style}
       className={`uk-dropdown uk-padding-small uk-margin-remove ${
         show ? 'dropdown-keep-open' : ''
       }`}
