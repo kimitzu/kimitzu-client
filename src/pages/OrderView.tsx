@@ -61,6 +61,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleFulfillSubmit = this.handleFulfillSubmit.bind(this)
     this.handleCompleteSubmit = this.handleCompleteSubmit.bind(this)
+    this.handleRefund = this.handleRefund.bind(this)
   }
 
   public async componentDidMount() {
@@ -82,6 +83,40 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         }
       }
     }
+
+    window.UIkit.util.on('#js-modal-prompt', 'click', e => {
+      e.preventDefault()
+      e.target.blur()
+      window.UIkit.modal.prompt(this.renderModal(), ' ').then(async memo => {
+        if (memo) {
+          memo = memo.trim()
+          await this.handleRefund(memo)
+        }
+      })
+    })
+  }
+
+  public renderModal() {
+    return `
+      <div>
+        <div class="uk-text-center">
+          <p class="uk-text-lead uk-text-primary uk-text-bold">REFUND</p>
+          <p class="uk-text-meta">
+            <b>Order ID: ${this.state.order.contract.vendorOrderConfirmation.orderID}</b>
+          </p>
+          <p class="uk-margin-top">Are you sure you want to refund</p>
+          <p class="uk-text-bold">
+            ${this.state.order.cryptoValue}
+          </p>
+          <p>to</p>
+          <p>
+            <span class="uk-text-bold">${this.state.order.contract.buyerOrder.refundAddress}</span>?
+          </p>
+        </div>
+        <hr class="uk-margin" />
+        <p>Additional memo:</p>
+      </div>
+    `
   }
 
   public render() {
@@ -140,10 +175,39 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             ) : (
               <div className="uk-width-1-1">
                 <Stepper
-                  options={['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']}
+                  options={
+                    this.state.order.step === 7
+                      ? ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
+                      : ['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']
+                  }
                   currentIndex={this.state.order.step}
                 />
-                {this.state.order.step >= 4 ? (
+                {this.state.order.step === 7 ? (
+                  <div className="uk-margin-bottom">
+                    <OrderSummaryItemSegment
+                      title="Refunded"
+                      date={new Date(this.state.order.contract.refund!.timestamp)}
+                    >
+                      <SimpleBorderedSegment
+                        title={this.state.order.vendor ? this.state.order.vendor!.name : ''}
+                        imageSrc={
+                          this.state.order.vendor!.avatarHashes.original
+                            ? `${config.djaliHost}/djali/media?id=${
+                                this.state.order.vendor!.avatarHashes.original
+                              }`
+                            : ''
+                        }
+                      >
+                        <p className="color-secondary">
+                          Order Refunded. Transaction ID:
+                          <br />
+                          {this.state.order.contract.refund!.refundTransaction.txid}
+                        </p>
+                      </SimpleBorderedSegment>
+                    </OrderSummaryItemSegment>
+                  </div>
+                ) : null}
+                {this.state.order.step === 4 ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment
                       title="Completed"
@@ -208,7 +272,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     </OrderSummaryItemSegment>
                   </div>
                 ) : null}
-                {this.state.order.step >= 3 ? (
+                {this.state.order.step >= 3 && this.state.order.step <= 4 ? (
                   <div className="uk-margin-bottom">
                     <OrderSummaryItemSegment
                       title="Fulfilled"
@@ -259,7 +323,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                                 <a
                                   href="#"
                                   className="margin-small-right text-underline"
-                                  onClick={() => alert('Coming soon')}
+                                  id="js-modal-prompt"
                                 >
                                   Refund
                                 </a>
@@ -355,6 +419,16 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         />
       </div>
     )
+  }
+
+  private async handleRefund(memo: string) {
+    try {
+      await this.state.order.refund(memo)
+      alert('Order successfully refunded!')
+      window.location.reload()
+    } catch (e) {
+      alert('Refund failed: ' + e.message)
+    }
   }
 
   private async handleCompleteSubmit() {
