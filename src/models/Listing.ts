@@ -109,7 +109,7 @@ class Listing implements ListingInterface {
     format: 'FIXED_PRICE',
     expiry: '',
     acceptedCurrencies: [],
-    pricingCurrency: 'usd',
+    pricingCurrency: 'USD',
     language: '',
     escrowTimeoutHours: 0,
     coinType: '',
