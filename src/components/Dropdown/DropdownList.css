@@ -5,3 +5,7 @@
 .uk-dropdown-nav > li:hover {
   color: var(--primary);
 }
+#selected-list-item,
+#selected-list-item > a {
+  color: var(--primary);
+}

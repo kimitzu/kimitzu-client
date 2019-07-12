@@ -55,6 +55,7 @@ const Filter = ({
     >
       <legend className="uk-legend">FILTERS</legend>
       <InlineMultiDropdowns
+        title="Classification"
         handleItemSelect={async selectedItem => {
           onFilterChange('item.categories', selectedItem)
           await onFilterSubmit()

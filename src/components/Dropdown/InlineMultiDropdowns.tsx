@@ -14,25 +14,36 @@ interface Item {
 
 interface InlineMultiDropdownsProps {
   handleItemSelect: (selectedItem: string) => void
+  title: string
 }
 
-const InlineMultiDropdowns = ({ handleItemSelect }: InlineMultiDropdownsProps) => {
+const InlineMultiDropdowns = ({ handleItemSelect, title }: InlineMultiDropdownsProps) => {
   const forceUpdate = useForceUpdate()
   const [listItems, setListItems] = useState<Item[][]>([ServiceCategories])
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const [minDropdownHeight, setMinDropdownHeight] = useState(0)
   const [dropdownWidth] = useState(250)
 
-  const closeDropdown = () => setFocusedIndex(-1)
+  const closeDropdown = () => {
+    setFocusedIndex(-1)
+    setSelectedIndexes([])
+  }
   const handlePointerLeave = (dropdownIndex: number) => {
-    if (focusedIndex === dropdownIndex) {
+    if (focusedIndex + 1 === dropdownIndex) {
       closeDropdown()
       forceUpdate()
     }
   }
   const handleHoverItem = (dropdownIndex: number, itemIndex: number) => {
     const nextDropdownIndex = dropdownIndex + 1
-    setFocusedIndex(nextDropdownIndex)
+    let indexes = selectedIndexes
+    indexes[dropdownIndex] = itemIndex
+    if (dropdownIndex < focusedIndex) {
+      indexes = indexes.slice(0, dropdownIndex)
+      setSelectedIndexes(indexes)
+    }
+    setFocusedIndex(dropdownIndex)
     listItems[nextDropdownIndex] = listItems[dropdownIndex][itemIndex].children || []
     setListItems(listItems)
     forceUpdate()
@@ -54,7 +65,7 @@ const InlineMultiDropdowns = ({ handleItemSelect }: InlineMultiDropdownsProps) =
     <ul className="uk-subnav uk-subnav-pill">
       <li id="dropdownlist">
         <a onClick={() => (focusedIndex !== -1 ? setFocusedIndex(-1) : setFocusedIndex(0))}>
-          Classifications
+          {title}
           <span data-uk-icon="icon: triangle-down" />
         </a>
         {listItems.map((items, index) => {
@@ -66,9 +77,10 @@ const InlineMultiDropdowns = ({ handleItemSelect }: InlineMultiDropdownsProps) =
                 width: `${dropdownWidth}px`,
                 left: `${20 + index * dropdownWidth}px`,
               }}
+              selectedIndex={selectedIndexes[index]}
               dataUkDropdown={`${index === 0 ? 'mode: click' : 'pos: right-center'}`}
               listIndex={index}
-              show={focusedIndex > -1 && index <= focusedIndex}
+              show={focusedIndex > -1 && index <= focusedIndex + 1}
               items={items}
               handlePointerLeave={handlePointerLeave}
               handleHoverItem={handleHoverItem}

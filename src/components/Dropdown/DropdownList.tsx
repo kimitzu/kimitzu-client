@@ -21,6 +21,7 @@ interface Props {
   handleHoverItem?: (dropdownIndex: number, itemIndex: number) => void
   handlePointerLeave?: (dropdownIndex) => void
   handleItemSelect: (selectedItem: string) => void
+  selectedIndex?: number
   style?: Style
 }
 
@@ -32,6 +33,7 @@ const DropdownList = ({
   handleHoverItem,
   handlePointerLeave,
   handleItemSelect,
+  selectedIndex,
   style,
 }: Props) => {
   return (
@@ -53,8 +55,9 @@ const DropdownList = ({
         {items.map((item: Item, index: number) => (
           <li
             key={item.id}
+            id={selectedIndex === index ? 'selected-list-item' : ''}
             onPointerEnter={
-              item.children && handleHoverItem
+              handleHoverItem
                 ? () => handleHoverItem(listIndex, index)
                 : () => {
                     console.log('do nothing')
