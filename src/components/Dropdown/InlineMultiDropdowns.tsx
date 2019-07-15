@@ -48,22 +48,31 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
     forceUpdate()
   }
   useEffect(() => {
-    window.addEventListener('mousedown', closeDropdown)
+    window.onclick = e => {
+      const multiDropdown = document.getElementById('multi-dropdown')
+      const dropDownListItems = document.getElementById('dropdown-list-items')
+      if (e.target !== multiDropdown || e.target !== dropDownListItems) {
+        closeDropdown()
+      }
+    }
     if (minDropdownHeight === 0) {
       const dropdownElem = document.getElementById('dropdownlist')
       if (dropdownElem && dropdownElem.children[1]) {
         setMinDropdownHeight(dropdownElem.children[1].clientHeight)
       }
     }
-    return () => {
-      window.removeEventListener('mousedown', closeDropdown)
-    }
   })
 
   return (
     <ul className="uk-subnav uk-subnav-pill">
       <li id="dropdownlist">
-        <a onClick={() => (focusedIndex !== -1 ? setFocusedIndex(-1) : setFocusedIndex(0))}>
+        <a
+          id="multi-dropdown"
+          onClick={e => {
+            e.stopPropagation()
+            return focusedIndex !== -1 ? setFocusedIndex(-1) : setFocusedIndex(0)
+          }}
+        >
           {title}
           <span data-uk-icon="icon: triangle-down" />
         </a>
@@ -84,6 +93,7 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
               handlePointerLeave={handlePointerLeave}
               handleHoverItem={handleHoverItem}
               handleItemSelect={handleItemSelect}
+              closeDropdown={closeDropdown}
             />
           ) : null
         })}

@@ -21,6 +21,7 @@ interface Props {
   handleHoverItem?: (dropdownIndex: number, itemIndex: number) => void
   handlePointerLeave?: (dropdownIndex) => void
   handleItemSelect: (selectedItem: string) => void
+  closeDropdown: () => void
   selectedIndex?: number
   style?: Style
 }
@@ -33,6 +34,7 @@ const DropdownList = ({
   handleHoverItem,
   handlePointerLeave,
   handleItemSelect,
+  closeDropdown,
   selectedIndex,
   style,
 }: Props) => {
@@ -51,7 +53,7 @@ const DropdownList = ({
             }
       }
     >
-      <ul className="uk-nav uk-dropdown-nav">
+      <ul id="dropdown-list-items" className="uk-nav uk-dropdown-nav">
         {items.map((item: Item, index: number) => (
           <li
             key={item.id}
@@ -64,8 +66,10 @@ const DropdownList = ({
                   }
             }
             className="uk-flex uk-flex-row uk-flex-middle"
-            onClick={() => {
+            onClick={e => {
+              e.stopPropagation()
               handleItemSelect(item.id)
+              closeDropdown()
             }}
           >
             <a id="dropdown-item-title">{item.title}</a>
