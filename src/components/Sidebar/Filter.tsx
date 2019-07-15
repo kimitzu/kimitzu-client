@@ -1,7 +1,6 @@
 import React from 'react'
 import Countries from '../../constants/Countries.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
-import { InlineMultiDropdowns } from '../Dropdown'
 import { FormLabel } from '../Label'
 
 import { AutoCompleteSelect } from '../Input'
@@ -54,13 +53,6 @@ const Filter = ({
       }}
     >
       <legend className="uk-legend">FILTERS</legend>
-      <InlineMultiDropdowns
-        title="Classification"
-        handleItemSelect={async selectedItem => {
-          onFilterChange('item.categories', selectedItem)
-          await onFilterSubmit()
-        }}
-      />
       <div className="uk-margin">
         <FormLabel label="Occupation Classification" />
         <div id="form-select" className="uk-form-controls">

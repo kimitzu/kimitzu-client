@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
+import { InlineMultiDropdowns } from '../components/Dropdown'
 import NavBar from '../components/NavBar/NavBar'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
+import ServiceCategories from '../constants/ServiceCategories.json'
 import SortOptions from '../constants/SortOptions.json'
 import Search from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
@@ -50,6 +52,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleChange = this.handleChange.bind(this)
     this.handleSettings = this.handleSettings.bind(this)
     this.handleSettings = this.handleSettings.bind(this)
+    this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
   }
 
   public async componentDidMount() {
@@ -108,6 +111,11 @@ class Home extends Component<HomeProps, HomeState> {
         <div className="main-container">
           <div className="child-main-container">
             <div className="custom-width">
+              <InlineMultiDropdowns
+                title="Classification"
+                handleItemSelect={this.handleDropdownSelect}
+                items={ServiceCategories}
+              />
               <SidebarFilter
                 locationRadius={this.state.search.locationRadius}
                 onChange={this.handleChange}
@@ -247,6 +255,11 @@ class Home extends Component<HomeProps, HomeState> {
 
   private handleSettings() {
     window.location.href = '/settings/profile'
+  }
+
+  private async handleDropdownSelect(selectedItem) {
+    this.handleFilterChange('item.categories', selectedItem)
+    await this.handleSearchSubmit()
   }
 }
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useForceUpdate from 'use-force-update'
 
-import ServiceCategories from '../../constants/ServiceCategories.json'
-
 import DropdownList from './DropdownList'
 
 interface Item {
@@ -15,11 +13,12 @@ interface Item {
 interface InlineMultiDropdownsProps {
   handleItemSelect: (selectedItem: string) => void
   title: string
+  items: Item[]
 }
 
-const InlineMultiDropdowns = ({ handleItemSelect, title }: InlineMultiDropdownsProps) => {
+const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDropdownsProps) => {
   const forceUpdate = useForceUpdate()
-  const [listItems, setListItems] = useState<Item[][]>([ServiceCategories])
+  const [listItems, setListItems] = useState<Item[][]>([items])
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const [minDropdownHeight, setMinDropdownHeight] = useState(0)
@@ -68,8 +67,8 @@ const InlineMultiDropdowns = ({ handleItemSelect, title }: InlineMultiDropdownsP
           {title}
           <span data-uk-icon="icon: triangle-down" />
         </a>
-        {listItems.map((items, index) => {
-          return items.length > 0 ? (
+        {listItems.map((listItem, index) => {
+          return listItem.length > 0 ? (
             <DropdownList
               key={`drop${index}`}
               style={{
@@ -81,7 +80,7 @@ const InlineMultiDropdowns = ({ handleItemSelect, title }: InlineMultiDropdownsP
               dataUkDropdown={`${index === 0 ? 'mode: click' : 'pos: right-center'}`}
               listIndex={index}
               show={focusedIndex > -1 && index <= focusedIndex + 1}
-              items={items}
+              items={listItem}
               handlePointerLeave={handlePointerLeave}
               handleHoverItem={handleHoverItem}
               handleItemSelect={handleItemSelect}

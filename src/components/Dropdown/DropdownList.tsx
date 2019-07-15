@@ -68,7 +68,7 @@ const DropdownList = ({
               handleItemSelect(item.id)
             }}
           >
-            <a className="dropdown-item-title">{item.title}</a>
+            <a id="dropdown-item-title">{item.title}</a>
             {item.children && item.children.length > 0 ? (
               <span className="uk-flex-1 uk-text-right" data-uk-icon="icon: triangle-right" />
             ) : null}
