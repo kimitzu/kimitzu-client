@@ -9,3 +9,7 @@
 #selected-list-item > a {
   color: var(--primary);
 }
+#dropdown-item-title {
+  white-space: initial;
+  width: 90%;
+}
