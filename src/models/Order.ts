@@ -7,6 +7,7 @@ import {
   OrderPaymentInformation,
   Refund,
 } from '../interfaces/Order'
+import Rating from '../interfaces/Rating'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -371,11 +372,26 @@ class Order implements OrderInterface {
     }
   }
 
-  public async fulfill(note?: string) {
+  public async fulfill(ratings: Rating[], note?: string) {
+    const parsedRatings = ratings.map(obj => {
+      return {
+        max: obj.starCount,
+        score: obj.value,
+        type: obj.index,
+        weight: 100,
+      }
+    })
+
+    const buyerRating = {
+      comment: note, // TODO: Change to review because note is a per-transaction note
+      fields: parsedRatings,
+    }
+
     try {
       await Axios.post(`${config.openBazaarHost}/ob/orderfulfillment`, {
         orderId: this.contract.vendorOrderConfirmation.orderID,
         note: note || '',
+        buyerRating,
       })
     } catch (e) {
       throw e

@@ -1,0 +1,338 @@
+#chatbox-main-container {
+    position: fixed;
+    background-color: white;
+    width: 200px;
+    height: 45px;
+    bottom: 0;
+    right: 50px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    z-index: 9999;
+    overflow: hidden;
+    -webkit-transition: width 0.3s, height 0.3s; /* Safari prior 6.1 */
+    transition: width 0.3s, height 0.3s;
+    transition-timing-function: ease-out;
+    -webkit-box-shadow: 0 0 10px 1px #BFB8B8;
+    box-shadow: 0 0 10px 1px #BFB8B8;
+}
+
+.increaseWidth {
+    width: 850px !important;
+    height: 520px !important;
+}
+
+#left-side {
+    background-color: white;
+    height: 100%;
+    width: 350px;
+    border-right: 1.2px solid rgb(236, 236, 236);
+}
+
+#right-side {
+    background-color: white;
+    height: 100%;
+    width: 500px;
+}
+
+#full-size {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+}
+
+.rightSideHide {
+    display: none !important;
+}
+
+#header-left {
+    display: flex;
+    height: 45px;
+    align-items: center;
+    padding-left: 15px;
+    border-bottom: 1.2px solid rgb(236, 236, 236);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#header-right {
+    display: flex;
+    height: 45px;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1.2px solid rgb(236, 236, 236);
+}
+
+#title-right {
+    flex: 5;
+    display: flex;
+    align-items: flex-start;
+    font-weight: 600;
+}
+
+#close-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    color: #1e90ff;
+}
+
+#msg-title-left {
+    margin-left: 10px;
+}
+
+#convos-left {
+    height: 475px;
+    overflow-y: auto;
+}
+
+#convos-ul li {
+    border-bottom: 1.2px solid rgb(236, 236, 236);
+    height: 78px;
+}
+
+.convos-content-cont {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.convos-image-cont {
+    height: 100%;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.convos-message-cont {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.image-convo {
+    border-radius: 50%;
+}
+
+.convos-message-header {
+    display: flex;
+    flex-direction: row;
+    width: 240px;
+}
+
+.message-title {
+    flex: 1;
+    font-weight: bold;
+    color: rgb(110, 110, 110);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-time {
+    width: 65px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: dodgerblue;
+}
+
+.convos-message-teaser {
+    width: 240px;
+}
+
+.message {
+    font-size: 14px;
+    color: rgb(110, 110, 110);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.convos-content-cont:hover {
+    background-color: rgb(223, 223, 223);
+}
+
+.isActive {
+    background-color: rgb(64, 159, 255) !important;
+}
+
+.isActive .convos-message-cont .convos-message-header .message-title {
+    color: white;
+}
+
+.isActive .convos-message-cont .convos-message-header .message-title {
+    color: white;
+}
+
+.isActive .convos-message-cont .convos-message-header .message-time {
+    color: white;
+}
+
+.isActive .convos-message-cont .convos-message-teaser .message{
+    color: white;
+}
+
+#messages-display-main {
+    display: flex;
+    flex-direction: column;
+    height: 475px;
+}
+
+#messages-display-cont {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#messages-display-con:focus {
+    outline:none;
+    border:0;
+    outline-style:none;
+}
+
+#messages-chat-cont {
+    border-top: 1.2px solid rgb(236, 236, 236);
+    min-height: 30px;
+    max-height: 200px !important;
+    display: flex;
+    flex-direction: row;
+}
+
+#message-input-cont {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 17px 0 17px;
+}
+
+.message-input {
+    min-height: 29px;
+    padding-top: 14px;
+    font-size: 14px;
+    width: 100%;
+    outline-style:none;
+    max-height: 200px !important;
+    outline:none;
+    border:0;
+}
+
+.message-input:focus {
+    outline:none;
+    border:0;
+    outline-style:none;
+}
+
+.message-input::placeholder {
+    color: rgb(165, 164, 164);
+}
+
+#message-button-cont {
+    width: 45px;
+    display: flex;
+    align-items: flex-end;
+}
+
+#message-button-cont-two {
+    display:flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: row;
+    flex: 1;
+    height: 45px;
+}
+
+#img-send-cont {
+    flex:1.5;
+}
+
+#send-text-cont {
+    flex: 1;
+    cursor: pointer;
+}
+
+#send-text-cont:active {
+    opacity: 0.5;
+}
+
+#send-text {
+    color: #1e90ff;
+    font-weight: bold;
+    font-size: 18px;
+    flex: 1;
+}
+
+.text-msg-cont-right {
+    padding: 3px 17px 3px 17px;
+    display:flex;
+    justify-content: flex-end;
+    outline-style: none;
+    border: none;
+    outline: none;
+}
+
+.text-msg-cont-right:focus {
+    outline-style: none;
+    border: none;
+    outline: none;
+}
+
+.text-msg-cont-left {
+    padding: 3px 17px 3px 17px;
+    display:flex;
+    justify-content: flex-start;
+}
+
+.text-msg-left {
+    background-color: rgb(219, 219, 219);
+    color: rgb(20, 20, 20);
+    padding: 12px;
+    border-radius:8px;
+    font-size: 14px;
+    max-width:300px;
+    word-wrap: break-word;
+}
+
+.text-msg-right {
+    background-color: dodgerblue;
+    color: white;
+    padding: 12px;
+    border-radius:8px;
+    font-size: 14px;
+    max-width:300px;
+    word-wrap: break-word;
+}
+
+/* for scroll-bar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
