@@ -87,6 +87,7 @@ class Home extends Component<HomeProps, HomeState> {
         const msg = d.message.message
         const conv = this.state.conversations
         conv[index].messages.push(newMsg)
+        conv[index].lastMessage = msg
         this.setState({ conversations: conv, scrollBottom: true })
       }
     }
@@ -151,6 +152,7 @@ class Home extends Component<HomeProps, HomeState> {
     const conv = this.state.conversations
     if (this.state.chatMsg !== '') {
       conv[index].messages.push(msg)
+      conv[index].lastMessage = chatmsgTemp
     }
     this.setState({ disabled: true, chatMsg: '' })
     this.setState({ conversations: conv, scrollBottom: true })

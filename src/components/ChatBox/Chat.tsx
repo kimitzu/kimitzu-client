@@ -49,14 +49,16 @@ const Chat = ({
   const [show, setShow] = useState(false)
   const [isActive, setisActive] = useState(-1)
   const [messages, setMessages] = useState<Messages[]>([])
+  const [title, setTitle] = useState('')
 
   function toggleChatBox() {
     setShow(!show)
   }
 
-  function openChat(index, data) {
+  function openChat(index, data, name) {
     setisActive(index)
     setMessages(data)
+    setTitle(name)
   }
 
   function scrollToBottom() {
@@ -103,7 +105,7 @@ const Chat = ({
                       i === isActive ? 'convos-content-cont isActive' : 'convos-content-cont'
                     }
                     onClick={() => {
-                      openChat(i, data.messages)
+                      openChat(i, data.messages, data.name)
                       onRecipientChange(data.peerId)
                     }}
                   >
@@ -134,7 +136,7 @@ const Chat = ({
       </div>
       <div id="right-side" className={classNames({ rightSideHide: !show })}>
         <div id="header-right" onClick={toggleChatBox}>
-          <p id="title-right">Title</p>
+          <p id="title-right">{title}</p>
           <span id="close-right" uk-icon="icon: close; ratio: 1" />
         </div>
         <div id="messages-display-main">
