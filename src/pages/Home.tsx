@@ -2,7 +2,6 @@ import axios from 'axios'
 import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
-import { ChatBox } from '../components/ChatBox'
 import { InlineMultiDropdowns } from '../components/Dropdown'
 import NavBar from '../components/NavBar/NavBar'
 import { FormSelector } from '../components/Selector'
@@ -15,9 +14,6 @@ import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import config from '../config'
 import './Home.css'
-
-const location = config.openBazaarHost
-const ws = new WebSocket(config.websocketHost)
 
 interface HomeProps {
   props: any
@@ -43,19 +39,12 @@ interface HomeState {
 }
 
 class Home extends Component<HomeProps, HomeState> {
-  private preventInput: boolean
   constructor(props: any) {
     super(props)
     const search = new Search()
 
     this.state = {
       search,
-      conversations: [],
-      indexPeerID: [],
-      scrollBottom: true,
-      chatMsg: '',
-      currID: '',
-      disabled: false,
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
@@ -66,117 +55,10 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleSettings = this.handleSettings.bind(this)
     this.handleSettings = this.handleSettings.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
-    this.handleChatMsg = this.handleChatMsg.bind(this)
-    this.handleRecipientChange = this.handleRecipientChange.bind(this)
-    this.onKeyPress = this.onKeyPress.bind(this)
-    this.sendMsg = this.sendMsg.bind(this)
-    this.preventInput = false
   }
 
   public async componentDidMount() {
     await this.handleSearchSubmit()
-    ws.onopen = evt => {
-      console.log('Websocket connected')
-    }
-
-    ws.onmessage = data => {
-      const d = JSON.parse(data.data)
-      if (d.message) {
-        const newMsg = d.message
-        const index = this.state.indexPeerID.indexOf(d.message.peerId)
-        const msg = d.message.message
-        const conv = this.state.conversations
-        conv[index].messages.push(newMsg)
-        conv[index].lastMessage = msg
-        this.setState({ conversations: conv, scrollBottom: true })
-      }
-    }
-  }
-
-  public async componentWillMount() {
-    const conv = await axios.get(`${location}/ob/chatconversations`)
-    const c = conv.data
-    if (c.length !== 0) {
-      c.map(async (cc, i) => {
-        const indexPeerIDTemp = this.state.indexPeerID
-        indexPeerIDTemp.push(cc.peerId)
-        this.setState({ indexPeerID: indexPeerIDTemp })
-        const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${cc.peerId}`)
-        if (prof && prof.data.profile) {
-          if (prof.data.profile.avatarHashes) {
-            c[i].image = `${location}/ob/images/${prof.data.profile.avatarHashes.small}`
-          } else {
-            c[i].image = './images/user.png'
-          }
-          c[i].name = prof.data.profile.name
-          const message = await axios.get(
-            `${location}/ob/chatmessages/${cc.peerId}?limit=20&offsetId=&subject=`
-          )
-          if (message) {
-            c[i].messages = message.data.reverse()
-          } else {
-            c[i].messages = []
-          }
-        }
-      })
-    }
-    this.setState({ conversations: c })
-  }
-
-  public handleChatMsg(value) {
-    if (this.preventInput) {
-      this.preventInput = false
-      return
-    }
-    this.setState({ chatMsg: value })
-  }
-
-  public handleRecipientChange(value) {
-    this.setState({ currID: value })
-  }
-
-  public async sendMsg() {
-    const chatmsgTemp = this.state.chatMsg
-    const msg = {
-      message: this.state.chatMsg,
-      messageId: '',
-      outgoing: true,
-      peerId: this.state.currID,
-      read: true,
-      subject: '',
-      timestamp: new Date(),
-    }
-
-    const index = this.state.indexPeerID.indexOf(this.state.currID)
-
-    const conv = this.state.conversations
-    if (this.state.chatMsg !== '') {
-      conv[index].messages.push(msg)
-      conv[index].lastMessage = chatmsgTemp
-    }
-    this.setState({ disabled: true, chatMsg: '' })
-    this.setState({ conversations: conv, scrollBottom: true })
-
-    const res = await axios.post(`${location}/ob/chat`, {
-      subject: '',
-      message: chatmsgTemp,
-      peerId: this.state.currID,
-    })
-    if (res) {
-      this.setState({ chatMsg: '', disabled: false })
-      const el = document.getElementById('chat-input')
-      if (el) {
-        el.focus()
-      }
-    }
-  }
-
-  public async onKeyPress(event) {
-    const code = event.keyCode || event.which
-    if (code === 13 && !event.shiftKey) {
-      this.preventInput = true
-      await this.sendMsg()
-    }
   }
 
   public renderPages(): JSX.Element[] {
@@ -229,16 +111,6 @@ class Home extends Component<HomeProps, HomeState> {
           isSearchBarShow
         />
         <div className="main-container">
-          <ChatBox
-            convos={this.state.conversations}
-            scrollBottom={this.state.scrollBottom}
-            chatBoxOnchange={this.handleChatMsg}
-            onRecipientChange={this.handleRecipientChange}
-            onKeyPress={this.onKeyPress}
-            chatValue={this.state.chatMsg}
-            disabled={this.state.disabled}
-            sendMsg={this.sendMsg}
-          />
           <div className="child-main-container">
             <div className="custom-width">
               <InlineMultiDropdowns
