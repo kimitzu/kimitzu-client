@@ -161,6 +161,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.setState({
       order,
       isLoading: false,
+      groupMessage,
     })
 
     window.socket.onmessage = async message => {
