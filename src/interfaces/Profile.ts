@@ -10,6 +10,7 @@ export interface Profile {
   name: string
   nsfw: boolean
   vendor: boolean
+  contactInfo: Contact
   bitcoinPubkey?: string
   currencies?: string[]
   headerHashes?: Image
@@ -76,4 +77,17 @@ export interface EmploymentHistory {
   date: string
   address: string
   desc: string
+}
+
+export interface SocialAccount {
+  type: string
+  username: string
+  proof: string
+}
+
+export interface Contact {
+  website: string
+  email: string
+  phoneNumber: string
+  social: SocialAccount[]
 }

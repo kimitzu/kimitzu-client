@@ -217,7 +217,7 @@ class ListingProfile extends Component<Props, State> {
             <p>johndoe@gmail.com</p>
           </div>
         </div>
-        <SocialMediaCard />
+        <SocialMediaCard socialMedia={profile.contactInfo.social} />
         {background && background.educationHistory ? (
           <ProfessionalBackgroundCard data={background} name="Education" />
         ) : null}

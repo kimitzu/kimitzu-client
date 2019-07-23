@@ -9,7 +9,7 @@ import AboutCard from '../Card/Profile/AboutCard'
 import ListingCardGroup from '../CardGroup/ListingCardGroup'
 
 interface ViewProfileInterface {
-  data: Profile
+  profile: Profile
   listings: Listing[]
   isOwner: boolean
 }
@@ -24,20 +24,20 @@ const ViewProfile = (props: ViewProfileInterface) => {
       </div>
       <div id="header">
         <div id="profile-picture">
-          {props.data.avatarHashes.medium ? (
+          {props.profile.avatarHashes.medium ? (
             <img
               src={`${config.openBazaarHost}/ob/images/${
-                props.data.avatarHashes ? props.data.avatarHashes.medium : ''
+                props.profile.avatarHashes ? props.profile.avatarHashes.medium : ''
               }`}
             />
           ) : (
             <div uk-spinner="ratio: 3" />
           )}
         </div>
-        {props.data.name ? (
+        {props.profile.name ? (
           <div id="header-tab">
             <div id="seller-name">
-              <h3> {props.data.name} </h3>
+              <h3> {props.profile.name} </h3>
             </div>
             <ul data-uk-tab="connect: #container-profile">
               <li className="uk-active">
@@ -47,17 +47,17 @@ const ViewProfile = (props: ViewProfileInterface) => {
               </li>
               <li>
                 <a href="#" id="tab-label">
-                  Store <span id="label-number"> {props.data.stats!.listingCount} </span>
+                  Store <span id="label-number"> {props.profile.stats!.listingCount} </span>
                 </a>
               </li>
               <li>
                 <a href="#" id="tab-label">
-                  Followers <span id="label-number"> {props.data.stats!.followerCount} </span>
+                  Followers <span id="label-number"> {props.profile.stats!.followerCount} </span>
                 </a>
               </li>
               <li>
                 <a href="#" id="tab-label">
-                  Following <span id="label-number"> {props.data.stats!.followingCount} </span>
+                  Following <span id="label-number"> {props.profile.stats!.followingCount} </span>
                 </a>
               </li>
               {props.isOwner ? (
@@ -92,7 +92,7 @@ const ViewProfile = (props: ViewProfileInterface) => {
       </div>
       <ul id="container-profile" className="uk-switcher">
         <li>
-          <AboutCard data={props.data} />
+          <AboutCard profile={props.profile} />
         </li>
         <li>
           <ListingCardGroup data={props.listings} />

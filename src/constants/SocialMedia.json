@@ -1,0 +1,194 @@
+[
+  {
+    "label": "Select Type",
+    "value": "",
+    "icon": "question",
+    "link": "#"
+  },
+  {
+    "label": "500px",
+    "value": "500px",
+    "icon": "500px",
+    "link": "https://500px.com/{uid}"
+  },
+  {
+    "label": "99design",
+    "value": "99design",
+    "icon": "social",
+    "link": "https://99designs.com/profiles/{uid}"
+  },
+  {
+    "label": "Amazon",
+    "value": "amazon",
+    "icon": "social",
+    "link": "https://www.amazon.com/sp?seller={uid}"
+  },
+  {
+    "label": "Behance",
+    "value": "behance",
+    "icon": "behance",
+    "link": "https://www.behance.net/{uid}"
+  },
+  {
+    "label": "Dribbble",
+    "value": "dribbble",
+    "icon": "dribbble",
+    "link": "https://dribbble.com/{uid}"
+  },
+  {
+    "label": "Etsy",
+    "value": "etsy",
+    "icon": "etsy",
+    "link": "https://www.etsy.com/people/{uid}"  
+  },
+  {
+    "label": "Facebook",
+    "value": "facebook",
+    "icon": "facebook",  
+    "link": "https://www.facebook.com/{uid}"
+  },
+  {
+    "label": "Fiverr",
+    "value": "fiverr",
+    "icon": "social",
+    "link": "https://www.fiverr.com/{uid}"
+  },
+  {
+    "label": "Flickr",
+    "value": "flickr",
+    "icon": "flickr",
+    "link": "https://www.flickr.com/people/{uid}"
+  },
+  {
+    "label": "Foursquare",
+    "value": "foursquare",
+    "icon": "foursquare",
+    "link": "https://foursquare.com/{uid}"
+  },
+  {
+    "label": "Github",
+    "value": "github",
+    "icon": "github",
+    "link": "https://github.com/{uid}"
+  },
+  {
+    "label": "Gitter",
+    "value": "gitter",
+    "icon": "gitter",
+    "link": "https://gitter.im/{uid}"
+  },
+  {
+    "label": "Google",
+    "value": "google",
+    "icon": "google",
+    "link": "mailto:{uid}"
+  },
+  {
+    "label": "Instagram",
+    "value": "instagram",
+    "icon": "instagram",
+    "link": "https://www.instagram.com/{uid}"
+  },
+  {
+    "label": "Joomla",
+    "value": "joomla",
+    "icon": "joomla",
+    "link": "#"
+  },
+  {
+    "label": "Linkedin",
+    "value": "linkedin",
+    "icon": "linkedin",
+    "link": "https://www.linkedin.com/in/{uid}"
+  },
+  {
+    "label": "Pagekit",
+    "value": "pagekit",
+    "icon": "pagekit",
+    "link": "#"
+  },
+  {
+    "label": "Pinterest",
+    "value": "pinterest",
+    "icon": "pinterest",
+    "link": "https://www.pinterest.com/{uid}"
+  },
+  {
+    "label": "Reddit",
+    "value": "reddit",
+    "icon": "reddit",
+    "link": "https://www.reddit.com/user/{uid}"
+  },
+  {
+    "label": "Snapchat",
+    "value": "snapchat",
+    "icon": "social",
+    "link": "https://story.snapchat.com/s/{uid}"
+  },
+  {
+    "label": "Soundcloud",
+    "value": "soundcloud",
+    "icon": "soundcloud",
+    "link": "https://soundcloud.com/{uid}"
+  },
+  {
+    "label": "Tripadvisor",
+    "value": "tripadvisor",
+    "icon": "tripadvisor",
+    "link": "https://www.tripadvisor.com.ph/Profile/{uid}"
+  },
+  {
+    "label": "Tumblr",
+    "value": "tumblr",
+    "icon": "tumblr",
+    "link": "https://{uid}.tumblr.com/"
+  },
+  {
+    "label": "Twitter",
+    "value": "twitter",
+    "icon": "twitter",
+    "link": "https://twitter.com/{uid}"
+  },
+  {
+    "label": "Upwork",
+    "value": "upwork",
+    "icon": "social",
+    "link": "https://www.upwork.com/o/profiles/users/{uid}"
+  },
+  {
+    "label": "Vimeo",
+    "value": "vimeo",
+    "icon": "vimeo",
+    "link": "https://vimeo.com/{uid}"
+  },
+  {
+    "label": "Whatsapp",
+    "value": "whatsapp",
+    "icon": "whatsapp",
+    "link": "#"
+  },
+  {
+    "label": "Wordpress",
+    "value": "wordpress",
+    "icon": "wordpress",
+    "link": "https://{uid}.wordpress.com"
+  },
+  {
+    "label": "Xing",
+    "value": "xing",
+    "icon": "xing",
+    "link": "https://www.xing.com/profile/{uid}"
+  },
+  {
+    "label": "Yelp",
+    "value": "yelp",
+    "icon": "yelp",
+    "link": "https://www.yelp.com/user_details?userid={uid}"
+  },
+  {
+    "label": "Youtube",
+    "value": "youtube",
+    "icon": "youtube",
+    "link": "https://www.youtube.com/channel/{uid}"
+  }
+]

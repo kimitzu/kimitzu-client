@@ -4,6 +4,7 @@ import Image from '../interfaces/Image'
 import Location from '../interfaces/Location'
 import {
   Background,
+  Contact,
   EXTLocation,
   MetaTags,
   Preferences,
@@ -109,6 +110,18 @@ class Profile implements ProfileSchema {
   public name: string = ''
   public nsfw: boolean = false
   public vendor: boolean = true
+  public contactInfo: Contact = {
+    website: '',
+    email: '',
+    phoneNumber: '',
+    social: [
+      {
+        type: '',
+        username: '',
+        proof: '',
+      },
+    ],
+  }
   public bitcoinPubkey?: string = ''
   public currencies?: string[] = []
   public headerHashes?: Image = {

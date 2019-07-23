@@ -18,7 +18,7 @@ const ProfessionalBackgroundCard = (props: ProfessionalBackgoundInterface) => {
     background = data.employmentHistory
   }
   return (
-    <div id="profile-background-history">
+    <div className="uk-margin-top">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-background" className="uk-card-title">
           {name}

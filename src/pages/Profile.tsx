@@ -62,7 +62,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
   public render() {
     return (
       <ViewProfile
-        data={this.state.profile}
+        profile={this.state.profile}
         listings={this.state.search.results.data}
         isOwner={this.state.isOwner}
       />

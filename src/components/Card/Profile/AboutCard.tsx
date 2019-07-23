@@ -5,7 +5,7 @@ import ProfessionalBackgroundCard from '../ProfessionalBackgroundCard'
 import SocialMediaCard from '../SocialMediaCard'
 
 interface ViewProfileInterface {
-  data: Profile
+  profile: Profile
 }
 
 const AboutCard = (props: ViewProfileInterface) => {
@@ -16,17 +16,17 @@ const AboutCard = (props: ViewProfileInterface) => {
           <h3 id="title-about" className="uk-card-title">
             About
           </h3>
-          <p>{props.data.about}</p>
+          <p>{props.profile.about}</p>
         </div>
       </div>
-      <SocialMediaCard />
-      {props.data.background && props.data.background.educationHistory ? (
-        <ProfessionalBackgroundCard data={props.data.background} name="Education" />
+      <SocialMediaCard socialMedia={props.profile.contactInfo.social} />
+      {props.profile.background && props.profile.background.educationHistory ? (
+        <ProfessionalBackgroundCard data={props.profile.background} name="Education" />
       ) : null}
-      {props.data.background && props.data.background.employmentHistory ? (
-        <ProfessionalBackgroundCard data={props.data.background} name="Work History" />
+      {props.profile.background && props.profile.background.employmentHistory ? (
+        <ProfessionalBackgroundCard data={props.profile.background} name="Work History" />
       ) : null}
-      <OtherInformationCard data={props.data} />
+      <OtherInformationCard data={props.profile} />
     </div>
   )
 }

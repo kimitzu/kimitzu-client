@@ -5,6 +5,8 @@ import { AddressesCardGroup } from '../../components/CardGroup'
 import { AddressForm, RegistrationForm } from '../../components/Form'
 import Location from '../../interfaces/Location'
 
+import { Button } from '../../components/Button'
+import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
 import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
@@ -129,20 +131,30 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
               isSubmitting={isSubmitting}
               avatar={avatar}
             />
-            {!isSubmitting ? (
-              <button
-                className="uk-button uk-button-primary uk-align-center"
-                onClick={handleFormSubmit}
-              >
-                Save
-              </button>
-            ) : null}
+            <Button
+              className="uk-button uk-button-primary uk-align-center"
+              onClick={handleFormSubmit}
+              showSpinner={isSubmitting}
+            >
+              Save
+            </Button>
           </div>
         ),
         label: 'General',
       },
       {
-        component: <div />,
+        component: (
+          <div>
+            <SocialMediaSettings profile={this.state.registrationForm} />
+            <Button
+              className="uk-button uk-button-primary uk-align-center"
+              onClick={handleFormSubmit}
+              showSpinner={isSubmitting}
+            >
+              Save
+            </Button>
+          </div>
+        ),
         label: 'Social Media',
       },
       {

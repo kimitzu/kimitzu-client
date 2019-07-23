@@ -9,7 +9,7 @@ interface OtherInformationCardInterface {
 }
 
 const OtherInformationCard = (props: OtherInformationCardInterface) => (
-  <div id="profile-other-information">
+  <div className="uk-margin-top">
     <div className="uk-card uk-card-default uk-card-body">
       <h3 id="title-other-information" className="uk-card-title">
         Other Information
