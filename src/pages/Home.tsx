@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
-import NavBar from '../components/NavBar/NavBar'
+import { NavBar } from '../components/NavBar'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
@@ -17,11 +17,6 @@ import './Home.css'
 
 interface HomeProps {
   props: any
-}
-
-interface Transform {
-  operation: string
-  spec: Spec
 }
 
 interface Spec {
@@ -52,8 +47,6 @@ class Home extends Component<HomeProps, HomeState> {
     this.handlePaginate = this.handlePaginate.bind(this)
     this.handleFilterReset = this.handleFilterReset.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleSettings = this.handleSettings.bind(this)
-    this.handleSettings = this.handleSettings.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
   }
 
@@ -105,7 +98,6 @@ class Home extends Component<HomeProps, HomeState> {
     return (
       <div>
         <NavBar
-          handleSettings={this.handleSettings}
           onQueryChange={this.handleChange}
           onSearchSubmit={this.handleSearchSubmit}
           isSearchBarShow
@@ -253,10 +245,6 @@ class Home extends Component<HomeProps, HomeState> {
     this.setState({
       search,
     })
-  }
-
-  private handleSettings() {
-    window.location.href = '/settings/profile'
   }
 
   private async handleDropdownSelect(selectedItem) {

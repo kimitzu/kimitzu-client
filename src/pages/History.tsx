@@ -42,6 +42,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
         break
       }
       default:
+        // TODO: Refactor to a Not Found page
         throw new Error('Page not found')
     }
 

@@ -2,12 +2,12 @@
   background-color: var(--primary);
 }
 #logo-img {
-  width: 130px;
-  height: 80px;
+  width: 115px;
+  height: 60px;
 }
 #search-bar {
   background-color: #fff;
-  /* color: var(--primary); */
+  /* color: var(--primar y); */
   font-size: 0.85rem;
 }
 #search-bar-form {
@@ -15,6 +15,7 @@
 }
 #navbar-left-item {
   width: 22%;
+  padding-left: 2%;
 }
 #navbar-right-item {
   margin-right: 2%;
@@ -26,7 +27,11 @@
   text-align: right;
   color: #fff !important;
   margin-right: 5%;
+  min-height: 0;
 }
 #create-listing {
   color: white;
+}
+.uk-navbar-item {
+  min-height: 60px;
 }

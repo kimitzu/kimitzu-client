@@ -1,0 +1,37 @@
+[
+  {
+    "index": 0,
+    "fieldName": "overall",
+    "title": "Overall",
+    "value": 0,
+    "starCount": 5
+  },
+  {
+    "index": 1,
+    "fieldName": "quality",
+    "title": "Quality",
+    "value": 0,
+    "starCount": 5
+  },
+  {
+    "index": 2,
+    "fieldName": "asAdvertised",
+    "title": "As Advertised",
+    "value": 0,
+    "starCount": 5
+  },
+  {
+    "index": 3,
+    "fieldName": "delivery",
+    "title": "Delivery",
+    "value": 0,
+    "starCount": 5
+  },
+  {
+    "index": 4,
+    "fieldName": "service",
+    "title": "Service",
+    "value": 0,
+    "starCount": 5
+  }
+]

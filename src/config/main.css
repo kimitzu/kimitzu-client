@@ -69,6 +69,7 @@ textarea {
   border-radius: 7.5%;
   font-size: 0.75rem;
   padding: 0 20px;
+  min-width: 100px;
 }
 .uk-button:disabled {
   background-color: var(--primary);
@@ -76,6 +77,11 @@ textarea {
 }
 .uk-checkbox:checked {
   background-color: var(--primary);
+}
+.uk-link:hover,
+a:hover {
+  color: var(--primary);
+  text-decoration: none;
 }
 .add-field {
   font-size: 0.65rem;

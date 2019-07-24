@@ -6,6 +6,7 @@ class OrderHistory implements OrderHistoryInterface {
   public static async getSales(): Promise<OrderHistory[]> {
     const sales = await Axios.get(`${config.openBazaarHost}/ob/sales`)
     const parsedSales = sales.data.sales.map(s => {
+      // TODO: Causes error if no sales history
       const orderHistory = new OrderHistory(s)
       orderHistory.source = 'sales'
       return orderHistory

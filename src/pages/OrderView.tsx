@@ -4,8 +4,8 @@ import { RouteComponentProps } from 'react-router'
 import { Button } from '../components/Button'
 import { PaymentQRCard, SideMenuWithContentCard } from '../components/Card'
 import GroupChatComponent from '../components/ChatBox/GroupChat'
-import { ReviewForm } from '../components/Form'
 import { FormLabel } from '../components/Label'
+import { StarRatingGroup } from '../components/Rating'
 import {
   OrderDetailsSegment,
   OrderSummaryItemSegment,
@@ -17,6 +17,9 @@ import PaymentNotification from '../interfaces/PaymentNotification'
 import Rating from '../interfaces/Rating'
 import GroupMessage from '../models/GroupMessage'
 import Order from '../models/Order'
+
+import ClientRatings from '../constants/ClientRatings.json'
+import OrderRatings from '../constants/OrderRatings.json'
 
 interface RouteParams {
   id: string
@@ -65,73 +68,8 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       isAnonymous: false,
       loadIndicator: LOAD_INDICATOR.NO_LOAD,
       groupMessage,
-      orderFulfillRatings: [
-        {
-          index: 0,
-          fieldName: 'compensationFairness',
-          title: 'Client pays for work outside of the initial scope without complaint',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 1,
-          fieldName: 'carefulReader',
-          title: 'Client read the service listing carefully',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 2,
-          fieldName: 'accurateWorkDescription',
-          title: 'Client described the scope and nature of the work accurately',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 3,
-          fieldName: 'responsiveness',
-          title: 'Client responded swiftly to questions',
-          value: 0,
-          starCount: 5,
-        },
-      ],
-      orderCompleteRatings: [
-        {
-          index: 0,
-          title: 'Overall',
-          fieldName: 'overall',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 1,
-          title: 'Quality',
-          fieldName: 'quality',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 2,
-          title: 'As Advertised',
-          fieldName: 'asAdvertised',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 3,
-          title: 'Delivery',
-          fieldName: 'delivery',
-          value: 0,
-          starCount: 5,
-        },
-        {
-          index: 4,
-          title: 'Service',
-          fieldName: 'service',
-          value: 0,
-          starCount: 5,
-        },
-      ],
+      orderFulfillRatings: ClientRatings,
+      orderCompleteRatings: OrderRatings,
     }
     this.handleBackBtn = this.handleBackBtn.bind(this)
     this.handleFulfillOrderBtn = this.handleFulfillOrderBtn.bind(this)
@@ -219,7 +157,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   public render() {
-    const { currentContent } = this.state
+    const { currentContent, isLoading, order } = this.state
 
     let content
     let currentTitle
@@ -244,12 +182,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     return (
       <div className="uk-padding-small full-vh background-body">
         <SideMenuWithContentCard
-          isLoading={this.state.isLoading}
+          isLoading={isLoading}
           mainContentTitle={currentTitle}
           showBackBtn={currentContent !== CONTENT_CONSTANTS.MAIN_CONTENT}
           handleBackBtn={this.handleBackBtn}
           menuContent={{
-            title: this.state.order.role === 'buyer' ? 'Purchase' : 'Sale',
+            title: order.role === 'buyer' ? 'Purchase' : 'Sale',
             navItems: [
               {
                 label: 'Summary',
@@ -275,82 +213,93 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   private renderMainContent() {
+    const { isAnonymous, loadIndicator, order, orderCompleteRatings, review } = this.state
+    const disableReviewTextArea = order.step > 3
     return (
       <div className="uk-width-1-1">
         <Stepper
           options={
-            this.state.order.step === 7
+            order.step === 7
               ? ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
               : ['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']
           }
-          currentIndex={this.state.order.step}
+          currentIndex={order.step}
         />
-        {this.state.order.step === 7 ? (
+        {order.step === 7 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
               title="Refunded"
-              date={new Date(this.state.order.contract.refund!.timestamp)}
+              date={new Date(order.contract.refund!.timestamp)}
             >
               <SimpleBorderedSegment
-                title={this.state.order.vendor ? this.state.order.vendor!.name : ''}
+                title={order.vendor ? order.vendor!.name : ''}
                 imageSrc={
-                  this.state.order.vendor!.avatarHashes.original
-                    ? `${config.djaliHost}/djali/media?id=${
-                        this.state.order.vendor!.avatarHashes.original
-                      }`
+                  order.vendor!.avatarHashes.original
+                    ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
                     : ''
                 }
               >
                 <p className="color-secondary">
                   Order Refunded. Transaction ID:
                   <br />
-                  {this.state.order.contract.refund!.refundTransaction.txid}
+                  {order.contract.refund!.refundTransaction.txid}
                 </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {this.state.order.step === 4 ? (
+        {order.step === 4 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
               title="Completed"
-              date={new Date(this.state.order.contract.buyerOrderCompletion.timestamp)}
+              date={new Date(order.contract.buyerOrderCompletion.timestamp)}
             >
               <SimpleBorderedSegment
-                title={this.state.order.buyer ? this.state.order.buyer!.name : ''}
+                title={order.buyer ? order.buyer!.name : ''}
                 imageSrc={
-                  this.state.order.buyer!.avatarHashes.original
-                    ? `${config.djaliHost}/djali/media?id=${
-                        this.state.order.buyer!.avatarHashes.original
-                      }`
+                  order.buyer!.avatarHashes.original
+                    ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
                     : ''
                 }
               >
                 <p className="color-secondary">
-                  {this.state.order.contract.buyerOrderCompletion.ratings[0].ratingData.review}
+                  {order.contract.buyerOrderCompletion.ratings[0].ratingData.review}
                 </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {this.state.order.step === 3 && this.state.order.role === 'buyer' ? (
+        {order.step === 0 && order.role === 'buyer' ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment title="Order Complete" date={new Date()}>
-              <SimpleBorderedSegment title={`${this.state.order.buyer!.name}'s review`}>
-                <ReviewForm
-                  disableTextArea={this.state.order.step > 3}
-                  review={this.state.review}
-                  ratings={this.state.orderCompleteRatings}
-                  inlineDisplay
-                  handleChange={this.handleInputChange}
-                  ratingType="orderCompleteRatings"
-                  handleStarRatingChange={this.handleStarRatingChange}
-                />
+              <SimpleBorderedSegment title={`${order.buyer!.name}'s review`}>
+                <div className="uk-flex-row uk-width-1-1">
+                  <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex uk-flex-row">
+                    <div className="uk-flex-1 uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
+                      <textarea
+                        className="uk-textarea uk-width-1-1 uk-height-1-1"
+                        rows={5}
+                        style={{
+                          border: disableReviewTextArea ? 'none' : '',
+                          backgroundColor: '#fff',
+                        }}
+                        disabled={disableReviewTextArea}
+                        value={review}
+                        onChange={e => this.handleInputChange('review', e.target.value)}
+                      />
+                    </div>
+                    <StarRatingGroup
+                      handleStarRatingChange={this.handleStarRatingChange}
+                      ratingType="orderCompleteRatings"
+                      ratings={orderCompleteRatings}
+                    />
+                  </form>
+                </div>
               </SimpleBorderedSegment>
               <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
                 <Button
                   className="uk-button uk-button-primary"
-                  showSpinner={this.state.loadIndicator === LOAD_INDICATOR.COMPLETE}
+                  showSpinner={loadIndicator === LOAD_INDICATOR.COMPLETE}
                   onClick={this.handleCompleteSubmit}
                 >
                   COMPLETE ORDER
@@ -359,10 +308,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   <input
                     className="uk-checkbox uk-margin-small-right"
                     type="checkbox"
-                    checked={this.state.isAnonymous}
+                    checked={isAnonymous}
                     onChange={() => {
-                      const isAnonymous = !this.state.isAnonymous
-                      this.handleInputChange('isAnonymous', isAnonymous)
+                      this.handleInputChange('isAnonymous', !isAnonymous)
                     }}
                   />
                   Include my name (Seen Publicly)
@@ -371,53 +319,47 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {this.state.order.step >= 3 && this.state.order.step <= 4 ? (
+        {order.step >= 3 && order.step <= 4 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
               title="Fulfilled"
-              date={new Date(this.state.order.contract.vendorOrderFulfillment[0].timestamp)}
+              date={new Date(order.contract.vendorOrderFulfillment[0].timestamp)}
             >
               <SimpleBorderedSegment
-                title={this.state.order.vendor ? this.state.order.vendor!.name : ''}
+                title={order.vendor ? order.vendor!.name : ''}
                 imageSrc={
-                  this.state.order.vendor!.avatarHashes.medium
-                    ? `${config.djaliHost}/djali/media?id=${
-                        this.state.order.vendor!.avatarHashes.medium
-                      }`
+                  order.vendor!.avatarHashes.medium
+                    ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
                     : ''
                 }
               >
-                <p className="color-secondary">
-                  {this.state.order.contract.vendorOrderFulfillment[0].note}
-                </p>
+                <p className="color-secondary">{order.contract.vendorOrderFulfillment[0].note}</p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {this.state.order.step >= 2 ? (
+        {order.step >= 2 ? (
           <>
             <div className="uk-margin-bottom">
               <OrderSummaryItemSegment
                 title="Accepted"
                 date={
                   new Date(
-                    this.state.order.paymentAddressTransactions[
-                      this.state.order.paymentAddressTransactions.length - 1
+                    order.paymentAddressTransactions[
+                      order.paymentAddressTransactions.length - 1
                     ].timestamp
                   )
                 }
               >
                 <SimpleBorderedSegment
-                  title={this.state.order.vendor ? this.state.order.vendor!.name : ''}
+                  title={order.vendor ? order.vendor!.name : ''}
                   imageSrc={
-                    this.state.order.vendor!.avatarHashes.medium
-                      ? `${config.djaliHost}/djali/media?id=${
-                          this.state.order.vendor!.avatarHashes.medium
-                        }`
+                    order.vendor!.avatarHashes.medium
+                      ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
                       : ''
                   }
                   sideButtons={
-                    this.state.order.role === 'vendor' && this.state.order.step === 2 ? (
+                    order.role === 'vendor' && order.step === 2 ? (
                       <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
                         <a
                           href="#"
@@ -443,20 +385,19 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             <div className="uk-margin-bottom">
               <OrderSummaryItemSegment
                 title="Payment Details"
-                date={new Date(this.state.order.contract.buyerOrder.timestamp)}
+                date={new Date(order.contract.buyerOrder.timestamp)}
               >
                 <SimpleBorderedSegment
-                  title={`${this.state.order.cryptoValue} to ${
-                    this.state.order.vendor
-                      ? this.state.order.vendor!.name ||
-                        this.state.order.contract.vendorListings[0].vendorID.peerID
-                      : this.state.order.contract.vendorOrderConfirmation.paymentAddress
+                  title={`${order.cryptoValue} to ${
+                    order.vendor
+                      ? order.vendor!.name || order.contract.vendorListings[0].vendorID.peerID
+                      : order.contract.vendorOrderConfirmation.paymentAddress
                   }`}
                   icon="check"
                 >
                   <p className="color-secondary">
-                    {this.state.order.paymentAddressTransactions[0].confirmations} confirmations.{' '}
-                    {this.state.order.paymentAddressTransactions[0].txid.substr(0, 10)}...{' '}
+                    {order.paymentAddressTransactions[0].confirmations} confirmations.{' '}
+                    {order.paymentAddressTransactions[0].txid.substr(0, 10)}...{' '}
                     <a className="text-underline uk-margin-small-left">Paid in Full</a>
                   </p>
                 </SimpleBorderedSegment>
@@ -464,17 +405,15 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             </div>
           </>
         ) : null}
-        {this.state.order.step === 0 && this.state.order.role === 'buyer' ? (
+        {order.step === 0 && order.role === 'buyer' ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment title="Send Payment To">
               <PaymentQRCard
-                amount={this.state.order
-                  .calculateCryptoDecimals(
-                    this.state.order.contract.vendorOrderConfirmation.requestedAmount
-                  )
+                amount={order
+                  .calculateCryptoDecimals(order.contract.vendorOrderConfirmation.requestedAmount)
                   .toString()}
-                address={this.state.order.contract.vendorOrderConfirmation.paymentAddress}
-                cryptocurrency={this.state.order.contract.buyerOrder.payment.coin}
+                address={order.contract.vendorOrderConfirmation.paymentAddress}
+                cryptocurrency={order.contract.buyerOrder.payment.coin}
                 handleCopyToClipboard={field => {
                   console.log(field)
                 }}
@@ -482,7 +421,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {this.state.order.step === 0 && this.state.order.role === 'vendor' ? (
+        {order.step === 0 && order.role === 'vendor' ? (
           <div className="uk-margin-bottom">
             <SimpleBorderedSegment title={`Waiting for buyer to send payment...`} icon="info">
               <p className="color-secondary">
@@ -495,15 +434,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           <OrderSummaryItemSegment title="Order Details">
             <SimpleBorderedSegment>
               <OrderDetailsSegment
-                listingName={this.state.order.contract.vendorListings[0].item.title}
-                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${
-                  this.state.order.contract.vendorListings[0].item.images[0].medium
-                }`}
+                listingName={order.contract.vendorListings[0].item.title}
+                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
                 listingType="SERVICE"
-                quantity={`${this.state.order.contract.buyerOrder.items[0].quantity ||
-                  this.state.order.contract.buyerOrder.items[0].quantity64}`}
-                total={`${this.state.order.fiatValue} (${this.state.order.cryptoValue})`}
-                memo={this.state.order.contract.buyerOrder.items[0].memo}
+                quantity={`${order.contract.buyerOrder.items[0].quantity ||
+                  order.contract.buyerOrder.items[0].quantity64}`}
+                total={`${order.fiatValue} (${order.cryptoValue})`}
+                memo={order.contract.buyerOrder.items[0].memo}
               />
             </SimpleBorderedSegment>
           </OrderSummaryItemSegment>
@@ -513,20 +450,42 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   private renderFulfillForm() {
+    const { orderFulfillRatings, review, note } = this.state
     return (
-      <ReviewForm
-        handleChange={this.handleInputChange}
-        handleStarRatingChange={this.handleStarRatingChange}
-        review={this.state.review}
-        ratings={this.state.orderFulfillRatings}
-        ratingType="orderFulfillRatings"
-      >
+      <div className="uk-flex-row uk-width-1-1">
+        <StarRatingGroup
+          handleStarRatingChange={this.handleStarRatingChange}
+          ratingType="orderFulfillRatings"
+          ratings={orderFulfillRatings}
+        />
+        <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex">
+          <fieldset className="uk-fieldset uk-width-1-1">
+            <div className="uk-margin">
+              <FormLabel label="Review" />
+              <textarea
+                className="uk-textarea uk-width-1-1"
+                rows={3}
+                value={review}
+                onChange={e => this.handleInputChange('review', e.target.value)}
+              />
+            </div>
+            <div className="uk-margin">
+              <FormLabel label="Note" />
+              <textarea
+                className="uk-textarea uk-width-1-1"
+                rows={1}
+                value={note}
+                onChange={e => this.handleInputChange('note', e.target.value)}
+              />
+            </div>
+          </fieldset>
+        </form>
         <div className="uk-flex uk-flex-right">
           <Button className="uk-button uk-button-primary" onClick={this.handleFulfillSubmit}>
             Submit
           </Button>
         </div>
-      </ReviewForm>
+      </div>
     )
   }
 
