@@ -25,11 +25,10 @@ const ProfessionalBackgroundCard = (props: ProfessionalBackgoundInterface) => {
   } else {
     background = data.employmentHistory.map((d, i) => {
       return (
+        // TODO: Update when employment history is implemented
         <div key={`bgid${i}`}>
           <div id="background-history">
-            <p>
-              <b> {d.title} </b>
-            </p>
+            <p className="uk-text-bold">{d.title}</p>
             <p>{d.subtitle}</p>
             <p>{d.date}</p>
             <p>{d.address}</p>

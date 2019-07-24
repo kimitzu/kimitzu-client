@@ -35,12 +35,9 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     let isOwner
 
     if (id) {
-      await Profile.addToIndex(id)
       profile = await Profile.retrieve(id)
       isOwner = false
     } else {
-      profile = await Profile.retrieve()
-      await Profile.addToIndex(profile.peerID)
       profile = await Profile.retrieve()
       isOwner = true
     }

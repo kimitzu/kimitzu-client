@@ -71,36 +71,39 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
     >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="Institution Name" />
+          <FormLabel label="Institution Name" required />
           <input
             className="uk-input"
             type="text"
             value={education.institution}
             placeholder="Institution or School Name"
+            required
             onChange={evt => {
               handleChange('institution', evt.target.value)
             }}
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Degree" />
+          <FormLabel label="Degree" required />
           <input
             className="uk-input"
             type="text"
             value={education.degree}
             placeholder="Degree, Specialization, Major"
+            required
             onChange={evt => {
               handleChange('degree', evt.target.value)
             }}
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Description" />
+          <FormLabel label="Description" required />
           <textarea
             className="uk-textarea"
             rows={5}
             value={education.description}
             placeholder="Tell us a bit about your degree and specialization"
+            required
             onChange={evt => {
               handleChange('description', evt.target.value)
             }}
@@ -112,6 +115,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
               className="uk-checkbox"
               type="checkbox"
               checked={isStudyingHere}
+              required
               onChange={evt => {
                 if (evt.target.checked) {
                   delete education.period!.to
@@ -131,12 +135,14 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             label: 'Start Date',
             props: {
               type: 'date',
+              required: true,
               value: education.period!.from.toLocaleDateString('en-CA'),
               onChange: (evt: ChangeEvent<HTMLInputElement>) => {
                 education.period!.from = new Date(evt.target.value)
                 handleChange('period', education.period!)
               },
             },
+            required: true,
           }}
           input2={{
             label: 'End Date',
@@ -153,11 +159,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
         />
         <div className="uk-margin uk-flex uk-flex-row">
           <div className="uk-width-1-2 uk-margin-right">
-            <FormLabel label="City" />
+            <FormLabel label="City" required />
             <input
               className="uk-input"
               value={education.location.city}
               placeholder="City"
+              required
               onChange={evt => {
                 education.location.city = evt.target.value
                 handleChange('location', education.location)
@@ -165,7 +172,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             />
           </div>
           <div className="uk-width-1-2">
-            <FormLabel label="Description" />
+            <FormLabel label="Country" required />
             <FormSelector
               options={Countries}
               defaultVal={education.location.country || ''}

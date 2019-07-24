@@ -46,6 +46,14 @@ class Profile implements ProfileSchema {
         }
       }
     })
+
+    profile!.background!.educationHistory.sort((a, b) => {
+      if (a.period!.from === b.period!.from) {
+        return 0
+      }
+      return a.period!.from < b.period!.from ? 1 : -1
+    })
+
     profile!.background!.employmentHistory = [
       {
         title: 'Developer',
