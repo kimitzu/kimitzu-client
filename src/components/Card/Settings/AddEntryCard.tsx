@@ -7,7 +7,7 @@ interface Props {
   handleAddBtn: () => void
 }
 
-const AddAddressCard = (props: Props) => (
+const AddEntryCard = (props: Props) => (
   <div
     id="address-card"
     className="uk-card uk-card-default uk-card-body"
@@ -15,7 +15,7 @@ const AddAddressCard = (props: Props) => (
   >
     <div id="add-address-body">
       <div id="add-address-text">
-        <label className="color-primary">Add new address</label>
+        <label className="color-primary">Add new entry</label>
       </div>
       <div id="plus-text">
         <label className="color-primary">+</label>
@@ -24,4 +24,4 @@ const AddAddressCard = (props: Props) => (
   </div>
 )
 
-export default AddAddressCard
+export default AddEntryCard

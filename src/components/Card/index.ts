@@ -1,5 +1,3 @@
-import AddAddressCard from './AddAddressCard'
-import AddressCard from './AddressCard'
 import CheckoutPaymentCard from './CheckoutPaymentCard'
 import IntroductionCard from './IntroductionCard'
 import ListingAddUpdateCard from './ListingAddUpdateCard'
@@ -8,13 +6,15 @@ import PaymentQRCard from './PaymentQRCard'
 import PayoutCard from './PayoutCard'
 import ProfessionalBackgroundCard from './ProfessionalBackgroundCard'
 import RegistrationCard from './RegistrationCard'
+import AddEntryCard from './Settings/AddEntryCard'
+import AddressCard from './Settings/AddressCard'
 import SideMenuWithContentCard from './SideMenuWithContentCard'
 import SocialMediaCard from './SocialMediaCard'
 import TagsCard from './TagsCard'
 import TermsOfServiceCard from './TermsOfServiceCard'
 
 export {
-  AddAddressCard,
+  AddEntryCard as AddAddressCard,
   AddressCard,
   CheckoutPaymentCard,
   ListingAddUpdateCard,

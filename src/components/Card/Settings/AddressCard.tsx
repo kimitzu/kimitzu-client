@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Location from '../../interfaces/Location'
+import Location from '../../../interfaces/Location'
 import './AddressCard.css'
 
 interface Props {

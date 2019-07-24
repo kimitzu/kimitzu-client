@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react'
+import React, { Component, FormEvent, ReactNode } from 'react'
 
 import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
@@ -7,6 +7,8 @@ import Location from '../../interfaces/Location'
 
 import { Button } from '../../components/Button'
 import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
+import EducationCardGroup from '../../components/CardGroup/EducationCardGroup'
+import EducationForm from '../../components/Form/EducationForm'
 import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
@@ -56,6 +58,7 @@ interface GeneralProfileState {
   avatar: string
   isSubmitting: boolean
   addressFormUpdateIndex: number
+  educationFormUpdateIndex: number
   currentContentIndex: number
   currentAction: number
 }
@@ -66,6 +69,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const profile = new Profile()
     this.state = {
       addressFormUpdateIndex: -1,
+      educationFormUpdateIndex: -1,
       currentAction: actions.NONE,
       currentContentIndex: 0,
       isSubmitting: false,
@@ -94,6 +98,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.refreshForms = this.refreshForms.bind(this)
     this.handleChangeAction = this.handleChangeAction.bind(this)
     this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
+    this.handleProfileSave = this.handleProfileSave.bind(this)
+    this.handleSelectEducation = this.handleSelectEducation.bind(this)
   }
 
   public async componentDidMount() {
@@ -158,7 +164,17 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         label: 'Social Media',
       },
       {
-        component: <div />,
+        component: (
+          <div className="uk-width-1-1">
+            <EducationCardGroup
+              profile={this.state.registrationForm}
+              handleAddBtn={() => {
+                handleChangeAction(actions.ADD_EDUCATION)
+              }}
+              handleSelectEducation={this.handleSelectEducation}
+            />
+          </div>
+        ),
         label: 'Education',
       },
       {
@@ -183,7 +199,16 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const { handleAddressChange, handleSaveAddress, handleDeleteAddress } = this
     return {
       [actions.ADD_EDUCATION]: {
-        component: <div />,
+        component: (
+          <EducationForm
+            data={addressForm}
+            key="addEducationForm"
+            isEdit={false}
+            updateIndex={this.state.educationFormUpdateIndex}
+            profile={this.state.registrationForm}
+            handleProfileSave={this.handleProfileSave}
+          />
+        ),
         label: 'ADD EDUCATION',
       },
       [actions.UPDATE_EDUCATION]: {
@@ -195,14 +220,23 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         label: 'ADD WORK',
       },
       [actions.UPDATE_EDUCATION]: {
-        component: <div />,
+        component: (
+          <EducationForm
+            data={addressForm}
+            key="updateEducationForm"
+            isEdit
+            updateIndex={this.state.educationFormUpdateIndex}
+            profile={this.state.registrationForm}
+            handleProfileSave={this.handleProfileSave}
+          />
+        ),
         label: 'UPDATE WORK',
       },
       [actions.ADD_ADDRESS]: {
         component: (
           <AddressForm
             data={addressForm}
-            key="addressform"
+            key="addAddressForm"
             onAddressChange={handleAddressChange}
             onSaveAddress={handleSaveAddress}
             isEdit={false}
@@ -214,7 +248,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         component: (
           <AddressForm
             data={addressForm}
-            key="addressform"
+            key="updateAddressForm"
             onAddressChange={handleAddressChange}
             onSaveAddress={handleSaveAddress}
             isEdit
@@ -300,10 +334,16 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     })
   }
 
+  private handleSelectEducation(educationIndex: number) {
+    this.setState({
+      currentAction: actions.UPDATE_EDUCATION,
+      educationFormUpdateIndex: educationIndex,
+    })
+  }
+
   private async handleSaveAddress(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const { registrationForm, addressForm, addressFormUpdateIndex } = this.state
-    const { extLocation } = registrationForm
 
     const {
       type,
@@ -402,6 +442,14 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       registrationForm: profileData,
     })
     this.handleBackBtn()
+  }
+
+  private async handleProfileSave() {
+    await this.state.registrationForm.update()
+    alert('Profile saved!')
+    this.setState({
+      currentAction: actions.NONE,
+    })
   }
 }
 

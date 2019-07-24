@@ -6,6 +6,7 @@ import './TwoInputs.css'
 interface Input {
   label: string
   props: InputHTMLAttributes<object>
+  hidden?: boolean
   required?: boolean
 }
 
@@ -18,11 +19,11 @@ const TwoInputs = (props: Props) => {
   const { input1, input2 } = props
   return (
     <div id="two-inputs">
-      <div id="input1" className="uk-width-1-2@s">
+      <div id="input1" className="uk-width-1-2@s" hidden={input1.hidden}>
         <FormLabel required={input1.required} label={input1.label} />
         <input className="uk-input" {...input1.props} />
       </div>
-      <div id="input2" className="uk-width-1-2@s">
+      <div id="input2" className="uk-width-1-2@s" hidden={input2.hidden}>
         <FormLabel required={input2.required} label={input2.label} />
         <input className="uk-input" {...input2.props} />
       </div>

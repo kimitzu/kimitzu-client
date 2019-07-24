@@ -1,5 +1,5 @@
 import Image from './Image'
-import Location from './Location'
+import Addresses from './Location'
 
 export interface Profile {
   about: string
@@ -32,7 +32,7 @@ export interface EXTLocation {
   shipping: number
   billing: number
   return: number
-  addresses: Location[]
+  addresses: Addresses[]
   [key: string]: any
 }
 
@@ -64,11 +64,21 @@ export interface Background {
 }
 
 export interface EducationHistory {
-  title: string
-  subtitle: string
-  date: string
-  address: string
-  desc: string
+  institution: string
+  degree: string
+  description: string
+  location: Location
+  period?: Timespan
+}
+
+export interface Location {
+  city: string
+  country: string
+}
+
+export interface Timespan {
+  from: Date
+  to: Date
 }
 
 export interface EmploymentHistory {
