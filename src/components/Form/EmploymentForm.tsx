@@ -4,7 +4,7 @@ import { TwoInputs } from '../Input'
 import { FormLabel } from '../Label'
 
 import Countries from '../../constants/Countries.json'
-import { EducationHistory } from '../../interfaces/Profile'
+import { EmploymentHistory } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
 import '../Input/TwoInputs.css'
 import { FormSelector } from '../Selector'
@@ -18,11 +18,11 @@ interface Props {
   handleProfileSave: () => void
 }
 
-const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Props) => {
-  const educationHistory = profile.background!.educationHistory
+const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Props) => {
+  const employmentHistory = profile.background!.employmentHistory
   const defaultObject = {
-    institution: '',
-    degree: '',
+    company: '',
+    position: '',
     description: '',
     location: {
       city: '',
@@ -32,30 +32,31 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
       from: new Date(),
       to: new Date(),
     },
-  } as EducationHistory
+  } as EmploymentHistory
 
-  const [isStudyingHere, setIsStudyingHere] = useState(false)
-  const [education, setEducation] = useState(defaultObject)
+  const [isWorkingHere, setIsWorkingHere] = useState(false)
+  const [employment, setEmployment] = useState(defaultObject)
   const [targetIndex, setTargetIndex] = useState(updateIndex)
 
   useEffect(() => {
-    let target: EducationHistory
+    let target: EmploymentHistory
+    console.log(profile, updateIndex, isEdit)
 
     if (isEdit) {
-      target = educationHistory[targetIndex]
+      target = employmentHistory[targetIndex]
       setTargetIndex(targetIndex)
     } else {
-      educationHistory.push(defaultObject)
-      const currentIndex = educationHistory.length - 1
+      employmentHistory.push(defaultObject)
+      const currentIndex = employmentHistory.length - 1
       setTargetIndex(currentIndex)
-      target = educationHistory[currentIndex]
+      target = employmentHistory[currentIndex]
     }
-    setIsStudyingHere(!target.period!.to)
-    setEducation(target)
+    setIsWorkingHere(!target.period!.to)
+    setEmployment(target)
   }, [])
 
   const handleChange = (field, value) => {
-    setEducation({ ...education, [field]: value } as EducationHistory)
+    setEmployment({ ...employment, [field]: value } as EmploymentHistory)
   }
 
   return (
@@ -63,34 +64,34 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
       className="uk-form-stacked uk-width-1-1"
       onSubmit={evt => {
         evt.preventDefault()
-        profile.background!.educationHistory[targetIndex] = education
+        profile.background!.employmentHistory[targetIndex] = employment
         handleProfileSave()
       }}
     >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="Institution Name" required />
+          <FormLabel label="Company Name" required />
           <input
             className="uk-input"
             type="text"
-            value={education.institution}
-            placeholder="Institution or School Name"
+            value={employment.company}
+            placeholder="Company Name"
             required
             onChange={evt => {
-              handleChange('institution', evt.target.value)
+              handleChange('company', evt.target.value)
             }}
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Degree" required />
+          <FormLabel label="Position" required />
           <input
             className="uk-input"
             type="text"
-            value={education.degree}
-            placeholder="Degree, Specialization, Major"
+            value={employment.position}
+            placeholder="Position/Rank in the company"
             required
             onChange={evt => {
-              handleChange('degree', evt.target.value)
+              handleChange('position', evt.target.value)
             }}
           />
         </div>
@@ -99,8 +100,8 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
           <textarea
             className="uk-textarea"
             rows={5}
-            value={education.description}
-            placeholder="Tell us a bit about your degree and specialization"
+            value={employment.description}
+            placeholder="Tell us a bit about your work"
             required
             onChange={evt => {
               handleChange('description', evt.target.value)
@@ -112,19 +113,19 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             <input
               className="uk-checkbox"
               type="checkbox"
-              checked={isStudyingHere}
+              checked={isWorkingHere}
               onChange={evt => {
                 if (evt.target.checked) {
-                  delete education.period!.to
-                  handleChange('period', education.period!)
+                  delete employment.period!.to
+                  handleChange('period', employment.period!)
                 } else {
-                  education.period!.to = new Date()
-                  handleChange('period', education.period!)
+                  employment.period!.to = new Date()
+                  handleChange('period', employment.period!)
                 }
-                setIsStudyingHere(evt.target.checked)
+                setIsWorkingHere(evt.target.checked)
               }}
             />{' '}
-            Currently studying here?
+            Currently working here?
           </label>
         </div>
         <TwoInputs
@@ -133,10 +134,10 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             props: {
               type: 'date',
               required: true,
-              value: education.period!.from.toLocaleDateString('en-CA'),
+              value: employment.period!.from.toLocaleDateString('en-CA'),
               onChange: (evt: ChangeEvent<HTMLInputElement>) => {
-                education.period!.from = new Date(evt.target.value)
-                handleChange('period', education.period!)
+                employment.period!.from = new Date(evt.target.value)
+                handleChange('period', employment.period!)
               },
             },
             required: true,
@@ -145,13 +146,13 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             label: 'End Date',
             props: {
               type: 'date',
-              value: !isStudyingHere ? education.period!.to.toLocaleDateString('en-CA') : '',
+              value: !isWorkingHere ? employment.period!.to.toLocaleDateString('en-CA') : '',
               onChange: (evt: ChangeEvent<HTMLInputElement>) => {
-                education.period!.to = new Date(evt.target.value)
-                handleChange('period', education.period!)
+                employment.period!.to = new Date(evt.target.value)
+                handleChange('period', employment.period!)
               },
             },
-            hidden: isStudyingHere,
+            hidden: isWorkingHere,
           }}
         />
         <div className="uk-margin uk-flex uk-flex-row">
@@ -159,12 +160,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             <FormLabel label="City" required />
             <input
               className="uk-input"
-              value={education.location.city}
+              value={employment.location.city}
               placeholder="City"
               required
               onChange={evt => {
-                education.location.city = evt.target.value
-                handleChange('location', education.location)
+                employment.location.city = evt.target.value
+                handleChange('location', employment.location)
               }}
             />
           </div>
@@ -172,10 +173,10 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             <FormLabel label="Country" required />
             <FormSelector
               options={Countries}
-              defaultVal={education.location.country || ''}
+              defaultVal={employment.location.country || ''}
               onChange={evt => {
-                education.location.country = evt.target.value
-                handleChange('country', education.location)
+                employment.location.country = evt.target.value
+                handleChange('country', employment.location)
               }}
               required
             />
@@ -189,7 +190,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             type="button"
             onClick={evt => {
               evt.preventDefault()
-              educationHistory.splice(updateIndex!, 1)
+              employmentHistory.splice(updateIndex!, 1)
               handleProfileSave()
             }}
           >
@@ -204,4 +205,4 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
   )
 }
 
-export default EducationForm
+export default EmploymentForm

@@ -7,8 +7,10 @@ import Location from '../../interfaces/Location'
 
 import { Button } from '../../components/Button'
 import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
-import EducationCardGroup from '../../components/CardGroup/EducationCardGroup'
+import EducationCardGroup from '../../components/CardGroup/Settings/EducationCardGroup'
+import EmploymentCardGroup from '../../components/CardGroup/Settings/EmploymentCardGroup'
 import EducationForm from '../../components/Form/EducationForm'
+import EmploymentForm from '../../components/Form/EmploymentForm'
 import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
@@ -59,6 +61,7 @@ interface GeneralProfileState {
   isSubmitting: boolean
   addressFormUpdateIndex: number
   educationFormUpdateIndex: number
+  employmentFormUpdateIndex: number
   currentContentIndex: number
   currentAction: number
 }
@@ -70,6 +73,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.state = {
       addressFormUpdateIndex: -1,
       educationFormUpdateIndex: -1,
+      employmentFormUpdateIndex: -1,
       currentAction: actions.NONE,
       currentContentIndex: 0,
       isSubmitting: false,
@@ -100,6 +104,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
     this.handleProfileSave = this.handleProfileSave.bind(this)
     this.handleSelectEducation = this.handleSelectEducation.bind(this)
+    this.handleSelectEmployment = this.handleSelectEmployment.bind(this)
   }
 
   public async componentDidMount() {
@@ -178,7 +183,17 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         label: 'Education',
       },
       {
-        component: <div />,
+        component: (
+          <div className="uk-width-1-1">
+            <EmploymentCardGroup
+              profile={this.state.registrationForm}
+              handleAddBtn={() => {
+                handleChangeAction(actions.ADD_WORK)
+              }}
+              handleSelectEmployment={this.handleSelectEmployment}
+            />
+          </div>
+        ),
         label: 'Work History',
       },
       {
@@ -201,7 +216,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       [actions.ADD_EDUCATION]: {
         component: (
           <EducationForm
-            data={addressForm}
             key="addEducationForm"
             isEdit={false}
             updateIndex={this.state.educationFormUpdateIndex}
@@ -212,20 +226,35 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         label: 'ADD EDUCATION',
       },
       [actions.UPDATE_EDUCATION]: {
-        component: <div />,
-        label: 'UPDATE EDUCATION',
-      },
-      [actions.ADD_WORK]: {
-        component: <div />,
-        label: 'ADD WORK',
-      },
-      [actions.UPDATE_EDUCATION]: {
         component: (
           <EducationForm
-            data={addressForm}
             key="updateEducationForm"
             isEdit
             updateIndex={this.state.educationFormUpdateIndex}
+            profile={this.state.registrationForm}
+            handleProfileSave={this.handleProfileSave}
+          />
+        ),
+        label: 'UPDATE EDUCATION',
+      },
+      [actions.ADD_WORK]: {
+        component: (
+          <EmploymentForm
+            key="addWorkForm"
+            isEdit={false}
+            updateIndex={this.state.employmentFormUpdateIndex}
+            profile={this.state.registrationForm}
+            handleProfileSave={this.handleProfileSave}
+          />
+        ),
+        label: 'ADD WORK',
+      },
+      [actions.UPDATE_WORK]: {
+        component: (
+          <EmploymentForm
+            key="updateWorkForm"
+            isEdit
+            updateIndex={this.state.employmentFormUpdateIndex}
             profile={this.state.registrationForm}
             handleProfileSave={this.handleProfileSave}
           />
@@ -338,6 +367,13 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.setState({
       currentAction: actions.UPDATE_EDUCATION,
       educationFormUpdateIndex: educationIndex,
+    })
+  }
+
+  private handleSelectEmployment(educationIndex: number) {
+    this.setState({
+      currentAction: actions.UPDATE_WORK,
+      employmentFormUpdateIndex: educationIndex,
     })
   }
 

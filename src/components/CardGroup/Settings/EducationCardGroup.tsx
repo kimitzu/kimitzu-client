@@ -1,9 +1,9 @@
 import React from 'react'
-import Profile from '../../models/Profile'
-import AddEntryCard from '../Card/Settings/AddEntryCard'
-import EducationCard from '../Card/Settings/EducationCard'
+import Profile from '../../../models/Profile'
+import AddEntryCard from '../../Card/Settings/AddEntryCard'
+import EducationCard from '../../Card/Settings/EducationCard'
 
-import './EducationCardGroup.css'
+import './Settings.css'
 
 interface EducationCardGroupProps {
   handleAddBtn: () => void

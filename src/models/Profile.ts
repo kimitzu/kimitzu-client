@@ -54,22 +54,23 @@ class Profile implements ProfileSchema {
       return a.period!.from < b.period!.from ? 1 : -1
     })
 
-    profile!.background!.employmentHistory = [
-      {
-        title: 'Developer',
-        subtitle: 'Kingsland University',
-        date: '2013-2018',
-        address: 'Jaro Iloilo City Philippines',
-        desc: 'A short description about the work',
-      },
-      {
-        title: 'Developer',
-        subtitle: 'Kingsland University',
-        date: '2013-2018',
-        address: 'Jaro Iloilo City Philippines',
-        desc: 'A short description about the work',
-      },
-    ]
+    profile!.background!.employmentHistory.forEach(e => {
+      e.period!.from = new Date(e.period!.from)
+      if (e.period!.to) {
+        e.period!.to = new Date(e.period!.to!)
+        if (isNaN(e.period!.to.getTime())) {
+          delete e.period!.to
+        }
+      }
+    })
+
+    profile!.background!.employmentHistory.sort((a, b) => {
+      if (a.period!.from === b.period!.from) {
+        return 0
+      }
+      return a.period!.from < b.period!.from ? 1 : -1
+    })
+
     profile.spokenLanguages = ['English', 'Tagalog']
     profile.programmingLanguages = ['Javascript', 'Golang', 'C++']
 
@@ -154,37 +155,8 @@ class Profile implements ProfileSchema {
     averageRating: 0,
   }
   public background?: Background = {
-    educationHistory: [
-      {
-        institution: '',
-        degree: '',
-        description: '',
-        location: {
-          city: '',
-          country: '',
-        },
-        period: {
-          from: new Date(),
-          to: new Date(),
-        },
-      },
-    ],
-    employmentHistory: [
-      {
-        title: 'Developer',
-        subtitle: 'Kingsland University',
-        date: new Date().toISOString(),
-        address: 'Jaro Iloilo City Philippines',
-        desc: 'A short description about the work',
-      },
-      {
-        title: 'Developer',
-        subtitle: 'Kingsland University',
-        date: new Date().toISOString(),
-        address: 'Jaro Iloilo City Philippines',
-        desc: 'A short description about the work',
-      },
-    ],
+    educationHistory: [],
+    employmentHistory: [],
   }
   public spokenLanguages?: string[] = ['English', 'Tagalog']
   public programmingLanguages?: string[] = ['Javascript', 'Golang', 'C++']

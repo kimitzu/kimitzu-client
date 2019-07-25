@@ -82,11 +82,11 @@ export interface Timespan {
 }
 
 export interface EmploymentHistory {
-  title: string
-  subtitle: string
-  date: string
-  address: string
-  desc: string
+  company: string
+  description: string
+  location: Location
+  position: string
+  period: Timespan
 }
 
 export interface SocialAccount {

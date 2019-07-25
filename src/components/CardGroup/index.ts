@@ -1,3 +1,3 @@
-import AddressesCardGroup from './AddressesCardGroup'
+import AddressesCardGroup from './Settings/AddressesCardGroup'
 
 export { AddressesCardGroup }

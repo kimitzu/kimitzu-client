@@ -2,8 +2,9 @@ import React from 'react'
 
 import './ProfessionalBackgroundCard.css'
 
-import { Background, EducationHistory } from '../../interfaces/Profile'
+import { Background } from '../../interfaces/Profile'
 import EducationCard from './Settings/EducationCard'
+import EmploymentCard from './Settings/EmploymentCard'
 
 interface ProfessionalBackgoundInterface {
   data: Background
@@ -23,18 +24,11 @@ const ProfessionalBackgroundCard = (props: ProfessionalBackgoundInterface) => {
       )
     })
   } else {
-    background = data.employmentHistory.map((d, i) => {
+    background = data.employmentHistory.map((history, index) => {
       return (
         // TODO: Update when employment history is implemented
-        <div key={`bgid${i}`}>
-          <div id="background-history">
-            <p className="uk-text-bold">{d.title}</p>
-            <p>{d.subtitle}</p>
-            <p>{d.date}</p>
-            <p>{d.address}</p>
-            <p>{d.desc}</p>
-          </div>
-          <hr />
+        <div key={index} className="uk-margin-top">
+          <EmploymentCard history={history} />
         </div>
       )
     })
