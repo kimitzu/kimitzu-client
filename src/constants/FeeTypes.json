@@ -1,0 +1,14 @@
+[
+    {
+      "label": "Fixed plus percentage",
+      "value": "FIXED_PLUS_PERCENTAGE"
+    },
+    {
+      "label": "Percentage",
+      "value": "PERCENTAGE"
+    },
+    {
+      "label": "Fixed",
+      "value": "FIXED"
+    }
+]

@@ -11,21 +11,33 @@ interface EducationCardProps {
 
 const EducationCard = ({ history }: EducationCardProps) => {
   const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+  let to
+  let from
+
+  if (history.period) {
+    from = history.period.from.toLocaleDateString('default', dateOptions)
+    if (history.period.to) {
+      to = history.period.to.toLocaleDateString('default', dateOptions)
+    } else {
+      to = 'PRESENT'
+    }
+  }
 
   return (
     <div>
       <h4>{history.institution}</h4>
       <p className="body-text-default uk-text-bold">{history.degree}</p>
-      <p className="body-text-default">
-        {history.period!.from.toLocaleDateString('default', dateOptions)} to{' '}
-        {'to' in history.period!
-          ? history.period!.to!.toLocaleDateString('default', dateOptions)
-          : 'PRESENT'}
-      </p>
-      <p className="body-text-default">
-        {history.location.city}, {history.location.country}
-      </p>
-      <p className="body-text-default">{history.description}</p>
+      {history.period ? (
+        <p className="body-text-default">
+          {from} to {to}
+        </p>
+      ) : null}
+      {history.location ? (
+        <p className="body-text-default">
+          {history.location.city}, {history.location.country}
+        </p>
+      ) : null}
+      <p className="body-text-default">{history.description || ''}</p>
     </div>
   )
 }

@@ -50,7 +50,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
       setTargetIndex(currentIndex)
       target = educationHistory[currentIndex]
     }
-    setIsStudyingHere(!target.period!.to)
+    if (!target.period || !target.location) {
+      target = defaultObject
+    }
+    if (target.period) {
+      setIsStudyingHere(!target.period!.to)
+    }
     setEducation(target)
   }, [])
 

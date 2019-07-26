@@ -2,9 +2,12 @@ import Axios from 'axios'
 import config from '../config'
 import Image from '../interfaces/Image'
 import Location from '../interfaces/Location'
+import { Moderator } from '../interfaces/Moderator'
 import {
   Background,
   Contact,
+  EducationHistory,
+  EmploymentHistory,
   EXTLocation,
   MetaTags,
   Preferences,
@@ -15,11 +18,36 @@ import {
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
+  public static periodParser(e: EducationHistory | EmploymentHistory) {
+    if (e.period) {
+      e.period.from = new Date(e.period.from)
+      if (e.period.to) {
+        e.period.to = new Date(e.period.to!)
+        if (isNaN(e.period.to.getTime())) {
+          delete e.period.to
+        }
+      }
+    }
+  }
+
+  public static periodSorter(
+    a: EducationHistory | EmploymentHistory,
+    b: EducationHistory | EmploymentHistory
+  ) {
+    if (a.period && b.period) {
+      if (a.period.from === b.period.from) {
+        return 0
+      }
+      return a.period.from < b.period.from ? 1 : -1
+    }
+    return 0
+  }
+
   public static async addToIndex(id: string): Promise<void> {
     await Axios.get(`${config.djaliHost}/djali/peer/add?id=${id}`)
   }
 
-  public static async broadcast(): Promise<void> {
+  public static async publish(): Promise<void> {
     await Axios.post(`${config.openBazaarHost}/ob/publish`, {})
   }
 
@@ -30,46 +58,19 @@ class Profile implements ProfileSchema {
       const peerRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}`)
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
-      return profile
     } else {
       const profileRequest = await Axios.get(`${config.openBazaarHost}/ob/profile`)
       profile = new Profile(profileRequest.data)
       profile.extLocation = profile.processAddresses(profile.extLocation)
     }
 
-    profile!.background!.educationHistory.forEach(e => {
-      e.period!.from = new Date(e.period!.from)
-      if (e.period!.to) {
-        e.period!.to = new Date(e.period!.to!)
-        if (isNaN(e.period!.to.getTime())) {
-          delete e.period!.to
-        }
-      }
-    })
+    profile!.background!.educationHistory.forEach(Profile.periodParser)
 
-    profile!.background!.educationHistory.sort((a, b) => {
-      if (a.period!.from === b.period!.from) {
-        return 0
-      }
-      return a.period!.from < b.period!.from ? 1 : -1
-    })
+    profile!.background!.educationHistory.sort(Profile.periodSorter)
 
-    profile!.background!.employmentHistory.forEach(e => {
-      e.period!.from = new Date(e.period!.from)
-      if (e.period!.to) {
-        e.period!.to = new Date(e.period!.to!)
-        if (isNaN(e.period!.to.getTime())) {
-          delete e.period!.to
-        }
-      }
-    })
+    profile!.background!.employmentHistory.forEach(Profile.periodParser)
 
-    profile!.background!.employmentHistory.sort((a, b) => {
-      if (a.period!.from === b.period!.from) {
-        return 0
-      }
-      return a.period!.from < b.period!.from ? 1 : -1
-    })
+    profile!.background!.employmentHistory.sort(Profile.periodSorter)
 
     profile.spokenLanguages = ['English', 'Tagalog']
     profile.programmingLanguages = ['Javascript', 'Golang', 'C++']
@@ -107,6 +108,20 @@ class Profile implements ProfileSchema {
   }
   public handle: string = ''
   public moderator: boolean = false
+  public moderatorInfo: Moderator = {
+    description: '',
+    termsAndConditions: '',
+    languages: [],
+    acceptedCurrencies: [],
+    fee: {
+      fixedFee: {
+        currencyCode: '',
+        amount: 0,
+      },
+      percentage: 0,
+      feeType: 'FIXED',
+    },
+  }
   public name: string = ''
   public nsfw: boolean = false
   public vendor: boolean = true
@@ -114,13 +129,7 @@ class Profile implements ProfileSchema {
     website: '',
     email: '',
     phoneNumber: '',
-    social: [
-      {
-        type: '',
-        username: '',
-        proof: '',
-      },
-    ],
+    social: [],
   }
   public bitcoinPubkey?: string = ''
   public currencies?: string[] = []
@@ -169,12 +178,24 @@ class Profile implements ProfileSchema {
 
   public async save() {
     await Axios.post(`${config.openBazaarHost}/ob/profile`, this)
+    await Profile.publish()
   }
 
   public async update() {
     await Axios.put(`${config.openBazaarHost}/ob/profile`, this)
+    await Profile.publish()
     this.extLocation = this.processAddresses(this.extLocation)
     return this
+  }
+
+  public async setModerator(moderatorProfile: Moderator) {
+    await Axios.put(`${config.openBazaarHost}/ob/moderator`, moderatorProfile)
+    await Profile.publish()
+  }
+
+  public async unsetModerator() {
+    await Axios.delete(`${config.openBazaarHost}/ob/moderator/${this.peerID}`)
+    await Profile.publish()
   }
 
   public async crawlOwnListings() {

@@ -26,7 +26,6 @@ const ProfessionalBackgroundCard = (props: ProfessionalBackgoundInterface) => {
   } else {
     background = data.employmentHistory.map((history, index) => {
       return (
-        // TODO: Update when employment history is implemented
         <div key={index} className="uk-margin-top">
           <EmploymentCard history={history} />
         </div>

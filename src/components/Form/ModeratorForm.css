@@ -1,0 +1,237 @@
+#avatar-item {
+  border: 1px solid var(--border-color);
+  padding: 1.5%;
+  display: flex;
+  flex-direction: row;
+}
+.uk-icon-button {
+  background: var(--border-color);
+}
+#form-select {
+  border: 1px solid var(--border-color);
+}
+.uk-form-stacked .uk-form-label {
+  font-size: 0.65rem;
+}
+#form-title {
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+#child-icon {
+  flex: 1;
+  margin: auto;
+  display: inline-block;
+  text-align: left;
+}
+#child-icon > img {
+  width: 300px;
+  height: 300px;
+}
+#child-slider {
+  padding-left: 7%;
+  padding-right: 7%;
+  flex: 9;  
+  justify-content: center;
+  display: flex;
+}
+#child-btn {
+  flex: 1;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+#avatar-slider {
+  flex: 1;
+}
+#child-button {
+  float: left;
+  width: auto;
+  padding-right: 20%;
+}
+
+#btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+#btn-upload {
+  border: 2px solid var(--primary);
+  color: white;
+  background-color: var(--primary);
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+
+}
+
+#btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.my-handle {
+  background-color: dodgerblue;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-box-shadow: 0 1px 4px 0 #C2C2C2;
+  box-shadow: 0 1px 4px 0 #C2C2C2;
+}
+
+.bar-style {
+  background-color: rgb(201, 200, 200);
+  height: 7px;
+  border-radius: 7px;
+  margin-top: 7px;
+}
+
+.slider-cont {
+  position: relative;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-container {
+  width: 90%;
+  background-color: red;
+}
+
+.slider-stat {
+  margin-top: -20px;
+  color: dodgerblue;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 7px;
+}
+
+.perc-middle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.perc-left {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: bold;
+  padding-left: 15px;
+}
+
+.perc-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: bold;
+  padding-right: 15px;
+}
+
+.slider-container-main {
+  width: 100%;
+  border: 1px solid rgb(149, 202, 255);
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lang-tags-container {
+  border: 1px solid rgb(158, 205, 252);
+  border-radius: 2px;
+  padding: 5px;
+}
+
+.fixed-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.fixed-content {
+  flex: 1;
+}
+
+.fixed-divider {
+  width: 20px;
+}
+
+/* Example Styles for React Tags*/
+div.ReactTags__tags {
+  position: relative;
+}
+
+/* Styles for the input */
+div.ReactTags__tagInput {
+  width: 200px;
+  border-radius: 2px;
+  display: inline-block;
+  outline: none;
+}
+div.ReactTags__tagInput input.ReactTags__tagInputField,
+div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
+  height: 31px;
+  margin: 0;
+  font-size: 12px;
+  width: 100%;
+  border: 0px solid #eee;
+  outline: none;
+}
+
+/* Styles for selected tags */
+div.ReactTags__selected span.ReactTags__tag {
+  border: 1px solid rgb(164, 209, 255);
+  background: rgb(223, 239, 255);
+  font-size: 12px;
+  display: inline-block;
+  padding: 5px;
+  margin: 0 5px;
+  border-radius: 2px;
+  color: dodgerblue;
+}
+div.ReactTags__selected a.ReactTags__remove {
+  color: #aaa;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* Styles for suggestions */
+div.ReactTags__suggestions {
+  position: absolute;
+}
+div.ReactTags__suggestions ul {
+  list-style-type: none;
+  box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+  background: white;
+  width: 200px;
+}
+div.ReactTags__suggestions li {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0;
+}
+div.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
+  background: #b7cfe0;
+  cursor: pointer;
+}

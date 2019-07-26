@@ -4,6 +4,7 @@ import ListingCryptoCurrenciesForm from './ListingCryptoCurrenciesForm'
 import ListingGeneralForm from './ListingGeneralForm'
 import ListingPhotosForm from './ListingPhotosForm'
 import ListingTermsAndConditionsForm from './ListingTermsAndConditionsForm'
+import ModeratorForm from './ModeratorForm'
 import RegistrationForm from './RegistrationForm'
 import ReviewForm from './ReviewForm'
 import ShippingOptionForm from './ShippingOptionForm'
@@ -22,4 +23,5 @@ export {
   ShippingOptionForm,
   TagsForm,
   TermsOfService,
+  ModeratorForm,
 }

@@ -1,5 +1,6 @@
 import Image from './Image'
 import Addresses from './Location'
+import { Moderator } from './Moderator'
 
 export interface Profile {
   about: string
@@ -7,6 +8,7 @@ export interface Profile {
   extLocation: EXTLocation
   handle: string
   moderator: boolean
+  moderatorInfo: Moderator
   name: string
   nsfw: boolean
   vendor: boolean

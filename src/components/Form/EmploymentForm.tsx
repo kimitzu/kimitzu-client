@@ -40,7 +40,6 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
 
   useEffect(() => {
     let target: EmploymentHistory
-    console.log(profile, updateIndex, isEdit)
 
     if (isEdit) {
       target = employmentHistory[targetIndex]
@@ -51,7 +50,12 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
       setTargetIndex(currentIndex)
       target = employmentHistory[currentIndex]
     }
-    setIsWorkingHere(!target.period!.to)
+    if (!target.period || !target.location) {
+      target = defaultObject
+    }
+    if (target.period) {
+      setIsWorkingHere(!target.period!.to)
+    }
     setEmployment(target)
   }, [])
 

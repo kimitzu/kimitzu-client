@@ -1,8 +1,8 @@
-import React, { Component, FormEvent, ReactNode } from 'react'
+import React, { Component, ReactNode } from 'react'
 
 import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
-import { AddressForm, RegistrationForm } from '../../components/Form'
+import { AddressForm, ModeratorForm, RegistrationForm } from '../../components/Form'
 import Location from '../../interfaces/Location'
 
 import { Button } from '../../components/Button'
@@ -92,6 +92,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       avatar: '',
       registrationForm: profile,
     }
+    // change to id and text in langguages.json
+
     this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -205,6 +207,10 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           />
         ),
         label: 'Addresses',
+      },
+      {
+        component: <ModeratorForm profile={this.state.registrationForm} />,
+        label: 'Moderator',
       },
     ]
   }
