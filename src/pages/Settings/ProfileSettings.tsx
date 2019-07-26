@@ -130,7 +130,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     return [
       {
         component: (
-          <div>
+          <div className="uk-width-1-1">
             <RegistrationForm
               availableCountries={Countries}
               cryptoCurrencies={cryptoCurrencies}

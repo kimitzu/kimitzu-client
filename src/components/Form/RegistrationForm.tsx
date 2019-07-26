@@ -23,7 +23,7 @@ interface Props {
 }
 
 const RegistrationForm = (props: Props) => (
-  <form className="uk-form-stacked" onSubmit={props.onSubmit}>
+  <form className="uk-form-stacked uk-width-1-1" onSubmit={props.onSubmit}>
     <fieldset className="uk-fieldset">
       <div className="uk-margin">
         <FormLabel label="USERNAME" required />

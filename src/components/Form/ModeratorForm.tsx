@@ -4,7 +4,6 @@ import { WithContext as ReactTags } from 'react-tag-input'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import FeeTypes from '../../constants/FeeTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
@@ -14,13 +13,6 @@ import Profile from '../../models/Profile'
 import './ModeratorForm.css'
 
 const parsedLanguages = Languages.map(m => {
-  return {
-    id: m.value,
-    text: m.label,
-  }
-})
-
-const parsedCurrencies = CryptoCurrencies().map(m => {
   return {
     id: m.value,
     text: m.label,
@@ -54,12 +46,10 @@ const moderatorBaseObject = {
       currencyCode: '',
     },
   },
-  acceptedCurrencies: [],
 } as Moderator
 
 const ModeratorForm = (props: Props) => {
   const [languageTags, setLanguageTags] = useState([] as Tag[])
-  const [currencyTags, setCurrencyTags] = useState([] as Tag[])
   const [moderator, setModerator] = useState(moderatorBaseObject)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [enableModerator, setEnableModerator] = useState(false)
@@ -71,11 +61,6 @@ const ModeratorForm = (props: Props) => {
         setLanguageTags(newTags)
         break
       }
-      case 'currencies': {
-        const newTags = currencyTags.filter((tag: Tag, index) => index !== i)
-        setCurrencyTags(newTags)
-        break
-      }
     }
   }
 
@@ -83,10 +68,6 @@ const ModeratorForm = (props: Props) => {
     switch (model) {
       case 'languages': {
         setLanguageTags(newTags => [...newTags, tag])
-        break
-      }
-      case 'currencies': {
-        setCurrencyTags(newTags => [...newTags, tag])
         break
       }
     }
@@ -126,14 +107,10 @@ const ModeratorForm = (props: Props) => {
 
   useEffect(() => {
     const profile = props.profile
-    const moderatorCurrenciesParsed = profile.moderatorInfo.acceptedCurrencies.map(m => {
-      return parsedCurrencies.find(c => m === c.id)
-    }) as Tag[]
     const moderatorLanguagesParsed = profile.moderatorInfo.languages.map(l => {
       return parsedLanguages.find(c => l === c.id)
     }) as Tag[]
     setEnableModerator(profile.moderator)
-    setCurrencyTags(moderatorCurrenciesParsed)
     setLanguageTags(moderatorLanguagesParsed)
     setModerator(profile.moderatorInfo)
   }, [])
@@ -155,9 +132,6 @@ const ModeratorForm = (props: Props) => {
 
         moderator.languages = languageTags.map(l => {
           return l.id
-        })
-        moderator.acceptedCurrencies = currencyTags.map(c => {
-          return c.id
         })
 
         setIsSubmitting(true)
@@ -226,22 +200,6 @@ const ModeratorForm = (props: Props) => {
                 suggestions={parsedLanguages}
                 handleDelete={i => handleDelete(i, 'languages')}
                 handleAddition={tag => handleAddition(tag, 'languages')}
-                delimiters={delimiters}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="uk-margin">
-          <FormLabel label="ACCEPTED CURRENCIES" required />
-          <div className="uk-form-controls">
-            <div className="lang-tags-container">
-              <ReactTags
-                allowDragDrop={false}
-                readOnly={!enableModerator}
-                tags={currencyTags}
-                suggestions={parsedCurrencies}
-                handleDelete={i => handleDelete(i, 'currencies')}
-                handleAddition={tag => handleAddition(tag, 'currencies')}
                 delimiters={delimiters}
               />
             </div>

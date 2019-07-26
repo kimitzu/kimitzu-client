@@ -3,7 +3,7 @@ export interface Moderator {
   termsAndConditions: string
   languages: string[]
   fee: Fee
-  acceptedCurrencies: string[]
+  acceptedCurrencies?: string[]
 }
 
 export interface Fee {
