@@ -44,9 +44,9 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${cc.peerId}`)
         if (prof && prof.data.profile) {
           if (prof.data.profile.avatarHashes) {
-            c[
-              i
-            ].image = `${config.openBazaarHost}/ob/images/${prof.data.profile.avatarHashes.small}`
+            c[i].image = `${config.openBazaarHost}/ob/images/${
+              prof.data.profile.avatarHashes.small
+            }`
           } else {
             c[i].image = '/images/user.png'
           }

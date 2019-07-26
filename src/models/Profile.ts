@@ -235,14 +235,29 @@ class Profile implements ProfileSchema {
     })
   }
 
-  public addAddress(address: Location, index: number) {
-    if (index === -1) {
-      this.extLocation.addresses.push(address) // Create new entry
+  public updateAddresses(address: Location, index?: number) {
+    const isEntryNew = index == null || index < 0
+
+    if (isEntryNew) {
+      this.extLocation.addresses.push(address)
     }
 
+    /**
+     * Update indexes in extLocation which tells what type of address is this, either:
+     *    primary: index,
+     *    shipping: index,
+     *    billing: index,
+     *    return: index,
+     */
     address.type!.forEach((t: string) => {
-      this.extLocation[t] = index > -1 ? index : this.extLocation.addresses.length - 1
+      this.extLocation[t] = isEntryNew ? this.extLocation.addresses.length - 1 : index
     })
+
+    if (!isEntryNew) {
+      this.extLocation.addresses[index!] = address
+    }
+
+    this.processAddresses(this.extLocation)
   }
 }
 

@@ -55,8 +55,7 @@ interface ProfileSettings {
 
 interface GeneralProfileState {
   [x: string]: any // TODO: remove this if possible
-  addressForm: Location
-  registrationForm: Profile
+  profile: Profile
   avatar: string
   isSubmitting: boolean
   addressFormUpdateIndex: number
@@ -77,33 +76,16 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       currentAction: actions.NONE,
       currentContentIndex: 0,
       isSubmitting: false,
-      addressForm: {
-        type: [''],
-        addressOne: '',
-        addressTwo: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        country: '',
-        latitude: '',
-        longitude: '',
-        plusCode: '',
-      },
       avatar: '',
-      registrationForm: profile,
+      profile,
     }
-    // change to id and text in langguages.json
 
-    this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
-    this.handleSaveAddress = this.handleSaveAddress.bind(this)
     this.handleSelectAddress = this.handleSelectAddress.bind(this)
     this.handleSelectAddress = this.handleSelectAddress.bind(this)
     this.handleBackBtn = this.handleBackBtn.bind(this)
-    this.refreshForms = this.refreshForms.bind(this)
     this.handleChangeAction = this.handleChangeAction.bind(this)
-    this.handleDeleteAddress = this.handleDeleteAddress.bind(this)
     this.handleProfileSave = this.handleProfileSave.bind(this)
     this.handleSelectEducation = this.handleSelectEducation.bind(this)
     this.handleSelectEmployment = this.handleSelectEmployment.bind(this)
@@ -113,7 +95,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     try {
       const profileData = await Profile.retrieve()
       this.setState({
-        registrationForm: profileData,
+        profile: profileData,
       })
     } catch (error) {
       if (error.response) {
@@ -125,7 +107,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   }
 
   get profileMainContents() {
-    const { avatar, isSubmitting, registrationForm } = this.state
+    const { avatar, isSubmitting, profile: registrationForm } = this.state
     const { handleChange, handleFormSubmit, handleSelectAddress, handleChangeAction } = this
     return [
       {
@@ -158,7 +140,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       {
         component: (
           <div>
-            <SocialMediaSettings profile={this.state.registrationForm} />
+            <SocialMediaSettings profile={this.state.profile} />
             <Button
               className="uk-button uk-button-primary uk-align-center"
               onClick={handleFormSubmit}
@@ -174,7 +156,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         component: (
           <div className="uk-width-1-1">
             <EducationCardGroup
-              profile={this.state.registrationForm}
+              profile={this.state.profile}
               handleAddBtn={() => {
                 handleChangeAction(actions.ADD_EDUCATION)
               }}
@@ -188,7 +170,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         component: (
           <div className="uk-width-1-1">
             <EmploymentCardGroup
-              profile={this.state.registrationForm}
+              profile={this.state.profile}
               handleAddBtn={() => {
                 handleChangeAction(actions.ADD_WORK)
               }}
@@ -209,15 +191,14 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         label: 'Addresses',
       },
       {
-        component: <ModeratorForm profile={this.state.registrationForm} />,
+        component: <ModeratorForm profile={this.state.profile} />,
         label: 'Moderator',
       },
     ]
   }
 
   get profileSubContents() {
-    const { addressForm, addressFormUpdateIndex } = this.state
-    const { handleAddressChange, handleSaveAddress, handleDeleteAddress } = this
+    const { addressFormUpdateIndex } = this.state
     return {
       [actions.ADD_EDUCATION]: {
         component: (
@@ -225,7 +206,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
             key="addEducationForm"
             isEdit={false}
             updateIndex={this.state.educationFormUpdateIndex}
-            profile={this.state.registrationForm}
+            profile={this.state.profile}
             handleProfileSave={this.handleProfileSave}
           />
         ),
@@ -237,7 +218,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
             key="updateEducationForm"
             isEdit
             updateIndex={this.state.educationFormUpdateIndex}
-            profile={this.state.registrationForm}
+            profile={this.state.profile}
             handleProfileSave={this.handleProfileSave}
           />
         ),
@@ -249,7 +230,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
             key="addWorkForm"
             isEdit={false}
             updateIndex={this.state.employmentFormUpdateIndex}
-            profile={this.state.registrationForm}
+            profile={this.state.profile}
             handleProfileSave={this.handleProfileSave}
           />
         ),
@@ -261,7 +242,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
             key="updateWorkForm"
             isEdit
             updateIndex={this.state.employmentFormUpdateIndex}
-            profile={this.state.registrationForm}
+            profile={this.state.profile}
             handleProfileSave={this.handleProfileSave}
           />
         ),
@@ -270,11 +251,11 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       [actions.ADD_ADDRESS]: {
         component: (
           <AddressForm
-            data={addressForm}
             key="addAddressForm"
-            onAddressChange={handleAddressChange}
-            onSaveAddress={handleSaveAddress}
-            isEdit={false}
+            handleSave={async location => {
+              this.state.profile.updateAddresses(location)
+              await this.handleProfileSave()
+            }}
           />
         ),
         label: 'ADD ADDRESS',
@@ -282,13 +263,17 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       [actions.UPDATE_ADDRESS]: {
         component: (
           <AddressForm
-            data={addressForm}
             key="updateAddressForm"
-            onAddressChange={handleAddressChange}
-            onSaveAddress={handleSaveAddress}
-            isEdit
-            onDeleteAddress={handleDeleteAddress}
             updateIndex={addressFormUpdateIndex}
+            data={this.state.profile.extLocation.addresses[addressFormUpdateIndex]}
+            handleSave={async (location, index) => {
+              this.state.profile.updateAddresses(location, index)
+              await this.handleProfileSave()
+            }}
+            handleDelete={async (location, index) => {
+              this.state.profile.deleteAddress(index)
+              await this.handleProfileSave()
+            }}
           />
         ),
         label: 'UPDATE ADDRESS',
@@ -335,33 +320,16 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     )
   }
 
-  private refreshForms() {
-    const addressForm = {
-      type: [''],
-      addressOne: '',
-      addressTwo: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: '',
-      latitude: '',
-      longitude: '',
-      plusCode: '',
-    }
-    this.setState({ addressForm, addressFormUpdateIndex: -1 })
-  }
-
   private handleChangeAction(action: number) {
     this.setState({ currentAction: action })
   }
 
   private handleBackBtn() {
     this.setState({ currentAction: actions.NONE })
-    this.refreshForms()
   }
 
   private handleSelectAddress(addressIndex: number) {
-    const { registrationForm } = this.state
+    const { profile: registrationForm } = this.state
     this.setState({
       currentAction: actions.UPDATE_ADDRESS,
       addressForm: registrationForm.extLocation.addresses[addressIndex],
@@ -383,47 +351,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     })
   }
 
-  private async handleSaveAddress(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const { registrationForm, addressForm, addressFormUpdateIndex } = this.state
-
-    const {
-      type,
-      addressOne,
-      addressTwo,
-      city,
-      state,
-      zipCode,
-      country,
-      latitude,
-      longitude,
-      plusCode,
-    } = addressForm
-
-    const address = {
-      type,
-      addressOne,
-      addressTwo,
-      city,
-      state,
-      zipCode,
-      country,
-      latitude,
-      longitude,
-      plusCode,
-    }
-
-    registrationForm.addAddress(address, addressFormUpdateIndex)
-
-    const updatedProfile = await registrationForm.update()
-    alert('Addresses updated')
-
-    this.setState({
-      registrationForm: updatedProfile,
-    })
-    this.handleBackBtn()
-  }
-
   private async handleFormSubmit(event: React.FormEvent) {
     event.preventDefault()
 
@@ -433,10 +360,10 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
     if (this.state.avatar) {
       const avatarHashes = await ImageUploaderInstance.uploadImage(this.state.avatar)
-      this.state.registrationForm.avatarHashes = avatarHashes
+      this.state.profile.avatarHashes = avatarHashes
     }
 
-    await this.state.registrationForm.update()
+    await this.state.profile.update()
     alert('Profile updated')
     this.setState({
       isSubmitting: false,
@@ -444,7 +371,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   }
 
   private async handleChange(field: string, value: any, parentField?: string): Promise<any> {
-    // TODO: use string literal for parentField if possible
     if (field === 'avatar') {
       const base64ImageStr = await ImageUploaderInstance.convertToBase64(value[0])
       value = base64ImageStr
@@ -461,33 +387,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     }
   }
 
-  private handleAddressChange(field: string, value: string | string[]) {
-    const { addressForm } = this.state
-    NestedJsonUpdater(addressForm, field, value)
-    this.setState({
-      addressForm,
-    })
-  }
-
-  private async handleDeleteAddress(index: number) {
-    const { registrationForm } = this.state
-    registrationForm.deleteAddress(index)
-
-    this.setState({
-      registrationForm,
-    })
-
-    const profileData = await registrationForm.update()
-    alert('Profile updated')
-
-    this.setState({
-      registrationForm: profileData,
-    })
-    this.handleBackBtn()
-  }
-
   private async handleProfileSave() {
-    await this.state.registrationForm.update()
+    await this.state.profile.update()
     alert('Profile saved!')
     this.setState({
       currentAction: actions.NONE,
