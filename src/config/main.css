@@ -71,6 +71,15 @@ textarea {
   padding: 0 20px;
   min-width: 100px;
 }
+.uk-flex-2 {
+  flex: 2;
+}
+.uk-flex-3 {
+  flex: 3;
+}
+.uk-flex-4 {
+  flex: 4;
+}
 .uk-button:disabled {
   background-color: var(--primary);
   opacity: 0.75;

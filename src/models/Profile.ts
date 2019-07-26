@@ -244,6 +244,13 @@ class Profile implements ProfileSchema {
       this.extLocation[t] = index > -1 ? index : this.extLocation.addresses.length - 1
     })
   }
+
+  public getAvatarSrc(type?: string) {
+    const { avatarHashes } = this
+    return `${config.openBazaarHost}/ob/images/${
+      type ? avatarHashes[type] || avatarHashes.medium : avatarHashes.medium
+    }`
+  }
 }
 
 export default Profile

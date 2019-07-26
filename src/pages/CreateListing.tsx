@@ -8,6 +8,7 @@ import {
   ListingGeneralForm,
   ListingPhotosForm,
   ListingTermsAndConditionsForm,
+  ModeratorSelectionForm,
   ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
@@ -32,6 +33,8 @@ interface CreateListingState {
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
+  availableModerators: Profile[]
+  selectedModerators: Profile[]
   [key: string]: any
 }
 
@@ -62,6 +65,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           },
         ],
       },
+      availableModerators: [],
+      selectedModerators: [],
     }
     this.handleAddCoupons = this.handleAddCoupons.bind(this)
     this.handleAddShippingService = this.handleAddShippingService.bind(this)
@@ -145,6 +150,13 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           />
         ),
         title: 'Tags',
+      },
+      {
+        component: (
+          // <ModeratorSelectionForm />
+          <div />
+        ),
+        title: 'Moderators',
       },
       {
         component: (

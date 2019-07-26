@@ -1,0 +1,12 @@
+#moderator-card-img {
+  width: 80px;
+  height: 80px;
+}
+#moderator-card-content {
+  flex: 8;
+}
+#moderator-card-btn {
+  padding: 0 10px;
+  min-width: 20px;
+  font-size: 2.5rem;
+}
