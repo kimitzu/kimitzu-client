@@ -66,6 +66,11 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
             </Link>
           </li>
           <li>
+            <Link to="/history/cases">
+              <a>Case History</a>
+            </Link>
+          </li>
+          <li>
             <Link to="/listing/create">
               <a>Create New Listing</a>
             </Link>
