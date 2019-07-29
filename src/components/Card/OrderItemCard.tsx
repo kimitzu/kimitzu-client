@@ -31,7 +31,7 @@ const OrderItemCard = ({ data }: OrderItemCardProps) => (
             </b>
           </p>
           <p>
-            Order#: <b> {data.orderId} </b>
+            Order#: <b> {data.orderId || data.caseId} </b>
           </p>
           <p>
             {data.source === 'sales' ? 'Buyer' : 'Vendor'}:{' '}

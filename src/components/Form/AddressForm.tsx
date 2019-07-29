@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { TwoInputs } from '../Input'
 import { FormLabel } from '../Label'
@@ -29,19 +29,53 @@ const options = [
 ]
 
 interface Props {
-  onSaveAddress: (event: React.FormEvent<HTMLFormElement>) => void
-  onAddressChange: (field: string, value: string | string[]) => void
-  onDeleteAddress?: (index: number) => void
   updateIndex?: number
-  data: Location
-  isEdit: boolean
   isListing?: boolean
+  data?: Location
+  handleSave: (location: Location, index?: number) => void
+  handleDelete?: (location: Location, index: number) => void
 }
 
-const AddressForm = (props: Props) => {
-  const { onSaveAddress, data, isListing } = props
+const AddressForm = ({
+  isListing: isListing,
+  updateIndex,
+  handleSave,
+  data,
+  handleDelete,
+}: Props) => {
+  const baseLocationObject = {
+    latitude: '',
+    longitude: '',
+    plusCode: '',
+    addressOne: '',
+    addressTwo: '',
+    city: '',
+    state: '',
+    country: '',
+    zipCode: '',
+    type: [],
+  } as Location
+
+  const [location, setLocation] = useState(baseLocationObject)
+
+  useEffect(() => {
+    if (data) {
+      setLocation(data)
+    }
+  }, [])
+
+  const handleChange = (field: string, value: any) => {
+    setLocation({ ...location, [field]: value })
+  }
+
   return (
-    <form className="uk-form-stacked" onSubmit={onSaveAddress}>
+    <form
+      className="uk-form-stacked"
+      onSubmit={event => {
+        event.preventDefault()
+        handleSave(location, updateIndex)
+      }}
+    >
       <fieldset className="uk-fieldset">
         {isListing ? null : (
           <div className="uk-margin">
@@ -51,15 +85,15 @@ const AddressForm = (props: Props) => {
                 <input
                   className="uk-checkbox uk-margin-small-left"
                   type="checkbox"
-                  checked={data.type ? data.type.includes(o.value) : false}
+                  checked={location.type ? location.type.includes(o.value) : false}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     if (event.target.checked) {
-                      data.type!.push(o.value)
-                      props.onAddressChange('type', data.type!)
+                      location.type!.push(o.value)
                     } else {
-                      const newData = data.type!.filter(e => e !== o.value)
-                      props.onAddressChange('type', newData)
+                      const newData = location.type!.filter(e => e !== o.value)
+                      location.type = newData
                     }
+                    handleChange('type', location.type)
                   }}
                 />
                 {` ${o.label}`}
@@ -73,20 +107,20 @@ const AddressForm = (props: Props) => {
             id="street-address"
             className="uk-input"
             type="text"
-            value={data.addressOne}
+            value={location.addressOne}
             placeholder="Street Address 1"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              props.onAddressChange('addressOne', event.target.value)
+              handleChange('addressOne', event.target.value)
             }
           />
           <input
             id="street-address"
             className="uk-input"
             type="text"
-            value={data.addressTwo}
+            value={location.addressTwo}
             placeholder="Street Address 2"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              props.onAddressChange('addressTwo', event.target.value)
+              handleChange('addressTwo', event.target.value)
             }
           />
         </div>
@@ -102,9 +136,9 @@ const AddressForm = (props: Props) => {
             />
             <input
               className="uk-input"
-              value={data.plusCode}
+              value={location.plusCode}
               type="text"
-              onChange={event => props.onAddressChange('plusCode', event.target.value)}
+              onChange={event => handleChange('plusCode', event.target.value)}
             />
           </div>
         </div>
@@ -113,18 +147,18 @@ const AddressForm = (props: Props) => {
             label: 'LONGITUDE',
             props: {
               type: 'number',
-              value: data.longitude,
+              value: location.longitude,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('longitude', event.target.value),
+                handleChange('longitude', event.target.value),
             },
           }}
           input2={{
             label: 'LATITUDE',
             props: {
               type: 'number',
-              value: data.latitude,
+              value: location.latitude,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('latitude', event.target.value),
+                handleChange('latitude', event.target.value),
             },
           }}
         />
@@ -133,18 +167,18 @@ const AddressForm = (props: Props) => {
             label: 'CITY',
             props: {
               type: 'text',
-              value: data.city,
+              value: location.city,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('city', event.target.value),
+                handleChange('city', event.target.value),
             },
           }}
           input2={{
             label: 'STATE',
             props: {
               type: 'text',
-              value: data.state,
+              value: location.state,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('state', event.target.value),
+                handleChange('state', event.target.value),
             },
           }}
         />
@@ -156,29 +190,33 @@ const AddressForm = (props: Props) => {
               id="zipCode"
               className="uk-input"
               type="text"
-              value={data.zipCode}
+              value={location.zipCode}
               placeholder="Zip Code"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                props.onAddressChange('zipCode', event.target.value)
+                handleChange('zipCode', event.target.value)
               }
             />
           </div>
           <div id="input2" className="uk-width-1-2@s">
             <FormLabel label="Country" />
             <FormSelector
-              defaultVal={data.country || ''}
+              defaultVal={location.country || ''}
               options={Countries}
-              onChange={event => props.onAddressChange('country', event.target.value)}
+              onChange={event => handleChange('country', event.target.value)}
             />
           </div>
         </div>
       </fieldset>
       <div id="save-btn-div">
-        {props.isEdit ? (
+        {!isListing ? (
           <button
             className="uk-button uk-button-danger uk-margin-right"
             type="button"
-            onClick={() => props.onDeleteAddress!(props.updateIndex!)}
+            onClick={() => {
+              if (handleDelete) {
+                handleDelete(location, updateIndex!)
+              }
+            }}
           >
             DELETE
           </button>

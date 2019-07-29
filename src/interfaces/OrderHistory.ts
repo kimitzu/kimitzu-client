@@ -18,4 +18,5 @@ export default interface OrderHistory {
   vendorId?: string
   buyerHandle?: string
   buyerId?: string
+  caseId?: string
 }

@@ -126,14 +126,12 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <AddressForm
-            onSaveAddress={handleSubmitForm}
-            onAddressChange={this.handleAddressChange}
-            onDeleteAddress={() => {
-              console.log('Function Not Available')
-            }}
             data={this.state.listing.location}
-            isEdit={false}
             isListing
+            handleSave={location => {
+              this.state.listing.location = location
+              handleSubmitForm()
+            }}
           />
         ),
         title: 'Location',
@@ -284,8 +282,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     }
   }
 
-  public handleSubmitForm(event: React.FormEvent) {
-    event.preventDefault()
+  public handleSubmitForm(event?: React.FormEvent) {
+    if (event) {
+      event.preventDefault()
+    }
     this.setState({
       currentFormIndex: this.state.currentFormIndex + 1,
     })
