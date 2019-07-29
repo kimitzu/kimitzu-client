@@ -1,12 +1,26 @@
 #moderator-card-img {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
 }
 #moderator-card-content {
-  flex: 8;
+  flex: 10;
+  overflow: hidden;
 }
 #moderator-card-btn {
-  padding: 0 10px;
-  min-width: 20px;
-  font-size: 2.5rem;
+  padding: 0 5px;
+  min-width: 15px;
+  font-size: 1.75rem;
+  line-height: 25px;
+}
+#moderator-card-description {
+  font-size: 0.8rem;
+}
+#moderator-card-fees {
+  font-size: 0.9rem;
+}
+#moderator-card-fees > span > svg {
+  height: 15;
+}
+#moderator-card-more-link {
+  font-size: 0.75rem;
 }

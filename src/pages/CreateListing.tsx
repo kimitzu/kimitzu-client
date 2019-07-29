@@ -1,4 +1,7 @@
+import Axios from 'axios'
 import React, { Component, ReactNode } from 'react'
+
+import config from '../config'
 
 import { SideMenuWithContentCard } from '../components/Card'
 import {
@@ -33,8 +36,8 @@ interface CreateListingState {
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
-  availableModerators: Profile[]
-  selectedModerators: Profile[]
+  // availableModerators: Profile[]
+  // selectedModerators: Profile[]
   [key: string]: any
 }
 
@@ -76,21 +79,37 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleImageOpen = this.handleImageOpen.bind(this)
     this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleRemoveRow = this.handleRemoveRow.bind(this)
+    this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
+    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
   }
 
   public async componentDidMount() {
     const profile = await Profile.retrieve()
+    const moderatorListResponse = await Axios.get(
+      `${config.openBazaarHost}/ob/moderators?async=&include=`
+    )
+    if (moderatorListResponse.data) {
+      const availableModerators = await Promise.all(
+        moderatorListResponse.data.map(async moderatorId => {
+          return Profile.retrieve(moderatorId)
+        })
+      )
+      console.log(availableModerators, 'moderators')
+      this.setState({ availableModerators })
+    }
     this.setState({
       profile,
     })
   }
 
   get contents() {
+    const { availableModerators, selectedModerators } = this.state
     const {
       handleInputChange,
       handleSubmitForm,
       handleRemoveRow,
       handleAddShippingService,
+      handleSubmitModeratorSelection,
       handleAddCoupons,
     } = this
     return [
@@ -153,8 +172,19 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       },
       {
         component: (
-          // <ModeratorSelectionForm />
-          <div />
+          <ModeratorSelectionForm
+            availableModerators={availableModerators}
+            selectedModerators={selectedModerators}
+            handleBtnClick={this.handleModeratorSelection}
+            handleSubmit={handleSubmitModeratorSelection}
+            handleModeratorSearch={() => {
+              /** WIP */
+            }}
+            handleMoreInfo={() => {
+              /** WIP */
+            }}
+          />
+          // <div />
         ),
         title: 'Moderators',
       },
@@ -338,6 +368,29 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       listing.removeCoupon(index)
     }
     this.setState({ listing })
+  }
+
+  private handleModeratorSelection(moderator: Profile, index: number, type) {
+    const { availableModerators, selectedModerators } = this.state
+    if (type === 'add') {
+      availableModerators.splice(index, 1)
+      selectedModerators.push(moderator)
+    } else if (type === 'remove') {
+      selectedModerators.splice(index, 1)
+      availableModerators.push(moderator)
+    }
+    this.setState({ availableModerators, selectedModerators })
+  }
+
+  private handleSubmitModeratorSelection() {
+    const { listing, selectedModerators, currentFormIndex } = this.state
+    console.log(selectedModerators)
+    listing.moderators = selectedModerators.map(moderator => moderator.peerID)
+    console.log(listing.moderators)
+    this.setState({
+      listing,
+      currentFormIndex: currentFormIndex + 1,
+    })
   }
 }
 
