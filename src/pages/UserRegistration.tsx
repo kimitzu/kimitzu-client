@@ -23,7 +23,7 @@ interface State {
   hasStarted: boolean
   isSubmitting: boolean
   numberOfPages: number
-  registrationForm: Profile
+  profile: Profile
   [key: string]: any
 }
 
@@ -37,7 +37,7 @@ class UserRegistration extends Component<{}, State> {
       hasStarted: false,
       isSubmitting: false,
       numberOfPages: 3,
-      registrationForm: profile,
+      profile,
     }
     this.getCurrentContent = this.getCurrentContent.bind(this)
     this.handleAgree = this.handleAgree.bind(this)
@@ -74,7 +74,7 @@ class UserRegistration extends Component<{}, State> {
       case 1: {
         return (
           <RegistrationForm
-            data={this.state.registrationForm}
+            data={this.state.profile}
             availableCountries={Countries}
             fiatCurrencies={FiatCurrencies}
             currencyTypes={CurrencyTypes} // Fiat or Crypto
@@ -92,12 +92,7 @@ class UserRegistration extends Component<{}, State> {
         return <TermsOfService />
       }
       case 3: {
-        return (
-          <SuccessCard
-            name={this.state.registrationForm.name}
-            onSuccessHome={this.handleSuccessHome}
-          />
-        )
+        return <SuccessCard name={this.state.profile.name} onSuccessHome={this.handleSuccessHome} />
       }
     }
   }
@@ -157,7 +152,7 @@ class UserRegistration extends Component<{}, State> {
 
     if (this.state.avatar) {
       const avatarHashes = await ImageUploaderInstance.uploadImage(this.state.avatar)
-      this.state.registrationForm.avatarHashes = avatarHashes
+      this.state.profile.avatarHashes = avatarHashes
     }
 
     this.setState({
@@ -168,13 +163,13 @@ class UserRegistration extends Component<{}, State> {
   }
 
   private async handleAgree() {
-    const registrationForm = this.state.registrationForm
+    const registrationForm = this.state.profile
 
     if (!registrationForm.name) {
       registrationForm.name = registrationForm.handle
     }
 
-    await this.state.registrationForm.save()
+    await this.state.profile.save()
     alert('Registration Successful')
     this.handleNext()
   }

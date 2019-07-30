@@ -19,7 +19,7 @@ const AboutCard = (props: ViewProfileInterface) => {
           <p>{props.profile.about}</p>
         </div>
       </div>
-      <SocialMediaCard socialMedia={props.profile.contactInfo.social} />
+      <SocialMediaCard contact={props.profile.contactInfo} />
       {props.profile.background && props.profile.background.educationHistory ? (
         <ProfessionalBackgroundCard data={props.profile.background} name="Education" />
       ) : null}

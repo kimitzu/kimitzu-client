@@ -10,7 +10,7 @@ interface TagsCardInterface {
 const TagsCard = (props: TagsCardInterface) => {
   const { data, name } = props
   return (
-    <div id="profile-tags">
+    <div id="profile-tags" className="uk-margin-top">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-tags" className="uk-card-title">
           {name}

@@ -1,20 +1,35 @@
 import React from 'react'
 
 import SocialMedia from '../../constants/SocialMedia.json'
-import { SocialAccount } from '../../interfaces/Profile'
+import { Contact } from '../../interfaces/Profile'
 import './SocialMediaCard.css'
 
 interface SocialMediaCardProps {
-  socialMedia: SocialAccount[]
+  contact: Contact
+  title?: string
 }
 
-const SocialMediaCard = ({ socialMedia }: SocialMediaCardProps) => {
+const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
+  const socialMedia = contact.social
+
   return (
     <div className="uk-margin-top">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-social-media" className="uk-card-title">
-          Social Media
+          {title ? title : 'Social Media'}
         </h3>
+
+        {contact.email ? (
+          <div id="social-media">
+            <div id="account-icon">
+              <span uk-icon="mail" />
+            </div>
+            <div id="account-name">
+              <p className="uk-text-capitalize">Email</p>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </div>
+          </div>
+        ) : null}
 
         {socialMedia.map(social => {
           const SocialType = SocialMedia.find(e => {
