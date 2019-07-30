@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import getCurrencySymbol from 'currency-symbol-map'
 import config from '../config'
 import Image from '../interfaces/Image'
 import Location from '../interfaces/Location'
@@ -265,6 +266,27 @@ class Profile implements ProfileSchema {
     return `${config.openBazaarHost}/ob/images/${
       type ? avatarHashes[type] || avatarHashes.medium : avatarHashes.medium
     }`
+  }
+
+  public get displayModeratorFee() {
+    const { moderatorInfo, moderator } = this
+    console.log(this)
+    const { feeType, fixedFee, percentage } = moderatorInfo.fee
+    if (!moderator) {
+      return 'N/A'
+    }
+    const fixed = fixedFee ? `${getCurrencySymbol(fixedFee.currencyCode)}${fixedFee.amount}` : ''
+    const percent = percentage ? `${percentage}%` : ''
+    switch (feeType) {
+      case 'FIXED':
+        return fixed
+      case 'PERCENTAGE':
+        return percent
+      case 'FIXED_PLUS_PERCENTAGE':
+        return `${fixed}(+${percent})`
+      default:
+        return '0'
+    }
   }
 }
 

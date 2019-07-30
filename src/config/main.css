@@ -1,5 +1,6 @@
 :root {
   --primary: #2699fb;
+  --secondary: #a3a3a3;
   --border-color: #bce0fd;
   --background-body: #f1f9ff;
 }
@@ -35,7 +36,7 @@ label .required {
   color: var(--primary) !important;
 }
 .color-secondary {
-  color: #a3a3a3;
+  color: var(--secondary);
 }
 .uk-input,
 .uk-textarea {

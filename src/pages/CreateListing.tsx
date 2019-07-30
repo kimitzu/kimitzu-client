@@ -1,5 +1,7 @@
 import Axios from 'axios'
+import ISO6391 from 'iso-639-1'
 import React, { Component, ReactNode } from 'react'
+import ReactCountryFlag from 'react-country-flag'
 
 import config from '../config'
 
@@ -15,6 +17,7 @@ import {
   ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
+import { ModeratorInfoModal } from '../components/Modal'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
@@ -36,6 +39,7 @@ interface CreateListingState {
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
+  // selectedModerator: Profile | {}
   // availableModerators: Profile[]
   // selectedModerators: Profile[]
   [key: string]: any
@@ -54,6 +58,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isLoading: false,
       // === Formal Schema
       listing,
+      selectedModerator: {},
       // === TODO: Implement handlers
       shippingOptions: {
         destination: '',
@@ -81,6 +86,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleRemoveRow = this.handleRemoveRow.bind(this)
     this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
     this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
+    this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
   }
 
   public async componentDidMount() {
@@ -109,6 +115,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       handleSubmitForm,
       handleRemoveRow,
       handleAddShippingService,
+      handleShowModeratorModal,
       handleSubmitModeratorSelection,
       handleAddCoupons,
     } = this
@@ -178,9 +185,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleModeratorSearch={() => {
               /** WIP */
             }}
-            handleMoreInfo={() => {
-              /** WIP */
-            }}
+            handleMoreInfo={handleShowModeratorModal}
           />
           // <div />
         ),
@@ -347,6 +352,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   public render() {
     const { navItems, currentForm } = this
+    const { selectedModerator } = this.state
     return (
       <div className="background-body full-vh uk-padding-small">
         <SideMenuWithContentCard
@@ -358,6 +364,14 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           mainContent={currentForm.component}
           currentNavIndex={this.state.currentFormIndex}
         />
+        <ModeratorInfoModal
+          handleMessageBtn={() => {
+            // TODO: WIP
+          }}
+          profile={this.state.selectedModerator}
+        />
+        {/* {selectedModerator && selectedModerator.moderator ? (
+        ) : null} */}
       </div>
     )
   }
@@ -384,13 +398,24 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   private handleSubmitModeratorSelection() {
     const { listing, selectedModerators, currentFormIndex } = this.state
-    console.log(selectedModerators)
     listing.moderators = selectedModerators.map(moderator => moderator.peerID)
-    console.log(listing.moderators)
     this.setState({
       listing,
       currentFormIndex: currentFormIndex + 1,
     })
+  }
+
+  private handleShowModeratorModal(moderator: Profile) {
+    this.setState({ selectedModerator: moderator })
+    const moderatorModal = window.UIkit.modal('#moderator-info')
+    // const b = window.UIkit.modal('moderator-info')
+    // console.log(b)
+    console.log(moderatorModal)
+    if (moderatorModal) {
+      moderatorModal.show()
+      moderatorModal.show()
+      // b.show()
+    }
   }
 }
 
