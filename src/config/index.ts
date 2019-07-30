@@ -1,7 +1,6 @@
 interface Config {
   djaliHost: string
   host: string
-  locationHost: string
   openBazaarHost: string
   websocketHost: string
 }
@@ -9,7 +8,6 @@ interface Config {
 const development = {
   djaliHost: 'http://localhost:8109',
   host: 'http://localhost:3001',
-  locationHost: 'http://localhost:8108',
   openBazaarHost: 'http://localhost:4002',
   websocketHost: 'ws://localhost:4002/ws',
 }
@@ -17,7 +15,6 @@ const development = {
 const production = {
   djaliHost: 'https://djali-api.djali.org',
   host: 'https://test.djali.org',
-  locationHost: 'https://djali-api-loc.djali.org',
   openBazaarHost: 'https://djali-ob.djali.org',
   websocketHost: 'wss://djali-ob.djali.org/ws',
 }
