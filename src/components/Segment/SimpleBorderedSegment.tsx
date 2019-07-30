@@ -3,7 +3,7 @@ import React from 'react'
 import './SimpleBorderedSegment.css'
 
 interface Props {
-  children: JSX.Element | JSX.Element[]
+  children?: JSX.Element | JSX.Element[]
   imageSrc?: string
   icon?: string
   title?: string
@@ -12,7 +12,7 @@ interface Props {
 
 const SimpleBorderedSegment = ({ children, icon, imageSrc, sideButtons, title }: Props) => (
   <div
-    className="default-border uk-flex uk-flex-row uk-flex-middle uk-width-1-1"
+    className="default-border uk-flex uk-flex-row uk-flex-top uk-width-1-1"
     id="simple-bordered-segment"
   >
     {imageSrc ? <img className="uk-border-circle" width="40" height="40" src={imageSrc} /> : null}

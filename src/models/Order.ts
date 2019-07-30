@@ -3,6 +3,7 @@ import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import {
   Contract,
+  DisputeResolution,
   Order as OrderInterface,
   OrderPaymentInformation,
   Refund,
@@ -41,6 +42,19 @@ class Order implements OrderInterface {
     const order = new Order(orderRequest.data)
     order.vendor = await Profile.retrieve(order.contract.vendorListings[0].vendorID.peerID)
     order.buyer = await Profile.retrieve(order.contract.buyerOrder.buyerID.peerID)
+    order.id = id
+
+    if (order.contract.buyerOrder.payment.moderator) {
+      order.moderator = await Profile.retrieve(order.contract.buyerOrder.payment.moderator)
+    }
+
+    if (order.contract.disputeAcceptance) {
+      if (order.contract.disputeAcceptance!.closedBy === order.vendor.peerID) {
+        order.contract.disputeAcceptance!.closedByProfile = order.vendor
+      } else {
+        order.contract.disputeAcceptance!.closedByProfile = order.buyer
+      }
+    }
 
     const owner = await Profile.retrieve()
     if (order.buyer!.peerID === owner.peerID) {
@@ -49,13 +63,47 @@ class Order implements OrderInterface {
       order.role = 'vendor'
     }
 
+    if (order.isDisputeExpired) {
+      order.state = 'DISPUTE_EXPIRED'
+    }
+
     return order
   }
 
+  public id: string = ''
+  public moderator?: Profile
   public role?: string
   public vendor?: Profile
   public buyer?: Profile
   public contract: Contract = {
+    disputeResolution: {
+      timestamp: '',
+      orderId: '',
+      proposedBy: '',
+      resolution: '',
+      payout: {
+        sigs: [],
+        inputs: [],
+        buyerOutput: {
+          address: '',
+          amount: 0,
+        },
+        moderatorOutput: {
+          address: '',
+          amount: 0,
+        },
+        vendorOutput: {
+          address: '',
+          amount: 0,
+        },
+      },
+      moderatorRatingSigs: [],
+    },
+    disputeAcceptance: {
+      timestamp: '',
+      closedBy: '',
+      closedByProfile: new Profile(),
+    },
     vendorListings: [
       {
         slug: '',
@@ -249,28 +297,7 @@ class Order implements OrderInterface {
         },
       ],
     },
-    signatures: [
-      {
-        section: 'LISTING',
-        signatureBytes: '',
-      },
-      {
-        section: 'ORDER',
-        signatureBytes: '',
-      },
-      {
-        section: 'ORDER_CONFIRMATION',
-        signatureBytes: '',
-      },
-      {
-        section: 'ORDER_FULFILLMENT',
-        signatureBytes: '',
-      },
-      {
-        section: 'ORDER_COMPLETION',
-        signatureBytes: '',
-      },
-    ],
+    signatures: [],
     refund: {
       orderID: '',
       timestamp: '',
@@ -454,6 +481,33 @@ class Order implements OrderInterface {
     }
   }
 
+  public get isPaymentModerated(): boolean {
+    return !!this.contract.buyerOrder.payment.moderator
+  }
+
+  public async dispute(claim: string) {
+    await Axios.post(`${config.openBazaarHost}/ob/opendispute`, {
+      orderID: this.id,
+      claim,
+    })
+  }
+
+  public async releaseFunds() {
+    await Axios.post(`${config.openBazaarHost}/ob/releasefunds`, {
+      orderID: this.id,
+    })
+  }
+
+  public get isDisputeExpired() {
+    if (this.contract.dispute) {
+      const estimatedExpiration = new Date(this.contract.dispute!.timestamp)
+      estimatedExpiration.setMinutes(estimatedExpiration.getMinutes() + 30)
+
+      return new Date(Date.now()) >= estimatedExpiration && !this.contract.disputeResolution
+    }
+    return false
+  }
+
   public get step(): number {
     switch (this.state) {
       case 'PENDING':
@@ -478,14 +532,16 @@ class Order implements OrderInterface {
         return 7
       case 'DISPUTED':
         return 8
-      case 'DECIDED':
+      case 'DISPUTE_EXPIRED':
         return 9
-      case 'RESOLVED':
+      case 'DECIDED':
         return 10
-      case 'PAYMENT_FINALIZED':
+      case 'RESOLVED':
         return 11
-      case 'PROCESSING_ERROR':
+      case 'PAYMENT_FINALIZED':
         return 12
+      case 'PROCESSING_ERROR':
+        return 13
       default:
         throw new Error('Unknown event #' + this.state)
     }

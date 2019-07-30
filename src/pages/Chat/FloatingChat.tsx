@@ -29,6 +29,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
     this.handleRecipientChange = this.handleRecipientChange.bind(this)
     this.onKeyPress = this.onKeyPress.bind(this)
     this.sendMsg = this.sendMsg.bind(this)
+    this.handleWebsocket = this.handleWebsocket.bind(this)
     this.preventInput = false
   }
 
@@ -65,24 +66,25 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
 
     this.setState({ conversations: c })
 
-    window.socket.onopen = evt => {
-      window.socket.onmessage = data => {
-        const d = JSON.parse(data.data)
-        if (d.message) {
-          const newMsg = d.message
-          const index = this.state.indexPeerID.indexOf(d.message.peerId)
-          const msg = d.message.message
-          const realTimeConv = this.state.conversations
+    const socket = new WebSocket(config.websocketHost)
+    socket.onmessage = this.handleWebsocket
+  }
 
-          if (!realTimeConv[index]) {
-            realTimeConv[index] = []
-          }
+  public handleWebsocket(data) {
+    const d = JSON.parse(data.data)
+    if (d.message) {
+      const newMsg = d.message
+      const index = this.state.indexPeerID.indexOf(d.message.peerId)
+      const msg = d.message.message
+      const realTimeConv = this.state.conversations
 
-          realTimeConv[index].messages.push(newMsg)
-          realTimeConv[index].lastMessage = msg
-          this.setState({ conversations: realTimeConv, scrollBottom: true })
-        }
+      if (!realTimeConv[index]) {
+        realTimeConv[index] = []
       }
+
+      realTimeConv[index].messages.push(newMsg)
+      realTimeConv[index].lastMessage = msg
+      this.setState({ conversations: realTimeConv, scrollBottom: true })
     }
   }
 

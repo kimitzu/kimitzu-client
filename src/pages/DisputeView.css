@@ -1,0 +1,29 @@
+.full-width {
+    width: 100%;
+}
+
+.row-text {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-fix {
+    padding: 10px;
+    height: 40px;
+    border-radius: 5px !important;
+}
+
+.text-fix {
+    flex: 4;
+    padding-right: 10px;
+}
+
+.margin {
+    height: 5px;
+}
+
+.left-submit {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

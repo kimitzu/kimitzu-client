@@ -12,6 +12,7 @@ declare global {
 }
 
 window.socket = new WebSocket(`${config.websocketHost}`)
+
 ReactDOM.render(<App />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change

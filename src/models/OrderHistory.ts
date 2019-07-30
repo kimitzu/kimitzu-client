@@ -26,10 +26,9 @@ class OrderHistory implements OrderHistoryInterface {
 
   public static async getCases(): Promise<OrderHistory[]> {
     const cases = await Axios.get(`${config.openBazaarHost}/ob/cases`)
-    console.log(cases)
     const parsedCases = cases.data.cases.map(c => {
       const caseTemp = new OrderHistory(c)
-      caseTemp.source = 'purchases'
+      caseTemp.source = 'cases'
       return caseTemp
     })
     return parsedCases
