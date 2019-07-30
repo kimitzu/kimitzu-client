@@ -43,6 +43,8 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         indexPeerIDTemp.push(cc.peerId)
         this.setState({ indexPeerID: indexPeerIDTemp })
         const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${cc.peerId}`)
+        c[i].image = '/images/user.png'
+        c[i].name = cc.peerId
         if (prof && prof.data.profile) {
           if (prof.data.profile.avatarHashes) {
             c[i].image = `${config.openBazaarHost}/ob/images/${
@@ -52,14 +54,14 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
             c[i].image = '/images/user.png'
           }
           c[i].name = prof.data.profile.name
-          const message = await axios.get(
-            `${config.openBazaarHost}/ob/chatmessages/${cc.peerId}?limit=20&offsetId=&subject=`
-          )
-          if (message) {
-            c[i].messages = message.data.reverse()
-          } else {
-            c[i].messages = []
-          }
+        }
+        const message = await axios.get(
+          `${config.openBazaarHost}/ob/chatmessages/${cc.peerId}?limit=20&offsetId=&subject=`
+        )
+        if (message) {
+          c[i].messages = message.data.reverse()
+        } else {
+          c[i].messages = []
         }
       })
     }
