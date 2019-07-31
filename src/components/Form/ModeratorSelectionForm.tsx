@@ -28,7 +28,7 @@ const ModeratorSelectionForm = ({
       className="uk-input"
       type="text"
       onChange={e => handleModeratorSearch(e.target.value)}
-      placeholder="Search moderators"
+      placeholder="Search by moderator ID"
     />
     <div
       className="uk-padding-remove uk-panel-scrollable"

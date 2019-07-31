@@ -39,9 +39,10 @@ interface CreateListingState {
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
-  // selectedModerator: Profile | {}
-  // availableModerators: Profile[]
-  // selectedModerators: Profile[]
+  selectedModerator: Profile
+  availableModerators: Profile[]
+  selectedModerators: Profile[]
+  originalModerators: Profile[]
   [key: string]: any
 }
 
@@ -58,7 +59,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isLoading: false,
       // === Formal Schema
       listing,
-      selectedModerator: {},
+      selectedModerator: new Profile(),
+      originalModerators: [],
       // === TODO: Implement handlers
       shippingOptions: {
         destination: '',
@@ -87,19 +89,20 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
     this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
     this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
+    this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
   }
 
   public async componentDidMount() {
     const profile = await Profile.retrieve()
     const moderatorListResponse = await Axios.get(
-      `${config.openBazaarHost}/ob/moderators?async=&include=`
+      `${config.openBazaarHost}/ob/moderators?async=false&include=`
     )
     if (moderatorListResponse.data) {
-      const availableModerators = await Promise.all(
+      const availableModerators = (await Promise.all(
         moderatorListResponse.data.map(async moderatorId => {
           return Profile.retrieve(moderatorId)
         })
-      )
+      )) as Profile[]
       console.log(availableModerators, 'moderators')
       this.setState({ availableModerators })
     }
@@ -182,9 +185,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             selectedModerators={selectedModerators}
             handleBtnClick={this.handleModeratorSelection}
             handleSubmit={handleSubmitModeratorSelection}
-            handleModeratorSearch={() => {
-              /** WIP */
-            }}
+            handleModeratorSearch={this.handleModeratorSearch}
             handleMoreInfo={handleShowModeratorModal}
           />
           // <div />
@@ -416,6 +417,32 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       moderatorModal.show()
       // b.show()
     }
+  }
+
+  private async handleModeratorSearch(searchStr: string) {
+    if (!searchStr) {
+      this.setState({
+        availableModerators: this.state.originalModerators,
+      })
+      return
+    }
+
+    if (this.state.availableModerators.length > 0) {
+      const originalModerators = this.state.availableModerators
+      const filteredMods = this.state.availableModerators.filter(mod => {
+        return mod.name.includes(searchStr)
+      })
+      this.setState({
+        originalModerators,
+        availableModerators: filteredMods,
+      })
+      return
+    }
+
+    const moderator = await Profile.retrieve(searchStr)
+    this.setState({
+      availableModerators: [moderator],
+    })
   }
 }
 
