@@ -289,7 +289,6 @@ class Profile implements ProfileSchema {
 
   public get displayModeratorFee() {
     const { moderatorInfo, moderator } = this
-    console.log(this)
     const { feeType, fixedFee, percentage } = moderatorInfo.fee
     if (!moderator) {
       return 'N/A'

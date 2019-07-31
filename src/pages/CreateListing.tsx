@@ -369,10 +369,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           handleMessageBtn={() => {
             // TODO: WIP
           }}
-          profile={this.state.selectedModerator}
+          profile={selectedModerator}
         />
-        {/* {selectedModerator && selectedModerator.moderator ? (
-        ) : null} */}
       </div>
     )
   }
@@ -409,13 +407,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   private handleShowModeratorModal(moderator: Profile) {
     this.setState({ selectedModerator: moderator })
     const moderatorModal = window.UIkit.modal('#moderator-info')
-    // const b = window.UIkit.modal('moderator-info')
-    // console.log(b)
-    console.log(moderatorModal)
     if (moderatorModal) {
       moderatorModal.show()
-      moderatorModal.show()
-      // b.show()
     }
   }
 
@@ -430,19 +423,23 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     if (this.state.availableModerators.length > 0) {
       const originalModerators = this.state.availableModerators
       const filteredMods = this.state.availableModerators.filter(mod => {
-        return mod.name.includes(searchStr)
+        return mod.peerID.includes(searchStr)
       })
       this.setState({
         originalModerators,
         availableModerators: filteredMods,
       })
-      return
     }
 
-    const moderator = await Profile.retrieve(searchStr)
-    this.setState({
-      availableModerators: [moderator],
-    })
+    const retreivedProfile = await Profile.retrieve(searchStr)
+    const isAlreadySelected = this.state.selectedModerators.some(
+      moderator => moderator.peerID === retreivedProfile.peerID
+    )
+    if (retreivedProfile.moderator && !isAlreadySelected) {
+      this.setState({
+        availableModerators: [retreivedProfile],
+      })
+    }
   }
 }
 
