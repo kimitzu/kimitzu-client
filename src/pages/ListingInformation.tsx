@@ -210,18 +210,11 @@ class ListingProfile extends Component<Props, State> {
           </div>
         ) : null}
         <PayoutCard acceptedPayments={listing.metadata.acceptedCurrencies} />
-        <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
-          <h3 className="uk-card-title text-blue uk-text-bold">Contact Information</h3>
-          <div className="inside-content">
-            <p className="uk-text-bold">Email</p>
-            <p>johndoe@gmail.com</p>
-          </div>
-        </div>
-        <SocialMediaCard socialMedia={profile.contactInfo.social} />
-        {background && background.educationHistory ? (
+        <SocialMediaCard contact={profile.contactInfo} title="Contact Information" />
+        {background && background.educationHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name="Education" />
         ) : null}
-        {background && background.employmentHistory ? (
+        {background && background.employmentHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name="Work History" />
         ) : null}
         <TagsCard data={spokenLanguages || []} name="Spoken Langguages" />

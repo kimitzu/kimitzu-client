@@ -33,7 +33,7 @@ const RegistrationForm = (props: Props) => (
             type="text"
             placeholder="John Doe"
             value={props.data.handle || ''}
-            onChange={event => props.onChange('handle', event.target.value, 'registrationForm')}
+            onChange={event => props.onChange('handle', event.target.value, 'profile')}
             required
           />
         </div>
@@ -46,7 +46,7 @@ const RegistrationForm = (props: Props) => (
             type="text"
             placeholder="John Doe"
             value={props.data.name || ''}
-            onChange={event => props.onChange('name', event.target.value, 'registrationForm')}
+            onChange={event => props.onChange('name', event.target.value, 'profile')}
           />
         </div>
       </div>
@@ -58,7 +58,7 @@ const RegistrationForm = (props: Props) => (
             rows={3}
             placeholder="In 500 words or less tell us something about yourself and the services you offer..."
             value={props.data.about || ''}
-            onChange={event => props.onChange('about', event.target.value, 'registrationForm')}
+            onChange={event => props.onChange('about', event.target.value, 'profile')}
           />
         </div>
       </div>
@@ -94,6 +94,18 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
+        <FormLabel label="EMAIL" />
+        <div className="uk-form-controls">
+          <input
+            className="uk-input"
+            type="text"
+            placeholder="john@email.com"
+            value={props.data.contactInfo.email || ''}
+            onChange={event => props.onChange('contactInfo.email', event.target.value, 'profile')}
+          />
+        </div>
+      </div>
+      <div className="uk-margin">
         <FormLabel label="COUNTRY" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
@@ -104,11 +116,7 @@ const RegistrationForm = (props: Props) => (
                 : ''
             }
             onChange={event =>
-              props.onChange(
-                'extLocation.addresses',
-                [{ country: event.target.value }],
-                'registrationForm'
-              )
+              props.onChange('extLocation.addresses', [{ country: event.target.value }], 'profile')
             }
             required
           />
@@ -120,9 +128,7 @@ const RegistrationForm = (props: Props) => (
           <FormSelector
             options={props.fiatCurrencies}
             defaultVal={props.data.preferences.fiat || 'USD'}
-            onChange={event =>
-              props.onChange('preferences.fiat', event.target.value, 'registrationForm')
-            }
+            onChange={event => props.onChange('preferences.fiat', event.target.value, 'profile')}
             required
           />
         </div>
@@ -134,7 +140,7 @@ const RegistrationForm = (props: Props) => (
             options={props.cryptoCurrencies}
             defaultVal={props.data.preferences.cryptocurrency || 'BTC'}
             onChange={event =>
-              props.onChange('preferences.cryptocurrency', event.target.value, 'registrationForm')
+              props.onChange('preferences.cryptocurrency', event.target.value, 'profile')
             }
             required
           />
@@ -147,7 +153,7 @@ const RegistrationForm = (props: Props) => (
             options={props.currencyTypes}
             defaultVal={props.data.preferences.currencyDisplay || 'FIAT'}
             onChange={event =>
-              props.onChange('preferences.currencyDisplay', event.target.value, 'registrationForm')
+              props.onChange('preferences.currencyDisplay', event.target.value, 'profile')
             }
             required
           />
@@ -160,7 +166,7 @@ const RegistrationForm = (props: Props) => (
             options={props.languages}
             defaultVal={props.data.preferences.language || 'EN'}
             onChange={event =>
-              props.onChange('preferences.language', event.target.value, 'registrationForm')
+              props.onChange('preferences.language', event.target.value, 'profile')
             }
             required
           />
@@ -173,7 +179,7 @@ const RegistrationForm = (props: Props) => (
             options={props.unitOfMeasurements}
             defaultVal={props.data.preferences.measurementUnit || 'ENGLISH'}
             onChange={event =>
-              props.onChange('preferences.measurementUnit', event.target.value, 'registrationForm')
+              props.onChange('preferences.measurementUnit', event.target.value, 'profile')
             }
             required
           />

@@ -10,6 +10,7 @@ import {
   Profile,
   UserRegistration,
 } from './pages'
+import DisputeView from './pages/DisputeView'
 import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
 
@@ -24,7 +25,8 @@ const Routes = () => (
       <Route path="/settings/profile" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
       <Route path="/history/:view" exact component={History} />
-      <Route path="/order/:id" exact component={OrderView} />
+      <Route path="/history/cases/:id" exact component={DisputeView} />
+      <Route path="/history/:view/:id" exact component={OrderView} />
       <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
     </Switch>
   </BrowserRouter>

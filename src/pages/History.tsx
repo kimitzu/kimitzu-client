@@ -148,8 +148,8 @@ class History extends React.Component<HistoryProps, HistoryState> {
           ) : this.state.orders.length > 0 ? (
             this.state.orders.map(order => (
               <Link
-                to={`/order/${order.orderId}`}
-                key={order.orderId}
+                to={`${window.location.pathname}/${order.orderId || order.caseId}`}
+                key={order.orderId || order.caseId}
                 className="no-underline-on-link"
               >
                 <OrderItemCard data={order} />

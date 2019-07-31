@@ -177,12 +177,31 @@ class Profile implements ProfileSchema {
     }
   }
 
+  public getAddress(type: string): string {
+    const addressTypes = ['primary', 'shipping', 'billing', 'return']
+    if (!addressTypes.includes(type)) {
+      throw new Error('Unknown address type')
+    }
+    const address = this.extLocation.addresses[this.extLocation[type]]
+    if (address.latitude && address.longitude) {
+      return `(${address.latitude}, ${address.longitude})`
+    }
+    if (address.plusCode) {
+      return `Plus Code: ${address.plusCode}`
+    }
+    return `${address.city ? `${address.city}, ` : ''}${address.state ? `${address.state}, ` : ''}${
+      address.country ? `${address.country}, ` : ''
+    }${address.zipCode ? `${address.zipCode}` : ''}`
+  }
+
   public async save() {
+    this.location = this.getAddress('primary')
     await Axios.post(`${config.openBazaarHost}/ob/profile`, this)
     await Profile.publish()
   }
 
   public async update() {
+    this.location = this.getAddress('primary')
     await Axios.put(`${config.openBazaarHost}/ob/profile`, this)
     await Profile.publish()
     this.extLocation = this.processAddresses(this.extLocation)

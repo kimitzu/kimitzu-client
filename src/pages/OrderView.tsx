@@ -18,6 +18,7 @@ import Rating from '../interfaces/Rating'
 import GroupMessage from '../models/GroupMessage'
 import Order from '../models/Order'
 
+import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
 import ClientRatings from '../constants/ClientRatings.json'
 import OrderRatings from '../constants/OrderRatings.json'
 
@@ -39,6 +40,9 @@ interface OrderViewState {
   orderFulfillRatings: Rating[]
   orderCompleteRatings: Rating[]
   groupMessage: GroupMessage
+  claim: string
+  isSendingRequest: boolean
+  id: string
 }
 
 const CONTENT_CONSTANTS = {
@@ -46,6 +50,7 @@ const CONTENT_CONSTANTS = {
   FULFILL_FORM: 1,
   DISCUSSION: 2,
   CONTACT: 3,
+  DISPUTE_FORM: 4,
 }
 
 const LOAD_INDICATOR = {
@@ -62,6 +67,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.state = {
       order,
       isLoading: true,
+      isSendingRequest: false,
       currentContent: CONTENT_CONSTANTS.MAIN_CONTENT,
       note: '',
       review: '',
@@ -70,6 +76,8 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       groupMessage,
       orderFulfillRatings: ClientRatings,
       orderCompleteRatings: OrderRatings,
+      claim: '',
+      id: '',
     }
     this.handleBackBtn = this.handleBackBtn.bind(this)
     this.handleFulfillOrderBtn = this.handleFulfillOrderBtn.bind(this)
@@ -79,6 +87,8 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleRefund = this.handleRefund.bind(this)
     this.handleContentChange = this.handleContentChange.bind(this)
     this.handleStarRatingChange = this.handleStarRatingChange.bind(this)
+    this.handleOrderDispute = this.handleOrderDispute.bind(this)
+    this.handleOrderFundRelease = this.handleOrderFundRelease.bind(this)
   }
 
   public async componentDidMount() {
@@ -100,6 +110,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       order,
       isLoading: false,
       groupMessage,
+      id,
     })
 
     window.socket.onmessage = async message => {
@@ -175,6 +186,10 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         content = this.renderDiscussionContent()
         currentTitle = 'DISCUSSION'
         break
+      case CONTENT_CONSTANTS.DISPUTE_FORM:
+        content = this.renderDisputeForm()
+        currentTitle = 'PREPARE DISPUTE'
+        break
       default:
         content = null
     }
@@ -212,19 +227,71 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     )
   }
 
+  private renderDisputeForm() {
+    return (
+      <div>
+        <p className="uk-text-center uk-text-bold">Order ID#: {this.state.order.id}</p>
+        <form className="uk-form uk-flex uk-flex-column uk-flex-center">
+          <div>
+            <FormLabel label="Claim" required />
+            <textarea
+              className="uk-textarea uk-width-1-1 uk-height-1-1"
+              rows={10}
+              cols={75}
+              value={this.state.claim}
+              onChange={e => this.handleInputChange('claim', e.target.value)}
+              placeholder="Prepare a suitable claim that has the most relevant evidence. This can help ensure you have the greatest possible chance of a dispute being found in your favor."
+            />
+          </div>
+          <div className="uk-flex uk-flex-center uk-margin-top">
+            <Button
+              className="uk-button uk-button-danger"
+              type="submit"
+              onClick={this.handleOrderDispute}
+              showSpinner={this.state.isSendingRequest}
+            >
+              Send Claim
+            </Button>
+          </div>
+        </form>
+      </div>
+    )
+  }
+
   private renderMainContent() {
     const { isAnonymous, loadIndicator, order, orderCompleteRatings, review } = this.state
     const disableReviewTextArea = order.step > 3
+
+    let steps
+    let currentStep = order.step
+
+    if (order.step === 7) {
+      steps = ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
+    } else if (order.step === 9) {
+      steps = ['DISPUTED', 'EXPIRED', 'DECIDED', 'RESOLVED']
+      currentStep = 1
+    } else if (order.step >= 8) {
+      steps = ['DISPUTED', 'DECIDED', 'RESOLVED']
+      currentStep = order.step - 8
+    } else {
+      steps = ['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']
+    }
+
     return (
       <div className="uk-width-1-1">
-        <Stepper
-          options={
-            order.step === 7
-              ? ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
-              : ['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']
-          }
-          currentIndex={order.step}
-        />
+        <Stepper options={steps} currentIndex={currentStep} />
+        {order.isDisputeExpired ? (
+          <div className="uk-margin-bottom">
+            <OrderSummaryItemSegment title="Dispute Expired">
+              <SimpleBorderedSegment>
+                <p className="color-secondary">
+                  Time is up! The moderator failed to make a decision in time. The vendor can now
+                  claim the funds.
+                </p>
+              </SimpleBorderedSegment>
+            </OrderSummaryItemSegment>
+          </div>
+        ) : null}
         {order.step === 7 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
@@ -246,6 +313,140 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
+          </div>
+        ) : null}
+        {order.step === 11 ? (
+          <div className="uk-margin-bottom">
+            <OrderSummaryItemSegment
+              title="Dispute Closed"
+              date={new Date(order.contract.disputeAcceptance!.timestamp)}
+            >
+              <SimpleBorderedSegment
+                title={`${
+                  this.state.order.contract.disputeAcceptance!.closedByProfile.name
+                } accepted the dispute payout.`}
+                imageSrc={`${config.djaliHost}/djali/media?id=${
+                  order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
+                }`}
+              />
+            </OrderSummaryItemSegment>
+          </div>
+        ) : null}
+        {order.step >= 10 ? (
+          <div className="uk-margin-bottom">
+            <OrderSummaryItemSegment
+              title="Dispute Payout"
+              date={new Date(order.contract.disputeResolution!.timestamp)}
+            >
+              <SimpleBorderedSegment
+                sideButtons={
+                  order.step === 9 ? (
+                    <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                      <Button
+                        className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
+                        onClick={this.handleOrderFundRelease}
+                        showSpinner={this.state.isSendingRequest}
+                      >
+                        Release Funds
+                      </Button>
+                    </div>
+                  ) : null
+                }
+              >
+                <div className="uk-flex uk-flex-column">
+                  <DisputePayoutSegment
+                    name={order.vendor!.name}
+                    avatar={order.vendor!.avatarHashes.medium}
+                    amount={order.parseCrypto(
+                      order.contract.disputeResolution!.payout.vendorOutput.amount
+                    )}
+                  />
+                  <DisputePayoutSegment
+                    name={order.buyer!.name}
+                    avatar={order.buyer!.avatarHashes.medium}
+                    amount={order.parseCrypto(
+                      order.contract.disputeResolution!.payout.buyerOutput.amount
+                    )}
+                  />
+                  <DisputePayoutSegment
+                    name={order.moderator!.name}
+                    avatar={order.moderator!.avatarHashes.medium}
+                    amount={order.parseCrypto(
+                      order.contract.disputeResolution!.payout.moderatorOutput.amount
+                    )}
+                    note={order.contract.disputeResolution!.resolution}
+                  />
+                </div>
+              </SimpleBorderedSegment>
+            </OrderSummaryItemSegment>
+          </div>
+        ) : null}
+        {order.step >= 8 ? (
+          <div className="uk-margin-bottom">
+            <OrderSummaryItemSegment
+              title="Dispute Started"
+              date={new Date(order.contract.dispute!.timestamp)}
+            >
+              <SimpleBorderedSegment title={'The order is being disputed:'}>
+                <p className="color-secondary">{order.contract.dispute!.claim}</p>
+              </SimpleBorderedSegment>
+            </OrderSummaryItemSegment>
+          </div>
+        ) : null}
+        {order.contract.dispute && order.step === 8 ? (
+          <div className="uk-margin-bottom">
+            <SimpleBorderedSegment
+              title="Disputing Order..."
+              sideButtons={
+                <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                  <button
+                    className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
+                    onClick={() => {
+                      this.setState({
+                        currentContent: CONTENT_CONSTANTS.DISCUSSION,
+                      })
+                    }}
+                  >
+                    Discuss Order
+                  </button>
+                </div>
+              }
+            >
+              <p className="color-secondary">
+                The order is being disputed. The moderator has approximately an hour to process the
+                dispute and make a decision.
+              </p>
+            </SimpleBorderedSegment>
+          </div>
+        ) : null}
+        {order.step >= 2 && order.isPaymentModerated && !order.contract.dispute ? (
+          <div className="uk-margin-bottom">
+            <SimpleBorderedSegment
+              title="Dispute Order"
+              sideButtons={
+                <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                  <button
+                    className="uk-button uk-button-danger uk-margin-small-left max-content-width button-small-padding"
+                    onClick={() => {
+                      this.setState({
+                        currentContent: CONTENT_CONSTANTS.DISPUTE_FORM,
+                      })
+                    }}
+                  >
+                    DISPUTE
+                  </button>
+                </div>
+              }
+            >
+              <p className="uk-text-danger">
+                This order can be disputed for 6 blocks or approximately an hour. The clock will
+                start when the funding payment is confirmed.
+              </p>
+              <p className="uk-text-muted">
+                Once the clock expires, the vendor can claim payment and finalize the order without
+                support from the moderator.
+              </p>
+            </SimpleBorderedSegment>
           </div>
         ) : null}
         {order.step === 4 ? (
@@ -378,7 +579,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     ) : null
                   }
                 >
-                  <p className="color-secondary">Your order is now being processed...</p>
+                  {order.role === 'vendor' ? (
+                    <p className="color-secondary">
+                      You received the order and can fulfill it whenever you're ready.
+                    </p>
+                  ) : (
+                    <p className="color-secondary">Your order is now being processed...</p>
+                  )}
                 </SimpleBorderedSegment>
               </OrderSummaryItemSegment>
             </div>
@@ -567,8 +774,37 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.setState({ currentContent: CONTENT_CONSTANTS.FULFILL_FORM })
   }
 
-  private handleBackBtn() {
-    this.setState({ currentContent: CONTENT_CONSTANTS.MAIN_CONTENT })
+  private async handleOrderDispute() {
+    this.setState({
+      isSendingRequest: true,
+    })
+    await this.state.order.dispute(this.state.claim)
+    alert('Dispute Sent!')
+    this.handleBackBtn(true)
+    this.setState({
+      isSendingRequest: false,
+    })
+  }
+
+  private async handleOrderFundRelease() {
+    this.setState({
+      isSendingRequest: true,
+    })
+    await this.state.order.releaseFunds()
+    alert('Funds released!')
+    await this.handleBackBtn(true)
+    this.setState({
+      isSendingRequest: false,
+    })
+  }
+
+  private async handleBackBtn(refresh?: boolean) {
+    if (refresh) {
+      const order = await Order.retrieve(this.state.id)
+      this.setState({ currentContent: CONTENT_CONSTANTS.MAIN_CONTENT, order })
+    } else {
+      this.setState({ currentContent: CONTENT_CONSTANTS.MAIN_CONTENT })
+    }
   }
 }
 

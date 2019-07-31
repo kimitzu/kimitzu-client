@@ -1,3 +1,5 @@
+import Profile from '../models/Profile'
+
 export interface Order {
   contract: Contract
   state: string
@@ -6,6 +8,20 @@ export interface Order {
   unreadChatMessages: number
   paymentAddressTransactions: PaymentAddressTransaction[]
   refundAddressTransaction?: PaymentAddressTransaction
+}
+
+export interface Dispute {
+  timestamp: string
+  claim: string
+  payoutAddress: string
+  outpoints: Outpoint[]
+  serializedContract: string
+}
+
+export interface Outpoint {
+  hash: string
+  index: number
+  value: number
 }
 
 export interface OrderPaymentInformation {
@@ -23,6 +39,48 @@ export interface Contract {
   buyerOrderCompletion: BuyerOrderCompletion
   signatures: Signature[]
   refund?: Refund
+  dispute?: Dispute
+  disputeResolution?: DisputeResolution
+  disputeAcceptance?: DisputeAcceptance
+}
+
+export interface DisputeResolution {
+  timestamp: string
+  orderId: string
+  proposedBy: string
+  resolution: string
+  payout: Payout
+  moderatorRatingSigs: string[]
+}
+
+export interface DisputeAcceptance {
+  timestamp: string
+  closedBy: string
+  closedByProfile: Profile
+}
+
+export interface Payout {
+  sigs: Sig[]
+  inputs: Input[]
+  buyerOutput: ROutput
+  moderatorOutput: ROutput
+  vendorOutput: ROutput
+}
+
+export interface ROutput {
+  address: string
+  amount: number
+}
+
+export interface Input {
+  hash: string
+  index: number
+  value: number
+}
+
+export interface Sig {
+  inputIndex: number
+  signature: string
 }
 
 export interface BuyerOrder {

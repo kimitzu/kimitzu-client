@@ -29,6 +29,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
     this.handleRecipientChange = this.handleRecipientChange.bind(this)
     this.onKeyPress = this.onKeyPress.bind(this)
     this.sendMsg = this.sendMsg.bind(this)
+    this.handleWebsocket = this.handleWebsocket.bind(this)
     this.preventInput = false
   }
 
@@ -42,6 +43,8 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         indexPeerIDTemp.push(cc.peerId)
         this.setState({ indexPeerID: indexPeerIDTemp })
         const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${cc.peerId}`)
+        c[i].image = '/images/user.png'
+        c[i].name = cc.peerId
         if (prof && prof.data.profile) {
           if (prof.data.profile.avatarHashes) {
             c[i].image = `${config.openBazaarHost}/ob/images/${
@@ -51,38 +54,39 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
             c[i].image = '/images/user.png'
           }
           c[i].name = prof.data.profile.name
-          const message = await axios.get(
-            `${config.openBazaarHost}/ob/chatmessages/${cc.peerId}?limit=20&offsetId=&subject=`
-          )
-          if (message) {
-            c[i].messages = message.data.reverse()
-          } else {
-            c[i].messages = []
-          }
+        }
+        const message = await axios.get(
+          `${config.openBazaarHost}/ob/chatmessages/${cc.peerId}?limit=20&offsetId=&subject=`
+        )
+        if (message) {
+          c[i].messages = message.data.reverse()
+        } else {
+          c[i].messages = []
         }
       })
     }
 
     this.setState({ conversations: c })
 
-    window.socket.onopen = evt => {
-      window.socket.onmessage = data => {
-        const d = JSON.parse(data.data)
-        if (d.message) {
-          const newMsg = d.message
-          const index = this.state.indexPeerID.indexOf(d.message.peerId)
-          const msg = d.message.message
-          const realTimeConv = this.state.conversations
+    const socket = new WebSocket(config.websocketHost)
+    socket.onmessage = this.handleWebsocket
+  }
 
-          if (!realTimeConv[index]) {
-            realTimeConv[index] = []
-          }
+  public handleWebsocket(data) {
+    const d = JSON.parse(data.data)
+    if (d.message) {
+      const newMsg = d.message
+      const index = this.state.indexPeerID.indexOf(d.message.peerId)
+      const msg = d.message.message
+      const realTimeConv = this.state.conversations
 
-          realTimeConv[index].messages.push(newMsg)
-          realTimeConv[index].lastMessage = msg
-          this.setState({ conversations: realTimeConv, scrollBottom: true })
-        }
+      if (!realTimeConv[index]) {
+        realTimeConv[index] = []
       }
+
+      realTimeConv[index].messages.push(newMsg)
+      realTimeConv[index].lastMessage = msg
+      this.setState({ conversations: realTimeConv, scrollBottom: true })
     }
   }
 
