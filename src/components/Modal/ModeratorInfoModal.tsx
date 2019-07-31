@@ -14,7 +14,6 @@ interface Props {
 const ModeratorInfoModal = ({ handleMessageBtn, profile }: Props) => {
   const { moderatorInfo, extLocation, name, peerID } = profile
   const primaryAddress = extLocation ? extLocation.addresses[extLocation.primary] : null
-  console.log(moderatorInfo)
   if (!moderatorInfo) {
     return null
   }

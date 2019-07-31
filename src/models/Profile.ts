@@ -52,11 +52,13 @@ class Profile implements ProfileSchema {
     await Axios.post(`${config.openBazaarHost}/ob/publish`, {})
   }
 
-  public static async retrieve(id?: string): Promise<Profile> {
+  public static async retrieve(id?: string, force?: boolean): Promise<Profile> {
     let profile: Profile
 
     if (id) {
-      const peerRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}`)
+      const peerRequest = await Axios.get(
+        `${config.djaliHost}/djali/peer/get?id=${id}${force ? '&force=true' : ''}`
+      )
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
     } else {
@@ -282,6 +284,9 @@ class Profile implements ProfileSchema {
 
   public getAvatarSrc(type?: string) {
     const { avatarHashes } = this
+    if (type && !avatarHashes[type]) {
+      return '/images/user.png'
+    }
     return `${config.openBazaarHost}/ob/images/${
       type ? avatarHashes[type] || avatarHashes.medium : avatarHashes.medium
     }`

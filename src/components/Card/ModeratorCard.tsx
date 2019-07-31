@@ -29,8 +29,8 @@ const displayFee = fee => {
 }
 
 const ModeratorCard = ({ index, handleBtnClick, handleMoreInfo, profile, addModerator }: Props) => {
-  const { moderatorInfo, extLocation } = profile
-  const primaryAddress = extLocation ? extLocation.addresses[extLocation.primary] : null
+  const { moderatorInfo, location } = profile
+  const primaryAddress = location || 'Not Specified'
   const { fee } = moderatorInfo
   return (
     <div className="uk-card uk-card-default uk-width-1-1">
@@ -47,14 +47,7 @@ const ModeratorCard = ({ index, handleBtnClick, handleMoreInfo, profile, addMode
             <p id="moderator-card-fees" className="uk-flex-1 uk-text-bold">
               <span data-uk-icon="tag" />
               {displayFee(fee)}
-              {/* TODO: Modify if possible */}
-              {primaryAddress
-                ? `${primaryAddress.city}${
-                    primaryAddress.country && primaryAddress.city
-                      ? `, ${primaryAddress.country}`
-                      : ''
-                  }`
-                : 'N/A'}
+              {primaryAddress}
             </p>
           </div>
         </div>

@@ -98,13 +98,13 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       `${config.openBazaarHost}/ob/moderators?async=false&include=`
     )
     if (moderatorListResponse.data) {
-      const availableModerators = (await Promise.all(
+      let availableModerators
+      availableModerators = await Promise.all(
         moderatorListResponse.data.map(async moderatorId => {
           return Profile.retrieve(moderatorId)
         })
-      )) as Profile[]
-      console.log(availableModerators, 'moderators')
-      this.setState({ availableModerators })
+      )
+      this.setState({ availableModerators, originalModerators: availableModerators })
     }
     this.setState({
       profile,
@@ -188,7 +188,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleModeratorSearch={this.handleModeratorSearch}
             handleMoreInfo={handleShowModeratorModal}
           />
-          // <div />
         ),
         title: 'Moderators',
       },
@@ -421,23 +420,26 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     }
 
     if (this.state.availableModerators.length > 0) {
-      const originalModerators = this.state.availableModerators
       const filteredMods = this.state.availableModerators.filter(mod => {
         return mod.peerID.includes(searchStr)
       })
       this.setState({
-        originalModerators,
         availableModerators: filteredMods,
       })
+      return
     }
 
-    const retreivedProfile = await Profile.retrieve(searchStr)
+    if (searchStr.length < 46) {
+      return
+    }
+
+    const retrievedProfile = await Profile.retrieve(searchStr, true)
     const isAlreadySelected = this.state.selectedModerators.some(
-      moderator => moderator.peerID === retreivedProfile.peerID
+      moderator => moderator.peerID === retrievedProfile.peerID
     )
-    if (retreivedProfile.moderator && !isAlreadySelected) {
+    if (retrievedProfile.moderator && !isAlreadySelected) {
       this.setState({
-        availableModerators: [retreivedProfile],
+        availableModerators: [retrievedProfile],
       })
     }
   }
