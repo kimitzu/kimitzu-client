@@ -54,7 +54,7 @@ const Filter = ({
     >
       <legend className="uk-legend">FILTERS</legend>
       <div className="uk-margin">
-        <FormLabel label="Occupation Classification" />
+        <FormLabel label="Occupation" />
         <div id="form-select" className="uk-form-controls">
           <AutoCompleteSelect
             options={serviceTypes}
@@ -147,7 +147,6 @@ const Filter = ({
           <input
             className="uk-range"
             type="range"
-            defaultValue="0"
             value={locationRadius}
             min="-1"
             max="200000"
