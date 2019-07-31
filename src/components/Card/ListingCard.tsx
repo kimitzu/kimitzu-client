@@ -23,7 +23,7 @@ const ListingCard = ({ listing }: ListingProps) => (
       <div>
         <img
           className="img-list"
-          src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.tiny ||
+          src={`${config.djaliHost}/djali/media?id=${listing.thumbnail.medium ||
             listing.thumbnail.small}`}
           alt=""
         />

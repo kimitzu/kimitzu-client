@@ -303,7 +303,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 imageSrc={
                   order.vendor!.avatarHashes.original
                     ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
-                    : ''
+                    : '/images/user.png'
                 }
               >
                 <p className="color-secondary">
@@ -325,9 +325,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 title={`${
                   this.state.order.contract.disputeAcceptance!.closedByProfile.name
                 } accepted the dispute payout.`}
-                imageSrc={`${config.djaliHost}/djali/media?id=${
+                imageSrc={
                   order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
-                }`}
+                    ? `${config.djaliHost}/djali/media?id=${
+                        order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
+                      }`
+                    : '/images/user.png'
+                }
               />
             </OrderSummaryItemSegment>
           </div>
@@ -460,7 +464,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 imageSrc={
                   order.buyer!.avatarHashes.original
                     ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
-                    : ''
+                    : '/images/user.png'
                 }
               >
                 <p className="color-secondary">
@@ -531,7 +535,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 imageSrc={
                   order.vendor!.avatarHashes.medium
                     ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                    : ''
+                    : '/images/user.png'
                 }
               >
                 <p className="color-secondary">{order.contract.vendorOrderFulfillment[0].note}</p>
@@ -557,7 +561,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   imageSrc={
                     order.vendor!.avatarHashes.medium
                       ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                      : ''
+                      : '/images/user.png'
                   }
                   sideButtons={
                     order.role === 'vendor' && order.step === 2 ? (

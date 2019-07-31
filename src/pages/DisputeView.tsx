@@ -229,7 +229,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
               imageSrc={
                 dispute.buyer.avatarHashes.medium
                   ? `${config.djaliHost}/djali/media?id=${dispute.buyer.avatarHashes.medium}`
-                  : undefined
+                  : `/images/user.png`
               }
               sideButtons={
                 dispute.state === 'DISPUTED' ? (
@@ -256,7 +256,11 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
           >
             <SimpleBorderedSegment
               title="Order Accepted"
-              imageSrc={`${config.djaliHost}/djali/media?id=${dispute.vendor.avatarHashes.medium}`}
+              imageSrc={
+                dispute.vendor.avatarHashes.medium
+                  ? `${config.djaliHost}/djali/media?id=${dispute.vendor.avatarHashes.medium}`
+                  : `/images/user.png`
+              }
             >
               <p className="color-secondary">The vendor order has accepted the order.</p>
             </SimpleBorderedSegment>

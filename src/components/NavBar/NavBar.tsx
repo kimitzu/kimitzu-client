@@ -47,33 +47,23 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
       ) : null}
     </div>
     <div id="navbar-right-item" className="uk-navbar-right">
-      <a id="account" className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
+      <div id="account" className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
       <div className="uk-padding-small" data-uk-dropdown="pos: bottom-left; mode: click">
         <ul className="uk-nav uk-dropdown-nav">
           <li>
-            <Link to="/settings/profile">
-              <a>Settings</a>
-            </Link>
+            <Link to="/settings/profile">Settings</Link>
           </li>
           <li>
-            <Link to="/history/purchases">
-              <a>Purchase History</a>
-            </Link>
+            <Link to="/history/purchases">Purchase History</Link>
           </li>
           <li>
-            <Link to="/history/sales">
-              <a>Sales History</a>
-            </Link>
+            <Link to="/history/sales">Sales History</Link>
           </li>
           <li>
-            <Link to="/history/cases">
-              <a>Case History</a>
-            </Link>
+            <Link to="/history/cases">Case History</Link>
           </li>
           <li>
-            <Link to="/listing/create">
-              <a>Create New Listing</a>
-            </Link>
+            <Link to="/listing/create">Create New Listing</Link>
           </li>
         </ul>
       </div>

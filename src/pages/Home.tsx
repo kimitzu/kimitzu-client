@@ -106,7 +106,7 @@ class Home extends Component<HomeProps, HomeState> {
           <div className="child-main-container">
             <div className="custom-width">
               <InlineMultiDropdowns
-                title="Classification"
+                title="Browse Classifications"
                 handleItemSelect={this.handleDropdownSelect}
                 items={ServiceCategories}
               />

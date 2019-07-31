@@ -1,26 +1,13 @@
-#purchase-listing-image {
-    padding-left: 15%;
-    padding-top: 5%;
-    padding-right: 20%;
-    padding-bottom: 20%; 
-}
-
-#purchase-listing-title {
-    color: var(--primary);
-    padding-top: 3%;
-    font-size: 1em;
-    font-weight: bolder;
-}
-
-#purchase-listing-text > p {
+#purchase-listing-text>p {
     color: var(--primary);
     font-size: 0.8em;
 }
 
 .emphasize-on-hover {
     transition: transform 0.25s;
+    padding: 2%;
 }
 
 .emphasize-on-hover:hover {
-    transform: scale(1.10);
+    transform: scale(1.1);
 }

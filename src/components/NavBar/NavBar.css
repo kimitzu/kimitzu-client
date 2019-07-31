@@ -19,6 +19,7 @@
 }
 #navbar-right-item {
   margin-right: 2%;
+  cursor: pointer;
 }
 #navbar-center-item {
   width: 52%;

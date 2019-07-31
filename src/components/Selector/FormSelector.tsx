@@ -19,7 +19,6 @@ const FormSelector = ({ options, defaultVal, disabled, onChange, required }: Pro
     onChange={onChange}
     required={required || false}
     disabled={disabled}
-    defaultValue={defaultVal}
     value={defaultVal}
   >
     {options ? (
