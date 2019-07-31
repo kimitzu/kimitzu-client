@@ -11,7 +11,11 @@ interface Props {
 const DisputePayoutSegment = ({ avatar, name, amount, note }: Props) => (
   <div className="uk-flex uk-flex-row">
     <div>
-      <img src={`${config.djaliHost}/djali/media?id=${avatar}`} height={40} width={40} />
+      <img
+        src={avatar ? `${config.djaliHost}/djali/media?id=${avatar}` : '/images/user.png'}
+        height={40}
+        width={40}
+      />
     </div>
     <div className="uk-flex uk-flex-column uk-margin-small-left">
       <p className="uk-text-bold">{name}</p>
