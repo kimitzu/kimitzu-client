@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { ModeratorCard } from '../Card'
+import { DottedSpinner } from '../Spinner'
 
 import Profile from '../../models/Profile'
 
@@ -13,6 +14,7 @@ interface Props {
   handleBtnClick: (profile: Profile, index: number, type: string) => void
   handleMoreInfo: (profile: Profile) => void
   handleSubmit: () => void
+  showSpinner?: boolean
 }
 
 const ModeratorSelectionForm = ({
@@ -22,6 +24,7 @@ const ModeratorSelectionForm = ({
   handleMoreInfo,
   handleSubmit,
   selectedModerators,
+  showSpinner,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   return (
@@ -53,19 +56,37 @@ const ModeratorSelectionForm = ({
         id="moderator-selection-dropdown"
         data-uk-dropdown="pos: bottom-justify; mode: click"
       >
-        <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list">
-          {availableModerators.map((moderator, index) => (
-            <li key={moderator.peerID} className="uk-margin-remove">
-              <ModeratorCard
-                index={index}
-                handleBtnClick={handleBtnClick}
-                handleMoreInfo={handleMoreInfo}
-                profile={moderator}
-                addModerator
-              />
-            </li>
-          ))}
-        </ul>
+        {showSpinner && searchVal.length === 0 ? (
+          <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">
+            <DottedSpinner />
+          </div>
+        ) : availableModerators.length === 0 ? (
+          <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">
+            <h5>No moderators found or available.</h5>
+          </div>
+        ) : (
+          <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list">
+            {availableModerators.map((moderator, index) => (
+              <li key={moderator.peerID} className="uk-margin-remove">
+                <ModeratorCard profile={moderator}>
+                  <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
+                    <button
+                      id="moderator-card-btn"
+                      className="uk-button uk-button-primary"
+                      onClick={() => handleBtnClick(moderator, index, 'add')}
+                    >
+                      +
+                    </button>
+
+                    <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>
+                      More...
+                    </a>
+                  </div>
+                </ModeratorCard>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div
         id="selected-moderators"
@@ -73,12 +94,21 @@ const ModeratorSelectionForm = ({
       >
         {selectedModerators.map((moderator, index) => (
           <div className="uk-margin-small-top" key={moderator.peerID}>
-            <ModeratorCard
-              index={index}
-              handleBtnClick={handleBtnClick}
-              handleMoreInfo={handleMoreInfo}
-              profile={moderator}
-            />
+            <ModeratorCard profile={moderator}>
+              <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
+                <button
+                  id="moderator-card-btn"
+                  className="uk-button uk-button-primary"
+                  onClick={() => handleBtnClick(moderator, index, 'remove')}
+                >
+                  {`\xD7`}
+                </button>
+
+                <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>
+                  More...
+                </a>
+              </div>
+            </ModeratorCard>
           </div>
         ))}
       </div>

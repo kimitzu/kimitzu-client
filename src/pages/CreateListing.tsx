@@ -43,6 +43,7 @@ interface CreateListingState {
   availableModerators: Profile[]
   selectedModerators: Profile[]
   originalModerators: Profile[]
+  hasFetchedAModerator: boolean
   [key: string]: any
 }
 
@@ -57,6 +58,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       currentFormIndex: 0,
       tempImages: [],
       isLoading: false,
+      hasFetchedAModerator: false,
       // === Formal Schema
       listing,
       selectedModerator: new Profile(),
@@ -98,13 +100,17 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       `${config.openBazaarHost}/ob/moderators?async=false&include=`
     )
     if (moderatorListResponse.data) {
-      let availableModerators
-      availableModerators = await Promise.all(
-        moderatorListResponse.data.map(async moderatorId => {
-          return Profile.retrieve(moderatorId)
+      await moderatorListResponse.data.forEach(async (moderatorId, index) => {
+        const moderator = await Profile.retrieve(moderatorId)
+        const { availableModerators, originalModerators } = this.state
+        this.setState({
+          availableModerators: [...availableModerators, moderator],
+          originalModerators: [...originalModerators, moderator],
         })
-      )
-      this.setState({ availableModerators, originalModerators: availableModerators })
+        if (index === 0) {
+          this.setState({ hasFetchedAModerator: true })
+        }
+      })
     }
     this.setState({
       profile,
@@ -112,7 +118,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   get contents() {
-    const { availableModerators, selectedModerators } = this.state
+    const { availableModerators, selectedModerators, hasFetchedAModerator } = this.state
     const {
       handleInputChange,
       handleSubmitForm,
@@ -187,6 +193,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleSubmit={handleSubmitModeratorSelection}
             handleModeratorSearch={this.handleModeratorSearch}
             handleMoreInfo={handleShowModeratorModal}
+            showSpinner={!hasFetchedAModerator}
           />
         ),
         title: 'Moderators',
