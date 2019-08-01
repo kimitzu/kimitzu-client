@@ -277,3 +277,11 @@ export interface RefundTransaction {
   txid: string
   value: number
 }
+
+export interface OrdersSpend {
+  wallet: string
+  address: string
+  amount: number
+  feeLevel: string
+  memo: string
+}

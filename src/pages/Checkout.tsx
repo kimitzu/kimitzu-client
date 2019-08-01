@@ -5,14 +5,19 @@ import {
   // AddressCard,
   CheckoutPaymentCard,
   ListingCheckoutCard,
+  ModeratorCard,
   PaymentQRCard,
 } from '../components/Card'
 import { FormLabel } from '../components/Label'
+import ModeratorInfoModal from '../components/Modal/ModeratorInfoModal'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 
 import Listing from '../models/Listing'
 import Order from '../models/Order'
+import Profile from '../models/Profile'
 
+import Axios from 'axios'
+import config from '../config'
 import PaymentNotification, { Notification } from '../interfaces/PaymentNotification'
 import './Checkout.css'
 
@@ -67,10 +72,17 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         orderId: '',
         type: '',
       },
+      hasFetchedAModerator: false,
+      selectedModerator: new Profile(),
+      originalModerators: [],
+      availableModerators: [],
+      selectedModerators: [],
+      selectedModeratorID: '',
     }
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
+    this.handleMoreInfo = this.handleMoreInfo.bind(this)
     this.socket = window.socket
   }
 
@@ -79,9 +91,29 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     const quantity = this.props.match.params.quantity
     const listing = await Listing.retrieve(id)
 
+    const profile = await Profile.retrieve()
+    console.log(listing)
+    const moderatorListResponse = listing.listing.moderators
+    console.log(moderatorListResponse)
+    if (moderatorListResponse.length > 0) {
+      await moderatorListResponse.forEach(async (moderatorId, index) => {
+        const moderator = await Profile.retrieve(moderatorId)
+        const { availableModerators, originalModerators } = this.state
+        console.log(moderator)
+        this.setState({
+          availableModerators: [...availableModerators, moderator],
+          originalModerators: [...originalModerators, moderator],
+        })
+        if (index === 0) {
+          this.setState({ hasFetchedAModerator: true })
+        }
+      })
+    }
+
     this.setState({
       listing: listing.listing,
       quantity: Number(quantity),
+      profile,
     })
 
     this.socket.onmessage = event => {
@@ -97,6 +129,14 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           }
         )
       }
+    }
+  }
+
+  public handleMoreInfo(moderator: Profile) {
+    this.setState({ selectedModerator: moderator })
+    const moderatorModal = window.UIkit.modal('#moderator-info')
+    if (moderatorModal) {
+      moderatorModal.show()
     }
   }
 
@@ -119,7 +159,14 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                 amount={amountToPay}
                 handleCopyToClipboard={this.copyToClipboard}
                 cryptocurrency={this.state.selectedCurrency}
-                handlePay={() => alert('Feature coming soon')}
+                memo={this.state.memo}
+                handlePay={async orderDetails => {
+                  await this.state.order.pay(orderDetails)
+                  const element = document.getElementById('dropID')
+                  if (element) {
+                    window.UIkit.dropdown(element).hide()
+                  }
+                }}
               />
             </div>
           ) : (
@@ -148,6 +195,24 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               <div className="uk-margin-bottom">
                 <div className="uk-card uk-card-default uk-card-body uk-card-small">
                   <h3>Additional Information</h3>
+                  <div className="uk-margin">
+                    {this.state.availableModerators.map((data, index) => (
+                      <ModeratorCard
+                        key={index}
+                        profile={data}
+                        currIndex={this.state.selectedModeratorID}
+                        handleSelect={() => {
+                          this.setState({ selectedModeratorID: data.peerID })
+                          console.log(data.peerID)
+                        }}
+                        id={data.peerID}
+                      >
+                        <a id="moderator-card-more-link" onClick={() => this.handleMoreInfo(data)}>
+                          More...
+                        </a>
+                      </ModeratorCard>
+                    ))}
+                  </div>
                   <div className="uk-margin">
                     <FormLabel label="MEMO" />
                     <textarea
@@ -198,6 +263,12 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             <Link to={`/order/${this.state.payment.orderId}`}>Check the status of your order.</Link>
           </div>
         </div>
+        <ModeratorInfoModal
+          handleMessageBtn={() => {
+            // TODO: WIP
+          }}
+          profile={this.state.selectedModerator}
+        />
       </div>
     )
   }
@@ -242,17 +313,22 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         this.state.listing.hash,
         this.state.quantity,
         this.state.memo,
-        this.state.selectedCurrency
+        this.state.selectedCurrency,
+        this.state.selectedModeratorID
       )
     } catch (e) {
       alert(e.message)
       return
     }
 
+    const order = this.state.order
+    order.id = paymentInformation.orderId
+
     this.setState({
       paymentAddress: paymentInformation.paymentAddress,
       amountToPay: paymentInformation.amount.toString(),
       isPending: true,
+      order,
     })
   }
 }

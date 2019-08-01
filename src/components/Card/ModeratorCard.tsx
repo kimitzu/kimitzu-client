@@ -7,13 +7,19 @@ import './ModeratorCard.css'
 interface Props {
   profile: Profile
   children?: JSX.Element | JSX.Element[]
+  handleSelect?: () => void
+  currIndex?: string
+  id?: string
 }
 
-const ModeratorCard = ({ profile, children }: Props) => {
+const ModeratorCard = ({ profile, children, id, currIndex, handleSelect }: Props) => {
   const { moderatorInfo, location } = profile
   const primaryAddress = location || 'Not Specified'
   return (
-    <div className="uk-card uk-card-default uk-width-1-1">
+    <div
+      className={`uk-card uk-card-default uk-width-1-1 ${currIndex === id ? 'bar-select' : ''}`}
+      onClick={() => (handleSelect ? handleSelect() : null)}
+    >
       <div className="uk-card-body uk-flex uk-padding-small">
         <div className="uk-flex-2">
           <img id="moderator-card-img" src={profile.getAvatarSrc()} />

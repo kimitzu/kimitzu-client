@@ -6,6 +6,7 @@ import {
   DisputeResolution,
   Order as OrderInterface,
   OrderPaymentInformation,
+  OrdersSpend,
   Refund,
 } from '../interfaces/Order'
 import Rating from '../interfaces/Rating'
@@ -333,6 +334,7 @@ class Order implements OrderInterface {
     quantity: number,
     memo: string,
     paymentCoin: string,
+    moderator: string,
     coupons?: string
   ): Promise<OrderPaymentInformation> {
     const order = {
@@ -351,7 +353,7 @@ class Order implements OrderInterface {
           coupons: [],
         },
       ],
-      moderator: '',
+      moderator,
       paymentCoin,
     }
     try {
@@ -470,6 +472,10 @@ class Order implements OrderInterface {
     return value / 100000000
   }
 
+  public toCryptoValue(value: number): number {
+    return value * 100000000
+  }
+
   public async refund(memo: string) {
     try {
       await Axios.post(`${config.openBazaarHost}/ob/refund`, {
@@ -506,6 +512,21 @@ class Order implements OrderInterface {
       return new Date(Date.now()) >= estimatedExpiration && !this.contract.disputeResolution
     }
     return false
+  }
+
+  public async pay(orderSpend: OrdersSpend) {
+    try {
+      await Axios.post(`${config.openBazaarHost}/ob/orderspend`, {
+        wallet: orderSpend.wallet,
+        address: orderSpend.address,
+        amount: this.toCryptoValue(orderSpend.amount),
+        feeLevel: orderSpend.feeLevel,
+        memo: orderSpend.memo,
+        orderID: this.id,
+      })
+    } catch (e) {
+      throw e
+    }
   }
 
   public get step(): number {

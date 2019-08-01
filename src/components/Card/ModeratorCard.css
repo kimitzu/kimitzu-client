@@ -24,3 +24,9 @@
 #moderator-card-more-link {
   font-size: 0.75rem;
 }
+.radio-cont {
+  height: 100%;
+}
+.bar-select {
+  border-left: 10px solid dodgerblue;;
+}

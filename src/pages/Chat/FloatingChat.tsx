@@ -47,9 +47,9 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         c[i].name = cc.peerId
         if (prof && prof.data.profile) {
           if (prof.data.profile.avatarHashes) {
-            c[i].image = `${config.openBazaarHost}/ob/images/${
-              prof.data.profile.avatarHashes.small
-            }`
+            c[
+              i
+            ].image = `${config.openBazaarHost}/ob/images/${prof.data.profile.avatarHashes.small}`
           } else {
             c[i].image = '/images/user.png'
           }

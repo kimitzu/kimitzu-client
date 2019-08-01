@@ -230,9 +230,7 @@ class Search implements State {
     if (searchParams.locationRadius > -1 && searchParams.filters['location.zipCode']) {
       extendedFilters = extendedFilters.map(filter => {
         if (filter && filter.includes(searchParams.filters['location.zipCode'])) {
-          return `zipWithin("${searchParams.filters['location.zipCode']}", "${
-            searchParams.filters['location.country']
-          }", doc.location.zipCode, doc.location.country, ${searchParams.locationRadius})`
+          return `zipWithin("${searchParams.filters['location.zipCode']}", "${searchParams.filters['location.country']}", doc.location.zipCode, doc.location.country, ${searchParams.locationRadius})`
         } else {
           return filter
         }
