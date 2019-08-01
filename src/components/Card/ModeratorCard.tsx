@@ -15,6 +15,7 @@ interface Props {
 const ModeratorCard = ({ profile, children, id, currIndex, handleSelect }: Props) => {
   const { moderatorInfo, location } = profile
   const primaryAddress = location || 'Not Specified'
+
   return (
     <div
       className={`uk-card uk-card-default uk-width-1-1 ${currIndex === id ? 'bar-select' : ''}`}

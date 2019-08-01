@@ -9,6 +9,7 @@ import { Button } from '../../components/Button'
 import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
 import EducationCardGroup from '../../components/CardGroup/Settings/EducationCardGroup'
 import EmploymentCardGroup from '../../components/CardGroup/Settings/EmploymentCardGroup'
+import CustomDescriptionForm from '../../components/Form/CustomDescriptionForm'
 import EducationForm from '../../components/Form/EducationForm'
 import EmploymentForm from '../../components/Form/EmploymentForm'
 import Countries from '../../constants/Countries.json'
@@ -193,6 +194,10 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       {
         component: <ModeratorForm profile={this.state.profile} />,
         label: 'Moderator',
+      },
+      {
+        component: <CustomDescriptionForm profile={this.state.profile} />,
+        label: 'Custom Descriptions',
       },
     ]
   }

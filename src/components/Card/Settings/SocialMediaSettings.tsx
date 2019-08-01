@@ -11,7 +11,6 @@ const SocialMediaSettings = ({ profile }: SocialMediaSettingsProps) => {
   const selectors: SocialAccount[] = profile.contactInfo.social || []
 
   const [socialSelectors, setSocialSelectors] = useState(selectors)
-  const [, forceUpdate] = useState(true)
   const [mouseOverIndex, setMouseOverIndex] = useState(-1)
 
   const changeHandler = (index, field, value) => {
@@ -25,15 +24,13 @@ const SocialMediaSettings = ({ profile }: SocialMediaSettingsProps) => {
         proof: '',
       })
     }
-    setSocialSelectors(socialSelectors)
-    forceUpdate(n => !n)
+    setSocialSelectors([...socialSelectors])
     profile.contactInfo.social = socialSelectors
   }
 
   const deleteHandler = index => {
     socialSelectors.splice(index, 1)
-    setSocialSelectors(socialSelectors)
-    forceUpdate(n => !n)
+    setSocialSelectors([...socialSelectors])
     profile.contactInfo.social = socialSelectors
   }
 

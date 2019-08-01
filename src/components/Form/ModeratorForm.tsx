@@ -113,6 +113,10 @@ const ModeratorForm = (props: Props) => {
     }) as Tag[]
     setEnableModerator(profile.moderator)
     setLanguageTags(moderatorLanguagesParsed)
+    const moderatorInfo = profile.moderatorInfo
+    if (moderatorInfo.fee.fixedFee && moderatorInfo.fee.fixedFee.amount) {
+      moderatorInfo.fee.fixedFee.amount = moderatorInfo.fee.fixedFee.amount / 100
+    }
     setModerator(profile.moderatorInfo)
   }, [])
 
@@ -291,7 +295,7 @@ const ModeratorForm = (props: Props) => {
         {isSubmitting ? (
           <div uk-spinner="ratio: 1" />
         ) : (
-          <button className="uk-button uk-button-primary" type="submit">
+          <button className="uk-button uk-button-primary uk-align-center" type="submit">
             SAVE
           </button>
         )}
@@ -301,27 +305,3 @@ const ModeratorForm = (props: Props) => {
 }
 
 export default ModeratorForm
-
-// TODO: Move to dispute component
-{
-  /* <div className="uk-margin">
-<FormLabel label="PERCENTAGE" required />
-<div className="slider-container-main">
-  <div className="slider-stat">
-    <div className="perc-left">Buyer: {stat}%</div>
-    <div className="perc-right">Seller: {100 - stat}%</div>
-  </div>
-  <div className="slider-container">
-    <ReactSlider
-      withBars
-      min={0}
-      max={100}
-      barClassName="bar-style"
-      onChange={e => setStat(e)}
-    >
-      <div className="my-handle" />
-    </ReactSlider>
-  </div>
-</div>
-</div> */
-}

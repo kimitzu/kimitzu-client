@@ -7,6 +7,7 @@ import { Moderator } from '../interfaces/Moderator'
 import {
   Background,
   Contact,
+  CustomDescription,
   EducationHistory,
   EmploymentHistory,
   EXTLocation,
@@ -172,6 +173,7 @@ class Profile implements ProfileSchema {
   }
   public spokenLanguages?: string[] = ['English', 'Tagalog']
   public programmingLanguages?: string[] = ['Javascript', 'Golang', 'C++']
+  public customFields: CustomDescription[] = []
 
   constructor(props?: ProfileSchema) {
     if (props) {
@@ -211,7 +213,11 @@ class Profile implements ProfileSchema {
   }
 
   public async setModerator(moderatorProfile: Moderator) {
-    await Axios.put(`${config.openBazaarHost}/ob/moderator`, moderatorProfile)
+    const clone = JSON.parse(JSON.stringify(moderatorProfile)) as Moderator
+    if (clone.fee.fixedFee && clone.fee.fixedFee.amount) {
+      clone.fee.fixedFee.amount = clone.fee.fixedFee.amount * 100
+    }
+    await Axios.put(`${config.openBazaarHost}/ob/moderator`, clone)
     await Profile.publish()
   }
 
@@ -282,14 +288,12 @@ class Profile implements ProfileSchema {
     this.processAddresses(this.extLocation)
   }
 
-  public getAvatarSrc(type?: string) {
+  public getAvatarSrc(type: string = 'medium') {
     const { avatarHashes } = this
-    if (type && !avatarHashes[type]) {
+    if (!avatarHashes[type]) {
       return '/images/user.png'
     }
-    return `${config.openBazaarHost}/ob/images/${
-      type ? avatarHashes[type] || avatarHashes.medium : avatarHashes.medium
-    }`
+    return `${config.openBazaarHost}/ob/images/${avatarHashes[type]}`
   }
 
   public get displayModeratorFee() {
@@ -298,7 +302,9 @@ class Profile implements ProfileSchema {
     if (!moderator) {
       return 'N/A'
     }
-    const fixed = fixedFee ? `${getCurrencySymbol(fixedFee.currencyCode)}${fixedFee.amount}` : ''
+    const fixed = fixedFee
+      ? `${getCurrencySymbol(fixedFee.currencyCode)}${(fixedFee.amount / 100).toFixed(2)}`
+      : ''
     const percent = percentage ? `${percentage}%` : ''
     switch (feeType) {
       case 'FIXED':
@@ -306,7 +312,7 @@ class Profile implements ProfileSchema {
       case 'PERCENTAGE':
         return percent
       case 'FIXED_PLUS_PERCENTAGE':
-        return `${fixed}(+${percent})`
+        return `${fixed} (+${percent})`
       default:
         return '0'
     }

@@ -646,7 +646,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             <SimpleBorderedSegment>
               <OrderDetailsSegment
                 listingName={order.contract.vendorListings[0].item.title}
-                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
+                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${
+                  order.contract.vendorListings[0].item.images[0].medium
+                }`}
                 listingType="SERVICE"
                 quantity={`${order.contract.buyerOrder.items[0].quantity ||
                   order.contract.buyerOrder.items[0].quantity64}`}

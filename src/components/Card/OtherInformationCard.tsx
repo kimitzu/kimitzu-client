@@ -15,6 +15,14 @@ const OtherInformationCard = (props: OtherInformationCardInterface) => (
         Other Information
       </h3>
       <div id="information">
+        {props.data.customFields.map(customField => (
+          <>
+            <p id="information-title" className="uk-text-capitalize">
+              {customField.label}
+            </p>
+            <p>{customField.value}</p>
+          </>
+        ))}
         <p id="information-title">Peer ID</p>
         <p> {props.data.peerID!}</p>
         <p id="information-title">Location</p>

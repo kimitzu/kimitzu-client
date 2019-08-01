@@ -92,14 +92,11 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     const listing = await Listing.retrieve(id)
 
     const profile = await Profile.retrieve()
-    console.log(listing)
     const moderatorListResponse = listing.listing.moderators
-    console.log(moderatorListResponse)
     if (moderatorListResponse.length > 0) {
       await moderatorListResponse.forEach(async (moderatorId, index) => {
         const moderator = await Profile.retrieve(moderatorId)
         const { availableModerators, originalModerators } = this.state
-        console.log(moderator)
         this.setState({
           availableModerators: [...availableModerators, moderator],
           originalModerators: [...originalModerators, moderator],
@@ -196,22 +193,28 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                 <div className="uk-card uk-card-default uk-card-body uk-card-small">
                   <h3>Additional Information</h3>
                   <div className="uk-margin">
-                    {this.state.availableModerators.map((data, index) => (
-                      <ModeratorCard
-                        key={index}
-                        profile={data}
-                        currIndex={this.state.selectedModeratorID}
-                        handleSelect={() => {
-                          this.setState({ selectedModeratorID: data.peerID })
-                          console.log(data.peerID)
-                        }}
-                        id={data.peerID}
-                      >
-                        <a id="moderator-card-more-link" onClick={() => this.handleMoreInfo(data)}>
-                          More...
-                        </a>
-                      </ModeratorCard>
-                    ))}
+                    {this.state.availableModerators.map((data, index) => {
+                      if (data.name) {
+                        return (
+                          <ModeratorCard
+                            key={index}
+                            profile={data}
+                            currIndex={this.state.selectedModeratorID}
+                            handleSelect={() => {
+                              this.setState({ selectedModeratorID: data.peerID })
+                            }}
+                            id={data.peerID}
+                          >
+                            <a
+                              id="moderator-card-more-link"
+                              onClick={() => this.handleMoreInfo(data)}
+                            >
+                              More...
+                            </a>
+                          </ModeratorCard>
+                        )
+                      }
+                    })}
                   </div>
                   <div className="uk-margin">
                     <FormLabel label="MEMO" />

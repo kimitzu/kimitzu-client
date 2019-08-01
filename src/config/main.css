@@ -38,6 +38,9 @@ label .required {
 .color-secondary {
   color: var(--secondary);
 }
+.color-danger {
+  background-color: #ff5050;
+}
 .uk-input,
 .uk-textarea {
   border-color: var(--border-color);
@@ -127,4 +130,7 @@ a:hover {
 }
 .dv-star-rating-empty-star {
   opacity: 0.42 !important;
+}
+.cursor-pointer {
+  cursor: pointer;
 }

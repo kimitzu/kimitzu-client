@@ -271,7 +271,9 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
           <SimpleBorderedSegment>
             <OrderDetailsSegment
               listingName={dispute.buyerContract.vendorListings[0].item.title}
-              listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${dispute.buyerContract.vendorListings[0].item.images[0].medium}`}
+              listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${
+                dispute.buyerContract.vendorListings[0].item.images[0].medium
+              }`}
               listingType="SERVICE"
               quantity={`${dispute.buyerContract.buyerOrder.items[0].quantity ||
                 dispute.buyerContract.buyerOrder.items[0].quantity64}`}

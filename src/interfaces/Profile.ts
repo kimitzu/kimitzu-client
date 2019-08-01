@@ -27,6 +27,7 @@ export interface Profile {
   background?: Background
   spokenLanguages?: string[]
   programmingLanguages?: string[]
+  customFields: CustomDescription[]
 }
 
 export interface EXTLocation {
@@ -102,4 +103,9 @@ export interface Contact {
   email: string
   phoneNumber: string
   social: SocialAccount[]
+}
+
+export interface CustomDescription {
+  label: string
+  value: string
 }
