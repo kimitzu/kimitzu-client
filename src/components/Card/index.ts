@@ -2,6 +2,7 @@ import CheckoutPaymentCard from './CheckoutPaymentCard'
 import IntroductionCard from './IntroductionCard'
 import ListingAddUpdateCard from './ListingAddUpdateCard'
 import ListingCheckoutCard from './ListingCheckoutCard'
+import ModeratorCard from './ModeratorCard'
 import PaymentQRCard from './PaymentQRCard'
 import PayoutCard from './PayoutCard'
 import ProfessionalBackgroundCard from './ProfessionalBackgroundCard'
@@ -19,6 +20,7 @@ export {
   CheckoutPaymentCard,
   ListingAddUpdateCard,
   ListingCheckoutCard,
+  ModeratorCard,
   RegistrationCard,
   IntroductionCard,
   SideMenuWithContentCard,

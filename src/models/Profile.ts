@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import getCurrencySymbol from 'currency-symbol-map'
 import config from '../config'
 import Image from '../interfaces/Image'
 import Location from '../interfaces/Location'
@@ -51,11 +52,13 @@ class Profile implements ProfileSchema {
     await Axios.post(`${config.openBazaarHost}/ob/publish`, {})
   }
 
-  public static async retrieve(id?: string): Promise<Profile> {
+  public static async retrieve(id?: string, force?: boolean): Promise<Profile> {
     let profile: Profile
 
     if (id) {
-      const peerRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}`)
+      const peerRequest = await Axios.get(
+        `${config.djaliHost}/djali/peer/get?id=${id}${force ? '&force=true' : ''}`
+      )
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
     } else {
@@ -277,6 +280,36 @@ class Profile implements ProfileSchema {
     }
 
     this.processAddresses(this.extLocation)
+  }
+
+  public getAvatarSrc(type?: string) {
+    const { avatarHashes } = this
+    if (type && !avatarHashes[type]) {
+      return '/images/user.png'
+    }
+    return `${config.openBazaarHost}/ob/images/${
+      type ? avatarHashes[type] || avatarHashes.medium : avatarHashes.medium
+    }`
+  }
+
+  public get displayModeratorFee() {
+    const { moderatorInfo, moderator } = this
+    const { feeType, fixedFee, percentage } = moderatorInfo.fee
+    if (!moderator) {
+      return 'N/A'
+    }
+    const fixed = fixedFee ? `${getCurrencySymbol(fixedFee.currencyCode)}${fixedFee.amount}` : ''
+    const percent = percentage ? `${percentage}%` : ''
+    switch (feeType) {
+      case 'FIXED':
+        return fixed
+      case 'PERCENTAGE':
+        return percent
+      case 'FIXED_PLUS_PERCENTAGE':
+        return `${fixed}(+${percent})`
+      default:
+        return '0'
+    }
   }
 }
 

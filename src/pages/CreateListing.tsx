@@ -1,4 +1,9 @@
+import Axios from 'axios'
+import ISO6391 from 'iso-639-1'
 import React, { Component, ReactNode } from 'react'
+import ReactCountryFlag from 'react-country-flag'
+
+import config from '../config'
 
 import { SideMenuWithContentCard } from '../components/Card'
 import {
@@ -8,9 +13,11 @@ import {
   ListingGeneralForm,
   ListingPhotosForm,
   ListingTermsAndConditionsForm,
+  ModeratorSelectionForm,
   ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
+import { ModeratorInfoModal } from '../components/Modal'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
@@ -32,6 +39,10 @@ interface CreateListingState {
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
+  selectedModerator: Profile
+  availableModerators: Profile[]
+  selectedModerators: Profile[]
+  originalModerators: Profile[]
   [key: string]: any
 }
 
@@ -48,6 +59,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isLoading: false,
       // === Formal Schema
       listing,
+      selectedModerator: new Profile(),
+      originalModerators: [],
       // === TODO: Implement handlers
       shippingOptions: {
         destination: '',
@@ -62,6 +75,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           },
         ],
       },
+      availableModerators: [],
+      selectedModerators: [],
     }
     this.handleAddCoupons = this.handleAddCoupons.bind(this)
     this.handleAddShippingService = this.handleAddShippingService.bind(this)
@@ -71,21 +86,40 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleImageOpen = this.handleImageOpen.bind(this)
     this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleRemoveRow = this.handleRemoveRow.bind(this)
+    this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
+    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
+    this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
+    this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
   }
 
   public async componentDidMount() {
     const profile = await Profile.retrieve()
+    const moderatorListResponse = await Axios.get(
+      `${config.openBazaarHost}/ob/moderators?async=false&include=`
+    )
+    if (moderatorListResponse.data) {
+      let availableModerators
+      availableModerators = await Promise.all(
+        moderatorListResponse.data.map(async moderatorId => {
+          return Profile.retrieve(moderatorId)
+        })
+      )
+      this.setState({ availableModerators, originalModerators: availableModerators })
+    }
     this.setState({
       profile,
     })
   }
 
   get contents() {
+    const { availableModerators, selectedModerators } = this.state
     const {
       handleInputChange,
       handleSubmitForm,
       handleRemoveRow,
       handleAddShippingService,
+      handleShowModeratorModal,
+      handleSubmitModeratorSelection,
       handleAddCoupons,
     } = this
     return [
@@ -143,6 +177,19 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           />
         ),
         title: 'Tags',
+      },
+      {
+        component: (
+          <ModeratorSelectionForm
+            availableModerators={availableModerators}
+            selectedModerators={selectedModerators}
+            handleBtnClick={this.handleModeratorSelection}
+            handleSubmit={handleSubmitModeratorSelection}
+            handleModeratorSearch={this.handleModeratorSearch}
+            handleMoreInfo={handleShowModeratorModal}
+          />
+        ),
+        title: 'Moderators',
       },
       {
         component: (
@@ -305,6 +352,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   public render() {
     const { navItems, currentForm } = this
+    const { selectedModerator } = this.state
     return (
       <div className="background-body full-vh uk-padding-small">
         <SideMenuWithContentCard
@@ -316,6 +364,12 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           mainContent={currentForm.component}
           currentNavIndex={this.state.currentFormIndex}
         />
+        <ModeratorInfoModal
+          handleMessageBtn={() => {
+            // TODO: WIP
+          }}
+          profile={selectedModerator}
+        />
       </div>
     )
   }
@@ -326,6 +380,68 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       listing.removeCoupon(index)
     }
     this.setState({ listing })
+  }
+
+  private handleModeratorSelection(moderator: Profile, index: number, type) {
+    const { availableModerators, selectedModerators } = this.state
+    if (type === 'add') {
+      availableModerators.splice(index, 1)
+      selectedModerators.push(moderator)
+    } else if (type === 'remove') {
+      selectedModerators.splice(index, 1)
+      availableModerators.push(moderator)
+    }
+    this.setState({ availableModerators, selectedModerators })
+  }
+
+  private handleSubmitModeratorSelection() {
+    const { listing, selectedModerators, currentFormIndex } = this.state
+    listing.moderators = selectedModerators.map(moderator => moderator.peerID)
+    this.setState({
+      listing,
+      currentFormIndex: currentFormIndex + 1,
+    })
+  }
+
+  private handleShowModeratorModal(moderator: Profile) {
+    this.setState({ selectedModerator: moderator })
+    const moderatorModal = window.UIkit.modal('#moderator-info')
+    if (moderatorModal) {
+      moderatorModal.show()
+    }
+  }
+
+  private async handleModeratorSearch(searchStr: string) {
+    if (!searchStr) {
+      this.setState({
+        availableModerators: this.state.originalModerators,
+      })
+      return
+    }
+
+    if (this.state.availableModerators.length > 0) {
+      const filteredMods = this.state.availableModerators.filter(mod => {
+        return mod.peerID.includes(searchStr)
+      })
+      this.setState({
+        availableModerators: filteredMods,
+      })
+      return
+    }
+
+    if (searchStr.length < 46) {
+      return
+    }
+
+    const retrievedProfile = await Profile.retrieve(searchStr, true)
+    const isAlreadySelected = this.state.selectedModerators.some(
+      moderator => moderator.peerID === retrievedProfile.peerID
+    )
+    if (retrievedProfile.moderator && !isAlreadySelected) {
+      this.setState({
+        availableModerators: [retrievedProfile],
+      })
+    }
   }
 }
 
