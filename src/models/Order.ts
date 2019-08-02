@@ -77,6 +77,7 @@ class Order implements OrderInterface {
   public vendor?: Profile
   public buyer?: Profile
   public contract: Contract = {
+    errors: [],
     disputeResolution: {
       timestamp: '',
       orderId: '',
@@ -562,7 +563,7 @@ class Order implements OrderInterface {
       case 'PAYMENT_FINALIZED':
         return 12
       case 'PROCESSING_ERROR':
-        return 13
+        return -1
       default:
         throw new Error('Unknown event #' + this.state)
     }

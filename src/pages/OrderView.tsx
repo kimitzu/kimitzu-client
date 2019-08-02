@@ -270,6 +270,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     } else if (order.step === 9) {
       steps = ['DISPUTED', 'EXPIRED', 'DECIDED', 'RESOLVED']
       currentStep = 1
+    } else if (order.step === -1) {
+      steps = ['ERROR']
+      currentStep = 0
     } else if (order.step >= 8) {
       steps = ['DISPUTED', 'DECIDED', 'RESOLVED']
       currentStep = order.step - 8
@@ -280,6 +283,20 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     return (
       <div className="uk-width-1-1">
         <Stepper options={steps} currentIndex={currentStep} />
+        {order.step === -1 ? (
+          <div className="uk-margin-bottom">
+            <OrderSummaryItemSegment title="Processing Error">
+              <SimpleBorderedSegment>
+                <p className="color-secondary">
+                  There was an error processing this order.{' '}
+                  <span className="uk-text-capitalize uk-text-danger">
+                    {order.contract.errors!.join(',')}
+                  </span>
+                </p>
+              </SimpleBorderedSegment>
+            </OrderSummaryItemSegment>
+          </div>
+        ) : null}
         {order.isDisputeExpired ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment title="Dispute Expired">
@@ -362,21 +379,27 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     name={order.vendor!.name}
                     avatar={order.vendor!.avatarHashes.medium}
                     amount={order.parseCrypto(
-                      order.contract.disputeResolution!.payout.vendorOutput.amount
+                      order.contract.disputeResolution!.payout.vendorOutput
+                        ? order.contract.disputeResolution!.payout.vendorOutput.amount
+                        : 0
                     )}
                   />
                   <DisputePayoutSegment
                     name={order.buyer!.name}
                     avatar={order.buyer!.avatarHashes.medium}
                     amount={order.parseCrypto(
-                      order.contract.disputeResolution!.payout.buyerOutput.amount
+                      order.contract.disputeResolution!.payout.buyerOutput
+                        ? order.contract.disputeResolution!.payout.buyerOutput.amount
+                        : 0
                     )}
                   />
                   <DisputePayoutSegment
                     name={order.moderator!.name}
                     avatar={order.moderator!.avatarHashes.medium}
                     amount={order.parseCrypto(
-                      order.contract.disputeResolution!.payout.moderatorOutput.amount
+                      order.contract.disputeResolution!.payout.moderatorOutput
+                        ? order.contract.disputeResolution!.payout.moderatorOutput.amount
+                        : 0
                     )}
                     note={order.contract.disputeResolution!.resolution}
                   />

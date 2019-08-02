@@ -43,6 +43,7 @@ interface CheckoutState {
   quantity: number
   selectedCurrency: string
   payment: Notification
+  isPaymentSchemeDirect: boolean
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
@@ -78,6 +79,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       availableModerators: [],
       selectedModerators: [],
       selectedModeratorID: '',
+      isPaymentSchemeDirect: true,
     }
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -93,6 +95,10 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
     const profile = await Profile.retrieve()
     const moderatorListResponse = listing.listing.moderators
+
+    const profileIndex = moderatorListResponse.indexOf(profile.peerID)
+    moderatorListResponse.splice(profileIndex, 1)
+
     if (moderatorListResponse.length > 0) {
       await moderatorListResponse.forEach(async (moderatorId, index) => {
         const moderator = await Profile.retrieve(moderatorId)
@@ -191,31 +197,70 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               </div> */}
               <div className="uk-margin-bottom">
                 <div className="uk-card uk-card-default uk-card-body uk-card-small">
-                  <h3>Additional Information</h3>
-                  <div className="uk-margin">
-                    {this.state.availableModerators.map((data, index) => {
-                      if (data.name) {
-                        return (
-                          <ModeratorCard
-                            key={index}
-                            profile={data}
-                            currIndex={this.state.selectedModeratorID}
-                            handleSelect={() => {
-                              this.setState({ selectedModeratorID: data.peerID })
-                            }}
-                            id={data.peerID}
-                          >
-                            <a
-                              id="moderator-card-more-link"
-                              onClick={() => this.handleMoreInfo(data)}
-                            >
-                              More...
-                            </a>
-                          </ModeratorCard>
-                        )
-                      }
-                    })}
+                  <h3>Payment Scheme</h3>
+                  <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                    <label>
+                      <input
+                        className="uk-radio"
+                        type="radio"
+                        name="isPaymentSchemeDirect"
+                        checked={this.state.isPaymentSchemeDirect}
+                        onClick={() => {
+                          this.setState({
+                            isPaymentSchemeDirect: true,
+                          })
+                        }}
+                      />{' '}
+                      Direct Payment
+                    </label>
+                    {listing.moderators.length > 0 ? (
+                      <label>
+                        <input
+                          className="uk-radio"
+                          type="radio"
+                          name="isPaymentSchemeDirect"
+                          checked={!this.state.isPaymentSchemeDirect}
+                          onClick={() => {
+                            this.setState({
+                              isPaymentSchemeDirect: false,
+                            })
+                          }}
+                        />{' '}
+                        Moderated Payment
+                      </label>
+                    ) : null}
                   </div>
+                  {!this.state.isPaymentSchemeDirect ? (
+                    <div className="uk-margin">
+                      {this.state.availableModerators.map((data, index) => {
+                        if (data.name) {
+                          return (
+                            <ModeratorCard
+                              key={index}
+                              profile={data}
+                              currIndex={this.state.selectedModeratorID}
+                              handleSelect={() => {
+                                this.setState({ selectedModeratorID: data.peerID })
+                              }}
+                              id={data.peerID}
+                            >
+                              <a
+                                id="moderator-card-more-link"
+                                onClick={() => this.handleMoreInfo(data)}
+                              >
+                                More...
+                              </a>
+                            </ModeratorCard>
+                          )
+                        }
+                      })}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="uk-margin-bottom">
+                <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                  <h3>Additional Information</h3>
                   <div className="uk-margin">
                     <FormLabel label="MEMO" />
                     <textarea

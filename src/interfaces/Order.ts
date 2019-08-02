@@ -42,6 +42,7 @@ export interface Contract {
   dispute?: Dispute
   disputeResolution?: DisputeResolution
   disputeAcceptance?: DisputeAcceptance
+  errors?: string[]
 }
 
 export interface DisputeResolution {
