@@ -14,10 +14,10 @@
 }
 #moderator-card-description {
   font-size: 0.8rem;
+  max-width: 550px;
 }
 #moderator-card-fees {
   font-size: 0.9rem;
-  max-width: 500px;
 }
 #moderator-card-fees > span > svg {
   height: 15;
