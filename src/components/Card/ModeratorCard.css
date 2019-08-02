@@ -1,6 +1,6 @@
 #moderator-card-img {
-  width: 100%;
-  height: 100%;
+  max-width: 100px;
+  max-height: 100px;
 }
 #moderator-card-content {
   flex: 10;
@@ -17,6 +17,7 @@
 }
 #moderator-card-fees {
   font-size: 0.9rem;
+  max-width: 500px;
 }
 #moderator-card-fees > span > svg {
   height: 15;
@@ -28,5 +29,5 @@
   height: 100%;
 }
 .bar-select {
-  border-left: 10px solid dodgerblue;;
+  border-left: 10px solid dodgerblue;
 }

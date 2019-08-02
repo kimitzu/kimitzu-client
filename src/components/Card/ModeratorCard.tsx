@@ -22,7 +22,7 @@ const ModeratorCard = ({ profile, children, id, currIndex, handleSelect }: Props
       onClick={() => (handleSelect ? handleSelect() : null)}
     >
       <div className="uk-card-body uk-flex uk-padding-small">
-        <div className="uk-flex-2">
+        <div className="uk-flex-2 uk-flex uk-flex-center uk-flex-middle">
           <img id="moderator-card-img" src={profile.getAvatarSrc()} />
         </div>
         <div id="moderator-card-content" className="uk-padding-small uk-padding-remove-vertical">
