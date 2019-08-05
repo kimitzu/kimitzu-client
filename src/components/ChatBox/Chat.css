@@ -66,10 +66,10 @@
 }
 
 #title-right {
-    flex: 5;
-    display: flex;
-    align-items: flex-start;
+    width: 250px;
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #close-right {
@@ -282,6 +282,19 @@
     outline-style: none;
     border: none;
     outline: none;
+}
+
+.avatar-cont-recepient {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-recipient {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
 }
 
 .text-msg-cont-right:focus {

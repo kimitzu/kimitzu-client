@@ -1,4 +1,3 @@
-import axios from 'axios'
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
@@ -23,6 +22,7 @@ interface Messages {
   read: boolean
   subject: string
   timestamp: string
+  sent: boolean
 }
 
 interface Conversations {
@@ -50,6 +50,7 @@ const Chat = ({
   const [isActive, setisActive] = useState(-1)
   const [messages, setMessages] = useState<Messages[]>([])
   const [title, setTitle] = useState('')
+  const [avatarSmall, setAvatarSmall] = useState('')
 
   function toggleChatBox() {
     setShow(!show)
@@ -107,6 +108,7 @@ const Chat = ({
                     onClick={() => {
                       openChat(i, data.messages, data.name)
                       onRecipientChange(data.peerId)
+                      setAvatarSmall(data.image)
                     }}
                   >
                     <div className="convos-image-cont">
@@ -146,11 +148,19 @@ const Chat = ({
                 return (
                   <div className="text-msg-cont-right" key={`m${i}`}>
                     <div className="text-msg-right">{data.message}</div>
+                    {data.sent === false ? (
+                      <div className="avatar-cont-recepient">
+                        <span data-uk-spinner="ratio: 0.5" />
+                      </div>
+                    ) : null}
                   </div>
                 )
               } else {
                 return (
                   <div className="text-msg-cont-left" key={`m${i}`}>
+                    <div className="avatar-cont-recepient">
+                      <img className="avatar-recipient" src={avatarSmall} alt="Small Avatar" />
+                    </div>
                     <div className="text-msg-left">{data.message}</div>
                   </div>
                 )

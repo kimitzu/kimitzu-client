@@ -216,9 +216,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   this.handleContentChange(CONTENT_CONSTANTS.DISCUSSION)
                 },
               },
-              {
-                label: 'Contact',
-              },
             ],
           }}
           mainContent={content}
@@ -361,7 +358,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             >
               <SimpleBorderedSegment
                 sideButtons={
-                  order.step === 9 ? (
+                  order.step === 10 ? (
                     <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
                       <Button
                         className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
@@ -669,9 +666,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             <SimpleBorderedSegment>
               <OrderDetailsSegment
                 listingName={order.contract.vendorListings[0].item.title}
-                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${
-                  order.contract.vendorListings[0].item.images[0].medium
-                }`}
+                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
                 listingType="SERVICE"
                 quantity={`${order.contract.buyerOrder.items[0].quantity ||
                   order.contract.buyerOrder.items[0].quantity64}`}

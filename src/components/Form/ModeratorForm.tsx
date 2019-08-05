@@ -113,10 +113,6 @@ const ModeratorForm = (props: Props) => {
     }) as Tag[]
     setEnableModerator(profile.moderator)
     setLanguageTags(moderatorLanguagesParsed)
-    const moderatorInfo = profile.moderatorInfo
-    if (moderatorInfo.fee.fixedFee && moderatorInfo.fee.fixedFee.amount) {
-      moderatorInfo.fee.fixedFee.amount = moderatorInfo.fee.fixedFee.amount / 100
-    }
     setModerator(profile.moderatorInfo)
   }, [])
 

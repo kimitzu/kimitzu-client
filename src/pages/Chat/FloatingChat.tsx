@@ -47,9 +47,9 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         c[i].name = cc.peerId
         if (prof && prof.data.profile) {
           if (prof.data.profile.avatarHashes) {
-            c[i].image = `${config.openBazaarHost}/ob/images/${
-              prof.data.profile.avatarHashes.small
-            }`
+            c[
+              i
+            ].image = `${config.openBazaarHost}/ob/images/${prof.data.profile.avatarHashes.small}`
           } else {
             c[i].image = '/images/user.png'
           }
@@ -63,6 +63,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         } else {
           c[i].messages = []
         }
+        c[i].messages.sent = true
       })
     }
 
@@ -112,11 +113,13 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
       read: true,
       subject: '',
       timestamp: new Date(),
+      sent: false,
     }
 
     const index = this.state.indexPeerID.indexOf(this.state.currID)
 
     const conv = this.state.conversations
+    const lastPushIndex = conv[index].messages.length
     if (this.state.chatMsg !== '') {
       conv[index].messages.push(msg)
       conv[index].lastMessage = chatmsgTemp
@@ -130,7 +133,8 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
       peerId: this.state.currID,
     })
     if (res) {
-      this.setState({ chatMsg: '', disabled: false })
+      conv[index].messages[lastPushIndex].sent = true
+      this.setState({ chatMsg: '', disabled: false, conversations: conv })
       const el = document.getElementById('chat-input')
       if (el) {
         el.focus()

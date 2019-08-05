@@ -35,7 +35,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     let isOwner
 
     if (id) {
-      profile = await Profile.retrieve(id)
+      profile = await Profile.retrieve(id, true)
       isOwner = false
     } else {
       profile = await Profile.retrieve()

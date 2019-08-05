@@ -79,6 +79,10 @@ class Profile implements ProfileSchema {
     profile.spokenLanguages = ['English', 'Tagalog']
     profile.programmingLanguages = ['Javascript', 'Golang', 'C++']
 
+    if (profile.moderatorInfo.fee.fixedFee && profile.moderatorInfo.fee.fixedFee.amount) {
+      profile.moderatorInfo.fee.fixedFee.amount = profile.moderatorInfo.fee.fixedFee.amount / 100
+    }
+
     return profile
   }
 
@@ -204,21 +208,33 @@ class Profile implements ProfileSchema {
     await Profile.publish()
   }
 
+  public preSave() {
+    if (this.moderatorInfo.fee.fixedFee && this.moderatorInfo.fee.fixedFee.amount) {
+      this.moderatorInfo.fee.fixedFee.amount = this.moderatorInfo.fee.fixedFee.amount * 100
+    }
+  }
+
+  public postSave() {
+    if (this.moderatorInfo.fee.fixedFee && this.moderatorInfo.fee.fixedFee.amount) {
+      this.moderatorInfo.fee.fixedFee.amount = this.moderatorInfo.fee.fixedFee.amount / 100
+    }
+  }
+
   public async update() {
     this.location = this.getAddress('primary')
+    this.preSave()
     await Axios.put(`${config.openBazaarHost}/ob/profile`, this)
     await Profile.publish()
+    this.postSave()
     this.extLocation = this.processAddresses(this.extLocation)
     return this
   }
 
   public async setModerator(moderatorProfile: Moderator) {
-    const clone = JSON.parse(JSON.stringify(moderatorProfile)) as Moderator
-    if (clone.fee.fixedFee && clone.fee.fixedFee.amount) {
-      clone.fee.fixedFee.amount = clone.fee.fixedFee.amount * 100
-    }
-    await Axios.put(`${config.openBazaarHost}/ob/moderator`, clone)
+    this.preSave()
+    await Axios.put(`${config.openBazaarHost}/ob/moderator`, moderatorProfile)
     await Profile.publish()
+    this.postSave()
   }
 
   public async unsetModerator() {
@@ -302,9 +318,8 @@ class Profile implements ProfileSchema {
     if (!moderator) {
       return 'N/A'
     }
-    const fixed = fixedFee
-      ? `${getCurrencySymbol(fixedFee.currencyCode)}${(fixedFee.amount / 100).toFixed(2)}`
-      : ''
+    const fixed = fixedFee ? `${fixedFee.amount.toFixed(2)} ${fixedFee.currencyCode}` : ''
+
     const percent = percentage ? `${percentage}%` : ''
     switch (feeType) {
       case 'FIXED':

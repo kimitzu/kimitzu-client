@@ -4,16 +4,8 @@
     "value": ""
   },
   {
-    "label": "Afrikaans",
-    "value": "af"
-  },
-  {
     "label": "Afrikaans - South Africa",
     "value": "af-ZA"
-  },
-  {
-    "label": "Arabic",
-    "value": "ar"
   },
   {
     "label": "Arabic - United Arab Emirates",
@@ -80,10 +72,6 @@
     "value": "ar-YE"
   },
   {
-    "label": "Azeri",
-    "value": "az"
-  },
-  {
     "label": "Cyrl Azeri (Cyrillic) - Azerbaijan",
     "value": "az-AZ"
   },
@@ -92,48 +80,24 @@
     "value": "az-AZ-Latn"
   },
   {
-    "label": "Belarusian",
-    "value": "be"
-  },
-  {
     "label": "Belarusian - Belarus",
     "value": "be-BY"
-  },
-  {
-    "label": "Bulgarian",
-    "value": "bg"
   },
   {
     "label": "Bulgarian - Bulgaria",
     "value": "bg-BG"
   },
   {
-    "label": "Catalan",
-    "value": "ca"
-  },
-  {
     "label": "Catalan - Catalan",
     "value": "ca-ES"
-  },
-  {
-    "label": "Czech",
-    "value": "cs"
   },
   {
     "label": "Czech - Czech Republic",
     "value": "cs-CZ"
   },
   {
-    "label": "Danish",
-    "value": "da"
-  },
-  {
     "label": "Danish - Denmark",
     "value": "da-DK"
-  },
-  {
-    "label": "German",
-    "value": "de"
   },
   {
     "label": "German - Austria",
@@ -156,24 +120,12 @@
     "value": "de-LU"
   },
   {
-    "label": "Dhivehi",
-    "value": "div"
-  },
-  {
     "label": "Dhivehi - Maldives",
     "value": "div-MV"
   },
   {
-    "label": "Greek",
-    "value": "el"
-  },
-  {
     "label": "Greek - Greece",
     "value": "el-GR"
-  },
-  {
-    "label": "English",
-    "value": "en"
   },
   {
     "label": "English - Australia",
@@ -226,10 +178,6 @@
   {
     "label": "English - Zimbabwe",
     "value": "en-ZW"
-  },
-  {
-    "label": "Spanish",
-    "value": "es"
   },
   {
     "label": "Spanish - Argentina",
@@ -308,48 +256,24 @@
     "value": "es-VE"
   },
   {
-    "label": "Estonian",
-    "value": "et"
-  },
-  {
     "label": "Estonian - Estonia",
     "value": "et-EE"
-  },
-  {
-    "label": "Basque",
-    "value": "eu"
   },
   {
     "label": "Basque - Basque",
     "value": "eu-ES"
   },
   {
-    "label": "Farsi",
-    "value": "fa"
-  },
-  {
     "label": "Farsi - Iran",
     "value": "fa-IR"
-  },
-  {
-    "label": "Finnish",
-    "value": "fi"
   },
   {
     "label": "Finnish - Finland",
     "value": "fi-FI"
   },
   {
-    "label": "Faroese",
-    "value": "fo"
-  },
-  {
     "label": "Faroese - Faroe Islands",
     "value": "fo-FO"
-  },
-  {
-    "label": "French",
-    "value": "fr"
   },
   {
     "label": "French - Belgium",
@@ -376,80 +300,40 @@
     "value": "fr-MC"
   },
   {
-    "label": "Galician",
-    "value": "gl"
-  },
-  {
     "label": "Galician - Galician",
     "value": "gl-ES"
-  },
-  {
-    "label": "Gujarati",
-    "value": "gu"
   },
   {
     "label": "Gujarati - India",
     "value": "gu-IN"
   },
   {
-    "label": "Hebrew",
-    "value": "he"
-  },
-  {
     "label": "Hebrew - Israel",
     "value": "he-IL"
-  },
-  {
-    "label": "Hindi",
-    "value": "hi"
   },
   {
     "label": "Hindi - India",
     "value": "hi-IN"
   },
   {
-    "label": "Croatian",
-    "value": "hr"
-  },
-  {
     "label": "Croatian - Croatia",
     "value": "hr-HR"
-  },
-  {
-    "label": "Hungarian",
-    "value": "hu"
   },
   {
     "label": "Hungarian - Hungary",
     "value": "hu-HU"
   },
   {
-    "label": "Armenian",
-    "value": "hy"
-  },
-  {
     "label": "Armenian - Armenia",
     "value": "hy-AM"
-  },
-  {
-    "label": "Indonesian",
-    "value": "id"
   },
   {
     "label": "Indonesian - Indonesia",
     "value": "id-ID"
   },
   {
-    "label": "Icelandic",
-    "value": "is"
-  },
-  {
     "label": "Icelandic - Iceland",
     "value": "is-IS"
-  },
-  {
-    "label": "Italian",
-    "value": "it"
   },
   {
     "label": "Italian - Switzerland",
@@ -460,44 +344,20 @@
     "value": "it-IT"
   },
   {
-    "label": "Japanese",
-    "value": "ja"
-  },
-  {
     "label": "Japanese - Japan",
     "value": "ja-JP"
-  },
-  {
-    "label": "Georgian",
-    "value": "ka"
   },
   {
     "label": "Georgian - Georgia",
     "value": "ka-GE"
   },
   {
-    "label": "Kazakh",
-    "value": "kk"
-  },
-  {
     "label": "Kazakh - Kazakhstan",
     "value": "kk-KZ"
   },
   {
-    "label": "Kannada",
-    "value": "kn"
-  },
-  {
     "label": "Kannada - India",
     "value": "kn-IN"
-  },
-  {
-    "label": "Korean",
-    "value": "ko"
-  },
-  {
-    "label": "Konkani",
-    "value": "kok"
   },
   {
     "label": "Konkani - India",
@@ -508,56 +368,28 @@
     "value": "ko-KR"
   },
   {
-    "label": "Kyrgyz",
-    "value": "ky"
-  },
-  {
     "label": "Kyrgyz - Kyrgyzstan",
     "value": "ky-KG"
-  },
-  {
-    "label": "Lithuanian",
-    "value": "lt"
   },
   {
     "label": "Lithuanian - Lithuania",
     "value": "lt-LT"
   },
   {
-    "label": "Latvian",
-    "value": "lv"
-  },
-  {
     "label": "Latvian - Latvia",
     "value": "lv-LV"
-  },
-  {
-    "label": "Macedonian",
-    "value": "mk"
   },
   {
     "label": "Macedonian - Former Yugoslav Republic of Macedonia",
     "value": "mk-MK"
   },
   {
-    "label": "Mongolian",
-    "value": "mn"
-  },
-  {
     "label": "Mongolian - Mongolia",
     "value": "mn-MN"
   },
   {
-    "label": "Marathi",
-    "value": "mr"
-  },
-  {
     "label": "Marathi - India",
     "value": "mr-IN"
-  },
-  {
-    "label": "Malay",
-    "value": "ms"
   },
   {
     "label": "Malay - Brunei",
@@ -572,10 +404,6 @@
     "value": "nb-NO"
   },
   {
-    "label": "Dutch",
-    "value": "nl"
-  },
-  {
     "label": "Dutch - Belgium",
     "value": "nl-BE"
   },
@@ -588,28 +416,12 @@
     "value": "nn-NO"
   },
   {
-    "label": "Norwegian",
-    "value": "no"
-  },
-  {
-    "label": "Punjabi",
-    "value": "pa"
-  },
-  {
     "label": "Punjabi - India",
     "value": "pa-IN"
   },
   {
-    "label": "Polish",
-    "value": "pl"
-  },
-  {
     "label": "Polish - Poland",
     "value": "pl-PL"
-  },
-  {
-    "label": "Portuguese",
-    "value": "pt"
   },
   {
     "label": "Portuguese - Brazil",
@@ -620,48 +432,24 @@
     "value": "pt-PT"
   },
   {
-    "label": "Romanian",
-    "value": "ro"
-  },
-  {
     "label": "Romanian - Romania",
     "value": "ro-RO"
-  },
-  {
-    "label": "Russian",
-    "value": "ru"
   },
   {
     "label": "Russian - Russia",
     "value": "ru-RU"
   },
   {
-    "label": "Sanskrit",
-    "value": "sa"
-  },
-  {
     "label": "Sanskrit - India",
     "value": "sa-IN"
-  },
-  {
-    "label": "Slovak",
-    "value": "sk"
   },
   {
     "label": "Slovak - Slovakia",
     "value": "sk-SK"
   },
   {
-    "label": "Slovenian",
-    "value": "sl"
-  },
-  {
     "label": "Slovenian - Slovenia",
     "value": "sl-SI"
-  },
-  {
-    "label": "Albanian",
-    "value": "sq"
   },
   {
     "label": "Albanian - Albania",
@@ -676,10 +464,6 @@
     "value": "sr-SP-Latn"
   },
   {
-    "label": "Swedish",
-    "value": "sv"
-  },
-  {
     "label": "Swedish - Finland",
     "value": "sv-FI"
   },
@@ -688,80 +472,40 @@
     "value": "sv-SE"
   },
   {
-    "label": "Swahili",
-    "value": "sw"
-  },
-  {
     "label": "Swahili - Kenya",
     "value": "sw-KE"
-  },
-  {
-    "label": "Syriac",
-    "value": "syr"
   },
   {
     "label": "Syriac - Syria",
     "value": "syr-SY"
   },
   {
-    "label": "Tamil",
-    "value": "ta"
-  },
-  {
     "label": "Tamil - India",
     "value": "ta-IN"
-  },
-  {
-    "label": "Telugu",
-    "value": "te"
   },
   {
     "label": "Telugu - India",
     "value": "te-IN"
   },
   {
-    "label": "Thai",
-    "value": "th"
-  },
-  {
     "label": "Thai - Thailand",
     "value": "th-TH"
-  },
-  {
-    "label": "Turkish",
-    "value": "tr"
   },
   {
     "label": "Turkish - Turkey",
     "value": "tr-TR"
   },
   {
-    "label": "Tatar",
-    "value": "tt"
-  },
-  {
     "label": "Tatar - Russia",
     "value": "tt-RU"
-  },
-  {
-    "label": "Ukrainian",
-    "value": "uk"
   },
   {
     "label": "Ukrainian - Ukraine",
     "value": "uk-UA"
   },
   {
-    "label": "Urdu",
-    "value": "ur"
-  },
-  {
     "label": "Urdu - Pakistan",
     "value": "ur-PK"
-  },
-  {
-    "label": "Uzbek",
-    "value": "uz"
   },
   {
     "label": "Uzbek (Cyrillic) - Uzbekistan",
@@ -770,10 +514,6 @@
   {
     "label": "Uzbek (Latin) - Uzbekistan",
     "value": "uz-UZ-Latn"
-  },
-  {
-    "label": "Vietnamese",
-    "value": "vi"
   },
   {
     "label": "Chinese (Traditional)",

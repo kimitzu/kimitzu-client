@@ -14,10 +14,13 @@ interface Props {
 const ModeratorInfoModal = ({ handleMessageBtn, profile }: Props) => {
   const { moderatorInfo, extLocation, name, peerID } = profile
   const primaryAddress = extLocation ? extLocation.addresses[extLocation.primary] : null
+
   if (!moderatorInfo) {
     return null
   }
+
   const { acceptedCurrencies, description, languages, termsAndConditions } = moderatorInfo
+
   return (
     <div id="moderator-info" className="uk-flex-top" data-uk-modal>
       <div className="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">

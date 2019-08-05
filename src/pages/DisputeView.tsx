@@ -154,9 +154,6 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
                   this.handleContentChange(CONTENT_CONSTANTS.DISCUSSION)
                 },
               },
-              {
-                label: 'Contact',
-              },
             ],
           }}
           mainContent={content}
@@ -189,6 +186,16 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
                 </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
+          </div>
+        ) : null}
+
+        {dispute.state === 'DISPUTED' ? (
+          <div className="uk-margin-bottom">
+            <SimpleBorderedSegment>
+              <p className="color-secondary">
+                You have an hour to process the dispute and make a decision.
+              </p>
+            </SimpleBorderedSegment>
           </div>
         ) : null}
 
@@ -271,9 +278,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
           <SimpleBorderedSegment>
             <OrderDetailsSegment
               listingName={dispute.buyerContract.vendorListings[0].item.title}
-              listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${
-                dispute.buyerContract.vendorListings[0].item.images[0].medium
-              }`}
+              listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${dispute.buyerContract.vendorListings[0].item.images[0].medium}`}
               listingType="SERVICE"
               quantity={`${dispute.buyerContract.buyerOrder.items[0].quantity ||
                 dispute.buyerContract.buyerOrder.items[0].quantity64}`}

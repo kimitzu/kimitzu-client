@@ -314,7 +314,7 @@ class Dispute implements DisputeInterface {
 
   public get isExpired() {
     const estimatedExpiration = new Date(this.timestamp)
-    estimatedExpiration.setMinutes(estimatedExpiration.getMinutes() + 30)
+    estimatedExpiration.setMinutes(estimatedExpiration.getMinutes() + 60)
     return new Date(Date.now()) >= estimatedExpiration && !this.resolution.timestamp
   }
 
