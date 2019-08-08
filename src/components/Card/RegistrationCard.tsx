@@ -39,14 +39,7 @@ const RegistrationCard = (props: Props) => (
           <Button className="uk-button uk-button-primary uk-button-small" onClick={props.onAgree}>
             I AGREE
           </Button>
-        ) : (
-          <a
-            className="color-primary"
-            onClick={props.handleNext}
-            uk-icon="icon: arrow-right"
-            data-uk-slidenav-previous
-          />
-        )}
+        ) : null}
       </div>
     </div>
   </div>

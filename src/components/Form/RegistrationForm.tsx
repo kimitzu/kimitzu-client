@@ -6,6 +6,7 @@ import { FormSelector } from '../Selector'
 import { Profile } from '../../interfaces/Profile'
 
 import config from '../../config'
+import { Button } from '../Button'
 import './RegistrationForm.css'
 
 interface Props {
@@ -186,7 +187,13 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
     </fieldset>
-    <div className="uk-margin-top">{props.isSubmitting ? <div uk-spinner="ratio: 1" /> : null}</div>
+    <Button
+      type="submit"
+      className="uk-button uk-button-primary uk-align-center"
+      showSpinner={props.isSubmitting}
+    >
+      Submit
+    </Button>
   </form>
 )
 

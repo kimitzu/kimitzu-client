@@ -49,7 +49,7 @@ class UserRegistration extends Component<{}, State> {
     this.renderCard = this.renderCard.bind(this)
   }
 
-  public handleNext(event?: React.FormEvent) {
+  public async handleNext(event?: React.FormEvent) {
     if (event) {
       event.preventDefault()
     }
