@@ -34,6 +34,7 @@ const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex }: P
   const getSubNavId = (index: number) => (subNavIndex === index ? 'selected' : '')
   const changeNavIndex = (index: number, handler?: () => void) => {
     setNavIndex(index)
+    setSubNavIndex(0)
     if (handler) {
       handler()
     }
@@ -56,23 +57,29 @@ const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex }: P
           key={`${parentItem}${index}`}
           className={parentItem.subItems ? 'uk-parent uk-open' : ''}
         >
-          <a className="list-item" onClick={() => changeNavIndex(index, parentItem.handler)}>
-            {parentItem.label}
-          </a>
-          {parentItem.subItems ? (
-            <ul className="uk-nav-sub">
-              {parentItem.subItems.map((navItem: NavItem, subIndex: number) => (
-                <li key={`${navItem.label}${subIndex}`}>
-                  <a
-                    id={getSubNavId(subIndex)}
-                    onClick={() => changeSubNavIndex(subIndex, index, navItem.handler)}
-                  >
-                    {navItem.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <ul>
+            <li className="uk-padding uk-padding-remove-vertical uk-uk-padding-remove-right">
+              <a className="list-item" onClick={() => changeNavIndex(index, parentItem.handler)}>
+                {parentItem.label}
+              </a>
+            </li>
+            <li hidden={navIndex !== index}>
+              {parentItem.subItems ? (
+                <ul className="uk-nav-sub">
+                  {parentItem.subItems.map((navItem: NavItem, subIndex: number) => (
+                    <li key={`${navItem.label}${subIndex}`}>
+                      <a
+                        id={getSubNavId(subIndex)}
+                        onClick={() => changeSubNavIndex(subIndex, index, navItem.handler)}
+                      >
+                        {navItem.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          </ul>
         </li>
       ))}
     </ul>
