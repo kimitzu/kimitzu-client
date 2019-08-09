@@ -15,7 +15,9 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "create-react-class": "^15.6.3",
+    "cross-env": "^5.2.0",
     "currency-symbol-map": "^4.0.4",
+    "electron-is-dev": "^1.1.0",
     "iso-639-1": "^2.0.5",
     "moment": "^2.24.0",
     "qrcode.react": "^0.9.3",
@@ -42,13 +44,17 @@
     "use-force-update": "^1.0.6"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:win:develop": "set \"REACT_APP_ENVIRONMENT=development\" && npm start",
-    "start:unix:develop": "REACT_APP_ENVIRONMENT=development npm start",
-    "start:unix:stage": "REACT_APP_ENVIRONMENT=staging npm start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "start:win:develop": "set \"REACT_APP_ENVIRONMENT=development\" && yarn start",
+    "start:unix:develop": "REACT_APP_ENVIRONMENT=development yarn start",
+    "start:unix:stage": "REACT_APP_ENVIRONMENT=staging yarn start",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose"
   },
@@ -68,14 +74,24 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^4.1.1",
+    "electron": "^6.0.1",
+    "electron-builder": "^21.2.0",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
     "prettier": "^1.17.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "tslint-react": "^4.0.0"
+    "tslint-react": "^4.0.0",
+    "wait-on": "^3.3.0"
   },
+  "description": "Djali Client App",
+  "build": {
+    "appId": "app.djali.client"
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
