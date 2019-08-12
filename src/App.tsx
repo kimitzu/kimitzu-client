@@ -1,11 +1,43 @@
+import isElectron from 'is-electron'
 import React, { Fragment } from 'react'
 
 import FloatingChat from './pages/Chat/FloatingChat'
+import TitleBar from './pages/TitleBar'
 import Routes from './Routes'
 
-class App extends React.Component {
+declare global {
+  interface Window {
+    require: any
+    remote: any
+  }
+}
+
+interface State {
+  height: number
+}
+
+class App extends React.Component<{}, State> {
+  constructor(props) {
+    super(props)
+    this.state = { height: 680 }
+  }
+
+  public componentDidMount() {
+    setInterval(() => {
+      this.setState({ height: window.innerHeight })
+    }, 1000)
+  }
+
   public render() {
-    return (
+    return isElectron() ? (
+      <Fragment>
+        <TitleBar />
+        <div style={{ overflowY: 'auto', height: `${this.state.height - 46}px` }}>
+          <Routes />
+          <FloatingChat />
+        </div>
+      </Fragment>
+    ) : (
       <Fragment>
         <Routes />
         <FloatingChat />

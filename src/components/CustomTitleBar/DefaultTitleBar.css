@@ -1,0 +1,58 @@
+#title-cont {
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid rgb(199, 199, 199);
+    -webkit-app-region: drag;
+}
+
+#control-cont {
+    display: flex;
+    width: 150px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#url-input {
+    border: none;
+    background-color: rgb(240, 240, 240);
+    border-radius: 5px;
+    height: 25px;
+    width: 100%;
+    -webkit-app-region: no-drag;
+    font-size: 16px;
+    text-indent: 10px;
+}
+
+#url-input:focus {
+    outline: none;
+}
+
+#url-cont {
+    flex: 1;
+}
+
+#buttons-cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 150px;
+}
+
+.icon-arrows {
+    margin-top: 1px;
+}
+
+#min {
+    -webkit-app-region: no-drag;
+}
+
+#max {
+    -webkit-app-region: no-drag;
+}   
+
+#close {
+    -webkit-app-region: no-drag;
+}

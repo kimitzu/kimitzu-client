@@ -15,7 +15,12 @@ const createWindow = () => {
     minHeight: 680,
     center: true,
     icon: path.join(__dirname, 'favicon.ico'),
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    frame:false,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: __dirname + '/preload.js'
+    }
   })
   mainWindow.loadURL(
     isDev ?
