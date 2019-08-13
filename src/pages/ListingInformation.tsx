@@ -101,6 +101,28 @@ class ListingProfile extends Component<Props, State> {
     return (
       <div id="container">
         <div className="uk-card uk-card-default uk-card-body card-head">
+          {listing.isOwner ? (
+            <div className="uk-margin-bottom uk-align-right">
+              <button
+                type="button"
+                className="uk-button uk-button-default"
+                onClick={() => {
+                  window.location.href = `/listing/edit/${listing.hash}`
+                }}
+              >
+                <span uk-icon="pencil" /> Edit
+              </button>
+              <button
+                type="button"
+                className="uk-button uk-button-danger uk-margin-left"
+                onClick={() => {
+                  alert('Coming soon!')
+                }}
+              >
+                <span uk-icon="trash" /> Delete
+              </button>
+            </div>
+          ) : null}
           <div id="profile-header">
             <div id="left-content">
               <CarouselListing data={imageData} />

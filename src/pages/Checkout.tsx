@@ -350,7 +350,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   private async handlePlaceOrder() {
     let paymentInformation
 
-    const isOwner = await this.state.listing.isOwner()
+    const isOwner = this.state.listing.isOwner
     if (isOwner) {
       alert('This is how your listing looks like to other users.')
       return

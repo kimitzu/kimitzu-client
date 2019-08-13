@@ -33,16 +33,17 @@ class Listing implements ListingInterface {
     })
 
     const listing = new Listing(djaliListing)
+    listing.isOwner = await listing.determineOwnership()
 
     return { profile, listing, imageData }
   }
 
+  public isOwner: boolean = false
   public item: Item = {
     title: '',
     description: '',
     processingTime: '1 day',
     price: 0,
-    nsfw: false,
     tags: [],
     images: [
       {
@@ -92,6 +93,7 @@ class Listing implements ListingInterface {
     tiny: '',
   }
 
+  public nsfw: boolean = false
   public signature: string = ''
   public slug: string = ''
   public vendorID: VendorID = {
@@ -140,18 +142,37 @@ class Listing implements ListingInterface {
     }
   }
 
+  public normalize() {
+    this.item.price /= 100
+  }
+
+  public denormalize(): ListingInterface {
+    const MAX_SLUG_LENGTH = 70
+
+    const listingClone = JSON.parse(JSON.stringify(this)) as ListingInterface
+    listingClone.slug = slugify(listingClone.item.title, { remove: /[*+~.()'"!:@]/g }).substr(
+      0,
+      MAX_SLUG_LENGTH
+    )
+    listingClone.coupons = listingClone.coupons.filter(
+      coupon => coupon.discountCode !== '' || coupon.title !== ''
+    )
+    listingClone.item.price = listingClone.item.price * 100
+    return listingClone
+  }
+
   public async save() {
     /**
      * Clone listing before doing any operation to prevent mutation
      * of original listing object which contains DOM rendering information
      */
-    const listingClone = JSON.parse(JSON.stringify(this)) as ListingInterface
-    listingClone.slug = slugify(listingClone.item.title, { remove: /[*+~.()'"!:@]/g })
-    listingClone.coupons = listingClone.coupons.filter(
-      coupon => coupon.discountCode !== '' || coupon.title !== ''
-    )
-    listingClone.item.price = listingClone.item.price * 100
-    await Axios.post(`${config.openBazaarHost}/ob/listing`, listingClone)
+    const denormalizedListingObject = this.denormalize()
+    await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
+  }
+
+  public async update() {
+    const denormalizedListingObject = this.denormalize()
+    await Axios.put(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
   }
 
   public addCoupon() {
@@ -182,7 +203,7 @@ class Listing implements ListingInterface {
     return ServiceRateMethods[index].display
   }
 
-  public async isOwner(): Promise<boolean> {
+  public async determineOwnership(): Promise<boolean> {
     const user = await Profile.retrieve()
     return user.peerID === this.vendorID.peerID
   }

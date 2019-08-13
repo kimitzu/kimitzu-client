@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { InputSelector } from '../Input'
 import { FormLabel } from '../Label'
@@ -42,12 +42,19 @@ const currencies = [
 
 interface Props {
   data: Listing
-  handleInputChange: (field: string, value: any, parentField?: string) => void
   handleContinue: (event: React.FormEvent) => void
 }
 
-const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) => {
+const ListingGeneralForm = ({ data, handleContinue }: Props) => {
   const skuPointer = data.item.skus[0]
+
+  const [listing, setListing] = useState(data)
+
+  const handleChange = (field, value) => {
+    listing[field] = value
+    setListing({ ...listing })
+  }
+
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
@@ -56,16 +63,21 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               options={serviceTypes}
-              defaultVal={''}
+              defaultVal={listing.metadata.serviceClassification || ''}
               onChange={event => {
                 const occupationIndex = event.target.value
-                handleInputChange('item.title', `${ServiceTypes[occupationIndex]}: `, 'listing')
-                handleInputChange(
-                  'item.categories',
-                  [occupationIndex, ServiceTypes[occupationIndex]],
-                  'listing'
-                )
-                handleInputChange('metadata.serviceClassification', occupationIndex, 'listing')
+                const item = listing.item
+
+                /**
+                 * Note: Categories in OpenBazaar are limited to 40 characters
+                 */
+                item.categories = [occupationIndex]
+
+                const metadata = listing.metadata
+                metadata.serviceClassification = occupationIndex
+
+                handleChange('item', item)
+                handleChange('metadata', metadata)
               }}
               required
             />
@@ -77,11 +89,15 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
           <input
             className="uk-input"
             type="text"
-            value={data.item.title}
-            onChange={event => handleInputChange('item.title', event.target.value, 'listing')}
+            value={listing.item.title}
+            onChange={event => {
+              const item = listing.item
+              item.title = event.target.value
+              handleChange('item', item)
+            }}
           />
           <label className="form-label-desciptor">
-            Something descriptive that clearly explains what you're selling
+            Something descriptive that clearly explains your service
           </label>
         </div>
         <InlineFormFields
@@ -89,11 +105,13 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
             {
               component: (
                 <FormSelector
-                  defaultVal={data.metadata.contractType}
+                  defaultVal={listing.metadata.contractType}
                   options={ListingTypes}
-                  onChange={event =>
-                    handleInputChange('metadata.contractType', event.target.value, 'listing')
-                  }
+                  onChange={event => {
+                    const metadata = listing.metadata
+                    metadata.contractType = event.target.value
+                    handleChange('metadata', metadata)
+                  }}
                 />
               ),
               label: {
@@ -106,14 +124,19 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                 <InputSelector
                   options={currencies}
                   inputProps={{
-                    value: data.item.price,
+                    value: listing.item.price,
                     type: 'number',
-                    onChange: event =>
-                      handleInputChange('item.price', event.target.value, 'listing'),
+                    onChange: event => {
+                      const item = listing.item
+                      item.price = event.target.value
+                      handleChange('item', item)
+                    },
                   }}
                   selectProps={{
-                    onChange: event =>
-                      handleInputChange('metadata.pricingCurrency', event.target.value, 'listing'),
+                    onChange: event => {
+                      const metadata = listing.metadata
+                      metadata.pricingCurrency = event.target.value
+                    },
                   }}
                 />
               ),
@@ -126,12 +149,14 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
             {
               component: (
                 <FormSelector
-                  defaultVal={data.metadata.serviceRateMethod}
+                  defaultVal={listing.metadata.serviceRateMethod}
                   options={ServiceRateMethods}
-                  disabled={data.metadata.contractType !== 'SERVICE'}
-                  onChange={event =>
-                    handleInputChange('metadata.serviceRateMethod', event.target.value, 'listing')
-                  }
+                  disabled={listing.metadata.contractType !== 'SERVICE'}
+                  onChange={event => {
+                    const metadata = listing.metadata
+                    metadata.serviceRateMethod = event.target.value
+                    handleChange('metadata', metadata)
+                  }}
                 />
               ),
               label: {
@@ -159,7 +184,11 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                     } else {
                       skuPointer.quantity = -1
                     }
-                    handleInputChange('item.skus', data.item.skus, 'listing')
+
+                    const item = listing.item
+                    item.skus = [skuPointer]
+
+                    handleChange('item', item)
                   }}
                 />
               ),
@@ -182,10 +211,11 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
                       value: false,
                     },
                   ]}
-                  field={'item.nsfw'}
-                  parentField={'listing'}
-                  selectedVal={data.item.nsfw.toString()}
-                  handleOnChange={handleInputChange}
+                  selectedVal={listing.nsfw.toString()}
+                  handleSelect={selectedItem => {
+                    const selectedItemBoolean = selectedItem as boolean
+                    handleChange('nsfw', selectedItemBoolean)
+                  }}
                 />
               ),
               label: {
@@ -200,9 +230,13 @@ const ListingGeneralForm = ({ data, handleInputChange, handleContinue }: Props) 
           <textarea
             className="uk-textarea"
             rows={5}
-            value={data.item.description}
+            value={listing.item.description}
             placeholder="Describe your listing as best as you can.."
-            onChange={event => handleInputChange('item.description', event.target.value, 'listing')}
+            onChange={event => {
+              const item = listing.item
+              item.description = event.target.value
+              handleChange('item', item)
+            }}
           />
         </div>
       </fieldset>

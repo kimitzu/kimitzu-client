@@ -10,6 +10,7 @@ export interface Listing {
   ratingCount: number
   thumbnail: Thumbnail
 
+  nsfw: boolean
   signature: string
   slug: string
   vendorID: VendorID
@@ -48,7 +49,6 @@ export interface Item {
   description: string
   processingTime: string
   price: number
-  nsfw: boolean
   tags: string[]
   images: Image[]
   categories: string[]

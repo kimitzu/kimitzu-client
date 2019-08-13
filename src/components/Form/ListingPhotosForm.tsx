@@ -1,22 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FormLabel } from '../Label'
 import { ThumbnavSlideshow } from '../Thumbnav'
 
 interface Props {
   handleContinue: (event: React.FormEvent) => void
-  onImageOpen: (event: React.ChangeEvent<HTMLInputElement>) => void
   images: string[]
+  onChange: (images: string[]) => void
 }
 
-const ListingPhotosForm = ({ images, handleContinue, onImageOpen }: Props) => {
+const ListingPhotosForm = ({ images, handleContinue, onChange }: Props) => {
   return (
     <form className="uk-form-stacked  uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="ADD PHOTO" required />
-          <ThumbnavSlideshow images={images} onImageOpen={onImageOpen} />
-          <label className="form-label-desciptor">Include up to 30 photos</label>
+          <FormLabel label="ADD PHOTO (Include up to 30 photos)" required />
+          <ThumbnavSlideshow images={images} onChange={onChange} />
         </div>
       </fieldset>
       <div className="submit-btn-div">

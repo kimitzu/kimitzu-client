@@ -9,14 +9,12 @@ interface Option {
 
 interface Props {
   selectedVal: string
-  field: string
-  parentField?: string
-  handleOnChange: (field: string, value: any, parentField?: string) => void
+  handleSelect: (selectedItem: string | boolean) => void
   options: Option[]
 }
 
 const RadioButtons = (props: Props) => {
-  const { selectedVal, handleOnChange, options, field, parentField } = props
+  const { selectedVal, handleSelect, options } = props
   return (
     <div id="radio-btns" className="uk-form-controls uk-form-controls-text">
       {options.map((option: Option) => (
@@ -26,7 +24,11 @@ const RadioButtons = (props: Props) => {
             className="uk-radio"
             type="radio"
             checked={option.value.toString() === selectedVal}
-            onChange={() => handleOnChange(field, option.value, parentField!)}
+            onChange={evt => {
+              if (evt.target.checked) {
+                handleSelect(option.value)
+              }
+            }}
             name={option.value.toString()}
           />
           {option.label}

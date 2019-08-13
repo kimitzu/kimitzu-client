@@ -5,6 +5,7 @@ import ReactCountryFlag from 'react-country-flag'
 
 import config from '../config'
 
+import { RouteComponentProps } from 'react-router'
 import { SideMenuWithContentCard } from '../components/Card'
 import {
   AddressForm,
@@ -29,9 +30,11 @@ interface CardContent {
   title: string
 }
 
-interface CreateListingProps {
-  props: any
+interface RouteParams {
+  id: string
 }
+
+interface CreateListingProps extends RouteComponentProps<RouteParams> {}
 
 interface CreateListingState {
   listing: Listing
@@ -44,6 +47,7 @@ interface CreateListingState {
   selectedModerators: Profile[]
   originalModerators: Profile[]
   hasFetchedAModerator: boolean
+  isListingNew: boolean
   [key: string]: any
 }
 
@@ -59,6 +63,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       tempImages: [],
       isLoading: false,
       hasFetchedAModerator: false,
+      isListingNew: true,
       // === Formal Schema
       listing,
       selectedModerator: new Profile(),
@@ -85,7 +90,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmitForm = this.handleSubmitForm.bind(this)
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
-    this.handleImageOpen = this.handleImageOpen.bind(this)
     this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleRemoveRow = this.handleRemoveRow.bind(this)
     this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
@@ -95,6 +99,26 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public async componentDidMount() {
+    const id = this.props.match.params.id
+
+    if (id) {
+      const { listing, imageData } = await Listing.retrieve(id)
+      listing.normalize()
+
+      if (!listing.isOwner) {
+        alert('Unable to edit listing that you do not own!')
+        window.location.href = '/'
+        return
+      }
+
+      const images = imageData.map(img => img.src)
+      this.setState({
+        listing,
+        tempImages: images,
+        isListingNew: false,
+      })
+    }
+
     const profile = await Profile.retrieve()
     const moderatorListResponse = await Axios.get(
       `${config.openBazaarHost}/ob/moderators?async=false&include=`
@@ -112,6 +136,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         }
       })
     }
+
     this.setState({
       profile,
     })
@@ -132,9 +157,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <ListingGeneralForm
+            key={this.state.listing.item.title}
             data={this.state.listing}
             handleContinue={handleSubmitForm}
-            handleInputChange={handleInputChange}
           />
         ),
         title: 'General',
@@ -157,7 +182,11 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           <ListingPhotosForm
             handleContinue={handleSubmitForm}
             images={this.state.tempImages}
-            onImageOpen={this.handleImageOpen}
+            onChange={images => {
+              this.setState({
+                tempImages: [...images],
+              })
+            }}
           />
         ),
         title: 'Photos',
@@ -254,26 +283,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.handleInputChange(`location.${field}`, value, 'listing')
   }
 
-  public async handleImageOpen(event: React.ChangeEvent<HTMLInputElement>) {
-    const imageFiles = event.target.files
-    const base64ImageFiles: Array<Promise<string>> = []
-
-    if (!imageFiles) {
-      return
-    }
-
-    // tslint:disable-next-line:prefer-for-of
-    for (let index = 0; index < imageFiles.length; index++) {
-      const imageElement = imageFiles[index]
-      base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
-    }
-
-    const base64ImageFilesUploadResults = await Promise.all(base64ImageFiles)
-    this.setState({
-      tempImages: base64ImageFilesUploadResults,
-    })
-  }
-
   public handleInputChange(field: string, value: any, parentField?: string) {
     if (parentField) {
       const subFieldData = this.state[parentField]
@@ -331,16 +340,23 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isLoading: true,
     })
 
-    const imageUpload = this.state.tempImages.map(base64Image =>
-      ImageUploaderInstance.uploadImage(base64Image)
-    )
-
-    const images = await Promise.all(imageUpload)
-
-    listing.item.images = images
+    const newImages = this.state.tempImages.filter(image => !image.startsWith('http'))
+    const imageUpload = newImages.map(base64Image => ImageUploaderInstance.uploadImage(base64Image))
+    const updateOldImages = this.state.listing.item.images.filter(oldElements => {
+      return this.state.tempImages.find(updatedElements => {
+        const id = updatedElements.split('/')
+        return oldElements.medium === id[id.length - 1]
+      })
+    })
 
     try {
-      await listing.save()
+      const images = await Promise.all(imageUpload)
+      listing.item.images = [...updateOldImages, ...images]
+      if (this.state.isListingNew) {
+        await listing.save()
+      } else {
+        await listing.update()
+      }
       await Profile.publish()
       await this.state.profile.crawlOwnListings()
       alert('Listing Successfully Posted')
