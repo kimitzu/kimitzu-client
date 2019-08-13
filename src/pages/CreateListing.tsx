@@ -256,6 +256,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleInputChange={handleInputChange}
             acceptedCurrencies={this.state.listing.metadata.acceptedCurrencies}
             isLoading={this.state.isLoading}
+            isNew={this.state.isListingNew}
           />
         ),
         title: 'Accepted Currencies',

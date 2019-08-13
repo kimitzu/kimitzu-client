@@ -19,6 +19,7 @@ interface Props {
   handleInputChange: (field: string, value: any, parentField?: string) => void
   acceptedCurrencies: string[]
   isLoading: boolean
+  isNew: boolean
 }
 
 const ListingCryptoCurrenciesForm = ({
@@ -26,6 +27,7 @@ const ListingCryptoCurrenciesForm = ({
   handleInputChange,
   acceptedCurrencies,
   isLoading,
+  isNew,
 }: Props) => (
   <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
@@ -62,7 +64,7 @@ const ListingCryptoCurrenciesForm = ({
         disabled={isLoading}
         onClick={handleContinue}
       >
-        ADD LISTING
+        {isNew ? 'ADD LISTING' : 'UPDATE LISTING'}
       </Button>
     </div>
   </form>
