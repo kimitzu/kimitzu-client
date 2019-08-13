@@ -130,13 +130,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
                 isSubmitting={isSubmitting}
                 avatar={avatar}
               />
-              <Button
-                className="uk-button uk-button-primary uk-align-center"
-                onClick={handleFormSubmit}
-                showSpinner={isSubmitting}
-              >
-                Save
-              </Button>
             </div>
           ),
           label: 'General',
