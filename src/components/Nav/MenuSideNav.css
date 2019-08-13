@@ -9,10 +9,14 @@
 #nav-item-parent {
   margin-left: 4px;
 }
+li#selected,
+li#not-selected {
+  padding: 5px 0;
+}
 li#selected {
   border-left: 4px solid var(--primary);
 }
-li#selected > a {
+li#selected > ul > li > a {
   color: var(--primary);
   font-weight: bold;
   margin-left: -4px;
