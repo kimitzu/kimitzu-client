@@ -64,7 +64,7 @@ const renderFormSelector = (
         return e.value === socialInfo!.type
       })
     : {
-        icon: 'question',
+        icon: 'link',
       }
 
   return (
@@ -78,10 +78,10 @@ const renderFormSelector = (
       }}
     >
       <div className="uk-margin-right">
-        <span uk-icon={`icon: ${SocialType!.icon}`} />
+        <span data-uk-icon={`icon: ${SocialType!.icon}`} />
       </div>
       <div>
-        <div className="uk-grid-small" uk-grid>
+        <div className="uk-grid-small" data-uk-grid>
           <div className="uk-flex uk-flex-row uk-flex-middle">
             <div className="uk-width-1-4">
               <select
@@ -100,7 +100,7 @@ const renderFormSelector = (
                 })}
               </select>
             </div>
-            <div className="uk-width-1-3 uk-margin-left">
+            <div className="uk-width-1-4 uk-margin-left">
               <input
                 className="uk-input"
                 type="text"
@@ -112,7 +112,7 @@ const renderFormSelector = (
                 }}
               />
             </div>
-            <div className="uk-width-1-3 uk-margin-left">
+            <div className="uk-width-1-2 uk-margin-left uk-inline">
               <input
                 className="uk-input"
                 type="text"
@@ -123,20 +123,23 @@ const renderFormSelector = (
                   changeHandler(index, 'proof', evt.target.value)
                 }}
               />
+              <a
+                className="uk-icon-link uk-form-icon uk-form-icon-flip"
+                data-uk-icon="icon: question"
+                data-uk-tooltip="Link of a proof that you own that account (e.g. link of a post for facebook and link of a commit in github)."
+              />
             </div>
           </div>
         </div>
       </div>
-      <div className="uk-width-1-4 uk-margin-left">
+      <div className="uk-margin-left uk-width-1-10">
         {socialInfo && mouseOverIndex === index ? (
-          <button
-            className="uk-button uk-button-text"
+          <a
             onClick={() => {
               deleteHandler(index)
             }}
-          >
-            <span uk-icon="close" />
-          </button>
+            data-uk-icon="close"
+          />
         ) : null}
       </div>
     </div>

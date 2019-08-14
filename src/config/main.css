@@ -84,6 +84,9 @@ textarea {
 .uk-flex-4 {
   flex: 4;
 }
+.uk-width-1-10 {
+  width: 10%;
+}
 .uk-button:disabled {
   background-color: var(--primary);
   opacity: 0.75;

@@ -89,12 +89,14 @@
     "wait-on": "^3.3.0"
   },
   "description": "Djali Client App",
-  "build": {
-    "appId": "app.djali.client",
-    "extraResources": ["./external/**"]
-  },
   "main": "public/electron.js",
   "homepage": "./",
+  "build": {
+    "appId": "com.djali.client",
+    "files": [
+      "build/**/*"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",

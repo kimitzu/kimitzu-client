@@ -38,13 +38,13 @@
   {
     "label": "Etsy",
     "value": "etsy",
-    "icon": "etsy",
-    "link": "https://www.etsy.com/people/{uid}"  
+    "icon": "social",
+    "link": "https://www.etsy.com/people/{uid}"
   },
   {
     "label": "Facebook",
     "value": "facebook",
-    "icon": "facebook",  
+    "icon": "facebook",
     "link": "https://www.facebook.com/{uid}"
   },
   {
