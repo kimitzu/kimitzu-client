@@ -20,6 +20,49 @@ import {
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
+  public static async deleteCredentials(username: string, password: string) {
+    const deleteRequest = await Axios.delete(`${config.djaliHost}/authenticate`, {
+      data: {
+        username,
+        password,
+      },
+    })
+    return deleteRequest
+  }
+
+  public static async isAuthenticationActivated(): Promise<boolean> {
+    const queryRequest = await Axios.get(`${config.djaliHost}/authenticate`)
+    return queryRequest.data.authentication as boolean
+  }
+
+  public static async login(username, password) {
+    const loginRequest = await Axios.post(`${config.djaliHost}/authenticate`, {
+      username,
+      password,
+    })
+    document.cookie = loginRequest.data.success
+    return loginRequest
+  }
+
+  public static logout() {
+    const manipulatedExpireDate = new Date()
+    manipulatedExpireDate.setDate(manipulatedExpireDate.getDate() - 1)
+    document.cookie = `OpenBazaar_Auth_Cookie='';Expires=${manipulatedExpireDate.toUTCString()};Path=/`
+    if (document.cookie) {
+      throw new Error('Internal Error: Unable to logout, cannot clear session.')
+    }
+  }
+
+  public static async setCredentials(oldUsername, oldPassword, newUsername, newPassword) {
+    const newCredentialRequest = await Axios.patch(`${config.djaliHost}/authenticate`, {
+      username: oldUsername,
+      password: oldPassword,
+      newUsername,
+      newPassword,
+    })
+    return newCredentialRequest
+  }
+
   public static periodParser(e: EducationHistory | EmploymentHistory) {
     if (e.period) {
       e.period.from = new Date(e.period.from)

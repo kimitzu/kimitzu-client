@@ -1,6 +1,8 @@
 import React from 'react'
 
 import { Link } from 'react-router-dom'
+import Profile from '../../models/Profile'
+
 import './NavBar.css'
 
 interface NavBarProps {
@@ -64,6 +66,14 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
           </li>
           <li>
             <Link to="/listing/create">Create New Listing</Link>
+          </li>
+          <li
+            onClick={() => {
+              Profile.logout()
+              window.location.href = '/'
+            }}
+          >
+            <Link to="#">Logout</Link>
           </li>
         </ul>
       </div>

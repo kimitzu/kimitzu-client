@@ -5,6 +5,8 @@ import { AddressesCardGroup } from '../../components/CardGroup'
 import { AddressForm, ModeratorForm, RegistrationForm } from '../../components/Form'
 
 import { Button } from '../../components/Button'
+import ChangeCredentials from '../../components/Card/ChangeCredentials'
+import Login from '../../components/Card/Login'
 import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
 import EducationCardGroup from '../../components/CardGroup/Settings/EducationCardGroup'
 import EmploymentCardGroup from '../../components/CardGroup/Settings/EmploymentCardGroup'
@@ -92,6 +94,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.handleSelectEmployment = this.handleSelectEmployment.bind(this)
     this.handleSelectParentItem = this.handleSelectParentItem.bind(this)
     this.mapSubcontents = this.mapSubcontents.bind(this)
+    this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this)
+    this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
   }
 
   public async componentDidMount() {
@@ -204,6 +208,51 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           label: 'General',
         },
       ],
+      [
+        {
+          component: (
+            <div className="uk-flex uk-flex-row uk-child-width-1-2">
+              <div>
+                <ChangeCredentials onSubmit={this.handleAuthenticationChange} />
+              </div>
+              <div className="uk-margin-left">
+                <p>
+                  Enabling this feature will activate Djali's authentication mechanisms to protect
+                  your client from unauthorized access.
+                </p>
+                <p className="uk-margin-top">
+                  Other non-critical features such as search will still be accessible but payment
+                  and ordering-related features will need authentication in order to proceed.
+                </p>
+              </div>
+            </div>
+          ),
+          label: 'Authentication',
+        },
+        {
+          component: (
+            <div className="uk-flex uk-flex-row uk-child-width-1-2">
+              <div>
+                <Login
+                  onSubmit={this.handleDeactivateAuthentication}
+                  submitLabel={'Deactivate Authentication'}
+                />
+              </div>
+              <div className="uk-margin-left">
+                <p>
+                  Enabling this feature will deactivate Djali's authentication mechanisms and your
+                  client will no longer be protected from unauthorized access.
+                </p>
+                <p className="uk-margin-top">
+                  Payment and ordering-related features will no longer need authentication in order
+                  to proceed.
+                </p>
+              </div>
+            </div>
+          ),
+          label: 'Deactivate',
+        },
+      ],
     ]
   }
 
@@ -309,6 +358,11 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         handler: () => handleSelectParentItem(2),
         subItems: mapSubcontents(2),
       },
+      {
+        label: 'Security',
+        handler: () => handleSelectParentItem(3),
+        subItems: mapSubcontents(3),
+      },
     ]
     return navItems
   }
@@ -337,6 +391,37 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         />
       </div>
     )
+  }
+
+  private async handleAuthenticationChange(
+    oldUsername: string,
+    oldPassword: string,
+    newUsername: string,
+    newPassword: string
+  ) {
+    try {
+      await Profile.setCredentials(oldUsername, oldPassword, newUsername, newPassword)
+      Profile.logout()
+      alert(
+        'Credentials successfully changed!\nPlease restart the server for changes to take effect.'
+      )
+      window.location.href = '/login'
+    } catch (e) {
+      alert(e.response.data.error)
+    }
+  }
+
+  private async handleDeactivateAuthentication(username: string, password: string) {
+    try {
+      await Profile.deleteCredentials(username, password)
+      Profile.logout()
+      alert(
+        'Credentials successfully deleted!\nPlease restart the server for changes to take effect.'
+      )
+      window.location.href = '/login'
+    } catch (e) {
+      alert(e.response.data.error)
+    }
   }
 
   private mapSubcontents(parentIndex: number) {

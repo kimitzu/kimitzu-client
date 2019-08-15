@@ -258,7 +258,9 @@ class Search implements State {
       transforms: searchParams.transforms,
     }
 
-    const result = await Axios.post(`${config.djaliHost}/djali/search`, searchObject)
+    const result = await Axios.post(`${config.djaliHost}/djali/search`, searchObject, {
+      withCredentials: true,
+    })
     this.paginate.totalPages = Math.ceil(result.data.count / this.paginate.limit)
 
     const listings = result.data.data.map(d => new Listing(d))

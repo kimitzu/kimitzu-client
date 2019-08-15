@@ -7,6 +7,7 @@ import {
   History,
   Home,
   ListingInformation,
+  Login,
   Profile,
   UserRegistration,
 } from './pages'
@@ -18,6 +19,7 @@ const Routes = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route path="/login" exact component={Login} />
       <Route path="/register" exact component={UserRegistration} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/profile/:id" exact component={Profile} />
