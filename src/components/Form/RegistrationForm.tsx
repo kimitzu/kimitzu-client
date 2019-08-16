@@ -1,12 +1,12 @@
 import React from 'react'
 
+import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
 import { Profile } from '../../interfaces/Profile'
 
 import config from '../../config'
-import { Button } from '../Button'
 import './RegistrationForm.css'
 
 interface Props {
@@ -26,6 +26,29 @@ interface Props {
 const RegistrationForm = (props: Props) => (
   <form className="uk-form-stacked uk-width-1-1" onSubmit={props.onSubmit}>
     <fieldset className="uk-fieldset">
+      <div className="uk-flex uk-flex-1 uk-flex-middle uk-flex-center uk-flex-column">
+        <img
+          className="uk-border-circle"
+          id="reg-avatar"
+          src={
+            props.data.avatarHashes.original || props.avatar
+              ? props.avatar ||
+                `${config.openBazaarHost}/ob/images/${props.data.avatarHashes.original}`
+              : '/images/user.svg'
+          }
+        />
+        <div id="btn-wrapper" className="upload-btn-wrapper">
+          <Button id="reg-avatar-btn" className="uk-button uk-button-primary">
+            CHANGE
+          </Button>
+          <input
+            type="file"
+            accept="image/*"
+            className="uk-button uk-button-primary"
+            onChange={event => props.onChange('avatar', event.target.files)}
+          />
+        </div>
+      </div>
       <div className="uk-margin">
         <FormLabel label="USERNAME" required />
         <div className="uk-form-controls">
@@ -61,37 +84,6 @@ const RegistrationForm = (props: Props) => (
             value={props.data.about || ''}
             onChange={event => props.onChange('about', event.target.value, 'profile')}
           />
-        </div>
-      </div>
-      <div className="uk-margin">
-        <FormLabel label="AVATAR" />
-        <div id="avatar-item" className="uk-form-controls">
-          <div id="child-icon">
-            {props.data.avatarHashes.original && !props.avatar ? (
-              <img src={`${config.openBazaarHost}/ob/images/${props.data.avatarHashes.original}`} />
-            ) : null}
-            {props.avatar ? <img src={props.avatar} /> : null}
-            {!props.avatar && !props.data.avatarHashes.original ? (
-              <a className="uk-icon-button color-primary" uk-icon="user" />
-            ) : null}
-          </div>
-          {/* 
-            TODO: Implement avatar zoom
-            <div id="child-slider">
-              <input className="uk-range" type="range" value="2" min="0" max="10" step="0.1" />
-            </div> 
-          */}
-          <div id="btn-wrapper" className="upload-btn-wrapper">
-            <button id="btn-upload" className="btn">
-              CHANGE
-            </button>
-            <input
-              type="file"
-              accept="image/*"
-              className="uk-button uk-button-primary"
-              onChange={event => props.onChange('avatar', event.target.files)}
-            />
-          </div>
         </div>
       </div>
       <div className="uk-margin">

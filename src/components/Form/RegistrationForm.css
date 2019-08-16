@@ -4,6 +4,13 @@
   display: flex;
   flex-direction: row;
 }
+#reg-avatar {
+  width: 150px;
+  height: 150px;
+}
+#reg-avatar-btn {
+  line-height: 25px;
+}
 .uk-icon-button {
   background: var(--border-color);
 }
@@ -30,7 +37,7 @@
 #child-slider {
   padding-left: 7%;
   padding-right: 7%;
-  flex: 9;  
+  flex: 9;
   justify-content: center;
   display: flex;
 }
@@ -49,6 +56,7 @@
 }
 
 #btn-wrapper {
+  margin-top: 10px;
   position: relative;
   overflow: hidden;
   display: inline-block;
@@ -61,10 +69,9 @@
   padding: 8px 20px;
   border-radius: 5px;
   font-weight: bold;
-
 }
 
-#btn-wrapper input[type=file] {
+#btn-wrapper input[type='file'] {
   font-size: 100px;
   position: absolute;
   left: 0;

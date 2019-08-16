@@ -19,7 +19,9 @@ const RegistrationCard = (props: Props) => (
     className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-column uk-flex-middle"
   >
     <img className="djali-logo-form" src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg" />
-    <div className="uk-width-1-1">{props.content}</div>
+    <div className="uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
+      {props.content}
+    </div>
     <div className="uk-flex uk-flex-center uk-width-1-1">
       <div id="footer-left">
         <a
