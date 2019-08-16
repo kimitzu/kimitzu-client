@@ -1,5 +1,5 @@
 import QRCode from 'qrcode.react'
-import React from 'react'
+import React, { useState } from 'react'
 import { OrdersSpend } from '../../interfaces/Order'
 import Order from '../../models/Order'
 import { Button } from '../Button'
@@ -22,7 +22,9 @@ const PaymentQRCard = ({
   handlePay,
   cryptocurrency,
 }: Props) => {
-  const handlePayment = () => {
+  const [isPaying, setIsPaying] = useState(false)
+
+  const handlePayment = async () => {
     const details = {
       wallet: cryptocurrency,
       address,
@@ -31,7 +33,7 @@ const PaymentQRCard = ({
       memo: memo || '',
     }
     if (handlePay) {
-      handlePay(details)
+      await handlePay(details)
     }
   }
 
@@ -82,9 +84,17 @@ const PaymentQRCard = ({
                   >
                     Cancel
                   </button>
-                  <button className="uk-button uk-button-primary" onClick={() => handlePayment()}>
+                  <Button
+                    className="uk-button uk-button-primary"
+                    onClick={async () => {
+                      setIsPaying(true)
+                      await handlePayment()
+                      setIsPaying(false)
+                    }}
+                    showSpinner={isPaying}
+                  >
                     Yes, Pay
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

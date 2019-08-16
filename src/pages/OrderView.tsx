@@ -733,10 +733,14 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   private async handleRefund(memo: string) {
     try {
       await this.state.order.refund(memo)
-      alert('Order successfully refunded!')
+      window.UIkit.notification('Order successfully refunded!', {
+        status: 'success',
+      })
       window.location.reload()
     } catch (e) {
-      alert('Refund failed: ' + e.message)
+      window.UIkit.notification('Refund failed: ' + e.message, {
+        status: 'danger',
+      })
     }
   }
 
@@ -746,13 +750,17 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     })
     try {
       await this.state.order.complete(this.state.review, this.state.isAnonymous)
-      alert('Order completed!')
+      window.UIkit.notification('Order completed: ', {
+        status: 'success',
+      })
       const order = await Order.retrieve(this.state.order.contract.vendorOrderConfirmation.orderID)
       this.setState({
         order,
       })
     } catch (e) {
-      alert(e.message)
+      window.UIkit.notification(e.message, {
+        status: 'danger',
+      })
     }
     this.setState({ loadIndicator: LOAD_INDICATOR.NO_LOAD })
   }
@@ -767,9 +775,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       this.setState({
         order,
       })
-      alert('Order fulfilled!')
+      window.UIkit.notification('Order fulfilled: ', {
+        status: 'success',
+      })
     } catch (e) {
-      alert(e.message)
+      window.UIkit.notification(e.message, {
+        status: 'danger',
+      })
     }
 
     this.setState({
@@ -801,7 +813,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       isSendingRequest: true,
     })
     await this.state.order.dispute(this.state.claim)
-    alert('Dispute Sent!')
+    window.UIkit.notification('Dispute Sent!', {
+      status: 'success',
+    })
     this.handleBackBtn(true)
     this.setState({
       isSendingRequest: false,
@@ -813,7 +827,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       isSendingRequest: true,
     })
     await this.state.order.releaseFunds()
-    alert('Funds released!')
+    window.UIkit.notification('Fund released!', {
+      status: 'success',
+    })
     await this.handleBackBtn(true)
     this.setState({
       isSendingRequest: false,

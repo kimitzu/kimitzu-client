@@ -369,7 +369,9 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     const buyerPercentage = 100 - this.state.disputePercentage
     const sellerPercentage = this.state.disputePercentage
     await this.state.dispute.settle(buyerPercentage, sellerPercentage, this.state.disputeResolution)
-    alert('Resolution sent!')
+    window.UIkit.notification('Resolution sent!', {
+      status: 'success',
+    })
     await this.handleBackBtn(true)
   }
 

@@ -13,7 +13,7 @@ class LoginPage extends React.Component {
       await Profile.login(username, password)
       window.location.href = '/'
     } catch (e) {
-      alert(e.response.data.error)
+      window.UIkit.notification(e.response.data.error, { status: 'danger' })
     }
   }
 

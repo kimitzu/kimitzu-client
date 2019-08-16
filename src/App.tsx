@@ -6,6 +6,11 @@ import FloatingChat from './pages/Chat/FloatingChat'
 import TitleBar from './pages/TitleBar'
 import Routes from './Routes'
 
+if (isElectron()) {
+  // tslint:disable-next-line: no-var-requires
+  require('./config/notification.css')
+}
+
 declare global {
   interface Window {
     require: any

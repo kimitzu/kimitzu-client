@@ -402,12 +402,17 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     try {
       await Profile.setCredentials(oldUsername, oldPassword, newUsername, newPassword)
       Profile.logout()
-      alert(
-        'Credentials successfully changed!\nPlease restart the server for changes to take effect.'
+      window.UIkit.notification(
+        'Credentials successfully changed!\nPlease restart the server for changes to take effect.',
+        {
+          status: 'success',
+        }
       )
-      window.location.href = '/login'
+      setTimeout(() => {
+        window.location.href = '/login'
+      }, 5000)
     } catch (e) {
-      alert(e.response.data.error)
+      window.UIkit.notification(e.response.data.error, { status: 'success' })
     }
   }
 
@@ -415,12 +420,15 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     try {
       await Profile.deleteCredentials(username, password)
       Profile.logout()
-      alert(
-        'Credentials successfully deleted!\nPlease restart the server for changes to take effect.'
+      window.UIkit.notification(
+        'Credentials successfully deleted!\nPlease restart the server for changes to take effect.',
+        { status: 'success' }
       )
-      window.location.href = '/login'
+      setTimeout(() => {
+        window.location.href = '/login'
+      }, 5000)
     } catch (e) {
-      alert(e.response.data.error)
+      window.UIkit.notification(e.response.data.error, { status: 'danger' })
     }
   }
 
@@ -487,7 +495,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     }
 
     await this.state.profile.update()
-    alert('Profile updated')
+    window.UIkit.notification('Profile updated', { status: 'success' })
     this.setState({
       isSubmitting: false,
     })
@@ -512,7 +520,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
   private async handleProfileSave() {
     await this.state.profile.update()
-    alert('Profile saved!')
+    window.UIkit.notification('Profile saved', { status: 'success' })
     this.setState({
       currentAction: actions.NONE,
     })

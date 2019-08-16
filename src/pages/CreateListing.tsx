@@ -106,7 +106,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       listing.normalize()
 
       if (!listing.isOwner) {
-        alert('Unable to edit listing that you do not own!')
+        window.UIkit.notification('Unable to edit listing that you do not own!', {
+          status: 'warning',
+        })
         window.location.href = '/'
         return
       }
@@ -360,10 +362,14 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       }
       await Profile.publish()
       await this.state.profile.crawlOwnListings()
-      alert('Listing Successfully Posted')
+      window.UIkit.notification('Listing Successfully Posted', {
+        status: 'success',
+      })
       window.location.href = '/'
     } catch (e) {
-      alert(e.message)
+      window.UIkit.notification(e.message, {
+        status: 'danger',
+      })
       this.setState({
         isLoading: false,
       })

@@ -170,7 +170,7 @@ class UserRegistration extends Component<{}, State> {
     }
 
     await this.state.profile.save()
-    alert('Registration Successful')
+    window.UIkit.notification('Registration Successful', { status: 'success' })
     this.handleNext()
   }
 

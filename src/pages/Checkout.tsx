@@ -164,11 +164,11 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                 cryptocurrency={this.state.selectedCurrency}
                 memo={this.state.memo}
                 handlePay={async orderDetails => {
-                  await this.state.order.pay(orderDetails)
                   const element = document.getElementById('dropID')
                   if (element) {
                     window.UIkit.dropdown(element).hide()
                   }
+                  await this.state.order.pay(orderDetails)
                 }}
               />
             </div>
@@ -308,7 +308,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               Received!
             </h4>
             <p>Thank you for your purchase!</p>
-            <Link to={`/order/${this.state.payment.orderId}`}>Check the status of your order.</Link>
+            <Link to={`/history/purchases/${this.state.payment.orderId}`}>
+              Check the status of your order.
+            </Link>
           </div>
         </div>
         <ModeratorInfoModal
@@ -352,7 +354,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
     const isOwner = this.state.listing.isOwner
     if (isOwner) {
-      alert('This is how your listing looks like to other users.')
+      window.UIkit.notification('This is how your listing looks like to other users.', {
+        status: 'primary',
+      })
       return
     }
 
@@ -365,7 +369,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         this.state.selectedModeratorID
       )
     } catch (e) {
-      alert(e.message)
+      window.UIkit.notification(e.message, {
+        status: 'warning',
+      })
       return
     }
 

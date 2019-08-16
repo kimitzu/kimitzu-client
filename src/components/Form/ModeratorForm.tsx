@@ -126,7 +126,7 @@ const ModeratorForm = (props: Props) => {
         if (!enableModerator) {
           setIsSubmitting(true)
           await props.profile.unsetModerator()
-          alert('Moderator profile removed!')
+          window.UIkit.notification('Moderator profile removed', { status: 'success' })
           setIsSubmitting(false)
           return
         }
@@ -137,7 +137,9 @@ const ModeratorForm = (props: Props) => {
 
         setIsSubmitting(true)
         await props.profile.setModerator(moderator)
-        alert('Moderator profile saved!')
+        window.UIkit.notification('Moderator profile saved!', {
+          status: 'success',
+        })
         setIsSubmitting(false)
       }}
     >

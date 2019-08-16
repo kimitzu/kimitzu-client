@@ -137,3 +137,8 @@ a:hover {
 .cursor-pointer {
   cursor: pointer;
 }
+.uk-notification-top-center {
+  border-radius: 2px;
+  -webkit-box-shadow: 0 10px 10px -8px #969696;
+  box-shadow: 0 10px 10px -8px #969696;
+}

@@ -53,7 +53,7 @@ const ListingCouponsForm = ({
                   coupons.length > 1
                     ? () => handleRemoveRow('coupon', 0)
                     : () => {
-                        /* TODO: Add toast of simple alert */
+                        /* DO NOTHING */
                       }
                 }
               />,

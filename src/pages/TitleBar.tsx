@@ -3,7 +3,7 @@ import { CustomTitleBar } from '../components/CustomTitleBar'
 
 const remote = window.remote
 
-class FloatingChat extends React.Component<{}> {
+class TitleBar extends React.Component<{}> {
   constructor(props) {
     super(props)
     this.minimize = this.minimize.bind(this)
@@ -35,4 +35,4 @@ class FloatingChat extends React.Component<{}> {
   }
 }
 
-export default FloatingChat
+export default TitleBar

@@ -49,7 +49,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
         profile.customFields = descriptions
         setIsUpdating(true)
         await profile.update()
-        alert('Profile Saved')
+        window.UIkit.notification('Profile Updated!', { status: 'success' })
         setIsUpdating(false)
       }}
     >
