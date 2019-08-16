@@ -17,6 +17,9 @@ import {
   Stats,
 } from '../interfaces/Profile'
 
+import defaults from '../constants/Defaults'
+
+const profileDefaults = defaults.profile
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
@@ -152,7 +155,7 @@ class Profile implements ProfileSchema {
         addressTwo: '',
         city: '',
         state: '',
-        country: '',
+        country: profileDefaults.country,
         zipCode: '',
       },
     ],
@@ -198,11 +201,11 @@ class Profile implements ProfileSchema {
   }
   public peerID: string = ''
   public preferences: Preferences = {
-    currencyDisplay: '',
-    fiat: '',
-    cryptocurrency: '',
-    language: '',
-    measurementUnit: '',
+    currencyDisplay: profileDefaults.currencyDisplay,
+    fiat: profileDefaults.fiat,
+    cryptocurrency: profileDefaults.cryptocurrency,
+    language: profileDefaults.language,
+    measurementUnit: profileDefaults.measurementUnit,
   }
   public profileType?: string = ''
   public shortDescription?: string = ''

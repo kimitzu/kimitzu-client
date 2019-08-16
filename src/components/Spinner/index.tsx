@@ -1,3 +1,5 @@
+import CircleSpinner from './CircleSpinner'
 import DottedSpinner from './DottedSpinner'
+import FullPageSpinner from './FullPageSpinner'
 
-export { DottedSpinner }
+export { CircleSpinner, DottedSpinner, FullPageSpinner }

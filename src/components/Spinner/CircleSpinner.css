@@ -1,0 +1,8 @@
+.sk-circle {
+  margin: 0;
+  width: 60px;
+  height: 60px;
+}
+.sk-circle .sk-child:before {
+  background-color: var(--primary);
+}

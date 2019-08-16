@@ -7,9 +7,7 @@ import {
   History,
   Home,
   ListingInformation,
-  Login,
   Profile,
-  UserRegistration,
   WalletView,
 } from './pages'
 import DisputeView from './pages/DisputeView'
@@ -20,8 +18,6 @@ const Routes = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/" exact component={Home} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/register" exact component={UserRegistration} />
       <Route path="/wallet" exact component={WalletView} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/profile/:id" exact component={Profile} />

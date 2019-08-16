@@ -19,7 +19,6 @@
 }
 #navbar-right-item {
   margin-right: 2%;
-  cursor: pointer;
 }
 #navbar-center-item {
   width: 52%;
@@ -29,6 +28,7 @@
   color: #fff !important;
   margin-right: 5%;
   min-height: 0;
+  cursor: pointer;
 }
 #create-listing {
   color: white;
