@@ -1,4 +1,5 @@
 import CheckoutPaymentCard from './CheckoutPaymentCard'
+import CryptoSelector from './CryptoSelector'
 import IntroductionCard from './IntroductionCard'
 import ListingAddUpdateCard from './ListingAddUpdateCard'
 import ListingCheckoutCard from './ListingCheckoutCard'
@@ -13,6 +14,8 @@ import SideMenuWithContentCard from './SideMenuWithContentCard'
 import SocialMediaCard from './SocialMediaCard'
 import TagsCard from './TagsCard'
 import TermsOfServiceCard from './TermsOfServiceCard'
+import TransactionsHistoryCard from './TransactionsHistoryCard'
+import WalletBalanceCard from './WalletBalanceCard'
 
 export {
   AddEntryCard as AddAddressCard,
@@ -30,4 +33,7 @@ export {
   ProfessionalBackgroundCard,
   TagsCard,
   TermsOfServiceCard,
+  CryptoSelector,
+  WalletBalanceCard,
+  TransactionsHistoryCard,
 }

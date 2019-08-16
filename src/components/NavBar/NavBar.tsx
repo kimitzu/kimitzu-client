@@ -53,8 +53,9 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
       <div className="uk-padding-small" data-uk-dropdown="pos: bottom-left; mode: click">
         <ul className="uk-nav uk-dropdown-nav">
           <li>
-            <Link to="/settings/profile">Settings</Link>
+            <Link to="/listing/create">Create New Listing</Link>
           </li>
+          <hr />
           <li>
             <Link to="/history/purchases">Purchase History</Link>
           </li>
@@ -64,8 +65,12 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
           <li>
             <Link to="/history/cases">Case History</Link>
           </li>
+          <hr />
           <li>
-            <Link to="/listing/create">Create New Listing</Link>
+            <Link to="/wallet">Wallet</Link>
+          </li>
+          <li>
+            <Link to="/settings">Settings</Link>
           </li>
           <li
             onClick={() => {

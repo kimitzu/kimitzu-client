@@ -8,6 +8,7 @@ import ModeratorForm from './ModeratorForm'
 import ModeratorSelectionForm from './ModeratorSelectionForm'
 import RegistrationForm from './RegistrationForm'
 import ReviewForm from './ReviewForm'
+import SendCryptoForm from './SendCryptoForm'
 import ShippingOptionForm from './ShippingOptionForm'
 import TagsForm from './TagsForm'
 import TermsOfService from './TermsOfService'
@@ -22,6 +23,7 @@ export {
   ModeratorSelectionForm,
   RegistrationForm,
   ReviewForm,
+  SendCryptoForm,
   ShippingOptionForm,
   TagsForm,
   TermsOfService,

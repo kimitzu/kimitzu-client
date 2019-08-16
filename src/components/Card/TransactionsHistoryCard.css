@@ -1,0 +1,67 @@
+#tx-list-cont li {
+    border-bottom: 0.5px solid rgb(187, 187, 187);
+    padding: 10px;
+}
+
+#tx-list-cont li:last-child {
+    border-bottom: 0px solid rgb(187, 187, 187);}
+
+#title-tx {
+    color: dodgerblue;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.tx-list {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.tx-list-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.check-icon {
+    color: dodgerblue;
+    margin-right: 5px;
+}
+
+#tx-list-cont {
+    list-style: none;
+}
+
+.tx-value {
+    font-weight: bold;
+}
+
+.tx-status {
+    color: rgb(104, 104, 104);
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.tx-list-sub {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tx-stat-sub {
+    color: rgb(104, 104, 104);
+    font-size: 14px;
+    margin-right: 5px;
+    margin-left: 25px;
+}
+
+.tx-adrs {
+    font-size: 14px;
+    width: 200px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: underline;
+    cursor: pointer;
+}

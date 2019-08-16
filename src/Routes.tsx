@@ -10,6 +10,7 @@ import {
   Login,
   Profile,
   UserRegistration,
+  WalletView,
 } from './pages'
 import DisputeView from './pages/DisputeView'
 import OrderView from './pages/OrderView'
@@ -21,11 +22,12 @@ const Routes = () => (
       <Route path="/" exact component={Home} />
       <Route path="/login" exact component={Login} />
       <Route path="/register" exact component={UserRegistration} />
+      <Route path="/wallet" exact component={WalletView} />
       <Route path="/profile" exact component={Profile} />
       <Route path="/profile/:id" exact component={Profile} />
       <Route path="/listing/create" exact component={CreateListing} />
       <Route path="/listing/edit/:id" exact component={CreateListing} />
-      <Route path="/settings/profile" exact component={ProfileSettings} />
+      <Route path="/settings" exact component={ProfileSettings} />
       <Route path="/listing/:id" exact component={ListingInformation} />
       <Route path="/history/:view" exact component={History} />
       <Route path="/history/cases/:id" exact component={DisputeView} />

@@ -1,0 +1,49 @@
+#crypto-balance-main {
+    padding: 20px 10px 20px 10px!important;
+    display: flex;
+    flex-direction: row;
+    border-radius: 2px;
+}
+
+#left-cont-bal {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#middle-cont-bal {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-right: 0.5px solid rgb(194, 194, 194);
+    border-left: 0.5px solid rgb(194, 194, 194);
+}
+
+#right-cont-bal {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.bal-bold-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(129, 129, 129);
+}
+
+.value-bal {
+    font-size: 25px;
+    font-weight: 700;
+    color: rgb(30, 144, 255);
+}
+
+.stat-bal {
+    font-size: 12px;
+    color: rgb(129, 129, 129);
+}

@@ -6,6 +6,7 @@ import ListingInformation from './ListingInformation'
 import Login from './Login'
 import Profile from './Profile'
 import UserRegistration from './UserRegistration'
+import WalletView from './WalletView'
 
 export {
   Checkout,
@@ -16,4 +17,5 @@ export {
   ListingInformation,
   Profile,
   History,
+  WalletView,
 }

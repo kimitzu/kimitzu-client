@@ -1,0 +1,46 @@
+#crypto-selector-main {
+    padding: 0px !important;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#crypto-select-ul {
+    list-style: none;
+}
+
+#crypto-select-ul li {
+    border-bottom: 0.5px solid rgb(241, 241, 241);
+    padding: 10px;
+}
+
+#crypto-select-ul li:last-child {
+    border-bottom: 0px solid rgb(241, 241, 241);
+}
+
+.crypto-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.crypto-label {
+    color: gray;
+    font-weight: 700;
+    flex: 1;
+    margin-left: 10px;
+}
+
+.crypto-balance {
+    color: gray;
+    width: 100px;
+    margin-left: 10px;
+    text-align: end;
+}
+
+.selected {
+    background-color: rgb(58, 156, 255);
+}
+
+.selected p {
+    color: white;
+}

@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker'
 declare global {
   interface Window {
     socket: WebSocket
+    openExternal: (url) => void
   }
 }
 
