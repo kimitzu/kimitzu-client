@@ -91,7 +91,7 @@
   },
   "description": "Djali Client App",
   "main": "public/electron.js",
-  "homepage": "./",
+  "homepage": "/",
   "build": {
     "appId": "com.djali.client",
     "files": [
