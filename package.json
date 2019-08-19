@@ -28,6 +28,7 @@
     "cross-env": "^5.2.0",
     "currency-symbol-map": "^4.0.4",
     "electron-is-dev": "^1.1.0",
+    "electron-serve": "^0.3.0",
     "is-electron": "^2.2.0",
     "iso-639-1": "^2.0.5",
     "moment": "^2.24.0",
@@ -102,9 +103,15 @@
     "tslint-react": "^4.0.0",
     "wait-on": "^3.3.0"
   },
-  "description": "Djali Client App",
+  "descript ion": "Djali Client App",
   "build": {
-    "appId": "app.djali.client"
+    "appId": "app.djali.client",
+    "compression": "store",
+    "extraFiles": [
+      {"from": "external/_root/locationmap.json", "to": "locationmap.json" },
+      {"from": "external/_root/locdat.zip", "to": "locdat.zip"},
+      {"from": "external", "to": "external", "filter": "*"}
+    ]
   },
   "main": "public/electron.js",
   "homepage": "./",
