@@ -103,6 +103,9 @@
     "wait-on": "^3.3.0"
   },
   "description": "Djali Client App",
+  "build": {
+    "appId": "app.djali.client"
+  },
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
