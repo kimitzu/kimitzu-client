@@ -151,7 +151,7 @@ class Home extends Component<HomeProps, HomeState> {
                     <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
                         options={SortOptions}
-                        defaultVal={this.state.search.sort}
+                        defaultVal={this.state.search.sortIndicator}
                         onChange={event => this.handleSortChange(event.target.value)}
                       />
                     </div>
@@ -247,8 +247,9 @@ class Home extends Component<HomeProps, HomeState> {
     })
   }
 
-  private async handleDropdownSelect(selectedItem) {
-    this.handleFilterChange('item.categories', selectedItem)
+  private async handleDropdownSelect(itemValue, itemId) {
+    // TODO: Update filter and use item id
+    this.handleFilterChange('item.categories', itemValue)
     await this.handleSearchSubmit()
   }
 }

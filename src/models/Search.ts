@@ -10,6 +10,7 @@ export interface State {
   plusCode: string
   query: string
   sort: string
+  sortIndicator: string
   isSearching: boolean
   results: SearchResults
   paginate: Paginate
@@ -49,6 +50,7 @@ export interface Spec {
 }
 
 class Search implements State {
+  public sortIndicator: string = ''
   public filters: Ers = {
     'metadata.contractType': 'SERVICE',
   }
@@ -189,6 +191,7 @@ class Search implements State {
     const field = data[0]
     const condition = data[1]
     this.sort = `x.${field} ${condition} y.${field}`
+    this.sortIndicator = target
     return await this.execute()
   }
 

@@ -3,9 +3,9 @@ import React from 'react'
 import './DropdownList.css'
 
 interface Item {
-  id: string
+  id?: string
   title: string
-  tags: string[]
+  tags?: string[]
   children?: Item[]
 }
 
@@ -20,7 +20,7 @@ interface Props {
   dataUkDropdown?: string
   handleHoverItem?: (dropdownIndex: number, itemIndex: number) => void
   handlePointerLeave?: (dropdownIndex) => void
-  handleItemSelect: (selectedItem: string) => void
+  handleItemSelect: (itemValue: string, itemId?: string) => void
   closeDropdown: () => void
   selectedIndex?: number
   style?: Style
@@ -56,7 +56,7 @@ const DropdownList = ({
       <ul id="dropdown-list-items" className="uk-nav uk-dropdown-nav">
         {items.map((item: Item, index: number) => (
           <li
-            key={item.id}
+            key={item.title}
             id={selectedIndex === index ? 'selected-list-item' : ''}
             onPointerEnter={
               handleHoverItem
@@ -68,12 +68,12 @@ const DropdownList = ({
             className="uk-flex uk-flex-row uk-flex-middle"
             onClick={e => {
               e.stopPropagation()
-              handleItemSelect(item.id)
+              handleItemSelect(item.title, item.id)
               closeDropdown()
             }}
           >
             <a id="dropdown-item-title">{item.title}</a>
-            {item.children && item.children.length > 0 ? (
+            {(item.children && item.children.length > 0) || (item.tags && item.tags.length > 0) ? (
               <span className="uk-flex-1 uk-text-right" data-uk-icon="icon: triangle-right" />
             ) : null}
           </li>

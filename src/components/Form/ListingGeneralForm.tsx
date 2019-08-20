@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { InputSelector } from '../Input'
+import { AutoCompleteSelect, InputSelector } from '../Input'
 import { FormLabel } from '../Label'
 import { RadioButtons } from '../RadioButton'
 import { FormSelector } from '../Selector'
@@ -27,11 +27,6 @@ const serviceTypes = serviceTypeIds
     }
     return a.label < b.label ? -1 : 1
   })
-
-serviceTypes.unshift({
-  label: 'Select the classification that best describes your service',
-  value: '',
-})
 
 const currencies = [
   {
@@ -61,11 +56,11 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
         <div className="uk-margin">
           <FormLabel label="Occupation Classification" required />
           <div id="form-select" className="uk-form-controls">
-            <FormSelector
+            <AutoCompleteSelect
+              defaultSelectorVal={listing.metadata.serviceClassification || ''}
               options={serviceTypes}
-              defaultVal={listing.metadata.serviceClassification || ''}
               onChange={event => {
-                const occupationIndex = event.target.value
+                const occupationIndex = event.value
                 const item = listing.item
 
                 /**
@@ -79,7 +74,6 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
                 handleChange('item', item)
                 handleChange('metadata', metadata)
               }}
-              required
             />
           </div>
         </div>

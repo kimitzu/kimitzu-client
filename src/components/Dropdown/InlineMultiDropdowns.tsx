@@ -4,25 +4,25 @@ import useForceUpdate from 'use-force-update'
 import DropdownList from './DropdownList'
 
 interface Item {
-  id: string
+  id?: string
   title: string
-  tags: string[]
+  tags?: string[]
   children?: Item[]
 }
 
 interface InlineMultiDropdownsProps {
-  handleItemSelect: (selectedItem: string) => void
+  handleItemSelect: (itemValue: string, itemId?: string) => void
   title: string
   items: Item[]
 }
 
 const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDropdownsProps) => {
   const forceUpdate = useForceUpdate()
-  const [listItems, setListItems] = useState<Item[][]>([items])
+  const [listItems, setListItems] = useState([items])
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
   const [focusedIndex, setFocusedIndex] = useState(-1)
-  const [minDropdownHeight, setMinDropdownHeight] = useState(0)
-  const [dropdownWidth] = useState(250)
+  const [dropdownHeight, setDropdownHeight] = useState(0)
+  const [dropdownWidth] = useState(225)
 
   const closeDropdown = () => {
     setFocusedIndex(-1)
@@ -43,7 +43,15 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
       setSelectedIndexes(indexes)
     }
     setFocusedIndex(dropdownIndex)
-    listItems[nextDropdownIndex] = listItems[dropdownIndex][itemIndex].children || []
+    const nextItems = listItems[dropdownIndex][itemIndex]
+    listItems[nextDropdownIndex] =
+      nextItems.children && nextItems.children.length > 0
+        ? nextItems.children
+        : nextItems.tags
+        ? nextItems.tags.map(tag => {
+            return { title: tag }
+          })
+        : []
     setListItems(listItems)
     forceUpdate()
   }
@@ -55,10 +63,10 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
         closeDropdown()
       }
     }
-    if (minDropdownHeight === 0) {
+    if (dropdownHeight === 0) {
       const dropdownElem = document.getElementById('dropdownlist')
       if (dropdownElem && dropdownElem.children[1]) {
-        setMinDropdownHeight(dropdownElem.children[1].clientHeight)
+        setDropdownHeight(dropdownElem.children[1].clientHeight)
       }
     }
   })
@@ -77,11 +85,13 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
           <span data-uk-icon="icon: triangle-down" />
         </a>
         {listItems.map((listItem, index) => {
+          const height = index !== 0 ? `${dropdownHeight}px` : ''
           return listItem.length > 0 ? (
             <DropdownList
               key={`drop${index}`}
               style={{
-                minHeight: index !== 0 ? `${minDropdownHeight}px` : '',
+                height,
+                overflow: 'overlay',
                 width: `${dropdownWidth}px`,
                 left: `${20 + index * dropdownWidth}px`,
               }}

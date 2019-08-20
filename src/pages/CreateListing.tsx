@@ -1,7 +1,5 @@
 import Axios from 'axios'
-import ISO6391 from 'iso-639-1'
 import React, { Component, ReactNode } from 'react'
-import ReactCountryFlag from 'react-country-flag'
 
 import config from '../config'
 
@@ -159,7 +157,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <ListingGeneralForm
-            key={this.state.listing.item.title}
+            key={this.state.listing.metadata.serviceClassification}
             data={this.state.listing}
             handleContinue={handleSubmitForm}
           />

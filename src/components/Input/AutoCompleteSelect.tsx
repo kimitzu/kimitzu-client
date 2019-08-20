@@ -4,20 +4,20 @@ import React, { InputHTMLAttributes, SelectHTMLAttributes, useEffect, useState }
 import './AutoCompleteSelect.css'
 
 interface Props {
-  options: Options[]
+  options: Option[]
   defaultSelectorVal?: string
   inputProps?: InputHTMLAttributes<any>
   selectProps?: SelectHTMLAttributes<any>
-  onChange?: (value: Options) => void
+  onChange?: (value: Option) => void
 }
 
-interface Options {
+interface Option {
   label: string
   value: string
 }
 
-let searchResults: Options[] = []
-let selectOptions: Options[] = []
+let searchResults: Option[] = []
+let selectOptions: Option[] = []
 
 const AutoCompleteSelect = ({
   defaultSelectorVal,
@@ -31,9 +31,28 @@ const AutoCompleteSelect = ({
   const [show, setShow] = useState(false)
   const [focused, setFocused] = useState(false)
 
-  selectOptions = options
+  useEffect(() => {
+    selectOptions = options
+    if (!defaultSelectorVal) {
+      setResults(selectOptions)
+    } else {
+      const filterOption = selectOptions.find(s => s.value === defaultSelectorVal) as Option
+      setInputValue(filterOption.label || defaultSelectorVal)
+    }
+  }, [])
 
-  function inputChange(e) {
+  /**
+   * Limit the search results as lagging will occur on 1000+ entries
+   *
+   * @param searchResultsFull - Options[]
+   */
+  function setResults(searchResultsFull: Option[]) {
+    const clone = JSON.parse(JSON.stringify(searchResultsFull))
+    clone.splice(20, searchResultsFull.length - 10)
+    searchResults = clone
+  }
+
+  function inputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value)
     const query = e.target.value.toLowerCase()
     const len = query.length
@@ -43,7 +62,9 @@ const AutoCompleteSelect = ({
         o.value.substring(0, len) === Number(query).toString() ||
         o.label.toLowerCase().includes(query)
     )
-    searchResults = res
+
+    setResults(res)
+
     setShow(true)
   }
 
@@ -63,7 +84,7 @@ const AutoCompleteSelect = ({
   function dropdownOnBlur(e) {
     setTimeout(() => {
       setShow(false)
-    }, 500)
+    }, 250)
   }
 
   function selectValue(e) {
@@ -90,6 +111,7 @@ const AutoCompleteSelect = ({
         className="uk-input"
         onChange={inputChange}
         onBlur={dropdownOnBlur}
+        onFocus={toggleDropdown}
         value={inputValue}
         tabIndex={0}
       />
