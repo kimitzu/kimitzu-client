@@ -4202,6 +4202,11 @@ electron-publish@21.2.0:
     lazy-val "^1.0.4"
     mime "^2.4.4"
 
+electron-serve@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/electron-serve/-/electron-serve-0.3.0.tgz#213e78a157ced51d2c65e8dabe3c2bf2d0999e66"
+  integrity sha512-1Q8ogmKP9UcmZLGfEiAAGeRWPp3gbNfF8834JYnHtMS+DchzQMr/PXZWTgZlwQcC8AXD4moKNnJc7S6AzU+Qfg==
+
 electron-to-chromium@^1.3.122, electron-to-chromium@^1.3.164:
   version "1.3.173"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.173.tgz#275b9ba235447b95fc3204d32ca2c5a8bf2ca599"
