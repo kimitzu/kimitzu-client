@@ -1,4 +1,5 @@
 import React from 'react'
+import StarRatingComponent from 'react-star-rating-component'
 import Countries from '../../constants/Countries.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
 import { FormLabel } from '../Label'
@@ -29,12 +30,14 @@ serviceTypes.unshift({
 })
 
 interface FilterProps {
+  onRatingChanged: (nextValue: number, prevValue: number, name: string) => void
   onFilterChange: (field: string, value: string, modifier?: string) => void
   onFilterSubmit: (event?: React.FormEvent<HTMLFormElement>) => void
   onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
   locationRadius: number
   plusCode: string
+  rating: number
 }
 
 const Filter = ({
@@ -44,6 +47,8 @@ const Filter = ({
   locationRadius,
   plusCode,
   onFilterReset,
+  onRatingChanged,
+  rating,
 }: FilterProps) => (
   <div id="main-div">
     <form
@@ -135,11 +140,12 @@ const Filter = ({
       </div>
       <div className="uk-margin">
         <p> RATING </p>
-        <span uk-icon="icon: star" onClick={() => onFilterChange('averageRating', '1', '>=')} />
-        <span uk-icon="icon: star" onClick={() => onFilterChange('averageRating', '2', '>=')} />
-        <span uk-icon="icon: star" onClick={() => onFilterChange('averageRating', '3', '>=')} />
-        <span uk-icon="icon: star" onClick={() => onFilterChange('averageRating', '4', '>=')} />
-        <span uk-icon="icon: star" onClick={() => onFilterChange('averageRating', '5', '>=')} />
+        <StarRatingComponent
+          name="rate1"
+          starCount={5}
+          value={rating}
+          onStarClick={onRatingChanged}
+        />
       </div>
       <div className="uk-margin">
         <p> WITHIN RADIUS ({locationRadius > -1 ? locationRadius + ' m' : 'Nearby'}) </p>

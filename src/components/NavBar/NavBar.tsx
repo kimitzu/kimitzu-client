@@ -67,6 +67,9 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
           </li>
           <hr />
           <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
             <Link to="/wallet">Wallet</Link>
           </li>
           <li>

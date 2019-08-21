@@ -54,8 +54,8 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
             />
           ) : (
             photos.map((image: string) => (
-              <li key={image}>
-                <img src={image} alt="" data-uk-cover />
+              <li key={image} className="img-li-cont">
+                <img src={image} alt="" />
               </li>
             ))
           )}

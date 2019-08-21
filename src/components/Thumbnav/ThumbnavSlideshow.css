@@ -6,3 +6,10 @@
   cursor: pointer;
   color: var(--primary);
 }
+.img-li-cont {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: #0000;
+}

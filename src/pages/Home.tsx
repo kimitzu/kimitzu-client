@@ -31,6 +31,7 @@ interface Spec {
 interface HomeState {
   [x: string]: any
   search: Search
+  rating: number
 }
 
 class Home extends Component<HomeProps, HomeState> {
@@ -40,6 +41,7 @@ class Home extends Component<HomeProps, HomeState> {
 
     this.state = {
       search,
+      rating: 0,
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
@@ -48,6 +50,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleFilterReset = this.handleFilterReset.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
+    this.ratingChanged = this.ratingChanged.bind(this)
   }
 
   public async componentDidMount() {
@@ -115,8 +118,10 @@ class Home extends Component<HomeProps, HomeState> {
                 onChange={this.handleChange}
                 onFilterChange={this.handleFilterChange}
                 onFilterSubmit={this.handleSearchSubmit}
+                onRatingChanged={this.ratingChanged}
                 plusCode={this.state.search.plusCode}
                 onFilterReset={this.handleFilterReset}
+                rating={this.state.rating}
               />
             </div>
             {this.state.search.results.count > 0 ? (
@@ -205,6 +210,27 @@ class Home extends Component<HomeProps, HomeState> {
       this.setState({
         [field]: value,
       })
+    }
+  }
+
+  private ratingChanged(nextValue: number, prevValue: number, name: string) {
+    this.setState({ rating: nextValue })
+    switch (nextValue) {
+      case 1:
+        this.handleFilterChange('averageRating', '1', '>=')
+        break
+      case 2:
+        this.handleFilterChange('averageRating', '2', '>=')
+        break
+      case 3:
+        this.handleFilterChange('averageRating', '3', '>=')
+        break
+      case 4:
+        this.handleFilterChange('averageRating', '4', '>=')
+        break
+      case 5:
+        this.handleFilterChange('averageRating', '5', '>=')
+        break
     }
   }
 
