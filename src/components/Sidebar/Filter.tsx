@@ -31,6 +31,8 @@ serviceTypes.unshift({
   value: '~',
 })
 
+Countries[0].label = 'All Countries'
+
 interface FilterProps {
   onRatingChanged: (nextValue: number, prevValue: number, name: string) => void
   onFilterChange: (field: string, value: string, modifier?: string) => void

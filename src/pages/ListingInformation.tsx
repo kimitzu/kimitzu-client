@@ -16,6 +16,7 @@ import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
 
+import ServiceTypes from '../constants/ServiceTypes.json'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 
@@ -149,8 +150,10 @@ class ListingProfile extends Component<Props, State> {
                 <div className="uk-text-small">
                   Type:{' '}
                   <p className="uk-display-inline uk-text-bold">{listing.metadata.contractType}</p>
-                  &nbsp; &nbsp; Condition:{' '}
-                  <p className="uk-display-inline uk-text-bold">{listing.item.condition}</p>
+                  &nbsp; &nbsp; Classification:{' '}
+                  <p className="uk-display-inline uk-text-bold uk-text-capitalize">
+                    {ServiceTypes[listing.metadata.serviceClassification!]}
+                  </p>
                 </div>
                 <div id="starsContainer" className="uk-margin-small-top">
                   {ratingStars}
@@ -202,7 +205,7 @@ class ListingProfile extends Component<Props, State> {
                       className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold"
                       onClick={this.handleBuy}
                     >
-                      BUY NOW
+                      <span uk-icon="icon: cart" /> CHECKOUT
                     </Button>
                   </div>
                   <div id="footerContentRight">

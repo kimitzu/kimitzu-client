@@ -605,7 +605,11 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 >
                   {order.role === 'vendor' ? (
                     <p className="color-secondary">
-                      You received the order and can fulfill it whenever you're ready.
+                      You received the order from{' '}
+                      <a href={`${config.host}/#/profile/${order.buyer!.peerID}`}>
+                        {order.buyer!.name}
+                      </a>{' '}
+                      and can fulfill it whenever you're ready.
                     </p>
                   ) : (
                     <p className="color-secondary">Your order is now being processed...</p>
