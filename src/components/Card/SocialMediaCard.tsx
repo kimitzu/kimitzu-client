@@ -16,7 +16,7 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
     <div className="uk-margin-top">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-social-media" className="uk-card-title">
-          {title ? title : 'Social Media'}
+          {title || 'Social Media'}
         </h3>
 
         {contact.email ? (

@@ -109,6 +109,9 @@ a:hover {
 .full-vh {
   height: 100vh;
 }
+.min-full-vh {
+  min-height: 100vh;
+}
 .full-width {
   width: 100%;
 }

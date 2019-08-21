@@ -22,9 +22,7 @@ const CryptoSelector = ({ cryptos, selected, handleSelectChange, balances }: Pro
         >
           <div className="crypto-content">
             <img
-              src={`${process.env.PUBLIC_URL}/images/user.svg/images/cryptos/${c.value.substr(
-                1
-              )}.png`}
+              src={`${process.env.PUBLIC_URL}/images/cryptos/${c.value.substr(1)}.png`}
               width="25"
               height="25"
             />

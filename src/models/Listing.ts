@@ -175,6 +175,10 @@ class Listing implements ListingInterface {
     await Axios.put(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
   }
 
+  public async delete() {
+    await Axios.delete(`${config.openBazaarHost}/ob/listing/${this.slug}`)
+  }
+
   public addCoupon() {
     const tempCoupon = {
       title: '',

@@ -1,3 +1,4 @@
+import isElectron from 'is-electron'
 import React, { Component, ReactNode } from 'react'
 
 import { SideMenuWithContentCard } from '../../components/Card'
@@ -65,6 +66,7 @@ interface GeneralProfileState {
   currentContentIndex: number
   currentParentIndex: number
   currentAction: number
+  isAuthenticationActivated: boolean
 }
 
 class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
@@ -81,6 +83,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       isSubmitting: false,
       avatar: '',
       profile,
+      isAuthenticationActivated: false,
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -101,8 +104,11 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   public async componentDidMount() {
     try {
       const profileData = await Profile.retrieve()
+      const isAuthenticationActivated = await Profile.isAuthenticationActivated()
+
       this.setState({
         profile: profileData,
+        isAuthenticationActivated,
       })
     } catch (error) {
       if (error.response) {
@@ -116,6 +122,56 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   get mainContents() {
     const { avatar, isSubmitting, profile: registrationForm } = this.state
     const { handleChange, handleFormSubmit, handleSelectAddress, handleChangeAction } = this
+
+    const security = [
+      {
+        component: (
+          <div className="uk-flex uk-flex-row uk-child-width-1-2">
+            <div>
+              <ChangeCredentials onSubmit={this.handleAuthenticationChange} />
+            </div>
+            <div className="uk-margin-left">
+              <p>
+                Enabling this feature will activate Djali's authentication mechanisms to protect
+                your client from unauthorized access.
+              </p>
+              <p className="uk-margin-top">
+                Other non-critical features such as search will still be accessible but payment and
+                ordering-related features will need authentication in order to proceed.
+              </p>
+            </div>
+          </div>
+        ),
+        label: 'Authentication',
+      },
+    ]
+
+    if (this.state.isAuthenticationActivated) {
+      security.push({
+        component: (
+          <div className="uk-flex uk-flex-row uk-child-width-1-2">
+            <div>
+              <Login
+                onSubmit={this.handleDeactivateAuthentication}
+                submitLabel={'Deactivate Authentication'}
+              />
+            </div>
+            <div className="uk-margin-left">
+              <p>
+                Enabling this feature will deactivate Djali's authentication mechanisms and your
+                client will no longer be protected from unauthorized access.
+              </p>
+              <p className="uk-margin-top">
+                Payment and ordering-related features will no longer need authentication in order to
+                proceed.
+              </p>
+            </div>
+          </div>
+        ),
+        label: 'Deactivate',
+      })
+    }
+
     return [
       [
         {
@@ -208,51 +264,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           label: 'General',
         },
       ],
-      [
-        {
-          component: (
-            <div className="uk-flex uk-flex-row uk-child-width-1-2">
-              <div>
-                <ChangeCredentials onSubmit={this.handleAuthenticationChange} />
-              </div>
-              <div className="uk-margin-left">
-                <p>
-                  Enabling this feature will activate Djali's authentication mechanisms to protect
-                  your client from unauthorized access.
-                </p>
-                <p className="uk-margin-top">
-                  Other non-critical features such as search will still be accessible but payment
-                  and ordering-related features will need authentication in order to proceed.
-                </p>
-              </div>
-            </div>
-          ),
-          label: 'Authentication',
-        },
-        {
-          component: (
-            <div className="uk-flex uk-flex-row uk-child-width-1-2">
-              <div>
-                <Login
-                  onSubmit={this.handleDeactivateAuthentication}
-                  submitLabel={'Deactivate Authentication'}
-                />
-              </div>
-              <div className="uk-margin-left">
-                <p>
-                  Enabling this feature will deactivate Djali's authentication mechanisms and your
-                  client will no longer be protected from unauthorized access.
-                </p>
-                <p className="uk-margin-top">
-                  Payment and ordering-related features will no longer need authentication in order
-                  to proceed.
-                </p>
-              </div>
-            </div>
-          ),
-          label: 'Deactivate',
-        },
-      ],
+      security,
     ]
   }
 
@@ -378,7 +390,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const { currentCardContent, handleBackBtn, navItems } = this
     const { currentAction } = this.state
     return (
-      <div className="background-body full-vh uk-padding-small">
+      <div className="background-body min-full-vh uk-padding-small">
         <SideMenuWithContentCard
           mainContentTitle={currentCardContent.label}
           menuContent={{
@@ -403,16 +415,24 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       await Profile.setCredentials(oldUsername, oldPassword, newUsername, newPassword)
       Profile.logout()
       window.UIkit.notification(
-        'Credentials successfully changed!\nPlease restart the server for changes to take effect.',
+        'New credentials accepted!\nPlease restart the server for changes to take effect.',
         {
           status: 'success',
         }
       )
+
       setTimeout(() => {
-        window.location.hash = '/login'
+        if (isElectron()) {
+          const remote = window.remote
+          const currentWindow = remote.getCurrentWindow()
+          const { webContents } = currentWindow
+          webContents.clearHistory()
+        }
+        window.location.hash = '/'
+        window.location.reload()
       }, 5000)
     } catch (e) {
-      window.UIkit.notification(e.response.data.error, { status: 'success' })
+      window.UIkit.notification(e.response.data.error, { status: 'danger' })
     }
   }
 

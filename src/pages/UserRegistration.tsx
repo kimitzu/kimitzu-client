@@ -1,3 +1,4 @@
+import isElectron from 'is-electron'
 import React, { Component } from 'react'
 
 import { IntroductionCard, RegistrationCard } from '../components/Card'
@@ -175,7 +176,14 @@ class UserRegistration extends Component<{}, State> {
   }
 
   private handleSuccessHome() {
+    if (isElectron()) {
+      const remote = window.remote
+      const currentWindow = remote.getCurrentWindow()
+      const { webContents } = currentWindow
+      webContents.clearHistory()
+    }
     window.location.hash = '/'
+    window.location.reload()
   }
 }
 

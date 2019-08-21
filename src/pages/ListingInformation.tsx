@@ -107,7 +107,6 @@ class ListingProfile extends Component<Props, State> {
                 type="button"
                 className="uk-button uk-button-default"
                 onClick={() => {
-                  // return <Redirect to={`/listing/edit/${listing.hash}`} />
                   window.location.hash = `/listing/edit/${listing.hash}`
                 }}
               >
@@ -117,14 +116,28 @@ class ListingProfile extends Component<Props, State> {
                 type="button"
                 className="uk-button uk-button-danger uk-margin-left"
                 onClick={() => {
-                  alert('Coming soon!')
+                  window.UIkit.modal
+                    .confirm(
+                      'Are you sure you want to delete this listing? This action cannot be undone.'
+                    )
+                    .then(
+                      async () => {
+                        await listing.delete()
+                        window.UIkit.modal.alert('Listing deleted.').then(() => {
+                          window.location.hash = '/'
+                        })
+                      },
+                      () => {
+                        // Do nothing when cancel is pressed
+                      }
+                    )
                 }}
               >
                 <span uk-icon="trash" /> Delete
               </button>
             </div>
           ) : null}
-          <div id="profile-header">
+          <div id="listing-header">
             <div id="left-content">
               <CarouselListing data={imageData} />
             </div>

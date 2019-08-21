@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-
 import { RouteComponentProps } from 'react-router'
-import ViewProfile from '../components/Header/ViewProfile'
+
+import { ProfileHeader } from '../components/Header'
+import { ProfileSwitcher } from '../components/Switcher'
+
 import Profile from '../models/Profile'
 import Search from '../models/Search'
 
@@ -57,12 +59,12 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
   }
 
   public render() {
+    const { profile, isOwner, search } = this.state
     return (
-      <ViewProfile
-        profile={this.state.profile}
-        listings={this.state.search.results.data}
-        isOwner={this.state.isOwner}
-      />
+      <div>
+        <ProfileHeader profile={profile} isOwner={isOwner} />
+        <ProfileSwitcher profile={profile} listings={search.results.data} />
+      </div>
     )
   }
 }
