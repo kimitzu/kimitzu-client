@@ -142,7 +142,10 @@ class History extends React.Component<HistoryProps, HistoryState> {
               <span className="uk-margin-small-right" uk-icon="thumbnails" />
             </div>
           </div>
-          <p id="number-purchases-text"> {this.state.orders.length || 0} purchases found </p>
+          <p id="number-purchases-text">
+            {' '}
+            {this.state.orders.length || 0} {this.state.viewType.toLowerCase()} found{' '}
+          </p>
           {this.state.isLoading ? (
             <div uk-spinner="ratio: 2" />
           ) : this.state.orders.length > 0 ? (
