@@ -85,7 +85,7 @@ const GroupChat = ({ groupMessage }: Props) => {
                 >
                   <img
                     id="img-send"
-                    src="/images/send.svg"
+                    src={`${process.env.PUBLIC_URL}/images/send.svg`}
                     alt="Smiley face"
                     width="27"
                     height="27"

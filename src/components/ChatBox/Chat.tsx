@@ -82,7 +82,12 @@ const Chat = ({
     <div id="chatbox-main-container" className={classNames({ increaseWidth: show })}>
       <div id="left-side">
         <div id="header-left" onClick={toggleChatBox}>
-          <img src="/images/support.svg" alt="Smiley face" height="25" width="25" />
+          <img
+            src={`${process.env.PUBLIC_URL}/images/support.svg`}
+            alt="Support icon"
+            height="25"
+            width="25"
+          />
           <p id="msg-title-left">Messages</p>
         </div>
         <div id="convos-left">
@@ -186,7 +191,7 @@ const Chat = ({
                 <div id="send-text-cont">
                   <img
                     id="img-send"
-                    src="/images/send.svg"
+                    src={`${process.env.PUBLIC_URL}/images/send.svg`}
                     alt="Smiley face"
                     width="27"
                     height="27"

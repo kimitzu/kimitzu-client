@@ -78,7 +78,7 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow }: NavBarProps)
           <li
             onClick={() => {
               Profile.logout()
-              window.location.href = '/'
+              window.location.hash = '/'
             }}
           >
             <Link to="#">Logout</Link>

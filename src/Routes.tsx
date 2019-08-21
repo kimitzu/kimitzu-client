@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import {
   Checkout,
@@ -15,7 +15,7 @@ import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
 
 const Routes = () => (
-  <BrowserRouter>
+  <HashRouter>
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/wallet" exact component={WalletView} />
@@ -30,7 +30,7 @@ const Routes = () => (
       <Route path="/history/:view/:id" exact component={OrderView} />
       <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
     </Switch>
-  </BrowserRouter>
+  </HashRouter>
 )
 
 export default Routes

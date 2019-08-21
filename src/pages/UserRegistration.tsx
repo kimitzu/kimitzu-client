@@ -175,7 +175,7 @@ class UserRegistration extends Component<{}, State> {
   }
 
   private handleSuccessHome() {
-    window.location.href = '/'
+    window.location.hash = '/'
   }
 }
 

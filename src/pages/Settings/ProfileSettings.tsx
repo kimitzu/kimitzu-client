@@ -107,7 +107,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     } catch (error) {
       if (error.response) {
         if (!error.response.data.success) {
-          window.location.href = '/register'
+          window.location.hash = '/register'
         }
       }
     }
@@ -409,7 +409,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         }
       )
       setTimeout(() => {
-        window.location.href = '/login'
+        window.location.hash = '/login'
       }, 5000)
     } catch (e) {
       window.UIkit.notification(e.response.data.error, { status: 'success' })
@@ -425,7 +425,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         { status: 'success' }
       )
       setTimeout(() => {
-        window.location.href = '/login'
+        window.location.hash = '/login'
       }, 5000)
     } catch (e) {
       window.UIkit.notification(e.response.data.error, { status: 'danger' })

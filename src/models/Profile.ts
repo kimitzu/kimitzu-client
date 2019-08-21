@@ -353,7 +353,7 @@ class Profile implements ProfileSchema {
   public getAvatarSrc(type: string = 'medium') {
     const { avatarHashes } = this
     if (!avatarHashes[type]) {
-      return '/images/user.png'
+      return `${process.env.PUBLIC_URL}/images/user.svg`
     }
     return `${config.openBazaarHost}/ob/images/${avatarHashes[type]}`
   }

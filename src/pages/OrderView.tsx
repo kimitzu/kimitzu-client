@@ -317,7 +317,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 imageSrc={
                   order.vendor!.avatarHashes.original
                     ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
-                    : '/images/user.png'
+                    : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
                 <p className="color-secondary">
@@ -344,7 +344,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     ? `${config.djaliHost}/djali/media?id=${
                         order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
                       }`
-                    : '/images/user.png'
+                    : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               />
             </OrderSummaryItemSegment>
@@ -484,7 +484,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 imageSrc={
                   order.buyer!.avatarHashes.original
                     ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
-                    : '/images/user.png'
+                    : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
                 <p className="color-secondary">
@@ -555,7 +555,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 imageSrc={
                   order.vendor!.avatarHashes.medium
                     ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                    : '/images/user.png'
+                    : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
                 <p className="color-secondary">{order.contract.vendorOrderFulfillment[0].note}</p>
@@ -581,7 +581,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   imageSrc={
                     order.vendor!.avatarHashes.medium
                       ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                      : '/images/user.png'
+                      : `${process.env.PUBLIC_URL}/images/user.svg`
                   }
                   sideButtons={
                     order.role === 'vendor' && order.step === 2 ? (

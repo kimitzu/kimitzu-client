@@ -43,7 +43,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         indexPeerIDTemp.push(cc.peerId)
         this.setState({ indexPeerID: indexPeerIDTemp })
         const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${cc.peerId}`)
-        c[i].image = '/images/user.png'
+        c[i].image = `${process.env.PUBLIC_URL}/images/user.svg`
         c[i].name = cc.peerId
         if (prof && prof.data.profile) {
           if (prof.data.profile.avatarHashes) {
@@ -51,7 +51,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
               i
             ].image = `${config.openBazaarHost}/ob/images/${prof.data.profile.avatarHashes.small}`
           } else {
-            c[i].image = '/images/user.png'
+            c[i].image = `${process.env.PUBLIC_URL}/images/user.svg`
           }
           c[i].name = prof.data.profile.name
         }

@@ -67,7 +67,7 @@ const ViewProfile = (props: ViewProfileInterface) => {
                       href="/history/sales"
                       id="tab-label"
                       onClick={() => {
-                        window.location.href = '/history/sales'
+                        window.location.hash = '/history/sales'
                       }}
                     >
                       Sales History
@@ -75,10 +75,9 @@ const ViewProfile = (props: ViewProfileInterface) => {
                   </li>
                   <li>
                     <a
-                      href="/history/purchases"
                       id="tab-label"
                       onClick={() => {
-                        window.location.href = '/history/purchases'
+                        window.location.hash = '/history/purchases'
                       }}
                     >
                       Purchase History

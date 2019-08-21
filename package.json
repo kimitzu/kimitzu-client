@@ -54,6 +54,7 @@
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder --publish=always",
     "build": "yarn react-build && yarn electron-build",
+    "cpext": "cp -r external/ build/external/ && mv build/external/_root/locationmap.json build/locationmap.json && mv build/external/_root/locdat.zip build/locdat.zip",
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
@@ -92,11 +93,28 @@
   },
   "description": "Djali Client App",
   "main": "public/electron.js",
-  "homepage": "/",
+  "homepage": "./",
   "build": {
     "appId": "com.djali.client",
     "files": [
-      "build/**/*"
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "compression": "store",
+    "extraFiles": [
+      {
+        "from": "external/_root/locationmap.json",
+        "to": "locationmap.json"
+      },
+      {
+        "from": "external/_root/locdat.zip",
+        "to": "locdat.zip"
+      },
+      {
+        "from": "external",
+        "to": "external",
+        "filter": "*"
+      }
     ]
   },
   "husky": {

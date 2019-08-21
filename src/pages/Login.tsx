@@ -11,7 +11,7 @@ class LoginPage extends React.Component {
   public async handleLogin(username: string, password: string) {
     try {
       await Profile.login(username, password)
-      window.location.href = '/'
+      window.location.hash = '/'
     } catch (e) {
       window.UIkit.notification(e.response.data.error, { status: 'danger' })
     }

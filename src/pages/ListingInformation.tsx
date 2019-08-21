@@ -107,7 +107,8 @@ class ListingProfile extends Component<Props, State> {
                 type="button"
                 className="uk-button uk-button-default"
                 onClick={() => {
-                  window.location.href = `/listing/edit/${listing.hash}`
+                  // return <Redirect to={`/listing/edit/${listing.hash}`} />
+                  window.location.hash = `/listing/edit/${listing.hash}`
                 }}
               >
                 <span uk-icon="pencil" /> Edit
@@ -214,7 +215,7 @@ class ListingProfile extends Component<Props, State> {
                     <a
                       className="uk-text-medium uk-text-bold text-blue uk-margin-small-top underlinedText"
                       onClick={() => {
-                        window.location.href = `/profile/${listing.vendorID.peerID}`
+                        window.location.hash = `/profile/${listing.vendorID.peerID}`
                       }}
                     >
                       GO TO STORE
@@ -251,7 +252,7 @@ class ListingProfile extends Component<Props, State> {
   }
 
   private handleBuy() {
-    window.location.href = `/listing/checkout/${this.state.listing.hash}/${this.state.quantity}`
+    window.location.hash = `/listing/checkout/${this.state.listing.hash}/${this.state.quantity}`
   }
 
   private handleQuantityChange(quantity: number) {

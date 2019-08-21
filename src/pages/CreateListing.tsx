@@ -107,7 +107,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         window.UIkit.notification('Unable to edit listing that you do not own!', {
           status: 'warning',
         })
-        window.location.href = '/'
+        window.location.hash = '/'
         return
       }
 
@@ -363,7 +363,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       window.UIkit.notification('Listing Successfully Posted', {
         status: 'success',
       })
-      window.location.href = '/'
+      window.location.hash = '/'
     } catch (e) {
       window.UIkit.notification(e.message, {
         status: 'danger',

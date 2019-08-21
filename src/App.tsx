@@ -3,9 +3,9 @@ import isElectron from 'is-electron'
 import React, { Fragment } from 'react'
 
 import { FullPageSpinner } from './components/Spinner'
+import { DefaultTitleBar } from './components/TitleBar'
 import { Login, UserRegistration } from './pages'
 import FloatingChat from './pages/Chat/FloatingChat'
-import TitleBar from './pages/TitleBar'
 import Routes from './Routes'
 
 import Profile from './models/Profile'
@@ -78,7 +78,7 @@ class App extends React.Component<{}, State> {
       <Fragment>
         {isElectron() ? (
           <>
-            <TitleBar />
+            <DefaultTitleBar />
             <div style={{ overflowY: 'auto', height: `${height - 46}px` }}>
               {this.renderContent()}
             </div>

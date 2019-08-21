@@ -302,7 +302,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
         <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
           <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
-            <img width="15%" height="15%" src="/images/check.png" />
+            <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
             <h4>
               Payment of {this.state.payment.fundingTotal / 100000000} {this.state.payment.coinType}{' '}
               Received!

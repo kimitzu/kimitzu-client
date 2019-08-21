@@ -1,8 +1,10 @@
 #selected-moderators {
   height: 350px;
   max-height: 350px;
+  resize: none;
 }
 #moderator-selection-dropdown {
   height: 400px;
   z-index: 1000;
+  resize: none;
 }

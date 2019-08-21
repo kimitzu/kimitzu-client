@@ -12,7 +12,11 @@ const DisputePayoutSegment = ({ avatar, name, amount, note }: Props) => (
   <div className="uk-flex uk-flex-row">
     <div>
       <img
-        src={avatar ? `${config.djaliHost}/djali/media?id=${avatar}` : '/images/user.png'}
+        src={
+          avatar
+            ? `${config.djaliHost}/djali/media?id=${avatar}`
+            : `${process.env.PUBLIC_URL}/images/user.svg`
+        }
         height={40}
         width={40}
       />

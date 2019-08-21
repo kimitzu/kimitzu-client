@@ -21,7 +21,13 @@ const CryptoSelector = ({ cryptos, selected, handleSelectChange, balances }: Pro
           onClick={async () => await handleSelectChange(i)}
         >
           <div className="crypto-content">
-            <img src={`./images/cryptos/${c.value.substr(1)}.png`} width="25" height="25" />
+            <img
+              src={`${process.env.PUBLIC_URL}/images/user.svg/images/cryptos/${c.value.substr(
+                1
+              )}.png`}
+              width="25"
+              height="25"
+            />
             <p className="crypto-label">{c.label}</p>
             <p className="crypto-balance">
               {(balances[c.value].confirmed / 100000000).toFixed(4)} {c.value.toLowerCase()}
