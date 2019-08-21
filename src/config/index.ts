@@ -1,3 +1,5 @@
+type Environment = 'local' | 'remote'
+
 interface Config {
   djaliHost: string
   host: string
@@ -5,14 +7,14 @@ interface Config {
   websocketHost: string
 }
 
-const development = {
+const local = {
   djaliHost: 'http://localhost:8109',
   host: 'http://localhost:3001',
   openBazaarHost: 'http://localhost:4002',
   websocketHost: 'ws://localhost:4002/ws',
 }
 
-const production = {
+const remote = {
   djaliHost: 'https://djali-api.djali.org',
   host: 'https://test.djali.org',
   openBazaarHost: 'https://djali-ob.djali.org',
@@ -21,18 +23,16 @@ const production = {
 
 function getConfig(): Config {
   console.log('Mode: ' + process.env.NODE_ENV)
-  switch (process.env.NODE_ENV) {
-    case 'development': {
-      return development
+  console.log('Link: ' + process.env.REACT_APP_LINK)
+  switch (process.env.REACT_APP_LINK as Environment) {
+    case 'local': {
+      return local
     }
-    case 'production': {
-      return production
-    }
-    case 'test': {
-      return development
+    case 'remote': {
+      return remote
     }
     default: {
-      throw new Error('Unsupported environment: ' + process.env.NODE_ENV)
+      return remote
     }
   }
 }
