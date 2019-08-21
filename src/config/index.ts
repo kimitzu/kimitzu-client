@@ -32,7 +32,7 @@ function getConfig(): Config {
       return remote
     }
     default: {
-      return remote
+      return local
     }
   }
 }
