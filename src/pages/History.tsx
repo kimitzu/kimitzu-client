@@ -148,7 +148,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
           ) : this.state.orders.length > 0 ? (
             this.state.orders.map(order => (
               <Link
-                to={`${window.location.pathname}/${order.orderId || order.caseId}`}
+                to={`${window.location.hash.substr(1)}/${order.orderId || order.caseId}`}
                 key={order.orderId || order.caseId}
                 className="no-underline-on-link"
               >

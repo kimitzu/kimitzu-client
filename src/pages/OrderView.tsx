@@ -494,7 +494,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {order.step === 0 && order.role === 'buyer' ? (
+        {order.step === 3 && order.role === 'buyer' ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment title="Order Complete" date={new Date()}>
               <SimpleBorderedSegment title={`${order.buyer!.name}'s review`}>
