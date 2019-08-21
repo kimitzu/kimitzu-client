@@ -2,9 +2,11 @@ import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
 import Countries from '../../constants/Countries.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
+import { AutoCompleteSelect } from '../Input'
 import { FormLabel } from '../Label'
 
-import { AutoCompleteSelect } from '../Input'
+import Profile from '../../models/Profile'
+
 import './Filter.css'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
@@ -35,6 +37,7 @@ interface FilterProps {
   onFilterSubmit: (event?: React.FormEvent<HTMLFormElement>) => void
   onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
+  profile: Profile
   locationRadius: number
   plusCode: string
   rating: number
@@ -49,6 +52,7 @@ const Filter = ({
   onFilterReset,
   onRatingChanged,
   rating,
+  profile,
 }: FilterProps) => (
   <div id="main-div">
     <form
@@ -148,7 +152,16 @@ const Filter = ({
         />
       </div>
       <div className="uk-margin">
-        <p> WITHIN RADIUS ({locationRadius > -1 ? locationRadius + ' m' : 'Nearby'}) </p>
+        <p>
+          {' '}
+          WITHIN RADIUS (
+          {locationRadius > -1
+            ? profile.preferences.measurementUnit === 'ENGLISH'
+              ? `${(locationRadius / 1609).toFixed(2)} miles`
+              : `${locationRadius / 1000} km`
+            : 'Nearby'}
+          ){' '}
+        </p>
         <div className="uk-margin">
           <input
             className="uk-range"

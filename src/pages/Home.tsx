@@ -8,40 +8,34 @@ import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
 import SortOptions from '../constants/SortOptions.json'
+import Profile from '../models/Profile'
 import Search from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
-import config from '../config'
 import './Home.css'
 
 interface HomeProps {
   props: any
 }
 
-interface Spec {
-  hash: string
-  thumbnail: string
-  'item.title': string
-  'item.price': string
-  'metadata.pricingCurrency': string
-  averageRating: string
-}
-
 interface HomeState {
   [x: string]: any
   search: Search
   rating: number
+  profile: Profile
 }
 
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
     super(props)
     const search = new Search()
+    const profile = new Profile()
 
     this.state = {
       search,
       rating: 0,
+      profile,
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
@@ -55,29 +49,32 @@ class Home extends Component<HomeProps, HomeState> {
 
   public async componentDidMount() {
     await this.handleSearchSubmit()
+    const profile = await Profile.retrieve()
+    this.setState({ profile })
   }
 
   public renderPages(): JSX.Element[] {
+    const { search } = this.state
     const pages: JSX.Element[] = []
     let startIndex = 0
     let paginationLimit = 9
 
-    if (this.state.search.paginate.currentPage < 5) {
+    if (search.paginate.currentPage < 5) {
       startIndex = 0
       paginationLimit = 9
     } else {
-      startIndex = this.state.search.paginate.currentPage - 4
-      paginationLimit = this.state.search.paginate.currentPage + 5
+      startIndex = search.paginate.currentPage - 4
+      paginationLimit = search.paginate.currentPage + 5
     }
 
-    if (paginationLimit > this.state.search.paginate.totalPages) {
-      paginationLimit = this.state.search.paginate.totalPages
+    if (paginationLimit > search.paginate.totalPages) {
+      paginationLimit = search.paginate.totalPages
     }
 
     for (let index = startIndex; index < paginationLimit; index++) {
       let isActive = false
 
-      if (this.state.search.paginate.currentPage === index) {
+      if (search.paginate.currentPage === index) {
         isActive = true
       }
 
@@ -98,6 +95,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   public render() {
+    const { profile, rating, search } = this.state
     return (
       <div>
         <NavBar
@@ -114,28 +112,27 @@ class Home extends Component<HomeProps, HomeState> {
                 items={ServiceCategories}
               />
               <SidebarFilter
-                locationRadius={this.state.search.locationRadius}
+                profile={profile}
+                locationRadius={search.locationRadius}
                 onChange={this.handleChange}
                 onFilterChange={this.handleFilterChange}
                 onFilterSubmit={this.handleSearchSubmit}
                 onRatingChanged={this.ratingChanged}
-                plusCode={this.state.search.plusCode}
+                plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
-                rating={this.state.rating}
+                rating={rating}
               />
             </div>
-            {this.state.search.results.count > 0 ? (
+            {search.results.count > 0 ? (
               <div className="custom-width-two">
                 <div className="pagination-cont">
                   <div className="left-side-container">
-                    {this.state.search.results.count > 25 ? (
+                    {search.results.count > 25 ? (
                       <ul className="uk-pagination">
                         <li>
                           <a
                             href="#"
-                            onClick={() =>
-                              this.handlePaginate(this.state.search.paginate.currentPage - 1)
-                            }
+                            onClick={() => this.handlePaginate(search.paginate.currentPage - 1)}
                           >
                             <span uk-icon="icon: chevron-left" />
                           </a>
@@ -144,9 +141,7 @@ class Home extends Component<HomeProps, HomeState> {
                         <li>
                           <a
                             href="#"
-                            onClick={() =>
-                              this.handlePaginate(this.state.search.paginate.currentPage + 1)
-                            }
+                            onClick={() => this.handlePaginate(search.paginate.currentPage + 1)}
                           >
                             <span uk-icon="icon: chevron-right" />
                           </a>
@@ -156,24 +151,26 @@ class Home extends Component<HomeProps, HomeState> {
                     <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
                         options={SortOptions}
-                        defaultVal={this.state.search.sortIndicator}
+                        defaultVal={search.sortIndicator}
                         onChange={event => this.handleSortChange(event.target.value)}
                       />
                     </div>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <ListingCardGroup data={this.state.search.results.data} />
+                    <ListingCardGroup data={search.results.data} />
                   </div>
                 </div>
               </div>
-            ) : this.state.search.isSearching ? (
+            ) : search.isSearching ? (
               <div className="uk-align-center">
                 <div data-uk-spinner="ratio: 3" />
               </div>
             ) : (
-              <div className="uk-align-center">
-                <h2>No Results ¯\_(ツ)_/¯</h2>
-                <p>Try a different search keyword or filter</p>
+              <div className="uk-align-center full-vh uk-flex uk-flex-center uk-flex-middle">
+                <div>
+                  <h2>No Results ¯\_(ツ)_/¯</h2>
+                  <p>Try a different search keyword or filter</p>
+                </div>
               </div>
             )}
           </div>
@@ -189,7 +186,7 @@ class Home extends Component<HomeProps, HomeState> {
       search,
     })
 
-    const newSearch = await this.state.search.execute()
+    const newSearch = await search.execute()
     search.isSearching = false
     this.setState({
       search: newSearch,
