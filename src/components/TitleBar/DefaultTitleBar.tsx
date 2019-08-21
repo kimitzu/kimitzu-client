@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 
 import './DefaultTitleBar.css'
 
-const remote = window.remote
-const currentWindow = remote.getCurrentWindow()
-const { webContents } = currentWindow
-
 const DefaultTitleBar = () => {
+  const remote = window.remote
+  const currentWindow = remote.getCurrentWindow()
+  const { webContents } = currentWindow
   const [[width, height]] = useState(currentWindow.getSize())
   const [isMaximize, setIsMaximize] = useState(false)
   return (
