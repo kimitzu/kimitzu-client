@@ -180,6 +180,12 @@ class Home extends Component<HomeProps, HomeState> {
 
   private async handleSearchSubmit() {
     const { search } = this.state
+
+    if (!search.query.includes(' ') && search.query.length === 46) {
+      window.location.hash = `/profile/${search.query}`
+      return
+    }
+
     search.isSearching = true
     this.setState({
       search,

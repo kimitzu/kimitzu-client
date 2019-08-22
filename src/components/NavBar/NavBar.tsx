@@ -51,7 +51,7 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
                 id="search-bar"
                 className="uk-search-input"
                 type="search"
-                placeholder="What are you looking for?"
+                placeholder="What are you looking for? Enter query or Profile ID."
                 onChange={event => onQueryChange('query', event.target.value, 'search')}
               />
             </form>
