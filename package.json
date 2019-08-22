@@ -2,6 +2,15 @@
   "name": "djali-client",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "email": "dev@djali.org",
+    "name": "Djali Foundation",
+    "url": "https://github.com/djali-foundation"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/djali-foundation/djali-client.git"
+  },
   "dependencies": {
     "@celebryts/react-autocomplete-tags": "^1.0.0",
     "@types/jest": "^24.0.12",
