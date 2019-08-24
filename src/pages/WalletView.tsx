@@ -84,7 +84,7 @@ class WalletView extends React.Component<WalletProps, State> {
             balances={this.state.balances}
           />
         </div>
-        <div id="right-side-wallet">
+        <div id="right-side-wallet" key={selectedCryptoCurrency}>
           <WalletBalanceCard
             selectedCryptoCurrency={selectedCryptoCurrency}
             balance={balance}
