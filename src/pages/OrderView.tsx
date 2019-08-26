@@ -102,7 +102,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       groupMessage.peerIds.push(order.buyer!.peerID)
     }
 
-    if (order.contract.buyerOrder.payment.moderator) {
+    if (order.contract.buyerOrder.payment.moderator && order.role !== 'moderator') {
       groupMessage.peerIds.push(order.contract.buyerOrder.payment.moderator)
     }
 

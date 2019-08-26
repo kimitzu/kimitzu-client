@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import config from '../../config'
 import GroupMessage from '../../models/GroupMessage'
+import Profile from '../../models/Profile'
+import decodeHtml from '../../utils/Unescape'
 import './Chat.css'
 
 interface Props {
@@ -11,6 +14,23 @@ const GroupChat = ({ groupMessage }: Props) => {
   const [message, messageHandler] = useState('')
   const [preventInput, preventInputHandler] = useState(false)
   const [isSending, sendingHandler] = useState(false)
+  const [imageCache, setImageCache] = useState({})
+  const chatRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const profileRequests = groupMessage.peerIds.map(peer => Profile.retrieve(peer))
+    ;(async () => {
+      const imgIndex = {}
+      const profiles = await Promise.all(profileRequests)
+      profiles.forEach(p => {
+        imgIndex[p.peerID] = p.avatarHashes.small
+      })
+      setImageCache({ ...imgIndex })
+      if (chatRef) {
+        chatRef.current!.scrollIntoView()
+      }
+    })()
+  }, [])
 
   const send = async () => {
     preventInputHandler(true)
@@ -18,39 +38,50 @@ const GroupChat = ({ groupMessage }: Props) => {
     await groupMessage.send(message)
     sendingHandler(false)
     messageHandler('')
+    chatRef.current!.scrollIntoView()
   }
 
   return (
     <div className="uk-flex uk-width-1-1">
       <div id="full-size">
         <div id="messages-display-main">
-          <div
-            id="messages-display-cont"
-            ref={ref => {
-              if (ref) {
-                ref.scrollTop = ref.scrollHeight
-              }
-            }}
-          >
+          <div id="messages-display-cont">
             {groupMessage.messages.map(messageItem => {
               return (
                 <div
                   key={messageItem.messageId}
-                  className={!messageItem.outgoing ? 'text-msg-cont-right' : 'text-msg-cont-left'}
+                  className={`uk-flex uk-flex-row uk-flex-middle ${
+                    !messageItem.outgoing ? 'text-msg-cont-left' : 'text-msg-cont-right'
+                  }`}
                 >
+                  {!messageItem.outgoing ? (
+                    <div className="uk-margin-small-right">
+                      <img
+                        src={
+                          imageCache[messageItem.peerId!]
+                            ? `${config.djaliHost}/djali/media?id=${
+                                imageCache[messageItem.peerId!]
+                              }`
+                            : `${config.host}/images/user.png`
+                        }
+                        className="avatar-cont-recepient"
+                      />
+                    </div>
+                  ) : null}
                   <div
-                    className={!messageItem.outgoing ? 'text-msg-right' : 'text-msg-left'}
+                    className={!messageItem.outgoing ? 'text-msg-left' : 'text-msg-right'}
                     uk-tooltip={`title:${messageItem.outgoing ? 'You' : 'Vendor'} (${new Date(
                       messageItem.timestamp
                     ).toLocaleString()});
                     pos:${!messageItem.outgoing ? 'top' : 'top-left'};
                     delay:300`}
                   >
-                    {messageItem.message}
+                    {decodeHtml(messageItem.message)}
                   </div>
                 </div>
               )
             })}
+            <div ref={chatRef} />
           </div>
           <form id="messages-chat-cont">
             <div id="message-input-cont">

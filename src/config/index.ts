@@ -9,7 +9,7 @@ interface Config {
 
 const local = {
   djaliHost: 'http://localhost:8109',
-  host: 'http://localhost:3001',
+  host: process.env.PUBLIC_URL,
   openBazaarHost: 'http://localhost:4002',
   websocketHost: 'ws://localhost:4002/ws',
 }

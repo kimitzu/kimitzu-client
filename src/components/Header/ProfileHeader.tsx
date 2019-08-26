@@ -16,7 +16,14 @@ const ProfileHeader = ({ profile, isOwner }: ViewProfileInterface) => {
     <div>
       <div id="cover-photo" className="uk-text-right">
         <span id="header-icon" data-uk-icon="ban" />
-        <span id="header-icon" data-uk-icon="mail" />
+        <span
+          id="header-icon-msg"
+          data-uk-icon="mail"
+          onClick={() => {
+            const dmEvent = new CustomEvent('dm', { detail: profile })
+            window.dispatchEvent(dmEvent)
+          }}
+        />
         <span id="header-icon" data-uk-icon="plus" />
       </div>
       <div id="profile-header" className="uk-width-1-1">

@@ -214,7 +214,11 @@ class ListingProfile extends Component<Props, State> {
                       <div id="soldByContLeft">
                         <img
                           className="uk-border-circle"
-                          src={`${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`}
+                          src={
+                            profile.avatarHashes.small
+                              ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
+                              : `${config.host}/images/user.svg`
+                          }
                           width="65"
                           height="65"
                           alt="Border circle"
@@ -222,7 +226,12 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                       <div id="soldByContRight">
                         <p className="uk-text-medium uk-text-bold text-blue">{profile.name}</p>
-                        <div>
+                        <div
+                          onClick={() => {
+                            const dmEvent = new CustomEvent('dm', { detail: profile })
+                            window.dispatchEvent(dmEvent)
+                          }}
+                        >
                           <a data-uk-icon="icon: mail; ratio: 1.5;" className="text-blue" />
                           <span className="uk-text-small uk-margin-small-left">Message</span>
                         </div>

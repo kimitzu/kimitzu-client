@@ -10,11 +10,23 @@ interface FloatingChatState {
   indexPeerID: any[]
   scrollBottom: boolean
   currID: string
+  currIndex: number
+  isOpen: boolean
+}
+
+interface Messages {
+  message: string
+  messageId: string
+  outgoing: boolean
+  peerId: string
+  read: boolean
+  subject: string
+  timestamp: string
+  sent: boolean
 }
 
 class FloatingChat extends React.Component<{}, FloatingChatState> {
   private preventInput: boolean
-
   constructor(props) {
     super(props)
     this.state = {
@@ -24,13 +36,18 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
       indexPeerID: [],
       scrollBottom: true,
       currID: '',
+      currIndex: 0,
+      isOpen: false,
     }
     this.handleChatMsg = this.handleChatMsg.bind(this)
     this.handleRecipientChange = this.handleRecipientChange.bind(this)
     this.onKeyPress = this.onKeyPress.bind(this)
     this.sendMsg = this.sendMsg.bind(this)
     this.handleWebsocket = this.handleWebsocket.bind(this)
+    this.directMessage = this.directMessage.bind(this)
     this.preventInput = false
+    this.toggleChatBox = this.toggleChatBox.bind(this)
+    this.scrollBottom = this.scrollBottom.bind(this)
   }
 
   public async componentDidMount() {
@@ -51,7 +68,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
               i
             ].image = `${config.openBazaarHost}/ob/images/${prof.data.profile.avatarHashes.small}`
           } else {
-            c[i].image = `${process.env.PUBLIC_URL}/images/user.svg`
+            c[i].image = `${config.host}/images/user.svg`
           }
           c[i].name = prof.data.profile.name
         }
@@ -71,23 +88,118 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
 
     const socket = new WebSocket(config.websocketHost)
     socket.onmessage = this.handleWebsocket
+
+    const directMsgFunction = (event: CustomEvent) => {
+      const data = {
+        peerId: event.detail.peerID,
+        name: event.detail.name,
+        avatar: event.detail.avatarHashes.small
+          ? `${config.openBazaarHost}/ob/images/${event.detail.avatarHashes.small}`
+          : `${config.host}/images/user.svg`,
+      }
+      this.directMessage(data)
+      this.setState({ isOpen: true })
+      setTimeout(() => {
+        const convoli = document.getElementById(`convo${this.state.currIndex}`)
+        if (convoli) {
+          convoli.click()
+        }
+      })
+    }
+    window.addEventListener('dm', directMsgFunction as EventListener)
   }
 
-  public handleWebsocket(data) {
+  public toggleChatBox() {
+    this.setState({ isOpen: !this.state.isOpen })
+  }
+
+  public async directMessage(data) {
+    const convos = this.state.conversations
+    const result = await convos.some(c => c.peerId === data.peerId)
+    if (result) {
+      const index = this.state.indexPeerID.indexOf(data.peerId)
+      this.setState({ currIndex: index })
+    } else {
+      const convDM = {
+        lastMessage: 'No conversations yet..',
+        outgoing: false,
+        peerId: data.peerId,
+        timestamp: new Date(),
+        unread: 0,
+        image: data.avatar || `${config.host}/images/user.svg`,
+        name: data.name,
+        messages: [],
+      }
+      convos.unshift(convDM)
+      this.setState({ conversations: convos })
+    }
+  }
+
+  public async handleWebsocket(data) {
     const d = JSON.parse(data.data)
     if (d.message) {
       const newMsg = d.message
       const index = this.state.indexPeerID.indexOf(d.message.peerId)
+      const indexPeerIdTemp = this.state.indexPeerID
       const msg = d.message.message
       const realTimeConv = this.state.conversations
+      if (index < 0) {
+        indexPeerIdTemp.push(d.message.peerId)
+        this.setState({ indexPeerID: indexPeerIdTemp })
+        const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${d.message.peerId}`)
+        let name = ''
+        let image = ''
+        if (prof && prof.data.profile) {
+          if (prof.data.profile.avatarHashes) {
+            image = `${config.openBazaarHost}/ob/images/${prof.data.profile.avatarHashes.small}`
+          } else {
+            image = `${config.host}/images/user.svg`
+          }
+          name = prof.data.profile.name
+        }
+        const msgObj = {
+          message: msg,
+          messageId: '',
+          outgoing: false,
+          peerId: '',
+          read: false,
+          subject: '',
+          timestamp: new Date(),
+          sent: false,
+        }
+        const convNew = {
+          lastMessage: msg,
+          outgoing: false,
+          peerId: d.message.peerId,
+          timestamp: new Date(),
+          unread: 0,
+          image,
+          name,
+          messages: [msgObj],
+        }
+        convNew.lastMessage = msg
+        realTimeConv.unshift(convNew)
+      } else {
+        if (!realTimeConv[index]) {
+          realTimeConv[index] = []
+        }
 
-      if (!realTimeConv[index]) {
-        realTimeConv[index] = []
+        realTimeConv[index].messages.push(newMsg)
+        realTimeConv[index].lastMessage = msg
       }
+      this.setState({
+        conversations: realTimeConv,
+        scrollBottom: true,
+        indexPeerID: indexPeerIdTemp,
+      })
+      this.scrollBottom()
+    }
+  }
 
-      realTimeConv[index].messages.push(newMsg)
-      realTimeConv[index].lastMessage = msg
-      this.setState({ conversations: realTimeConv, scrollBottom: true })
+  public scrollBottom() {
+    const objDiv = document.getElementById('messages-display-cont')
+    if (objDiv) {
+      objDiv.scrollTop = objDiv.scrollHeight
     }
   }
 
@@ -101,6 +213,9 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
 
   public handleRecipientChange(value) {
     this.setState({ currID: value })
+    setTimeout(() => {
+      this.scrollBottom()
+    })
   }
 
   public async sendMsg() {
@@ -116,30 +231,35 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
       sent: false,
     }
 
-    const index = this.state.indexPeerID.indexOf(this.state.currID)
+    let index = this.state.indexPeerID.indexOf(this.state.currID)
 
     const conv = this.state.conversations
+    if (index < 0) {
+      index = 0
+    }
     const lastPushIndex = conv[index].messages.length
     if (this.state.chatMsg !== '') {
       conv[index].messages.push(msg)
       conv[index].lastMessage = chatmsgTemp
-    }
-    this.setState({ disabled: true, chatMsg: '' })
-    this.setState({ conversations: conv, scrollBottom: true })
 
-    const res = await axios.post(`${config.openBazaarHost}/ob/chat`, {
-      subject: '',
-      message: chatmsgTemp,
-      peerId: this.state.currID,
-    })
-    if (res) {
-      conv[index].messages[lastPushIndex].sent = true
-      this.setState({ chatMsg: '', disabled: false, conversations: conv })
-      const el = document.getElementById('chat-input')
-      if (el) {
-        el.focus()
+      this.setState({ disabled: true, chatMsg: '' })
+      this.setState({ conversations: conv, scrollBottom: true })
+
+      const res = await axios.post(`${config.openBazaarHost}/ob/chat`, {
+        subject: '',
+        message: chatmsgTemp,
+        peerId: this.state.currID,
+      })
+      if (res) {
+        conv[index].messages[lastPushIndex].sent = true
+        this.setState({ chatMsg: '', disabled: false, conversations: conv })
+        const el = document.getElementById('chat-input')
+        if (el) {
+          el.focus()
+        }
       }
     }
+    this.scrollBottom()
   }
 
   public async onKeyPress(event) {
@@ -161,6 +281,8 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         chatValue={this.state.chatMsg}
         disabled={this.state.disabled}
         sendMsg={this.sendMsg}
+        isOpen={this.state.isOpen}
+        toggleChatBox={this.toggleChatBox}
       />
     )
   }

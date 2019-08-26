@@ -57,9 +57,11 @@ class Order implements OrderInterface {
       }
     }
 
-    const owner = await Profile.retrieve()
-    if (order.buyer!.peerID === owner.peerID) {
+    const currentUser = await Profile.retrieve()
+    if (order.buyer!.peerID === currentUser.peerID) {
       order.role = 'buyer'
+    } else if (order.contract.buyerOrder.payment.moderator === currentUser.peerID) {
+      order.role = 'moderator'
     } else {
       order.role = 'vendor'
     }

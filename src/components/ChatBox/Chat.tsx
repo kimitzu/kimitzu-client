@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import config from '../../config'
 import './Chat.css'
 
 interface Props {
@@ -9,9 +10,11 @@ interface Props {
   chatBoxOnchange: (value: string) => void
   onRecipientChange: (value: string) => void
   onKeyPress: (value: string) => void
+  toggleChatBox: () => void
   chatValue: string
   disabled: boolean
   sendMsg: () => void
+  isOpen: boolean
 }
 
 interface Messages {
@@ -45,16 +48,13 @@ const Chat = ({
   chatValue,
   disabled,
   sendMsg,
+  isOpen,
+  toggleChatBox,
 }: Props) => {
-  const [show, setShow] = useState(false)
   const [isActive, setisActive] = useState(-1)
   const [messages, setMessages] = useState<Messages[]>([])
   const [title, setTitle] = useState('')
   const [avatarSmall, setAvatarSmall] = useState('')
-
-  function toggleChatBox() {
-    setShow(!show)
-  }
 
   function openChat(index, data, name) {
     setisActive(index)
@@ -62,24 +62,8 @@ const Chat = ({
     setTitle(name)
   }
 
-  function scrollToBottom() {
-    setInterval(() => {
-      if (scrollBottom) {
-        const objDiv = document.getElementById('messages-display-cont')
-        if (objDiv) {
-          objDiv.scrollTop = objDiv.scrollHeight
-        }
-        scrollBottom = false
-      }
-    }, 1)
-  }
-
-  useEffect(() => {
-    scrollToBottom()
-  })
-
   return (
-    <div id="chatbox-main-container" className={classNames({ increaseWidth: show })}>
+    <div id="chatbox-main-container" className={classNames({ increaseWidth: isOpen })}>
       <div id="left-side">
         <div id="header-left" onClick={toggleChatBox}>
           <img
@@ -107,6 +91,7 @@ const Chat = ({
               return (
                 <li key={i}>
                   <div
+                    id={`convo${i}`}
                     className={
                       i === isActive ? 'convos-content-cont isActive' : 'convos-content-cont'
                     }
@@ -141,7 +126,7 @@ const Chat = ({
           </ul>
         </div>
       </div>
-      <div id="right-side" className={classNames({ rightSideHide: !show })}>
+      <div id="right-side" className={classNames({ rightSideHide: !isOpen })}>
         <div id="header-right" onClick={toggleChatBox}>
           <p id="title-right">{title}</p>
           <span id="close-right" uk-icon="icon: close; ratio: 1" />
