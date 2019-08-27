@@ -3,13 +3,10 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const isDev = require('electron-is-dev')
-var spawn = require('child_process').spawn;
-var exec = require('child_process').exec;
-const serve = require('electron-serve');
+const spawn = require('child_process').spawn;
 
-
-var server
-var services
+let server
+let services
 // -- Services -- //
 // Execute the server and service first before loading anything else.
 if (!isDev && !process.argv.includes("--noexternal")) {
@@ -27,14 +24,9 @@ if (!isDev && !process.argv.includes("--noexternal")) {
   }
 }
 
-
 // -- Electron -- //
-var loadURL;
-if (!isDev) {
-  loadURL = serve({directory: path.join(__dirname)});
-}
-
 let mainWindow
+
 const createWindow = async () => {
   await app.whenReady();
   mainWindow = new BrowserWindow({

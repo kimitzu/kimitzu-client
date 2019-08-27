@@ -108,9 +108,8 @@
     "appId": "app.djali.client",
     "compression": "store",
     "extraFiles": [
-      {"from": "external/_root/locationmap.json", "to": "locationmap.json" },
-      {"from": "external/_root/locdat.zip", "to": "locdat.zip"},
-      {"from": "external", "to": "external", "filter": "*"}
+      {"from": "./external/_root", "to": "./", "filter": "*" },
+      {"from": "./external", "to": "./external", "filter": "*"}
     ]
   },
   "main": "public/electron.js",
