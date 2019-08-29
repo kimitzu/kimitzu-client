@@ -26,7 +26,7 @@ class Listing implements ListingInterface {
   ): Promise<{ profile: Profile; listing: Listing; imageData: [{ src: string }] }> {
     const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/listing?hash=${id}`)
     const djaliListing = djaliListingRequest.data
-    const profile = await Profile.retrieve(djaliListing.vendorID.peerID)
+    const profile = await Profile.retrieve(djaliListing.vendorID.peerID, true)
 
     const imageData = djaliListing.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
@@ -96,6 +96,7 @@ class Listing implements ListingInterface {
   public nsfw: boolean = false
   public signature: string = ''
   public slug: string = ''
+  public currentSlug: string = ''
   public vendorID: VendorID = {
     peerID: '',
     handle: '',
@@ -144,6 +145,7 @@ class Listing implements ListingInterface {
 
   public normalize() {
     this.item.price /= 100
+    this.currentSlug = this.slug
   }
 
   public denormalize(): ListingInterface {
@@ -158,6 +160,9 @@ class Listing implements ListingInterface {
       coupon => coupon.discountCode !== '' || coupon.title !== ''
     )
     listingClone.item.price = listingClone.item.price * 100
+
+    listingClone.slug = this.currentSlug
+
     return listingClone
   }
 
@@ -168,15 +173,18 @@ class Listing implements ListingInterface {
      */
     const denormalizedListingObject = this.denormalize()
     await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
+    await Profile.retrieve('', true)
   }
 
   public async update() {
     const denormalizedListingObject = this.denormalize()
     await Axios.put(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
+    await Profile.retrieve('', true)
   }
 
   public async delete() {
     await Axios.delete(`${config.openBazaarHost}/ob/listing/${this.slug}`)
+    await Profile.retrieve('', true)
   }
 
   public addCoupon() {

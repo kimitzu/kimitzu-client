@@ -13,6 +13,7 @@ export interface Listing {
   nsfw: boolean
   signature: string
   slug: string
+  currentSlug: string
   vendorID: VendorID
   metadata: Metadata
   item: Item

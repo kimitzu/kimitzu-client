@@ -109,7 +109,10 @@ class Profile implements ProfileSchema {
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
     } else {
-      const profileRequest = await Axios.get(`${config.openBazaarHost}/ob/profile`)
+      let profileRequest = await Axios.get(`${config.openBazaarHost}/ob/profile`)
+      if (force) {
+        profileRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}&force=true`)
+      }
       profile = new Profile(profileRequest.data)
       profile.extLocation = profile.processAddresses(profile.extLocation)
     }
