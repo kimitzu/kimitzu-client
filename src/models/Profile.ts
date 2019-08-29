@@ -109,11 +109,10 @@ class Profile implements ProfileSchema {
       const peerInfo = peerRequest.data.profile as Profile
       profile = new Profile(peerInfo)
     } else {
-      let profileRequest = await Axios.get(`${config.openBazaarHost}/ob/profile`)
-      if (force) {
-        profileRequest = await Axios.get(`${config.djaliHost}/djali/peer/get?id=${id}&force=true`)
-      }
-      profile = new Profile(profileRequest.data)
+      const profileRequest = await Axios.get(
+        `${config.djaliHost}/djali/peer/get?id=${force ? '&force=true' : ''}`
+      )
+      profile = new Profile(profileRequest.data.profile)
       profile.extLocation = profile.processAddresses(profile.extLocation)
     }
 
@@ -261,6 +260,8 @@ class Profile implements ProfileSchema {
     if (this.moderatorInfo.fee.fixedFee && this.moderatorInfo.fee.fixedFee.amount) {
       this.moderatorInfo.fee.fixedFee.amount = this.moderatorInfo.fee.fixedFee.amount * 100
     }
+    const firstSentence = this.about.split('.')[0]
+    this.shortDescription = firstSentence + '.'
   }
 
   public postSave() {
