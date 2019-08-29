@@ -313,12 +313,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             </Link>
           </div>
         </div>
-        <ModeratorInfoModal
-          handleMessageBtn={() => {
-            // TODO: WIP
-          }}
-          profile={this.state.selectedModerator}
-        />
+        <ModeratorInfoModal profile={this.state.selectedModerator} />
       </div>
     )
   }

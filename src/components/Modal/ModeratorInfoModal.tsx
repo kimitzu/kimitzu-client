@@ -8,10 +8,9 @@ import './ModeratorInfoModal.css'
 
 interface Props {
   profile: Profile
-  handleMessageBtn: (peerID: string) => void
 }
 
-const ModeratorInfoModal = ({ handleMessageBtn, profile }: Props) => {
+const ModeratorInfoModal = ({ profile }: Props) => {
   const { moderatorInfo, extLocation, name, peerID } = profile
   const primaryAddress = extLocation ? extLocation.addresses[extLocation.primary] : null
 
@@ -36,7 +35,10 @@ const ModeratorInfoModal = ({ handleMessageBtn, profile }: Props) => {
               <button
                 id="moderator-info-button"
                 className="uk-button uk-button-primary"
-                onClick={() => handleMessageBtn(peerID)}
+                onClick={() => {
+                  const dmEvent = new CustomEvent('dm', { detail: profile })
+                  window.dispatchEvent(dmEvent)
+                }}
               >
                 MESSAGE
               </button>

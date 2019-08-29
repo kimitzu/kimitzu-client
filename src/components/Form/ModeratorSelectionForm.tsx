@@ -15,6 +15,7 @@ interface Props {
   handleMoreInfo: (profile: Profile) => void
   handleSubmit: () => void
   showSpinner?: boolean
+  submitLabel?: string
 }
 
 const ModeratorSelectionForm = ({
@@ -25,6 +26,7 @@ const ModeratorSelectionForm = ({
   handleSubmit,
   selectedModerators,
   showSpinner,
+  submitLabel,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   return (
@@ -114,7 +116,7 @@ const ModeratorSelectionForm = ({
       </div>
       <div className="submit-btn-div uk-margin-top">
         <button className="uk-button uk-button-primary" onClick={handleSubmit}>
-          CONTINUE
+          {submitLabel || 'CONTINUE'}
         </button>
       </div>
     </div>

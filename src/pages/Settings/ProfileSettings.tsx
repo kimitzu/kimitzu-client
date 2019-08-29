@@ -3,8 +3,14 @@ import React, { Component, ReactNode } from 'react'
 
 import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
-import { AddressForm, ModeratorForm, RegistrationForm } from '../../components/Form'
+import {
+  AddressForm,
+  ModeratorForm,
+  ModeratorSelectionForm,
+  RegistrationForm,
+} from '../../components/Form'
 
+import Axios from 'axios'
 import { Button } from '../../components/Button'
 import ChangeCredentials from '../../components/Card/ChangeCredentials'
 import Login from '../../components/Card/Login'
@@ -14,6 +20,8 @@ import EmploymentCardGroup from '../../components/CardGroup/Settings/EmploymentC
 import CustomDescriptionForm from '../../components/Form/CustomDescriptionForm'
 import EducationForm from '../../components/Form/EducationForm'
 import EmploymentForm from '../../components/Form/EmploymentForm'
+import { ModeratorInfoModal } from '../../components/Modal'
+import config from '../../config'
 import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
@@ -21,6 +29,7 @@ import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
 import UnitsOfMeasurement from '../../constants/UnitsOfMeasurement.json'
 import Profile from '../../models/Profile'
+import Settings from '../../models/Settings'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../../utils/NestedJSONUpdater'
 
@@ -67,12 +76,19 @@ interface GeneralProfileState {
   currentParentIndex: number
   currentAction: number
   isAuthenticationActivated: boolean
+  availableModerators: Profile[]
+  selectedModerators: Profile[]
+  originalModerators: Profile[]
+  selectedModerator: Profile
+  hasFetchedAModerator: boolean
+  settings: Settings
 }
 
 class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   constructor(props: ProfileSettings) {
     super(props)
     const profile = new Profile()
+    const settings = new Settings()
     this.state = {
       addressFormUpdateIndex: -1,
       educationFormUpdateIndex: -1,
@@ -84,6 +100,12 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       avatar: '',
       profile,
       isAuthenticationActivated: false,
+      hasFetchedAModerator: false,
+      originalModerators: [],
+      availableModerators: [],
+      selectedModerators: [],
+      selectedModerator: new Profile(),
+      settings,
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -99,6 +121,10 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.mapSubcontents = this.mapSubcontents.bind(this)
     this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this)
     this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
+    this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
+    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
+    this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
+    this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
   }
 
   public async componentDidMount() {
@@ -106,9 +132,17 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       const profileData = await Profile.retrieve()
       const isAuthenticationActivated = await Profile.isAuthenticationActivated()
 
+      const settings = await Settings.retrieve()
+      const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
+        Profile.retrieve(moderator)
+      )
+      const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
+
       this.setState({
         profile: profileData,
         isAuthenticationActivated,
+        settings,
+        selectedModerators: moderatorProfiles,
       })
     } catch (error) {
       if (error.response) {
@@ -116,6 +150,23 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           window.location.hash = '/register'
         }
       }
+    }
+
+    const moderatorListResponse = await Axios.get(
+      `${config.openBazaarHost}/ob/moderators?async=false&include=`
+    )
+    if (moderatorListResponse.data) {
+      await moderatorListResponse.data.forEach(async (moderatorId, index) => {
+        const moderator = await Profile.retrieve(moderatorId)
+        const { availableModerators, originalModerators } = this.state
+        this.setState({
+          availableModerators: [...availableModerators, moderator],
+          originalModerators: [...originalModerators, moderator],
+        })
+        if (index === 0) {
+          this.setState({ hasFetchedAModerator: true })
+        }
+      })
     }
   }
 
@@ -260,8 +311,19 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       ],
       [
         {
-          component: <div />,
-          label: 'General',
+          component: (
+            <ModeratorSelectionForm
+              availableModerators={this.state.availableModerators}
+              selectedModerators={this.state.selectedModerators}
+              handleBtnClick={this.handleModeratorSelection}
+              handleSubmit={this.handleSubmitModeratorSelection}
+              handleModeratorSearch={this.handleModeratorSearch}
+              handleMoreInfo={this.handleShowModeratorModal}
+              showSpinner={!this.state.hasFetchedAModerator}
+              submitLabel={'Save'}
+            />
+          ),
+          label: 'Moderators',
         },
       ],
       security,
@@ -401,6 +463,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           handleBackBtn={handleBackBtn}
           showBackBtn={currentAction !== actions.NONE}
         />
+        <ModeratorInfoModal profile={this.state.selectedModerator} />
       </div>
     )
   }
@@ -544,6 +607,71 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.setState({
       currentAction: actions.NONE,
     })
+  }
+
+  private handleModeratorSelection(moderator: Profile, index: number, type) {
+    const { availableModerators, selectedModerators } = this.state
+    if (type === 'add') {
+      availableModerators.splice(index, 1)
+      selectedModerators.push(moderator)
+    } else if (type === 'remove') {
+      selectedModerators.splice(index, 1)
+      availableModerators.push(moderator)
+    }
+    this.setState({ availableModerators, selectedModerators })
+  }
+
+  private async handleSubmitModeratorSelection() {
+    this.state.settings.storeModerators = this.state.selectedModerators.map(
+      moderator => moderator.peerID
+    )
+    try {
+      await this.state.settings.save()
+      window.UIkit.notification('Moderators saved', { status: 'success' })
+    } catch (e) {
+      window.UIkit.notification(e.message, { status: 'danger' })
+    }
+  }
+
+  private handleShowModeratorModal(moderator: Profile) {
+    this.setState({ selectedModerator: moderator })
+    const moderatorModal = window.UIkit.modal('#moderator-info')
+    if (moderatorModal) {
+      moderatorModal.show()
+    }
+  }
+
+  private async handleModeratorSearch(searchStr: string) {
+    if (!searchStr) {
+      this.setState({
+        availableModerators: this.state.originalModerators,
+      })
+      return
+    }
+
+    if (this.state.availableModerators.length > 0) {
+      const filteredMods = this.state.availableModerators.filter(mod => {
+        return mod.peerID.includes(searchStr)
+      })
+      this.setState({
+        availableModerators: filteredMods,
+      })
+      return
+    }
+
+    if (searchStr.length < 46) {
+      return
+    }
+
+    const retrievedProfile = await Profile.retrieve(searchStr, true)
+    const isAlreadySelected = this.state.selectedModerators.some(
+      moderator => moderator.peerID === retrievedProfile.peerID
+    )
+    if (retrievedProfile.moderator && !isAlreadySelected) {
+      this.setState({
+        availableModerators: [retrievedProfile],
+      })
+    }
   }
 }
 

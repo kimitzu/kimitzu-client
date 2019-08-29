@@ -1,8 +1,4 @@
-import Axios from 'axios'
 import React, { Component, ReactNode } from 'react'
-
-import config from '../config'
-
 import { RouteComponentProps } from 'react-router'
 import { SideMenuWithContentCard } from '../components/Card'
 import {
@@ -19,6 +15,7 @@ import {
 import { ModeratorInfoModal } from '../components/Modal'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
+import Settings from '../models/Settings'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import PlusCode from '../utils/Location/PlusCode'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
@@ -60,7 +57,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       currentFormIndex: 0,
       tempImages: [],
       isLoading: false,
-      hasFetchedAModerator: false,
+      hasFetchedAModerator: true,
       isListingNew: true,
       // === Formal Schema
       listing,
@@ -120,25 +117,16 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     }
 
     const profile = await Profile.retrieve()
-    const moderatorListResponse = await Axios.get(
-      `${config.openBazaarHost}/ob/moderators?async=false&include=`
+    const settings = await Settings.retrieve()
+    const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
+      Profile.retrieve(moderator)
     )
-    if (moderatorListResponse.data) {
-      await moderatorListResponse.data.forEach(async (moderatorId, index) => {
-        const moderator = await Profile.retrieve(moderatorId)
-        const { availableModerators, originalModerators } = this.state
-        this.setState({
-          availableModerators: [...availableModerators, moderator],
-          originalModerators: [...originalModerators, moderator],
-        })
-        if (index === 0) {
-          this.setState({ hasFetchedAModerator: true })
-        }
-      })
-    }
+    const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
 
     this.setState({
       profile,
+      availableModerators: moderatorProfiles,
+      originalModerators: moderatorProfiles,
     })
   }
 
@@ -392,12 +380,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           mainContent={currentForm.component}
           currentNavIndex={this.state.currentFormIndex}
         />
-        <ModeratorInfoModal
-          handleMessageBtn={() => {
-            // TODO: WIP
-          }}
-          profile={selectedModerator}
-        />
+        <ModeratorInfoModal profile={selectedModerator} />
       </div>
     )
   }
