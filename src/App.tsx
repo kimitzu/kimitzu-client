@@ -32,6 +32,8 @@ interface State {
 }
 
 class App extends React.Component<{}, State> {
+  private timer: number = 0
+
   constructor(props) {
     super(props)
     this.state = {
@@ -46,8 +48,11 @@ class App extends React.Component<{}, State> {
   }
 
   public async componentDidMount() {
-    this.connect()
-    setInterval(() => {
+    this.timer = window.setInterval(async () => {
+      await this.connect()
+    }, 5000)
+
+    setTimeout(() => {
       this.setState({ height: window.innerHeight })
     }, 1000)
   }
@@ -110,6 +115,9 @@ class App extends React.Component<{}, State> {
     try {
       await Profile.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
+
+      window.clearInterval(this.timer)
+
       this.setState({
         isReady: true,
         isServerConnected: true,
@@ -117,6 +125,7 @@ class App extends React.Component<{}, State> {
       })
     } catch (error) {
       if (error.response) {
+        window.clearInterval(this.timer)
         this.setState({ isServerConnected: true, showSignup: error.response.status === 404 })
       }
       this.setState({ isReady: true })

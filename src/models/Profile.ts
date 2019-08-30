@@ -110,8 +110,14 @@ class Profile implements ProfileSchema {
       profile = new Profile(peerInfo)
     } else {
       const profileRequest = await Axios.get(
-        `${config.djaliHost}/djali/peer/get?id=${force ? '&force=true' : ''}`
+        `${config.djaliHost}/djali/peer/get?id=${force ? '&force=true' : '&force=false'}`
       )
+      /**
+       * Properly handle when https://github.com/djali-foundation/djali-services/issues/3 is resolved.
+       */
+      if (!profileRequest.data.profile.peerID) {
+        throw new Error('Profile not found')
+      }
       profile = new Profile(profileRequest.data.profile)
       profile.extLocation = profile.processAddresses(profile.extLocation)
     }
