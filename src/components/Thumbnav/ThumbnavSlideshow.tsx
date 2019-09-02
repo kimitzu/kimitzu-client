@@ -64,6 +64,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
           <ul className="uk-thumbnav">
             {photos.map((image: string, index: number) => (
               <li
+                id={`media-${index}`}
                 key={image}
                 data-uk-slideshow-item={index.toString()}
                 onClick={() => setSelectedIndex(index)}
@@ -79,6 +80,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
         {photos.length > 0 ? (
           <div className="uk-position-top-right uk-position-small">
             <button
+              id="media-delete"
               className="uk-button uk-button-danger uk-button-small uk-margin-left"
               type="button"
               onClick={() => {

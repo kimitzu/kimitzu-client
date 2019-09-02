@@ -33,6 +33,7 @@ const ModeratorSelectionForm = ({
     <div className="uk-width-1-1">
       <div className="uk-inline uk-width-1-1">
         <input
+          id="moderator-search"
           className="uk-input"
           type="text"
           value={searchVal}
@@ -69,18 +70,26 @@ const ModeratorSelectionForm = ({
         ) : (
           <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list">
             {availableModerators.map((moderator, index) => (
-              <li key={moderator.peerID} className="uk-margin-remove">
+              <li
+                id={`moderator-${moderator.peerID}`}
+                key={moderator.peerID}
+                className="uk-margin-remove"
+              >
                 <ModeratorCard profile={moderator}>
                   <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
                     <button
-                      id="moderator-card-btn"
+                      id={`moderator-add-${moderator.peerID}`}
                       className="uk-button uk-button-primary"
                       onClick={() => handleBtnClick(moderator, index, 'add')}
                     >
                       +
                     </button>
 
-                    <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>
+                    <a
+                      id={`moderator-info-${moderator.peerID}`}
+                      className="moderator-card-more-link"
+                      onClick={() => handleMoreInfo(moderator)}
+                    >
                       More...
                     </a>
                   </div>
@@ -99,8 +108,8 @@ const ModeratorSelectionForm = ({
             <ModeratorCard profile={moderator}>
               <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
                 <button
-                  id="moderator-card-btn"
-                  className="uk-button uk-button-primary"
+                  id={`moderator-remove-${moderator.peerID}`}
+                  className="uk-button uk-button-primary moderator-card-btn"
                   onClick={() => handleBtnClick(moderator, index, 'remove')}
                 >
                   {`\xD7`}

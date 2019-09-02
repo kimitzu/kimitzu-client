@@ -8,19 +8,24 @@ interface Option {
 }
 
 interface Props {
+  id?: string
   options: Option[]
   defaultSelectorVal?: string
   inputProps?: InputHTMLAttributes<any>
   selectProps?: SelectHTMLAttributes<any>
 }
 
-const InputSelector = ({ defaultSelectorVal, inputProps, options, selectProps }: Props) => (
-  <div id="input-selector" className="uk-flex">
-    <input id="input" className="uk-input" {...inputProps} />
+const InputSelector = ({ id, defaultSelectorVal, inputProps, options, selectProps }: Props) => (
+  <div className="uk-flex input-selector-container">
+    <input
+      id={id ? `selector-input-${id}` : 'selector-input'}
+      className="uk-input input-selector"
+      {...inputProps}
+    />
     <select
-      id="selector"
+      id={`selector-${id}`}
       defaultValue={defaultSelectorVal}
-      className="uk-select color-primary"
+      className="uk-select color-primary selector"
       {...selectProps}
     >
       {options.map((option: Option) => (

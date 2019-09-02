@@ -12,7 +12,13 @@ const DropArea = (props: Props) => (
       <span data-uk-icon="icon: cloud-upload" />
       <span className="uk-text-middle">{props.placeholder}</span>
       <div className="color-primary" data-uk-form-custom>
-        <input type="file" multiple onChange={props.onImageOpen} accept="image/*" />
+        <input
+          id="image-upload"
+          type="file"
+          multiple
+          onChange={props.onImageOpen}
+          accept="image/*"
+        />
         {props.selectLabel}
       </div>
     </div>

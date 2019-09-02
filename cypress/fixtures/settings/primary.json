@@ -1,0 +1,22 @@
+{
+  "blockedNodes": [],
+  "country": "UNITED_STATES",
+  "localCurrency": "USD",
+  "mispaymentBuffer": 1,
+  "paymentDataInQR": false,
+  "refundPolicy": "",
+  "shippingAddresses": [],
+  "showNotifications": true,
+  "showNsfw": false,
+  "smtpSettings": {
+    "notifications": false,
+    "password": "",
+    "recipientEmail": "",
+    "senderEmail": "",
+    "serverAddress": "",
+    "username": ""
+  },
+  "storeModerators": ["moderator"],
+  "termsAndConditions": "",
+  "version": "/openbazaar-djali-go:0.13.5,0.0.1-dev/"
+}

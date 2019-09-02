@@ -42,10 +42,12 @@ const RegistrationForm = (props: Props) => (
             CHANGE
           </Button>
           <input
+            id="avatar-upload"
             type="file"
             accept="image/*"
             className="uk-button uk-button-primary"
-            onChange={event => props.onChange('avatar', event.target.files)}
+            name="avatar"
+            onChange={event => props.onChange(event.target.name, event.target.files)}
           />
         </div>
       </div>
@@ -53,6 +55,7 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="USERNAME" required />
         <div className="uk-form-controls">
           <input
+            id="username"
             className="uk-input"
             type="text"
             placeholder="John Doe"
@@ -66,6 +69,7 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="NAME" />
         <div className="uk-form-controls">
           <input
+            id="fullname"
             className="uk-input"
             type="text"
             placeholder="John Doe"
@@ -78,6 +82,7 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="DESCRIPTION" />
         <div className="uk-form-controls">
           <textarea
+            id="description"
             className="uk-textarea"
             rows={3}
             placeholder="In 500 words or less tell us something about yourself and the services you offer..."
@@ -90,6 +95,7 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="EMAIL" />
         <div className="uk-form-controls">
           <input
+            id="email"
             className="uk-input"
             type="text"
             placeholder="john@email.com"
@@ -102,6 +108,7 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="COUNTRY" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
+            id="countries"
             options={props.availableCountries}
             defaultVal={
               props.data.extLocation.primary > -1
@@ -169,6 +176,7 @@ const RegistrationForm = (props: Props) => (
         <FormLabel label="PREFERRED UNITS" required />
         <div id="form-select" className="uk-form-controls">
           <FormSelector
+            id="preferred-units"
             options={props.unitOfMeasurements}
             defaultVal={props.data.preferences.measurementUnit || 'ENGLISH'}
             onChange={event =>

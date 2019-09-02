@@ -32,11 +32,11 @@ const ListingCryptoCurrenciesForm = ({
   <form className="uk-form-stacked uk-flex uk-flex-column full-width">
     <fieldset className="uk-fieldset">
       <div id="crypto-checkers" className="uk-margin uk-flex">
-        {cryptoCurrencies.map((crypto: Options) => (
+        {cryptoCurrencies.map((crypto: Options, index: number) => (
           <label id="checker" className="color-primary" key={crypto.value}>
             <input
-              id="input-checker"
-              className="uk-checkbox"
+              id={`crypto-${index}`}
+              className="uk-checkbox input-checker"
               type="checkbox"
               checked={acceptedCurrencies.includes(crypto.value)}
               onChange={event => {

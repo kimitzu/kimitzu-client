@@ -122,14 +122,7 @@ class Listing implements ListingInterface {
     serviceClassification: '',
   }
   public shippingOptions: ShippingOption[] = []
-  public coupons: Coupon[] = [
-    {
-      title: '',
-      discountCode: '',
-      percentDiscount: 0,
-      type: 'percent',
-    },
-  ]
+  public coupons: Coupon[] = []
   public moderators: string[] = []
   public termsAndConditions: string = ''
   public refundPolicy: string = ''
@@ -193,6 +186,7 @@ class Listing implements ListingInterface {
       discountCode: '',
       percentDiscount: 0,
       type: 'percent',
+      uniqueId: `${Math.random()}`,
     }
     this.coupons.push(tempCoupon)
   }

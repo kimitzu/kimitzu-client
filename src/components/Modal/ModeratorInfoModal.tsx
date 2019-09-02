@@ -23,7 +23,12 @@ const ModeratorInfoModal = ({ profile }: Props) => {
   return (
     <div id="moderator-info" className="uk-flex-top" data-uk-modal>
       <div className="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-        <button className="uk-modal-close-default" type="button" data-uk-close />
+        <button
+          id="moderator-info-close"
+          className="uk-modal-close-default"
+          type="button"
+          data-uk-close
+        />
         <div className="uk-flex">
           <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-middle uk-flex-center">
             <img

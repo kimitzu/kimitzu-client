@@ -41,6 +41,7 @@ export interface Coupon {
   discountCode: string
   percentDiscount: number
   type: string
+  uniqueId: string
 }
 
 // ================================================

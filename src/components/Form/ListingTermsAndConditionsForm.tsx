@@ -18,6 +18,7 @@ const ListingTermsAndConditionsForm = ({
       <div className="uk-margin">
         <FormLabel label="TERMS AND CONDITIONS" />
         <textarea
+          id="terms-and-conditions-textarea"
           className="uk-textarea"
           rows={10}
           onChange={event => handleInputChange('termsAndConditions', event.target.value, 'listing')}

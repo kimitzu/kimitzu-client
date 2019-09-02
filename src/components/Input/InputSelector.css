@@ -1,12 +1,12 @@
-#input-selector {
+.input-selector-container {
   border: 1px solid var(--border-color);
 }
-#input {
+.input-selector {
   flex: 3;
   border: none;
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color) !important;
 }
-#selector {
+.selector {
   flex: 2;
   border: none;
 }

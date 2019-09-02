@@ -167,7 +167,10 @@ class Home extends Component<HomeProps, HomeState> {
                 <div data-uk-spinner="ratio: 3" />
               </div>
             ) : (
-              <div className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle">
+              <div
+                className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+                id="empty-results"
+              >
                 <h2>No Results ¯\_(ツ)_/¯</h2>
                 <p>Try a different search keyword or filter</p>
               </div>

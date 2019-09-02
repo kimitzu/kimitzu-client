@@ -78,7 +78,7 @@ const AddressForm = ({
     >
       <fieldset className="uk-fieldset">
         {isListing ? null : (
-          <div className="uk-margin">
+          <div className="uk-margin" id="address-type-selection">
             <FormLabel label="TYPE" />
             {options.map((o, index) => (
               <label key={index}>
@@ -104,7 +104,7 @@ const AddressForm = ({
         <div className="uk-margin">
           <FormLabel label="STREET ADDRESSES" />
           <input
-            id="street-address"
+            id="street-address-1"
             className="uk-input"
             type="text"
             value={location.addressOne}
@@ -114,7 +114,7 @@ const AddressForm = ({
             }
           />
           <input
-            id="street-address"
+            id="street-address-2"
             className="uk-input"
             type="text"
             value={location.addressTwo}
@@ -135,6 +135,7 @@ const AddressForm = ({
               uk-tooltip="What is a Plus Code?"
             />
             <input
+              id="plus-code"
               className="uk-input"
               value={location.plusCode}
               type="text"
@@ -146,6 +147,7 @@ const AddressForm = ({
           input1={{
             label: 'LONGITUDE',
             props: {
+              id: 'longitude',
               type: 'number',
               value: location.longitude,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -155,6 +157,7 @@ const AddressForm = ({
           input2={{
             label: 'LATITUDE',
             props: {
+              id: 'latitude',
               type: 'number',
               value: location.latitude,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -166,6 +169,7 @@ const AddressForm = ({
           input1={{
             label: 'CITY',
             props: {
+              id: 'city',
               type: 'text',
               value: location.city,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -175,6 +179,7 @@ const AddressForm = ({
           input2={{
             label: 'STATE',
             props: {
+              id: 'state',
               type: 'text',
               value: location.state,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -200,6 +205,7 @@ const AddressForm = ({
           <div id="input2" className="uk-width-1-2@s">
             <FormLabel label="Country" />
             <FormSelector
+              id="countries"
               defaultVal={location.country || ''}
               options={Countries}
               onChange={event => handleChange('country', event.target.value)}

@@ -19,7 +19,7 @@ const SuccessCard = (props: Props) => (
         </p>
       </div>
       <div id="body-item">
-        <button className="uk-button uk-button-primary" onClick={props.onSuccessHome}>
+        <button id="home" className="uk-button uk-button-primary" onClick={props.onSuccessHome}>
           Home
         </button>
       </div>

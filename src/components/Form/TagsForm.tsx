@@ -19,6 +19,7 @@ const TagsForm = ({ tags, handleInputChange, handleContinue }: Props) => {
         <div className="uk-margin">
           <FormLabel label="TAGS" required />
           <TagsInput
+            inputProps={{ id: 'tags' }}
             value={tags}
             onChange={changedTags => handleInputChange('item.tags', changedTags, 'listing')}
           />

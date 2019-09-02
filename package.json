@@ -27,6 +27,7 @@
     "create-react-class": "^15.6.3",
     "cross-env": "^5.2.0",
     "currency-symbol-map": "^4.0.4",
+    "cypress-file-upload": "^3.3.3",
     "electron-is-dev": "^1.1.0",
     "electron-serve": "^0.3.0",
     "is-electron": "^2.2.0",
@@ -72,7 +73,8 @@
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose"
+    "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -91,9 +93,11 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.1",
+    "cypress": "^3.4.1",
     "cz-conventional-changelog": "^3.0.2",
     "electron": "^6.0.1",
     "electron-builder": "^21.2.0",
+    "eslint-plugin-cypress": "^2.6.1",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
     "prettier": "^1.17.0",

@@ -182,8 +182,7 @@ class UserRegistration extends Component<{}, State> {
       const { webContents } = currentWindow
       webContents.clearHistory()
     }
-    window.location.hash = '/'
-    window.location.reload()
+    window.location.href = '/'
   }
 }
 

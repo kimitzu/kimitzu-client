@@ -6,7 +6,7 @@
   flex: 10;
   overflow: hidden;
 }
-#moderator-card-btn {
+.moderator-card-btn {
   padding: 0 5px;
   min-width: 15px;
   font-size: 1.75rem;
@@ -22,7 +22,7 @@
 #moderator-card-fees > span > svg {
   height: 15;
 }
-#moderator-card-more-link {
+.moderator-card-more-link {
   font-size: 0.75rem;
 }
 .radio-cont {

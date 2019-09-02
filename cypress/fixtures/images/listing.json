@@ -1,0 +1,13 @@
+[
+  {
+    "filename": "image.jpg",
+    "hashes":   {
+      "filename": "image.jpg",
+      "large": "QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp",
+      "medium": "QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX",
+      "original": "QmSYYRZS5veRXQqY2y4ekDrKyEVgz9nCDKaW1krrYvtGC3",
+      "small": "QmXT2PgXsC4XymEGZP9iFcX9FKKQZMQW5wiP7hxCvdZHxG",
+      "tiny": "QmZgAEvnzhPTqPheojV7azwVo9uemfnZzFP5AdvVzGFdZU"
+    }
+  }
+]

@@ -81,6 +81,7 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
         <div className="uk-margin">
           <FormLabel label="TITLE" required />
           <input
+            id="general-title"
             className="uk-input"
             type="text"
             value={listing.item.title}
@@ -99,6 +100,7 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
             {
               component: (
                 <FormSelector
+                  id="general-type"
                   defaultVal={listing.metadata.contractType}
                   options={ListingTypes}
                   onChange={event => {
@@ -116,6 +118,7 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
             {
               component: (
                 <InputSelector
+                  id="general-price"
                   options={currencies}
                   inputProps={{
                     value: listing.item.price,
@@ -143,6 +146,7 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
             {
               component: (
                 <FormSelector
+                  id="general-rate-method"
                   defaultVal={listing.metadata.serviceRateMethod}
                   options={ServiceRateMethods}
                   disabled={listing.metadata.contractType !== 'SERVICE'}
@@ -222,6 +226,7 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
         <div className="uk-margin">
           <FormLabel label="DESCRIPTION" />
           <textarea
+            id="general-desc"
             className="uk-textarea"
             rows={5}
             value={listing.item.description}
