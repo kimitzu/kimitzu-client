@@ -62,6 +62,7 @@ class Listing implements ListingInterface {
     skus: [
       {
         quantity: -1,
+        productID: '',
       },
     ],
   }
@@ -154,6 +155,8 @@ class Listing implements ListingInterface {
     )
     listingClone.item.price = listingClone.item.price * 100
 
+    delete listingClone.item.skus[0].variantCombo
+    listingClone.item.skus[0].productID = this.currentSlug
     listingClone.slug = this.currentSlug
 
     return listingClone
@@ -166,12 +169,14 @@ class Listing implements ListingInterface {
      */
     const denormalizedListingObject = this.denormalize()
     await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
+    await Profile.publish()
     await Profile.retrieve('', true)
   }
 
   public async update() {
     const denormalizedListingObject = this.denormalize()
     await Axios.put(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
+    await Profile.publish()
     await Profile.retrieve('', true)
   }
 

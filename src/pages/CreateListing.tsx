@@ -343,15 +343,19 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       listing.item.images = [...updateOldImages, ...images]
       if (this.state.isListingNew) {
         await listing.save()
+        window.UIkit.notification('Listing Successfully Posted', {
+          status: 'success',
+        })
       } else {
         await listing.update()
+        window.UIkit.notification('Listing Successfully Updated', {
+          status: 'success',
+        })
       }
-      await Profile.publish()
       await this.state.profile.crawlOwnListings()
-      window.UIkit.notification('Listing Successfully Posted', {
-        status: 'success',
-      })
-      window.location.hash = '/'
+      setTimeout(() => {
+        window.location.hash = '/'
+      }, 2000)
     } catch (e) {
       window.UIkit.notification(e.message, {
         status: 'danger',

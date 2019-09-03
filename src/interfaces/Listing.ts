@@ -62,6 +62,8 @@ export interface Item {
 
 export interface Skus {
   quantity: number
+  productID: string
+  variantCombo?: string[]
 }
 
 export interface Metadata {
