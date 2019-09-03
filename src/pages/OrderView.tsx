@@ -645,12 +645,26 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             <OrderSummaryItemSegment title="Send Payment To">
               <PaymentQRCard
                 amount={order
-                  .calculateCryptoDecimals(order.contract.vendorOrderConfirmation.requestedAmount)
+                  .calculateCryptoDecimals(order.contract.buyerOrder.payment.amount)
                   .toString()}
-                address={order.contract.vendorOrderConfirmation.paymentAddress}
+                address={order.contract.buyerOrder.payment.address}
                 cryptocurrency={order.contract.buyerOrder.payment.coin}
                 handleCopyToClipboard={field => {
                   console.log(field)
+                }}
+                handlePay={async () => {
+                  try {
+                    await order.pay({
+                      wallet: order.contract.buyerOrder.payment.coin,
+                      address: order.contract.buyerOrder.payment.address,
+                      amount: order.contract.buyerOrder.payment.amount,
+                      feeLevel: 'NORMAL',
+                      memo: '',
+                    })
+                    window.UIkit.notification('Payment Sent!', { status: 'success' })
+                  } catch (e) {
+                    window.UIkit.notification(e.message, { status: 'danger' })
+                  }
                 }}
               />
             </OrderSummaryItemSegment>

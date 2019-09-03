@@ -38,7 +38,7 @@ const PaymentQRCard = ({
   }
 
   return (
-    <div className="uk-car  d uk-card-default uk-card-body uk-flex uk-flex-row">
+    <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-row">
       <QRCode value={Order.getQRCodeValue(cryptocurrency, address, amount)} size={180} />
       <div className="uk-padding uk-padding-remove-top uk-padding-remove-bottom">
         <div className="uk-flex uk-flex-middle">
@@ -53,7 +53,7 @@ const PaymentQRCard = ({
         </a> */}
         </div>
         <div className="uk-flex uk-flex-middle">
-          <label>Address: {address}</label>
+          <label className="uk-text-break">Address: {address}</label>
           {/* <a
           className="text-underline uk-text-small uk-margin-left"
           onClick={() => handleCopyToClipboard('address')}
@@ -88,8 +88,12 @@ const PaymentQRCard = ({
                     className="uk-button uk-button-primary"
                     onClick={async () => {
                       setIsPaying(true)
-                      await handlePayment()
-                      setIsPaying(false)
+                      try {
+                        await handlePayment()
+                        setIsPaying(false)
+                      } catch (e) {
+                        setIsPaying(false)
+                      }
                     }}
                     showSpinner={isPaying}
                   >
@@ -101,7 +105,7 @@ const PaymentQRCard = ({
           </div>
         </div>
         <div>
-          <p className="color-secondary">
+          <p className="color-secondary uk-text-break">
             Once you have paid, it may take a bit for the interface to update.
           </p>
         </div>
