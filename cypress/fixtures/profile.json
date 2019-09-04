@@ -1,0 +1,68 @@
+{
+  "peerID": "QmYzhn6wWKtGC89RdcAWtyE5A8qCSPVw2Rwsb68RkZ5ub1",
+  "handle": "Djali",
+  "name": "Djali Remote",
+  "location": "PH, ",
+  "about": "Lorem ipsum dolor sit amet.",
+  "shortDescription": "",
+  "nsfw": false,
+  "vendor": true,
+  "moderator": false,
+  "moderatorInfo": {
+    "description": "",
+    "termsAndConditions": "",
+    "languages": [],
+    "acceptedCurrencies": ["TZEC", "TLTC", "TBTC", "TBCH"],
+    "fee": { "fixedFee": { "currencyCode": "", "amount": 0 }, "percentage": 0, "feeType": "FIXED" }
+  },
+  "contactInfo": { "website": "", "email": "test@djali.org", "phoneNumber": "", "social": [] },
+  "avatarHashes": {
+    "tiny": "QmeudWfRNBRdJp9Lv6HV2XU6Q2fL5ZNXLYX45e7NkvFvY8",
+    "small": "QmQXZUA2a7Rc3jHPojN7rx29NtBMQY6RRAg3Ku5r4xNvwX",
+    "medium": "QmP2CS44tS21PBm9ehFdE9eqLZbwx6Cuxoj4djzGShHpaK",
+    "large": "QmWakC1FFwRhPfQbHvTTR3RDys7pHsppSCWWGwHnziPRj5",
+    "original": "QmRSxi1F9T3HMYBVSJKCQetV9A4brhXU96o5PrzMzPuykE"
+  },
+  "headerHashes": { "tiny": "", "small": "", "medium": "", "large": "", "original": "" },
+  "stats": {
+    "followerCount": 0,
+    "followingCount": 0,
+    "listingCount": 0,
+    "ratingCount": 0,
+    "postCount": 0,
+    "averageRating": 0
+  },
+  "bitcoinPubkey": "0352e4c456be6b12dffd1d00eccbc0e3fdaf484611cee8bcedb4e77e258a05808a",
+  "lastModified": "2019-08-26T07:34:47.904963700Z",
+  "currencies": ["TZEC", "TLTC", "TBTC", "TBCH"],
+  "extLocation": {
+    "primary": 0,
+    "shipping": 0,
+    "billing": 0,
+    "return": 0,
+    "addresses": [
+      {
+        "latitude": "",
+        "longitude": "",
+        "plusCode": "",
+        "addressOne": "",
+        "addressTwo": "",
+        "city": "",
+        "state": "",
+        "country": "PH",
+        "zipCode": ""
+      }
+    ]
+  },
+  "background": { "educationHistory": [], "employmentHistory": [] },
+  "profileType": "djali",
+  "metaTags": { "DjaliVersion": "0.0.1-dev" },
+  "preferences": {
+    "currencyDisplay": "FIAT",
+    "fiat": "USD",
+    "cryptocurrency": "TBTC",
+    "language": "en-US",
+    "measurementUnit": "METRIC"
+  },
+  "customFields": []
+}

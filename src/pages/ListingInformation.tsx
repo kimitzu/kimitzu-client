@@ -5,6 +5,7 @@ import { Button } from '../components/Button'
 import {
   PayoutCard,
   ProfessionalBackgroundCard,
+  ProgrammersCompetencyCard,
   SocialMediaCard,
   TagsCard,
   TermsOfServiceCard,
@@ -266,11 +267,12 @@ class ListingProfile extends Component<Props, State> {
           <ProfessionalBackgroundCard data={background} name="Work History" />
         ) : null}
         <TagsCard data={spokenLanguages || []} name="Spoken Langguages" />
-        <TagsCard data={programmingLanguages || []} name="Programming Langguages" />
-        <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
-          <h3 className="uk-card-title text-blue uk-text-bold">Programming Expertise Level</h3>
-          <h4 className="uk-text-bold text-gray inside-content">Level 1</h4>
-        </div>
+        <TagsCard name="Skills" data={JSON.parse(decodeHtml(profile.customProps.skills))} />
+        {profile.customProps.programmerCompetency !== '{}' ? (
+          <div className="uk-margin-bottom">
+            <ProgrammersCompetencyCard data={profile} />
+          </div>
+        ) : null}
         <TermsOfServiceCard data={listing.termsAndConditions || 'Nothing specified.'} />
       </div>
     )

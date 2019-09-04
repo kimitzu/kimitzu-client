@@ -1,0 +1,9 @@
+#title-background {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+#background-history {
+    padding-top: 2%;
+    padding-bottom: 1%;
+}

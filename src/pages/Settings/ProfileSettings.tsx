@@ -1,6 +1,7 @@
 import isElectron from 'is-electron'
 import React, { Component, ReactNode } from 'react'
 
+import { Accordion } from '../../components/Accordion'
 import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
 import {
@@ -8,6 +9,7 @@ import {
   ModeratorForm,
   ModeratorSelectionForm,
   RegistrationForm,
+  TagsForm,
 } from '../../components/Form'
 
 import Axios from 'axios'
@@ -21,6 +23,7 @@ import CustomDescriptionForm from '../../components/Form/CustomDescriptionForm'
 import EducationForm from '../../components/Form/EducationForm'
 import EmploymentForm from '../../components/Form/EmploymentForm'
 import { ModeratorInfoModal } from '../../components/Modal'
+import { RoundSelector } from '../../components/RoundSelector'
 import config from '../../config'
 import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
@@ -32,6 +35,7 @@ import Profile from '../../models/Profile'
 import Settings from '../../models/Settings'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../../utils/NestedJSONUpdater'
+import decodeHtml from '../../utils/Unescape'
 
 const cryptoCurrencies = CryptoCurrencies()
 
@@ -76,6 +80,8 @@ interface GeneralProfileState {
   currentParentIndex: number
   currentAction: number
   isAuthenticationActivated: boolean
+  competency: any
+  skills: string[]
   availableModerators: Profile[]
   selectedModerators: Profile[]
   originalModerators: Profile[]
@@ -100,6 +106,48 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       avatar: '',
       profile,
       isAuthenticationActivated: false,
+      competency: {
+        'Computer Science': {
+          'Data Structures': -1,
+          Algorithms: -1,
+          'Systems Programming': -1,
+        },
+        'Software Engineering': {
+          'Source Code Version Control': -1,
+          'Build Automation': -1,
+          'Automated Testing': -1,
+        },
+        Programming: {
+          'Problem Decomposition': -1,
+          'Systems Decomposition': -1,
+          Communication: -1,
+          'Code Organization Within A File': -1,
+          'Code Organization Across Files': -1,
+          'Source Tree Organization': -1,
+          'Code Readability': -1,
+          'Defensive Coding': -1,
+          'Error Handling': -1,
+          IDE: -1,
+          API: -1,
+          Frameworks: -1,
+          Requirements: -1,
+          Scripting: -1,
+          Database: -1,
+        },
+        Experience: {
+          'Languages With Professional Experience': -1,
+          'Platforms With Professional Experience': -1,
+          'Years Of Professional Experience': -1,
+        },
+        Knowledge: {
+          'Tool Knowledge': -1,
+          'Languages Exposed To': -1,
+          'Knowledge Of Upcoming Technologies': -1,
+          Books: -1,
+          Blogs: -1,
+        },
+      },
+      skills: [],
       hasFetchedAModerator: false,
       originalModerators: [],
       availableModerators: [],
@@ -121,15 +169,29 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.mapSubcontents = this.mapSubcontents.bind(this)
     this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this)
     this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
+    this.handleRoundSelector = this.handleRoundSelector.bind(this)
     this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
     this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
     this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
     this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
+    this.handleCompetencySubmit = this.handleCompetencySubmit.bind(this)
   }
 
   public async componentDidMount() {
     try {
       const profileData = await Profile.retrieve()
+
+      if (!profileData.customProps.programmerCompetency) {
+        profileData.customProps.programmerCompetency = '{}'
+      }
+
+      if (!profileData.customProps.skills) {
+        profileData.customProps.skills = '[]'
+      }
+
+      const competency = JSON.parse(decodeHtml(profileData.customProps.programmerCompetency))
+      const skills = JSON.parse(decodeHtml(profileData.customProps.skills))
+
       const isAuthenticationActivated = await Profile.isAuthenticationActivated()
 
       const settings = await Settings.retrieve()
@@ -139,6 +201,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
 
       this.setState({
+        competency: { ...this.state.competency, ...competency },
+        skills,
         profile: profileData,
         isAuthenticationActivated,
         settings,
@@ -170,8 +234,32 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     }
   }
 
+  public handleRoundSelector(title, key, index) {
+    const compTemp = this.state.competency
+    if (compTemp[title][key] !== index) {
+      compTemp[title][key] = index
+    } else {
+      compTemp[title][key] = -1
+    }
+    this.setState({ competency: compTemp })
+  }
+
+  public async handleCompetencySubmit() {
+    this.setState({
+      isSubmitting: true,
+    })
+    this.state.profile.customProps.programmerCompetency = JSON.stringify({
+      ...this.state.competency,
+    })
+    await this.state.profile.update()
+    this.setState({
+      isSubmitting: false,
+    })
+    window.UIkit.notification('Programming Competency Updated', { status: 'success' })
+  }
+
   get mainContents() {
-    const { avatar, isSubmitting, profile: registrationForm } = this.state
+    const { avatar, isSubmitting, profile: registrationForm, competency } = this.state
     const { handleChange, handleFormSubmit, handleSelectAddress, handleChangeAction } = this
 
     const security = [
@@ -194,6 +282,64 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           </div>
         ),
         label: 'Authentication',
+      },
+    ]
+
+    const skills = [
+      {
+        title: 'Computer Science',
+        component: (
+          <RoundSelector
+            handleSelect={this.handleRoundSelector}
+            title="Computer Science"
+            choices={Object.keys(this.state.competency['Computer Science'])}
+            competency={competency}
+          />
+        ),
+      },
+      {
+        title: 'Software Engineering',
+        component: (
+          <RoundSelector
+            handleSelect={this.handleRoundSelector}
+            title="Software Engineering"
+            choices={Object.keys(this.state.competency['Software Engineering'])}
+            competency={competency}
+          />
+        ),
+      },
+      {
+        title: 'Programming',
+        component: (
+          <RoundSelector
+            handleSelect={this.handleRoundSelector}
+            title="Programming"
+            choices={Object.keys(this.state.competency.Programming)}
+            competency={competency}
+          />
+        ),
+      },
+      {
+        title: 'Experience',
+        component: (
+          <RoundSelector
+            handleSelect={this.handleRoundSelector}
+            title="Experience"
+            choices={Object.keys(this.state.competency.Experience)}
+            competency={competency}
+          />
+        ),
+      },
+      {
+        title: 'Knowledge',
+        component: (
+          <RoundSelector
+            handleSelect={this.handleRoundSelector}
+            title="Knowledge"
+            choices={Object.keys(this.state.competency.Knowledge)}
+            competency={competency}
+          />
+        ),
       },
     ]
 
@@ -327,6 +473,51 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         },
       ],
       security,
+      [
+        {
+          component: (
+            <div className="uk-margin-bottom uk-width-1-1">
+              <TagsForm
+                tags={this.state.skills}
+                formLabel={'SKILLS'}
+                submitLabel={'SAVE'}
+                onSubmit={async (tags: string[]) => {
+                  this.setState({
+                    skills: tags,
+                  })
+                  this.state.profile.customProps.skills = JSON.stringify(tags)
+                  try {
+                    await this.state.profile.update()
+                    window.UIkit.notification('Skills saved!', {
+                      status: 'success',
+                    })
+                  } catch (e) {
+                    window.UIkit.notification('Error saving: ' + e.message, {
+                      status: 'danger',
+                    })
+                  }
+                }}
+              />
+            </div>
+          ),
+          label: 'General',
+        },
+        {
+          component: (
+            <div id="programming-competency-cont">
+              <Accordion content={skills} />
+              <Button
+                className="uk-button uk-button-primary uk-align-center"
+                onClick={this.handleCompetencySubmit}
+                showSpinner={this.state.isSubmitting}
+              >
+                Save
+              </Button>
+            </div>
+          ),
+          label: 'Programmer Competency',
+        },
+      ],
     ]
   }
 
@@ -436,6 +627,11 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         label: 'Security',
         handler: () => handleSelectParentItem(3),
         subItems: mapSubcontents(3),
+      },
+      {
+        label: 'Skills',
+        handler: () => handleSelectParentItem(4),
+        subItems: mapSubcontents(4),
       },
     ]
     return navItems

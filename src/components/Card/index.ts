@@ -7,6 +7,7 @@ import ModeratorCard from './ModeratorCard'
 import PaymentQRCard from './PaymentQRCard'
 import PayoutCard from './PayoutCard'
 import ProfessionalBackgroundCard from './ProfessionalBackgroundCard'
+import ProgrammersCompetencyCard from './ProgrammersCompetencyCard'
 import RegistrationCard from './RegistrationCard'
 import AddEntryCard from './Settings/AddEntryCard'
 import AddressCard from './Settings/AddressCard'
@@ -36,4 +37,5 @@ export {
   CryptoSelector,
   WalletBalanceCard,
   TransactionsHistoryCard,
+  ProgrammersCompetencyCard,
 }

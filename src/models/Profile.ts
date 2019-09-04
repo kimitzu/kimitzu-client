@@ -8,6 +8,7 @@ import {
   Background,
   Contact,
   CustomDescription,
+  CustomProps,
   EducationHistory,
   EmploymentHistory,
   EXTLocation,
@@ -232,6 +233,10 @@ class Profile implements ProfileSchema {
   public spokenLanguages?: string[] = ['English', 'Tagalog']
   public programmingLanguages?: string[] = ['Javascript', 'Golang', 'C++']
   public customFields: CustomDescription[] = []
+  public customProps: CustomProps = {
+    programmerCompetency: '{}',
+    skills: '[]',
+  }
 
   constructor(props?: ProfileSchema) {
     if (props) {
@@ -260,6 +265,7 @@ class Profile implements ProfileSchema {
     this.location = this.getAddress('primary')
     await Axios.post(`${config.openBazaarHost}/ob/profile`, this)
     await Profile.publish()
+    await Profile.retrieve('', true)
   }
 
   public preSave() {
@@ -283,6 +289,7 @@ class Profile implements ProfileSchema {
     await Profile.publish()
     this.postSave()
     this.extLocation = this.processAddresses(this.extLocation)
+    await Profile.retrieve('', true)
     return this
   }
 

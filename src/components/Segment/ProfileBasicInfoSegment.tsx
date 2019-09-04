@@ -1,8 +1,11 @@
 import React from 'react'
 import Profile from '../../models/Profile'
+import decodeHtml from '../../utils/Unescape'
 import OtherInformationCard from '../Card/OtherInformationCard'
 import ProfessionalBackgroundCard from '../Card/ProfessionalBackgroundCard'
+import ProgrammersCompetencyCard from '../Card/ProgrammersCompetencyCard'
 import SocialMediaCard from '../Card/SocialMediaCard'
+import TagsCard from '../Card/TagsCard'
 
 interface Props {
   profile: Profile
@@ -24,6 +27,12 @@ const ProfileBasicInfoSegment = ({ profile }: Props) => (
       <ProfessionalBackgroundCard data={profile.background} name="Work History" />
     ) : null}
     <OtherInformationCard data={profile} />
+    {JSON.parse(decodeHtml(profile.customProps.skills)).length > 1 ? (
+      <TagsCard name="Skills" data={JSON.parse(decodeHtml(profile.customProps.skills))} />
+    ) : null}
+    {JSON.parse(decodeHtml(profile.customProps.programmerCompetency)) !== '{}' ? (
+      <ProgrammersCompetencyCard data={profile} />
+    ) : null}
   </div>
 )
 

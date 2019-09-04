@@ -28,6 +28,12 @@ export interface Profile {
   spokenLanguages?: string[]
   programmingLanguages?: string[]
   customFields: CustomDescription[]
+  customProps: CustomProps
+}
+
+export interface CustomProps {
+  programmerCompetency: string
+  skills: string
 }
 
 export interface EXTLocation {

@@ -126,7 +126,10 @@ class App extends React.Component<{}, State> {
     } catch (error) {
       if (error.response) {
         window.clearInterval(this.timer)
-        this.setState({ isServerConnected: true, showSignup: error.response.status === 404 })
+        this.setState({
+          isServerConnected: true,
+          showSignup: error.response.status === 404 || error.response.status === 500,
+        })
       }
       this.setState({ isReady: true })
     }

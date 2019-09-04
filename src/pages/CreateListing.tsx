@@ -194,8 +194,14 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <TagsForm
-            handleInputChange={handleInputChange}
-            handleContinue={handleSubmitForm}
+            onSubmit={tags => {
+              const listing = this.state.listing
+              listing.item.tags = tags
+              this.setState({
+                listing,
+              })
+              this.handleSubmitForm()
+            }}
             tags={this.state.listing.item.tags}
           />
         ),

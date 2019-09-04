@@ -4,32 +4,47 @@ import 'react-tagsinput/react-tagsinput.css'
 
 import { FormLabel } from '../Label'
 
+import { Button } from '../Button'
 import './TagsForm.css'
 
 interface Props {
   tags: string[]
-  handleContinue: (event: React.FormEvent) => void
-  handleInputChange: (field: string, value: any, parentField?: string) => void
+  onSubmit: (tags: string[]) => void
+  submitLabel?: string
+  formLabel?: string
 }
 
-const TagsForm = ({ tags, handleInputChange, handleContinue }: Props) => {
+const TagsForm = ({ tags, onSubmit, submitLabel, formLabel }: Props) => {
+  const [rawTags, setRawTags] = useState(tags)
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
-    <form className="uk-form-stacked uk-flex uk-flex-column full-width">
+    <form
+      className="uk-form-stacked uk-flex uk-flex-column full-width"
+      onSubmit={async evt => {
+        evt.preventDefault()
+        setIsLoading(true)
+        await onSubmit(rawTags)
+        setIsLoading(false)
+      }}
+    >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="TAGS" required />
+          <FormLabel label={formLabel ? formLabel.toUpperCase() : 'TAGS'} required />
           <TagsInput
             inputProps={{ id: 'tags' }}
-            value={tags}
-            onChange={changedTags => handleInputChange('item.tags', changedTags, 'listing')}
+            value={rawTags}
+            onChange={changedTags => {
+              setRawTags(changedTags)
+            }}
           />
-          <label className="form-label-desciptor">Press "Enter" to add a tag</label>
+          <label className="form-label-desciptor">Press "Enter" to add an entry</label>
         </div>
       </fieldset>
       <div className="submit-btn-div">
-        <button className="uk-button uk-button-primary" onClick={handleContinue}>
-          CONTINUE
-        </button>
+        <Button className="uk-button uk-button-primary" showSpinner={isLoading}>
+          {submitLabel || 'CONTINUE'}
+        </Button>
       </div>
     </form>
   )
