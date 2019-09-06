@@ -26,7 +26,7 @@ const EmploymentCard = ({ history }: EmploymentCardProps) => {
   return (
     <div>
       <h4>{history.company}</h4>
-      <p className="body-text-default uk-text-bold">{history.position}</p>
+      <p className="body-text-default uk-text-bold">{history.role}</p>
       {history.period ? (
         <p className="body-text-default">
           {from} to {to}

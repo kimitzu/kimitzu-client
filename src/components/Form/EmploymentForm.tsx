@@ -22,7 +22,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
   const employmentHistory = profile.background!.employmentHistory
   const defaultObject = {
     company: '',
-    position: '',
+    role: '',
     description: '',
     location: {
       city: '',
@@ -91,11 +91,11 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
           <input
             className="uk-input"
             type="text"
-            value={employment.position}
+            value={employment.role}
             placeholder="Position/Rank in the company"
             required
             onChange={evt => {
-              handleChange('position', evt.target.value)
+              handleChange('role', evt.target.value)
             }}
           />
         </div>

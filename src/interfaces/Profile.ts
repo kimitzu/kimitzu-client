@@ -94,7 +94,7 @@ export interface EmploymentHistory {
   company: string
   description: string
   location: Location
-  position: string
+  role: string
   period: Timespan
 }
 
