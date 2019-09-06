@@ -12,9 +12,11 @@ interface Props {
   onSubmit: (tags: string[]) => void
   submitLabel?: string
   formLabel?: string
+  handleFullSubmit?: (event: React.FormEvent) => void
+  isNew?: boolean
 }
 
-const TagsForm = ({ tags, onSubmit, submitLabel, formLabel }: Props) => {
+const TagsForm = ({ tags, onSubmit, submitLabel, formLabel, isNew, handleFullSubmit }: Props) => {
   const [rawTags, setRawTags] = useState(tags)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -42,8 +44,20 @@ const TagsForm = ({ tags, onSubmit, submitLabel, formLabel }: Props) => {
         </div>
       </fieldset>
       <div className="submit-btn-div">
-        <Button className="uk-button uk-button-primary" showSpinner={isLoading}>
-          {submitLabel || 'CONTINUE'}
+        {!isNew ? (
+          <button
+            className="uk-button uk-button-primary uk-margin-small-right"
+            onClick={handleFullSubmit}
+          >
+            UPDATE LISTING
+          </button>
+        ) : null}
+        <Button
+          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          type="submit"
+          showSpinner={isLoading}
+        >
+          {submitLabel || 'NEXT'}
         </Button>
       </div>
     </form>

@@ -175,6 +175,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
     this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
     this.handleCompetencySubmit = this.handleCompetencySubmit.bind(this)
+    this.handleCompetencyReset = this.handleCompetencyReset.bind(this)
   }
 
   public async componentDidMount() {
@@ -242,6 +243,23 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       compTemp[title][key] = -1
     }
     this.setState({ competency: compTemp })
+  }
+
+  public handleCompetencyReset() {
+    const competencies = this.state.competency
+    const mainCategories = Object.keys(competencies)
+    mainCategories.forEach(mainCategory => {
+      const subCategories = Object.keys(competencies[mainCategory])
+      subCategories.forEach(subCategory => {
+        competencies[mainCategory][subCategory] = -1
+      })
+    })
+    this.setState({
+      competency: competencies,
+    })
+    window.UIkit.notification(`Competencies cleared.<br/>Don't forget to save your changes.`, {
+      status: 'success',
+    })
   }
 
   public async handleCompetencySubmit() {
@@ -506,13 +524,21 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           component: (
             <div id="programming-competency-cont">
               <Accordion content={skills} />
-              <Button
-                className="uk-button uk-button-primary uk-align-center"
-                onClick={this.handleCompetencySubmit}
-                showSpinner={this.state.isSubmitting}
-              >
-                Save
-              </Button>
+              <div className="uk-flex uk-flex-row uk-flex-center uk-margin-top">
+                <Button
+                  className="uk-button uk-button-default uk-margin-right"
+                  onClick={this.handleCompetencyReset}
+                >
+                  Clear
+                </Button>
+                <Button
+                  className="uk-button uk-button-primary"
+                  onClick={this.handleCompetencySubmit}
+                  showSpinner={this.state.isSubmitting}
+                >
+                  Save
+                </Button>
+              </div>
             </div>
           ),
           label: 'Programmer Competency',

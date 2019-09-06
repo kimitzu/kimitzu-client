@@ -136,6 +136,10 @@ class Search implements State {
     PAGE_BACKWARD: -1,
   }
 
+  public constructor() {
+    this.saveAsOriginal()
+  }
+
   public async clearSearch() {
     const searchResults = {
       data: [],
@@ -182,7 +186,11 @@ class Search implements State {
   }
 
   public reset() {
-    Object.assign(this, this.original)
+    /**
+     * Prevent mutation of `this.original` object due to Object.assign()
+     */
+    const originalClone = JSON.parse(JSON.stringify(this.original))
+    Object.assign(this, originalClone)
     return this
   }
 
@@ -274,4 +282,5 @@ class Search implements State {
   }
 }
 
-export default Search
+const searchInstance = new Search()
+export { searchInstance, Search }

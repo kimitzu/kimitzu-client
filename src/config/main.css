@@ -149,3 +149,11 @@ a:hover {
 #programming-competency-cont {
   width: 100%;
 }
+
+.bold-nav {
+  font-weight: bold;
+}
+
+.uk-tab>.uk-active>a {
+  color: dodgerblue !important;
+}

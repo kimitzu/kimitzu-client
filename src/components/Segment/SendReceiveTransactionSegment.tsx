@@ -45,13 +45,13 @@ const SendReceiveTransactionSegment = ({
             className={currentAction === actions.SEND ? 'uk-active' : ''}
             onClick={() => setCurrentAction(actions.SEND)}
           >
-            <a>Send</a>
+            <a className="bold-nav">Send</a>
           </li>
           <li
             className={currentAction === actions.RECEIVE ? 'uk-active' : ''}
             onClick={() => setCurrentAction(actions.RECEIVE)}
           >
-            <a>Receive</a>
+            <a className="bold-nav">Receive</a>
           </li>
         </ul>
       </div>

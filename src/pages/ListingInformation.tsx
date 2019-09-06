@@ -85,6 +85,7 @@ class ListingProfile extends Component<Props, State> {
 
     const rating = Math.floor(listing.averageRating)
     const ratingStars: JSX.Element[] = []
+    const skills = JSON.parse(decodeHtml(profile.customProps.skills)) as string[]
 
     for (let index = 0; index < 5; index++) {
       if (index < rating) {
@@ -151,20 +152,21 @@ class ListingProfile extends Component<Props, State> {
                 <div className="uk-text-small">
                   Type:{' '}
                   <p className="uk-display-inline uk-text-bold">{listing.metadata.contractType}</p>
-                  &nbsp; &nbsp; Classification:{' '}
-                  <p className="uk-display-inline uk-text-bold uk-text-capitalize">
-                    {ServiceTypes[listing.metadata.serviceClassification!]}
-                  </p>
+                  {listing.metadata.serviceClassification ? (
+                    <div>
+                      {'  '} Classification:{' '}
+                      <p className="uk-display-inline uk-text-bold uk-text-capitalize">
+                        {ServiceTypes[listing.metadata.serviceClassification]}
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
-                <div id="starsContainer" className="uk-margin-small-top">
-                  {ratingStars}
-                  <a id="rating" className="text-blue uk-margin-left uk-text-bold rating">
-                    {rating} star{rating !== 1 ? 's' : ''}
-                  </a>
+                <div
+                  id="starsContainer"
+                  className="uk-margin-small-top uk-flex uk-flex-row uk-flex-middle"
+                >
+                  {ratingStars} <p className="uk-margin-small-left">({rating.toFixed(1)})</p>
                 </div>
-                <a className="uk-text-small text-blue uk-margin-small-top">
-                  How ratings are calculated
-                </a>
                 <br />
                 <hr />
                 <p className="priceSize uk-margin-small-top uk-text-uppercase">
@@ -266,8 +268,8 @@ class ListingProfile extends Component<Props, State> {
         {background && background.employmentHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name="Work History" />
         ) : null}
-        <TagsCard data={spokenLanguages || []} name="Spoken Langguages" />
-        <TagsCard name="Skills" data={JSON.parse(decodeHtml(profile.customProps.skills))} />
+        <TagsCard data={spokenLanguages || []} name="Spoken Languages" />
+        {skills.length > 0 ? <TagsCard name="Skills" data={skills} /> : null}
         {profile.customProps.programmerCompetency !== '{}' ? (
           <div className="uk-margin-bottom">
             <ProgrammersCompetencyCard data={profile} />

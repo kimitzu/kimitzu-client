@@ -38,9 +38,11 @@ const currencies = [
 interface Props {
   data: Listing
   handleContinue: (event: React.FormEvent) => void
+  handleFullSubmit: (event: React.FormEvent) => void
+  isNew: boolean
 }
 
-const ListingGeneralForm = ({ data, handleContinue }: Props) => {
+const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: Props) => {
   const skuPointer = data.item.skus[0]
 
   const [listing, setListing] = useState(data)
@@ -240,8 +242,19 @@ const ListingGeneralForm = ({ data, handleContinue }: Props) => {
         </div>
       </fieldset>
       <div className="submit-btn-div">
-        <button className="uk-button uk-button-primary" onClick={handleContinue}>
-          CONTINUE
+        {!isNew ? (
+          <button
+            className="uk-button uk-button-primary uk-margin-small-right"
+            onClick={handleFullSubmit}
+          >
+            UPDATE LISTING
+          </button>
+        ) : null}
+        <button
+          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          onClick={handleContinue}
+        >
+          NEXT
         </button>
       </div>
     </form>

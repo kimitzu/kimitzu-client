@@ -630,11 +630,17 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   }`}
                   icon="check"
                 >
-                  <p className="color-secondary">
-                    {order.paymentAddressTransactions[0].confirmations} confirmations.{' '}
-                    {order.paymentAddressTransactions[0].txid.substr(0, 10)}...{' '}
-                    <a className="text-underline uk-margin-small-left">Paid in Full</a>
-                  </p>
+                  {order.paymentAddressTransactions.map(paymentTx => {
+                    return (
+                      <p key={paymentTx.txid} className="color-secondary">
+                        {paymentTx.value / 100000000} {order.contract.buyerOrder.payment.coin} -{' '}
+                        {paymentTx.confirmations} confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
+                        {order.paymentAddressTransactions.length > 1
+                          ? 'Partial Payment'
+                          : 'Full Payment'}
+                      </p>
+                    )
+                  })}
                 </SimpleBorderedSegment>
               </OrderSummaryItemSegment>
             </div>

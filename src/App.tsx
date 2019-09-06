@@ -29,10 +29,12 @@ interface State {
   isServerConnected: boolean
   showSignup: boolean
   isAuthenticated: boolean
+  secondTimer: number
 }
 
 class App extends React.Component<{}, State> {
-  private timer: number = 0
+  private intervalTimer: number = 0
+  private timeoutTimer: number = 0
 
   constructor(props) {
     super(props)
@@ -42,15 +44,14 @@ class App extends React.Component<{}, State> {
       isServerConnected: false,
       showSignup: false,
       isAuthenticated: true,
+      secondTimer: 5,
     }
     this.connect = this.connect.bind(this)
     this.renderContent = this.renderContent.bind(this)
   }
 
   public async componentDidMount() {
-    this.timer = window.setInterval(async () => {
-      await this.connect()
-    }, 5000)
+    await this.connect()
 
     setTimeout(() => {
       this.setState({ height: window.innerHeight })
@@ -72,9 +73,7 @@ class App extends React.Component<{}, State> {
           />
           <h4 className="uk-text-danger">We could not connect to your server.</h4>
           <h4 className="uk-text-danger">Please make sure that the Djali Server is running. </h4>
-          <a className="text-underline" onClick={this.connect}>
-            Try again
-          </a>
+          <p className="uk-margin-large-top">Retrying in {this.state.secondTimer}s...</p>
         </div>
       )
     }
@@ -102,6 +101,7 @@ class App extends React.Component<{}, State> {
     } else if (!isAuthenticated) {
       return <Login />
     }
+
     return (
       <>
         <Routes />
@@ -112,11 +112,11 @@ class App extends React.Component<{}, State> {
 
   private async connect() {
     this.setState({ isReady: false, isServerConnected: false })
+    window.clearInterval(this.intervalTimer)
+
     try {
       await Profile.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
-
-      window.clearInterval(this.timer)
 
       this.setState({
         isReady: true,
@@ -125,12 +125,33 @@ class App extends React.Component<{}, State> {
       })
     } catch (error) {
       if (error.response) {
-        window.clearInterval(this.timer)
+        /**
+         * Connection to server is successful but profile is not found.
+         * Possibly a new Djali instance, so show registration page.
+         */
+        window.clearInterval(this.intervalTimer)
         this.setState({
           isServerConnected: true,
           showSignup: error.response.status === 404 || error.response.status === 500,
         })
+      } else {
+        this.intervalTimer = window.setInterval(() => {
+          let timer = this.state.secondTimer
+          if (timer <= 1) {
+            timer = 5
+          } else {
+            timer -= 1
+          }
+          this.setState({
+            secondTimer: timer,
+          })
+        }, 1000)
+
+        this.timeoutTimer = window.setTimeout(async () => {
+          await this.connect()
+        }, 5000)
       }
+
       this.setState({ isReady: true })
     }
   }

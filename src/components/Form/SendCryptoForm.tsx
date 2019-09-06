@@ -58,7 +58,11 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
               inputProps={{
                 type: 'number',
                 value: amount,
-                onChange: e => setAmount(e.target.value),
+                onChange: e => {
+                  if (Number(e.target.value) >= 0) {
+                    setAmount(e.target.value)
+                  }
+                },
                 required: true,
               }}
               selectProps={{ disabled: true }}

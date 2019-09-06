@@ -40,7 +40,7 @@ const createWindow = async () => {
     autoHideMenuBar: true,
     frame: false,
     webPreferences: {
-      devTools: isDev,
+      devTools: true,
       nodeIntegration: false,
       preload: __dirname + '/preload.js',
     },

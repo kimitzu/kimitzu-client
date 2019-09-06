@@ -65,7 +65,7 @@ const Filter = ({
     >
       <legend className="uk-legend">FILTERS</legend>
       <div className="uk-margin">
-        <FormLabel label="Occupation" />
+        <FormLabel label="OCCUPATION" />
         <div id="form-select" className="uk-form-controls">
           <AutoCompleteSelect
             options={serviceTypes}
@@ -79,7 +79,6 @@ const Filter = ({
       <p> PRICE RANGE </p>
       <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
         <div className="uk-inline">
-          {/* <span className="uk-form-icon" data-uk-icon="" /> */}
           <input
             className="uk-input"
             type="number"
@@ -89,7 +88,6 @@ const Filter = ({
         </div>
         <span data-uk-icon="icon: triangle-right; ratio: 2" />
         <div className="uk-inline">
-          {/* <span className="uk-form-icon" data-uk-icon="" /> */}
           <input
             className="uk-input"
             type="number"
@@ -178,7 +176,11 @@ const Filter = ({
           />
         </div>
       </div>
-      <button type="reset" className="uk-button uk-button-default" onClick={onFilterReset}>
+      <button
+        type="reset"
+        className="uk-button uk-button-default uk-margin-small-right"
+        onClick={onFilterReset}
+      >
         Reset
       </button>
       <button type="submit" className="uk-button uk-button-primary">

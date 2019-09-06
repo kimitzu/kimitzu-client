@@ -148,6 +148,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             key={this.state.listing.metadata.serviceClassification}
             data={this.state.listing}
             handleContinue={handleSubmitForm}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'General',
@@ -161,6 +163,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
               this.state.listing.location = location
               handleSubmitForm()
             }}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'Location',
@@ -175,6 +179,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
                 tempImages: [...images],
               })
             }}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'Photos',
@@ -203,6 +209,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
               this.handleSubmitForm()
             }}
             tags={this.state.listing.item.tags}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'Tags',
@@ -217,6 +225,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleModeratorSearch={this.handleModeratorSearch}
             handleMoreInfo={handleShowModeratorModal}
             showSpinner={!hasFetchedAModerator}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'Moderators',
@@ -227,6 +237,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleInputChange={handleInputChange}
             handleContinue={handleSubmitForm}
             termsAndConditions={this.state.listing.termsAndConditions}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'Terms and Conditions',
@@ -239,6 +251,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleContinue={handleSubmitForm}
             handleInputChange={handleInputChange}
             handleRemoveRow={handleRemoveRow}
+            isNew={this.state.isListingNew}
+            handleFullSubmit={this.handleFullSubmit}
           />
         ),
         title: 'Coupons',
@@ -384,7 +398,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         <SideMenuWithContentCard
           mainContentTitle={currentForm.title}
           menuContent={{
-            title: 'CREATE LISTING',
+            title: this.state.isListingNew ? 'CREATE LISTING' : 'UPDATE LISTING',
             navItems,
           }}
           mainContent={currentForm.component}

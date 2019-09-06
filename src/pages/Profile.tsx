@@ -5,7 +5,7 @@ import { ProfileHeader } from '../components/Header'
 import { ProfileSwitcher } from '../components/Switcher'
 
 import Profile from '../models/Profile'
-import Search from '../models/Search'
+import { Search, searchInstance } from '../models/Search'
 
 interface ProfilePageState {
   profile: Profile
@@ -23,10 +23,10 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
   constructor(props: any) {
     super(props)
     const profile = new Profile()
-    const search = new Search()
+
     this.state = {
       profile,
-      search,
+      search: searchInstance,
       isOwner: false,
     }
   }

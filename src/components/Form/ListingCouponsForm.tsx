@@ -29,6 +29,8 @@ interface Props {
   handleAddCoupon: () => void
   handleContinue: (event: React.FormEvent) => void
   handleRemoveRow: (type: string, index: number) => void
+  handleFullSubmit: (event: React.FormEvent) => void
+  isNew: boolean
 }
 
 const ListingCouponsForm = ({
@@ -37,6 +39,8 @@ const ListingCouponsForm = ({
   handleContinue,
   handleInputChange,
   handleRemoveRow,
+  isNew,
+  handleFullSubmit,
 }: Props) => {
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
@@ -127,8 +131,19 @@ const ListingCouponsForm = ({
         </div>
       </fieldset>
       <div className="submit-btn-div">
-        <button className="uk-button uk-button-primary" onClick={handleContinue}>
-          CONTINUE
+        {!isNew ? (
+          <button
+            className="uk-button uk-button-primary uk-margin-small-right"
+            onClick={handleFullSubmit}
+          >
+            UPDATE LISTING
+          </button>
+        ) : null}
+        <button
+          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          onClick={handleContinue}
+        >
+          NEXT
         </button>
       </div>
     </form>

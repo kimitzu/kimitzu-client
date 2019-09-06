@@ -7,9 +7,17 @@ interface Props {
   handleContinue: (event: React.FormEvent) => void
   images: string[]
   onChange: (images: string[]) => void
+  handleFullSubmit: (event: React.FormEvent) => void
+  isNew: boolean
 }
 
-const ListingPhotosForm = ({ images, handleContinue, onChange }: Props) => {
+const ListingPhotosForm = ({
+  images,
+  handleContinue,
+  onChange,
+  isNew,
+  handleFullSubmit,
+}: Props) => {
   return (
     <form className="uk-form-stacked  uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
@@ -19,8 +27,19 @@ const ListingPhotosForm = ({ images, handleContinue, onChange }: Props) => {
         </div>
       </fieldset>
       <div className="submit-btn-div">
-        <button className="uk-button uk-button-primary" onClick={handleContinue}>
-          CONTINUE
+        {!isNew ? (
+          <button
+            className="uk-button uk-button-primary uk-margin-small-right"
+            onClick={handleFullSubmit}
+          >
+            UPDATE LISTING
+          </button>
+        ) : null}
+        <button
+          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          onClick={handleContinue}
+        >
+          NEXT
         </button>
       </div>
     </form>

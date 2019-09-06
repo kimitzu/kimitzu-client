@@ -16,6 +16,8 @@ interface Props {
   handleSubmit: () => void
   showSpinner?: boolean
   submitLabel?: string
+  handleFullSubmit?: (event: React.FormEvent) => void
+  isNew?: boolean
 }
 
 const ModeratorSelectionForm = ({
@@ -27,6 +29,8 @@ const ModeratorSelectionForm = ({
   selectedModerators,
   showSpinner,
   submitLabel,
+  handleFullSubmit,
+  isNew,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   return (
@@ -124,8 +128,19 @@ const ModeratorSelectionForm = ({
         ))}
       </div>
       <div className="submit-btn-div uk-margin-top">
-        <button className="uk-button uk-button-primary" onClick={handleSubmit}>
-          {submitLabel || 'CONTINUE'}
+        {!isNew ? (
+          <button
+            className="uk-button uk-button-primary uk-margin-small-right"
+            onClick={handleFullSubmit}
+          >
+            UPDATE LISTING
+          </button>
+        ) : null}
+        <button
+          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          onClick={handleSubmit}
+        >
+          {submitLabel || 'NEXT'}
         </button>
       </div>
     </div>

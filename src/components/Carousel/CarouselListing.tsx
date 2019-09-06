@@ -12,19 +12,25 @@ interface Props {
 
 const CarouselListing = ({ data }: Props) => {
   let defaultSrc = ''
+  const [id, setID] = useState('')
+  const [src, setSrc] = useState(defaultSrc)
+  const [runOnce, setRunOnce] = useState(true)
 
   useEffect(() => {
+    if (data.length < 1) {
+      data = [{ src: `${process.env.PUBLIC_URL}/images/pictureBig.png` }]
+      defaultSrc = data[0].src
+      setSrc(defaultSrc)
+      simulateClick('img1')
+    }
+
     if (data.length !== 0 && runOnce) {
       defaultSrc = data[0].src
       simulateClick('img1')
     }
   })
 
-  const [id, setID] = useState('')
-  const [src, setSrc] = useState(defaultSrc)
-  const [runOnce, setRunOnce] = useState(true)
-
-  function test(idFocus: number, imgSrc: string) {
+  function prepareImage(idFocus: number, imgSrc: string) {
     setID('img' + idFocus)
     setSrc(imgSrc)
     setRunOnce(false)
@@ -111,7 +117,7 @@ const CarouselListing = ({ data }: Props) => {
               <li
                 key={'img' + i}
                 id={'img' + i}
-                onClick={() => test(i, img.src)}
+                onClick={() => prepareImage(i, img.src)}
                 className="imageListLi"
               >
                 <img

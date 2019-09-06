@@ -32,8 +32,10 @@ interface Props {
   updateIndex?: number
   isListing?: boolean
   data?: Location
+  isNew?: boolean
   handleSave: (location: Location, index?: number) => void
   handleDelete?: (location: Location, index: number) => void
+  handleFullSubmit?: (event: React.FormEvent) => void
 }
 
 const AddressForm = ({
@@ -42,6 +44,8 @@ const AddressForm = ({
   handleSave,
   data,
   handleDelete,
+  isNew,
+  handleFullSubmit,
 }: Props) => {
   const baseLocationObject = {
     latitude: '',
@@ -227,8 +231,19 @@ const AddressForm = ({
             DELETE
           </button>
         ) : null}
-        <button className="uk-button uk-button-primary" type="submit">
-          {isListing ? 'CONTINUE' : 'SAVE'}
+        {!isNew ? (
+          <button
+            className="uk-button uk-button-primary uk-margin-small-right"
+            onClick={handleFullSubmit}
+          >
+            UPDATE LISTING
+          </button>
+        ) : null}
+        <button
+          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          type="submit"
+        >
+          {isListing ? 'NEXT' : 'SAVE'}
         </button>
       </div>
     </form>

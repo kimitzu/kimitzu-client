@@ -9,7 +9,7 @@ import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
 import SortOptions from '../constants/SortOptions.json'
 import Profile from '../models/Profile'
-import Search from '../models/Search'
+import { Search, searchInstance } from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
@@ -29,11 +29,10 @@ interface HomeState {
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
     super(props)
-    const search = new Search()
     const profile = new Profile()
 
     this.state = {
-      search,
+      search: searchInstance,
       rating: 0,
       profile,
     }
@@ -268,6 +267,7 @@ class Home extends Component<HomeProps, HomeState> {
     const search = await this.state.search.execute()
     this.setState({
       search,
+      rating: 0,
     })
   }
 

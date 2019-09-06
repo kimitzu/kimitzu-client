@@ -43,7 +43,8 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
                 className="uk-search-icon-flip color-primary"
                 uk-icon="icon: search"
                 data-uk-search-icon
-                onClick={() => {
+                onClick={event => {
+                  event.preventDefault()
                   onSearchSubmit(true)
                 }}
               />
@@ -51,7 +52,7 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
                 id="search-bar"
                 className="uk-search-input"
                 type="search"
-                placeholder="What are you looking for? Enter query or Profile ID."
+                placeholder="What are you looking for?"
                 onChange={event => onQueryChange('query', event.target.value, 'search')}
               />
             </form>
