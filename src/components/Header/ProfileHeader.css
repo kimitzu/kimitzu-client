@@ -54,8 +54,11 @@
 #container-profile {
   margin-bottom: 2rem;
   background-color: #f1f9ff;
-  padding: 2rem 10% 2rem 10%;
 }
 #container-profile > li {
   min-height: 45vh;
+  padding: 2rem 10%;
+}
+#container-profile > li#profile-ratings {
+  padding: 0;
 }

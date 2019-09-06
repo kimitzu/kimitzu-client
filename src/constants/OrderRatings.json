@@ -15,21 +15,21 @@
   },
   {
     "index": 2,
-    "fieldName": "asAdvertised",
+    "fieldName": "description",
     "title": "As Advertised",
     "value": 0,
     "starCount": 5
   },
   {
     "index": 3,
-    "fieldName": "delivery",
+    "fieldName": "deliverySpeed",
     "title": "Delivery",
     "value": 0,
     "starCount": 5
   },
   {
     "index": 4,
-    "fieldName": "service",
+    "fieldName": "customerService",
     "title": "Service",
     "value": 0,
     "starCount": 5

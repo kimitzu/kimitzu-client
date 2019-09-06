@@ -2,28 +2,32 @@
   {
     "index": 0,
     "fieldName": "compensationFairness",
-    "title": "Client pays for work outside of the initial scope without complaint",
+    "title": "Fairness",
+    "description": "Client pays for work outside of the initial scope without complaint",
     "value": 0,
     "starCount": 5
   },
   {
     "index": 1,
     "fieldName": "carefulReader",
-    "title": "Client read the service listing carefully",
+    "title": "Careful Reader",
+    "description": "Client read the service listing carefully",
     "value": 0,
     "starCount": 5
   },
   {
     "index": 2,
     "fieldName": "accurateWorkDescription",
-    "title": "Client described the scope and nature of the work accurately",
+    "title": "Accuracy",
+    "description": "Client described the scope and nature of the work accurately",
     "value": 0,
     "starCount": 5
   },
   {
     "index": 3,
     "fieldName": "responsiveness",
-    "title": "Client responded swiftly to questions",
+    "title": "Responsiveness",
+    "description": "Client responded swiftly to questions",
     "value": 0,
     "starCount": 5
   }

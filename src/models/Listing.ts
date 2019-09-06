@@ -16,6 +16,7 @@ import {
   VendorID,
 } from '../interfaces/Listing'
 import Location from '../interfaces/Location'
+import Rating, { RatingSummary } from '../interfaces/Rating'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -217,6 +218,22 @@ class Listing implements ListingInterface {
   public async determineOwnership(): Promise<boolean> {
     const user = await Profile.retrieve()
     return user.peerID === this.vendorID.peerID
+  }
+
+  public async getRatings(): Promise<{ ratingSummary: RatingSummary; ratings: Rating[] }> {
+    const { vendorID, slug } = this
+    const ratingSummaryRequest = await Axios.get(
+      `${config.openBazaarHost}/ob/ratings/${vendorID.peerID}/${slug}`
+    )
+    const ratingSummary = ratingSummaryRequest.data
+    if (!ratingSummary.ratings || ratingSummary.ratings.length === 0) {
+      return { ratingSummary: { average: 0, count: 0, ratings: [], slug: '' }, ratings: [] }
+    }
+    const ratingsRequest = await Axios.post(
+      `${config.openBazaarHost}/ob/fetchratings`,
+      ratingSummary.ratings
+    )
+    return { ratingSummary, ratings: ratingsRequest.data }
   }
 }
 

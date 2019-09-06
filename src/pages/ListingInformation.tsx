@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { Button } from '../components/Button'
 import {
+  InformationCard,
   PayoutCard,
   ProfessionalBackgroundCard,
   ProgrammersCompetencyCard,
@@ -11,13 +12,16 @@ import {
   TermsOfServiceCard,
 } from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
+import { RatingsAndReviewsSegment } from '../components/Segment'
 
 import config from '../config'
 import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
 
+import OrderRatings from '../constants/OrderRatings.json'
 import ServiceTypes from '../constants/ServiceTypes.json'
+import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 
@@ -33,6 +37,8 @@ interface State {
   profile: Profile
   listing: Listing
   quantity: number
+  ratings: Rating[]
+  ratingSummary: RatingSummary
 }
 
 interface RouteProps {
@@ -55,19 +61,36 @@ class ListingProfile extends Component<Props, State> {
       listing,
       profile,
       quantity: 1,
+      ratings: [],
+      ratingSummary: { average: 0, count: 0, ratings: [], slug: '' },
     }
     this.handleBuy = this.handleBuy.bind(this)
   }
 
   public async componentDidMount() {
     const id = this.props.match.params.id
-    const listing = await Listing.retrieve(id)
-
-    this.setState({
-      listing: listing.listing,
-      imageData: listing.imageData,
-      profile: listing.profile,
-    })
+    try {
+      const listingData = await Listing.retrieve(id)
+      const { listing, imageData, profile } = listingData
+      this.setState({
+        listing,
+        imageData,
+        profile,
+      })
+      const { ratingSummary, ratings } = await listing.getRatings()
+      this.setState({ ratings, ratingSummary })
+      const updatedRatings = await Promise.all(
+        ratings.map(async (rating: Rating) => {
+          const userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
+          rating.avatar = userData.getAvatarSrc('small')
+          return rating
+        })
+      )
+      this.setState({ ratings: updatedRatings })
+    } catch (error) {
+      console.log(error)
+      // TODO: Redirect to Not Found page
+    }
   }
 
   get serviceRateMethod() {
@@ -268,6 +291,7 @@ class ListingProfile extends Component<Props, State> {
         {background && background.employmentHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name="Work History" />
         ) : null}
+        {this.renderReviews()}
         <TagsCard data={spokenLanguages || []} name="Spoken Languages" />
         {skills.length > 0 ? <TagsCard name="Skills" data={skills} /> : null}
         {profile.customProps.programmerCompetency !== '{}' ? (
@@ -276,6 +300,27 @@ class ListingProfile extends Component<Props, State> {
           </div>
         ) : null}
         <TermsOfServiceCard data={listing.termsAndConditions || 'Nothing specified.'} />
+      </div>
+    )
+  }
+
+  private renderReviews() {
+    const { ratings, ratingSummary } = this.state
+    const { average, count } = ratingSummary
+    if (count === 0) {
+      return null
+    }
+    return (
+      <div className="uk-margin-top">
+        <InformationCard title={`${count} Review${count > 1 ? 's' : ''}`}>
+          <RatingsAndReviewsSegment
+            totalAverageRating={average}
+            totalReviewCount={count}
+            ratingInputs={OrderRatings}
+            ratings={ratings}
+            inlineSummaryDisplay
+          />
+        </InformationCard>
       </div>
     )
   }

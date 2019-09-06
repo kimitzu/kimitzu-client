@@ -1,11 +1,11 @@
 import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
-import Rating from '../../interfaces/Rating'
+import { RatingInput } from '../../interfaces/Rating'
 import { Button } from '../Button'
 
 interface Props {
   review: string
-  ratings: Rating[]
+  ratings: RatingInput[]
   ratingType: string
   handleChange: (field: any, value: any) => void
   handleStarRatingChange: (index: number, value: number, ratingType: string) => void
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const renderRatings = (
-  ratings: Rating[],
+  ratings: RatingInput[],
   handleStarRatingChange: (index: number, value: number, ratingType: string) => void,
   ratingType: string
 ) => {

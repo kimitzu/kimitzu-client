@@ -13,6 +13,11 @@ interface NavBarProps {
   profile: Profile
 }
 
+const handleReload = () => {
+  window.location.hash = '/'
+  window.location.reload()
+}
+
 const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: NavBarProps) => {
   const [displayLogout, setDisplayLogout] = useState(false)
   useEffect(() => {
@@ -24,7 +29,7 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
   return (
     <nav id="nav" className="uk-navbar-container" data-uk-navbar>
       <div id="navbar-left-item" className="uk-navbar-left">
-        <a className="uk-navbar-item uk-logo" href="/">
+        <a className="uk-navbar-item uk-logo" onClick={handleReload}>
           <img id="logo-img" src="./images/Logo/White/SVG/Djali-White-Horizontal.svg" />
         </a>
       </div>
@@ -97,9 +102,7 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
                   const { webContents } = currentWindow
                   webContents.clearHistory()
                 }
-
-                window.location.hash = '/'
-                window.location.reload()
+                handleReload()
               }}
             >
               <Link to="#">Logout</Link>
