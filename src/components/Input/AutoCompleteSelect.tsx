@@ -114,6 +114,7 @@ const AutoCompleteSelect = ({
         onFocus={toggleDropdown}
         value={inputValue}
         tabIndex={0}
+        autoComplete="off"
       />
       <a id="arrow" data-uk-icon="icon: triangle-down" onClick={toggleDropdown} />
       <div id="option-container" className={dropdownClass} tabIndex={1}>

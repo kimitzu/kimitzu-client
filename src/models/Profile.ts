@@ -17,6 +17,7 @@ import {
   Profile as ProfileSchema,
   Stats,
 } from '../interfaces/Profile'
+import Rating, { RatingSummary } from '../interfaces/Rating'
 
 import defaults from '../constants/Defaults'
 
@@ -98,6 +99,22 @@ class Profile implements ProfileSchema {
 
   public static async publish(): Promise<void> {
     await Axios.post(`${config.openBazaarHost}/ob/publish`, {})
+  }
+
+  public static async getRatings(
+    id: string
+  ): Promise<{ ratingsSummary: RatingSummary; ratings: Rating[] }> {
+    const ratingsSummaryData = await Axios.get(`${config.openBazaarHost}/ob/ratings/${id}`)
+    const ratingsSummary = ratingsSummaryData.data
+    let ratings = []
+    if (ratingsSummary.ratings && ratingsSummary.ratings.length > 0) {
+      const ratingsResponse = await Axios.post(
+        `${config.openBazaarHost}/ob/fetchratings`,
+        ratingsSummary.ratings
+      )
+      ratings = ratingsResponse.data
+    }
+    return { ratingsSummary, ratings }
   }
 
   public static async retrieve(id?: string, force?: boolean): Promise<Profile> {

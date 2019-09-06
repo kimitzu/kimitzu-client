@@ -55,6 +55,11 @@ const ProfileHeader = ({ profile, isOwner }: ViewProfileInterface) => {
             </li>
             <li>
               <a href="#" id="tab-label">
+                Ratings
+              </a>
+            </li>
+            <li>
+              <a href="#" id="tab-label">
                 Followers <span id="label-number"> {profile.stats!.followerCount} </span>
               </a>
             </li>

@@ -1,4 +1,5 @@
 import Profile from '../models/Profile'
+import Rating, { RatingData } from './Rating'
 
 export interface Order {
   contract: Contract
@@ -149,39 +150,6 @@ export interface BuyerOrderCompletion {
   ratings: Rating[]
 }
 
-export interface Rating {
-  ratingData: RatingData
-  signature: string
-}
-
-export interface RatingData {
-  ratingKey: string
-  vendorID: RID
-  vendorSig: RatingSignature
-  buyerID: RID
-  buyerName: string
-  buyerSig: string
-  timestamp: string
-  overall: number
-  quality: number
-  description: number
-  deliverySpeed: number
-  customerService: number
-  review: string
-}
-
-export interface RatingSignature {
-  metadata: RatingSignatureMetadata
-  signature: string
-}
-
-export interface RatingSignatureMetadata {
-  listingSlug: string
-  ratingKey: string
-  listingTitle: string
-  thumbnail: Image
-}
-
 export interface Image {
   tiny: string
   small: string
@@ -255,7 +223,7 @@ export interface VendorOrderFulfillment {
   orderId: string
   slug: string
   timestamp: string
-  ratingSignature: RatingSignature
+  ratingSignature: RatingData['vendorSig']
   note: string
 }
 

@@ -9,7 +9,7 @@ import {
   OrdersSpend,
   Refund,
 } from '../interfaces/Order'
-import Rating from '../interfaces/Rating'
+import { RatingInput } from '../interfaces/Rating'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -404,7 +404,7 @@ class Order implements OrderInterface {
     }
   }
 
-  public async fulfill(ratings: Rating[], note?: string) {
+  public async fulfill(ratings: RatingInput[], note?: string) {
     const parsedRatings = ratings.map(obj => {
       return {
         max: obj.starCount,
@@ -430,22 +430,19 @@ class Order implements OrderInterface {
     }
   }
 
-  public async complete(review: string, anonymous: boolean) {
+  public async complete(review: string, ratings: RatingInput[], anonymous: boolean) {
     try {
+      const parsedRating = ratings.reduce((acc, cur) => {
+        acc[cur.fieldName] = cur.value
+        return acc
+      }, {})
+      const ratingItem = Object.assign(
+        { slug: this.contract.vendorListings[0].slug, review, anonymous },
+        parsedRating
+      )
       await Axios.post(`${config.openBazaarHost}/ob/ordercompletion`, {
         orderId: this.contract.vendorOrderConfirmation.orderID,
-        ratings: [
-          {
-            slug: this.contract.vendorListings[0].slug,
-            overall: 3,
-            quality: 4,
-            description: 5,
-            deliverySpeed: 5,
-            customerService: 3,
-            review,
-            anonymous,
-          },
-        ],
+        ratings: [ratingItem],
       })
     } catch (e) {
       throw e

@@ -14,7 +14,7 @@ import {
 import Stepper from '../components/Stepper/Stepper'
 import config from '../config'
 import PaymentNotification from '../interfaces/PaymentNotification'
-import Rating from '../interfaces/Rating'
+import { RatingInput } from '../interfaces/Rating'
 import GroupMessage from '../models/GroupMessage'
 import Order from '../models/Order'
 
@@ -37,8 +37,8 @@ interface OrderViewState {
   review: string
   isAnonymous: boolean
   loadIndicator: number
-  orderFulfillRatings: Rating[]
-  orderCompleteRatings: Rating[]
+  orderFulfillRatings: RatingInput[]
+  orderCompleteRatings: RatingInput[]
   groupMessage: GroupMessage
   claim: string
   isSendingRequest: boolean
@@ -653,7 +653,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 amount={order
                   .calculateCryptoDecimals(order.contract.buyerOrder.payment.amount)
                   .toString()}
-                address={order.contract.buyerOrder.payment.address}
+                address={order.contract.vendorOrderConfirmation.paymentAddress}
                 cryptocurrency={order.contract.buyerOrder.payment.coin}
                 handleCopyToClipboard={field => {
                   console.log(field)
@@ -773,7 +773,11 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       loadIndicator: LOAD_INDICATOR.COMPLETE,
     })
     try {
-      await this.state.order.complete(this.state.review, this.state.isAnonymous)
+      await this.state.order.complete(
+        this.state.review,
+        this.state.orderCompleteRatings,
+        this.state.isAnonymous
+      )
       window.UIkit.notification('Order completed: ', {
         status: 'success',
       })

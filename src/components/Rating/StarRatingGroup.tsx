@@ -1,10 +1,10 @@
 import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
 
-import Rating, { RatingHandler } from '../../interfaces/Rating'
+import { RatingHandler, RatingInput } from '../../interfaces/Rating'
 
 interface Props {
-  ratings: Rating[]
+  ratings: RatingInput[]
   ratingType: string
   handleStarRatingChange: RatingHandler
 }
