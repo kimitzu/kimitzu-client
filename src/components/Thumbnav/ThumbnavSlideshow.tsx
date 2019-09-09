@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { DropArea } from '../Upload'
 
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
+import { Button } from '../Button'
 import './ThumbnavSlideshow.css'
 
 interface Props {
@@ -79,7 +80,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
 
         {photos.length > 0 ? (
           <div className="uk-position-top-right uk-position-small">
-            <button
+            <Button
               id="media-delete"
               className="uk-button uk-button-danger uk-button-small uk-margin-left"
               type="button"
@@ -88,7 +89,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
               }}
             >
               <span uk-icon="icon: trash" />
-            </button>
+            </Button>
           </div>
         ) : null}
       </div>
@@ -103,7 +104,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
             accept="image/*"
             hidden
           />
-          <button
+          <Button
             className="uk-button uk-button-primary uk-button-small uk-margin-left"
             onClick={evt => {
               evt.preventDefault()
@@ -112,7 +113,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
             }}
           >
             <span uk-icon="icon: plus" />
-          </button>
+          </Button>
         </div>
       ) : null}
     </div>

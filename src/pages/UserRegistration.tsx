@@ -76,7 +76,6 @@ class UserRegistration extends Component<{}, State> {
         return (
           <RegistrationForm
             data={this.state.profile}
-            availableCountries={Countries}
             fiatCurrencies={FiatCurrencies}
             currencyTypes={CurrencyTypes} // Fiat or Crypto
             cryptoCurrencies={cryptoCurrencies}

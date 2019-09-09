@@ -119,9 +119,9 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
         {isUpdating ? (
           <div uk-spinner="ratio: 1" />
         ) : (
-          <button className="uk-button uk-button-primary uk-align-center" type="submit">
+          <Button className="uk-button uk-button-primary uk-align-center" type="submit">
             SAVE
-          </button>
+          </Button>
         )}
       </div>
     </form>

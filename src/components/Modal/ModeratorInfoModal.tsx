@@ -4,6 +4,7 @@ import ReactCountryFlag from 'react-country-flag'
 
 import Profile from '../../models/Profile'
 
+import { Button } from '../Button'
 import './ModeratorInfoModal.css'
 
 interface Props {
@@ -23,7 +24,7 @@ const ModeratorInfoModal = ({ profile }: Props) => {
   return (
     <div id="moderator-info" className="uk-flex-top" data-uk-modal>
       <div className="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-        <button
+        <Button
           id="moderator-info-close"
           className="uk-modal-close-default"
           type="button"
@@ -37,7 +38,7 @@ const ModeratorInfoModal = ({ profile }: Props) => {
               src={profile.getAvatarSrc()}
             />
             <div className="uk-flex uk-flex-center uk-margin-small-top">
-              <button
+              <Button
                 id="moderator-info-button"
                 className="uk-button uk-button-primary"
                 onClick={() => {
@@ -46,7 +47,7 @@ const ModeratorInfoModal = ({ profile }: Props) => {
                 }}
               >
                 MESSAGE
-              </button>
+              </Button>
             </div>
           </div>
           <div className="uk-flex-3 uk-flex-row">

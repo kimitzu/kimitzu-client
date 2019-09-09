@@ -16,6 +16,7 @@ export interface State {
   results: SearchResults
   paginate: Paginate
   transforms: Transform[]
+  searchID: string
 }
 
 export interface Ers {
@@ -51,13 +52,16 @@ export interface Spec {
 }
 
 class Search implements State {
+  public searchID: string = ''
   public sortIndicator: string = ''
   public filters: Ers = {
     'metadata.contractType': 'SERVICE',
+    priceMin: '0',
   }
   public locationRadius: number = Values.minLocation
   public modifiers: Ers = {
     'metadata.contractType': '==',
+    priceMin: '<=',
   }
   public plusCode: string = ''
   public query: string = ''
@@ -92,10 +96,12 @@ class Search implements State {
   public original = {
     filters: {
       'metadata.contractType': 'SERVICE',
+      priceMin: '0',
     },
     locationRadius: Values.minLocation,
     modifiers: {
       'metadata.contractType': '==',
+      priceMin: '<=',
     },
     plusCode: '',
     query: '',
@@ -139,6 +145,7 @@ class Search implements State {
 
   public constructor() {
     this.saveAsOriginal()
+    this.searchID = Math.random().toString()
   }
 
   public async clearSearch() {
@@ -192,6 +199,7 @@ class Search implements State {
      */
     const originalClone = JSON.parse(JSON.stringify(this.original))
     Object.assign(this, originalClone)
+    this.searchID = Math.random().toString()
     return this
   }
 

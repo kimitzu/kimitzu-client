@@ -25,7 +25,6 @@ import EmploymentForm from '../../components/Form/EmploymentForm'
 import { ModeratorInfoModal } from '../../components/Modal'
 import { RoundSelector } from '../../components/RoundSelector'
 import config from '../../config'
-import Countries from '../../constants/Countries.json'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
@@ -393,7 +392,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           component: (
             <div className="uk-width-1-1">
               <RegistrationForm
-                availableCountries={Countries}
                 cryptoCurrencies={cryptoCurrencies}
                 currencyTypes={CurrencyTypes}
                 fiatCurrencies={FiatCurrencies}

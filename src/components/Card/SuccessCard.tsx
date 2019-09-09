@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '../Button'
 
 interface Props {
   onSuccessHome: () => void
@@ -19,9 +20,9 @@ const SuccessCard = (props: Props) => (
         </p>
       </div>
       <div id="body-item">
-        <button id="home" className="uk-button uk-button-primary" onClick={props.onSuccessHome}>
+        <Button id="home" className="uk-button uk-button-primary" onClick={props.onSuccessHome}>
           Home
-        </button>
+        </Button>
       </div>
     </div>
   </div>

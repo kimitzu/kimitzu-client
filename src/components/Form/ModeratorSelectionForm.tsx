@@ -5,6 +5,7 @@ import { DottedSpinner } from '../Spinner'
 
 import Profile from '../../models/Profile'
 
+import { Button } from '../Button'
 import './ModeratorSelectionForm.css'
 
 interface Props {
@@ -81,13 +82,13 @@ const ModeratorSelectionForm = ({
               >
                 <ModeratorCard profile={moderator}>
                   <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
-                    <button
+                    <Button
                       id={`moderator-add-${moderator.peerID}`}
                       className="uk-button uk-button-primary"
                       onClick={() => handleBtnClick(moderator, index, 'add')}
                     >
                       +
-                    </button>
+                    </Button>
 
                     <a
                       id={`moderator-info-${moderator.peerID}`}
@@ -111,13 +112,13 @@ const ModeratorSelectionForm = ({
           <div className="uk-margin-small-top" key={moderator.peerID}>
             <ModeratorCard profile={moderator}>
               <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
-                <button
+                <Button
                   id={`moderator-remove-${moderator.peerID}`}
                   className="uk-button uk-button-primary moderator-card-btn"
                   onClick={() => handleBtnClick(moderator, index, 'remove')}
                 >
                   {`\xD7`}
-                </button>
+                </Button>
 
                 <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>
                   More...
@@ -129,19 +130,19 @@ const ModeratorSelectionForm = ({
       </div>
       <div className="submit-btn-div uk-margin-top">
         {!isNew ? (
-          <button
+          <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
             UPDATE LISTING
-          </button>
+          </Button>
         ) : null}
-        <button
+        <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleSubmit}
         >
           {submitLabel || 'NEXT'}
-        </button>
+        </Button>
       </div>
     </div>
   )

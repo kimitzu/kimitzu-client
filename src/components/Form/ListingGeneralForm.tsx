@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 
+import { Listing } from '../../interfaces/Listing'
+import { Button } from '../Button'
 import { AutoCompleteSelect, InputSelector } from '../Input'
 import { FormLabel } from '../Label'
 import { RadioButtons } from '../RadioButton'
 import { FormSelector } from '../Selector'
-import InlineFormFields from './InlineFormFields'
 
 import ListingTypes from '../../constants/ListingTypes.json'
 import ServiceRateMethods from '../../constants/ServiceRateMethods.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
-import { Listing } from '../../interfaces/Listing'
 import decodeHtml from '../../utils/Unescape'
+import InlineFormFields from './InlineFormFields'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
 
@@ -244,19 +245,19 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
       </fieldset>
       <div className="submit-btn-div">
         {!isNew ? (
-          <button
+          <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
             UPDATE LISTING
-          </button>
+          </Button>
         ) : null}
-        <button
+        <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleContinue}
         >
           NEXT
-        </button>
+        </Button>
       </div>
     </form>
   )

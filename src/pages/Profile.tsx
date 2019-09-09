@@ -81,7 +81,6 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
           return buyerRating
         })
       )
-      console.log(ratingsSummary)
       this.setState({ ratingsSummary })
     }
   }

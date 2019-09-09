@@ -112,6 +112,7 @@ class Home extends Component<HomeProps, HomeState> {
                 items={ServiceCategories}
               />
               <SidebarFilter
+                key={this.state.search.searchID}
                 profile={profile}
                 locationRadius={search.locationRadius}
                 onChange={this.handleChange}
@@ -121,6 +122,7 @@ class Home extends Component<HomeProps, HomeState> {
                 plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
                 rating={rating}
+                searchInstance={this.state.search}
               />
             </div>
             {search.results.count > 0 ? (
@@ -218,8 +220,25 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private ratingChanged(nextValue: number, prevValue: number, name: string) {
-    this.setState({ rating: nextValue })
-    switch (nextValue) {
+    let rating = 0
+
+    if (nextValue === prevValue) {
+      rating = 0
+    } else {
+      rating = nextValue
+    }
+
+    this.setState({ rating })
+
+    switch (rating) {
+      case 0:
+        const { filters, modifiers } = this.state.search
+        delete filters.averageRating
+        delete modifiers.averageRating
+        this.setState({
+          search: this.state.search,
+        })
+        break
       case 1:
         this.handleFilterChange('averageRating', '1', '>=')
         break

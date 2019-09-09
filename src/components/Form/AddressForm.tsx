@@ -9,6 +9,7 @@ import Location from '../../interfaces/Location'
 import decodeHtml from '../../utils/Unescape'
 
 import OpenLocationCode from '../../utils/Location/PlusCode'
+import { Button } from '../Button'
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
 
@@ -234,7 +235,7 @@ const AddressForm = ({
       </fieldset>
       <div id="save-btn-div">
         {!isListing ? (
-          <button
+          <Button
             className="uk-button uk-button-danger uk-margin-right"
             type="button"
             onClick={() => {
@@ -244,22 +245,22 @@ const AddressForm = ({
             }}
           >
             DELETE
-          </button>
+          </Button>
         ) : null}
         {!isNew ? (
-          <button
+          <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
             UPDATE LISTING
-          </button>
+          </Button>
         ) : null}
-        <button
+        <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           type="submit"
         >
           {isListing ? 'NEXT' : 'SAVE'}
-        </button>
+        </Button>
       </div>
     </form>
   )

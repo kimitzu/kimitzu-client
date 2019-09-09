@@ -63,9 +63,9 @@ const PaymentQRCard = ({
         </div>
         <div className="uk-margin uk-margin-remove-horizontal">
           <div className="uk-inline">
-            <button className="uk-button uk-button-default" type="button">
+            <Button className="uk-button uk-button-default" type="button">
               Pay from wallet
-            </button>
+            </Button>
             <div id="dropID" data-uk-dropdown="mode: click">
               <div className="card-prompt">
                 Are you sure?Total is{' '}
@@ -73,7 +73,7 @@ const PaymentQRCard = ({
                   {amount} {cryptocurrency}
                 </b>
                 <div className="btn-cont">
-                  <button
+                  <Button
                     className="uk-button uk-button-default"
                     onClick={() => {
                       const element = document.getElementById('dropID')
@@ -83,7 +83,7 @@ const PaymentQRCard = ({
                     }}
                   >
                     Cancel
-                  </button>
+                  </Button>
                   <Button
                     className="uk-button uk-button-primary"
                     onClick={async () => {

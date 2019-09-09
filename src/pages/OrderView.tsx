@@ -423,7 +423,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               title="Disputing Order..."
               sideButtons={
                 <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                  <button
+                  <Button
                     className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
                     onClick={() => {
                       this.setState({
@@ -432,7 +432,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     }}
                   >
                     Discuss Order
-                  </button>
+                  </Button>
                 </div>
               }
             >
@@ -449,7 +449,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               title="Dispute Order"
               sideButtons={
                 <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                  <button
+                  <Button
                     className="uk-button uk-button-danger uk-margin-small-left max-content-width button-small-padding"
                     onClick={() => {
                       this.setState({
@@ -458,7 +458,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     }}
                   >
                     DISPUTE
-                  </button>
+                  </Button>
                 </div>
               }
             >
@@ -593,12 +593,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                         >
                           Refund
                         </a>
-                        <button
+                        <Button
                           className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
                           onClick={this.handleFulfillOrderBtn}
                         >
                           FULFILL ORDER
-                        </button>
+                        </Button>
                       </div>
                     ) : null
                   }

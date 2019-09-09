@@ -98,7 +98,7 @@ textarea {
   background-color: var(--primary);
 }
 .uk-button {
-  border-radius: 7.5%;
+  border-radius: 5px;
   font-size: 0.75rem;
   padding: 0 20px;
   min-width: 100px;

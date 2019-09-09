@@ -45,12 +45,12 @@ const TagsForm = ({ tags, onSubmit, submitLabel, formLabel, isNew, handleFullSub
       </fieldset>
       <div className="submit-btn-div">
         {!isNew ? (
-          <button
+          <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
             UPDATE LISTING
-          </button>
+          </Button>
         ) : null}
         <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { ThumbnavSlideshow } from '../Thumbnav'
 
@@ -28,19 +29,19 @@ const ListingPhotosForm = ({
       </fieldset>
       <div className="submit-btn-div">
         {!isNew ? (
-          <button
+          <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
             UPDATE LISTING
-          </button>
+          </Button>
         ) : null}
-        <button
+        <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleContinue}
         >
           NEXT
-        </button>
+        </Button>
       </div>
     </form>
   )

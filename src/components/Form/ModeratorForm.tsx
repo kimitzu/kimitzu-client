@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import ReactSlider from 'react-slider'
 import { WithContext as ReactTags } from 'react-tag-input'
 
+import { Moderator } from '../../interfaces/Moderator'
+import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
 import FeeTypes from '../../constants/FeeTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
-import { Moderator } from '../../interfaces/Moderator'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
 
@@ -294,9 +295,9 @@ const ModeratorForm = (props: Props) => {
         {isSubmitting ? (
           <div uk-spinner="ratio: 1" />
         ) : (
-          <button className="uk-button uk-button-primary uk-align-center" type="submit">
+          <Button className="uk-button uk-button-primary uk-align-center" type="submit">
             SAVE
-          </button>
+          </Button>
         )}
       </div>
     </form>

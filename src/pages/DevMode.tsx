@@ -1,5 +1,6 @@
 import faker from 'faker'
 import React from 'react'
+import { Button } from '../components/Button'
 import ListingModel from '../models/Listing'
 
 interface DevModeState {
@@ -376,9 +377,9 @@ class DevMode extends React.Component<{}, DevModeState> {
                   })
                 }}
               />
-              <button className="uk-button uk-button-primary uk-margin-left" onClick={this.seed}>
+              <Button className="uk-button uk-button-primary uk-margin-left" onClick={this.seed}>
                 Seed
-              </button>
+              </Button>
             </div>
           </div>
           {this.state.output.map((comp, id) => (

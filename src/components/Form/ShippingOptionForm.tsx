@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 import InlineFormFields from './InlineFormFields'
@@ -263,9 +264,9 @@ const ShippingOptionForm = ({
         </div>
       </fieldset>
       <div className="submit-btn-div">
-        <button className="uk-button uk-button-primary" onClick={handleContinue}>
+        <Button className="uk-button uk-button-primary" onClick={handleContinue}>
           CONTINUE
-        </button>
+        </Button>
       </div>
     </form>
   )

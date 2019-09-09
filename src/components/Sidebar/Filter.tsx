@@ -8,6 +8,8 @@ import { FormLabel } from '../Label'
 import Values from '../../constants/Values.json'
 import Profile from '../../models/Profile'
 
+import { Search, searchInstance } from '../../models/Search'
+import { Button } from '../Button'
 import './Filter.css'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
@@ -32,14 +34,13 @@ serviceTypes.unshift({
   value: '~',
 })
 
-Countries[0].label = 'All Countries'
-
 interface FilterProps {
   onRatingChanged: (nextValue: number, prevValue: number, name: string) => void
   onFilterChange: (field: string, value: string, modifier?: string) => void
   onFilterSubmit: (event?: React.FormEvent<HTMLFormElement>) => void
   onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
+  searchInstance: Search
   profile: Profile
   locationRadius: number
   plusCode: string
@@ -87,6 +88,7 @@ const Filter = ({
               className="uk-input"
               type="number"
               placeholder="MIN"
+              value={searchInstance.filters.priceMin}
               onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
             />
           </div>
@@ -196,16 +198,16 @@ const Filter = ({
             />
           </div>
         </div>
-        <button
+        <Button
           type="reset"
           className="uk-button uk-button-default uk-margin-small-right"
           onClick={onFilterReset}
         >
           Reset
-        </button>
-        <button type="submit" className="uk-button uk-button-primary">
+        </Button>
+        <Button type="submit" className="uk-button uk-button-primary">
           Search
-        </button>
+        </Button>
       </form>
     </div>
   )

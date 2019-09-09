@@ -1,21 +1,20 @@
 import React from 'react'
 
+import { Profile } from '../../interfaces/Profile'
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import { Profile } from '../../interfaces/Profile'
-
+import config from '../../config'
+import Countries from '../../constants/Countries.json'
 import decodeHtml from '../../utils/Unescape'
 
-import config from '../../config'
 import './RegistrationForm.css'
 
 interface Props {
   avatar: string
   data: Profile
   isSubmitting: boolean
-  availableCountries: Array<{ label: string; value: string }>
   cryptoCurrencies: Array<{ label: string; value: string }>
   currencyTypes: Array<{ label: string; value: string }>
   fiatCurrencies: Array<{ label: string; value: string }>
@@ -111,7 +110,7 @@ const RegistrationForm = (props: Props) => (
         <div id="form-select" className="uk-form-controls">
           <FormSelector
             id="countries"
-            options={props.availableCountries}
+            options={Countries}
             defaultVal={
               props.data.extLocation.primary > -1
                 ? props.data.extLocation.addresses[props.data.extLocation.primary].country || ''

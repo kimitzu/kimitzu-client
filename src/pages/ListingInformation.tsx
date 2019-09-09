@@ -129,7 +129,7 @@ class ListingProfile extends Component<Props, State> {
         <div className="uk-card uk-card-default uk-card-body card-head">
           {listing.isOwner ? (
             <div className="uk-margin-bottom uk-align-right">
-              <button
+              <Button
                 type="button"
                 className="uk-button uk-button-default"
                 onClick={() => {
@@ -137,8 +137,8 @@ class ListingProfile extends Component<Props, State> {
                 }}
               >
                 <span uk-icon="pencil" /> Edit
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 className="uk-button uk-button-danger uk-margin-left"
                 onClick={() => {
@@ -160,7 +160,7 @@ class ListingProfile extends Component<Props, State> {
                 }}
               >
                 <span uk-icon="trash" /> Delete
-              </button>
+              </Button>
             </div>
           ) : null}
           <div id="listing-header">

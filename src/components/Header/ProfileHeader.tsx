@@ -28,11 +28,13 @@ const ProfileHeader = ({ profile, isOwner }: ViewProfileInterface) => {
       </div>
       <div id="profile-header" className="uk-width-1-1">
         <div id="profile-header-picture">
-          {profile.avatarHashes.medium ? (
+          {profile.peerID ? (
             <img
-              src={`${config.openBazaarHost}/ob/images/${
-                profile.avatarHashes ? profile.avatarHashes.medium : ''
-              }`}
+              src={
+                profile.avatarHashes.medium
+                  ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.medium}`
+                  : `${config.host}/images/user.svg`
+              }
             />
           ) : (
             <div uk-spinner="ratio: 3" />

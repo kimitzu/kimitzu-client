@@ -2,6 +2,7 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import ReactSlider from 'react-slider'
 
+import { Button } from '../components/Button'
 import { SideMenuWithContentCard } from '../components/Card'
 import GroupChatComponent from '../components/ChatBox/GroupChat'
 import { FormLabel } from '../components/Label'
@@ -240,12 +241,12 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
               }
               sideButtons={
                 dispute.state === 'DISPUTED' ? (
-                  <button
+                  <Button
                     className="uk-button uk-button-primary btn-fix"
                     onClick={e => this.setState({ currentContent: CONTENT_CONSTANTS.DISPUTE_FORM })}
                   >
                     Resolve Dispute
-                  </button>
+                  </Button>
                 ) : null
               }
             >
@@ -338,9 +339,9 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
             {isSubmitting ? (
               <div uk-spinner="ratio: 1" />
             ) : (
-              <button className="uk-button uk-button-primary" type="submit">
+              <Button className="uk-button uk-button-primary" type="submit">
                 SUBMIT
-              </button>
+              </Button>
             )}
           </div>
         </div>

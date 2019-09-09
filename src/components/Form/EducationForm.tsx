@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
+import { EducationHistory } from '../../interfaces/Profile'
+import { Button } from '../Button'
 import { TwoInputs } from '../Input'
 import { FormLabel } from '../Label'
+import { FormSelector } from '../Selector'
 
 import Countries from '../../constants/Countries.json'
-import { EducationHistory } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
-import { FormSelector } from '../Selector'
 
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
@@ -191,7 +192,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
       </fieldset>
       <div id="save-btn-div">
         {isEdit ? (
-          <button
+          <Button
             className="uk-button uk-button-danger uk-margin-right"
             type="button"
             onClick={evt => {
@@ -201,11 +202,11 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             }}
           >
             DELETE
-          </button>
+          </Button>
         ) : null}
-        <button className="uk-button uk-button-primary" type="submit">
+        <Button className="uk-button uk-button-primary" type="submit">
           SAVE
-        </button>
+        </Button>
       </div>
     </form>
   )
