@@ -9,8 +9,9 @@ import FeeTypes from '../../constants/FeeTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
 import { Moderator } from '../../interfaces/Moderator'
-
 import Profile from '../../models/Profile'
+import decodeHtml from '../../utils/Unescape'
+
 import './ModeratorForm.css'
 
 const parsedLanguages = Languages.map(m => {
@@ -169,7 +170,7 @@ const ModeratorForm = (props: Props) => {
               className="uk-textarea"
               rows={3}
               placeholder="In 500 words or less tell us something about yourself and the services you offer..."
-              value={moderator.description || ''}
+              value={decodeHtml(moderator.description) || ''}
               onChange={event => {
                 handleChange('description', event.target.value)
               }}
@@ -185,7 +186,7 @@ const ModeratorForm = (props: Props) => {
               disabled={!enableModerator}
               rows={3}
               placeholder="Enter Terms and Conditions"
-              value={moderator.termsAndConditions || ''}
+              value={decodeHtml(moderator.termsAndConditions) || ''}
               onChange={event => {
                 handleChange('termsAndConditions', event.target.value)
               }}

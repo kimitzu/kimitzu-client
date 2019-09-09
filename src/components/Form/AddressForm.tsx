@@ -6,6 +6,8 @@ import { FormSelector } from '../Selector'
 
 import Countries from '../../constants/Countries.json'
 import Location from '../../interfaces/Location'
+import decodeHtml from '../../utils/Unescape'
+
 import OpenLocationCode from '../../utils/Location/PlusCode'
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
@@ -112,7 +114,7 @@ const AddressForm = ({
             id="street-address-1"
             className="uk-input"
             type="text"
-            value={location.addressOne}
+            value={decodeHtml(location.addressOne)}
             placeholder="Street Address 1"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleChange('addressOne', event.target.value)
@@ -122,7 +124,7 @@ const AddressForm = ({
             id="street-address-2"
             className="uk-input"
             type="text"
-            value={location.addressTwo}
+            value={decodeHtml(location.addressTwo)}
             placeholder="Street Address 2"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleChange('addressTwo', event.target.value)
@@ -188,7 +190,7 @@ const AddressForm = ({
             props: {
               id: 'city',
               type: 'text',
-              value: location.city,
+              value: decodeHtml(location.city),
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
                 handleChange('city', event.target.value),
             },
@@ -198,7 +200,7 @@ const AddressForm = ({
             props: {
               id: 'state',
               type: 'text',
-              value: location.state,
+              value: decodeHtml(location.state),
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
                 handleChange('state', event.target.value),
             },

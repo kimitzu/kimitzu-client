@@ -3,24 +3,23 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const isDev = require('electron-is-dev')
-const spawn = require('child_process').spawn;
+const spawn = require('child_process').spawn
 
 let server
 let services
 // -- Services -- //
 // Execute the server and service first before loading anything else.
-if (!isDev && !process.argv.includes("--noexternal")) {
+if (!isDev && !process.argv.includes('--noexternal')) {
   if (process.platform.startsWith('win')) {
-    var extob = path.join("external", "openbazaard.exe");
-    var extserv = path.join("external", "services.exe");
-    server = spawn(extob,  ['start', '--testnet']);
-    services = spawn(extserv,  []);
-  
+    var extob = path.join('external', 'openbazaard.exe')
+    var extserv = path.join('external', 'services.exe')
+    server = spawn(extob, ['start', '--testnet'])
+    services = spawn(extserv, [])
   } else if (process.platform.startsWith('linux')) {
-    const extob = path.join("external", "openbazaard");
-    const extserv = path.join("external", "services");
-    server = spawn(extob,  ['start', '--testnet']);
-    services = spawn(extserv,  []);
+    const extob = path.join('external', 'openbazaard')
+    const extserv = path.join('external', 'services')
+    server = spawn(extob, ['start', '--testnet'])
+    services = spawn(extserv, [])
   }
 }
 
@@ -28,7 +27,7 @@ if (!isDev && !process.argv.includes("--noexternal")) {
 let mainWindow
 
 const createWindow = async () => {
-  await app.whenReady();
+  await app.whenReady()
   mainWindow = new BrowserWindow({
     title: 'Djali',
     width: 1200,
@@ -57,8 +56,12 @@ const createWindow = async () => {
 app.on('ready', createWindow)
 app.on('window-all-closed', () => {
   if (!isDev) {
-    try { services.kill() } catch {}
-    try { server.kill() } catch {}
+    try {
+      services.kill()
+    } catch {}
+    try {
+      server.kill()
+    } catch {}
   }
   if (process.platform !== 'darwin') {
     app.quit()

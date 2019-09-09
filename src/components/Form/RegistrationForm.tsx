@@ -6,6 +6,8 @@ import { FormSelector } from '../Selector'
 
 import { Profile } from '../../interfaces/Profile'
 
+import decodeHtml from '../../utils/Unescape'
+
 import config from '../../config'
 import './RegistrationForm.css'
 
@@ -73,7 +75,7 @@ const RegistrationForm = (props: Props) => (
             className="uk-input"
             type="text"
             placeholder="John Doe"
-            value={props.data.name || ''}
+            value={decodeHtml(props.data.name) || ''}
             onChange={event => props.onChange('name', event.target.value, 'profile')}
           />
         </div>
@@ -86,7 +88,7 @@ const RegistrationForm = (props: Props) => (
             className="uk-textarea"
             rows={3}
             placeholder="In 500 words or less tell us something about yourself and the services you offer..."
-            value={props.data.about || ''}
+            value={decodeHtml(props.data.about) || ''}
             onChange={event => props.onChange('about', event.target.value, 'profile')}
           />
         </div>

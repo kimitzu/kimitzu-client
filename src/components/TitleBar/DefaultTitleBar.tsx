@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './DefaultTitleBar.css'
 
@@ -8,11 +8,23 @@ const DefaultTitleBar = () => {
   const { webContents } = currentWindow
   const [[width, height]] = useState(currentWindow.getSize())
   const [isMaximize, setIsMaximize] = useState(false)
+  const [canGoBack, setCanGoBack] = useState(false)
+  const [canGoForward, setCanGoForward] = useState(false)
+  const handleListener = () => {
+    setCanGoBack(webContents.canGoBack())
+    setCanGoForward(webContents.canGoForward())
+  }
+  useEffect(() => {
+    window.addEventListener('hashchange', handleListener)
+    return () => {
+      window.removeEventListener('hashchange', handleListener)
+    }
+  }, [])
   return (
     <div id="title-cont">
       <div id="control-cont">
         <a
-          id={!webContents.canGoBack() ? 'disable-icon-arrow' : ''}
+          id={!canGoBack ? 'disable-icon-arrow' : ''}
           className="icon-arrows"
           onClick={() => {
             webContents.goBack()
@@ -20,7 +32,7 @@ const DefaultTitleBar = () => {
           data-uk-icon="icon: chevron-left; ratio: 1.5"
         />
         <a
-          id={!webContents.canGoForward() ? 'disable-icon-arrow' : ''}
+          id={!canGoForward ? 'disable-icon-arrow' : ''}
           className="icon-arrows"
           onClick={() => {
             webContents.goForward()

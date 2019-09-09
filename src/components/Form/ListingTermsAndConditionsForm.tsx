@@ -2,6 +2,8 @@ import React from 'react'
 
 import { FormLabel } from '../Label'
 
+import decodeHtml from '../../utils/Unescape'
+
 interface Props {
   handleInputChange: (field: string, value: string, parentField?: string) => void
   termsAndConditions: string
@@ -26,7 +28,7 @@ const ListingTermsAndConditionsForm = ({
           className="uk-textarea"
           rows={10}
           onChange={event => handleInputChange('termsAndConditions', event.target.value, 'listing')}
-          value={termsAndConditions}
+          value={decodeHtml(termsAndConditions)}
           placeholder="What are the terms and conditions of the listing? What are you as responsible for as a vendor? is there a warranty? When is the transaction final? etc"
         />
         <label className="form-label-desciptor">

@@ -6,8 +6,10 @@ import { FormLabel } from '../Label'
 import Countries from '../../constants/Countries.json'
 import { EducationHistory } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
-import '../Input/TwoInputs.css'
+import decodeHtml from '../../utils/Unescape'
 import { FormSelector } from '../Selector'
+
+import '../Input/TwoInputs.css'
 import './AddressForm.css'
 
 interface Props {
@@ -78,7 +80,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
           <input
             className="uk-input"
             type="text"
-            value={education.institution}
+            value={decodeHtml(education.institution)}
             placeholder="Institution or School Name"
             required
             onChange={evt => {
@@ -91,7 +93,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
           <input
             className="uk-input"
             type="text"
-            value={education.degree}
+            value={decodeHtml(education.degree)}
             placeholder="Degree, Specialization, Major"
             required
             onChange={evt => {
@@ -104,7 +106,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
           <textarea
             className="uk-textarea"
             rows={5}
-            value={education.description}
+            value={decodeHtml(education.description)}
             placeholder="Tell us a bit about your degree and specialization"
             required
             onChange={evt => {
@@ -164,7 +166,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             <FormLabel label="City" required />
             <input
               className="uk-input"
-              value={education.location.city}
+              value={decodeHtml(education.location.city)}
               placeholder="City"
               required
               onChange={evt => {

@@ -6,8 +6,10 @@ import { FormLabel } from '../Label'
 import Countries from '../../constants/Countries.json'
 import { EmploymentHistory } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
-import '../Input/TwoInputs.css'
+import decodeHtml from '../../utils/Unescape'
 import { FormSelector } from '../Selector'
+
+import '../Input/TwoInputs.css'
 import './AddressForm.css'
 
 interface Props {
@@ -78,7 +80,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
           <input
             className="uk-input"
             type="text"
-            value={employment.company}
+            value={decodeHtml(employment.company)}
             placeholder="Company Name"
             required
             onChange={evt => {
@@ -91,7 +93,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
           <input
             className="uk-input"
             type="text"
-            value={employment.role}
+            value={decodeHtml(employment.role)}
             placeholder="Position/Rank in the company"
             required
             onChange={evt => {
@@ -104,7 +106,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
           <textarea
             className="uk-textarea"
             rows={5}
-            value={employment.description}
+            value={decodeHtml(employment.description)}
             placeholder="Tell us a bit about your work"
             required
             onChange={evt => {
@@ -164,7 +166,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
             <FormLabel label="City" required />
             <input
               className="uk-input"
-              value={employment.location.city}
+              value={decodeHtml(employment.location.city)}
               placeholder="City"
               required
               onChange={evt => {

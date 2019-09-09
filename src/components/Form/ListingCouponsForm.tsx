@@ -3,6 +3,8 @@ import React from 'react'
 import { InputSelector } from '../Input'
 import InlineFormFields from './InlineFormFields'
 
+import decodeHtml from '../../utils/Unescape'
+
 const discountOptions = [
   {
     label: 'Percent',
@@ -65,13 +67,14 @@ const ListingCouponsForm = ({
                       id={`coupon-title-${index}`}
                       className="uk-input"
                       type="text"
-                      value={coupon.title}
+                      value={decodeHtml(coupon.title)}
                       onChange={event => {
                         coupons[index].title = event.target.value
                         handleInputChange('coupons', coupons, 'listing')
                       }}
                     />
                   ),
+                  label: index === 0 ? { name: 'Title' } : undefined,
                 },
                 {
                   component: (
@@ -86,6 +89,7 @@ const ListingCouponsForm = ({
                       }}
                     />
                   ),
+                  label: index === 0 ? { name: 'Code' } : undefined,
                 },
                 {
                   component: (
@@ -119,6 +123,7 @@ const ListingCouponsForm = ({
                       defaultSelectorVal={coupons[index].type}
                     />
                   ),
+                  label: index === 0 ? { name: 'Value' } : undefined,
                 },
               ]}
             />

@@ -47,6 +47,7 @@ class App extends React.Component<{}, State> {
       secondTimer: 5,
     }
     this.connect = this.connect.bind(this)
+    this.activateTimer = this.activateTimer.bind(this)
     this.renderContent = this.renderContent.bind(this)
   }
 
@@ -59,25 +60,7 @@ class App extends React.Component<{}, State> {
   }
 
   public render() {
-    const { height, isReady, isServerConnected } = this.state
-    if (!isReady) {
-      return <FullPageSpinner message="Please wait..." />
-    } else if (isReady && !isServerConnected) {
-      return (
-        <div className="full-vh uk-flex uk-flex-middle uk-flex-center uk-flex-column">
-          <img
-            className="uk-margin-large"
-            width="150"
-            height="150"
-            src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg"
-          />
-          <h4 className="uk-text-danger">We could not connect to your server.</h4>
-          <h4 className="uk-text-danger">Please make sure that the Djali Server is running. </h4>
-          <p className="uk-margin-large-top">Retrying in {this.state.secondTimer}s...</p>
-        </div>
-      )
-    }
-
+    const { height } = this.state
     return (
       <Fragment>
         {isElectron() ? (
@@ -95,8 +78,24 @@ class App extends React.Component<{}, State> {
   }
 
   private renderContent() {
-    const { isAuthenticated, showSignup } = this.state
-    if (showSignup) {
+    const { isAuthenticated, showSignup, isReady, isServerConnected } = this.state
+    if (!isReady) {
+      return <FullPageSpinner message="Please wait..." />
+    } else if (isReady && !isServerConnected) {
+      return (
+        <div className="full-vh uk-flex uk-flex-middle uk-flex-center uk-flex-column">
+          <img
+            className="uk-margin-large"
+            width="150"
+            height="150"
+            src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg"
+          />
+          <h4 className="uk-text-danger">We could not connect to your server.</h4>
+          <h4 className="uk-text-danger">Please make sure that the Djali Server is running. </h4>
+          <p className="uk-margin-large-top">Retrying in {this.state.secondTimer}s...</p>
+        </div>
+      )
+    } else if (showSignup) {
       return <UserRegistration />
     } else if (!isAuthenticated) {
       return <Login />
@@ -117,7 +116,6 @@ class App extends React.Component<{}, State> {
     try {
       await Profile.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
-
       this.setState({
         isReady: true,
         isServerConnected: true,
@@ -125,6 +123,11 @@ class App extends React.Component<{}, State> {
       })
     } catch (error) {
       if (error.response) {
+        if (error.response.status === 500) {
+          this.setState({ isServerConnected: false, isReady: true })
+          this.activateTimer()
+          return
+        }
         /**
          * Connection to server is successful but profile is not found.
          * Possibly a new Djali instance, so show registration page.
@@ -132,28 +135,31 @@ class App extends React.Component<{}, State> {
         window.clearInterval(this.intervalTimer)
         this.setState({
           isServerConnected: true,
-          showSignup: error.response.status === 404 || error.response.status === 500,
+          showSignup: error.response.status === 404,
         })
       } else {
-        this.intervalTimer = window.setInterval(() => {
-          let timer = this.state.secondTimer
-          if (timer <= 1) {
-            timer = 5
-          } else {
-            timer -= 1
-          }
-          this.setState({
-            secondTimer: timer,
-          })
-        }, 1000)
-
-        this.timeoutTimer = window.setTimeout(async () => {
-          await this.connect()
-        }, 5000)
+        this.activateTimer()
       }
-
       this.setState({ isReady: true })
     }
+  }
+
+  private activateTimer() {
+    this.intervalTimer = window.setInterval(() => {
+      let timer = this.state.secondTimer
+      if (timer <= 1) {
+        timer = 5
+      } else {
+        timer -= 1
+      }
+      this.setState({
+        secondTimer: timer,
+      })
+    }, 1000)
+
+    this.timeoutTimer = window.setTimeout(async () => {
+      await this.connect()
+    }, 5000)
   }
 }
 

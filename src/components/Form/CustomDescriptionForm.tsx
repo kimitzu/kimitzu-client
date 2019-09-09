@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import ReactSlider from 'react-slider'
-import { WithContext as ReactTags } from 'react-tag-input'
 
+import { Button } from '../Button'
 import { FormLabel } from '../Label'
-import { FormSelector } from '../Selector'
-
-import FeeTypes from '../../constants/FeeTypes.json'
-import FiatCurrencies from '../../constants/FiatCurrencies.json'
-import Languages from '../../constants/Languages.json'
-import { Moderator } from '../../interfaces/Moderator'
 
 import { CustomDescription } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
-import { Button } from '../Button'
+import decodeHtml from '../../utils/Unescape'
 
 interface CustomDescriptionProps {
   profile: Profile
@@ -87,7 +80,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                   className="uk-input"
                   type="text"
                   placeholder="Enter value"
-                  value={descriptions[index].value}
+                  value={decodeHtml(descriptions[index].value)}
                   onChange={evt => {
                     changeHandler('value', evt.target.value, selectedIndex)
                   }}

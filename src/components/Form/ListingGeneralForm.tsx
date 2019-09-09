@@ -10,6 +10,7 @@ import ListingTypes from '../../constants/ListingTypes.json'
 import ServiceRateMethods from '../../constants/ServiceRateMethods.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
 import { Listing } from '../../interfaces/Listing'
+import decodeHtml from '../../utils/Unescape'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
 
@@ -86,7 +87,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
             id="general-title"
             className="uk-input"
             type="text"
-            value={listing.item.title}
+            value={decodeHtml(listing.item.title)}
             onChange={event => {
               const item = listing.item
               item.title = event.target.value
@@ -231,7 +232,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
             id="general-desc"
             className="uk-textarea"
             rows={5}
-            value={listing.item.description}
+            value={decodeHtml(listing.item.description)}
             placeholder="Describe your listing as best as you can.."
             onChange={event => {
               const item = listing.item
