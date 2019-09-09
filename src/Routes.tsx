@@ -10,6 +10,7 @@ import {
   Profile,
   WalletView,
 } from './pages'
+import DevMode from './pages/DevMode'
 import DisputeView from './pages/DisputeView'
 import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
@@ -29,6 +30,7 @@ const Routes = () => (
       <Route path="/history/cases/:id" exact component={DisputeView} />
       <Route path="/history/:view/:id" exact component={OrderView} />
       <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
+      <Route path="/dev" exact component={DevMode} />
     </Switch>
   </HashRouter>
 )

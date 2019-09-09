@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StarRatingComponent from 'react-star-rating-component'
 import Countries from '../../constants/Countries.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
 import { AutoCompleteSelect } from '../Input'
 import { FormLabel } from '../Label'
 
+import Values from '../../constants/Values.json'
 import Profile from '../../models/Profile'
 
 import './Filter.css'
@@ -55,139 +56,159 @@ const Filter = ({
   onRatingChanged,
   rating,
   profile,
-}: FilterProps) => (
-  <div id="main-div">
-    <form
-      onSubmit={async event => {
-        event.preventDefault()
-        await onFilterSubmit()
-      }}
-    >
-      <legend className="uk-legend">FILTERS</legend>
-      <div className="uk-margin">
-        <FormLabel label="OCCUPATION" />
-        <div id="form-select" className="uk-form-controls">
-          <AutoCompleteSelect
-            options={serviceTypes}
-            onChange={async event => {
-              onFilterChange('item.categories', event.value)
-              await onFilterSubmit()
-            }}
-          />
+}: FilterProps) => {
+  const [originalSliderValue, setOriginalSliderValue] = useState(1)
+
+  return (
+    <div id="main-div">
+      <form
+        onSubmit={async event => {
+          event.preventDefault()
+          await onFilterSubmit()
+        }}
+      >
+        <legend className="uk-legend">FILTERS</legend>
+        <div className="uk-margin">
+          <FormLabel label="OCCUPATION" />
+          <div id="form-select" className="uk-form-controls">
+            <AutoCompleteSelect
+              options={serviceTypes}
+              onChange={async event => {
+                onFilterChange('item.categories', event.value)
+                await onFilterSubmit()
+              }}
+            />
+          </div>
         </div>
-      </div>
-      <p> PRICE RANGE </p>
-      <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
-        <div className="uk-inline">
-          <input
-            className="uk-input"
-            type="number"
-            placeholder="MIN"
-            onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
-          />
+        <p> PRICE RANGE </p>
+        <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
+          <div className="uk-inline">
+            <input
+              className="uk-input"
+              type="number"
+              placeholder="MIN"
+              onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
+            />
+          </div>
+          <span data-uk-icon="icon: triangle-right; ratio: 2" />
+          <div className="uk-inline">
+            <input
+              className="uk-input"
+              type="number"
+              placeholder="MAX"
+              onChange={event => onFilterChange('priceMax', event.target.value, '>=')}
+            />
+          </div>
         </div>
-        <span data-uk-icon="icon: triangle-right; ratio: 2" />
-        <div className="uk-inline">
-          <input
-            className="uk-input"
-            type="number"
-            placeholder="MAX"
-            onChange={event => onFilterChange('priceMax', event.target.value, '>=')}
-          />
-        </div>
-      </div>
-      <p> LOCATION </p>
-      <div className="uk-margin">
-        <input
-          className="uk-input"
-          type="text"
-          placeholder="City"
-          onChange={event => onFilterChange('location.city', event.target.value)}
-        />
-      </div>
-      <div className="uk-margin">
-        <input
-          className="uk-input"
-          type="text"
-          placeholder="State"
-          onChange={event => onFilterChange('location.state', event.target.value)}
-        />
-      </div>
-      <div className="uk-margin">
-        <input
-          className="uk-input"
-          type="text"
-          placeholder="Zip"
-          onChange={event => onFilterChange('location.zipCode', event.target.value)}
-        />
-      </div>
-      <div className="uk-margin">
-        <select
-          className="uk-select"
-          onChange={event => onFilterChange('location.country', event.target.value)}
-        >
-          {Countries.map(c => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="uk-margin">
-        <input
-          className="uk-input"
-          type="text"
-          placeholder="Plus Code"
-          value={plusCode}
-          onChange={event => onChange('plusCode', event.target.value, 'search')}
-        />
-      </div>
-      <div className="uk-margin">
-        <p> RATING </p>
-        <StarRatingComponent
-          name="rate1"
-          starCount={5}
-          value={rating}
-          onStarClick={onRatingChanged}
-        />
-      </div>
-      <div className="uk-margin">
-        <p>
-          {' '}
-          WITHIN RADIUS (
-          {locationRadius > -1
-            ? profile.preferences.measurementUnit === 'ENGLISH'
-              ? `${(locationRadius / 1609).toFixed(2)} miles`
-              : `${locationRadius / 1000} km`
-            : 'Nearby'}
-          ){' '}
-        </p>
+        <p> LOCATION </p>
         <div className="uk-margin">
           <input
-            className="uk-range"
-            type="range"
-            value={locationRadius}
-            min="-1"
-            max="200000"
-            step="1"
-            onChange={event => {
-              onChange('locationRadius', event.target.value, 'search')
-            }}
+            className="uk-input"
+            type="text"
+            placeholder="City"
+            onChange={event => onFilterChange('location.city', event.target.value)}
           />
         </div>
-      </div>
-      <button
-        type="reset"
-        className="uk-button uk-button-default uk-margin-small-right"
-        onClick={onFilterReset}
-      >
-        Reset
-      </button>
-      <button type="submit" className="uk-button uk-button-primary">
-        Search
-      </button>
-    </form>
-  </div>
-)
+        <div className="uk-margin">
+          <input
+            className="uk-input"
+            type="text"
+            placeholder="State"
+            onChange={event => onFilterChange('location.state', event.target.value)}
+          />
+        </div>
+        <div className="uk-margin">
+          <input
+            className="uk-input"
+            type="text"
+            placeholder="Zip"
+            onChange={event => onFilterChange('location.zipCode', event.target.value)}
+          />
+        </div>
+        <div className="uk-margin">
+          <select
+            className="uk-select"
+            onChange={event => onFilterChange('location.country', event.target.value)}
+          >
+            {Countries.map(c => (
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="uk-margin">
+          <input
+            className="uk-input"
+            type="text"
+            placeholder="Plus Code"
+            value={plusCode}
+            onChange={event => onChange('plusCode', event.target.value, 'search')}
+          />
+        </div>
+        <div className="uk-margin">
+          <p> RATING </p>
+          <StarRatingComponent
+            name="rate1"
+            starCount={5}
+            value={rating}
+            onStarClick={onRatingChanged}
+          />
+        </div>
+        <div className="uk-margin">
+          <p>
+            {' '}
+            WITHIN RADIUS (
+            {locationRadius > 5000
+              ? profile.preferences.measurementUnit === 'ENGLISH'
+                ? `${(locationRadius / Values.meterToMiles).toFixed(0)} miles`
+                : `${(locationRadius / Values.meterToKilometer).toFixed(0)} km`
+              : 'Nearby'}
+            ){' '}
+          </p>
+          <div className="uk-margin">
+            <input
+              className="uk-range"
+              type="range"
+              value={originalSliderValue}
+              min="1"
+              max="100"
+              step="1"
+              onChange={event => {
+                /**
+                 * Logarithmic Range Formula for fine-grained slider controls.
+                 */
+                const minSliderRange = 1
+                const maxSliderRange = 100
+
+                const minSliderRangeLog = Math.log(Values.minLocation)
+                const maxSliderRangeLog = Math.log(Values.maxLocation)
+
+                const scale =
+                  (maxSliderRangeLog - minSliderRangeLog) / (maxSliderRange - minSliderRange)
+
+                const actualValue = Math.exp(
+                  minSliderRangeLog + scale * (Number(event.target.value) - minSliderRange)
+                )
+                setOriginalSliderValue(Number(event.target.value))
+                onChange('locationRadius', actualValue.toFixed(0), 'search')
+              }}
+            />
+          </div>
+        </div>
+        <button
+          type="reset"
+          className="uk-button uk-button-default uk-margin-small-right"
+          onClick={onFilterReset}
+        >
+          Reset
+        </button>
+        <button type="submit" className="uk-button uk-button-primary">
+          Search
+        </button>
+      </form>
+    </div>
+  )
+}
 
 export default Filter

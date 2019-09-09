@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@celebryts/react-autocomplete-tags": "^1.0.0",
+    "@types/faker": "^4.1.5",
     "@types/jest": "^24.0.12",
     "@types/node": "^12.0.0",
     "@types/qrcode.react": "^0.8.2",
@@ -30,6 +31,7 @@
     "cypress-file-upload": "^3.3.3",
     "electron-is-dev": "^1.1.0",
     "electron-serve": "^0.3.0",
+    "faker": "^4.1.0",
     "is-electron": "^2.2.0",
     "iso-639-1": "^2.0.5",
     "moment": "^2.24.0",
@@ -118,8 +120,16 @@
     ],
     "compression": "store",
     "extraFiles": [
-      {"from": "./external/_root", "to": "./", "filter": "*" },
-      {"from": "./external", "to": "./external", "filter": "*"}
+      {
+        "from": "./external/_root",
+        "to": "./",
+        "filter": "*"
+      },
+      {
+        "from": "./external",
+        "to": "./external",
+        "filter": "*"
+      }
     ],
     "mac": {
       "category": "public.app-category.developer-tools",

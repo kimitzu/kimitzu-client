@@ -6,6 +6,7 @@ import { FormSelector } from '../Selector'
 
 import Countries from '../../constants/Countries.json'
 import Location from '../../interfaces/Location'
+import OpenLocationCode from '../../utils/Location/PlusCode'
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
 
@@ -143,29 +144,41 @@ const AddressForm = ({
               className="uk-input"
               value={location.plusCode}
               type="text"
-              onChange={event => handleChange('plusCode', event.target.value)}
+              onChange={event => {
+                const plusCode = event.target.value
+                location.plusCode = plusCode
+                if (OpenLocationCode.isValid(plusCode)) {
+                  const decodedLocation = OpenLocationCode.decode(plusCode)
+                  location.latitude = decodedLocation.latitudeCenter.toString()
+                  location.longitude = decodedLocation.longitudeCenter.toString()
+                } else {
+                  location.latitude = ''
+                  location.longitude = ''
+                }
+                setLocation({ ...location })
+              }}
             />
           </div>
         </div>
         <TwoInputs
           input1={{
-            label: 'LONGITUDE',
-            props: {
-              id: 'longitude',
-              type: 'number',
-              value: location.longitude,
-              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChange('longitude', event.target.value),
-            },
-          }}
-          input2={{
             label: 'LATITUDE',
             props: {
               id: 'latitude',
-              type: 'number',
+              type: 'text',
               value: location.latitude,
               onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChange('latitude', event.target.value),
+                handleChange('latitude', event.target.value.toString()),
+            },
+          }}
+          input2={{
+            label: 'LONGITUDE',
+            props: {
+              id: 'longitude',
+              type: 'text',
+              value: location.longitude,
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange('longitude', event.target.value.toString()),
             },
           }}
         />

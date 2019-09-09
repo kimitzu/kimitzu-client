@@ -1,0 +1,6 @@
+{
+    "minLocation": 5000,
+    "maxLocation": 200000,
+    "meterToKilometer": 1000,
+    "meterToMiles": 1609
+}

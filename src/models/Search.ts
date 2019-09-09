@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import config from '../config'
+import Values from '../constants/Values.json'
 import PlusCode from '../utils/Location/PlusCode'
 import Listing from './Listing'
 
@@ -54,7 +55,7 @@ class Search implements State {
   public filters: Ers = {
     'metadata.contractType': 'SERVICE',
   }
-  public locationRadius: number = -1
+  public locationRadius: number = Values.minLocation
   public modifiers: Ers = {
     'metadata.contractType': '==',
   }
@@ -92,7 +93,7 @@ class Search implements State {
     filters: {
       'metadata.contractType': 'SERVICE',
     },
-    locationRadius: -1,
+    locationRadius: Values.minLocation,
     modifiers: {
       'metadata.contractType': '==',
     },
@@ -252,8 +253,9 @@ class Search implements State {
       const locationRadiusFilter =
         searchParams.locationRadius > -1 ? searchParams.locationRadius : 0
       const { latitudeCenter, longitudeCenter } = PlusCode.decode(searchParams.plusCode)
-      extendedFilters[0] = `coordsWithin(${latitudeCenter}, ${longitudeCenter}, doc.location.zipCode, doc.location.country, ${locationRadiusFilter})`
-      // extendedFilters.push(`geoWithin(${latitudeCenter}, ${longitudeCenter}, doc.location.latitude, doc.location.longitude, ${locationRadiusFilter})`)
+      extendedFilters.push(
+        `geoWithin("${latitudeCenter}", "${longitudeCenter}", doc.location.latitude, doc.location.longitude, ${locationRadiusFilter})`
+      )
     }
 
     if (priceRange) {
