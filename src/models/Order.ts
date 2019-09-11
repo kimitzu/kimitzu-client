@@ -532,13 +532,11 @@ class Order implements OrderInterface {
   public get step(): number {
     switch (this.state) {
       case 'PENDING':
-        return 0
       case 'AWAITING_PAYMENT':
         return 0
       case 'AWAITING_PICKUP':
         return 1
       case 'AWAITING_FULFILLMENT':
-        return 2
       case 'PARTIALLY_FULFILLED':
         return 2
       case 'FULFILLED':

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
+import { Button } from '../components/Button'
 import OrderItemCard from '../components/Card/OrderItemCard'
 
 import OrderHistory from '../models/OrderHistory'
@@ -8,6 +9,8 @@ import './History.css'
 
 interface HistoryState {
   orders: OrderHistory[]
+  filteredOrders: OrderHistory[]
+  filters: string[]
   isLoading: boolean
   viewType: string
 }
@@ -24,8 +27,13 @@ class History extends React.Component<HistoryProps, HistoryState> {
     this.state = {
       viewType: '',
       orders: [],
+      filteredOrders: [],
+      filters: [],
       isLoading: true,
     }
+    this.renderFilters = this.renderFilters.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.handleResetFilter = this.handleResetFilter.bind(this)
   }
 
   public async componentDidMount() {
@@ -52,6 +60,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
 
     this.setState({
       orders,
+      filteredOrders: orders,
       isLoading: false,
       viewType: viewType.toUpperCase(),
     })
@@ -67,47 +76,16 @@ class History extends React.Component<HistoryProps, HistoryState> {
           <h4 id="side-menu-filters-title" className="color-primary">
             FILTERS
           </h4>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Unfunded
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Refunded
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Pending
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Disputes
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Ready To Process
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Completed
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Fulfilled
-            </label>
-          </div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-            <label>
-              <input className="uk-checkbox" type="checkbox" /> Errors
-            </label>
-          </div>
-          <a href="#">Reset Filters</a>
+          <form className="uk-margin-top">
+            {this.renderFilters()}
+            <Button
+              className="uk-button uk-button-link"
+              type="reset"
+              onClick={this.handleResetFilter}
+            >
+              Reset Filters
+            </Button>
+          </form>
         </div>
         <div id="side-menu-purchases">
           <div id="side-menu-purchases-header">
@@ -144,12 +122,12 @@ class History extends React.Component<HistoryProps, HistoryState> {
           </div>
           <p id="number-purchases-text">
             {' '}
-            {this.state.orders.length || 0} {this.state.viewType.toLowerCase()} found{' '}
+            {this.state.filteredOrders.length || 0} {this.state.viewType.toLowerCase()} found{' '}
           </p>
           {this.state.isLoading ? (
             <div uk-spinner="ratio: 2" />
-          ) : this.state.orders.length > 0 ? (
-            this.state.orders.map(order => (
+          ) : this.state.filteredOrders.length > 0 ? (
+            this.state.filteredOrders.map(order => (
               <Link
                 to={`${window.location.hash.substr(1)}/${order.orderId || order.caseId}`}
                 key={order.orderId || order.caseId}
@@ -164,6 +142,59 @@ class History extends React.Component<HistoryProps, HistoryState> {
         </div>
       </div>
     )
+  }
+
+  private renderFilters() {
+    const { filters } = OrderHistory
+    return Object.keys(filters).map(filterKey => (
+      <div key={filterKey} className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+        <label className="uk-text-capitalize">
+          <input
+            className="uk-checkbox"
+            type="checkbox"
+            onChange={e => this.handleFilterChange(e, filterKey)}
+          />
+          <a data-uk-tooltip={filters[filterKey].description}> {filterKey}</a>
+        </label>
+      </div>
+    ))
+  }
+
+  private handleFilterChange(event, selectedFilter) {
+    const orderFilters = OrderHistory.filters
+    const { filters } = this.state
+    if (event.target.checked) {
+      filters.push(selectedFilter)
+    } else {
+      const index = filters.findIndex(filter => filter === selectedFilter)
+      if (index !== -1) {
+        filters.splice(index, 1)
+      }
+    }
+    this.setState(state => {
+      if (filters.length === 0) {
+        return {
+          filters,
+          filteredOrders: state.orders,
+        }
+      }
+      const filteredStates: string[] = filters.reduce((acc: string[], cur: string) => {
+        const newFilters = [...acc, ...orderFilters[cur].states]
+        return newFilters
+      }, [])
+      const filteredOrders = state.orders.filter(order => filteredStates.includes(order.state))
+      return {
+        filters,
+        filteredOrders,
+      }
+    })
+  }
+
+  private handleResetFilter() {
+    this.setState(state => ({
+      filters: [],
+      filteredOrders: state.orders,
+    }))
   }
 }
 
