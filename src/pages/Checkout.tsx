@@ -280,6 +280,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         </div>
         <div className="uk-flex-1 uk-padding-small">
           <CheckoutPaymentCard
+            key={this.state.isPending.toString()}
             acceptedCurrencies={cryptoCurrencies.filter(crypto => {
               return this.state.listing.metadata.acceptedCurrencies.includes(crypto.value)
             })}
@@ -345,12 +346,19 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   private async handlePlaceOrder() {
+    this.setState({
+      isPending: true,
+    })
+
     let paymentInformation
 
     const isOwner = this.state.listing.isOwner
     if (isOwner) {
       window.UIkit.notification('This is how your listing looks like to other users.', {
         status: 'primary',
+      })
+      this.setState({
+        isPending: false,
       })
       return
     }
@@ -366,6 +374,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     } catch (e) {
       window.UIkit.notification(e.message, {
         status: 'warning',
+      })
+      this.setState({
+        isPending: false,
       })
       return
     }

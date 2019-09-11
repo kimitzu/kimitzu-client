@@ -58,7 +58,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="Occupation Classification" required />
+          <FormLabel label="OCCUPATION CLASSIFICATION" required />
           <div id="form-select" className="uk-form-controls">
             <AutoCompleteSelect
               defaultSelectorVal={listing.metadata.serviceClassification || ''}
@@ -195,7 +195,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 />
               ),
               label: {
-                name: 'Service Quantity',
+                name: 'SERVICE QUANTITY',
               },
               descriptiveLabel:
                 'How many service units would you like to offer? (Leave blank if you do not want to use this field).',

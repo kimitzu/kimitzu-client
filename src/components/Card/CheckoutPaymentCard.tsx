@@ -20,7 +20,7 @@ interface Option {
 }
 
 interface Props {
-  isPending?: boolean
+  isPending: boolean
   handleOnChange: (field: string, value: any, parentField?: string) => void
   handlePlaceOrder?: () => void
   listing?: Listing
@@ -53,7 +53,7 @@ const CheckoutPaymentCard = ({
       <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle">
         <Button
           className="uk-button uk-button-primary"
-          disabled={isPending}
+          showSpinner={isPending}
           onClick={handlePlaceOrder}
         >
           {isPending ? 'PENDING...' : 'PLACE ORDER NOW'}

@@ -53,7 +53,7 @@ const RegistrationForm = (props: Props) => (
         </div>
       </div>
       <div className="uk-margin">
-        <FormLabel label="USERNAME" required />
+        <FormLabel label="HANDLE" required />
         <div className="uk-form-controls">
           <input
             id="username"

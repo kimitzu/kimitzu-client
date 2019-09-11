@@ -12,7 +12,6 @@ import {
   TagsForm,
 } from '../../components/Form'
 
-import Axios from 'axios'
 import { Button } from '../../components/Button'
 import ChangeCredentials from '../../components/Card/ChangeCredentials'
 import Login from '../../components/Card/Login'
@@ -32,6 +31,7 @@ import Languages from '../../constants/Languages.json'
 import UnitsOfMeasurement from '../../constants/UnitsOfMeasurement.json'
 import Profile from '../../models/Profile'
 import Settings from '../../models/Settings'
+import { webSocketResponsesInstance } from '../../models/WebsocketResponses'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../../utils/NestedJSONUpdater'
 import decodeHtml from '../../utils/Unescape'
@@ -216,9 +216,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       }
     }
 
-    const moderatorListResponse = await Axios.get(
-      `${config.openBazaarHost}/ob/moderators?async=false&include=`
-    )
+    const moderatorListResponse = { data: webSocketResponsesInstance.moderatorIDs }
+
     if (moderatorListResponse.data) {
       await moderatorListResponse.data.forEach(async (moderatorId, index) => {
         const moderator = await Profile.retrieve(moderatorId)

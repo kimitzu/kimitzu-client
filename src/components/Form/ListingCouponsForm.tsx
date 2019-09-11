@@ -47,6 +47,10 @@ const ListingCouponsForm = ({
 }: Props) => {
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
+      <div className="uk-alert-primary uk-padding-small uk-margin-bottom">
+        Create coupons that your customers can use during checkout for exclusive offers or
+        discounts.
+      </div>
       <fieldset className="uk-fieldset">
         {coupons.map((coupon: Coupon, index: number) => {
           return (
@@ -66,6 +70,7 @@ const ListingCouponsForm = ({
                   component: (
                     <input
                       id={`coupon-title-${index}`}
+                      placeholder="Coupon Title"
                       className="uk-input"
                       type="text"
                       value={decodeHtml(coupon.title)}
@@ -81,6 +86,7 @@ const ListingCouponsForm = ({
                   component: (
                     <input
                       id={`coupon-code-${index}`}
+                      placeholder="Discount Code"
                       className="uk-input"
                       type="text"
                       value={coupons[index].discountCode}
@@ -98,6 +104,7 @@ const ListingCouponsForm = ({
                       id={`coupon-${index}`}
                       options={discountOptions}
                       inputProps={{
+                        placeholder: 'Discount',
                         value: coupons[index].percentDiscount || coupons[index].priceDiscount,
                         onChange: event => {
                           if (coupons[index].type === 'percent') {

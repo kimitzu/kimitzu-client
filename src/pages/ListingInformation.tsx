@@ -292,9 +292,13 @@ class ListingProfile extends Component<Props, State> {
           <ProfessionalBackgroundCard data={background} name="Work History" />
         ) : null}
         {this.renderReviews()}
-        <TagsCard data={spokenLanguages || []} name="Spoken Languages" />
+
+        {/* Return card if implementation is done */}
+        {/* <TagsCard data={spokenLanguages || []} name="Spoken Languages" /> */}
+
         {skills.length > 0 ? <TagsCard name="Skills" data={skills} /> : null}
-        {profile.customProps.programmerCompetency !== '{}' ? (
+        {profile.customProps.programmerCompetency !== '{}' &&
+        listing.isRelatedCompetency(['251', '252']) ? (
           <div className="uk-margin-bottom">
             <ProgrammersCompetencyCard data={profile} />
           </div>

@@ -43,7 +43,7 @@ interface Props {
 }
 
 const AddressForm = ({
-  isListing: isListing,
+  isListing,
   updateIndex,
   handleSave,
   data,
@@ -65,6 +65,7 @@ const AddressForm = ({
   } as Location
 
   const [location, setLocation] = useState(baseLocationObject)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (data) {
@@ -79,9 +80,15 @@ const AddressForm = ({
   return (
     <form
       className="uk-form-stacked"
-      onSubmit={event => {
+      onSubmit={async event => {
         event.preventDefault()
-        handleSave(location, updateIndex)
+        setIsLoading(true)
+        try {
+          await handleSave(location, updateIndex)
+          setIsLoading(false)
+        } catch (e) {
+          setIsLoading(false)
+        }
       }}
     >
       <fieldset className="uk-fieldset">
@@ -247,17 +254,19 @@ const AddressForm = ({
             DELETE
           </Button>
         ) : null}
-        {!isNew ? (
+        {!isNew && isListing ? (
           <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
+            showSpinner={isLoading}
           >
             UPDATE LISTING
           </Button>
         ) : null}
         <Button
-          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          className={`uk-button ${isNew || !isListing ? 'uk-button-primary' : 'uk-button-default'}`}
           type="submit"
+          showSpinner={isLoading}
         >
           {isListing ? 'NEXT' : 'SAVE'}
         </Button>

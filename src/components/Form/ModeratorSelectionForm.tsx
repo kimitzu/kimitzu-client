@@ -19,6 +19,7 @@ interface Props {
   submitLabel?: string
   handleFullSubmit?: (event: React.FormEvent) => void
   isNew?: boolean
+  isListing?: boolean
 }
 
 const ModeratorSelectionForm = ({
@@ -32,6 +33,7 @@ const ModeratorSelectionForm = ({
   submitLabel,
   handleFullSubmit,
   isNew,
+  isListing,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   return (
@@ -129,7 +131,7 @@ const ModeratorSelectionForm = ({
         ))}
       </div>
       <div className="submit-btn-div uk-margin-top">
-        {!isNew ? (
+        {!isNew && isListing ? (
           <Button
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
@@ -138,7 +140,7 @@ const ModeratorSelectionForm = ({
           </Button>
         ) : null}
         <Button
-          className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
+          className={`uk-button ${isNew || !isListing ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleSubmit}
         >
           {submitLabel || 'NEXT'}

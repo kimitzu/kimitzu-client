@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import config from './config'
 import './config/main.css'
+import { webSocketResponsesInstance } from './models/WebsocketResponses'
 import * as serviceWorker from './serviceWorker'
 
 declare global {
@@ -13,6 +14,7 @@ declare global {
 }
 
 window.socket = new WebSocket(`${config.websocketHost}`)
+webSocketResponsesInstance.initialize()
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

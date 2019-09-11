@@ -199,35 +199,60 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       // },
       {
         component: (
-          <TagsForm
-            onSubmit={tags => {
-              const listing = this.state.listing
-              listing.item.tags = tags
-              this.setState({
-                listing,
-              })
-              this.handleSubmitForm()
-            }}
-            tags={this.state.listing.item.tags}
-            isNew={this.state.isListingNew}
-            handleFullSubmit={this.handleFullSubmit}
-          />
+          <div className="uk-flex uk-flex-column uk-width-1-1">
+            <div className="uk-alert-primary uk-padding-small uk-margin-bottom">
+              Use tags to enhance search visibility of your listing.
+            </div>
+            <TagsForm
+              onSubmit={tags => {
+                const listing = this.state.listing
+                listing.item.tags = tags
+                this.setState({
+                  listing,
+                })
+                this.handleSubmitForm()
+              }}
+              tags={this.state.listing.item.tags}
+              isNew={this.state.isListingNew}
+              handleFullSubmit={this.handleFullSubmit}
+            />
+          </div>
         ),
         title: 'Tags',
       },
       {
         component: (
-          <ModeratorSelectionForm
-            availableModerators={availableModerators}
-            selectedModerators={selectedModerators}
-            handleBtnClick={this.handleModeratorSelection}
-            handleSubmit={handleSubmitModeratorSelection}
-            handleModeratorSearch={this.handleModeratorSearch}
-            handleMoreInfo={handleShowModeratorModal}
-            showSpinner={!hasFetchedAModerator}
-            isNew={this.state.isListingNew}
-            handleFullSubmit={this.handleFullSubmit}
-          />
+          <div className="uk-flex uk-flex-column uk-width-1-1">
+            {availableModerators.length <= 0 ? (
+              <div className="uk-alert-warning uk-padding-small uk-margin-bottom" uk-alert>
+                It seems like you have no moderators setup.
+                <br />
+                Review moderators in the{' '}
+                <a
+                  href="#"
+                  onClick={event => {
+                    event.preventDefault()
+                    window.location.hash = '/settings'
+                  }}
+                >
+                  settings page
+                </a>
+                .
+              </div>
+            ) : null}
+            <ModeratorSelectionForm
+              availableModerators={availableModerators}
+              selectedModerators={selectedModerators}
+              handleBtnClick={this.handleModeratorSelection}
+              handleSubmit={handleSubmitModeratorSelection}
+              handleModeratorSearch={this.handleModeratorSearch}
+              handleMoreInfo={handleShowModeratorModal}
+              showSpinner={!hasFetchedAModerator}
+              isNew={this.state.isListingNew}
+              handleFullSubmit={this.handleFullSubmit}
+              isListing
+            />
+          </div>
         ),
         title: 'Moderators',
       },

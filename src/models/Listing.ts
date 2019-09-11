@@ -235,6 +235,15 @@ class Listing implements ListingInterface {
     )
     return { ratingSummary, ratings: ratingsRequest.data }
   }
+
+  public isRelatedCompetency(competencyIDs: string[]) {
+    const competencyChecks = competencyIDs.map(competencyID =>
+      this.metadata.serviceClassification!.startsWith(competencyID)
+    )
+    return competencyChecks.reduce((previous, next) => {
+      return previous || next
+    }, false)
+  }
 }
 
 export default Listing
