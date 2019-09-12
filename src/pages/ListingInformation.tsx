@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
+import ReactMarkdown from 'react-markdown'
+
 import { Button } from '../components/Button'
 import {
   InformationCard,
@@ -239,14 +241,12 @@ class ListingProfile extends Component<Props, State> {
                     <div id="soldByCont">
                       <div id="soldByContLeft">
                         <img
-                          className="uk-border-circle"
+                          className="uk-border-circle imageAvatar"
                           src={
                             profile.avatarHashes.small
                               ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
                               : `${config.host}/images/user.svg`
                           }
-                          width="65"
-                          height="65"
                           alt="Border circle"
                         />
                       </div>
@@ -280,7 +280,9 @@ class ListingProfile extends Component<Props, State> {
         {listing.item.description ? (
           <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
             <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
-            <p className="inside-content">{listing.item.description}</p>
+            <div className="inside-content">
+              <ReactMarkdown source={listing.item.description} />
+            </div>
           </div>
         ) : null}
         <PayoutCard acceptedPayments={listing.metadata.acceptedCurrencies} />

@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
 import OtherInformationCard from '../Card/OtherInformationCard'
@@ -6,6 +7,8 @@ import ProfessionalBackgroundCard from '../Card/ProfessionalBackgroundCard'
 import ProgrammersCompetencyCard from '../Card/ProgrammersCompetencyCard'
 import SocialMediaCard from '../Card/SocialMediaCard'
 import TagsCard from '../Card/TagsCard'
+
+import './ProfileBasicInfoSegment.css'
 
 interface Props {
   profile: Profile
@@ -17,7 +20,9 @@ const ProfileBasicInfoSegment = ({ profile }: Props) => (
       <h3 id="title-about" className="uk-card-title">
         About
       </h3>
-      <p>{profile.about}</p>
+      <div className="markdown-container">
+        <ReactMarkdown source={profile.about} />
+      </div>
     </div>
     <SocialMediaCard contact={profile.contactInfo} />
     {profile.background && profile.background.educationHistory.length > 0 ? (
