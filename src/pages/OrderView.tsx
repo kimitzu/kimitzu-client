@@ -21,6 +21,7 @@ import Order from '../models/Order'
 import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
 import ClientRatings from '../constants/ClientRatings.json'
 import OrderRatings from '../constants/OrderRatings.json'
+import decodeHtml from '../utils/Unescape'
 
 interface RouteParams {
   id: string
@@ -412,7 +413,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               date={new Date(order.contract.dispute!.timestamp)}
             >
               <SimpleBorderedSegment title={'The order is being disputed:'}>
-                <p className="color-secondary">{order.contract.dispute!.claim}</p>
+                <p className="color-secondary">{decodeHtml(order.contract.dispute!.claim)}</p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
@@ -488,7 +489,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 }
               >
                 <p className="color-secondary">
-                  {order.contract.buyerOrderCompletion.ratings[0].ratingData.review}
+                  {decodeHtml(order.contract.buyerOrderCompletion.ratings[0].ratingData.review)}
                 </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
@@ -558,7 +559,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
-                <p className="color-secondary">{order.contract.vendorOrderFulfillment[0].note}</p>
+                <p className="color-secondary">
+                  {decodeHtml(order.contract.vendorOrderFulfillment[0].note)}
+                </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
@@ -689,13 +692,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           <OrderSummaryItemSegment title="Order Details">
             <SimpleBorderedSegment>
               <OrderDetailsSegment
-                listingName={order.contract.vendorListings[0].item.title}
+                listingName={decodeHtml(order.contract.vendorListings[0].item.title)}
                 listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
                 listingType="SERVICE"
                 quantity={`${order.contract.buyerOrder.items[0].quantity ||
                   order.contract.buyerOrder.items[0].quantity64}`}
                 total={`${order.fiatValue} (${order.cryptoValue})`}
-                memo={order.contract.buyerOrder.items[0].memo}
+                memo={decodeHtml(order.contract.buyerOrder.items[0].memo)}
               />
             </SimpleBorderedSegment>
           </OrderSummaryItemSegment>

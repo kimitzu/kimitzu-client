@@ -41,8 +41,8 @@ class Order implements OrderInterface {
   public static async retrieve(id: string): Promise<Order> {
     const orderRequest = await Axios.get(`${config.openBazaarHost}/ob/order/${id}`)
     const order = new Order(orderRequest.data)
-    order.vendor = await Profile.retrieve(order.contract.vendorListings[0].vendorID.peerID, true)
-    order.buyer = await Profile.retrieve(order.contract.buyerOrder.buyerID.peerID, true)
+    order.vendor = await Profile.retrieve(order.contract.vendorListings[0].vendorID.peerID)
+    order.buyer = await Profile.retrieve(order.contract.buyerOrder.buyerID.peerID)
     order.id = id
 
     if (order.contract.buyerOrder.payment.moderator) {

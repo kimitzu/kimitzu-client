@@ -10,7 +10,7 @@ interface Props {
 }
 
 const PayoutCard = (props: Props) => (
-  <div id="profile-payout">
+  <div id="profile-payout" className="uk-margin-bottom">
     <div className="uk-card uk-card-default uk-card-body">
       <h3 id="title-social-media" className="uk-card-title">
         Payout Method

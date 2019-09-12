@@ -13,7 +13,7 @@ interface Props {
 
 const ProfileBasicInfoSegment = ({ profile }: Props) => (
   <div>
-    <div className="uk-card uk-card-default uk-card-body">
+    <div className="uk-card uk-card-default uk-card-body uk-margin-bottom">
       <h3 id="title-about" className="uk-card-title">
         About
       </h3>

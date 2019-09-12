@@ -34,7 +34,7 @@ const ProfessionalBackgroundCard = (props: ProfessionalBackgoundInterface) => {
   }
 
   return (
-    <div className="uk-margin-top">
+    <div className="uk-margin-bottom">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-background" className="uk-card-title">
           {name}

@@ -29,7 +29,12 @@ const ListingCard = ({ listing }: ListingProps) => (
                   listing.thumbnail.small}`
               : `${config.host}/images/picture.png`
           }
-          alt=""
+          onError={(ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            const image = ev.target as HTMLImageElement
+            image.onerror = null
+            image.src = `${config.host}/images/picture.png`
+          }}
+          alt="Image"
         />
       </div>
       <div className="listing-small-info">

@@ -10,7 +10,7 @@ interface ProgrammersCompetencyCard {
 const ProgrammersCompetencyCard = (props: ProgrammersCompetencyCard) => {
   const { data } = props
   return (
-    <div className="uk-margin-top">
+    <div className="uk-margin-bottom">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-background" className="uk-card-title">
           Programmer Competency
