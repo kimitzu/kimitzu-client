@@ -11,6 +11,8 @@ import Routes from './Routes'
 import Profile from './models/Profile'
 
 import config from './config'
+import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
+import { Search, searchInstance } from './models/Search'
 
 if (isElectron()) {
   // tslint:disable-next-line: no-var-requires
@@ -30,6 +32,10 @@ interface State {
   showSignup: boolean
   isAuthenticated: boolean
   secondTimer: number
+  profile: Profile
+  [x: string]: any
+  search: Search
+  breadCrumb: BreadCrumb
 }
 
 class App extends React.Component<{}, State> {
@@ -38,6 +44,7 @@ class App extends React.Component<{}, State> {
 
   constructor(props) {
     super(props)
+    const profile = new Profile()
     this.state = {
       height: 680,
       isReady: false,
@@ -45,18 +52,30 @@ class App extends React.Component<{}, State> {
       showSignup: false,
       isAuthenticated: true,
       secondTimer: 5,
+      profile,
+      search: searchInstance,
+      breadCrumb: breadCrumbInstance,
     }
     this.connect = this.connect.bind(this)
     this.activateTimer = this.activateTimer.bind(this)
     this.renderContent = this.renderContent.bind(this)
+    this.updateBreadCrumb = this.updateBreadCrumb.bind(this)
   }
 
   public async componentDidMount() {
     await this.connect()
-
     setTimeout(() => {
       this.setState({ height: window.innerHeight })
     }, 1000)
+    this.updateBreadCrumb()
+    window.onhashchange = () => {
+      this.updateBreadCrumb()
+    }
+  }
+
+  public updateBreadCrumb() {
+    const breadCrumb = this.state.breadCrumb.breadCrumbRecordHistory()
+    this.setState({ breadCrumb })
   }
 
   public render() {
@@ -103,7 +122,7 @@ class App extends React.Component<{}, State> {
 
     return (
       <>
-        <Routes />
+        <Routes profile={this.state.profile} history={this.state.breadCrumb.breadHistory} />
         <FloatingChat />
       </>
     )

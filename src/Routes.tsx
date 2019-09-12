@@ -1,6 +1,8 @@
 import React from 'react'
-import { HashRouter, Route, Switch } from 'react-router-dom'
-
+import { HashRouter, Route, Switch, withRouter } from 'react-router-dom'
+import { BreadCrumb } from './components/BreadCrumb'
+import { NavBar } from './components/NavBar'
+import ProfileModel from './models/Profile'
 import {
   Checkout,
   CreateListing,
@@ -15,8 +17,20 @@ import DisputeView from './pages/DisputeView'
 import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
 
-const Routes = () => (
+interface BreadHistory {
+  link: string
+  name: string
+}
+
+interface RouteProps {
+  profile: ProfileModel
+  history: BreadHistory[]
+}
+
+const Routes = ({ history, profile }: RouteProps) => (
   <HashRouter>
+    <NavBar profile={profile} isSearchBarShow />
+    {history.length > 1 ? <BreadCrumb history={history} /> : null}
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/wallet" exact component={WalletView} />

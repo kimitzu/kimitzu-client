@@ -7,8 +7,6 @@ import Profile from '../../models/Profile'
 import './NavBar.css'
 
 interface NavBarProps {
-  onQueryChange: (fieldName: string, value: string, parentField?: string) => void
-  onSearchSubmit: (isNewSearch: boolean) => void
   isSearchBarShow: boolean
   profile: Profile
 }
@@ -18,8 +16,9 @@ const handleReload = () => {
   window.location.reload()
 }
 
-const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: NavBarProps) => {
+const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
   const [displayLogout, setDisplayLogout] = useState(false)
+  const [srchQuery, setsrchQuery] = useState('')
   useEffect(() => {
     ;(async () => {
       const isAuthActivated = await Profile.isAuthenticationActivated()
@@ -40,7 +39,8 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
               className="uk-search uk-search-default uk-width-1-1"
               onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
                 event.preventDefault()
-                onSearchSubmit(true)
+                const dmEvent = new CustomEvent('srchEvent', { detail: srchQuery })
+                window.dispatchEvent(dmEvent)
               }}
             >
               <a
@@ -50,7 +50,8 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
                 data-uk-search-icon
                 onClick={event => {
                   event.preventDefault()
-                  onSearchSubmit(true)
+                  const dmEvent = new CustomEvent('srchEvent', { detail: srchQuery })
+                  window.dispatchEvent(dmEvent)
                 }}
               />
               <input
@@ -58,7 +59,9 @@ const NavBar = ({ onQueryChange, onSearchSubmit, isSearchBarShow, profile }: Nav
                 className="uk-search-input"
                 type="search"
                 placeholder="What are you looking for?"
-                onChange={event => onQueryChange('query', event.target.value, 'search')}
+                onChange={event => {
+                  setsrchQuery(event.target.value)
+                }}
               />
             </form>
           </div>

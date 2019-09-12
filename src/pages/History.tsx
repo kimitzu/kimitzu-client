@@ -89,7 +89,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
         </div>
         <div id="side-menu-purchases">
           <div id="side-menu-purchases-header">
-            <div id="left">
+            <div hidden id="left">
               <span className="uk-margin-medium-left" uk-icon="arrow-left" />
             </div>
             <div id="center">
@@ -97,7 +97,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
                 {this.state.viewType}
               </h4>
             </div>
-            <div id="right">
+            <div hidden id="right">
               <span className="uk-margin-medium-right" uk-icon="close" />
             </div>
           </div>

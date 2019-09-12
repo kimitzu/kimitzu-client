@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
-import { NavBar } from '../components/NavBar'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
@@ -50,6 +49,13 @@ class Home extends Component<HomeProps, HomeState> {
     await this.handleSearchSubmit()
     const profile = await Profile.retrieve()
     this.setState({ profile })
+
+    const searchEvent = (event: CustomEvent) => {
+      window.location.hash = '/'
+      this.handleChange('query', event.detail, 'search')
+      this.handleSearchSubmit()
+    }
+    window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 
   public renderPages(): JSX.Element[] {
@@ -97,12 +103,6 @@ class Home extends Component<HomeProps, HomeState> {
     const { profile, rating, search } = this.state
     return (
       <div>
-        <NavBar
-          profile={profile}
-          onQueryChange={this.handleChange}
-          onSearchSubmit={this.handleSearchSubmit}
-          isSearchBarShow
-        />
         <div className="main-container">
           <div className="child-main-container">
             <div className="custom-width">
@@ -184,7 +184,6 @@ class Home extends Component<HomeProps, HomeState> {
 
   private async handleSearchSubmit() {
     const { search } = this.state
-
     if (!search.query.includes(' ') && search.query.length === 46) {
       window.location.hash = `/profile/${search.query}`
       return
