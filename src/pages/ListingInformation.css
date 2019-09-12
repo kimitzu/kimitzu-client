@@ -1,3 +1,11 @@
+.imageAvatar {
+  height: 64px;
+  width: 64px;
+  object-fit: cover;
+}
+.inside-content ul {
+  padding-left: 2rem;
+}
 #container {
   background-color: #f1f9ff;
   padding: 2rem 10% 2rem 10%;
@@ -77,4 +85,5 @@
 }
 .inside-content {
   padding-top: 2%;
+  padding-left: 1%;
 }

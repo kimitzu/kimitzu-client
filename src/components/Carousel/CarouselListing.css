@@ -1,3 +1,11 @@
+.imageCover {
+  object-fit: cover;
+}
+
+.imageContain {
+  object-fit: contain;
+}
+
 .imageSelected {
   border: 3px solid rgb(0, 89, 255);
 }

@@ -73,7 +73,7 @@ const CarouselListing = ({ data }: Props) => {
     <div>
       <div className="mainImg">
         <img
-          className="mainImgChild"
+          className="mainImgChild imageContain"
           src={src}
           alt=""
           onClick={() =>
@@ -123,7 +123,10 @@ const CarouselListing = ({ data }: Props) => {
                 <img
                   src={img.src}
                   alt=""
-                  className={id === 'img' + i ? 'imageSelected imgHeight' : 'imgHeight'}
+                  className={[
+                    id === 'img' + i ? 'imageSelected imgHeight' : 'imgHeight',
+                    'imageCover',
+                  ].join(' ')}
                 />
               </li>
             )
