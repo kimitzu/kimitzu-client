@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
 import {
-  // AddressCard,
   CheckoutPaymentCard,
   ListingCheckoutCard,
   ModeratorCard,
@@ -16,8 +15,6 @@ import Listing from '../models/Listing'
 import Order from '../models/Order'
 import Profile from '../models/Profile'
 
-import Axios from 'axios'
-import config from '../config'
 import PaymentNotification, { Notification } from '../interfaces/PaymentNotification'
 import './Checkout.css'
 

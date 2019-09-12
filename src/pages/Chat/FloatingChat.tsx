@@ -178,6 +178,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
           messages: [msgObj],
         }
         convNew.lastMessage = msg
+        convNew.timestamp = new Date(d.message.timestamp)
         realTimeConv.unshift(convNew)
       } else {
         if (!realTimeConv[index]) {
@@ -186,6 +187,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
 
         realTimeConv[index].messages.push(newMsg)
         realTimeConv[index].lastMessage = msg
+        realTimeConv[index].timestamp = new Date(d.message.timestamp)
       }
       this.setState({
         conversations: realTimeConv,
@@ -241,6 +243,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
     if (this.state.chatMsg !== '') {
       conv[index].messages.push(msg)
       conv[index].lastMessage = chatmsgTemp
+      conv[index].timestamp = new Date()
 
       this.setState({ disabled: true, chatMsg: '' })
       this.setState({ conversations: conv, scrollBottom: true })

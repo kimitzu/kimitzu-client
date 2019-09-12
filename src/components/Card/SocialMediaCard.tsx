@@ -1,5 +1,6 @@
 import React from 'react'
 
+import isElectron from 'is-electron'
 import SocialMedia from '../../constants/SocialMedia.json'
 import { Contact } from '../../interfaces/Profile'
 import './SocialMediaCard.css'
@@ -13,7 +14,7 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
   const socialMedia = contact.social
 
   return (
-    <div className="uk-margin-top">
+    <div className="uk-margin-bottom">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-social-media" className="uk-card-title">
           {title || 'Social Media'}
@@ -43,7 +44,21 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
               </div>
               <div id="account-name">
                 <p className="uk-text-capitalize">{social.type}</p>
-                <a href={SocialType!.link.replace('{uid}', social.username)}>{social.username}</a>
+                {isElectron() ? (
+                  <a
+                    href="#"
+                    onClick={evt => {
+                      evt.preventDefault()
+                      window.openExternal(SocialType!.link.replace('{uid}', social.username))
+                    }}
+                  >
+                    {social.username}
+                  </a>
+                ) : (
+                  <a href={SocialType!.link.replace('{uid}', social.username)} target="_blank">
+                    {social.username}
+                  </a>
+                )}
               </div>
             </div>
           )

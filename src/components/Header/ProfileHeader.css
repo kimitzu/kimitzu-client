@@ -12,8 +12,19 @@
 #header > div {
   float: left;
 }
-#header-icon {
-  padding: 0.8%;
+#header-btn {
+  background-color: #6abafd;
+  font-weight: 700;
+  border-radius: 0;
+}
+#header-btn:hover span {
+  display: none;
+}
+#header-btn:hover {
+  filter: contrast(0.8);
+}
+#header-btn:hover:before {
+  content: attr(data-hover);
 }
 #tab-label {
   font-weight: bold;

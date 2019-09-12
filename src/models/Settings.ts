@@ -15,6 +15,14 @@ class Settings implements SettingsInterface {
     return settings
   }
 
+  public static async blockANode(id: string) {
+    await Axios.post(`${config.openBazaarHost}/ob/blocknode/${id}`)
+  }
+
+  public static async unblockANode(id: string) {
+    await Axios.delete(`${config.openBazaarHost}/ob/blocknode/${id}`)
+  }
+
   public blockedNodes: string[] = []
   public country: string = ''
   public localCurrency: string = ''

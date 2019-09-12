@@ -172,8 +172,18 @@ class Home extends Component<HomeProps, HomeState> {
                 className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
                 id="empty-results"
               >
-                <h2>No Results ¯\_(ツ)_/¯</h2>
-                <p>Try a different search keyword or filter</p>
+                <h1>No Results</h1>
+                <p>Your search did not match any listings.</p>
+
+                <div className="uk-align-center uk-margin-top">
+                  <p className="color-secondary">Suggestions:</p>
+
+                  <ul className="uk-margin-left">
+                    <li>Try a different search keyword or filter.</li>
+                    <li>Make sure that all words are spelled correctly.</li>
+                    <li>Try more general keywords.</li>
+                  </ul>
+                </div>
               </div>
             )}
           </div>
