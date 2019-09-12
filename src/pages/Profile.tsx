@@ -6,6 +6,7 @@ import { ProfileSwitcher } from '../components/Switcher'
 
 import Profile from '../models/Profile'
 import { Search, searchInstance } from '../models/Search'
+import Settings from '../models/Settings'
 
 import Rating, { RatingSummary } from '../interfaces/Rating'
 
@@ -19,6 +20,9 @@ interface ProfilePageState {
   isOwner: boolean
   ratings: Rating[]
   ratingsSummary: RatingSummary
+  isFollowing: boolean
+  isBlocked: boolean
+  canSendRequest: boolean // To avoid click spam of follow and block buttons
 }
 
 interface RouteProps {
@@ -38,13 +42,23 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       isOwner: false,
       ratingsSummary: {} as RatingSummary,
       ratings: [],
+      isFollowing: false,
+      isBlocked: false,
+      canSendRequest: true,
     }
+    this.handleFollowChange = this.handleFollowChange.bind(this)
+    this.handleSendMessage = this.handleSendMessage.bind(this)
+    this.handleBlockPeerChange = this.handleBlockPeerChange.bind(this)
   }
 
   public async componentDidMount() {
     const id = this.props.match.params.id
     const profile: Profile = await Profile.retrieve(id, true)
-    const isOwner = id === undefined
+    const ownProfile: Profile = await Profile.retrieve()
+    const isFollowing = await Profile.isFollowing(id)
+    const settings = await Settings.retrieve()
+    const isBlocked = settings.blockedNodes.includes(id)
+    const isOwner = id === ownProfile.peerID // Check if the supplied peerID is your own peerID
     const search = this.state.search
     search.filters['vendorID.peerID'] = profile.peerID
     search.modifiers['vendorID.peerID'] = '=='
@@ -55,6 +69,8 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     this.setState({
       profile,
       search,
+      isFollowing,
+      isBlocked,
       isOwner,
     })
     const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
@@ -86,10 +102,19 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
   }
 
   public render() {
-    const { profile, isOwner, search, ratings, ratingsSummary } = this.state
+    const { profile, isOwner, search, ratings, ratingsSummary, isFollowing, isBlocked } = this.state
+    const { handleBlockPeerChange, handleFollowChange, handleSendMessage } = this
     return (
       <div>
-        <ProfileHeader profile={profile} isOwner={isOwner} />
+        <ProfileHeader
+          profile={profile}
+          isOwner={isOwner}
+          isBlocked={isBlocked}
+          isFollowing={isFollowing}
+          handleBlockBtn={handleBlockPeerChange}
+          handleFollowBtn={handleFollowChange}
+          handleMessageBtn={handleSendMessage}
+        />
         <ProfileSwitcher
           profile={profile}
           listings={search.results.data}
@@ -98,6 +123,61 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
         />
       </div>
     )
+  }
+
+  private async handleFollowChange() {
+    const { isFollowing, isOwner, profile, canSendRequest } = this.state
+    const { peerID } = profile
+    if (!canSendRequest || isOwner) {
+      return
+    }
+    this.setState({ canSendRequest: false })
+    try {
+      if (!isFollowing) {
+        await Profile.follow(peerID)
+      } else {
+        await Profile.unfollow(peerID)
+      }
+      this.setState({ isFollowing: !isFollowing, canSendRequest: true })
+    } catch (error) {
+      window.UIkit.notification(
+        `${error.message}. Please try again later or make sure that the Djali server is running.`,
+        {
+          status: 'danger',
+        }
+      )
+      this.setState({ canSendRequest: true })
+    }
+  }
+
+  private async handleBlockPeerChange() {
+    const { isBlocked, isOwner, profile, canSendRequest } = this.state
+    const { peerID } = profile
+    if (!canSendRequest || isOwner) {
+      return
+    }
+    this.setState({ canSendRequest: false })
+    try {
+      if (!isBlocked) {
+        await Settings.blockANode(peerID)
+      } else {
+        await Settings.unblockANode(peerID)
+      }
+      this.setState({ isBlocked: !isBlocked, canSendRequest: true })
+    } catch (error) {
+      window.UIkit.notification(
+        `${error.message}. Please try again later or make sure that the Djali server is running.`,
+        {
+          status: 'danger',
+        }
+      )
+      this.setState({ canSendRequest: true })
+    }
+  }
+
+  private handleSendMessage() {
+    const dmEvent = new CustomEvent('dm', { detail: this.state.profile })
+    window.dispatchEvent(dmEvent)
   }
 }
 

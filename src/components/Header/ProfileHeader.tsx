@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Button } from '../Button'
+
 import Profile from '../../models/Profile'
 
 import config from '../../config'
@@ -9,22 +11,46 @@ import './ProfileHeader.css'
 interface ViewProfileInterface {
   profile: Profile
   isOwner: boolean
+  handleFollowBtn: () => void
+  handleBlockBtn: () => void
+  handleMessageBtn: () => void
+  isFollowing: boolean
+  isBlocked: boolean
 }
 
-const ProfileHeader = ({ profile, isOwner }: ViewProfileInterface) => {
+const ProfileHeader = ({
+  profile,
+  isOwner,
+  isFollowing,
+  isBlocked,
+  handleMessageBtn,
+  handleBlockBtn,
+  handleFollowBtn,
+}: ViewProfileInterface) => {
   return (
     <div>
       <div id="cover-photo" className="uk-text-right">
-        <span id="header-icon" data-uk-icon="ban" />
-        <span
-          id="header-icon-msg"
-          data-uk-icon="mail"
-          onClick={() => {
-            const dmEvent = new CustomEvent('dm', { detail: profile })
-            window.dispatchEvent(dmEvent)
-          }}
-        />
-        <span id="header-icon" data-uk-icon="plus" />
+        <div hidden={isOwner} className="uk-button-group">
+          <Button
+            id="header-btn"
+            className="uk-button uk-button-small"
+            data-hover={isFollowing ? 'Unfollow' : 'Follow'}
+            onClick={handleFollowBtn}
+          >
+            <span>{isFollowing ? 'Following' : 'Follow'}</span>
+          </Button>
+          <Button id="header-btn" className="uk-button uk-button-small" onClick={handleMessageBtn}>
+            Message
+          </Button>
+          <Button
+            id="header-btn"
+            className="uk-button uk-button-small"
+            data-hover={isBlocked ? 'Unblock' : 'Block'}
+            onClick={handleBlockBtn}
+          >
+            <span>{isBlocked ? 'Blocked' : 'Block'}</span>
+          </Button>
+        </div>
       </div>
       <div id="profile-header" className="uk-width-1-1">
         <div id="profile-header-picture">

@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import getCurrencySymbol from 'currency-symbol-map'
 import config from '../config'
 import Image from '../interfaces/Image'
 import Location from '../interfaces/Location'
@@ -33,6 +32,19 @@ class Profile implements ProfileSchema {
       },
     })
     return deleteRequest
+  }
+
+  public static async isFollowing(peerID: string): Promise<boolean> {
+    const isFollowingRequest = await Axios.get(`${config.openBazaarHost}/ob/isfollowing/${peerID}`)
+    return isFollowingRequest.data.isFollowing
+  }
+
+  public static async follow(peerID: string) {
+    await Axios.post(`${config.openBazaarHost}/ob/follow`, { id: peerID })
+  }
+
+  public static async unfollow(peerID: string) {
+    await Axios.post(`${config.openBazaarHost}/ob/unfollow`, { id: peerID })
   }
 
   public static async isAuthenticationActivated(): Promise<boolean> {
