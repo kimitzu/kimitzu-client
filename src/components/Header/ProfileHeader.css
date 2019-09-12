@@ -58,7 +58,7 @@
   margin-left: 1rem;
 }
 #profile-header-name > h3 {
-  color: #fff;
+  color: var(--light-text);
   font-weight: bolder;
 }
 #title-about {
