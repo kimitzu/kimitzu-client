@@ -46,6 +46,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   public async componentDidMount() {
+    this.state.search.reset()
     await this.handleSearchSubmit()
     const profile = await Profile.retrieve()
     this.setState({ profile })

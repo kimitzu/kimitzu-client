@@ -60,6 +60,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     const isBlocked = settings.blockedNodes.includes(id)
     const isOwner = id === ownProfile.peerID // Check if the supplied peerID is your own peerID
     const search = this.state.search
+    search.reset()
     search.filters['vendorID.peerID'] = profile.peerID
     search.modifiers['vendorID.peerID'] = '=='
     search.paginate.limit = 0
