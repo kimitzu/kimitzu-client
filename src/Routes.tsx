@@ -31,7 +31,7 @@ const Routes = ({ history, profile }: RouteProps) => (
   <HashRouter>
     <NavBar profile={profile} isSearchBarShow />
     {history.length > 1 ? <BreadCrumb history={history} /> : null}
-    <Switch>
+    <Switch key={window.location.href}>
       <Route path="/" exact component={Home} />
       <Route path="/wallet" exact component={WalletView} />
       <Route path="/profile" exact component={Profile} />

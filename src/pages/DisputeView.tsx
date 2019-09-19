@@ -93,8 +93,25 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     window.socket.onmessage = async message => {
       const info = JSON.parse(message.data)
       if (info.notification) {
-        const payment = info as PaymentNotification
-        if (payment.notification.orderId === id) {
+        const notification = info as PaymentNotification
+
+        if (
+          notification.notification.type &&
+          ![
+            'disputeUpdate',
+            'disputeOpen',
+            'disputeClose',
+            'disputeAccepted',
+            'buyerDisputeTimeout',
+            'buyerDisputeExpiry',
+            'moderatorDisputeExpiry',
+            'vendorDisputeTimeout',
+          ].includes(notification.notification.type)
+        ) {
+          return
+        }
+
+        if (notification.notification.orderId === id) {
           const disputeUpdate = await Dispute.retrieve(id)
           this.setState({
             dispute: disputeUpdate,

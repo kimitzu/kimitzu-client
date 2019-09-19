@@ -247,17 +247,17 @@ class DevMode extends React.Component<{}, DevModeState> {
     ]
 
     const services = [
-      '251-0',
-      '2511-0',
-      '2512-0',
-      '2513-0',
-      '2514-0',
-      '2519-0',
-      '252-0',
-      '2521-0',
-      '2522-0',
-      '2523-0',
-      '2529-0',
+      '251-0: Software and Applications Developers and Analysts',
+      '2511-0: Systems Analysts',
+      '2512-0: Software Developers',
+      '2513-0: Web and Multimedia Developers',
+      '2514-0: Applications Programmers',
+      '2519-0: Software and Applications Developers and Analysts Not Elsewhere Classified',
+      '252-0: Database and Network Professionals',
+      '2521-0: Database Designers and Administrators',
+      '2522-0: Systems Administrators',
+      '2523-0: Computer Network Professionals',
+      '2529-0: Database and Network Professionals Not Elsewhere Classified',
     ]
 
     const randomClassification = services[faker.random.number({ min: 0, max: services.length - 1 })]

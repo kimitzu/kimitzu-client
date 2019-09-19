@@ -63,7 +63,7 @@ const PaymentQRCard = ({
         </div>
         <div className="uk-margin uk-margin-remove-horizontal">
           <div className="uk-inline">
-            <Button className="uk-button uk-button-default" type="button">
+            <Button className="uk-button uk-button-primary" type="button">
               Pay from wallet
             </Button>
             <div id="dropID" data-uk-dropdown="mode: click">
