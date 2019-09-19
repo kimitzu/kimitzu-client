@@ -116,7 +116,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
     window.socket.onmessage = async message => {
       const info = JSON.parse(message.data)
-      if (info.notification) {
+      if (info.notification && info.notification.type) {
         const payment = info as PaymentNotification
         if (payment.notification.orderId === id) {
           const orderUpdate = await Order.retrieve(id)

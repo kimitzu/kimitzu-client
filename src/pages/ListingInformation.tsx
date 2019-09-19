@@ -22,7 +22,6 @@ import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
 
 import OrderRatings from '../constants/OrderRatings.json'
-import ServiceTypes from '../constants/ServiceTypes.json'
 import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
@@ -181,7 +180,7 @@ class ListingProfile extends Component<Props, State> {
                     <div>
                       {'  '} Classification:{' '}
                       <p className="uk-display-inline uk-text-bold uk-text-capitalize">
-                        {ServiceTypes[listing.metadata.serviceClassification]}
+                        {listing.metadata.serviceClassification}
                       </p>
                     </div>
                   ) : null}

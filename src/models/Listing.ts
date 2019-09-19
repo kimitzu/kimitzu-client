@@ -160,6 +160,10 @@ class Listing implements ListingInterface {
     listingClone.item.skus[0].productID = this.currentSlug
     listingClone.slug = this.currentSlug
 
+    listingClone.item.categories = this.item.categories.map(category =>
+      category.split(':')[0].substr(0, 40)
+    )
+
     return listingClone
   }
 

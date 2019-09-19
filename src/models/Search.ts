@@ -225,10 +225,15 @@ class Search implements State {
 
     const priceMin = searchParams.filters.priceMin * 100
     const priceMax = searchParams.filters.priceMax * 100
+
     let priceRange
 
-    if (priceMin >= 0 && priceMax >= 0) {
-      priceRange = `doc.item.price >= ${priceMin} && doc.item.price <= ${priceMax}`
+    if (priceMin >= 0) {
+      priceRange = `doc.item.price >= ${priceMin}`
+    }
+
+    if (priceMax >= 0) {
+      priceRange += `&& doc.item.price <= ${priceMax}`
     }
 
     delete searchParams.filters.priceMin

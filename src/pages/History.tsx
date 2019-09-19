@@ -13,6 +13,7 @@ interface HistoryState {
   filters: string[]
   isLoading: boolean
   viewType: string
+  query: string
 }
 
 interface RouteProps {
@@ -30,6 +31,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
       filteredOrders: [],
       filters: [],
       isLoading: true,
+      query: '',
     }
     this.renderFilters = this.renderFilters.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
@@ -102,7 +104,13 @@ class History extends React.Component<HistoryProps, HistoryState> {
             </div>
           </div>
           <div className="uk-margin">
-            <form className="uk-search uk-search-default uk-width-3-4">
+            <form
+              className="uk-search uk-search-default uk-width-3-4"
+              onSubmit={evt => {
+                evt.preventDefault()
+                this.handleFilterChange('query', this.state.query)
+              }}
+            >
               <span
                 className="uk-search-icon-flip color-primary"
                 data-uk-search-icon
@@ -113,12 +121,13 @@ class History extends React.Component<HistoryProps, HistoryState> {
                 className="uk-search-input"
                 type="search"
                 placeholder="Search by title, order #, or vendor"
+                onChange={evt => {
+                  this.setState({
+                    query: evt.target.value,
+                  })
+                }}
               />
             </form>
-            <div id="right">
-              <a href="#"> Sort </a> |
-              <span className="uk-margin-small-right" uk-icon="thumbnails" />
-            </div>
           </div>
           <p id="number-purchases-text">
             {' '}
@@ -152,7 +161,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
           <input
             className="uk-checkbox"
             type="checkbox"
-            onChange={e => this.handleFilterChange(e, filterKey)}
+            onChange={e => this.handleFilterChange(filterKey, e.target.checked)}
           />
           <a data-uk-tooltip={filters[filterKey].description}> {filterKey}</a>
         </label>
@@ -160,10 +169,30 @@ class History extends React.Component<HistoryProps, HistoryState> {
     ))
   }
 
-  private handleFilterChange(event, selectedFilter) {
+  /**
+   * Handles filter change event.
+   *
+   * Filtering priority:
+   * 1. Filter by query
+   * 2. Filter by order status
+   *
+   * @param selectedFilter - Filter name
+   * @param value - Value of the filter
+   */
+  private handleFilterChange(selectedFilter, value) {
     const orderFilters = OrderHistory.filters
     const { filters } = this.state
-    if (event.target.checked) {
+
+    /**
+     * Filter the orders by query.
+     */
+    let orders = [...this.state.orders]
+    orders = orders.filter(order => {
+      const regExpTitle = new RegExp(`${this.state.query}`, 'i')
+      return regExpTitle.test(order.title)
+    })
+
+    if (value && selectedFilter !== 'query') {
       filters.push(selectedFilter)
     } else {
       const index = filters.findIndex(filter => filter === selectedFilter)
@@ -171,18 +200,38 @@ class History extends React.Component<HistoryProps, HistoryState> {
         filters.splice(index, 1)
       }
     }
+
     this.setState(state => {
-      if (filters.length === 0) {
+      /**
+       * Revert results to original order list.
+       */
+      if (filters.length === 0 && !state.query) {
         return {
           filters,
           filteredOrders: state.orders,
         }
       }
+
+      /**
+       * No order status filters, filter by query.
+       */
+      if (filters.length === 0 && state.query) {
+        return {
+          filters,
+          filteredOrders: orders,
+        }
+      }
+
+      /**
+       * Filter by order status.
+       */
       const filteredStates: string[] = filters.reduce((acc: string[], cur: string) => {
         const newFilters = [...acc, ...orderFilters[cur].states]
         return newFilters
       }, [])
-      const filteredOrders = state.orders.filter(order => filteredStates.includes(order.state))
+
+      const filteredOrders = orders.filter(order => filteredStates.includes(order.state))
+
       return {
         filters,
         filteredOrders,

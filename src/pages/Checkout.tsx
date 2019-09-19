@@ -41,6 +41,7 @@ interface CheckoutState {
   selectedCurrency: string
   payment: Notification
   isPaymentSchemeDirect: boolean
+  isRequestingPaymentInformation: boolean
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
@@ -77,6 +78,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       selectedModerators: [],
       selectedModeratorID: '',
       isPaymentSchemeDirect: true,
+      isRequestingPaymentInformation: false,
     }
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -120,6 +122,10 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       const rawData = JSON.parse(event.data)
       if (rawData.notification) {
         const data = JSON.parse(event.data) as PaymentNotification
+        if (data.notification.type !== 'payment') {
+          return
+        }
+
         this.setState(
           {
             payment: data.notification,
@@ -145,14 +151,20 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   public render() {
-    const { listing, isPending, quantity, amountToPay, paymentAddress } = this.state
+    const {
+      listing,
+      quantity,
+      amountToPay,
+      paymentAddress,
+      isRequestingPaymentInformation,
+    } = this.state
     return (
       <div id="checkout-container" className="uk-flex uk-flex-row uk-margin background-body">
         <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
           <div className="uk-margin-bottom">
             <ListingCheckoutCard listing={listing} quantity={quantity} />
           </div>
-          {isPending ? (
+          {isRequestingPaymentInformation ? (
             <div>
               <PaymentQRCard
                 address={paymentAddress}
@@ -385,6 +397,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       paymentAddress: paymentInformation.paymentAddress,
       amountToPay: paymentInformation.amount.toString(),
       isPending: true,
+      isRequestingPaymentInformation: true,
       order,
     })
   }
