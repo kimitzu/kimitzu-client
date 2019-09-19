@@ -14,11 +14,12 @@ const ListingCardGroup = ({ data }: ListingCardGroupProps) => (
       className="uk-grid-small uk-child-width-1-3@s uk-child-width-1-4@m listing-container"
       data-uk-grid
     >
-      {data.map((listing: Listing) => (
-        <div key={listing.hash}>
-          <ListingCard listing={listing} />
-        </div>
-      ))}
+      {data &&
+        data.map((listing: Listing) => (
+          <div key={listing.hash}>
+            <ListingCard listing={listing} />
+          </div>
+        ))}
     </div>
   </div>
 )
