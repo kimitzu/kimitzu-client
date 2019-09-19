@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
+import { Pagination } from '../components/Pagination'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
@@ -59,47 +60,6 @@ class Home extends Component<HomeProps, HomeState> {
     window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 
-  public renderPages(): JSX.Element[] {
-    const { search } = this.state
-    const pages: JSX.Element[] = []
-    let startIndex = 0
-    let paginationLimit = 9
-
-    if (search.paginate.currentPage < 5) {
-      startIndex = 0
-      paginationLimit = 9
-    } else {
-      startIndex = search.paginate.currentPage - 4
-      paginationLimit = search.paginate.currentPage + 5
-    }
-
-    if (paginationLimit > search.paginate.totalPages) {
-      paginationLimit = search.paginate.totalPages
-    }
-
-    for (let index = startIndex; index < paginationLimit; index++) {
-      let isActive = false
-
-      if (search.paginate.currentPage === index) {
-        isActive = true
-      }
-
-      pages.push(
-        <li key={index}>
-          <a
-            href="#"
-            className={isActive ? 'uk-badge' : ''}
-            onClick={async () => await this.handlePaginate(index)}
-          >
-            {index + 1}
-          </a>
-        </li>
-      )
-    }
-
-    return pages
-  }
-
   public render() {
     const { profile, rating, search } = this.state
     return (
@@ -130,27 +90,11 @@ class Home extends Component<HomeProps, HomeState> {
               <div className="custom-width-two">
                 <div className="pagination-cont">
                   <div className="left-side-container">
-                    {search.results.count > 25 ? (
-                      <ul className="uk-pagination">
-                        <li>
-                          <a
-                            href="#"
-                            onClick={() => this.handlePaginate(search.paginate.currentPage - 1)}
-                          >
-                            <span uk-icon="icon: chevron-left" />
-                          </a>
-                        </li>
-                        {this.renderPages()}
-                        <li>
-                          <a
-                            href="#"
-                            onClick={() => this.handlePaginate(search.paginate.currentPage + 1)}
-                          >
-                            <span uk-icon="icon: chevron-right" />
-                          </a>
-                        </li>
-                      </ul>
-                    ) : null}
+                    <Pagination
+                      totalRecord={search.results.count}
+                      recordsPerPage={search.paginate.limit}
+                      handlePageChange={this.handlePaginate}
+                    />
                     <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
                         options={SortOptions}
@@ -295,7 +239,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private async handlePaginate(index: number) {
-    const search = await this.state.search.executePaginate(index)
+    const search = await this.state.search.executePaginate(index - 1)
     if (search) {
       this.setState({
         search,
