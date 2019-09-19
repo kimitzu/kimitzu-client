@@ -14,6 +14,7 @@ import {
   TermsOfServiceCard,
 } from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
+import { Pagination } from '../components/Pagination'
 import { RatingsAndReviewsSegment } from '../components/Segment'
 
 import config from '../config'
@@ -40,6 +41,8 @@ interface State {
   quantity: number
   ratings: Rating[]
   ratingSummary: RatingSummary
+  reviewsPerPage: number
+  currentReviewPage: number
 }
 
 interface RouteProps {
@@ -64,8 +67,11 @@ class ListingProfile extends Component<Props, State> {
       quantity: 1,
       ratings: [],
       ratingSummary: { average: 0, count: 0, ratings: [], slug: '' },
+      reviewsPerPage: 2,
+      currentReviewPage: 1,
     }
     this.handleBuy = this.handleBuy.bind(this)
+    this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
   }
 
   public async componentDidMount() {
@@ -87,7 +93,9 @@ class ListingProfile extends Component<Props, State> {
           return rating
         })
       )
-      this.setState({ ratings: updatedRatings })
+      this.setState({
+        ratings: updatedRatings,
+      })
     } catch (error) {
       console.log(error)
       // TODO: Redirect to Not Found page
@@ -310,11 +318,16 @@ class ListingProfile extends Component<Props, State> {
   }
 
   private renderReviews() {
-    const { ratings, ratingSummary } = this.state
+    const { ratings, ratingSummary, currentReviewPage, reviewsPerPage } = this.state
     const { average, count } = ratingSummary
     if (count === 0) {
       return null
     }
+    const ratingsCount = ratings.length
+    const ratingsToDisplay = ratings.slice(
+      (currentReviewPage - 1) * reviewsPerPage,
+      currentReviewPage * reviewsPerPage
+    )
     return (
       <div className="uk-margin-top">
         <InformationCard title={`${count} Review${count > 1 ? 's' : ''}`}>
@@ -322,12 +335,24 @@ class ListingProfile extends Component<Props, State> {
             totalAverageRating={average}
             totalReviewCount={count}
             ratingInputs={OrderRatings}
-            ratings={ratings}
+            ratings={ratingsToDisplay}
             inlineSummaryDisplay
           />
+          <div className="uk-flex uk-flex-center">
+            <Pagination
+              totalRecord={ratingsCount}
+              recordsPerPage={reviewsPerPage}
+              handlePageChange={this.handleReviewPageChange}
+              selectedPage={currentReviewPage}
+            />
+          </div>
         </InformationCard>
       </div>
     )
+  }
+
+  private handleReviewPageChange(index: number) {
+    this.setState({ currentReviewPage: index })
   }
 
   private handleBuy() {

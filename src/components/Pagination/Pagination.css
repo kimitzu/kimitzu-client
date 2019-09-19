@@ -1,0 +1,8 @@
+.uk-active#pagination-item > a {
+  padding: 0 8px;
+  color: #fff;
+  background-color: var(--primary);
+}
+#disable-pagination-arrow {
+  pointer-events: none;
+}
