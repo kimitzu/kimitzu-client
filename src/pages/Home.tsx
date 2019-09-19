@@ -125,7 +125,7 @@ class Home extends Component<HomeProps, HomeState> {
                 searchInstance={this.state.search}
               />
             </div>
-            {search.results.count > 0 ? (
+            {search.results.data && search.results.count > 0 ? (
               <div className="custom-width-two">
                 <div className="pagination-cont">
                   <div className="left-side-container">
@@ -166,6 +166,18 @@ class Home extends Component<HomeProps, HomeState> {
             ) : search.isSearching ? (
               <div className="uk-align-center">
                 <div data-uk-spinner="ratio: 3" />
+              </div>
+            ) : !search.results.data ? (
+              <div
+                className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+                id="empty-results"
+              >
+                <h1>Crawling...</h1>
+                <p>Great! It seems like you just installed Djali.</p>
+
+                <p className="uk-margin-top">
+                  Please come back later as Djali crawls the listings on the network.
+                </p>
               </div>
             ) : (
               <div

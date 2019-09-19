@@ -284,8 +284,10 @@ class Search implements State {
     })
     this.paginate.totalPages = Math.ceil(result.data.count / this.paginate.limit)
 
-    const listings = result.data.data.map(d => new Listing(d))
-    result.data.data = listings
+    if (result.data.data) {
+      const listings = result.data.data.map(d => new Listing(d))
+      result.data.data = listings
+    }
 
     this.results = result.data as SearchResults
     return this
