@@ -34,7 +34,7 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
 
         {socialMedia.map(social => {
           const SocialType = SocialMedia.find(e => {
-            return e.value === social.type
+            return e.value.toLowerCase() === social.type.toLowerCase()
           })
 
           let link
