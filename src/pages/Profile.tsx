@@ -42,7 +42,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     this.state = {
       profile,
       search: searchInstance,
-      isOwner: false,
+      isOwner: true,
       ratingsSummary: {} as RatingSummary,
       ratings: [],
       isFollowing: false,
@@ -72,7 +72,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     })
     const settings = await Settings.retrieve()
     const isBlocked = settings.blockedNodes.includes(id)
-    const isOwner = id === ownProfile.peerID // Check if the supplied peerID is your own peerID
+    const isOwner = !id || id === ownProfile.peerID // Check if the supplied peerID is your own peerID
     const search = this.state.search
     search.reset()
     search.filters['vendorID.peerID'] = profile.peerID
