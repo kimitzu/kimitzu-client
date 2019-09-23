@@ -5,4 +5,5 @@ export default interface Constant {
 
 export interface CryptoCurrencyConstant extends Constant {
   explorer: string
+  icon: string
 }
