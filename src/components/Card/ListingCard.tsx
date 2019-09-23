@@ -20,7 +20,7 @@ const generateStars = (averageRating: number) => {
 }
 
 const ListingCard = ({ listing, targetCurrency }: ListingProps) => (
-  <div className="uk-card uk-card-hover listing">
+  <div className="uk-card uk-card-hover listing" id={listing.hash}>
     <Link to={`/listing/${listing.hash}`}>
       <div>
         <img
