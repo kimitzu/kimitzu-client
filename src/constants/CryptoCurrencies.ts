@@ -61,7 +61,7 @@ export default function get(): CryptoCurrencyConstant[] {
       return development
     }
     case 'production': {
-      return development
+      return production
     }
     case 'test': {
       return development
