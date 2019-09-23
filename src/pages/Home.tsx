@@ -105,6 +105,7 @@ class Home extends Component<HomeProps, HomeState> {
                   </div>
                   <div style={{ flex: 1 }}>
                     <ListingCardGroup
+                      key={search.paginate.currentPage}
                       data={search.results.data}
                       targetCurrency={profile.preferences.fiat}
                     />
