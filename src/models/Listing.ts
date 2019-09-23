@@ -17,6 +17,7 @@ import {
 } from '../interfaces/Listing'
 import Location from '../interfaces/Location'
 import Rating, { RatingSummary } from '../interfaces/Rating'
+import currency from './Currency'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -33,12 +34,16 @@ class Listing implements ListingInterface {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
     })
 
+    const currentUser = await Profile.retrieve()
+
     const listing = new Listing(djaliListing)
-    listing.isOwner = await listing.determineOwnership()
+    listing.currentUser = currentUser
+    listing.isOwner = listing.determineOwnership()
 
     return { profile, listing, imageData }
   }
 
+  public currentUser: Profile = new Profile()
   public isOwner: boolean = false
   public item: Item = {
     title: '',
@@ -136,25 +141,44 @@ class Listing implements ListingInterface {
     if (props) {
       Object.assign(this, props)
     }
+    this.normalize()
   }
 
   public normalize() {
     this.item.price /= 100
     this.currentSlug = this.slug
+    this.coupons = this.coupons.map(c => {
+      if (c.priceDiscount) {
+        c.type = 'price'
+        c.priceDiscount /= 100
+      } else {
+        c.type = 'percent'
+      }
+      c.uniqueId = `${Math.random()}`
+      return c
+    })
   }
 
-  public denormalize(): ListingInterface {
+  public denormalize(): Listing {
     const MAX_SLUG_LENGTH = 70
 
-    const listingClone = JSON.parse(JSON.stringify(this)) as ListingInterface
+    const listingClone = JSON.parse(JSON.stringify(this)) as Listing
     listingClone.slug = slugify(listingClone.item.title, { remove: /[*+~.()'"!:@]/g }).substr(
       0,
       MAX_SLUG_LENGTH
     )
+
     listingClone.coupons = listingClone.coupons.filter(
       coupon => coupon.discountCode !== '' || coupon.title !== ''
     )
-    listingClone.item.price = listingClone.item.price * 100
+    listingClone.coupons = listingClone.coupons.map(c => {
+      if (c.priceDiscount) {
+        c.priceDiscount *= 100
+      }
+      return c
+    })
+
+    listingClone.item.price *= 100
 
     delete listingClone.item.skus[0].variantCombo
     listingClone.item.skus[0].productID = this.currentSlug
@@ -163,6 +187,8 @@ class Listing implements ListingInterface {
     listingClone.item.categories = this.item.categories.map(category =>
       category.split(':')[0].substr(0, 40)
     )
+
+    delete listingClone.currentUser
 
     return listingClone
   }
@@ -209,8 +235,17 @@ class Listing implements ListingInterface {
     if (cryptoCurrencies.includes(this.metadata.pricingCurrency)) {
       return (this.item.price / this.metadata.coinDivisibility).toString()
     }
-    const realPrice = this.item.price / 100
+    const realPrice = this.item.price
     return realPrice.toFixed(2)
+  }
+
+  public toLocalCurrency() {
+    const localCurrency = currency.convert(
+      Number(this.displayValue),
+      this.metadata.pricingCurrency,
+      this.currentUser.preferences.fiat
+    )
+    return { price: localCurrency, currency: this.currentUser.preferences.fiat }
   }
 
   public get displayServiceRateMethod(): string | undefined {
@@ -219,9 +254,8 @@ class Listing implements ListingInterface {
     return ServiceRateMethods[index].display
   }
 
-  public async determineOwnership(): Promise<boolean> {
-    const user = await Profile.retrieve()
-    return user.peerID === this.vendorID.peerID
+  public determineOwnership(): boolean {
+    return this.currentUser.peerID === this.vendorID.peerID
   }
 
   public async getRatings(): Promise<{ ratingSummary: RatingSummary; ratings: Rating[] }> {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { WalletBalance } from '../../interfaces/Wallet'
 import currency from '../../models/Currency'
+import Profile from '../../models/Profile'
 import './WalletBalanceCard.css'
 
 interface WalletBalanceCardProps {
@@ -16,15 +17,20 @@ const WalletBalanceCard = ({
   transactionCount,
 }: WalletBalanceCardProps) => {
   const [fiatConversion, setFiatConversion] = useState(0)
+  const [currentUser, setCurrentUser] = useState(new Profile())
 
   useEffect(() => {
     ;(async () => {
-      const conversion = await currency.convert(
+      const currentUserReq = await Profile.retrieve()
+
+      const conversion = await currency.convertCrypto(
         selectedCryptoCurrency,
-        'usd',
+        currentUserReq.preferences.fiat,
         balance.confirmed / 100000000
       )
+
       setFiatConversion(conversion)
+      setCurrentUser(currentUserReq)
     })()
   }, [])
 
@@ -40,8 +46,10 @@ const WalletBalanceCard = ({
         </p>
       </div>
       <div id="middle-cont-bal">
-        <p className="bal-bold-text">Value in USD</p>
-        <p className="value-bal">${fiatConversion}</p>
+        <p className="bal-bold-text">Fiat Value</p>
+        <p className="value-bal">
+          {fiatConversion} {currentUser.preferences.fiat}
+        </p>
       </div>
       <div id="right-cont-bal">
         <p className="bal-bold-text">Transactions</p>

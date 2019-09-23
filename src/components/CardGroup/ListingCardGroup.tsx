@@ -6,9 +6,10 @@ import './ListingCardGroup.css'
 
 interface ListingCardGroupProps {
   data: Listing[]
+  targetCurrency?: string
 }
 
-const ListingCardGroup = ({ data }: ListingCardGroupProps) => (
+const ListingCardGroup = ({ data, targetCurrency }: ListingCardGroupProps) => (
   <div>
     <div
       className="uk-grid-small uk-child-width-1-3@s uk-child-width-1-4@m listing-container"
@@ -17,7 +18,7 @@ const ListingCardGroup = ({ data }: ListingCardGroupProps) => (
       {data &&
         data.map((listing: Listing) => (
           <div key={listing.hash}>
-            <ListingCard listing={listing} />
+            <ListingCard listing={listing} targetCurrency={targetCurrency} />
           </div>
         ))}
     </div>

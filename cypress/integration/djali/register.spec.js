@@ -41,6 +41,7 @@ context('Register', () => {
     cy.route({
       method: 'GET',
       url: 'http://localhost:8109/authenticate',
+      status: 404,
       response: { authenticated: false },
     })
     cy.route({
@@ -52,6 +53,16 @@ context('Register', () => {
       method: 'GET',
       url: 'http://localhost:4002/ob/chatconversations',
       response: [],
+    })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:4002/ob/exchangerate/btc',
+      response: {},
+    })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:4002/ob/moderators?async=true',
+      response: {},
     })
 
     cy.visit('http://localhost:3000/register')
@@ -146,12 +157,20 @@ context('Register', () => {
         spokenLanguages: ['English', 'Tagalog'],
         programmingLanguages: ['Javascript', 'Golang', 'C++'],
         customFields: [],
+        customProps: { programmerCompetency: '{}', skills: '[]' },
       }
-      console.log(JSON.stringify(profile.requestBody))
       cy.wrap(expectedProfile).should('deep.equal', profile.requestBody)
     })
 
     cy.get('#djali-text').should('contain.html', 'Welcome to DJALI, Djali Remote!')
+
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/authenticate',
+      status: 200,
+      response: { authenticated: false },
+    })
+
     cy.get('#home').click()
     cy.wait(5000)
     cy.get('#empty-results')

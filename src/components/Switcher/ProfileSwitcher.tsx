@@ -26,7 +26,7 @@ const ProfileSwitcher = ({ profile, listings, ratingSummary, ratings }: Props) =
         <ProfileBasicInfoSegment profile={profile} />
       </li>
       <li>
-        <ListingCardGroup data={listings} />
+        <ListingCardGroup data={listings} targetCurrency={profile.preferences.fiat} />
       </li>
       <li id="profile-ratings">
         <div className="uk-flex">

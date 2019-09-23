@@ -39,7 +39,8 @@ export interface Thumbnail {
 export interface Coupon {
   title: string
   discountCode: string
-  percentDiscount: number
+  percentDiscount?: number
+  priceDiscount?: number
   type: string
   uniqueId: string
 }

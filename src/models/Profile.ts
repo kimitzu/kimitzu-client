@@ -305,8 +305,8 @@ class Profile implements ProfileSchema {
     if (this.moderatorInfo.fee.fixedFee && this.moderatorInfo.fee.fixedFee.amount) {
       this.moderatorInfo.fee.fixedFee.amount = this.moderatorInfo.fee.fixedFee.amount * 100
     }
-    const firstSentence = this.about.split('.')[0].substr(0, 160)
-    this.shortDescription = firstSentence + '.'
+    const firstSentence = this.about.split('.')[0].substr(0, 157)
+    this.shortDescription = firstSentence + '...'
   }
 
   public postSave() {

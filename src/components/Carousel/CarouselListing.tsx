@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import config from '../../config'
 import './CarouselListing.css'
 
 interface Image {
@@ -81,6 +82,11 @@ const CarouselListing = ({ data }: Props) => {
               Number(id.replace('img', '')) - 1
             )
           }
+          onError={(ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            const image = ev.target as HTMLImageElement
+            image.onerror = null
+            image.src = `${config.host}/images/picture.png`
+          }}
         />
       </div>
 

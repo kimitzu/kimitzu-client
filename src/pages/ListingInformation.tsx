@@ -22,8 +22,10 @@ import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
 
+import { CircleSpinner } from '../components/Spinner'
 import OrderRatings from '../constants/OrderRatings.json'
 import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
+import currency from '../models/Currency'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 
@@ -43,6 +45,9 @@ interface State {
   ratingSummary: RatingSummary
   reviewsPerPage: number
   currentReviewPage: number
+  isLoading: boolean
+  loadingStatus: string
+  currentUser: Profile
 }
 
 interface RouteProps {
@@ -64,37 +69,52 @@ class ListingProfile extends Component<Props, State> {
       imageData: [],
       listing,
       profile,
+      currentUser: profile,
       quantity: 1,
       ratings: [],
       ratingSummary: { average: 0, count: 0, ratings: [], slug: '' },
       reviewsPerPage: 2,
       currentReviewPage: 1,
+      isLoading: true,
+      loadingStatus: '',
     }
     this.handleBuy = this.handleBuy.bind(this)
     this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
   }
 
   public async componentDidMount() {
+    this.setState({
+      loadingStatus: 'Retrieving Listing',
+    })
     const id = this.props.match.params.id
     try {
       const listingData = await Listing.retrieve(id)
+      const currentUser = await Profile.retrieve()
       const { listing, imageData, profile } = listingData
       this.setState({
         listing,
         imageData,
         profile,
+        loadingStatus: 'Retrieving Ratings',
+        currentUser,
       })
       const { ratingSummary, ratings } = await listing.getRatings()
       this.setState({ ratings, ratingSummary })
       const updatedRatings = await Promise.all(
         ratings.map(async (rating: Rating) => {
-          const userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
+          let userData
+          try {
+            userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
+          } catch (e) {
+            userData = new Profile()
+          }
           rating.avatar = userData.getAvatarSrc('small')
           return rating
         })
       )
       this.setState({
         ratings: updatedRatings,
+        isLoading: false,
       })
     } catch (error) {
       console.log(error)
@@ -131,6 +151,16 @@ class ListingProfile extends Component<Props, State> {
           <a key={index} data-uk-icon="icon: star;" className="empty-fill text-blue" />
         )
       }
+    }
+
+    if (this.state.isLoading) {
+      return (
+        <div className="uk-flex uk-flex-row uk-flex-center">
+          <div className="uk-margin-top">
+            <CircleSpinner message={`${this.state.loadingStatus}...`} />
+          </div>
+        </div>
+      )
     }
 
     return (
@@ -202,7 +232,12 @@ class ListingProfile extends Component<Props, State> {
                 <br />
                 <hr />
                 <p className="priceSize uk-margin-small-top uk-text-uppercase">
-                  {listing.displayValue} {listing.metadata.pricingCurrency.toUpperCase()}
+                  {currency.convert(
+                    Number(listing.displayValue),
+                    listing.metadata.pricingCurrency.toUpperCase(),
+                    this.state.currentUser.preferences.fiat
+                  )}{' '}
+                  {this.state.currentUser.preferences.fiat}
                   {listing.displayServiceRateMethod || ''}
                 </p>
                 <div id="footerContent" className="uk-margin-medium-top">
@@ -287,7 +322,7 @@ class ListingProfile extends Component<Props, State> {
         {listing.item.description ? (
           <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
             <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
-            <div className="inside-content">
+            <div className="inside-content markdown-container">
               <ReactMarkdown source={listing.item.description} />
             </div>
           </div>

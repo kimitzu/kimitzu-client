@@ -1,14 +1,13 @@
 import React from 'react'
 
+import currency from '../../models/Currency'
+import Listing from '../../models/Listing'
 import { Button } from '../Button'
-
-import { Listing } from '../../interfaces/Listing'
 
 interface OrderSummary {
   listingAmount: number
-  currency: string
   shippingAmount?: number
-  couponAmount?: number
+  discount: string
   subTotalAmount: number
   totalAmount: number
   estimate?: number
@@ -23,7 +22,7 @@ interface Props {
   isPending: boolean
   handleOnChange: (field: string, value: any, parentField?: string) => void
   handlePlaceOrder?: () => void
-  listing?: Listing
+  listing: Listing
   orderSummary: OrderSummary
   acceptedCurrencies: Option[]
   selectedCurrency?: string
@@ -38,16 +37,13 @@ const CheckoutPaymentCard = ({
   acceptedCurrencies,
   selectedCurrency,
   isEstimating,
+  listing,
 }: Props) => {
-  const {
-    couponAmount,
-    currency,
-    listingAmount,
-    shippingAmount,
-    subTotalAmount,
-    totalAmount,
-    estimate,
-  } = orderSummary
+  const { discount, shippingAmount, subTotalAmount, totalAmount, estimate } = orderSummary
+
+  const sourceCurrency = listing.metadata.pricingCurrency
+  const localCurrencyPrice = listing.toLocalCurrency()
+
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-column uk-height-1-1">
       <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle">
@@ -66,7 +62,7 @@ const CheckoutPaymentCard = ({
       </div>
       <hr />
       <div className="uk-margin-small-top">
-        <h5 className="uk-margin-small-bottom uk-text-bold">Currency</h5>
+        <h5 className="uk-margin-small-bottom uk-text-bold">Pay Via</h5>
         <div className="uk-form-controls uk-form-controls-text uk-height-1-1 uk-flex uk-flex-column uk-flex-start">
           {acceptedCurrencies.map((option: Option) => (
             <label key={option.value.toString()}>
@@ -91,7 +87,7 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {listingAmount} {currency}
+                {localCurrencyPrice.price} {localCurrencyPrice.currency}
               </label>
             </div>
           </div>
@@ -102,7 +98,12 @@ const CheckoutPaymentCard = ({
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
                 <label>
-                  {shippingAmount} {currency}
+                  {currency.convert(
+                    Number(shippingAmount),
+                    sourceCurrency,
+                    localCurrencyPrice.currency
+                  )}{' '}
+                  {localCurrencyPrice.currency}
                 </label>
               </div>
             </div>
@@ -115,19 +116,22 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {subTotalAmount} {currency}
+                {currency.convert(
+                  Number(subTotalAmount),
+                  sourceCurrency,
+                  localCurrencyPrice.currency
+                )}{' '}
+                {localCurrencyPrice.currency}
               </label>
             </div>
           </div>
-          {couponAmount! >= 0 ? (
+          {discount ? (
             <div className="uk-flex">
               <div className="uk-flex-1">
                 <label>Coupon</label>
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
-                <label>
-                  -{couponAmount} {currency}
-                </label>
+                <label>-{discount}</label>
               </div>
             </div>
           ) : null}
@@ -137,7 +141,7 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {totalAmount} {currency}
+                {totalAmount.toFixed(2)} {localCurrencyPrice.currency}
               </label>
             </div>
           </div>

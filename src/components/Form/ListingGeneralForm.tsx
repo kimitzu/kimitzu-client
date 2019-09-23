@@ -61,7 +61,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
           <FormLabel label="OCCUPATION CLASSIFICATION" required />
           <div id="form-select" className="uk-form-controls">
             <AutoCompleteSelect
-              defaultSelectorVal={listing.metadata.serviceClassification || ''}
+              defaultSelectorVal={listing.metadata.serviceClassification!.split(':')[0] || ''}
               options={serviceTypes}
               onChange={event => {
                 const occupationIndex = event.value
@@ -73,7 +73,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 item.categories = [occupationIndex]
 
                 const metadata = listing.metadata
-                metadata.serviceClassification = occupationIndex
+                metadata.serviceClassification = `${occupationIndex}: ${ServiceTypes[occupationIndex]}`
 
                 handleChange('item', item)
                 handleChange('metadata', metadata)

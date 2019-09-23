@@ -98,7 +98,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
     if (id) {
       const { listing, imageData } = await Listing.retrieve(id)
-      listing.normalize()
 
       if (!listing.isOwner) {
         window.UIkit.notification('Unable to edit listing that you do not own!', {
@@ -223,7 +222,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <div className="uk-flex uk-flex-column uk-width-1-1">
-            {availableModerators.length <= 0 ? (
+            {availableModerators.length <= 0 && selectedModerators.length <= 0 ? (
               <div className="uk-alert-warning uk-padding-small uk-margin-bottom" uk-alert>
                 It seems like you have no moderators setup.
                 <br />

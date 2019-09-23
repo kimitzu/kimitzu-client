@@ -41,7 +41,7 @@ const renderReviews = (ratings?: Rating[], djaliRatings?: RatingSummary['djali']
         }, 0) / fields.length
       return (
         <UserReviewSegment
-          key={sourceId}
+          key={timestamp}
           imgSrc={avatar}
           reviewer={reviewer || 'User'}
           review={comment}

@@ -41,7 +41,9 @@ const ListingCheckoutCard = ({ listing, quantity }: Props) => (
     <div className="uk-flex-1 uk-text-center">
       <label id="listing-checkout-card-column-header">Price</label>
       <div id="listing-checkout-card-side-data">
-        <p className="uk-text-uppercase">{`${listing.displayValue} ${listing.metadata.pricingCurrency}${listing.displayServiceRateMethod}`}</p>
+        <p className="uk-text-uppercase">{`${listing.toLocalCurrency().price} ${
+          listing.toLocalCurrency().currency
+        }${listing.displayServiceRateMethod}`}</p>
       </div>
     </div>
     <div className="uk-flex-1 uk-text-center">

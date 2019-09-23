@@ -16,6 +16,7 @@ import Order from '../models/Order'
 import Profile from '../models/Profile'
 
 import PaymentNotification, { Notification } from '../interfaces/PaymentNotification'
+import currency from '../models/Currency'
 import './Checkout.css'
 
 const cryptoCurrencies = CryptoCurrencies()
@@ -42,6 +43,9 @@ interface CheckoutState {
   payment: Notification
   isPaymentSchemeDirect: boolean
   isRequestingPaymentInformation: boolean
+  coupon: string
+  discount: string
+  totalAmount: number
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
@@ -79,12 +83,16 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       selectedModeratorID: '',
       isPaymentSchemeDirect: true,
       isRequestingPaymentInformation: false,
+      coupon: '',
+      discount: '',
+      totalAmount: 0,
     }
     this.copyToClipboard = this.copyToClipboard.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.handleMoreInfo = this.handleMoreInfo.bind(this)
     this.socket = window.socket
+    this.estimate = this.estimate.bind(this)
   }
 
   public async componentDidMount() {
@@ -206,6 +214,32 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               </div> */}
               <div className="uk-margin-bottom">
                 <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                  <h3>Coupon</h3>
+                  <div className="uk-margin">
+                    <form
+                      onSubmit={async evt => {
+                        evt.preventDefault()
+                        await this.handleCouponApply()
+                      }}
+                      className="uk-flex uk-flex-row"
+                    >
+                      <input
+                        className="uk-input"
+                        placeholder="Enter coupon code"
+                        onChange={e => {
+                          this.handleChange('coupon', e.target.value)
+                        }}
+                        value={this.state.coupon}
+                      />
+                      <button type="submit" className="uk-button uk-button-primary uk-margin-left">
+                        Apply
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div className="uk-margin-bottom">
+                <div className="uk-card uk-card-default uk-card-body uk-card-small">
                   <h3>Payment Scheme</h3>
                   <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     <label>
@@ -287,21 +321,21 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             </div>
           )}
         </div>
-        <div className="uk-flex-1 uk-padding-small">
+        <div className="uk-flex uk-padding-small uk-width-1-3">
           <CheckoutPaymentCard
             key={this.state.isPending.toString()}
             acceptedCurrencies={cryptoCurrencies.filter(crypto => {
               return this.state.listing.metadata.acceptedCurrencies.includes(crypto.value)
             })}
             orderSummary={{
-              couponAmount: 0,
-              currency: this.state.listing.metadata.pricingCurrency,
+              discount: this.state.discount,
               estimate: this.state.estimate,
               listingAmount: parseFloat(this.state.listing.displayValue),
               shippingAmount: 0,
               subTotalAmount: parseFloat(this.state.listing.displayValue),
-              totalAmount: parseFloat(this.state.listing.displayValue),
+              totalAmount: this.state.totalAmount,
             }}
+            listing={this.state.listing}
             handleOnChange={this.handleChange}
             handlePlaceOrder={this.handlePlaceOrder}
             isPending={this.state.isPending}
@@ -334,23 +368,62 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
   private async handleChange(field: string, value: any) {
     if (field === 'selectedCurrency') {
-      this.setState({
-        isEstimating: true,
-      })
-      const estimate = await this.state.order.estimate(
-        this.state.listing.hash,
-        this.state.quantity,
-        this.state.memo,
-        value
-      )
-      this.setState({
-        estimate,
-        isEstimating: false,
-      })
+      await this.estimate(value)
     }
 
     this.setState({
       [field]: value,
+    })
+  }
+
+  private async handleCouponApply() {
+    if (this.state.selectedCurrency) {
+      await this.estimate(this.state.selectedCurrency)
+    } else {
+      const coupon = this.state.listing.coupons.find(c => this.state.coupon === c.discountCode)
+
+      if (coupon) {
+        const localListingCurrency = this.state.listing.toLocalCurrency()
+        if (coupon.priceDiscount) {
+          const discount = currency.convert(
+            Number(coupon.priceDiscount),
+            this.state.listing.metadata.pricingCurrency,
+            localListingCurrency.currency
+          )
+          console.log(discount, localListingCurrency.price)
+          this.setState({
+            discount: `${discount} ${localListingCurrency.currency}`,
+            totalAmount: Number(localListingCurrency.price) - Number(discount),
+          })
+        } else {
+          this.setState({
+            discount: `${coupon.percentDiscount}%`,
+            totalAmount:
+              ((100 - coupon.percentDiscount!) / 100) * Number(localListingCurrency.price),
+          })
+        }
+      } else {
+        window.UIkit.notification('Invalid coupon code', {
+          status: 'danger',
+        })
+      }
+    }
+  }
+
+  private async estimate(crypto: string) {
+    this.setState({
+      isEstimating: true,
+    })
+    const estimate = await this.state.order.estimate(
+      this.state.listing.hash,
+      this.state.quantity,
+      this.state.memo,
+      crypto,
+      this.state.coupon
+    )
+    this.setState({
+      estimate,
+      isEstimating: false,
     })
   }
 
@@ -378,7 +451,8 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         this.state.quantity,
         this.state.memo,
         this.state.selectedCurrency,
-        this.state.selectedModeratorID
+        this.state.selectedModeratorID,
+        this.state.coupon
       )
     } catch (e) {
       window.UIkit.notification(e.message, {

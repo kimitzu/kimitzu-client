@@ -104,7 +104,10 @@ class Home extends Component<HomeProps, HomeState> {
                     </div>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <ListingCardGroup data={search.results.data} />
+                    <ListingCardGroup
+                      data={search.results.data}
+                      targetCurrency={profile.preferences.fiat}
+                    />
                   </div>
                 </div>
               </div>

@@ -338,7 +338,7 @@ class Order implements OrderInterface {
     memo: string,
     paymentCoin: string,
     moderator: string,
-    coupons?: string
+    coupon: string
   ): Promise<OrderPaymentInformation> {
     const order = {
       shipTo: '',
@@ -353,7 +353,7 @@ class Order implements OrderInterface {
           listingHash,
           quantity,
           memo,
-          coupons: [],
+          coupons: coupon ? [coupon] : [],
         },
       ],
       moderator,
@@ -374,7 +374,7 @@ class Order implements OrderInterface {
     quantity: number,
     memo: string,
     paymentCoin: string,
-    coupons?: string
+    coupon: string
   ): Promise<number> {
     const order = {
       shipTo: '',
@@ -389,7 +389,7 @@ class Order implements OrderInterface {
           listingHash,
           quantity,
           memo,
-          coupons: [],
+          coupons: coupon ? [coupon] : [],
         },
       ],
       moderator: '',
