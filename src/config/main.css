@@ -274,3 +274,32 @@ a:hover {
 .markdown-container > ul > li > p {
   color: var(--dark-text);
 }
+
+.react-mde {
+  border: 1px solid var(--border-color)!important;
+}
+
+.mde-header .mde-tabs button.selected {
+  font-weight: 600;
+}
+
+.mde-header {
+  border-bottom: 1px solid var(--border-color)!important;
+}
+
+.mde-header .mde-tabs button {
+  border-radius: 2px;
+  margin: 3px 3px;
+  padding: 0 3px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+[class*="-item"] button, [class*="-tabs"] button  {
+  color: var(--primary)!important;
+}
+
+:focus {
+  outline: -webkit-focus-ring-color auto 0px;
+}

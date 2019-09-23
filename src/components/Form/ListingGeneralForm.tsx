@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 import { Listing } from '../../interfaces/Listing'
 import { Button } from '../Button'
@@ -7,11 +8,15 @@ import { FormLabel } from '../Label'
 import { RadioButtons } from '../RadioButton'
 import { FormSelector } from '../Selector'
 
+import ReactMde from 'react-mde'
+import 'react-mde/lib/styles/css/react-mde-all.css'
 import ListingTypes from '../../constants/ListingTypes.json'
 import ServiceRateMethods from '../../constants/ServiceRateMethods.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
 import decodeHtml from '../../utils/Unescape'
 import InlineFormFields from './InlineFormFields'
+
+import { TabSelection } from '../../interfaces/Misc'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
 
@@ -48,6 +53,9 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
   const skuPointer = data.item.skus[0]
 
   const [listing, setListing] = useState(data)
+
+  const [st, setSelectedTab] = useState('write')
+  const selectedTab: TabSelection = st as TabSelection
 
   const handleChange = (field, value) => {
     listing[field] = value
@@ -229,16 +237,19 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
         />
         <div className="uk-margin">
           <FormLabel label="DESCRIPTION" />
-          <textarea
-            id="general-desc"
-            className="uk-textarea"
-            rows={5}
+          <ReactMde
             value={decodeHtml(listing.item.description)}
-            placeholder="Describe your listing as best as you can.."
-            onChange={event => {
+            onChange={value => {
               const item = listing.item
-              item.description = event.target.value
+              item.description = value
               handleChange('item', item)
+            }}
+            selectedTab={selectedTab}
+            onTabChange={setSelectedTab}
+            generateMarkdownPreview={markdown => {
+              return new Promise((resolve, reject) => {
+                resolve(<ReactMarkdown source={markdown} />)
+              })
             }}
           />
         </div>
