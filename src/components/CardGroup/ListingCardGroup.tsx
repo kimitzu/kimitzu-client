@@ -14,7 +14,7 @@ interface ListingCardGroupProps {
 
 const LISTING_LIMIT = 8
 
-const ListingCardGroup = ({ data }: ListingCardGroupProps) => {
+const ListingCardGroup = ({ data, targetCurrency }: ListingCardGroupProps) => {
   const [listings, setListings] = useState<Listing[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const loadMoreListings = () => {
