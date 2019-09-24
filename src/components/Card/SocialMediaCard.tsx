@@ -32,45 +32,46 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
           </div>
         ) : null}
 
-        {socialMedia.map(social => {
-          const SocialType = SocialMedia.find(e => {
-            return e.value.toLowerCase() === social.type.toLowerCase()
-          })
+        {socialMedia &&
+          socialMedia.map(social => {
+            const SocialType = SocialMedia.find(e => {
+              return e.value.toLowerCase() === social.type.toLowerCase()
+            })
 
-          let link
+            let link
 
-          if (SocialType) {
-            link = SocialType!.link.replace('{uid}', social.username)
-          } else {
-            link = social.proof
-          }
+            if (SocialType) {
+              link = SocialType!.link.replace('{uid}', social.username)
+            } else {
+              link = social.proof
+            }
 
-          return (
-            <div id="social-media" key={social.type}>
-              <div id="account-icon">
-                <span uk-icon={`icon: ${SocialType ? SocialType.icon : 'social'}`} />
+            return (
+              <div id="social-media" key={social.type}>
+                <div id="account-icon">
+                  <span uk-icon={`icon: ${SocialType ? SocialType.icon : 'social'}`} />
+                </div>
+                <div id="account-name">
+                  <p className="uk-text-capitalize">{social.type}</p>
+                  {isElectron() ? (
+                    <a
+                      href="#"
+                      onClick={evt => {
+                        evt.preventDefault()
+                        window.openExternal(link)
+                      }}
+                    >
+                      {social.username}
+                    </a>
+                  ) : (
+                    <a href={link} target="_blank">
+                      {social.username}
+                    </a>
+                  )}
+                </div>
               </div>
-              <div id="account-name">
-                <p className="uk-text-capitalize">{social.type}</p>
-                {isElectron() ? (
-                  <a
-                    href="#"
-                    onClick={evt => {
-                      evt.preventDefault()
-                      window.openExternal(link)
-                    }}
-                  >
-                    {social.username}
-                  </a>
-                ) : (
-                  <a href={link} target="_blank">
-                    {social.username}
-                  </a>
-                )}
-              </div>
-            </div>
-          )
-        })}
+            )
+          })}
       </div>
     </div>
   )
