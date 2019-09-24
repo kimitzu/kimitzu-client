@@ -48,6 +48,7 @@ interface State {
   isLoading: boolean
   loadingStatus: string
   currentUser: Profile
+  hasFailed: boolean
 }
 
 interface RouteProps {
@@ -77,6 +78,7 @@ class ListingProfile extends Component<Props, State> {
       currentReviewPage: 1,
       isLoading: true,
       loadingStatus: '',
+      hasFailed: false,
     }
     this.handleBuy = this.handleBuy.bind(this)
     this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
@@ -90,11 +92,11 @@ class ListingProfile extends Component<Props, State> {
     try {
       const listingData = await Listing.retrieve(id)
       const currentUser = await Profile.retrieve()
-      const { listing, imageData, profile } = listingData
+      const { listing, imageData, vendor } = listingData
       this.setState({
         listing,
         imageData,
-        profile,
+        profile: vendor,
         loadingStatus: 'Retrieving Ratings',
         currentUser,
       })
@@ -117,8 +119,10 @@ class ListingProfile extends Component<Props, State> {
         isLoading: false,
       })
     } catch (error) {
-      console.log(error)
-      // TODO: Redirect to Not Found page
+      this.setState({
+        isLoading: false,
+        hasFailed: true,
+      })
     }
   }
 
@@ -158,6 +162,27 @@ class ListingProfile extends Component<Props, State> {
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
             <CircleSpinner message={`${this.state.loadingStatus}...`} />
+          </div>
+        </div>
+      )
+    }
+
+    if (this.state.hasFailed) {
+      return (
+        <div className="uk-flex uk-flex-row uk-flex-center">
+          <div className="uk-margin-top uk-text-center">
+            <img src={`${config.host}/images/warning.png`} height="100" width="100" />
+            <h1 className="uk-text-danger uk-margin-top">Unable to Retrieve Listing.</h1>
+            <p>
+              The listing you requested has either expired on the Djali network or does not exist.
+            </p>
+
+            <div className="uk-margin-top uk-text-left">
+              <p>Suggestions:</p>
+              <ul className="uk-margin-left">
+                <li>Browse other listings.</li>
+              </ul>
+            </div>
           </div>
         </div>
       )

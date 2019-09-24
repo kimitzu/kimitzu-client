@@ -10,6 +10,7 @@ import {
   Refund,
 } from '../interfaces/Order'
 import { RatingInput } from '../interfaces/Rating'
+import currency from './Currency'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -362,7 +363,7 @@ class Order implements OrderInterface {
     try {
       const orderRequest = await Axios.post(`${config.openBazaarHost}/ob/purchase`, order)
       const paymentInformation = orderRequest.data as OrderPaymentInformation
-      paymentInformation.amount = this.calculateCryptoDecimals(paymentInformation.amount)
+      paymentInformation.amount = currency.humanizeCrypto(paymentInformation.amount)
       return paymentInformation
     } catch (e) {
       throw new Error(e.response.data.reason)
@@ -398,7 +399,7 @@ class Order implements OrderInterface {
     try {
       const estimateRequest = await Axios.post(`${config.openBazaarHost}/ob/estimatetotal`, order)
       const estimate = estimateRequest.data
-      return this.calculateCryptoDecimals(estimate)
+      return currency.humanizeCrypto(estimate)
     } catch (e) {
       throw e
     }
@@ -451,13 +452,15 @@ class Order implements OrderInterface {
 
   public get fiatValue(): string {
     const listing = this.contract.vendorListings[0]
-    const currency = listing.metadata.pricingCurrency
+    const pricingCurrency = listing.metadata.pricingCurrency
 
-    if (cryptoCurrencies.includes(currency)) {
-      return `${(listing.item.price / listing.metadata.coinDivisibility).toString()} ${currency}`
+    if (cryptoCurrencies.includes(pricingCurrency)) {
+      return `${(
+        listing.item.price / listing.metadata.coinDivisibility
+      ).toString()} ${pricingCurrency}`
     }
     const realPrice = listing.item.price / 100
-    return `${realPrice.toFixed(2)} ${currency}`
+    return `${realPrice.toFixed(2)} ${pricingCurrency}`
   }
 
   public get cryptoValue(): string {
@@ -465,15 +468,7 @@ class Order implements OrderInterface {
   }
 
   public parseCrypto(value: number): string {
-    return `${this.calculateCryptoDecimals(value)} ${this.contract.buyerOrder.payment.coin}`
-  }
-
-  public calculateCryptoDecimals(value: number): number {
-    return value / 100000000
-  }
-
-  public toCryptoValue(value: number): number {
-    return value * 100000000
+    return `${currency.humanizeCrypto(value)} ${this.contract.buyerOrder.payment.coin}`
   }
 
   public async refund(memo: string) {
@@ -519,7 +514,7 @@ class Order implements OrderInterface {
       await Axios.post(`${config.openBazaarHost}/ob/orderspend`, {
         wallet: orderSpend.wallet,
         address: orderSpend.address,
-        amount: this.toCryptoValue(orderSpend.amount),
+        amount: currency.dehumanizeCrypto(orderSpend.amount),
         feeLevel: orderSpend.feeLevel,
         memo: orderSpend.memo,
         orderID: this.id,

@@ -2,6 +2,7 @@ import React from 'react'
 
 import isElectron from 'is-electron'
 import { Transaction } from '../../interfaces/Wallet'
+import currency from '../../models/Currency'
 import './TransactionsHistoryCard.css'
 
 interface TransactionsHistoryCardProps {
@@ -24,7 +25,7 @@ const TransactionsHistoryCard = ({
             <div className="tx-list-header">
               <span className="check-icon" data-uk-icon="icon: check; ratio: 1" />
               <p className="tx-value">
-                {transaction.value / 100000000} {selectedCryptoCurrency.toUpperCase()}
+                {currency.humanizeCrypto(transaction.value)} {selectedCryptoCurrency.toUpperCase()}
               </p>
               <p className="tx-status">{transaction.address ? 'SENT' : 'RECEIVED'}</p>
             </div>

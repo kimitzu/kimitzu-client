@@ -26,7 +26,7 @@ const WalletBalanceCard = ({
       const conversion = await currency.convertCrypto(
         selectedCryptoCurrency,
         currentUserReq.preferences.fiat,
-        balance.confirmed / 100000000
+        currency.humanizeCrypto(balance.confirmed)
       )
 
       setFiatConversion(conversion)
@@ -39,10 +39,11 @@ const WalletBalanceCard = ({
       <div id="left-cont-bal">
         <p className="bal-bold-text">Balance</p>
         <p className="value-bal">
-          {balance.confirmed / 100000000} {selectedCryptoCurrency.toUpperCase()}
+          {currency.humanizeCrypto(balance.confirmed)} {selectedCryptoCurrency.toUpperCase()}
         </p>
         <p className="stat-bal">
-          ({balance.unconfirmed / 100000000} {selectedCryptoCurrency.toUpperCase()} Unconfirmed)
+          ({currency.humanizeCrypto(balance.unconfirmed)} {selectedCryptoCurrency.toUpperCase()}{' '}
+          Unconfirmed)
         </p>
       </div>
       <div id="middle-cont-bal">

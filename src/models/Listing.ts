@@ -25,10 +25,22 @@ const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
 class Listing implements ListingInterface {
   public static async retrieve(
     id: string
-  ): Promise<{ profile: Profile; listing: Listing; imageData: [{ src: string }] }> {
-    const djaliListingRequest = await Axios.post(`${config.djaliHost}/djali/listing?hash=${id}`)
+  ): Promise<{ vendor: Profile; listing: Listing; imageData: [{ src: string }] }> {
+    const djaliListingRequest = await Axios.get(`${config.djaliHost}/djali/listing?hash=${id}`)
     const djaliListing = djaliListingRequest.data
-    const profile = await Profile.retrieve(djaliListing.vendorID.peerID, true)
+
+    /**
+     * Load profile from cache first.
+     */
+    const vendor = await Profile.retrieve(djaliListing.vendorID.peerID, false)
+
+    /**
+     * Force update profile in the background to reflect changes as the
+     * user interacts with the listing.
+     */
+    setTimeout(async () => {
+      await Profile.retrieve(djaliListing.vendorID.peerID, true)
+    }, 1000)
 
     const imageData = djaliListing.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
@@ -38,9 +50,13 @@ class Listing implements ListingInterface {
 
     const listing = new Listing(djaliListing)
     listing.currentUser = currentUser
-    listing.isOwner = listing.determineOwnership()
+    listing.isOwner = currentUser.peerID === listing.vendorID.peerID
 
-    return { profile, listing, imageData }
+    /**
+     * Return vendor profile, listing information, and image sources separately
+     * to avoid complicated mutations in the listing object.
+     */
+    return { vendor, listing, imageData }
   }
 
   public currentUser: Profile = new Profile()
@@ -147,16 +163,18 @@ class Listing implements ListingInterface {
   public normalize() {
     this.item.price /= 100
     this.currentSlug = this.slug
-    this.coupons = this.coupons.map(c => {
-      if (c.priceDiscount) {
-        c.type = 'price'
-        c.priceDiscount /= 100
-      } else {
-        c.type = 'percent'
-      }
-      c.uniqueId = `${Math.random()}`
-      return c
-    })
+    if (this.coupons) {
+      this.coupons = this.coupons.map(c => {
+        if (c.priceDiscount) {
+          c.type = 'price'
+          c.priceDiscount /= 100
+        } else {
+          c.type = 'percent'
+        }
+        c.uniqueId = `${Math.random()}`
+        return c
+      })
+    }
   }
 
   public denormalize(): Listing {
@@ -252,10 +270,6 @@ class Listing implements ListingInterface {
     const { serviceRateMethod } = this.metadata
     const index = ServiceRateMethods.findIndex(method => method.value === serviceRateMethod)
     return ServiceRateMethods[index].display
-  }
-
-  public determineOwnership(): boolean {
-    return this.currentUser.peerID === this.vendorID.peerID
   }
 
   public async getRatings(): Promise<{ ratingSummary: RatingSummary; ratings: Rating[] }> {

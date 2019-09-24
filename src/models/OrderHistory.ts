@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import config from '../config'
 import OrderHistoryInterface from '../interfaces/OrderHistory'
+import currency from './Currency'
 
 class OrderHistory implements OrderHistoryInterface {
   public static get filters() {
@@ -109,7 +110,7 @@ class OrderHistory implements OrderHistoryInterface {
   }
 
   get displayValue() {
-    return this.total / 1000000000
+    return currency.humanizeCrypto(this.total)
   }
 }
 

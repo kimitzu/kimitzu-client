@@ -3,6 +3,7 @@ import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import { Dispute as DisputeInterface, RContract } from '../interfaces/Dispute'
 import { Contract, DisputeResolution } from '../interfaces/Order'
+import currency from './Currency'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -291,13 +292,15 @@ class Dispute implements DisputeInterface {
 
   public get fiatValue(): string {
     const listing = this.buyerContract.vendorListings[0]
-    const currency = listing.metadata.pricingCurrency
+    const pricingCurrency = listing.metadata.pricingCurrency
 
-    if (cryptoCurrencies.includes(currency)) {
-      return `${(listing.item.price / listing.metadata.coinDivisibility).toString()} ${currency}`
+    if (cryptoCurrencies.includes(pricingCurrency)) {
+      return `${(
+        listing.item.price / listing.metadata.coinDivisibility
+      ).toString()} ${pricingCurrency}`
     }
     const realPrice = listing.item.price / 100
-    return `${realPrice.toFixed(2)} ${currency}`
+    return `${realPrice.toFixed(2)} ${pricingCurrency}`
   }
 
   public get cryptoValue(): string {
@@ -305,11 +308,7 @@ class Dispute implements DisputeInterface {
   }
 
   public parseCrypto(value: number): string {
-    return `${this.calculateCryptoDecimals(value)} ${this.buyerContract.buyerOrder.payment.coin}`
-  }
-
-  public calculateCryptoDecimals(value: number): number {
-    return value / 100000000
+    return `${currency.humanizeCrypto(value)} ${this.buyerContract.buyerOrder.payment.coin}`
   }
 
   public get isExpired() {

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { CryptoCurrencyConstant } from '../../interfaces/Constants'
 import { WalletBalances } from '../../interfaces/Wallet'
+import currency from '../../models/Currency'
 import './CryptoSelector.css'
 
 interface Props {
@@ -24,7 +25,8 @@ const CryptoSelector = ({ cryptos, selected, handleSelectChange, balances }: Pro
             <img src={c.icon} width="25" height="25" />
             <p className="crypto-label">{c.label}</p>
             <p className="crypto-balance">
-              {(balances[c.value].confirmed / 100000000).toFixed(4)} {c.value.toLowerCase()}
+              {currency.humanizeCrypto(balances[c.value].confirmed).toFixed(4)}{' '}
+              {c.value.toLowerCase()}
             </p>
           </div>
         </li>

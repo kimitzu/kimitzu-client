@@ -5,6 +5,7 @@ import { SendReceiveTransactionSegment } from '../components/Segment'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 
 import { Transactions } from '../interfaces/Wallet'
+import currency from '../models/Currency'
 import Wallet from '../models/Wallet'
 import './WalletView.css'
 
@@ -114,7 +115,7 @@ class WalletView extends React.Component<WalletProps, State> {
     feeLevel: string,
     memo: string
   ) {
-    const parsedAmount = amount * 100000000
+    const parsedAmount = currency.dehumanizeCrypto(amount)
     try {
       await Wallet.send(cryptoCurrency, recipient, parsedAmount, feeLevel, memo)
       window.UIkit.notification({

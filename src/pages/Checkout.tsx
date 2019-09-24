@@ -348,8 +348,8 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
             <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
             <h4>
-              Payment of {this.state.payment.fundingTotal / 100000000} {this.state.payment.coinType}{' '}
-              Received!
+              Payment of {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
+              {this.state.payment.coinType} Received!
             </h4>
             <p>Thank you for your purchase!</p>
             <Link to={`/history/purchases/${this.state.payment.orderId}`}>

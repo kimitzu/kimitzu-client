@@ -26,6 +26,14 @@ class Currency {
     const rate = Number(conversion.data)
     return parseFloat((value * rate).toFixed(2))
   }
+
+  public humanizeCrypto(value: number, divisibility: number = 100000000) {
+    return value / divisibility
+  }
+
+  public dehumanizeCrypto(value: number, divisibility: number = 100000000) {
+    return value * divisibility
+  }
 }
 
 const currency = new Currency()

@@ -21,6 +21,7 @@ import Order from '../models/Order'
 import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
 import ClientRatings from '../constants/ClientRatings.json'
 import OrderRatings from '../constants/OrderRatings.json'
+import currency from '../models/Currency'
 import decodeHtml from '../utils/Unescape'
 
 interface RouteParams {
@@ -636,8 +637,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   {order.paymentAddressTransactions.map(paymentTx => {
                     return (
                       <p key={paymentTx.txid} className="color-secondary">
-                        {paymentTx.value / 100000000} {order.contract.buyerOrder.payment.coin} -{' '}
-                        {paymentTx.confirmations} confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
+                        {currency.humanizeCrypto(paymentTx.value)}{' '}
+                        {order.contract.buyerOrder.payment.coin} - {paymentTx.confirmations}{' '}
+                        confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
                         {order.paymentAddressTransactions.length > 1
                           ? 'Partial Payment'
                           : 'Full Payment'}
@@ -653,8 +655,8 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment title="Send Payment To">
               <PaymentQRCard
-                amount={order
-                  .calculateCryptoDecimals(order.contract.buyerOrder.payment.amount)
+                amount={currency
+                  .humanizeCrypto(order.contract.buyerOrder.payment.amount)
                   .toString()}
                 address={order.contract.vendorOrderConfirmation.paymentAddress}
                 cryptocurrency={order.contract.buyerOrder.payment.coin}
