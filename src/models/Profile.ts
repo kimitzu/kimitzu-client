@@ -34,6 +34,20 @@ class Profile implements ProfileSchema {
     return deleteRequest
   }
 
+  public static async getFollowersList(peerID?: ProfileSchema['peerID']): Promise<string[]> {
+    const followerRequest = await Axios.get(
+      `${config.openBazaarHost}/ob/followers${peerID ? `/${peerID}` : ''}`
+    )
+    return followerRequest.data
+  }
+
+  public static async getFollowingList(peerID?: ProfileSchema['peerID']): Promise<string[]> {
+    const followerRequest = await Axios.get(
+      `${config.openBazaarHost}/ob/following${peerID ? `/${peerID}` : ''}`
+    )
+    return followerRequest.data
+  }
+
   public static async isFollowing(peerID: string): Promise<boolean> {
     const isFollowingRequest = await Axios.get(`${config.openBazaarHost}/ob/isfollowing/${peerID}`)
     return isFollowingRequest.data.isFollowing

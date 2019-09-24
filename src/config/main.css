@@ -63,6 +63,14 @@ label .required {
   border: 1px solid var(--border-color);
 }
 
+.button-hover-change-text:hover span {
+  display: none;
+}
+
+.button-hover-change-text:hover:before {
+  content: attr(data-hover);
+}
+
 textarea {
   resize: none;
   border-color: var(--border-color);
@@ -276,7 +284,7 @@ a:hover {
 }
 
 .react-mde {
-  border: 1px solid var(--border-color)!important;
+  border: 1px solid var(--border-color) !important;
 }
 
 .mde-header .mde-tabs button.selected {
@@ -284,7 +292,7 @@ a:hover {
 }
 
 .mde-header {
-  border-bottom: 1px solid var(--border-color)!important;
+  border-bottom: 1px solid var(--border-color) !important;
 }
 
 .mde-header .mde-tabs button {
@@ -296,8 +304,9 @@ a:hover {
   cursor: pointer;
 }
 
-[class*="-item"] button, [class*="-tabs"] button  {
-  color: var(--primary)!important;
+[class*='-item'] button,
+[class*='-tabs'] button {
+  color: var(--primary) !important;
 }
 
 :focus {

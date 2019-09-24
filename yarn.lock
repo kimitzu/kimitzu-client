@@ -3735,10 +3735,10 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
 
-cypress-file-upload@^3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-3.3.3.tgz#119188fa78e9cfc00904c52d76d4ca56d34950df"
-  integrity sha512-CmXGRMHonoyCa8EcF6jomxqMAe56HvKfnW7S69EmTga8ecYmvQUI6gYttcHO+5UTmFQOFl7xbABV3+AbnI4btA==
+cypress-file-upload@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-3.3.4.tgz#cbeb8a7a07150a1c60f2873666979e48b6335070"
+  integrity sha512-kfdrQ6cWBw82G7EbHSqZJiOQWRh9cGz9K1mjePNZax00gBL0qOdRTjfkAnR2vEmmJyCfnN3efryjfhFeLrGWVw==
 
 cypress@^3.4.1:
   version "3.4.1"
@@ -4373,10 +4373,10 @@ electron-to-chromium@^1.3.122, electron-to-chromium@^1.3.164:
   version "1.3.173"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.173.tgz#275b9ba235447b95fc3204d32ca2c5a8bf2ca599"
 
-electron@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.1.tgz#9dcdb3773e933890f432403f2ff5851cffbea126"
-  integrity sha512-XY69rI5IThIxsOS2BD+1ZkHE9hqkm4xN5a3WQFSmFRr2by4q5CnIe9vXmptlouGPTLs3tb7ySX/+K9CvH3szvg==
+electron@^6.0.10:
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.10.tgz#3468547640c98ed46060711ca70f43d0b2e40818"
+  integrity sha512-eTFm6uTn7NKZE1OtSZSOxNuOrCXXeUR0U3vdF3R00byB7mrNe5AOaXEDDMwtzRGGY1jMuUX9Z7RvgXaCXRYSmw==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -10615,9 +10615,10 @@ react-select-search@^0.9.6:
     fuse.js "^3.2.0"
     react-onclickoutside "^6.7.1"
 
-react-select@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-3.0.4.tgz#16bde37c24fd4f6444914d4681e78f15ffbc86d3"
+react-select@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-3.0.5.tgz#f2810e63fa8a6be375b3fa6f390284e9e33c9573"
+  integrity sha512-2tBXZ1XSqbk2boMUzSmKXwGl/6W46VkSMSLMy+ShccOVyD1kDTLPwLX7lugISkRMmL0v5BcLtriXOLfYwO0otw==
   dependencies:
     "@babel/runtime" "^7.4.4"
     "@emotion/cache" "^10.0.9"

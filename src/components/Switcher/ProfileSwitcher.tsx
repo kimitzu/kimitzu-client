@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ListingCardGroup } from '../CardGroup'
+import { FollowersCardGroup, ListingCardGroup } from '../CardGroup'
 import { ProfileBasicInfoSegment, RatingsAndReviewsSegment } from '../Segment'
 
 import Listing from '../../models/Listing'
@@ -16,9 +16,18 @@ interface Props {
   listings: Listing[]
   ratingSummary: RatingSummary
   ratings: Rating[]
+  followersList: string[]
+  followingList: string[]
 }
 
-const ProfileSwitcher = ({ profile, listings, ratingSummary, ratings }: Props) => {
+const ProfileSwitcher = ({
+  followersList,
+  followingList,
+  profile,
+  listings,
+  ratingSummary,
+  ratings,
+}: Props) => {
   const { average, count, djali } = ratingSummary
   return (
     <ul id="container-profile" className="uk-switcher">
@@ -55,8 +64,12 @@ const ProfileSwitcher = ({ profile, listings, ratingSummary, ratings }: Props) =
           </div>
         </div>
       </li>
-      <li>Coming soon!</li>
-      <li>Coming soon!</li>
+      <li>
+        <FollowersCardGroup peerIDs={followersList} />
+      </li>
+      <li>
+        <FollowersCardGroup peerIDs={followingList} isFollowingList />
+      </li>
       <li>Redirecting...</li>
       <li>Redirecting...</li>
     </ul>

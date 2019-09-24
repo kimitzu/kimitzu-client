@@ -33,7 +33,7 @@ const ProfileHeader = ({
         <div hidden={isOwner} className="uk-button-group">
           <Button
             id="header-btn"
-            className="uk-button uk-button-small"
+            className="uk-button uk-button-small button-hover-change-text"
             data-hover={isFollowing ? 'Unfollow' : 'Follow'}
             onClick={handleFollowBtn}
           >
@@ -44,7 +44,7 @@ const ProfileHeader = ({
           </Button>
           <Button
             id="header-btn"
-            className="uk-button uk-button-small"
+            className="uk-button uk-button-small button-hover-change-text"
             data-hover={isBlocked ? 'Unblock' : 'Block'}
             onClick={handleBlockBtn}
           >

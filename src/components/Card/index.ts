@@ -1,5 +1,6 @@
 import CheckoutPaymentCard from './CheckoutPaymentCard'
 import CryptoSelector from './CryptoSelector'
+import FollowerCard from './FollowerCard'
 import InformationCard from './InformationCard'
 import IntroductionCard from './IntroductionCard'
 import ListingAddUpdateCard from './ListingAddUpdateCard'
@@ -23,6 +24,7 @@ export {
   AddEntryCard as AddAddressCard,
   AddressCard,
   CheckoutPaymentCard,
+  FollowerCard,
   ListingAddUpdateCard,
   ListingCheckoutCard,
   ModeratorCard,

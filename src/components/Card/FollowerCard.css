@@ -1,0 +1,43 @@
+#follower-card {
+  width: 200px;
+  padding: 15px 0;
+}
+#follower-card-img {
+  width: 95px;
+  height: 95px;
+}
+#follower-card-details {
+  margin-top: 15px;
+  text-align: center;
+}
+#follower-card-name {
+  padding: 0 15px;
+}
+#follower-card-stats {
+  margin-top: 15px;
+  background-color: var(--primary);
+  padding: 7.5px 10px;
+}
+#follower-card-stats > div > p {
+  color: #fff;
+}
+#follower-card-details > h5 {
+  font-weight: bold;
+}
+#follower-card-detail-value {
+  font-weight: 800;
+}
+#follower-card-detail-label {
+  font-size: 0.65rem;
+}
+#follower-card-btn-div-btn {
+  margin-top: 15px;
+}
+#follower-card-btn {
+  padding: 0 15px;
+  width: 150px;
+  background-color: #fff;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  line-height: 20px;
+}

@@ -26,6 +26,8 @@ interface ProfilePageState {
   canSendRequest: boolean // To avoid click spam of follow and block buttons
   isLoading: boolean
   loadingStatus: string
+  followersList: string[]
+  followingList: string[]
 }
 
 interface RouteProps {
@@ -50,6 +52,8 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       canSendRequest: true,
       isLoading: true,
       loadingStatus: '',
+      followersList: [],
+      followingList: [],
     }
     this.handleFollowChange = this.handleFollowChange.bind(this)
     this.handleSendMessage = this.handleSendMessage.bind(this)
@@ -67,6 +71,8 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       loadingStatus: 'Retrieving Followers',
     })
     const isFollowing = await Profile.isFollowing(id)
+    const followersList = await Profile.getFollowersList(id)
+    const followingList = await Profile.getFollowingList(id)
     this.setState({
       loadingStatus: 'Retrieving Settings',
     })
@@ -87,6 +93,8 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     this.setState({
       profile,
       search,
+      followersList,
+      followingList,
       isFollowing,
       isBlocked,
       isOwner,
@@ -125,7 +133,17 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
   }
 
   public render() {
-    const { profile, isOwner, search, ratings, ratingsSummary, isFollowing, isBlocked } = this.state
+    const {
+      profile,
+      followersList,
+      followingList,
+      isOwner,
+      search,
+      ratings,
+      ratingsSummary,
+      isFollowing,
+      isBlocked,
+    } = this.state
     const { handleBlockPeerChange, handleFollowChange, handleSendMessage } = this
 
     if (this.state.isLoading) {
@@ -154,6 +172,8 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
           listings={search.results.data}
           ratingSummary={ratingsSummary}
           ratings={ratings}
+          followersList={followersList}
+          followingList={followingList}
         />
       </div>
     )
