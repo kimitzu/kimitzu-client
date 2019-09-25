@@ -167,7 +167,7 @@ class Profile implements ProfileSchema {
         profile.extLocation = profile.processAddresses(profile.extLocation)
       }
     } catch (e) {
-      profile = new Profile()
+      throw e
     }
 
     profile!.background!.educationHistory.forEach(Profile.periodParser)

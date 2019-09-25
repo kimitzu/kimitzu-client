@@ -105,6 +105,9 @@ class ListingProfile extends Component<Props, State> {
       const updatedRatings = await Promise.all(
         ratings.map(async (rating: Rating) => {
           let userData
+          if (rating.ratingData.buyerID.peerID) {
+            return rating
+          }
           try {
             userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
           } catch (e) {

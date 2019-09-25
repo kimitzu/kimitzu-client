@@ -15,10 +15,9 @@ class Currency {
     if (from.toUpperCase() === to.toUpperCase()) {
       return value
     }
-    return (
-      value *
-      (this.currencies[to.toUpperCase()] / this.currencies[from.toUpperCase()])
-    ).toFixed(2)
+    return Number(
+      (value * (this.currencies[to.toUpperCase()] / this.currencies[from.toUpperCase()])).toFixed(2)
+    )
   }
 
   public async convertCrypto(from: string, to: string, value: number): Promise<number> {

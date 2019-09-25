@@ -699,7 +699,11 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 listingType="SERVICE"
                 quantity={`${order.contract.buyerOrder.items[0].quantity ||
                   order.contract.buyerOrder.items[0].quantity64}`}
-                total={`${order.fiatValue} (${order.cryptoValue})`}
+                total={`${(
+                  Number(order.fiatValue) *
+                  (order.contract.buyerOrder.items[0].quantity ||
+                    order.contract.buyerOrder.items[0].quantity64)
+                ).toFixed(2)} ${order[order.role!].preferences.fiat} (${order.cryptoValue})`}
                 memo={decodeHtml(order.contract.buyerOrder.items[0].memo)}
               />
             </SimpleBorderedSegment>

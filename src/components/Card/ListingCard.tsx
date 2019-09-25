@@ -42,11 +42,13 @@ const ListingCard = ({ listing, targetCurrency }: ListingProps) => (
       <div className="listing-small-info">
         <div className="listing-title">{listing.item.title}</div>
         <p className="price">
-          {currency.convert(
-            Number(listing.displayValue),
-            listing.metadata.pricingCurrency,
-            targetCurrency!
-          )}{' '}
+          {currency
+            .convert(
+              Number(listing.displayValue),
+              listing.metadata.pricingCurrency,
+              targetCurrency!
+            )
+            .toFixed(2)}{' '}
           {targetCurrency}
         </p>
         <div className="rating-text">

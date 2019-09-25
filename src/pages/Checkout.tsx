@@ -124,6 +124,11 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       listing: listing.listing,
       quantity: Number(quantity),
       profile,
+      totalAmount: currency.convert(
+        listing.listing.item.price * Number(quantity),
+        listing.listing.metadata.pricingCurrency,
+        profile.preferences.fiat
+      ),
     })
 
     this.socket.onmessage = event => {
@@ -330,9 +335,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             orderSummary={{
               discount: this.state.discount,
               estimate: this.state.estimate,
-              listingAmount: parseFloat(this.state.listing.displayValue),
+              listingAmount: Number(this.state.listing.displayValue),
               shippingAmount: 0,
-              subTotalAmount: parseFloat(this.state.listing.displayValue),
+              subTotalAmount: Number(this.state.listing.displayValue) * this.state.quantity,
               totalAmount: this.state.totalAmount,
             }}
             listing={this.state.listing}
@@ -341,6 +346,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             isPending={this.state.isPending}
             selectedCurrency={this.state.selectedCurrency}
             isEstimating={this.state.isEstimating}
+            quantity={this.state.quantity}
           />
         </div>
 
@@ -390,16 +396,17 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             this.state.listing.metadata.pricingCurrency,
             localListingCurrency.currency
           )
-          console.log(discount, localListingCurrency.price)
           this.setState({
             discount: `${discount} ${localListingCurrency.currency}`,
-            totalAmount: Number(localListingCurrency.price) - Number(discount),
+            totalAmount:
+              Number(localListingCurrency.price * this.state.quantity) - Number(discount),
           })
         } else {
           this.setState({
             discount: `${coupon.percentDiscount}%`,
             totalAmount:
-              ((100 - coupon.percentDiscount!) / 100) * Number(localListingCurrency.price),
+              ((100 - coupon.percentDiscount!) / 100) *
+              Number(localListingCurrency.price * this.state.quantity),
           })
         }
       } else {

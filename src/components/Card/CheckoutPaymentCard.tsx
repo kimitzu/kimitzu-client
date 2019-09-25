@@ -6,7 +6,7 @@ import { Button } from '../Button'
 
 interface OrderSummary {
   listingAmount: number
-  shippingAmount?: number
+  shippingAmount: number
   discount: string
   subTotalAmount: number
   totalAmount: number
@@ -27,6 +27,7 @@ interface Props {
   acceptedCurrencies: Option[]
   selectedCurrency?: string
   isEstimating: boolean
+  quantity: number
 }
 
 const CheckoutPaymentCard = ({
@@ -38,6 +39,7 @@ const CheckoutPaymentCard = ({
   selectedCurrency,
   isEstimating,
   listing,
+  quantity,
 }: Props) => {
   const { discount, shippingAmount, subTotalAmount, totalAmount, estimate } = orderSummary
 
@@ -87,7 +89,7 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {localCurrencyPrice.price} {localCurrencyPrice.currency}
+                {localCurrencyPrice.price.toFixed(2)} {localCurrencyPrice.currency} x {quantity}
               </label>
             </div>
           </div>
@@ -98,11 +100,9 @@ const CheckoutPaymentCard = ({
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
                 <label>
-                  {currency.convert(
-                    Number(shippingAmount),
-                    sourceCurrency,
-                    localCurrencyPrice.currency
-                  )}{' '}
+                  {currency
+                    .convert(shippingAmount, sourceCurrency, localCurrencyPrice.currency)
+                    .toFixed(2)}{' '}
                   {localCurrencyPrice.currency}
                 </label>
               </div>
@@ -116,11 +116,9 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {currency.convert(
-                  Number(subTotalAmount),
-                  sourceCurrency,
-                  localCurrencyPrice.currency
-                )}{' '}
+                {currency
+                  .convert(subTotalAmount, sourceCurrency, localCurrencyPrice.currency)
+                  .toFixed(2)}{' '}
                 {localCurrencyPrice.currency}
               </label>
             </div>
@@ -141,7 +139,7 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {totalAmount.toFixed(2)} {localCurrencyPrice.currency}
+                {(totalAmount + Number(shippingAmount)).toFixed(2)} {localCurrencyPrice.currency}
               </label>
             </div>
           </div>
