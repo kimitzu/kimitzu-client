@@ -65,18 +65,18 @@ const development = [
 ] as CryptoCurrencyConstant[]
 
 export default function get(): CryptoCurrencyConstant[] {
-  switch (process.env.NODE_ENV) {
+  switch (process.env.REACT_APP_ENVIRONMENT) {
     case 'development': {
       return development
     }
     case 'production': {
       return production
     }
-    case 'test': {
+    case 'staging': {
       return development
     }
     default: {
-      throw new Error('Unsupported environment: ' + process.env.NODE_ENV)
+      return development
     }
   }
 }
