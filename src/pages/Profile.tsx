@@ -105,7 +105,12 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
 
     const updatedRatings = await Promise.all(
       ratings.map(async (rating: RatingItem) => {
-        const userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
+        let userData
+        try {
+          userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
+        } catch (e) {
+          userData = new Profile()
+        }
         rating.avatar = userData.getAvatarSrc('small')
         return rating
       })
@@ -116,7 +121,12 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     if (djali && djali.buyerRatings) {
       djali.buyerRatings = await Promise.all(
         djali.buyerRatings.map(async buyerRating => {
-          const userData = await Profile.retrieve(buyerRating.sourceId)
+          let userData
+          try {
+            userData = await Profile.retrieve(buyerRating.sourceId)
+          } catch (e) {
+            userData = new Profile()
+          }
           if (userData) {
             buyerRating.avatar = userData.getAvatarSrc('small')
             buyerRating.reviewer = userData.name
