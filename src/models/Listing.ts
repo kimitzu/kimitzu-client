@@ -251,7 +251,7 @@ class Listing implements ListingInterface {
 
   public get displayValue(): string {
     if (cryptoCurrencies.includes(this.metadata.pricingCurrency)) {
-      return (this.item.price / this.metadata.coinDivisibility).toString()
+      return currency.humanizeCrypto(this.item.price).toString()
     }
     const realPrice = this.item.price
     return realPrice.toFixed(2)

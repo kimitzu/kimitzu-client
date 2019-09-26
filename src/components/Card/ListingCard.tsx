@@ -4,6 +4,7 @@ import config from '../../config'
 import Listing from '../../models/Listing'
 
 import currency from '../../models/Currency'
+import decodeHtml from '../../utils/Unescape'
 import './ListingCard.css'
 
 interface ListingProps {
@@ -40,7 +41,7 @@ const ListingCard = ({ listing, targetCurrency }: ListingProps) => (
         />
       </div>
       <div className="listing-small-info">
-        <div className="listing-title">{listing.item.title}</div>
+        <div className="listing-title">{decodeHtml(listing.item.title)}</div>
         <p className="price">
           {currency
             .convert(
