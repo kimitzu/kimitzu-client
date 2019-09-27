@@ -52,9 +52,11 @@ const ListingCard = ({ listing, targetCurrency }: ListingProps) => (
             .toFixed(2)}{' '}
           {targetCurrency}
         </p>
-        <div className="rating-text">
-          {generateStars(listing.averageRating)} ({listing.averageRating})
-        </div>
+        {listing.averageRating > 0 ? (
+          <div className="rating-text">
+            {generateStars(listing.averageRating)} ({listing.averageRating})
+          </div>
+        ) : null}
       </div>
     </Link>
   </div>

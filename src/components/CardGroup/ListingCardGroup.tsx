@@ -10,11 +10,10 @@ import './ListingCardGroup.css'
 interface ListingCardGroupProps {
   data: Listing[]
   targetCurrency?: string
+  listingLimit?: number
 }
 
-const LISTING_LIMIT = 8
-
-const ListingCardGroup = ({ data, targetCurrency }: ListingCardGroupProps) => {
+const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCardGroupProps) => {
   const [listings, setListings] = useState<Listing[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const loadMoreListings = () => {
@@ -23,8 +22,8 @@ const ListingCardGroup = ({ data, targetCurrency }: ListingCardGroupProps) => {
       return
     }
     const additionalListings = data.slice(
-      currentPage * LISTING_LIMIT,
-      (currentPage + 1) * LISTING_LIMIT
+      currentPage * listingLimit,
+      (currentPage + 1) * listingLimit
     )
     setListings([...listings, ...additionalListings])
     setCurrentPage(currentPage + 1)
@@ -32,10 +31,7 @@ const ListingCardGroup = ({ data, targetCurrency }: ListingCardGroupProps) => {
   }
   const [isFetching, setIsFetching] = useInfiniteScroll(loadMoreListings)
   useEffect(() => {
-    const updatedListings = data.slice(
-      (currentPage - 1) * LISTING_LIMIT,
-      currentPage * LISTING_LIMIT
-    )
+    const updatedListings = data.slice((currentPage - 1) * listingLimit, currentPage * listingLimit)
     setListings(updatedListings)
   }, [data])
   return (

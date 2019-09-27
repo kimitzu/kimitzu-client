@@ -139,8 +139,8 @@ class ListingProfile extends Component<Props, State> {
   }
 
   public render() {
-    const { listing, profile, imageData, quantity } = this.state
-    const { background, spokenLanguages, programmingLanguages } = profile
+    const { listing, profile, imageData, quantity, ratingSummary } = this.state
+    const { background } = profile
 
     const rating = Math.floor(listing.averageRating)
     const ratingStars: JSX.Element[] = []
@@ -255,7 +255,13 @@ class ListingProfile extends Component<Props, State> {
                   id="starsContainer"
                   className="uk-margin-small-top uk-flex uk-flex-row uk-flex-middle"
                 >
-                  {ratingStars} <p className="uk-margin-small-left">({rating.toFixed(1)})</p>
+                  {ratingSummary.count > 0 ? (
+                    <>
+                      {ratingStars} <p className="uk-margin-small-left">({rating.toFixed(1)})</p>
+                    </>
+                  ) : (
+                    <p className="color-secondary">No ratings yet.</p>
+                  )}
                 </div>
                 <br />
                 <hr />

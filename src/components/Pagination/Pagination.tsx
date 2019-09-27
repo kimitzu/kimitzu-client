@@ -67,7 +67,7 @@ const Pagination = ({
       return
     }
     setPagination(getRange(1, currentTotalPages))
-  }, [currentPage, totalRecord])
+  }, [selectedPage, totalRecord])
   return (
     <ul className="uk-pagination" data-uk-margin>
       <li className="uk-flex uk-flex-middle">

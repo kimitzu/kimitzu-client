@@ -94,6 +94,7 @@ class Home extends Component<HomeProps, HomeState> {
                       totalRecord={search.results.count}
                       recordsPerPage={search.paginate.limit}
                       handlePageChange={this.handlePaginate}
+                      selectedPage={search.paginate.currentPage + 1}
                     />
                     <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
@@ -103,11 +104,20 @@ class Home extends Component<HomeProps, HomeState> {
                       />
                     </div>
                   </div>
-                  <div style={{ flex: 1 }}>
+                  <div className="uk-flex-1">
                     <ListingCardGroup
                       key={search.paginate.currentPage}
                       data={search.results.data}
                       targetCurrency={profile.preferences.fiat}
+                      listingLimit={search.paginate.limit}
+                    />
+                  </div>
+                  <div className="uk-flex uk-flex-center uk-flex-middle uk-margin">
+                    <Pagination
+                      totalRecord={search.results.count}
+                      recordsPerPage={search.paginate.limit}
+                      handlePageChange={this.handlePaginate}
+                      selectedPage={search.paginate.currentPage + 1}
                     />
                   </div>
                 </div>
@@ -243,6 +253,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private async handlePaginate(index: number) {
+    window.scrollTo(0, 0)
     const search = await this.state.search.executePaginate(index - 1)
     if (search) {
       this.setState({
