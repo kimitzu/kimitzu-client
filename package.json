@@ -62,14 +62,14 @@
     "use-force-update": "^1.0.6"
   },
   "scripts": {
-    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && yarn compile:electron && electron .\"",
     "start:develop": "cross-env REACT_APP_ENVIRONMENT=development yarn start",
     "start:stage": "cross-env REACT_APP_ENVIRONMENT=staging yarn start",
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder --publish=always",
     "build": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build",
-    "build:local": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn electron-build",
-    "build:local:mac": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn electron-build -m",
+    "build:local": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
+    "build:local:mac": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build -m",
     "build:remote": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
     "build:remote:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=remote yarn react-build",
     "cpext": "cp -r external/ build/external/ && mv build/external/_root/locationmap.json build/locationmap.json && mv build/external/_root/locdat.zip build/locdat.zip",
@@ -77,6 +77,7 @@
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
+    "compile:electron": "tsc electron/electron.ts --outDir public",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose",
     "cypress:open": "cypress open"

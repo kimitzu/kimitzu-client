@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import App from './App'
 import config from './config'
 import './config/main.css'
@@ -10,6 +11,7 @@ declare global {
   interface Window {
     socket: WebSocket
     openExternal: (url) => void
+    require: any
   }
 }
 

@@ -17,7 +17,28 @@ import { Search, searchInstance } from './models/Search'
 if (isElectron()) {
   // tslint:disable-next-line: no-var-requires
   require('./config/notification.css')
+
+  const electron = window.require('electron')
+  const { ipcRenderer } = electron
+
+  window.addEventListener(
+    'contextmenu',
+    e => {
+      e.preventDefault()
+      ipcRenderer.send('contextmenu')
+    },
+    false
+  )
+
+  // ipcRenderer.on('server-shutdown', async () => {
+  //   try {
+  //     await Axios.post(`${config.openBazaarHost}/ob/shutdown`)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // })
 }
+
 declare global {
   interface Window {
     require: any

@@ -25,3 +25,5 @@ yarn-error.log*
 package-lock.json
 /dist
 /.idea
+/public/electron.js
+/public/LocalServer.js
