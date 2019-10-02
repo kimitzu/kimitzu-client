@@ -4,8 +4,13 @@
 
 #accordion-main {
     width: 100%;
+    padding: 15px;
 }
 
 #accordion-main li {
     width: 100%;
+}
+
+.small-font {
+    font-size: 18px !important;
 }

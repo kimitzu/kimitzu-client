@@ -5,10 +5,10 @@ import ReactMarkdown from 'react-markdown'
 
 import { Button } from '../components/Button'
 import {
+  CompetencyCard,
   InformationCard,
   PayoutCard,
   ProfessionalBackgroundCard,
-  ProgrammersCompetencyCard,
   SocialMediaCard,
   TagsCard,
   TermsOfServiceCard,
@@ -25,6 +25,7 @@ import './ListingInformation.css'
 import { CircleSpinner } from '../components/Spinner'
 import OrderRatings from '../constants/OrderRatings.json'
 import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
+import { AssessmentSummary, competencySelectorInstance } from '../models/CompetencySelector'
 import currency from '../models/Currency'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
@@ -375,10 +376,14 @@ class ListingProfile extends Component<Props, State> {
         {/* <TagsCard data={spokenLanguages || []} name="Spoken Languages" /> */}
 
         {skills.length > 0 ? <TagsCard name="Skills" data={skills} /> : null}
-        {profile.customProps.programmerCompetency !== '{}' &&
-        listing.isRelatedCompetency(['251', '252']) ? (
+        {profile.customProps.competencies ? (
           <div className="uk-margin-bottom">
-            <ProgrammersCompetencyCard data={profile} />
+            <CompetencyCard
+              data={profile.customProps.competencies as AssessmentSummary}
+              singleCompetency={competencySelectorInstance.getCompetencyIdFromOccupationId(
+                listing.metadata.serviceClassification!
+              )}
+            />
           </div>
         ) : null}
         <TermsOfServiceCard data={listing.termsAndConditions || 'Nothing specified.'} />

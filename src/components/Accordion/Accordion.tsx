@@ -10,7 +10,7 @@ interface Props {
   content: Content[]
 }
 
-const Accordion = ({ content, ...props }: Props) => {
+const Accordion = ({ content }: Props) => {
   return (
     <div id="main-div-acc">
       <ul id="accordion-main" data-uk-accordion>

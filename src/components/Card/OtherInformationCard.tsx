@@ -16,12 +16,12 @@ const OtherInformationCard = (props: OtherInformationCardInterface) => (
       </h3>
       <div id="information">
         {props.data.customFields.map(customField => (
-          <>
+          <React.Fragment key={customField.label}>
             <p id="information-title" className="uk-text-capitalize">
               {customField.label}
             </p>
             <p>{customField.value}</p>
-          </>
+          </React.Fragment>
         ))}
         <p id="information-title">Peer ID</p>
         <p> {props.data.peerID!}</p>

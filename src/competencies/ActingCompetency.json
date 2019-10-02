@@ -1,0 +1,48 @@
+{
+    "id": "actingCompetency",
+    "title": "Acting Competency",
+    "relatedCompetencies": ["2655"],
+    "matrix": [
+      {
+        "category": "Production",
+        "subCategories": [
+          {
+            "item": "Synthesis",
+            "questions": [
+              "Level 0",
+              "Level 1",
+              "Level 2",
+              "Level 3"
+            ]
+          },
+          {
+            "item": "Repertory",
+            "questions": [
+                "Level 0",
+                "Level 1",
+                "Level 2",
+                "Level 3"
+            ]
+          },
+          {
+            "item": "Theoretical and Historical Studies",
+            "questions": [
+                "Level 0",
+                "Level 1",
+                "Level 2",
+                "Level 3"
+            ]
+          },
+          {
+            "item": "Technology",
+            "questions": [
+                "Level 0",
+                "Level 1",
+                "Level 2",
+                "Level 3"
+            ]
+          }
+        ]
+      }
+    ]  
+  }

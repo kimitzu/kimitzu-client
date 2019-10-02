@@ -19,6 +19,7 @@ import {
 import Rating, { RatingSummary } from '../interfaces/Rating'
 
 import defaults from '../constants/Defaults'
+import decodeHtml from '../utils/Unescape'
 
 const profileDefaults = defaults.profile
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
@@ -170,14 +171,16 @@ class Profile implements ProfileSchema {
       throw e
     }
 
-    profile!.background!.educationHistory.forEach(Profile.periodParser)
+    if (profile.customProps.competencies) {
+      profile.customProps.competencies = JSON.parse(
+        decodeHtml(profile.customProps.competencies as string)
+      )
+    }
 
-    profile!.background!.educationHistory.sort(Profile.periodSorter)
-
-    profile!.background!.employmentHistory.forEach(Profile.periodParser)
-
-    profile!.background!.employmentHistory.sort(Profile.periodSorter)
-
+    profile.background!.educationHistory.forEach(Profile.periodParser)
+    profile.background!.educationHistory.sort(Profile.periodSorter)
+    profile.background!.employmentHistory.forEach(Profile.periodParser)
+    profile.background!.employmentHistory.sort(Profile.periodSorter)
     profile.spokenLanguages = ['English', 'Tagalog']
     profile.programmingLanguages = ['Javascript', 'Golang', 'C++']
 
@@ -282,6 +285,7 @@ class Profile implements ProfileSchema {
   public customFields: CustomDescription[] = []
   public customProps: CustomProps = {
     programmerCompetency: '{}',
+    competencies: '',
     skills: '[]',
   }
 
@@ -321,12 +325,14 @@ class Profile implements ProfileSchema {
     }
     const firstSentence = this.about.split('.')[0].substr(0, 157)
     this.shortDescription = firstSentence + '...'
+    this.customProps.competencies = JSON.stringify(this.customProps.competencies)
   }
 
   public postSave() {
     if (this.moderatorInfo.fee.fixedFee && this.moderatorInfo.fee.fixedFee.amount) {
       this.moderatorInfo.fee.fixedFee.amount = this.moderatorInfo.fee.fixedFee.amount / 100
     }
+    this.customProps.competencies = JSON.parse(decodeHtml(this.customProps.competencies as string))
   }
 
   public async update() {

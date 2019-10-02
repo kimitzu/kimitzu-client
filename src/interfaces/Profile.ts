@@ -1,3 +1,4 @@
+import { AssessmentSummary, SingleAssessmentSummary } from '../models/CompetencySelector'
 import Image from './Image'
 import Addresses from './Location'
 import { Moderator } from './Moderator'
@@ -34,6 +35,7 @@ export interface Profile {
 export interface CustomProps {
   programmerCompetency: string
   skills: string
+  competencies: string | AssessmentSummary
 }
 
 export interface EXTLocation {

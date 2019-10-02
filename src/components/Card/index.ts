@@ -1,4 +1,5 @@
 import CheckoutPaymentCard from './CheckoutPaymentCard'
+import CompetencyCard from './CompetencyCard'
 import CryptoSelector from './CryptoSelector'
 import FollowerCard from './FollowerCard'
 import InformationCard from './InformationCard'
@@ -9,7 +10,6 @@ import ModeratorCard from './ModeratorCard'
 import PaymentQRCard from './PaymentQRCard'
 import PayoutCard from './PayoutCard'
 import ProfessionalBackgroundCard from './ProfessionalBackgroundCard'
-import ProgrammersCompetencyCard from './ProgrammersCompetencyCard'
 import RegistrationCard from './RegistrationCard'
 import AddEntryCard from './Settings/AddEntryCard'
 import AddressCard from './Settings/AddressCard'
@@ -41,5 +41,5 @@ export {
   CryptoSelector,
   WalletBalanceCard,
   TransactionsHistoryCard,
-  ProgrammersCompetencyCard,
+  CompetencyCard,
 }

@@ -2,12 +2,13 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
+import CompetencyCard from '../Card/CompetencyCard'
 import OtherInformationCard from '../Card/OtherInformationCard'
 import ProfessionalBackgroundCard from '../Card/ProfessionalBackgroundCard'
-import ProgrammersCompetencyCard from '../Card/ProgrammersCompetencyCard'
 import SocialMediaCard from '../Card/SocialMediaCard'
 import TagsCard from '../Card/TagsCard'
 
+import { AssessmentSummary } from '../../models/CompetencySelector'
 import './ProfileBasicInfoSegment.css'
 
 interface Props {
@@ -35,9 +36,7 @@ const ProfileBasicInfoSegment = ({ profile }: Props) => (
     {JSON.parse(decodeHtml(profile.customProps.skills)).length > 1 ? (
       <TagsCard name="Skills" data={JSON.parse(decodeHtml(profile.customProps.skills))} />
     ) : null}
-    {profile.customProps.programmerCompetency !== '{}' ? (
-      <ProgrammersCompetencyCard data={profile} />
-    ) : null}
+    <CompetencyCard data={profile.customProps.competencies as AssessmentSummary} />
   </div>
 )
 

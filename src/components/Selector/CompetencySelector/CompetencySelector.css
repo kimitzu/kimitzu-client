@@ -1,0 +1,53 @@
+#competency-selector {
+    width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.competency-selector-ul li {
+    background-color: #dadada;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.competency-selector-ul li.show {
+    transition: all 0.5s ease-out;
+    animation-name: move-up;
+    animation-duration: 1s;
+}
+
+.competency-selector-actions {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 60px;
+}
+
+.fix-margin {
+    margin-top: 0px;
+    border-radius: 3px !important;
+    background-color: #aaaaaa;
+}
+
+@keyframes move-up {
+    from {
+        margin-top: 0px;
+        opacity: 0;
+    }
+    to {
+        margin-top: -55px;
+        opacity: 0;
+    }
+}

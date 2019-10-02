@@ -13,7 +13,7 @@ import {
   TagsForm,
 } from '../../components/Form'
 import { ModeratorInfoModal } from '../../components/Modal'
-import { RoundSelector } from '../../components/RoundSelector'
+import { RoundSelector } from '../../components/Selector/RoundSelector'
 import { webSocketResponsesInstance } from '../../models/WebsocketResponses'
 
 import ChangeCredentials from '../../components/Card/ChangeCredentials'
@@ -21,14 +21,21 @@ import Login from '../../components/Card/Login'
 import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
 import EducationCardGroup from '../../components/CardGroup/Settings/EducationCardGroup'
 import EmploymentCardGroup from '../../components/CardGroup/Settings/EmploymentCardGroup'
+import DropdownSearchCompetency from '../../components/Dropdown/DropdownSearchCompetency'
 import CustomDescriptionForm from '../../components/Form/CustomDescriptionForm'
 import EducationForm from '../../components/Form/EducationForm'
 import EmploymentForm from '../../components/Form/EmploymentForm'
+import CompetencySelector from '../../components/Selector/CompetencySelector/CompetencySelector'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
 import UnitsOfMeasurement from '../../constants/UnitsOfMeasurement.json'
+import {
+  AssessmentSummary,
+  competencySelectorInstance,
+  CompetencySelectorModel,
+} from '../../models/CompetencySelector'
 import Profile from '../../models/Profile'
 import Settings from '../../models/Settings'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
@@ -78,7 +85,6 @@ interface GeneralProfileState {
   currentParentIndex: number
   currentAction: number
   isAuthenticationActivated: boolean
-  competency: any
   skills: string[]
   availableModerators: Profile[]
   selectedModerators: Profile[]
@@ -86,6 +92,11 @@ interface GeneralProfileState {
   selectedModerator: Profile
   hasFetchedAModerator: boolean
   settings: Settings
+  competencySelector: CompetencySelectorModel
+  searhCompQuery: string
+  showTest: boolean
+  selectedCompetency: any
+  currentCompetencyId: string
 }
 
 class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
@@ -104,47 +115,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       avatar: '',
       profile,
       isAuthenticationActivated: false,
-      competency: {
-        'Computer Science': {
-          'Data Structures': -1,
-          Algorithms: -1,
-          'Systems Programming': -1,
-        },
-        'Software Engineering': {
-          'Source Code Version Control': -1,
-          'Build Automation': -1,
-          'Automated Testing': -1,
-        },
-        Programming: {
-          'Problem Decomposition': -1,
-          'Systems Decomposition': -1,
-          Communication: -1,
-          'Code Organization Within A File': -1,
-          'Code Organization Across Files': -1,
-          'Source Tree Organization': -1,
-          'Code Readability': -1,
-          'Defensive Coding': -1,
-          'Error Handling': -1,
-          IDE: -1,
-          API: -1,
-          Frameworks: -1,
-          Requirements: -1,
-          Scripting: -1,
-          Database: -1,
-        },
-        Experience: {
-          'Languages With Professional Experience': -1,
-          'Platforms With Professional Experience': -1,
-          'Years Of Professional Experience': -1,
-        },
-        Knowledge: {
-          'Tool Knowledge': -1,
-          'Languages Exposed To': -1,
-          'Knowledge Of Upcoming Technologies': -1,
-          Books: -1,
-          Blogs: -1,
-        },
-      },
       skills: [],
       hasFetchedAModerator: false,
       originalModerators: [],
@@ -152,28 +122,39 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       selectedModerators: [],
       selectedModerator: new Profile(),
       settings,
+      competencySelector: competencySelectorInstance,
+      searhCompQuery: '',
+      seachResultComp: [],
+      showTest: false,
+      selectedCompetency: [],
+      currentCompetencyId: '',
     }
 
-    this.handleChange = this.handleChange.bind(this)
-    this.handleFormSubmit = this.handleFormSubmit.bind(this)
-    this.handleSelectAddress = this.handleSelectAddress.bind(this)
-    this.handleSelectAddress = this.handleSelectAddress.bind(this)
+    this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this)
     this.handleBackBtn = this.handleBackBtn.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.handleChangeAction = this.handleChangeAction.bind(this)
+    this.handleCompetencyDelete = this.handleCompetencyDelete.bind(this)
+    this.handleCompetencyReset = this.handleCompetencyReset.bind(this)
+    this.handleCompetencySubmit = this.handleCompetencySubmit.bind(this)
+    this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
+    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
     this.handleProfileSave = this.handleProfileSave.bind(this)
+    this.handleRoundSelector = this.handleRoundSelector.bind(this)
+    this.handleSelectAddress = this.handleSelectAddress.bind(this)
+    this.handleSelectAddress = this.handleSelectAddress.bind(this)
     this.handleSelectEducation = this.handleSelectEducation.bind(this)
     this.handleSelectEmployment = this.handleSelectEmployment.bind(this)
     this.handleSelectParentItem = this.handleSelectParentItem.bind(this)
-    this.mapSubcontents = this.mapSubcontents.bind(this)
-    this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this)
-    this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
-    this.handleRoundSelector = this.handleRoundSelector.bind(this)
-    this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
-    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
     this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
-    this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
-    this.handleCompetencySubmit = this.handleCompetencySubmit.bind(this)
-    this.handleCompetencyReset = this.handleCompetencyReset.bind(this)
+    this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
+    this.mapSubcontents = this.mapSubcontents.bind(this)
+    this.searchCompetency = this.searchCompetency.bind(this)
+    this.selectCompetencyDropdown = this.selectCompetencyDropdown.bind(this)
+    this.showTest = this.showTest.bind(this)
+    this.toggleCompetency = this.toggleCompetency.bind(this)
   }
 
   public async componentDidMount() {
@@ -190,16 +171,18 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
       const competency = JSON.parse(decodeHtml(profileData.customProps.programmerCompetency))
       const skills = JSON.parse(decodeHtml(profileData.customProps.skills))
-
       const isAuthenticationActivated = await Profile.isAuthenticationActivated()
-
       const settings = await Settings.retrieve()
       const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
         Profile.retrieve(moderator)
       )
       const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
 
+      const competencySelector = this.state.competencySelector.load(profileData.customProps
+        .competencies as AssessmentSummary)
+
       this.setState({
+        competencySelector,
         competency: { ...this.state.competency, ...competency },
         skills,
         profile: profileData,
@@ -232,14 +215,72 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     }
   }
 
-  public handleRoundSelector(title, key, index) {
-    const compTemp = this.state.competency
-    if (compTemp[title][key] !== index) {
-      compTemp[title][key] = index
+  public toggleCompetency(i) {
+    const cmp = this.state.competencySelector.competencies
+    const competencySelector = this.state.competencySelector.setCompetencyCheck(i, !cmp[i].checked)
+    this.setState({
+      competencySelector,
+      seachResultComp: [],
+      searhCompQuery: '',
+    })
+  }
+
+  public searchCompetency(query) {
+    const cmp = this.state.competencySelector.competencies
+    const regex = new RegExp(`^${query}`, 'i')
+    const result = cmp.filter(obj => regex.test(obj.title) && obj.checked === false)
+    this.setState({ seachResultComp: result, searhCompQuery: query })
+  }
+
+  public selectCompetencyDropdown(id) {
+    const cmp = this.state.competencySelector.competencies
+    const i = cmp.findIndex(el => el.id === id)
+    const competencySelector = this.state.competencySelector.setCompetencyCheck(i, true)
+    this.setState({
+      competencySelector,
+      seachResultComp: [],
+      searhCompQuery: '',
+    })
+  }
+
+  public showTest(index, id: string) {
+    this.setState({
+      currentCompetencyId: id,
+    })
+
+    const cs = this.state.competencySelector
+    const compTemp = cs.competencies[index]
+    const skills = compTemp.matrix.map((c, i) => {
+      return {
+        title: c.category,
+        component: (
+          <RoundSelector
+            handleSelect={this.handleRoundSelector}
+            id={compTemp.id}
+            compIndex={index}
+            matrixIndex={i}
+            competency={this.state.competencySelector}
+          />
+        ),
+      }
+    })
+    this.setState({ competencySelector: cs, selectedCompetency: skills, showTest: true })
+  }
+
+  public handleRoundSelector(compIndex, matrixIndex, subIndex, index) {
+    const compTemp = this.state.competencySelector
+    if (
+      compTemp.competencies[compIndex].matrix[matrixIndex].subCategories[subIndex].assessment !==
+      index
+    ) {
+      compTemp.competencies[compIndex].matrix[matrixIndex].subCategories[
+        subIndex
+      ].assessment = index
     } else {
-      compTemp[title][key] = -1
+      compTemp.competencies[compIndex].matrix[matrixIndex].subCategories[subIndex].assessment = -1
     }
-    this.setState({ competency: compTemp })
+    this.showTest(compIndex, compTemp.competencies[compIndex].id)
+    this.setState({ competencySelector: compTemp })
   }
 
   public handleCompetencyReset() {
@@ -259,18 +300,39 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     })
   }
 
+  public async handleCompetencyDelete() {
+    this.setState({
+      isSubmitting: true,
+    })
+    const id = this.state.currentCompetencyId
+    delete this.state.profile.customProps.competencies[id]
+    competencySelectorInstance.delete(id)
+    await this.state.profile.update()
+    window.UIkit.notification(`Competency Deleted!`, {
+      status: 'success',
+    })
+    this.setState({
+      isSubmitting: false,
+      showTest: false,
+    })
+  }
+
   public async handleCompetencySubmit() {
     this.setState({
       isSubmitting: true,
     })
-    this.state.profile.customProps.programmerCompetency = JSON.stringify({
-      ...this.state.competency,
-    })
+    const competencies = { ...(this.state.profile.customProps.competencies as AssessmentSummary) }
+    const assessment = competencySelectorInstance.generateAssessmentSummary(
+      this.state.currentCompetencyId
+    )
+    competencies[this.state.currentCompetencyId] = assessment
+    this.state.profile.customProps.competencies = competencies
     await this.state.profile.update()
     this.setState({
       isSubmitting: false,
+      profile: this.state.profile,
     })
-    window.UIkit.notification('Programming Competency Updated', { status: 'success' })
+    window.UIkit.notification('Competency Updated', { status: 'success' })
   }
 
   get mainContents() {
@@ -297,64 +359,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           </div>
         ),
         label: 'Authentication',
-      },
-    ]
-
-    const skills = [
-      {
-        title: 'Computer Science',
-        component: (
-          <RoundSelector
-            handleSelect={this.handleRoundSelector}
-            title="Computer Science"
-            choices={Object.keys(this.state.competency['Computer Science'])}
-            competency={competency}
-          />
-        ),
-      },
-      {
-        title: 'Software Engineering',
-        component: (
-          <RoundSelector
-            handleSelect={this.handleRoundSelector}
-            title="Software Engineering"
-            choices={Object.keys(this.state.competency['Software Engineering'])}
-            competency={competency}
-          />
-        ),
-      },
-      {
-        title: 'Programming',
-        component: (
-          <RoundSelector
-            handleSelect={this.handleRoundSelector}
-            title="Programming"
-            choices={Object.keys(this.state.competency.Programming)}
-            competency={competency}
-          />
-        ),
-      },
-      {
-        title: 'Experience',
-        component: (
-          <RoundSelector
-            handleSelect={this.handleRoundSelector}
-            title="Experience"
-            choices={Object.keys(this.state.competency.Experience)}
-            competency={competency}
-          />
-        ),
-      },
-      {
-        title: 'Knowledge',
-        component: (
-          <RoundSelector
-            handleSelect={this.handleRoundSelector}
-            title="Knowledge"
-            choices={Object.keys(this.state.competency.Knowledge)}
-            competency={competency}
-          />
-        ),
       },
     ]
 
@@ -519,25 +523,56 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         {
           component: (
             <div id="programming-competency-cont">
-              <Accordion content={skills} />
-              <div className="uk-flex uk-flex-row uk-flex-center uk-margin-top">
-                <Button
-                  className="uk-button uk-button-default uk-margin-right"
-                  onClick={this.handleCompetencyReset}
-                >
-                  Clear
-                </Button>
-                <Button
-                  className="uk-button uk-button-primary"
-                  onClick={this.handleCompetencySubmit}
-                  showSpinner={this.state.isSubmitting}
-                >
-                  Save
-                </Button>
-              </div>
+              {this.state.showTest ? (
+                <div>
+                  <span
+                    uk-icon="icon: arrow-left; ratio: 1.5"
+                    className="color-primary cursor-pointer"
+                    onClick={() => {
+                      this.setState({
+                        showTest: false,
+                      })
+                    }}
+                  />
+                  <div>
+                    <Accordion content={this.state.selectedCompetency} />
+                  </div>
+                  <div className="uk-flex uk-flex-row uk-flex-center uk-margin-top">
+                    <Button
+                      className="uk-button uk-button-danger uk-margin-right"
+                      onClick={this.handleCompetencyDelete}
+                      showSpinner={this.state.isSubmitting}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      className="uk-button uk-button-primary"
+                      onClick={this.handleCompetencySubmit}
+                      showSpinner={this.state.isSubmitting}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <DropdownSearchCompetency
+                    checker={this.selectCompetencyDropdown}
+                    competencies={this.state.competencySelector.competencies}
+                    searchChange={this.searchCompetency}
+                    searchResults={this.state.seachResultComp}
+                    val={this.state.searhCompQuery}
+                  />
+                  <CompetencySelector
+                    checker={this.toggleCompetency}
+                    competencies={this.state.competencySelector.competencies}
+                    showTest={this.showTest}
+                  />
+                </>
+              )}
             </div>
           ),
-          label: 'Programmer Competency',
+          label: 'Competencies',
         },
       ],
     ]
