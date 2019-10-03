@@ -26,6 +26,7 @@ import CustomDescriptionForm from '../../components/Form/CustomDescriptionForm'
 import EducationForm from '../../components/Form/EducationForm'
 import EmploymentForm from '../../components/Form/EmploymentForm'
 import CompetencySelector from '../../components/Selector/CompetencySelector/CompetencySelector'
+import { CircleSpinner } from '../../components/Spinner'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 import CurrencyTypes from '../../constants/CurrencyTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
@@ -97,6 +98,7 @@ interface GeneralProfileState {
   showTest: boolean
   selectedCompetency: any
   currentCompetencyId: string
+  isLoading: boolean
 }
 
 class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
@@ -106,28 +108,29 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const settings = new Settings()
     this.state = {
       addressFormUpdateIndex: -1,
-      educationFormUpdateIndex: -1,
-      employmentFormUpdateIndex: -1,
+      availableModerators: [],
+      avatar: '',
+      competencySelector: competencySelectorInstance,
       currentAction: actions.NONE,
+      currentCompetencyId: '',
       currentContentIndex: 0,
       currentParentIndex: 0,
-      isSubmitting: false,
-      avatar: '',
-      profile,
-      isAuthenticationActivated: false,
-      skills: [],
+      educationFormUpdateIndex: -1,
+      employmentFormUpdateIndex: -1,
       hasFetchedAModerator: false,
+      isAuthenticationActivated: false,
+      isLoading: true,
+      isSubmitting: false,
       originalModerators: [],
-      availableModerators: [],
-      selectedModerators: [],
-      selectedModerator: new Profile(),
-      settings,
-      competencySelector: competencySelectorInstance,
-      searhCompQuery: '',
+      profile,
       seachResultComp: [],
-      showTest: false,
+      searhCompQuery: '',
       selectedCompetency: [],
-      currentCompetencyId: '',
+      selectedModerator: new Profile(),
+      selectedModerators: [],
+      settings,
+      showTest: false,
+      skills: [],
     }
 
     this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this)
@@ -202,7 +205,12 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
     if (moderatorListResponse.data) {
       await moderatorListResponse.data.forEach(async (moderatorId, index) => {
-        const moderator = await Profile.retrieve(moderatorId)
+        let moderator
+        try {
+          moderator = await Profile.retrieve(moderatorId)
+        } catch (e) {
+          return
+        }
         const { availableModerators, originalModerators } = this.state
         this.setState({
           availableModerators: [...availableModerators, moderator],
@@ -213,6 +221,10 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         }
       })
     }
+
+    this.setState({
+      isLoading: false,
+    })
   }
 
   public toggleCompetency(i) {
@@ -702,6 +714,16 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   }
 
   public render() {
+    if (this.state.isLoading) {
+      return (
+        <div className="uk-flex uk-flex-row uk-flex-center">
+          <div className="uk-margin-top">
+            <CircleSpinner message="Loading Profile..." />
+          </div>
+        </div>
+      )
+    }
+
     const { currentCardContent, handleBackBtn, navItems } = this
     const { currentAction } = this.state
     return (
