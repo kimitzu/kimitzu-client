@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
-context('Register', () => {
+context('Create Listing', () => {
   beforeEach(() => {
     cy.server({})
     cy.route({
@@ -74,7 +74,7 @@ context('Register', () => {
     cy.get('#selector-input-general-price').clear()
     cy.get('#selector-input-general-price').type('15')
     cy.get('#general-rate-method').select('Hourly')
-    cy.get('#general-desc').type('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    cy.get('.mde-text').type('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
     cy.contains('NEXT').click()
 
     cy.get('#address-type-selection').should('not.exist')
@@ -144,7 +144,7 @@ context('Register', () => {
     cy.get('#moderator-search').click()
     cy.contains('NEXT').click()
 
-    cy.get('#terms-and-conditions-textarea').type(
+    cy.get('.mde-text').type(
       'At vero eos et accusam et justo duo dolores et ea rebum.'
     )
     cy.contains('NEXT').click()
@@ -257,7 +257,7 @@ context('Register', () => {
       "moderators": ["QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK"],
       "termsAndConditions": "At vero eos et accusam et justo duo dolores et ea rebum.",
       "refundPolicy": ""
-    }    
+    }
 
     cy.wait('@newListing').then((xhr) => {
       const body = xhr.requestBody

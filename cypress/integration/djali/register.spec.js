@@ -81,7 +81,7 @@ context('Register', () => {
     })
     cy.get('#username').type('Djali')
     cy.get('#fullname').type('Djali Remote')
-    cy.get('#description').type('Lorem ipsum dolor sit amet.')
+    cy.get('.mde-text').type('Lorem ipsum dolor sit amet.')
     cy.get('#email').type('test@djali.org')
     cy.get('#countries').select('Philippines')
     cy.get('#preferred-units').select('Metric System (Kilometer, Meter, Centimeter, Grams)')
@@ -157,7 +157,7 @@ context('Register', () => {
         spokenLanguages: ['English', 'Tagalog'],
         programmingLanguages: ['Javascript', 'Golang', 'C++'],
         customFields: [],
-        customProps: { programmerCompetency: '{}', skills: '[]' },
+        customProps: { programmerCompetency: '{}', competencies: '', skills: '[]' },
       }
       cy.wrap(expectedProfile).should('deep.equal', profile.requestBody)
     })

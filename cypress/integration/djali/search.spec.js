@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
-context('Register', () => {
+context('Search', () => {
     beforeEach(() => {
         cy.server({})
         cy.route({
@@ -61,10 +61,10 @@ context('Register', () => {
         })
         cy.visit('http://localhost:3000/')
       })
-  
+
     it('Should see all entries in search', () => {
-        cy.contains('Fresh Ridges').should('exist')
-        cy.contains('0.27 USD').should('exist')
+        cy.contains('THIRD SERVER').should('exist')
+        cy.contains('2.00 USD').should('exist')
     })
 
     it('Should properly convert to another currency', () => {
@@ -73,14 +73,14 @@ context('Register', () => {
             url: 'http://localhost:8109/djali/peer/*',
             response: 'fixture:profile/vendor_philippines.json',
         })
-        cy.contains('Fresh Ridges').should('exist')
-        cy.contains('14.05 PHP').should('exist')
+        cy.contains('THIRD SERVER').should('exist')
+        cy.contains('104.08 PHP').should('exist')
     })
 
     it('Should open a listing', () => {
         cy.route({
-            method: 'POST',
-            url: 'http://localhost:8109/djali/listing?hash=QmX2RxNnBj3AqTwpcoSmnytG6a56sE9ZZJWk8apQWpsBSF',
+            method: 'GET',
+            url: 'http://localhost:8109/djali/listing?hash=QmehvB3hJJGcA7FBjQfcYFwWbe8jdkf94GW3qoYDCdhCTt',
             response: 'fixture:listings/entry_fresh_ridges.json',
         })
         cy.route({
@@ -88,15 +88,12 @@ context('Register', () => {
             url: 'http://localhost:4002/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/fresh-ridges',
             response: 'fixture:ratings/empty.json',
         })
-        cy.get('#QmX2RxNnBj3AqTwpcoSmnytG6a56sE9ZZJWk8apQWpsBSF > a > :nth-child(1) > .img-list').click()
+        cy.get('#QmehvB3hJJGcA7FBjQfcYFwWbe8jdkf94GW3qoYDCdhCTt > a > :nth-child(1) > .img-list').click()
         cy.contains('Retrieving Listing...')
         cy.contains('Fresh Ridges').should('exist')
-        cy.contains('2512-0: Software Developers').should('exist')
         cy.get('.priceSize').should('have.html', '0.27 USD/hour')
         cy.contains('noren.arevalo@gmail.com')
         cy.contains('Bitcoin (TBTC)')
-        cy.contains('Brand Organic Planner overriding Cotton Montana application Practical Soap clicks-and-mortar card back-end Toys Handcrafted proactive Licensed Wooden Pizza Credit Card Account Fresh needs-based architectures Bedfordshire Intelligent Cotton Table Intranet Team-oriented')
         cy.contains('Rave')
     })
   })
-  
