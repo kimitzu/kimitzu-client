@@ -10,6 +10,10 @@ interface CompetencyCardProps {
 
 const CompetencyCard = (props: CompetencyCardProps) => {
   const { data, singleCompetency } = props
+  if (!data) {
+    return null
+  }
+
   const keys = Object.keys(data)
 
   return (

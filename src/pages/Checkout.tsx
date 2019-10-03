@@ -30,7 +30,7 @@ interface CheckoutProps extends RouteComponentProps<RouteProps> {}
 
 interface CheckoutState {
   [key: string]: any
-  amountToPay: string // Includes the amount and its currency
+  amountToPay: number
   estimate: number
   isPending: boolean
   isEstimating: boolean
@@ -58,7 +58,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     const order = new Order()
 
     this.state = {
-      amountToPay: '',
+      amountToPay: 0,
       estimate: 0,
       isPending: false,
       isEstimating: false,
@@ -476,7 +476,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
     this.setState({
       paymentAddress: paymentInformation.paymentAddress,
-      amountToPay: paymentInformation.amount.toString(),
+      amountToPay: paymentInformation.amount,
       isPending: true,
       isRequestingPaymentInformation: true,
       order,

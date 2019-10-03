@@ -1,12 +1,13 @@
 import QRCode from 'qrcode.react'
 import React, { useState } from 'react'
 import { OrdersSpend } from '../../interfaces/Order'
+import currency from '../../models/Currency'
 import Order from '../../models/Order'
 import { Button } from '../Button'
 import './PaymentQRCard.css'
 
 interface Props {
-  amount: string // amount + currency
+  amount: number
   address: string
   cryptocurrency: string
   memo?: string
@@ -28,7 +29,7 @@ const PaymentQRCard = ({
     const details = {
       wallet: cryptocurrency,
       address,
-      amount: Number(amount),
+      amount,
       feeLevel: 'PRIORITY',
       memo: memo || '',
     }
@@ -39,11 +40,18 @@ const PaymentQRCard = ({
 
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-row">
-      <QRCode value={Order.getQRCodeValue(cryptocurrency, address, amount)} size={180} />
+      <QRCode
+        value={Order.getQRCodeValue(
+          cryptocurrency,
+          address,
+          currency.humanizeCrypto(amount).toString()
+        )}
+        size={180}
+      />
       <div className="uk-padding uk-padding-remove-top uk-padding-remove-bottom">
         <div className="uk-flex uk-flex-middle">
           <h4 className="uk-text-bold">
-            Pay: {amount} {cryptocurrency}
+            Pay: {currency.humanizeCrypto(amount)} {cryptocurrency}
           </h4>
           {/* <a
           className="text-underline uk-text-small uk-margin-left"
@@ -70,7 +78,7 @@ const PaymentQRCard = ({
               <div className="card-prompt">
                 Are you sure?Total is{' '}
                 <b>
-                  {amount} {cryptocurrency}
+                  {currency.humanizeCrypto(amount)} {cryptocurrency}
                 </b>
                 <div className="btn-cont">
                   <Button

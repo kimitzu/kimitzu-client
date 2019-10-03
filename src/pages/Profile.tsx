@@ -100,42 +100,45 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       isOwner,
       loadingStatus: 'Retrieving Ratings',
     })
-    const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
-    this.setState({ ratings, ratingsSummary })
 
-    const updatedRatings = await Promise.all(
-      ratings.map(async (rating: RatingItem) => {
-        let userData
-        try {
-          userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
-        } catch (e) {
-          userData = new Profile()
-        }
-        rating.avatar = userData.getAvatarSrc('small')
-        return rating
-      })
-    )
-    this.setState({ ratings: updatedRatings, loadingStatus: 'Retrieving Rating Profiles' })
+    setTimeout(async () => {
+      const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
+      this.setState({ ratings, ratingsSummary })
 
-    const { djali } = ratingsSummary
-    if (djali && djali.buyerRatings) {
-      djali.buyerRatings = await Promise.all(
-        djali.buyerRatings.map(async buyerRating => {
+      const updatedRatings = await Promise.all(
+        ratings.map(async (rating: RatingItem) => {
           let userData
           try {
-            userData = await Profile.retrieve(buyerRating.sourceId)
+            userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
           } catch (e) {
             userData = new Profile()
           }
-          if (userData) {
-            buyerRating.avatar = userData.getAvatarSrc('small')
-            buyerRating.reviewer = userData.name
-          }
-          return buyerRating
+          rating.avatar = userData.getAvatarSrc('small')
+          return rating
         })
       )
-      this.setState({ ratingsSummary })
-    }
+      this.setState({ ratings: updatedRatings, loadingStatus: 'Retrieving Rating Profiles' })
+
+      const { djali } = ratingsSummary
+      if (djali && djali.buyerRatings) {
+        djali.buyerRatings = await Promise.all(
+          djali.buyerRatings.map(async buyerRating => {
+            let userData
+            try {
+              userData = await Profile.retrieve(buyerRating.sourceId)
+            } catch (e) {
+              userData = new Profile()
+            }
+            if (userData) {
+              buyerRating.avatar = userData.getAvatarSrc('small')
+              buyerRating.reviewer = userData.name
+            }
+            return buyerRating
+          })
+        )
+        this.setState({ ratingsSummary })
+      }
+    })
 
     this.setState({
       isLoading: false,

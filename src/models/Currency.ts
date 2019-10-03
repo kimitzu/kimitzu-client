@@ -15,6 +15,14 @@ class Currency {
     if (from.toUpperCase() === to.toUpperCase()) {
       return value
     }
+
+    /**
+     * Fallback to default if no internet
+     */
+    if (!this.currencies) {
+      return value
+    }
+
     return Number(
       (value * (this.currencies[to.toUpperCase()] / this.currencies[from.toUpperCase()])).toFixed(2)
     )

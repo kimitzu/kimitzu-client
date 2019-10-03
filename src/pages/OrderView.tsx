@@ -171,7 +171,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
   public render() {
     const { currentContent, isLoading, order } = this.state
-
     let content
     let currentTitle
 
@@ -655,9 +654,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment title="Send Payment To">
               <PaymentQRCard
-                amount={currency
-                  .humanizeCrypto(order.contract.buyerOrder.payment.amount)
-                  .toString()}
+                amount={order.contract.buyerOrder.payment.amount}
                 address={order.contract.vendorOrderConfirmation.paymentAddress}
                 cryptocurrency={order.contract.buyerOrder.payment.coin}
                 handleCopyToClipboard={field => {
@@ -700,7 +697,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 quantity={`${order.contract.buyerOrder.items[0].quantity ||
                   order.contract.buyerOrder.items[0].quantity64}`}
                 total={`${(
-                  Number(order.fiatValue) *
+                  order.value *
                   (order.contract.buyerOrder.items[0].quantity ||
                     order.contract.buyerOrder.items[0].quantity64)
                 ).toFixed(2)} ${order[order.role!].preferences.fiat} (${order.cryptoValue})`}

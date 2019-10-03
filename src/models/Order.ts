@@ -75,10 +75,10 @@ class Order implements OrderInterface {
   }
 
   public id: string = ''
-  public moderator?: Profile
-  public role?: string
-  public vendor?: Profile
-  public buyer?: Profile
+  public moderator?: Profile = new Profile()
+  public role?: string = 'vendor'
+  public vendor?: Profile = new Profile()
+  public buyer?: Profile = new Profile()
   public contract: Contract = {
     errors: [],
     disputeResolution: {
@@ -363,7 +363,7 @@ class Order implements OrderInterface {
     try {
       const orderRequest = await Axios.post(`${config.openBazaarHost}/ob/purchase`, order)
       const paymentInformation = orderRequest.data as OrderPaymentInformation
-      paymentInformation.amount = currency.humanizeCrypto(paymentInformation.amount)
+      paymentInformation.amount = paymentInformation.amount
       return paymentInformation
     } catch (e) {
       throw new Error(e.response.data.reason)
@@ -450,6 +450,10 @@ class Order implements OrderInterface {
     }
   }
 
+  public get value(): number {
+    return this.contract.vendorListings[0].item.price
+  }
+
   public get fiatValue(): string {
     const listing = this.contract.vendorListings[0]
     const pricingCurrency = listing.metadata.pricingCurrency
@@ -514,7 +518,7 @@ class Order implements OrderInterface {
       await Axios.post(`${config.openBazaarHost}/ob/orderspend`, {
         wallet: orderSpend.wallet,
         address: orderSpend.address,
-        amount: currency.dehumanizeCrypto(orderSpend.amount),
+        amount: orderSpend.amount,
         feeLevel: orderSpend.feeLevel,
         memo: orderSpend.memo,
         orderID: this.id,

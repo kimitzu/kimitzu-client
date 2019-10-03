@@ -63,23 +63,25 @@ const CheckoutPaymentCard = ({
         </div>
       </div>
       <hr />
-      <div className="uk-margin-small-top">
-        <h5 className="uk-margin-small-bottom uk-text-bold">Pay Via</h5>
-        <div className="uk-form-controls uk-form-controls-text uk-height-1-1 uk-flex uk-flex-column uk-flex-start">
-          {acceptedCurrencies.map((option: Option) => (
-            <label key={option.value.toString()}>
-              <input
-                className="uk-radio uk-margin-small-right"
-                type="radio"
-                checked={option.value.toString() === selectedCurrency}
-                onChange={() => handleOnChange('selectedCurrency', option.value)}
-                name={option.value.toString()}
-              />
-              {option.label}
-            </label>
-          ))}
+      {isPending ? null : (
+        <div className="uk-margin-small-top">
+          <h5 className="uk-margin-small-bottom uk-text-bold">Pay Via</h5>
+          <div className="uk-form-controls uk-form-controls-text uk-height-1-1 uk-flex uk-flex-column uk-flex-start">
+            {acceptedCurrencies.map((option: Option) => (
+              <label key={option.value.toString()}>
+                <input
+                  className="uk-radio uk-margin-small-right"
+                  type="radio"
+                  checked={option.value.toString() === selectedCurrency}
+                  onChange={() => handleOnChange('selectedCurrency', option.value)}
+                  name={option.value.toString()}
+                />
+                {option.label}
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <div className="uk-margin-top">
         <h5 className="uk-text-bold uk-margin-small-bottom">Order Summary</h5>
         <div>
