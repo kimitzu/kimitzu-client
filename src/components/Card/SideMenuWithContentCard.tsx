@@ -23,7 +23,6 @@ interface Props {
   menuContent: MenuNavContent
   mainContent: ReactNode
   mainContentTitle: string
-  isLoading?: boolean
   showBackBtn?: boolean
   handleBackBtn?: () => void
   currentNavIndex?: number
@@ -38,7 +37,6 @@ const SideMenuWithContentCard = ({
   showBackBtn,
   currentNavIndex,
   currentSubNavIndex,
-  isLoading,
 }: Props) => {
   return (
     <div
@@ -65,7 +63,7 @@ const SideMenuWithContentCard = ({
         <h4 id="side-menu-with-content-card-title" className="color-primary">
           {mainContentTitle}
         </h4>
-        {isLoading ? null : <div id="side-menu-with-content-card-component">{mainContent}</div>}
+        <div id="side-menu-with-content-card-component">{mainContent}</div>
       </div>
     </div>
   )

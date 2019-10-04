@@ -19,6 +19,7 @@ import GroupMessage from '../models/GroupMessage'
 import Order from '../models/Order'
 
 import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
+import { CircleSpinner } from '../components/Spinner'
 import ClientRatings from '../constants/ClientRatings.json'
 import OrderRatings from '../constants/OrderRatings.json'
 import currency from '../models/Currency'
@@ -45,6 +46,7 @@ interface OrderViewState {
   claim: string
   isSendingRequest: boolean
   id: string
+  loadingStatus: string
 }
 
 const CONTENT_CONSTANTS = {
@@ -80,6 +82,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       orderCompleteRatings: OrderRatings,
       claim: '',
       id: '',
+      loadingStatus: '',
     }
     this.handleBackBtn = this.handleBackBtn.bind(this)
     this.handleFulfillOrderBtn = this.handleFulfillOrderBtn.bind(this)
@@ -95,7 +98,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
   public async componentDidMount() {
     const id = this.props.match.params.id
+    this.setState({
+      loadingStatus: 'Retrieving Order...',
+    })
     const order = await Order.retrieve(id)
+    this.setState({
+      loadingStatus: 'Retrieving Discussions...',
+    })
     const groupMessage = await GroupMessage.retrieve(id)
 
     if (order.role === 'buyer') {
@@ -174,6 +183,16 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     let content
     let currentTitle
 
+    if (isLoading) {
+      return (
+        <div className="uk-flex uk-flex-row uk-flex-center">
+          <div className="uk-margin-top">
+            <CircleSpinner message={`${this.state.loadingStatus}...`} />
+          </div>
+        </div>
+      )
+    }
+
     switch (currentContent) {
       case CONTENT_CONSTANTS.MAIN_CONTENT:
         content = this.renderMainContent()
@@ -198,7 +217,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     return (
       <div className="uk-padding-small full-vh background-body">
         <SideMenuWithContentCard
-          isLoading={isLoading}
           mainContentTitle={currentTitle}
           showBackBtn={currentContent !== CONTENT_CONSTANTS.MAIN_CONTENT}
           handleBackBtn={this.handleBackBtn}

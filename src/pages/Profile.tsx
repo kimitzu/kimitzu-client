@@ -9,6 +9,7 @@ import { Search, searchInstance } from '../models/Search'
 import Settings from '../models/Settings'
 
 import { CircleSpinner } from '../components/Spinner'
+import config from '../config'
 import Rating, { RatingSummary } from '../interfaces/Rating'
 
 interface RatingItem extends Rating {
@@ -28,6 +29,7 @@ interface ProfilePageState {
   loadingStatus: string
   followersList: string[]
   followingList: string[]
+  isError: boolean
 }
 
 interface RouteProps {
@@ -54,6 +56,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       loadingStatus: '',
       followersList: [],
       followingList: [],
+      isError: false,
     }
     this.handleFollowChange = this.handleFollowChange.bind(this)
     this.handleSendMessage = this.handleSendMessage.bind(this)
@@ -65,7 +68,15 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     this.setState({
       loadingStatus: 'Retrieving Profile',
     })
-    const profile: Profile = await Profile.retrieve(id, true)
+    let profile
+    try {
+      profile = await Profile.retrieve(id, true)
+    } catch (e) {
+      this.setState({
+        isError: true,
+        isLoading: false,
+      })
+    }
     const ownProfile: Profile = await Profile.retrieve()
     this.setState({
       loadingStatus: 'Retrieving Followers',
@@ -164,6 +175,21 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
             <CircleSpinner message={`${this.state.loadingStatus}...`} />
+          </div>
+        </div>
+      )
+    }
+
+    if (this.state.isError) {
+      return (
+        <div className="uk-flex uk-flex-row uk-flex-center">
+          <div className="uk-margin-top uk-text-center">
+            <img src={`${config.host}/images/warning.png`} height="100" width="100" />
+            <h1 className="uk-text-danger uk-margin-top">Unable to Retrieve Profile.</h1>
+            <p>
+              The profile your requested is currently offline or does not exist in the Djali
+              network.
+            </p>
           </div>
         </div>
       )

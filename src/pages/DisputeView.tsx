@@ -12,6 +12,7 @@ import {
   SimpleBorderedSegment,
 } from '../components/Segment'
 import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
+import { CircleSpinner } from '../components/Spinner'
 import Stepper from '../components/Stepper/Stepper'
 import config from '../config'
 import PaymentNotification from '../interfaces/PaymentNotification'
@@ -130,6 +131,16 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
   public render() {
     const { currentContent, isLoading, dispute: order } = this.state
 
+    if (isLoading) {
+      return (
+        <div className="uk-flex uk-flex-row uk-flex-center">
+          <div className="uk-margin-top">
+            <CircleSpinner message={`${this.state.loadingStatus}...`} />
+          </div>
+        </div>
+      )
+    }
+
     let content
     let currentTitle
 
@@ -153,7 +164,6 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     return (
       <div className="uk-padding-small full-vh background-body">
         <SideMenuWithContentCard
-          isLoading={isLoading}
           mainContentTitle={currentTitle}
           showBackBtn={currentContent !== CONTENT_CONSTANTS.MAIN_CONTENT}
           handleBackBtn={this.handleBackBtn}
