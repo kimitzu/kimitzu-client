@@ -119,10 +119,15 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       loadingStatus: 'Retrieving Ratings',
     })
 
-    setTimeout(async () => {
-      const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
-      this.setState({ ratings, ratingsSummary })
+    const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
+    this.setState({ ratings, ratingsSummary })
 
+    /**
+     * Adding timeout to quickly load the profile page.
+     * Since this is only requesting the avatars of users
+     * in the rating section, not much is affected.
+     */
+    setTimeout(async () => {
       const updatedRatings = await Promise.all(
         ratings.map(async (rating: RatingItem) => {
           let userData

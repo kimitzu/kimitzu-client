@@ -548,7 +548,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 >
                   COMPLETE ORDER
                 </Button>
-                <label className="uk-margin-left">
+                {/* <label className="uk-margin-left">
                   <input
                     className="uk-checkbox uk-margin-small-right"
                     type="checkbox"
@@ -558,7 +558,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     }}
                   />
                   Include my name (Seen Publicly)
-                </label>
+                </label> */}
               </div>
             </OrderSummaryItemSegment>
           </div>

@@ -50,6 +50,9 @@ class Profile implements ProfileSchema {
   }
 
   public static async isFollowing(peerID: string): Promise<boolean> {
+    if (!peerID) {
+      return false
+    }
     const isFollowingRequest = await Axios.get(`${config.openBazaarHost}/ob/isfollowing/${peerID}`)
     return isFollowingRequest.data.isFollowing
   }

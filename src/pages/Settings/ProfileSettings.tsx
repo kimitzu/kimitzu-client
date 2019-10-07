@@ -250,9 +250,9 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   }
 
   public selectCompetencyDropdown(id) {
-    const cmp = this.state.competencySelector.competencies
-    const i = cmp.findIndex(el => el.id === id)
-    const competencySelector = this.state.competencySelector.setCompetencyCheck(i, true)
+    const competency = this.state.competencySelector.competencies
+    const index = competency.findIndex(element => element.id === id)
+    const competencySelector = this.state.competencySelector.setCompetencyCheck(index, true)
     this.setState({
       competencySelector,
       seachResultComp: [],
@@ -260,22 +260,22 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     })
   }
 
-  public showTest(index, id: string) {
+  public showTest(index: number, id: string) {
     this.setState({
       currentCompetencyId: id,
     })
 
     const cs = this.state.competencySelector
     const compTemp = cs.competencies[index]
-    const skills = compTemp.matrix.map((c, i) => {
+    const skills = compTemp.matrix.map((competency, loopIndex) => {
       return {
-        title: c.category,
+        title: competency.category,
         component: (
           <RoundSelector
             handleSelect={this.handleRoundSelector}
             id={compTemp.id}
             compIndex={index}
-            matrixIndex={i}
+            matrixIndex={loopIndex}
             competency={this.state.competencySelector}
           />
         ),
