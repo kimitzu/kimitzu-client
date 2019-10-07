@@ -70,6 +70,9 @@ class CompetencySelectorModel implements State {
     }
     Object.keys(rawCompetency).forEach(selectedCompetency => {
       const competencyIndex = this.competencies.findIndex(el => el.id === selectedCompetency)
+      if (competencyIndex === -1) {
+        return
+      }
       this.competencies[competencyIndex].matrix.forEach((matrix, matrixIndex) => {
         const rawCompetencyCategory = rawCompetency[selectedCompetency][matrixIndex]
         matrix.subCategories.forEach((subCategory, subCategoryIndex) => {

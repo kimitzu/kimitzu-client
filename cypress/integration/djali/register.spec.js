@@ -65,7 +65,7 @@ context('Register', () => {
       response: {},
     })
 
-    cy.visit('http://localhost:3000/register')
+    cy.visit('http://localhost:3000/', { failOnStatusCode: false })
   })
 
   it('Should register an account', () => {
@@ -90,6 +90,12 @@ context('Register', () => {
       'contain.text',
       `The Djali community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Djali users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Djali developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Djali ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.`
     )
+
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/djali/peer/get?id=&force=true',
+      response: 'fixture:profile/vendor.json',
+    })
 
     cy.route({
       method: 'GET',

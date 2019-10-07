@@ -56,6 +56,7 @@
     "react-textarea-autosize": "^7.1.0",
     "react-token-autocomplete": "^0.5.3",
     "search-index": "^1.0.6",
+    "serve": "^11.2.0",
     "slugify": "^1.3.4",
     "spinkit": "^1.2.5",
     "throttle": "^1.0.3",
@@ -73,6 +74,7 @@
     "build:local": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
     "build:local:mac": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build -m",
     "build:remote": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
+    "build:remote:ci": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build",
     "build:remote:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=remote yarn react-build",
     "cpext": "cp -r external/ build/external/ && mv build/external/_root/locationmap.json build/locationmap.json && mv build/external/_root/locdat.zip build/locdat.zip",
     "react-start": "react-scripts start",
@@ -82,7 +84,9 @@
     "compile:electron": "tsc electron/electron.ts --outDir public",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "serve": "serve -S build -l 3000",
+    "ci:cypress:test": "CI=false npm run build:remote:ci && serve -S build -l 3000 & wait-on http://localhost:3000 && cypress run --browser chrome"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -108,6 +112,7 @@
     "eslint-plugin-cypress": "^2.6.1",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
+    "mock-socket": "^9.0.0",
     "prettier": "^1.17.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
@@ -115,7 +120,7 @@
     "tslint-react": "^4.0.0",
     "wait-on": "^3.3.0"
   },
-  "descript ion": "Djali Client App",
+  "description": "Djali Client App",
   "main": "public/electron.js",
   "homepage": "./",
   "build": {

@@ -1,4 +1,4 @@
-type Environment = 'local' | 'remote'
+type Environment = 'local' | 'remote' | 'test'
 
 interface Config {
   djaliHost: string

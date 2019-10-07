@@ -3,18 +3,23 @@ jobs:
   build:
     working_directory: ~/djali-client 
     docker: 
-      - image: circleci/node:12.10.0
+      - image: cypress/browsers:node12.6.0-chrome75
     steps:
       - checkout 
       - restore_cache: 
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install-dependencies
-          command: npm install
+          command: yarn install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: test
+          name: unit-tests
           command: npm run react-test
+      - run:
+          name: cypress-tests
+          command: npm run ci:cypress:test
+      - store_artifacts:
+          path: ./cypress/screenshots

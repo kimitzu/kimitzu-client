@@ -52,12 +52,12 @@ context('Create Listing', () => {
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/exchangerate/btc',
-      response: {}
+      response: {},
     })
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/moderators?async=true',
-      response: {}
+      response: {},
     })
     cy.visit('http://localhost:3000/')
   })
@@ -134,7 +134,9 @@ context('Create Listing', () => {
     cy.get('#selected-moderators')
       .children()
       .should('have.length', 1)
-    cy.get('#moderator-remove-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').click()
+    cy.get('#moderator-remove-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').click({
+      force: true,
+    })
     cy.get('#selected-moderators')
       .children()
       .should('have.length', 0)
@@ -144,9 +146,7 @@ context('Create Listing', () => {
     cy.get('#moderator-search').click()
     cy.contains('NEXT').click()
 
-    cy.get('.mde-text').type(
-      'At vero eos et accusam et justo duo dolores et ea rebum.'
-    )
+    cy.get('.mde-text').type('At vero eos et accusam et justo duo dolores et ea rebum.')
     cy.contains('NEXT').click()
 
     cy.get('#coupon-add').click()
@@ -170,96 +170,96 @@ context('Create Listing', () => {
     cy.contains('ADD LISTING').click()
 
     const expectedRequest = {
-      "isOwner": false,
-      "item": {
-        "title": "The Accountant",
-        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
-        "processingTime": "1 day",
-        "price": 1500,
-        "tags": ["lorem", "ipsum"],
-        "images": [
+      isOwner: false,
+      item: {
+        title: 'The Accountant',
+        description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+        processingTime: '1 day',
+        price: 1500,
+        tags: ['lorem', 'ipsum'],
+        images: [
           {
-            "filename": "image.png",
-            "large": "QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp",
-            "medium": "QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX",
-            "original": "QmSYYRZS5veRXQqY2y4ekDrKyEVgz9nCDKaW1krrYvtGC3",
-            "small": "QmXT2PgXsC4XymEGZP9iFcX9FKKQZMQW5wiP7hxCvdZHxG",
-            "tiny": "QmZgAEvnzhPTqPheojV7azwVo9uemfnZzFP5AdvVzGFdZU"
+            filename: 'image.png',
+            large: 'QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp',
+            medium: 'QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX',
+            original: 'QmSYYRZS5veRXQqY2y4ekDrKyEVgz9nCDKaW1krrYvtGC3',
+            small: 'QmXT2PgXsC4XymEGZP9iFcX9FKKQZMQW5wiP7hxCvdZHxG',
+            tiny: 'QmZgAEvnzhPTqPheojV7azwVo9uemfnZzFP5AdvVzGFdZU',
           },
           {
-            "filename": "image.png",
-            "large": "QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp",
-            "medium": "QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX",
-            "original": "QmSYYRZS5veRXQqY2y4ekDrKyEVgz9nCDKaW1krrYvtGC3",
-            "small": "QmXT2PgXsC4XymEGZP9iFcX9FKKQZMQW5wiP7hxCvdZHxG",
-            "tiny": "QmZgAEvnzhPTqPheojV7azwVo9uemfnZzFP5AdvVzGFdZU"
-          }
+            filename: 'image.png',
+            large: 'QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp',
+            medium: 'QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX',
+            original: 'QmSYYRZS5veRXQqY2y4ekDrKyEVgz9nCDKaW1krrYvtGC3',
+            small: 'QmXT2PgXsC4XymEGZP9iFcX9FKKQZMQW5wiP7hxCvdZHxG',
+            tiny: 'QmZgAEvnzhPTqPheojV7azwVo9uemfnZzFP5AdvVzGFdZU',
+          },
         ],
-        "categories": ["2411-24"],
-        "grams": 0,
-        "condition": "New",
-        "options": [],
-        "skus": [{ "quantity": -1, "productID": "" }]
+        categories: ['2411-24'],
+        grams: 0,
+        condition: 'New',
+        options: [],
+        skus: [{ quantity: -1, productID: '' }],
       },
-      "averageRating": 0,
-      "hash": "",
-      "location": {
-        "addressOne": "Lorem Ipsum",
-        "addressTwo": "Dolor Sit Amet",
-        "city": "Iloilo City",
-        "country": "PH",
-        "latitude": "10.735312499999992",
-        "longitude": "122.54581250000001",
-        "plusCode": "7Q24PGPW+48",
-        "state": "Iloilo",
-        "zipCode": "5000"
+      averageRating: 0,
+      hash: '',
+      location: {
+        addressOne: 'Lorem Ipsum',
+        addressTwo: 'Dolor Sit Amet',
+        city: 'Iloilo City',
+        country: 'PH',
+        latitude: '10.735312499999992',
+        longitude: '122.54581250000001',
+        plusCode: '7Q24PGPW+48',
+        state: 'Iloilo',
+        zipCode: '5000',
       },
-      "parentPeer": "",
-      "peerSlug": "",
-      "price": { "amount": 0, "currencyCode": "", "modifier": 0 },
-      "ratingCount": 0,
-      "thumbnail": { "medium": "", "small": "", "tiny": "" },
-      "nsfw": false,
-      "signature": "",
-      "slug": "",
-      "currentSlug": "",
-      "vendorID": {
-        "peerID": "",
-        "handle": "",
-        "pubkeys": { "identity": "", "bitcoin": "" },
-        "bitcoinSig": ""
+      parentPeer: '',
+      peerSlug: '',
+      price: { amount: 0, currencyCode: '', modifier: 0 },
+      ratingCount: 0,
+      thumbnail: { medium: '', small: '', tiny: '' },
+      nsfw: false,
+      signature: '',
+      slug: '',
+      currentSlug: '',
+      vendorID: {
+        peerID: '',
+        handle: '',
+        pubkeys: { identity: '', bitcoin: '' },
+        bitcoinSig: '',
       },
-      "metadata": {
-        "version": 0,
-        "contractType": "SERVICE",
-        "format": "FIXED_PRICE",
-        "expiry": "2019-09-30T10:24:52.062Z",
-        "acceptedCurrencies": ["TBTC", "TLTC", "TZEC", "TBCH"],
-        "pricingCurrency": "USD",
-        "language": "",
-        "escrowTimeoutHours": 0,
-        "coinType": "",
-        "coinDivisibility": 100000000,
-        "priceModifier": 0,
-        "serviceRateMethod": "PER_HOUR",
-        "serviceClassification": "2411-24: Accountant"
+      metadata: {
+        version: 0,
+        contractType: 'SERVICE',
+        format: 'FIXED_PRICE',
+        expiry: '2019-09-30T10:24:52.062Z',
+        acceptedCurrencies: ['TBTC', 'TLTC', 'TZEC', 'TBCH'],
+        pricingCurrency: 'USD',
+        language: '',
+        escrowTimeoutHours: 0,
+        coinType: '',
+        coinDivisibility: 100000000,
+        priceModifier: 0,
+        serviceRateMethod: 'PER_HOUR',
+        serviceClassification: '2411-24: Accountant',
       },
-      "shippingOptions": [],
-      "coupons": [
+      shippingOptions: [],
+      coupons: [
         {
-          "title": "dolor",
-          "discountCode": "sit",
-          "type": "price",
-          "uniqueId": "0.7845509187621316",
-          "priceDiscount": 1
-        }
+          title: 'dolor',
+          discountCode: 'sit',
+          type: 'price',
+          uniqueId: '0.7845509187621316',
+          priceDiscount: 1,
+        },
       ],
-      "moderators": ["QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK"],
-      "termsAndConditions": "At vero eos et accusam et justo duo dolores et ea rebum.",
-      "refundPolicy": ""
+      moderators: ['QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK'],
+      termsAndConditions: 'At vero eos et accusam et justo duo dolores et ea rebum.',
+      refundPolicy: '',
     }
 
-    cy.wait('@newListing').then((xhr) => {
+    cy.wait('@newListing').then(xhr => {
       const body = xhr.requestBody
       body.metadata.expiry = expectedRequest.metadata.expiry
       body.coupons = expectedRequest.coupons

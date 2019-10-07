@@ -13,6 +13,7 @@ class WebSocketResponses {
     const moderatorWebsocketResponse = await Axios.get(
       `${config.openBazaarHost}/ob/moderators?async=true`
     )
+
     window.socket.onmessage = socketData => {
       const jsonSocketData = JSON.parse(socketData.data) as ModeratorResponse
       if (jsonSocketData.id && jsonSocketData.id === moderatorWebsocketResponse.data.id) {
