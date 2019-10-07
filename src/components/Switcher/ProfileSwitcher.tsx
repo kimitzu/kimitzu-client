@@ -13,6 +13,7 @@ import Rating, { RatingSummary } from '../../interfaces/Rating'
 
 interface Props {
   profile: Profile
+  currentUser: Profile
   listings: Listing[]
   ratingSummary: RatingSummary
   ratings: Rating[]
@@ -24,6 +25,7 @@ const ProfileSwitcher = ({
   followersList,
   followingList,
   profile,
+  currentUser,
   listings,
   ratingSummary,
   ratings,
@@ -36,7 +38,7 @@ const ProfileSwitcher = ({
       </li>
       <li>
         {listings ? (
-          <ListingCardGroup data={listings} targetCurrency={profile.preferences.fiat} />
+          <ListingCardGroup data={listings} targetCurrency={currentUser.preferences.fiat} />
         ) : (
           <div className="uk-flex uk-flex-center uk-flex-middle">
             <h4>No available listings.</h4>

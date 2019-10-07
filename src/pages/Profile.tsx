@@ -30,6 +30,7 @@ interface ProfilePageState {
   followersList: string[]
   followingList: string[]
   isError: boolean
+  currentUser: Profile
 }
 
 interface RouteProps {
@@ -41,10 +42,9 @@ interface CheckoutProps extends RouteComponentProps<RouteProps> {}
 class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
   constructor(props: any) {
     super(props)
-    const profile = new Profile()
-
     this.state = {
-      profile,
+      profile: new Profile(),
+      currentUser: new Profile(),
       search: searchInstance,
       isOwner: true,
       ratingsSummary: {} as RatingSummary,
@@ -77,7 +77,14 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
         isLoading: false,
       })
     }
-    const ownProfile: Profile = await Profile.retrieve()
+
+    let currentUser: Profile
+    if (id) {
+      currentUser = await Profile.retrieve()
+    } else {
+      currentUser = profile
+    }
+
     this.setState({
       loadingStatus: 'Retrieving Followers',
     })
@@ -89,7 +96,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     })
     const settings = await Settings.retrieve()
     const isBlocked = settings.blockedNodes.includes(id)
-    const isOwner = !id || id === ownProfile.peerID // Check if the supplied peerID is your own peerID
+    const isOwner = !id || id === currentUser.peerID // Check if the supplied peerID is your own peerID
     const search = this.state.search
     search.reset()
     search.filters['vendorID.peerID'] = profile.peerID
@@ -208,6 +215,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
         />
         <ProfileSwitcher
           profile={profile}
+          currentUser={this.state.currentUser}
           listings={search.results.data}
           ratingSummary={ratingsSummary}
           ratings={ratings}
