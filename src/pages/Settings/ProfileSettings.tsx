@@ -176,10 +176,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       const skills = JSON.parse(decodeHtml(profileData.customProps.skills))
       const isAuthenticationActivated = await Profile.isAuthenticationActivated()
       const settings = await Settings.retrieve()
-      const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
-        Profile.retrieve(moderator)
-      )
-      const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
 
       const competencySelector = this.state.competencySelector.load(profileData.customProps
         .competencies as AssessmentSummary)
@@ -191,7 +187,16 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         profile: profileData,
         isAuthenticationActivated,
         settings,
-        selectedModerators: moderatorProfiles,
+      })
+
+      setTimeout(async () => {
+        const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
+          Profile.retrieve(moderator)
+        )
+        const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
+        this.setState({
+          selectedModerators: moderatorProfiles,
+        })
       })
     } catch (error) {
       if (error.response) {
@@ -204,7 +209,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const moderatorListResponse = { data: webSocketResponsesInstance.moderatorIDs }
 
     if (moderatorListResponse.data) {
-      await moderatorListResponse.data.forEach(async (moderatorId, index) => {
+      moderatorListResponse.data.forEach(async (moderatorId, index) => {
         let moderator
         try {
           moderator = await Profile.retrieve(moderatorId)
