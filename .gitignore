@@ -27,3 +27,4 @@ package-lock.json
 /.idea
 /public/electron.js
 /public/LocalServer.js
+.vscode/launch.json

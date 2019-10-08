@@ -35,6 +35,9 @@ const renderReviews = (ratings?: Rating[], djaliRatings?: RatingSummary['djali']
   } else if (djaliRatings && djaliRatings.buyerRatings) {
     return djaliRatings.buyerRatings.map((buyerRating: DjaliRatingItem) => {
       const { comment, fields, sourceId, reviewer, avatar, timestamp } = buyerRating
+      if (!fields) {
+        return null
+      }
       const averageRating =
         fields.reduce((acc, cur) => {
           return acc + (cur.score * cur.weight) / 100

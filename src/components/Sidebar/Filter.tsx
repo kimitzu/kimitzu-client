@@ -40,6 +40,7 @@ interface FilterProps {
   onFilterSubmit: (event?: React.FormEvent<HTMLFormElement>) => void
   onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
+  onFilterDelete: (field: string) => void
   searchInstance: Search
   profile: Profile
   locationRadius: number
@@ -57,6 +58,7 @@ const Filter = ({
   onRatingChanged,
   rating,
   profile,
+  onFilterDelete,
 }: FilterProps) => {
   const [originalSliderValue, setOriginalSliderValue] = useState(1)
 
@@ -69,6 +71,24 @@ const Filter = ({
         }}
       >
         <legend className="uk-legend">FILTERS</legend>
+        <div className="uk-margin">
+          <label>
+            <input
+              id="hideOwnListingCheckbox"
+              className="uk-checkbox"
+              type="checkbox"
+              onChange={async evt => {
+                if (evt.target.checked) {
+                  onFilterChange('vendorID.peerID', profile.peerID, '!=')
+                } else {
+                  onFilterDelete('vendorID.peerID')
+                }
+                await onFilterSubmit()
+              }}
+            />{' '}
+            Hide own listings
+          </label>
+        </div>
         <div className="uk-margin">
           <FormLabel label="OCCUPATION" />
           <div id="form-select" className="uk-form-controls">

@@ -39,7 +39,7 @@ context('Filter', () => {
     cy.visit('http://localhost:3000/')
   })
 
-  it('should verify request filters of listings and clear filter fields when Reset button is clicked', () => {
+  it('Should verify request filters of listings and clear filter fields when Reset button is clicked', () => {
     // to ignore the first two calls of @filteredSearch route
     cy.wait('@filteredSearch')
     cy.wait('@filteredSearch')
@@ -51,10 +51,10 @@ context('Filter', () => {
 
     cy.get('.uk-flex > :nth-child(1) > .uk-input').clear().type('10')
     cy.get(':nth-child(3) > .uk-input').type('99')
-    cy.get(':nth-child(6) > .uk-input').type('Sample City')
-    cy.get(':nth-child(7) > .uk-input').type('Sample State')
-    cy.get(':nth-child(8) > .uk-input').type('8GC2CMXR+X6')
-    cy.get(':nth-child(9) > .uk-select').select('Afghanistan')
+    cy.get(':nth-child(7) > .uk-input').type('Sample City')
+    cy.get(':nth-child(8) > .uk-input').type('Sample State')
+    cy.get(':nth-child(9) > .uk-input').type('8GC2CMXR+X6')
+    cy.get(':nth-child(10) > .uk-select').select('Afghanistan')
     cy.get('[for="rate1_5"] > i').click()
     cy.get('.uk-range')
       .invoke('val', 200)
@@ -79,15 +79,52 @@ context('Filter', () => {
     cy.get('#input').should('be.empty')
     cy.get('.uk-flex > :nth-child(1) > .uk-input').should('be.empty')
     cy.get(':nth-child(3) > .uk-input').should('be.empty')
-    cy.get(':nth-child(6) > .uk-input').should('be.empty')
     cy.get(':nth-child(7) > .uk-input').should('be.empty')
     cy.get(':nth-child(8) > .uk-input').should('be.empty')
-    cy.get(':nth-child(9) > .uk-select').should('have.value', '')
+    cy.get(':nth-child(9) > .uk-input').should('be.empty')
+    cy.get(':nth-child(10) > .uk-select').should('have.value', '')
     cy.get('[for="rate1_1"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_2"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_3"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_4"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_5"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('.uk-range').should('have.value', '1')
+  })
+
+  it('Should hide own listings', () => {
+    cy.wait(2000)
+    cy.route({
+      method: 'POST',
+      url: 'http://localhost:8109/djali/search',
+      response: 'fixture:listings/search_many.json',
+    }).as('ownerSearch')
+    cy.get('#hideOwnListingCheckbox').click()
+    cy.wait('@ownerSearch').then(function(xhr) {
+      const filters = xhr.requestBody.filters
+      const expected = [`doc.metadata.contractType == "SERVICE"`, `doc.vendorID.peerID != "QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs"`, `doc.item.price >= 0`]
+      cy.wrap(filters).should('deep.equal', expected)
+    })
+  })
+
+  it('Should unhide own listings', () => {
+    cy.wait(2000)
+    cy.route({
+      method: 'POST',
+      url: 'http://localhost:8109/djali/search',
+      response: 'fixture:listings/search_many.json',
+    }).as('ownerSearch')
+    cy.get('#hideOwnListingCheckbox').click()
+    cy.wait('@ownerSearch').then(function(xhr) {
+      const filters = xhr.requestBody.filters
+      const expected = [`doc.metadata.contractType == "SERVICE"`, `doc.vendorID.peerID != "QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs"`, `doc.item.price >= 0`]
+      cy.wrap(filters).should('deep.equal', expected)
+    })
+
+    cy.get('#hideOwnListingCheckbox').click()
+    cy.wait('@ownerSearch').then(function(xhr) {
+      const filters = xhr.requestBody.filters
+      const expected = [`doc.metadata.contractType == "SERVICE"`, `doc.item.price >= 0`]
+      cy.wrap(filters).should('deep.equal', expected)
+    })
   })
 })

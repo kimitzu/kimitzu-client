@@ -52,6 +52,9 @@ const RatingsSummarySegment = ({
     totalAverageRating = (average / 100) * totalStarCount
     // totalReviewCount = count || buyerRatings!.length
     averageRatings = buyerRatings.reduce((acc, cur) => {
+      if (!cur.fields) {
+        return acc
+      }
       ratingInputs.forEach(ratingInput => {
         const index = cur.fields.findIndex(field => {
           if (!field.type) {

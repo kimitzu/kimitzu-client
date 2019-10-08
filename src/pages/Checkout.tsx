@@ -172,32 +172,38 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       isRequestingPaymentInformation,
     } = this.state
     return (
-      <div id="checkout-container" className="uk-flex uk-flex-row uk-margin background-body">
-        <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
-          <div className="uk-margin-bottom">
-            <ListingCheckoutCard listing={listing} quantity={quantity} />
+      <div id="checkout-container" className="uk-margin background-body">
+        {listing.isOwner ? (
+          <div className="uk-alert-primary uk-padding-small uk-text-center" uk-alert>
+            <p>This is how your listing looks like to other users.</p>
           </div>
-          {isRequestingPaymentInformation ? (
-            <div>
-              <PaymentQRCard
-                address={paymentAddress}
-                amount={amountToPay}
-                handleCopyToClipboard={this.copyToClipboard}
-                cryptocurrency={this.state.selectedCurrency}
-                memo={this.state.memo}
-                handlePay={async orderDetails => {
-                  const element = document.getElementById('dropID')
-                  if (element) {
-                    window.UIkit.dropdown(element).hide()
-                  }
-                  await this.state.order.pay(orderDetails)
-                }}
-              />
+        ) : null}
+        <div className="uk-flex uk-flex-row">
+          <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
+            <div className="uk-margin-bottom">
+              <ListingCheckoutCard listing={listing} quantity={quantity} />
             </div>
-          ) : (
-            <div>
-              {/* TODO: Implementation */}
-              {/* <div className="uk-margin-bottom">
+            {isRequestingPaymentInformation ? (
+              <div>
+                <PaymentQRCard
+                  address={paymentAddress}
+                  amount={amountToPay}
+                  handleCopyToClipboard={this.copyToClipboard}
+                  cryptocurrency={this.state.selectedCurrency}
+                  memo={this.state.memo}
+                  handlePay={async orderDetails => {
+                    const element = document.getElementById('dropID')
+                    if (element) {
+                      window.UIkit.dropdown(element).hide()
+                    }
+                    await this.state.order.pay(orderDetails)
+                  }}
+                />
+              </div>
+            ) : (
+              <div>
+                {/* TODO: Implementation */}
+                {/* <div className="uk-margin-bottom">
                 // TODO: Update shipping address
                 <AddressCard
                   header="Shipping Address"
@@ -217,153 +223,157 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                   }}
                 />
               </div> */}
-              <div className="uk-margin-bottom">
-                <div className="uk-card uk-card-default uk-card-body uk-card-small">
-                  <h3>Coupon</h3>
-                  <div className="uk-margin">
-                    <form
-                      onSubmit={async evt => {
-                        evt.preventDefault()
-                        await this.handleCouponApply()
-                      }}
-                      className="uk-flex uk-flex-row"
-                    >
-                      <input
-                        className="uk-input"
-                        placeholder="Enter coupon code"
-                        onChange={e => {
-                          this.handleChange('coupon', e.target.value)
+                <div className="uk-margin-bottom">
+                  <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                    <h3>Coupon</h3>
+                    <div className="uk-margin">
+                      <form
+                        onSubmit={async evt => {
+                          evt.preventDefault()
+                          await this.handleCouponApply()
                         }}
-                        value={this.state.coupon}
-                      />
-                      <button type="submit" className="uk-button uk-button-primary uk-margin-left">
-                        Apply
-                      </button>
-                    </form>
+                        className="uk-flex uk-flex-row"
+                      >
+                        <input
+                          className="uk-input"
+                          placeholder="Enter coupon code"
+                          onChange={e => {
+                            this.handleChange('coupon', e.target.value)
+                          }}
+                          value={this.state.coupon}
+                        />
+                        <button
+                          type="submit"
+                          className="uk-button uk-button-primary uk-margin-left"
+                        >
+                          Apply
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="uk-margin-bottom">
-                <div className="uk-card uk-card-default uk-card-body uk-card-small">
-                  <h3>Payment Scheme</h3>
-                  <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                    <label>
-                      <input
-                        className="uk-radio"
-                        type="radio"
-                        name="isPaymentSchemeDirect"
-                        checked={this.state.isPaymentSchemeDirect}
-                        onClick={() => {
-                          this.setState({
-                            isPaymentSchemeDirect: true,
-                          })
-                        }}
-                      />{' '}
-                      Direct Payment
-                    </label>
-                    {listing.moderators.length > 0 ? (
+                <div className="uk-margin-bottom">
+                  <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                    <h3>Payment Scheme</h3>
+                    <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                       <label>
                         <input
                           className="uk-radio"
                           type="radio"
                           name="isPaymentSchemeDirect"
-                          checked={!this.state.isPaymentSchemeDirect}
+                          checked={this.state.isPaymentSchemeDirect}
                           onClick={() => {
                             this.setState({
-                              isPaymentSchemeDirect: false,
+                              isPaymentSchemeDirect: true,
                             })
                           }}
                         />{' '}
-                        Moderated Payment
+                        Direct Payment
                       </label>
+                      {listing.moderators.length > 0 ? (
+                        <label>
+                          <input
+                            className="uk-radio"
+                            type="radio"
+                            name="isPaymentSchemeDirect"
+                            checked={!this.state.isPaymentSchemeDirect}
+                            onClick={() => {
+                              this.setState({
+                                isPaymentSchemeDirect: false,
+                              })
+                            }}
+                          />{' '}
+                          Moderated Payment
+                        </label>
+                      ) : null}
+                    </div>
+                    {!this.state.isPaymentSchemeDirect ? (
+                      <div className="uk-margin">
+                        {this.state.availableModerators.map((data, index) => {
+                          if (data.name) {
+                            return (
+                              <ModeratorCard
+                                key={index}
+                                profile={data}
+                                currIndex={this.state.selectedModeratorID}
+                                handleSelect={() => {
+                                  this.setState({ selectedModeratorID: data.peerID })
+                                }}
+                                id={data.peerID}
+                              >
+                                <a
+                                  id="moderator-card-more-link"
+                                  onClick={() => this.handleMoreInfo(data)}
+                                >
+                                  More...
+                                </a>
+                              </ModeratorCard>
+                            )
+                          }
+                        })}
+                      </div>
                     ) : null}
                   </div>
-                  {!this.state.isPaymentSchemeDirect ? (
-                    <div className="uk-margin">
-                      {this.state.availableModerators.map((data, index) => {
-                        if (data.name) {
-                          return (
-                            <ModeratorCard
-                              key={index}
-                              profile={data}
-                              currIndex={this.state.selectedModeratorID}
-                              handleSelect={() => {
-                                this.setState({ selectedModeratorID: data.peerID })
-                              }}
-                              id={data.peerID}
-                            >
-                              <a
-                                id="moderator-card-more-link"
-                                onClick={() => this.handleMoreInfo(data)}
-                              >
-                                More...
-                              </a>
-                            </ModeratorCard>
-                          )
-                        }
-                      })}
-                    </div>
-                  ) : null}
                 </div>
-              </div>
-              <div className="uk-margin-bottom">
-                <div className="uk-card uk-card-default uk-card-body uk-card-small">
-                  <h3>Additional Information</h3>
-                  <div className="uk-margin">
-                    <FormLabel label="MEMO" />
-                    <textarea
-                      rows={4}
-                      className="uk-textarea"
-                      placeholder="Provide additional details for the vendor (Optional)"
-                      onChange={e => {
-                        this.handleChange('memo', e.target.value)
-                      }}
-                      value={this.state.memo}
-                    />
+                <div className="uk-margin-bottom">
+                  <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                    <h3>Additional Information</h3>
+                    <div className="uk-margin">
+                      <FormLabel label="MEMO" />
+                      <textarea
+                        rows={4}
+                        className="uk-textarea"
+                        placeholder="Provide additional details for the vendor (Optional)"
+                        onChange={e => {
+                          this.handleChange('memo', e.target.value)
+                        }}
+                        value={this.state.memo}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-        <div className="uk-flex uk-padding-small uk-width-1-3">
-          <CheckoutPaymentCard
-            key={this.state.isPending.toString()}
-            acceptedCurrencies={cryptoCurrencies.filter(crypto => {
-              return this.state.listing.metadata.acceptedCurrencies.includes(crypto.value)
-            })}
-            orderSummary={{
-              discount: this.state.discount,
-              estimate: this.state.estimate,
-              listingAmount: Number(this.state.listing.displayValue),
-              shippingAmount: 0,
-              subTotalAmount: Number(this.state.listing.displayValue) * this.state.quantity,
-              totalAmount: this.state.totalAmount,
-            }}
-            listing={this.state.listing}
-            handleOnChange={this.handleChange}
-            handlePlaceOrder={this.handlePlaceOrder}
-            isPending={this.state.isPending}
-            selectedCurrency={this.state.selectedCurrency}
-            isEstimating={this.state.isEstimating}
-            quantity={this.state.quantity}
-          />
-        </div>
-
-        <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
-          <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
-            <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
-            <h4>
-              Payment of {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
-              {this.state.payment.coinType} Received!
-            </h4>
-            <p>Thank you for your purchase!</p>
-            <Link to={`/history/purchases/${this.state.payment.orderId}`}>
-              Check the status of your order.
-            </Link>
+            )}
           </div>
+          <div className="uk-flex uk-padding-small uk-width-1-3">
+            <CheckoutPaymentCard
+              key={this.state.isPending.toString()}
+              acceptedCurrencies={cryptoCurrencies.filter(crypto => {
+                return this.state.listing.metadata.acceptedCurrencies.includes(crypto.value)
+              })}
+              orderSummary={{
+                discount: this.state.discount,
+                estimate: this.state.estimate,
+                listingAmount: Number(this.state.listing.displayValue),
+                shippingAmount: 0,
+                subTotalAmount: Number(this.state.listing.displayValue) * this.state.quantity,
+                totalAmount: this.state.totalAmount,
+              }}
+              listing={this.state.listing}
+              handleOnChange={this.handleChange}
+              handlePlaceOrder={this.handlePlaceOrder}
+              isPending={this.state.isPending}
+              selectedCurrency={this.state.selectedCurrency}
+              isEstimating={this.state.isEstimating}
+              quantity={this.state.quantity}
+            />
+          </div>
+
+          <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
+            <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
+              <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
+              <h4>
+                Payment of {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
+                {this.state.payment.coinType} Received!
+              </h4>
+              <p>Thank you for your purchase!</p>
+              <Link to={`/history/purchases/${this.state.payment.orderId}`}>
+                Check the status of your order.
+              </Link>
+            </div>
+          </div>
+          <ModeratorInfoModal profile={this.state.selectedModerator} />
         </div>
-        <ModeratorInfoModal profile={this.state.selectedModerator} />
       </div>
     )
   }

@@ -1,8 +1,8 @@
-import WebSocketMock from "../utils/WebSocketMock.js"
-import { WebSocket } from 'mock-socket';
-
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
+
+import WebSocketMock from "../../support/utils/WebSocketMock"
+import { WebSocket } from 'mock-socket';
 
 let webSocketMock = new WebSocketMock('ws://localhost:4002/ws')
 
@@ -76,6 +76,7 @@ context('Purchase', () => {
   })
 
   it('should checkout a listing', () => {
+    cy.wait(2000)
     cy.get('#QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn').click()
     cy.get('#djali-btn').click()
     cy.get('.uk-form-controls > :nth-child(1) > .uk-radio').click()
@@ -101,6 +102,6 @@ context('Purchase', () => {
       expect(request.items[0].quantity).to.equal(1)
     })
 
-    cy.get('#payment-modal').contains('0.00004805', {timeout: 15000})
+    cy.get('#payment-modal').contains('0.00004805', {timeout: 10000})
   })
 })

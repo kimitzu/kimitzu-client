@@ -44,6 +44,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleChange = this.handleChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.ratingChanged = this.ratingChanged.bind(this)
+    this.handleFilterDelete = this.handleFilterDelete.bind(this)
   }
 
   public async componentDidMount() {
@@ -80,6 +81,7 @@ class Home extends Component<HomeProps, HomeState> {
                 onFilterChange={this.handleFilterChange}
                 onFilterSubmit={this.handleSearchSubmit}
                 onRatingChanged={this.ratingChanged}
+                onFilterDelete={this.handleFilterDelete}
                 plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
                 rating={rating}
@@ -239,14 +241,24 @@ class Home extends Component<HomeProps, HomeState> {
 
   private handleFilterChange(field: string, value: string, modifier?: string) {
     const { filters, modifiers } = this.state.search
+
     filters[field] = value
     modifiers[field] = modifier ? modifier : '=='
 
-    if (!filters[field]) {
-      delete filters[field]
-      delete modifiers[field]
-    }
+    // if (!filters[field]) {
+    //   delete filters[field]
+    //   delete modifiers[field]
+    // }
 
+    this.setState({
+      search: this.state.search,
+    })
+  }
+
+  private handleFilterDelete(field) {
+    const { filters, modifiers } = this.state.search
+    delete filters[field]
+    delete modifiers[field]
     this.setState({
       search: this.state.search,
     })
