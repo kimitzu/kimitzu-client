@@ -38,9 +38,9 @@ class Listing implements ListingInterface {
      * Force update profile in the background to reflect changes as the
      * user interacts with the listing.
      */
-    setTimeout(async () => {
-      await Profile.retrieve(djaliListing.vendorID.peerID, true)
-    }, 1000)
+    // setTimeout(async () => {
+    //   await Profile.retrieve(djaliListing.vendorID.peerID, true)
+    // }, 1000)
 
     const imageData = djaliListing.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }

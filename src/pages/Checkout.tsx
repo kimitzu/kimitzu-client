@@ -104,7 +104,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     const moderatorListResponse = listing.listing.moderators
 
     const profileIndex = moderatorListResponse.indexOf(profile.peerID)
-    moderatorListResponse.splice(profileIndex, 1)
+    if (profileIndex > 0) {
+      moderatorListResponse.splice(profileIndex, 1)
+    }
 
     if (moderatorListResponse.length > 0) {
       setTimeout(async () => {
