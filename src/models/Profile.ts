@@ -231,7 +231,7 @@ class Profile implements ProfileSchema {
     acceptedCurrencies: [],
     fee: {
       fixedFee: {
-        currencyCode: '',
+        currencyCode: 'USD',
         amount: 0,
       },
       percentage: 0,

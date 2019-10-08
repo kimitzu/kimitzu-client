@@ -18,6 +18,7 @@ import config from '../config'
 import PaymentNotification from '../interfaces/PaymentNotification'
 import Dispute from '../models/Dispute'
 import GroupMessage from '../models/GroupMessage'
+import Profile from '../models/Profile'
 import './DisputeView.css'
 
 interface RouteParams {
@@ -77,12 +78,16 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
   public async componentDidMount() {
     const id = this.props.match.params.id
     const dispute = await Dispute.retrieve(id)
+    const currentUser = await Profile.retrieve()
 
     const groupMessage = await GroupMessage.retrieve(id)
 
     groupMessage.peerIds.push(dispute.vendor!.peerID)
     groupMessage.peerIds.push(dispute.buyer!.peerID)
-    groupMessage.peerIds.push(dispute.moderator.peerID)
+
+    if (currentUser.peerID !== dispute.moderator.peerID) {
+      groupMessage.peerIds.push(dispute.moderator.peerID)
+    }
 
     this.setState({
       dispute,
@@ -396,11 +401,21 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     evt.preventDefault()
     const buyerPercentage = 100 - this.state.disputePercentage
     const sellerPercentage = this.state.disputePercentage
-    await this.state.dispute.settle(buyerPercentage, sellerPercentage, this.state.disputeResolution)
-    window.UIkit.notification('Resolution sent!', {
-      status: 'success',
-    })
-    await this.handleBackBtn(true)
+    try {
+      await this.state.dispute.settle(
+        buyerPercentage,
+        sellerPercentage,
+        this.state.disputeResolution
+      )
+      window.UIkit.notification('Resolution sent!', {
+        status: 'success',
+      })
+      await this.handleBackBtn(true)
+    } catch (e) {
+      window.UIkit.notification('Failed: ' + e.response.data.reason, {
+        status: 'danger',
+      })
+    }
   }
 
   private async handleBackBtn(refresh?: boolean) {

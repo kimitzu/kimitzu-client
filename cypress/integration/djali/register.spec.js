@@ -130,7 +130,7 @@ context('Register', () => {
           termsAndConditions: '',
           languages: [],
           acceptedCurrencies: [],
-          fee: { fixedFee: { currencyCode: '', amount: 0 }, percentage: 0, feeType: 'FIXED' },
+          fee: { fixedFee: { currencyCode: 'USD', amount: 0 }, percentage: 0, feeType: 'FIXED' },
         },
         name: 'Djali Remote',
         nsfw: false,
