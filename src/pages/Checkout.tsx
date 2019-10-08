@@ -107,16 +107,20 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     moderatorListResponse.splice(profileIndex, 1)
 
     if (moderatorListResponse.length > 0) {
-      await moderatorListResponse.forEach(async (moderatorId, index) => {
-        const moderator = await Profile.retrieve(moderatorId)
-        const { availableModerators, originalModerators } = this.state
-        this.setState({
-          availableModerators: [...availableModerators, moderator],
-          originalModerators: [...originalModerators, moderator],
-        })
-        if (index === 0) {
-          this.setState({ hasFetchedAModerator: true })
-        }
+      setTimeout(async () => {
+        await Promise.all(
+          moderatorListResponse.map(async (moderatorId, index) => {
+            const moderator = await Profile.retrieve(moderatorId)
+            const { availableModerators, originalModerators } = this.state
+            this.setState({
+              availableModerators: [...availableModerators, moderator],
+              originalModerators: [...originalModerators, moderator],
+            })
+            if (index === 0) {
+              this.setState({ hasFetchedAModerator: true })
+            }
+          })
+        )
       })
     }
 
