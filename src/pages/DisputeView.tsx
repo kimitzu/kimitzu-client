@@ -91,14 +91,17 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
       groupMessage.peerIds.push(dispute.moderator.peerID)
     }
 
-    this.setState({
-      dispute,
-      isLoading: false,
-      groupMessage,
-      id,
-    })
-
-    window.socket.addEventListener('message', this.handleWebSocket)
+    this.setState(
+      {
+        dispute,
+        isLoading: false,
+        groupMessage,
+        id,
+      },
+      () => {
+        window.socket.addEventListener('message', this.handleWebSocket)
+      }
+    )
   }
 
   public async handleWebSocket(message) {

@@ -94,6 +94,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleStarRatingChange = this.handleStarRatingChange.bind(this)
     this.handleOrderDispute = this.handleOrderDispute.bind(this)
     this.handleOrderFundRelease = this.handleOrderFundRelease.bind(this)
+    this.handleWebSocket = this.handleWebSocket.bind(this)
   }
 
   public async componentDidMount() {
