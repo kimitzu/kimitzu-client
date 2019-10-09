@@ -377,7 +377,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             >
               <SimpleBorderedSegment
                 sideButtons={
-                  order.step === 10 ? (
+                  order.step === 9 ? (
                     <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
                       <Button
                         className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
