@@ -550,11 +550,11 @@ class Order implements OrderInterface {
         return 7
       case 'DISPUTED':
         return 8
-      case 'DISPUTE_EXPIRED':
-        return 9
       case 'DECIDED':
-        return 10
+        return 9
       case 'RESOLVED':
+        return 10
+      case 'DISPUTE_EXPIRED':
         return 11
       case 'PAYMENT_FINALIZED':
         return 12

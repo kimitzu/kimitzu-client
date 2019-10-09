@@ -283,7 +283,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
     if (order.step === 7) {
       steps = ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
-    } else if (order.step === 9) {
+    } else if (order.step === 11) {
       steps = ['DISPUTED', 'EXPIRED', 'DECIDED', 'RESOLVED']
       currentStep = 1
     } else if (order.step === -1) {
