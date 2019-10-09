@@ -117,14 +117,17 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       groupMessage.peerIds.push(order.contract.buyerOrder.payment.moderator)
     }
 
-    this.setState({
-      order,
-      isLoading: false,
-      groupMessage,
-      id,
-    })
-
-    window.socket.addEventListener('message', this.handleWebSocket)
+    this.setState(
+      {
+        order,
+        isLoading: false,
+        groupMessage,
+        id,
+      },
+      () => {
+        window.socket.addEventListener('message', this.handleWebSocket)
+      }
+    )
 
     window.UIkit.util.on('#js-modal-prompt', 'click', e => {
       e.preventDefault()
