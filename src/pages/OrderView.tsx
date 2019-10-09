@@ -348,7 +348,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {order.step === 11 ? (
+        {order.step === 10 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
               title="Dispute Closed"
@@ -369,7 +369,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             </OrderSummaryItemSegment>
           </div>
         ) : null}
-        {order.step >= 9 ? (
+        {order.step >= 9 && order.step < 11 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
               title="Dispute Payout"
