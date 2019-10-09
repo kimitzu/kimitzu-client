@@ -51,6 +51,11 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
   }
 
   public async componentDidMount() {
+    const socket = new WebSocket(config.websocketHost)
+    socket.onopen = () => {
+      socket.onmessage = this.handleWebsocket
+    }
+
     const conv = await axios.get(`${config.openBazaarHost}/ob/chatconversations`)
     const c = conv.data
 
@@ -85,9 +90,6 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
     }
 
     this.setState({ conversations: c })
-
-    const socket = new WebSocket(config.websocketHost)
-    socket.onmessage = this.handleWebsocket
 
     const directMsgFunction = (event: CustomEvent) => {
       const data = {
@@ -136,17 +138,19 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
   }
 
   public async handleWebsocket(data) {
-    const d = JSON.parse(data.data)
-    if (d.message) {
-      const newMsg = d.message
-      const index = this.state.indexPeerID.indexOf(d.message.peerId)
+    const socketMessageObject = JSON.parse(data.data)
+    if (socketMessageObject.message && !socketMessageObject.message.subject) {
+      const newMsg = socketMessageObject.message
+      const index = this.state.indexPeerID.indexOf(socketMessageObject.message.peerId)
       const indexPeerIdTemp = this.state.indexPeerID
-      const msg = d.message.message
+      const msg = socketMessageObject.message.message
       const realTimeConv = this.state.conversations
       if (index < 0) {
-        indexPeerIdTemp.push(d.message.peerId)
+        indexPeerIdTemp.push(socketMessageObject.message.peerId)
         this.setState({ indexPeerID: indexPeerIdTemp })
-        const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${d.message.peerId}`)
+        const prof = await axios.get(
+          `${config.djaliHost}/djali/peer/get?id=${socketMessageObject.message.peerId}`
+        )
         let name = ''
         let image = ''
         if (prof && prof.data.profile) {
@@ -170,7 +174,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         const convNew = {
           lastMessage: msg,
           outgoing: false,
-          peerId: d.message.peerId,
+          peerId: socketMessageObject.message.peerId,
           timestamp: new Date(),
           unread: 0,
           image,
@@ -178,7 +182,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
           messages: [msgObj],
         }
         convNew.lastMessage = msg
-        convNew.timestamp = new Date(d.message.timestamp)
+        convNew.timestamp = new Date(socketMessageObject.message.timestamp)
         realTimeConv.unshift(convNew)
       } else {
         if (!realTimeConv[index]) {
@@ -187,7 +191,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
 
         realTimeConv[index].messages.push(newMsg)
         realTimeConv[index].lastMessage = msg
-        realTimeConv[index].timestamp = new Date(d.message.timestamp)
+        realTimeConv[index].timestamp = new Date(socketMessageObject.message.timestamp)
       }
       this.setState({
         conversations: realTimeConv,

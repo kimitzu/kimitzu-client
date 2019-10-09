@@ -136,6 +136,9 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         }
       }
       if (info.message) {
+        if (info.message.subject !== this.state.id) {
+          return
+        }
         groupMessage.messages.push(info.message)
         this.setState({
           groupMessage,

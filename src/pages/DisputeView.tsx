@@ -15,6 +15,7 @@ import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
 import { CircleSpinner } from '../components/Spinner'
 import Stepper from '../components/Stepper/Stepper'
 import config from '../config'
+import Message from '../interfaces/Message'
 import PaymentNotification from '../interfaces/PaymentNotification'
 import Dispute from '../models/Dispute'
 import GroupMessage from '../models/GroupMessage'
@@ -73,6 +74,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleContentChange = this.handleContentChange.bind(this)
     this.handleDisputeFormSubmit = this.handleDisputeFormSubmit.bind(this)
+    this.handleWebSocket = this.handleWebSocket.bind(this)
   }
 
   public async componentDidMount() {
@@ -96,40 +98,47 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
       id,
     })
 
-    window.socket.onmessage = async message => {
-      const info = JSON.parse(message.data)
-      if (info.notification) {
-        const notification = info as PaymentNotification
+    window.socket.onmessage = this.handleWebSocket
+  }
 
-        if (
-          notification.notification.type &&
-          ![
-            'disputeUpdate',
-            'disputeOpen',
-            'disputeClose',
-            'disputeAccepted',
-            'buyerDisputeTimeout',
-            'buyerDisputeExpiry',
-            'moderatorDisputeExpiry',
-            'vendorDisputeTimeout',
-          ].includes(notification.notification.type)
-        ) {
-          return
-        }
+  public async handleWebSocket(message) {
+    const info = JSON.parse(message.data)
+    if (info.notification) {
+      const notification = info as PaymentNotification
 
-        if (notification.notification.orderId === id) {
-          const disputeUpdate = await Dispute.retrieve(id)
-          this.setState({
-            dispute: disputeUpdate,
-          })
-        }
+      if (
+        notification.notification.type &&
+        ![
+          'disputeUpdate',
+          'disputeOpen',
+          'disputeClose',
+          'disputeAccepted',
+          'buyerDisputeTimeout',
+          'buyerDisputeExpiry',
+          'moderatorDisputeExpiry',
+          'vendorDisputeTimeout',
+        ].includes(notification.notification.type)
+      ) {
+        return
       }
-      if (info.message) {
-        groupMessage.messages.push(info.message)
+
+      if (notification.notification.orderId === this.state.id) {
+        const disputeUpdate = await Dispute.retrieve(this.state.id)
         this.setState({
-          groupMessage,
+          dispute: disputeUpdate,
         })
       }
+    }
+    if (info.message) {
+      if (info.message.subject !== this.state.id) {
+        return
+      }
+      const groupMessage = this.state.groupMessage
+      const messages = [...groupMessage.messages, info.message]
+      groupMessage.messages = messages
+      this.setState({
+        groupMessage,
+      })
     }
   }
 
@@ -140,7 +149,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
       return (
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
-            <CircleSpinner message={`${this.state.loadingStatus}...`} />
+            <CircleSpinner message={`Loading...`} />
           </div>
         </div>
       )
