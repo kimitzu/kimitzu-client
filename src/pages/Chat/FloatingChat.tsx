@@ -48,13 +48,11 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
     this.preventInput = false
     this.toggleChatBox = this.toggleChatBox.bind(this)
     this.scrollBottom = this.scrollBottom.bind(this)
+    this.handleWebsocket = this.handleWebsocket.bind(this)
   }
 
   public async componentDidMount() {
-    const socket = new WebSocket(config.websocketHost)
-    socket.onopen = () => {
-      socket.onmessage = this.handleWebsocket
-    }
+    window.socket.addEventListener('message', this.handleWebsocket)
 
     const conv = await axios.get(`${config.openBazaarHost}/ob/chatconversations`)
     const c = conv.data

@@ -98,7 +98,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
       id,
     })
 
-    window.socket.onmessage = this.handleWebSocket
+    window.socket.addEventListener('message', this.handleWebSocket)
   }
 
   public async handleWebSocket(message) {

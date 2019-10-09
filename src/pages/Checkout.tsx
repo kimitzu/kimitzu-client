@@ -49,7 +49,6 @@ interface CheckoutState {
 }
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
-  private socket: WebSocket
   private modal: React.ReactNode
 
   constructor(props: CheckoutProps) {
@@ -91,7 +90,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.handleChange = this.handleChange.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.handleMoreInfo = this.handleMoreInfo.bind(this)
-    this.socket = window.socket
     this.estimate = this.estimate.bind(this)
   }
 
@@ -137,7 +135,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       ),
     })
 
-    this.socket.onmessage = event => {
+    window.socket.addEventListener('message', event => {
       const rawData = JSON.parse(event.data)
       if (rawData.notification) {
         const data = JSON.parse(event.data) as PaymentNotification
@@ -154,7 +152,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           }
         )
       }
-    }
+    })
   }
 
   public handleMoreInfo(moderator: Profile) {
