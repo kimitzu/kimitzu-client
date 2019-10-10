@@ -9,7 +9,8 @@ import currency from '../models/Currency'
 import Wallet from '../models/Wallet'
 import './WalletView.css'
 
-const cryptoCurrencies = CryptoCurrencies()
+const cryptoCurrencies = [...CryptoCurrencies()]
+cryptoCurrencies.splice(0, 1)
 
 interface WalletProps {
   view: string
