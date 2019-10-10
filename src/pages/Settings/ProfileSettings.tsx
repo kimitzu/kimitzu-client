@@ -18,6 +18,7 @@ import { webSocketResponsesInstance } from '../../models/WebsocketResponses'
 
 import ChangeCredentials from '../../components/Card/ChangeCredentials'
 import Login from '../../components/Card/Login'
+import BlockedPeersCard from '../../components/Card/Settings/BlockedPeersCard'
 import SocialMediaSettings from '../../components/Card/Settings/SocialMediaSettings'
 import EducationCardGroup from '../../components/CardGroup/Settings/EducationCardGroup'
 import EmploymentCardGroup from '../../components/CardGroup/Settings/EmploymentCardGroup'
@@ -45,7 +46,7 @@ import decodeHtml from '../../utils/Unescape'
 
 const cryptoCurrencies = CryptoCurrencies()
 
-const actions = {
+const subContentActions = {
   NONE: 0,
   ADD_EDUCATION: 1,
   UPDATE_EDUCATION: 2,
@@ -70,7 +71,7 @@ interface NavItem extends SubNavItem {
   subItems?: SubNavItem[]
 }
 
-interface ProfileSettings {
+interface GeneralProfileProps {
   profileContext: {
     currentUser: Profile
     updateCurrentUser: (profile: Profile) => void
@@ -104,8 +105,8 @@ interface GeneralProfileState {
   isLoading: boolean
 }
 
-class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
-  constructor(props: ProfileSettings) {
+class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState> {
+  constructor(props: GeneralProfileProps) {
     super(props)
     const profile = props.profileContext.currentUser
     const settings = new Settings()
@@ -114,7 +115,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       availableModerators: [],
       avatar: '',
       competencySelector: competencySelectorInstance,
-      currentAction: actions.NONE,
+      currentAction: subContentActions.NONE,
       currentCompetencyId: '',
       currentContentIndex: 0,
       currentParentIndex: 0,
@@ -141,7 +142,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeAction = this.handleChangeAction.bind(this)
     this.handleCompetencyDelete = this.handleCompetencyDelete.bind(this)
-    this.handleCompetencyReset = this.handleCompetencyReset.bind(this)
     this.handleCompetencySubmit = this.handleCompetencySubmit.bind(this)
     this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -307,23 +307,6 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.setState({ competencySelector: compTemp })
   }
 
-  public handleCompetencyReset() {
-    const competencies = this.state.competency
-    const mainCategories = Object.keys(competencies)
-    mainCategories.forEach(mainCategory => {
-      const subCategories = Object.keys(competencies[mainCategory])
-      subCategories.forEach(subCategory => {
-        competencies[mainCategory][subCategory] = -1
-      })
-    })
-    this.setState({
-      competency: competencies,
-    })
-    window.UIkit.notification(`Competencies cleared.<br/>Don't forget to save your changes.`, {
-      status: 'success',
-    })
-  }
-
   public async handleCompetencyDelete() {
     this.setState({
       isSubmitting: true,
@@ -363,7 +346,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const { avatar, isSubmitting, profile: registrationForm, competency } = this.state
     const { handleChange, handleFormSubmit, handleSelectAddress, handleChangeAction } = this
 
-    const security = [
+    const securityComponent = [
       {
         component: (
           <div className="uk-flex uk-flex-row uk-child-width-1-2 uk-margin-bottom">
@@ -387,7 +370,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     ]
 
     if (this.state.isAuthenticationActivated) {
-      security.push({
+      securityComponent.push({
         component: (
           <div className="uk-flex uk-flex-row uk-child-width-1-2 uk-margin-bottom">
             <div>
@@ -412,200 +395,223 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       })
     }
 
+    const registrationFormComponent = {
+      component: (
+        <div className="uk-width-1-1">
+          <RegistrationForm
+            cryptoCurrencies={cryptoCurrencies}
+            currencyTypes={CurrencyTypes}
+            fiatCurrencies={FiatCurrencies}
+            languages={Languages}
+            unitOfMeasurements={UnitsOfMeasurement}
+            data={registrationForm}
+            onChange={handleChange}
+            onSubmit={handleFormSubmit}
+            isSubmitting={isSubmitting}
+            avatar={avatar}
+          />
+        </div>
+      ),
+      label: 'General',
+    }
+
+    const socialMediaComponent = {
+      component: (
+        <div>
+          <SocialMediaSettings profile={this.state.profile} />
+          <Button
+            className="uk-button uk-button-primary uk-align-center"
+            onClick={handleFormSubmit}
+            showSpinner={isSubmitting}
+          >
+            Save
+          </Button>
+        </div>
+      ),
+      label: 'Social Media',
+    }
+
+    const educationHistoryComponent = {
+      component: (
+        <div className="uk-width-1-1">
+          <EducationCardGroup
+            profile={this.state.profile}
+            handleAddBtn={() => {
+              handleChangeAction(subContentActions.ADD_EDUCATION)
+            }}
+            handleSelectEducation={this.handleSelectEducation}
+          />
+        </div>
+      ),
+      label: 'Education',
+    }
+
+    const employmentHistoryComponent = {
+      component: (
+        <div className="uk-width-1-1">
+          <EmploymentCardGroup
+            profile={this.state.profile}
+            handleAddBtn={() => {
+              handleChangeAction(subContentActions.ADD_WORK)
+            }}
+            handleSelectEmployment={this.handleSelectEmployment}
+          />
+        </div>
+      ),
+      label: 'Work History',
+    }
+
+    const addressesComponent = {
+      component: (
+        <AddressesCardGroup
+          handleAddAddressBtn={() => handleChangeAction(subContentActions.ADD_ADDRESS)}
+          handleSelectAddress={handleSelectAddress}
+          locations={registrationForm.extLocation.addresses}
+        />
+      ),
+      label: 'Addresses',
+    }
+
+    const customDescriptionComponent = {
+      component: <CustomDescriptionForm profile={this.state.profile} />,
+      label: 'Custom Descriptions',
+    }
+
+    const enableModeratorFormComponent = {
+      component: <ModeratorForm profile={this.state.profile} />,
+      label: 'General',
+    }
+
+    const storeModeratorSelectionComponent = {
+      component: (
+        <ModeratorSelectionForm
+          availableModerators={this.state.availableModerators}
+          selectedModerators={this.state.selectedModerators}
+          handleBtnClick={this.handleModeratorSelection}
+          handleSubmit={this.handleSubmitModeratorSelection}
+          handleModeratorSearch={this.handleModeratorSearch}
+          handleMoreInfo={this.handleShowModeratorModal}
+          showSpinner={!this.state.hasFetchedAModerator}
+          submitLabel={'Save'}
+        />
+      ),
+      label: 'Moderators',
+    }
+
+    const skillsComponent = {
+      component: (
+        <div className="uk-margin-bottom uk-width-1-1">
+          <TagsForm
+            tags={this.state.skills}
+            formLabel={'SKILLS'}
+            submitLabel={'SAVE'}
+            onSubmit={async (tags: string[]) => {
+              this.setState({
+                skills: tags,
+              })
+              this.state.profile.customProps.skills = JSON.stringify(tags)
+              try {
+                await this.handleProfileUpdate()
+                window.UIkit.notification('Skills saved!', {
+                  status: 'success',
+                })
+              } catch (e) {
+                window.UIkit.notification('Error saving: ' + e.message, {
+                  status: 'danger',
+                })
+              }
+            }}
+          />
+        </div>
+      ),
+      label: 'General',
+    }
+
+    const competenciesComponent = {
+      component: (
+        <div id="programming-competency-cont">
+          {this.state.showTest ? (
+            <div>
+              <span
+                uk-icon="icon: arrow-left; ratio: 1.5"
+                className="color-primary cursor-pointer"
+                onClick={() => {
+                  this.setState({
+                    showTest: false,
+                  })
+                }}
+              />
+              <div>
+                <Accordion content={this.state.selectedCompetency} />
+              </div>
+              <div className="uk-flex uk-flex-row uk-flex-center uk-margin-top">
+                <Button
+                  className="uk-button uk-button-danger uk-margin-right"
+                  onClick={this.handleCompetencyDelete}
+                  showSpinner={this.state.isSubmitting}
+                >
+                  Delete
+                </Button>
+                <Button
+                  className="uk-button uk-button-primary"
+                  onClick={this.handleCompetencySubmit}
+                  showSpinner={this.state.isSubmitting}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <DropdownSearchCompetency
+                checker={this.selectCompetencyDropdown}
+                competencies={this.state.competencySelector.competencies}
+                searchChange={this.searchCompetency}
+                searchResults={this.state.seachResultComp}
+                val={this.state.searhCompQuery}
+              />
+              <CompetencySelector
+                checker={this.toggleCompetency}
+                competencies={this.state.competencySelector.competencies}
+                showTest={this.showTest}
+              />
+            </>
+          )}
+        </div>
+      ),
+      label: 'Competencies',
+    }
+
+    const blockedPeersComponent = {
+      component: (
+        <div className="uk-margin-bottom uk-width-1-1">
+          <BlockedPeersCard settings={this.state.settings} />
+        </div>
+      ),
+      label: 'Blocked Peers',
+    }
+
     return [
       [
-        {
-          component: (
-            <div className="uk-width-1-1">
-              <RegistrationForm
-                cryptoCurrencies={cryptoCurrencies}
-                currencyTypes={CurrencyTypes}
-                fiatCurrencies={FiatCurrencies}
-                languages={Languages}
-                unitOfMeasurements={UnitsOfMeasurement}
-                data={registrationForm}
-                onChange={handleChange}
-                onSubmit={handleFormSubmit}
-                isSubmitting={isSubmitting}
-                avatar={avatar}
-              />
-            </div>
-          ),
-          label: 'General',
-        },
-        {
-          component: (
-            <div>
-              <SocialMediaSettings profile={this.state.profile} />
-              <Button
-                className="uk-button uk-button-primary uk-align-center"
-                onClick={handleFormSubmit}
-                showSpinner={isSubmitting}
-              >
-                Save
-              </Button>
-            </div>
-          ),
-          label: 'Social Media',
-        },
-        {
-          component: (
-            <div className="uk-width-1-1">
-              <EducationCardGroup
-                profile={this.state.profile}
-                handleAddBtn={() => {
-                  handleChangeAction(actions.ADD_EDUCATION)
-                }}
-                handleSelectEducation={this.handleSelectEducation}
-              />
-            </div>
-          ),
-          label: 'Education',
-        },
-        {
-          component: (
-            <div className="uk-width-1-1">
-              <EmploymentCardGroup
-                profile={this.state.profile}
-                handleAddBtn={() => {
-                  handleChangeAction(actions.ADD_WORK)
-                }}
-                handleSelectEmployment={this.handleSelectEmployment}
-              />
-            </div>
-          ),
-          label: 'Work History',
-        },
-        {
-          component: (
-            <AddressesCardGroup
-              handleAddAddressBtn={() => handleChangeAction(actions.ADD_ADDRESS)}
-              handleSelectAddress={handleSelectAddress}
-              locations={registrationForm.extLocation.addresses}
-            />
-          ),
-          label: 'Addresses',
-        },
-        {
-          component: <CustomDescriptionForm profile={this.state.profile} />,
-          label: 'Custom Descriptions',
-        },
+        registrationFormComponent,
+        socialMediaComponent,
+        educationHistoryComponent,
+        employmentHistoryComponent,
+        addressesComponent,
+        customDescriptionComponent,
       ],
-      [
-        {
-          component: <ModeratorForm profile={this.state.profile} />,
-          label: 'General',
-        },
-      ],
-      [
-        {
-          component: (
-            <ModeratorSelectionForm
-              availableModerators={this.state.availableModerators}
-              selectedModerators={this.state.selectedModerators}
-              handleBtnClick={this.handleModeratorSelection}
-              handleSubmit={this.handleSubmitModeratorSelection}
-              handleModeratorSearch={this.handleModeratorSearch}
-              handleMoreInfo={this.handleShowModeratorModal}
-              showSpinner={!this.state.hasFetchedAModerator}
-              submitLabel={'Save'}
-            />
-          ),
-          label: 'Moderators',
-        },
-      ],
-      security,
-      [
-        {
-          component: (
-            <div className="uk-margin-bottom uk-width-1-1">
-              <TagsForm
-                tags={this.state.skills}
-                formLabel={'SKILLS'}
-                submitLabel={'SAVE'}
-                onSubmit={async (tags: string[]) => {
-                  this.setState({
-                    skills: tags,
-                  })
-                  this.state.profile.customProps.skills = JSON.stringify(tags)
-                  try {
-                    await this.handleProfileUpdate()
-                    window.UIkit.notification('Skills saved!', {
-                      status: 'success',
-                    })
-                  } catch (e) {
-                    window.UIkit.notification('Error saving: ' + e.message, {
-                      status: 'danger',
-                    })
-                  }
-                }}
-              />
-            </div>
-          ),
-          label: 'General',
-        },
-        {
-          component: (
-            <div id="programming-competency-cont">
-              {this.state.showTest ? (
-                <div>
-                  <span
-                    uk-icon="icon: arrow-left; ratio: 1.5"
-                    className="color-primary cursor-pointer"
-                    onClick={() => {
-                      this.setState({
-                        showTest: false,
-                      })
-                    }}
-                  />
-                  <div>
-                    <Accordion content={this.state.selectedCompetency} />
-                  </div>
-                  <div className="uk-flex uk-flex-row uk-flex-center uk-margin-top">
-                    <Button
-                      className="uk-button uk-button-danger uk-margin-right"
-                      onClick={this.handleCompetencyDelete}
-                      showSpinner={this.state.isSubmitting}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      className="uk-button uk-button-primary"
-                      onClick={this.handleCompetencySubmit}
-                      showSpinner={this.state.isSubmitting}
-                    >
-                      Save
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <DropdownSearchCompetency
-                    checker={this.selectCompetencyDropdown}
-                    competencies={this.state.competencySelector.competencies}
-                    searchChange={this.searchCompetency}
-                    searchResults={this.state.seachResultComp}
-                    val={this.state.searhCompQuery}
-                  />
-                  <CompetencySelector
-                    checker={this.toggleCompetency}
-                    competencies={this.state.competencySelector.competencies}
-                    showTest={this.showTest}
-                  />
-                </>
-              )}
-            </div>
-          ),
-          label: 'Competencies',
-        },
-      ],
+      [enableModeratorFormComponent],
+      [storeModeratorSelectionComponent],
+      securityComponent,
+      [skillsComponent, competenciesComponent],
+      [blockedPeersComponent],
     ]
   }
 
   get subContents() {
     const { addressFormUpdateIndex } = this.state
     return {
-      [actions.ADD_EDUCATION]: {
+      [subContentActions.ADD_EDUCATION]: {
         component: (
           <EducationForm
             key="addEducationForm"
@@ -617,7 +623,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         ),
         label: 'ADD EDUCATION',
       },
-      [actions.UPDATE_EDUCATION]: {
+      [subContentActions.UPDATE_EDUCATION]: {
         component: (
           <EducationForm
             key="updateEducationForm"
@@ -629,7 +635,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         ),
         label: 'UPDATE EDUCATION',
       },
-      [actions.ADD_WORK]: {
+      [subContentActions.ADD_WORK]: {
         component: (
           <EmploymentForm
             key="addWorkForm"
@@ -641,7 +647,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         ),
         label: 'ADD WORK',
       },
-      [actions.UPDATE_WORK]: {
+      [subContentActions.UPDATE_WORK]: {
         component: (
           <EmploymentForm
             key="updateWorkForm"
@@ -653,7 +659,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         ),
         label: 'UPDATE WORK',
       },
-      [actions.ADD_ADDRESS]: {
+      [subContentActions.ADD_ADDRESS]: {
         component: (
           <AddressForm
             key="addAddressForm"
@@ -665,7 +671,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         ),
         label: 'ADD ADDRESS',
       },
-      [actions.UPDATE_ADDRESS]: {
+      [subContentActions.UPDATE_ADDRESS]: {
         component: (
           <AddressForm
             key="updateAddressForm"
@@ -714,13 +720,18 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         handler: () => handleSelectParentItem(4),
         subItems: mapSubcontents(4),
       },
+      {
+        label: 'Other Settings',
+        handler: () => handleSelectParentItem(5),
+        subItems: mapSubcontents(5),
+      },
     ]
     return navItems
   }
 
   get currentCardContent() {
     const { currentAction, currentParentIndex, currentContentIndex } = this.state
-    return currentAction === actions.NONE
+    return currentAction === subContentActions.NONE
       ? this.mainContents[currentParentIndex][currentContentIndex]
       : this.subContents[currentAction]
   }
@@ -748,7 +759,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
           }}
           mainContent={currentCardContent.component}
           handleBackBtn={handleBackBtn}
-          showBackBtn={currentAction !== actions.NONE}
+          showBackBtn={currentAction !== subContentActions.NONE}
         />
         <ModeratorInfoModal profile={this.state.selectedModerator} />
       </div>
@@ -807,7 +818,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       return {
         label: subItem.label,
         handler: () => {
-          this.setState({ currentContentIndex: index, currentAction: actions.NONE })
+          this.setState({ currentContentIndex: index, currentAction: subContentActions.NONE })
         },
       }
     })
@@ -817,7 +828,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     this.setState({
       currentParentIndex: index,
       currentContentIndex: 0,
-      currentAction: actions.NONE,
+      currentAction: subContentActions.NONE,
     })
   }
 
@@ -826,13 +837,13 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   }
 
   private handleBackBtn() {
-    this.setState({ currentAction: actions.NONE })
+    this.setState({ currentAction: subContentActions.NONE })
   }
 
   private handleSelectAddress(addressIndex: number) {
     const { profile: registrationForm } = this.state
     this.setState({
-      currentAction: actions.UPDATE_ADDRESS,
+      currentAction: subContentActions.UPDATE_ADDRESS,
       addressForm: registrationForm.extLocation.addresses[addressIndex],
       addressFormUpdateIndex: addressIndex,
     })
@@ -840,14 +851,14 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
   private handleSelectEducation(educationIndex: number) {
     this.setState({
-      currentAction: actions.UPDATE_EDUCATION,
+      currentAction: subContentActions.UPDATE_EDUCATION,
       educationFormUpdateIndex: educationIndex,
     })
   }
 
   private handleSelectEmployment(educationIndex: number) {
     this.setState({
-      currentAction: actions.UPDATE_WORK,
+      currentAction: subContentActions.UPDATE_WORK,
       employmentFormUpdateIndex: educationIndex,
     })
   }
@@ -892,7 +903,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     await this.handleProfileUpdate()
     window.UIkit.notification('Profile saved', { status: 'success' })
     this.setState({
-      currentAction: actions.NONE,
+      currentAction: subContentActions.NONE,
     })
   }
 
