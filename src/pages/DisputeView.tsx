@@ -20,6 +20,7 @@ import PaymentNotification from '../interfaces/PaymentNotification'
 import Dispute from '../models/Dispute'
 import GroupMessage from '../models/GroupMessage'
 import Profile from '../models/Profile'
+import decodeHtml from '../utils/Unescape'
 import './DisputeView.css'
 
 interface RouteParams {
@@ -295,7 +296,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
               }
             >
               <div className="row-text">
-                <p className="color-secondary text-fix">{dispute.claim}</p>
+                <p className="color-secondary text-fix">{decodeHtml(dispute.claim)}</p>
               </div>
             </SimpleBorderedSegment>
           </OrderSummaryItemSegment>

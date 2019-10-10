@@ -50,6 +50,8 @@ class CompetencySelectorModel implements State {
   public descriptionIndex: DescriptionIndexInterface = {}
 
   constructor() {
+    const DEFAULT_ASSESSMENT = -1
+
     this.competencies = Object.values(competencies).map((competency, i) => {
       competency.matrix.forEach(matrix => {
         matrix.subCategories.forEach(subCategory => {
@@ -57,7 +59,7 @@ class CompetencySelectorModel implements State {
             this.descriptionIndex[competency.id] = {}
           }
           this.descriptionIndex[competency.id][subCategory.item] = subCategory.questions
-          subCategory.assessment = -1
+          subCategory.assessment = DEFAULT_ASSESSMENT
         })
       })
       return { ...competency, checked: false, index: i }

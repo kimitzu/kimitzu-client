@@ -154,12 +154,15 @@ class App extends React.Component<{}, State> {
     window.clearInterval(this.intervalTimer)
 
     try {
-      await Profile.retrieve()
+      const profile = await Profile.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
       this.setState({
         isReady: true,
         isServerConnected: true,
         isAuthenticated: document.cookie !== '' || !authRequest.data.authentication,
+      })
+      this.setState({
+        profile,
       })
     } catch (error) {
       if (error.response) {
