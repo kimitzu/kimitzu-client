@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 
 import ReactMarkdown from 'react-markdown'
 
@@ -56,13 +56,15 @@ interface RouteProps {
   id: string
 }
 
-interface Props extends RouteComponentProps<RouteProps> {}
+interface Props extends RouteComponentProps<RouteProps> {
+  currentUser: Profile
+}
 
 class ListingProfile extends Component<Props, State> {
   constructor(props: any) {
     super(props)
     const listing = new Listing()
-    const profile = new Profile()
+    const profile = this.props.currentUser
 
     this.state = {
       currentIndex: 1,
@@ -92,7 +94,7 @@ class ListingProfile extends Component<Props, State> {
     const id = this.props.match.params.id
     try {
       const listingData = await Listing.retrieve(id)
-      const currentUser = await Profile.retrieve()
+      const currentUser = this.props.currentUser
       const { listing, imageData, vendor } = listingData
       this.setState({
         listing,
@@ -340,14 +342,12 @@ class ListingProfile extends Component<Props, State> {
                         </div>
                       </div>
                     </div>
-                    <a
+                    <Link
                       className="uk-text-medium uk-text-bold text-blue uk-margin-small-top underlinedText"
-                      onClick={() => {
-                        window.location.hash = `/profile/${listing.vendorID.peerID}`
-                      }}
+                      to={`/profile/${listing.vendorID.peerID}`}
                     >
                       GO TO STORE
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

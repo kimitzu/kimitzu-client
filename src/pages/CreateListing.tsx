@@ -13,12 +13,17 @@ import {
   TagsForm,
 } from '../components/Form'
 import { ModeratorInfoModal } from '../components/Modal'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 import Settings from '../models/Settings'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import PlusCode from '../utils/Location/PlusCode'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
+
+const cryptoCurrenciesConstants = [...CryptoCurrencies()]
+cryptoCurrenciesConstants.splice(0, 1)
+const cryptoCurrencies = cryptoCurrenciesConstants.map(crypto => crypto.value)
 
 interface CardContent {
   component: ReactNode
@@ -29,11 +34,13 @@ interface RouteParams {
   id: string
 }
 
-interface CreateListingProps extends RouteComponentProps<RouteParams> {}
+interface CreateListingProps extends RouteComponentProps<RouteParams> {
+  currentUser: Profile
+}
 
 interface CreateListingState {
   listing: Listing
-  profile: Profile
+  currentUser: Profile
   currentFormIndex: number
   tempImages: string[]
   isLoading: boolean
@@ -50,10 +57,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   constructor(props: CreateListingProps) {
     super(props)
     const listing = new Listing()
-    const profile = new Profile()
+    const profile = this.props.currentUser
 
     this.state = {
-      profile,
+      currentUser: profile,
       currentFormIndex: 0,
       tempImages: [],
       isLoading: false,
@@ -113,9 +120,12 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         tempImages: images,
         isListingNew: false,
       })
+    } else {
+      const listing = { ...this.state.listing }
+      listing.metadata.acceptedCurrencies = [...cryptoCurrencies]
     }
 
-    const profile = await Profile.retrieve()
+    const profile = this.props.currentUser
     const settings = await Settings.retrieve()
     const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
       Profile.retrieve(moderator)
@@ -123,7 +133,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
 
     this.setState({
-      profile,
+      currentUser: profile,
       availableModerators: moderatorProfiles,
       originalModerators: moderatorProfiles,
     })
@@ -396,7 +406,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           status: 'success',
         })
       }
-      await this.state.profile.crawlOwnListings()
+      await this.state.currentUser.crawlOwnListings()
       setTimeout(() => {
         window.location.hash = '/'
       }, 2000)

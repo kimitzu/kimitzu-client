@@ -391,7 +391,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                   order.step === 9 ? (
                     <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
                       <Button
-                        className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
+                        className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
                         onClick={this.handleOrderFundRelease}
                         showSpinner={this.state.isSendingRequest}
                       >

@@ -163,8 +163,6 @@ context('Create Listing', () => {
     cy.get('#coupon-title-1').should('not.exist')
     cy.contains('NEXT').click()
 
-    cy.get('#crypto-0').click()
-    cy.get('#crypto-1').click()
     cy.get('#crypto-2').click()
     cy.get('#crypto-3').click()
     cy.contains('ADD LISTING').click()
@@ -234,7 +232,7 @@ context('Create Listing', () => {
         contractType: 'SERVICE',
         format: 'FIXED_PRICE',
         expiry: '2019-09-30T10:24:52.062Z',
-        acceptedCurrencies: ['TBTC', 'TLTC', 'TZEC', 'TBCH'],
+        acceptedCurrencies: ['TBTC', 'TLTC'],
         pricingCurrency: 'USD',
         language: '',
         escrowTimeoutHours: 0,

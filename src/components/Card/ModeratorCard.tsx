@@ -18,7 +18,9 @@ const ModeratorCard = ({ profile, children, id, currIndex, handleSelect }: Props
 
   return (
     <div
-      className={`uk-card uk-card-default uk-width-1-1 ${currIndex === id ? 'bar-select' : ''}`}
+      className={`uk-card uk-card-default uk-width-1-1 uk-margin-small-bottom ${
+        currIndex === id ? 'emphasis' : 'hover-emphasis'
+      }`}
       onClick={() => (handleSelect ? handleSelect() : null)}
     >
       <div className="uk-card-body uk-flex uk-padding-small">

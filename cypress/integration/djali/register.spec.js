@@ -8,7 +8,7 @@ context('Register', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=&force=false',
+      url: 'http://localhost:8109/djali/peer/get?id=&force=true', 
       status: 404,
       response: 'fixture:profile/empty.json',
     })

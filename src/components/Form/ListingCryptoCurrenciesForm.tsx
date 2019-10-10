@@ -6,7 +6,7 @@ import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
 import './ListingCryptoCurrenciesForm.css'
 
-const cryptoCurrencies = CryptoCurrencies()
+const cryptoCurrencies = [...CryptoCurrencies()]
 cryptoCurrencies.splice(0, 1)
 
 interface Options {

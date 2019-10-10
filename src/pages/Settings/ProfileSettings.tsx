@@ -71,7 +71,10 @@ interface NavItem extends SubNavItem {
 }
 
 interface ProfileSettings {
-  props: any
+  profileContext: {
+    currentUser: Profile
+    updateCurrentUser: (profile: Profile) => void
+  }
 }
 
 interface GeneralProfileState {
@@ -104,7 +107,7 @@ interface GeneralProfileState {
 class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   constructor(props: ProfileSettings) {
     super(props)
-    const profile = new Profile()
+    const profile = props.profileContext.currentUser
     const settings = new Settings()
     this.state = {
       addressFormUpdateIndex: -1,
@@ -162,7 +165,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
   public async componentDidMount() {
     try {
-      const profileData = await Profile.retrieve()
+      const profileData = this.props.profileContext.currentUser
 
       if (!profileData.customProps.programmerCompetency) {
         profileData.customProps.programmerCompetency = '{}'
@@ -210,9 +213,13 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
 
     if (moderatorListResponse.data) {
       moderatorListResponse.data.forEach(async (moderatorId, index) => {
-        let moderator
+        let moderator: Profile
         try {
           moderator = await Profile.retrieve(moderatorId)
+
+          if (moderator.peerID === this.props.profileContext.currentUser.peerID) {
+            return
+          }
         } catch (e) {
           return
         }
@@ -324,7 +331,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const id = this.state.currentCompetencyId
     delete this.state.profile.customProps.competencies[id]
     competencySelectorInstance.delete(id)
-    await this.state.profile.update()
+    await this.handleProfileUpdate()
     window.UIkit.notification(`Competency Deleted!`, {
       status: 'success',
     })
@@ -344,7 +351,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     )
     competencies[this.state.currentCompetencyId] = assessment
     this.state.profile.customProps.competencies = competencies
-    await this.state.profile.update()
+    await this.handleProfileUpdate()
     this.setState({
       isSubmitting: false,
       profile: this.state.profile,
@@ -359,7 +366,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     const security = [
       {
         component: (
-          <div className="uk-flex uk-flex-row uk-child-width-1-2">
+          <div className="uk-flex uk-flex-row uk-child-width-1-2 uk-margin-bottom">
             <div>
               <ChangeCredentials onSubmit={this.handleAuthenticationChange} />
             </div>
@@ -382,7 +389,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
     if (this.state.isAuthenticationActivated) {
       security.push({
         component: (
-          <div className="uk-flex uk-flex-row uk-child-width-1-2">
+          <div className="uk-flex uk-flex-row uk-child-width-1-2 uk-margin-bottom">
             <div>
               <Login
                 onSubmit={this.handleDeactivateAuthentication}
@@ -391,8 +398,8 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
             </div>
             <div className="uk-margin-left">
               <p>
-                Enabling this feature will deactivate Djali's authentication mechanisms and your
-                client will no longer be protected from unauthorized access.
+                This will deactivate Djali's authentication mechanisms and your client will no
+                longer be protected from unauthorized access.
               </p>
               <p className="uk-margin-top">
                 Payment and ordering-related features will no longer need authentication in order to
@@ -522,7 +529,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
                   })
                   this.state.profile.customProps.skills = JSON.stringify(tags)
                   try {
-                    await this.state.profile.update()
+                    await this.handleProfileUpdate()
                     window.UIkit.notification('Skills saved!', {
                       status: 'success',
                     })
@@ -857,7 +864,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
       this.state.profile.avatarHashes = avatarHashes
     }
 
-    await this.state.profile.update()
+    await this.handleProfileUpdate()
     window.UIkit.notification('Profile updated', { status: 'success' })
     this.setState({
       isSubmitting: false,
@@ -882,7 +889,7 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
   }
 
   private async handleProfileSave() {
-    await this.state.profile.update()
+    await this.handleProfileUpdate()
     window.UIkit.notification('Profile saved', { status: 'success' })
     this.setState({
       currentAction: actions.NONE,
@@ -952,6 +959,11 @@ class GeneralProfile extends Component<ProfileSettings, GeneralProfileState> {
         availableModerators: [retrievedProfile],
       })
     }
+  }
+
+  private async handleProfileUpdate() {
+    await this.state.profile.update()
+    this.props.profileContext.updateCurrentUser(this.state.profile)
   }
 }
 

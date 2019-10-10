@@ -2,6 +2,7 @@ import React from 'react'
 import { HashRouter, Route, Switch, withRouter } from 'react-router-dom'
 import { BreadCrumb } from './components/BreadCrumb'
 import { NavBar } from './components/NavBar'
+import CurrentUserContext from './contexts/CurrentUserContext'
 import ProfileModel from './models/Profile'
 import {
   Checkout,
@@ -23,30 +24,59 @@ interface BreadHistory {
 }
 
 interface RouteProps {
-  profile: ProfileModel
   history: BreadHistory[]
 }
 
-const Routes = ({ history, profile }: RouteProps) => (
-  <HashRouter>
-    <NavBar profile={profile} isSearchBarShow />
-    {history.length > 1 ? <BreadCrumb history={history} /> : null}
-    <Switch key={window.location.href}>
-      <Route path="/" exact component={Home} />
-      <Route path="/wallet" exact component={WalletView} />
-      <Route path="/profile" exact component={Profile} />
-      <Route path="/profile/:id" exact component={Profile} />
-      <Route path="/listing/create" exact component={CreateListing} />
-      <Route path="/listing/edit/:id" exact component={CreateListing} />
-      <Route path="/settings" exact component={ProfileSettings} />
-      <Route path="/listing/:id" exact component={ListingInformation} />
-      <Route path="/history/:view" exact component={History} />
-      <Route path="/history/cases/:id" exact component={DisputeView} />
-      <Route path="/history/:view/:id" exact component={OrderView} />
-      <Route path="/listing/checkout/:id/:quantity" exact component={Checkout} />
-      <Route path="/dev" exact component={DevMode} />
-    </Switch>
-  </HashRouter>
+const Routes = ({ history }: RouteProps) => (
+  <CurrentUserContext.Consumer>
+    {({ currentUser, updateCurrentUser }) => (
+      <HashRouter>
+        <NavBar profile={currentUser} isSearchBarShow />
+        {history.length > 1 ? <BreadCrumb history={history} /> : null}
+        <Switch key={window.location.href}>
+          <Route path="/" exact render={props => <Home {...props} currentUser={currentUser} />} />
+          <Route path="/wallet" exact component={WalletView} />
+          <Route
+            path="/profile"
+            exact
+            render={props => <Profile {...props} currentUser={currentUser} />}
+          />
+          <Route
+            path="/profile/:id"
+            exact
+            render={props => <Profile {...props} currentUser={currentUser} />}
+          />
+          <Route
+            path="/listing/create"
+            exact
+            render={props => <CreateListing {...props} currentUser={currentUser} />}
+          />
+          <Route path="/listing/edit/:id" exact component={CreateListing} />
+          <Route
+            path="/settings"
+            exact
+            render={props => (
+              <ProfileSettings {...props} profileContext={{ currentUser, updateCurrentUser }} />
+            )}
+          />
+          <Route
+            path="/listing/:id"
+            exact
+            render={props => <ListingInformation {...props} currentUser={currentUser} />}
+          />
+          <Route path="/history/:view" exact component={History} />
+          <Route path="/history/cases/:id" exact component={DisputeView} />
+          <Route path="/history/:view/:id" exact component={OrderView} />
+          <Route
+            path="/listing/checkout/:id/:quantity"
+            exact
+            render={props => <Checkout {...props} currentUser={currentUser} />}
+          />
+          <Route path="/dev" exact component={DevMode} />
+        </Switch>
+      </HashRouter>
+    )}
+  </CurrentUserContext.Consumer>
 )
 
 export default Routes

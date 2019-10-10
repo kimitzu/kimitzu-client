@@ -67,8 +67,10 @@ const ModeratorSelectionForm = ({
         data-uk-dropdown="pos: bottom-justify; mode: click"
       >
         {showSpinner && searchVal.length === 0 ? (
-          <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">
-            <DottedSpinner />
+          <div className="uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-height-1-1">
+            <DottedSpinner>
+              <p>Searching the network for moderators...</p>
+            </DottedSpinner>
           </div>
         ) : availableModerators.length === 0 ? (
           <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">

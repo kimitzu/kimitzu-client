@@ -11,6 +11,7 @@ import Routes from './Routes'
 import Profile from './models/Profile'
 
 import config from './config'
+import CurrentUserContext from './contexts/CurrentUserContext'
 import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
 import { Search, searchInstance } from './models/Search'
 
@@ -81,6 +82,13 @@ class App extends React.Component<{}, State> {
     this.activateTimer = this.activateTimer.bind(this)
     this.renderContent = this.renderContent.bind(this)
     this.updateBreadCrumb = this.updateBreadCrumb.bind(this)
+    this.updateProfile = this.updateProfile.bind(this)
+  }
+
+  public updateProfile(profile: Profile) {
+    this.setState({
+      profile: { ...profile } as Profile,
+    })
   }
 
   public async componentDidMount() {
@@ -142,10 +150,15 @@ class App extends React.Component<{}, State> {
     }
 
     return (
-      <>
-        <Routes profile={this.state.profile} history={this.state.breadCrumb.breadHistory} />
+      <CurrentUserContext.Provider
+        value={{
+          currentUser: this.state.profile,
+          updateCurrentUser: this.updateProfile,
+        }}
+      >
+        <Routes history={this.state.breadCrumb.breadHistory} />
         <FloatingChat />
-      </>
+      </CurrentUserContext.Provider>
     )
   }
 
@@ -154,9 +167,10 @@ class App extends React.Component<{}, State> {
     window.clearInterval(this.intervalTimer)
 
     try {
-      const profile = await Profile.retrieve()
+      const profile = await Profile.retrieve('', true)
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
       this.setState({
+        profile,
         isReady: true,
         isServerConnected: true,
         isAuthenticated: document.cookie !== '' || !authRequest.data.authentication,

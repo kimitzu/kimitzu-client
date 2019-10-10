@@ -37,9 +37,11 @@ interface RouteProps {
   id: string
 }
 
-interface CheckoutProps extends RouteComponentProps<RouteProps> {}
+interface ProfilePageProps extends RouteComponentProps<RouteProps> {
+  currentUser: Profile
+}
 
-class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
+class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -68,9 +70,15 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
     this.setState({
       loadingStatus: 'Retrieving Profile',
     })
+
     let profile
+
     try {
-      profile = await Profile.retrieve(id, true)
+      if (id) {
+        profile = await Profile.retrieve(id, true)
+      } else {
+        profile = this.props.currentUser
+      }
     } catch (e) {
       this.setState({
         isError: true,
@@ -78,12 +86,7 @@ class ProfilePage extends Component<CheckoutProps, ProfilePageState> {
       })
     }
 
-    let currentUser: Profile
-    if (id) {
-      currentUser = await Profile.retrieve()
-    } else {
-      currentUser = profile
-    }
+    const currentUser: Profile = this.props.currentUser
 
     this.setState({
       loadingStatus: 'Retrieving Followers',

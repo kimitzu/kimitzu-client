@@ -114,7 +114,7 @@ class Search implements State {
       nextStart: 0,
     },
     paginate: {
-      limit: 25,
+      limit: 24,
       start: 0,
       totalPages: 0,
       currentPage: 0,

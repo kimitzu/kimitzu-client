@@ -27,4 +27,5 @@ package-lock.json
 /.idea
 /public/electron.js
 /public/LocalServer.js
+/cypress/screenshots
 .vscode/launch.json

@@ -224,6 +224,9 @@ class Listing implements ListingInterface {
 
   public async update() {
     const denormalizedListingObject = this.denormalize()
+    const now = new Date()
+    now.setMonth(now.getMonth() + 3)
+    denormalizedListingObject.metadata.expiry = now.toISOString()
     await Axios.put(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
     await Profile.publish()
     await Profile.retrieve('', true)

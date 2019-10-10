@@ -5,15 +5,19 @@ import './DottedSpinner.css'
 
 interface Props {
   color?: string
+  children?: React.ReactElement
 }
 
-const DottedSpinner = ({ color }: Props) => {
+const DottedSpinner = ({ color, children }: Props) => {
   const style = color ? { backgroundColor: color } : {}
   return (
-    <div className="sk-three-bounce">
-      <div style={style} className="sk-child sk-bounce1" />
-      <div style={style} className="sk-child sk-bounce2" />
-      <div style={style} className="sk-child sk-bounce3" />
+    <div>
+      <div className="sk-three-bounce">
+        <div style={style} className="sk-child sk-bounce1" />
+        <div style={style} className="sk-child sk-bounce2" />
+        <div style={style} className="sk-child sk-bounce3" />
+      </div>
+      <div>{children}</div>
     </div>
   )
 }

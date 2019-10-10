@@ -27,7 +27,9 @@ interface RouteProps {
   quantity: string
 }
 
-interface CheckoutProps extends RouteComponentProps<RouteProps> {}
+interface CheckoutProps extends RouteComponentProps<RouteProps> {
+  currentUser: Profile
+}
 
 interface CheckoutState {
   [key: string]: any
@@ -47,6 +49,7 @@ interface CheckoutState {
   coupon: string
   discount: string
   totalAmount: number
+  currentUser: Profile
   isRequestingMerchantAddress: boolean
   isLoading: boolean
 }
@@ -58,8 +61,10 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     super(props)
     const listing = new Listing()
     const order = new Order()
+    const profile = new Profile()
 
     this.state = {
+      currentUser: profile,
       isLoading: true,
       amountToPay: 0,
       estimate: 0,
@@ -102,10 +107,11 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     const id = this.props.match.params.id
     const quantity = this.props.match.params.quantity
     const listing = await Listing.retrieve(id)
-    const profile = await Profile.retrieve()
+
+    const currentUser = this.props.currentUser
     const moderatorListResponse = listing.listing.moderators
 
-    const profileIndex = moderatorListResponse.indexOf(profile.peerID)
+    const profileIndex = moderatorListResponse.indexOf(currentUser.peerID)
     if (profileIndex > 0) {
       moderatorListResponse.splice(profileIndex, 1)
     }
@@ -132,11 +138,11 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       isLoading: false,
       listing: listing.listing,
       quantity: Number(quantity),
-      profile,
+      currentUser,
       totalAmount: currency.convert(
         listing.listing.item.price * Number(quantity),
         listing.listing.metadata.pricingCurrency,
-        profile.preferences.fiat
+        currentUser.preferences.fiat
       ),
     })
 

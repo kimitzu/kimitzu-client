@@ -1,13 +1,12 @@
 #moderator-card-img {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 100%;
+  max-height: 100%;
 }
 #moderator-card-content {
   flex: 10;
   overflow: hidden;
 }
 .moderator-card-btn {
-  padding: 0 5px;
   min-width: 15px;
   font-size: 1.75rem;
   line-height: 25px;
@@ -29,5 +28,12 @@
   height: 100%;
 }
 .bar-select {
-  border-left: 10px solid dodgerblue;
+  border-left: 10px solid var(--primary);
+}
+.emphasis {
+  box-shadow: 1px 1px 5px 0px var(--primary)
+}
+.hover-emphasis:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 5px 0px var(--primary)
 }

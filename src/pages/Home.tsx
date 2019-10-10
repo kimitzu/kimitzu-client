@@ -16,7 +16,7 @@ import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 import './Home.css'
 
 interface HomeProps {
-  props: any
+  currentUser: Profile
 }
 
 interface HomeState {
@@ -29,7 +29,7 @@ interface HomeState {
 class Home extends Component<HomeProps, HomeState> {
   constructor(props: any) {
     super(props)
-    const profile = new Profile()
+    const profile = this.props.currentUser
 
     this.state = {
       search: searchInstance,
@@ -50,7 +50,7 @@ class Home extends Component<HomeProps, HomeState> {
   public async componentDidMount() {
     this.state.search.reset()
     await this.handleSearchSubmit()
-    const profile = await Profile.retrieve()
+    const profile = this.props.currentUser
     this.setState({ profile })
 
     const searchEvent = (event: CustomEvent) => {

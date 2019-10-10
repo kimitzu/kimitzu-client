@@ -1,9 +1,10 @@
 version: 2.1
+
 jobs:
   build:
-    working_directory: ~/djali-client 
     docker: 
       - image: cypress/browsers:node12.6.0-chrome75
+    working_directory: ~/djali-client
     steps:
       - checkout 
       - restore_cache: 
