@@ -30,7 +30,9 @@
     "currency-symbol-map": "^4.0.4",
     "cypress-file-upload": "^3.3.4",
     "electron-is-dev": "^1.1.0",
+    "electron-log": "^3.0.8",
     "electron-serve": "^0.3.0",
+    "electron-updater": "^4.1.2",
     "faker": "^4.1.0",
     "is-electron": "^2.2.0",
     "iso-639-1": "^2.0.5",
@@ -128,6 +130,13 @@
     "files": [
       "build/**/*",
       "node_modules/**/*"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "djali-foundation",
+        "repo": "djali-client"
+      }
     ],
     "compression": "store",
     "extraFiles": [

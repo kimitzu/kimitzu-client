@@ -1,11 +1,18 @@
-import { app, BrowserWindow, ipcMain, Menu, MenuItem, shell } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, Menu, MenuItem, shell } from 'electron'
 import * as isDev from 'electron-is-dev'
+import log from 'electron-log'
+import { autoUpdater } from 'electron-updater'
 import * as path from 'path'
 
 import LocalServer from './LocalServer'
 
 let obServer
 let djaliServices
+let hasCheckedForUpdatesOnLaunch = false
+
+autoUpdater.logger = log
+log.info(`Djali Client v.${app.getVersion()} is starting...`)
+autoUpdater.autoDownload = false
 
 if (!isDev && !process.argv.includes('--noexternal')) {
   const fileName =
@@ -36,6 +43,12 @@ const createWindow = async () => {
         label: 'Website',
         click() {
           shell.openExternal('https://djali.org')
+        },
+      },
+      {
+        label: 'Check for Updates',
+        async click() {
+          autoUpdater.checkForUpdates()
         },
       },
     ],
@@ -81,7 +94,11 @@ const createWindow = async () => {
   mainWindow.on('closed', () => (mainWindow = null))
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  autoUpdater.checkForUpdatesAndNotify()
+  createWindow()
+})
+
 app.on('window-all-closed', () => {
   if (obServer) {
     obServer.stop()
@@ -96,5 +113,54 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
+  }
+})
+
+autoUpdater.on('error', error => {
+  dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString())
+})
+
+autoUpdater.on('update-available', async info => {
+  const updateDialog = await dialog.showMessageBox(mainWindow, {
+    type: 'info',
+    title: 'New Update',
+    message: `Djali client v${info.version} is now availabe, do you want to download it now?`,
+    buttons: ['Yes', 'No'],
+  })
+  if (updateDialog.response === 0) {
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      message: 'Downloading update... We will notify you once it is ready.',
+    })
+    autoUpdater.downloadUpdate()
+  }
+})
+
+autoUpdater.on('update-not-available', () => {
+  // Don't notify the user if there is no update available upon launching the app
+  if (!hasCheckedForUpdatesOnLaunch) {
+    hasCheckedForUpdatesOnLaunch = true
+    return
+  }
+  dialog.showMessageBox({
+    title: 'No Updates',
+    message: 'Current version is up-to-date.',
+  })
+})
+
+autoUpdater.on('download-progress', progressObj => {
+  let downloadLog = `Download speed: ${progressObj.bytesPerSecond}`
+  downloadLog = `${downloadLog} - Downloaded ${progressObj.percent} %`
+  downloadLog = `${downloadLog} (${progressObj.transferred}/${progressObj.total}) ${downloadLog}`
+  log.info(downloadLog)
+})
+
+autoUpdater.on('update-downloaded', async () => {
+  const updatesDialog = await dialog.showMessageBox(mainWindow, {
+    title: 'Install Updates',
+    message: 'Updates downloaded, application will be quit for update...',
+  })
+  if (updatesDialog) {
+    setImmediate(() => autoUpdater.quitAndInstall())
   }
 })
