@@ -196,7 +196,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       return (
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
-            <CircleSpinner message={`${this.state.loadingStatus}...`} />
+            <CircleSpinner message={`Loading...`} />
           </div>
         </div>
       )
