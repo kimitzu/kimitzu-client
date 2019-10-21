@@ -1,0 +1,6 @@
+{
+  "TBCH": "expectedTBCHAddress",
+  "TBTC": "expectedTBTCAddress",
+  "TLTC": "expectedTLTCAddress",
+  "TZEC": "expectedTZECAddress"
+}

@@ -1,0 +1,178 @@
+{
+  "contract": {
+    "vendorListings": [{
+      "slug": "moderator-test",
+      "vendorID": {
+        "peerID": "QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK",
+        "handle": "Djali",
+        "pubkeys": {
+          "identity": "CAESIKX2OM1r2otRNO2JlZnNMJQt5m1Ck57lnKbWgfrWyPgv",
+          "bitcoin": "A0uKZuifiI7681Csa4O2208Uh3/TCQlSwAis2o/NwA1y"
+        },
+        "bitcoinSig": "MEQCIHmlmstMukJfXu+ekkLIV6whUH3pmkqivjHE5akbmEzGAiAXX9+QzLVJzqb/vNz52bwDNNT18Oo4/L8+TFb/gTjoNw=="
+      },
+      "metadata": {
+        "version": 4,
+        "contractType": "SERVICE",
+        "format": "FIXED_PRICE",
+        "expiry": "2019-11-08T07:09:54.395Z",
+        "acceptedCurrencies": [
+          "TBTC",
+          "TLTC",
+          "TZEC",
+          "TBCH"
+        ],
+        "pricingCurrency": "USD",
+        "language": "",
+        "escrowTimeoutHours": 1,
+        "coinType": "",
+        "coinDivisibility": 0,
+        "priceModifier": 0,
+        "serviceRateMethod": "PER_HOUR",
+        "serviceClassification": "2512-0: Software Developers"
+      },
+      "item": {
+        "title": "Moderator Test",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "processingTime": "1 day",
+        "price": 1000,
+        "nsfw": false,
+        "tags": [
+          "test"
+        ],
+        "images": [{
+          "filename": "image.png",
+          "original": "Qme8boERwveuZFzkV19SdLDmYmxxnGpUeet47XZ6VzZJkP",
+          "large": "QmZ7VfqLP6MX4atFAPnHFDba2N2dKsXhiUMEqe4bv794EJ",
+          "medium": "QmQDxtcZEteGTK1FS7DieNjCV4spn7rJEQJh35AP3WT28H",
+          "small": "QmUBHSYDJHuYDFybqmqJK8LKXTxEExT31yFWCpUod8uPWw",
+          "tiny": "QmaZWBci9HUqeHjsPs9mTHLAVZFqrv9s7pxHqAEf731763"
+        }],
+        "categories": [
+          "2512-0"
+        ],
+        "grams": 0,
+        "condition": "New",
+        "options": [],
+        "skus": [{
+          "productID": "moderator-test",
+          "surcharge": 0,
+          "quantity": 0
+        }]
+      },
+      "shippingOptions": [],
+      "taxes": [],
+      "coupons": [],
+      "moderators": [
+        "QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN"
+      ],
+      "termsAndConditions": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+      "refundPolicy": "",
+      "location": {
+        "latitude": "",
+        "longitude": "",
+        "plusCode": "",
+        "addressOne": "",
+        "addressTwo": "",
+        "city": "",
+        "state": "",
+        "country": "PH",
+        "zipCode": ""
+      }
+    }],
+    "buyerOrder": {
+      "refundAddress": "n2kGyvxvxTZMUtGdMh4DrCUiyG53fH4gdU",
+      "refundFee": 52,
+      "shipping": {
+        "shipTo": "",
+        "address": "",
+        "city": "",
+        "state": "",
+        "postalCode": "",
+        "country": "NA",
+        "addressNotes": ""
+      },
+      "buyerID": {
+        "peerID": "QmYWEo2SzZVkQHirvwB1gSNwgVHAN5xXuynYgvWvC9VcNa",
+        "handle": "Rave",
+        "pubkeys": {
+          "identity": "CAESIFzmk19LngvahGU23uQ+Rwfu8seNgWaEgoTamOrhxJI0",
+          "bitcoin": "Avt3Lz63x7Mj+wF0t9jrfc+ju6h07bLG+84VDe2v3bVz"
+        },
+        "bitcoinSig": "MEUCIQD6XK7Q1kTd6ORQvCjuZK+KDa/DMPZOihUH6k4dfhsyiwIgLQJBDlxHSbuZ/M+8Yqr5OFTJiWHzyg2CeT3ZgBRcuxA="
+      },
+      "timestamp": "2019-10-09T02:58:54.050872900Z",
+      "items": [{
+        "listingHash": "zb2rha5m4Qh2N8QPUGGFocRRb2RqnGdu1gRFUMM2KxvKibx7z",
+        "quantity": 0,
+        "quantity64": 1,
+        "shippingOption": {
+          "name": "",
+          "service": ""
+        },
+        "memo": "",
+        "paymentAddress": ""
+      }],
+      "payment": {
+        "method": "MODERATED",
+        "moderator": "QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN",
+        "amount": 122490,
+        "chaincode": "cfef4590ad875c27fd548ffe553cda67ea918332b07f8a14432e833327f0cbc4",
+        "address": "tb1q6s3dxaynjtkq4myaafne4dvhsfy9kh4kfqh5vavn7t3d4cmm9zrqeg9ysx",
+        "redeemScript": "63522103295756df36d98de4e44e9dcc3de88901e62e450deb190271cc1babff9e32e7a42102e6bdb94c95559b69530eb642326c8080e7680851296d757e99a46ae51cd9870e21030437f183a4a6437dc1f748abafd0e63f8c433822ad732c8115a1d1d3c4c6b66b53ae6756b2752102e6bdb94c95559b69530eb642326c8080e7680851296d757e99a46ae51cd9870eac68",
+        "moderatorKey": "AwQ38YOkpkN9wfdIq6/Q5j+MQzgirXMsgRWh0dPExrZr",
+        "coin": "TBTC"
+      },
+      "ratingKeys": [
+        "ApbMYH1O2IGk7jaqj631pxto8GoZMu77JMCjH3umQNuf"
+      ],
+      "alternateContactInfo": "",
+      "version": 2
+    },
+    "vendorOrderConfirmation": {
+      "orderID": "QmVQN6P4PHPWL5ChXRYU4eZog17uKvFDb5U9Lz7mjemNzJ",
+      "timestamp": "2019-10-09T02:58:56.422691999Z",
+      "paymentAddress": "tb1q6s3dxaynjtkq4myaafne4dvhsfy9kh4kfqh5vavn7t3d4cmm9zrqeg9ysx",
+      "requestedAmount": 122490,
+      "ratingSignatures": [{
+        "metadata": {
+          "listingSlug": "moderator-test",
+          "moderatorKey": "AwQ38YOkpkN9wfdIq6/Q5j+MQzgirXMsgRWh0dPExrZr",
+          "listingTitle": "Moderator Test",
+          "thumbnail": {
+            "tiny": "QmaZWBci9HUqeHjsPs9mTHLAVZFqrv9s7pxHqAEf731763",
+            "small": "QmUBHSYDJHuYDFybqmqJK8LKXTxEExT31yFWCpUod8uPWw",
+            "medium": "QmQDxtcZEteGTK1FS7DieNjCV4spn7rJEQJh35AP3WT28H",
+            "large": "QmZ7VfqLP6MX4atFAPnHFDba2N2dKsXhiUMEqe4bv794EJ",
+            "original": "Qme8boERwveuZFzkV19SdLDmYmxxnGpUeet47XZ6VzZJkP"
+          }
+        },
+        "signature": "a/dkZEAVZq6vcDXm7/gt7CuB2H/BSa6HBs4sp70msSlDRpDz8Z0MU8fVOZl/9hoA8kr4ZEra2HseR/RmG5CfCA=="
+      }]
+    },
+    "signatures": [{
+        "section": "LISTING",
+        "signatureBytes": "rCXLB0ww3A87+jCeHHHKe6DMFZa6gFl7XcxP8VbMedPBpGorcrDXzNGjATU4EGn5NDVcGfkwz+Xls/Fxhrv1CQ=="
+      },
+      {
+        "section": "ORDER",
+        "signatureBytes": "mpUA1JYls8TjbbG77r5xBAreDxrtVo/Ct8c6mhOgpdAwVYxtMOr8LfOjMZWCFbhsB5YzlkVy/UQcxj+RSWaiDQ=="
+      },
+      {
+        "section": "ORDER_CONFIRMATION",
+        "signatureBytes": "ZXPCYO/00jVXEYBV0E/smB66JPjebAQANwsG+eJpum/+EL1aT5oJeyado4B9vb/C9Y9ZgAc8DH1phIdWoA35BA=="
+      }
+    ]
+  },
+  "state": "AWAITING_FULFILLMENT",
+  "read": true,
+  "funded": true,
+  "unreadChatMessages": 0,
+  "paymentAddressTransactions": [{
+    "txid": "4fc517c47a84d9e9dad3b78d371870ca81ac148b455f7aa95a71a9652f55ba41",
+    "value": 122490,
+    "confirmations": 0,
+    "height": 0,
+    "timestamp": "2019-10-09T02:59:00.046253400Z"
+  }]
+}

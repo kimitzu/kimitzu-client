@@ -1,0 +1,119 @@
+{
+  "peerID": "peerId1",
+  "profile": {
+    "about": "This is the Djali test account profile.  ",
+    "avatarHashes": {
+      "large": "QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp",
+      "medium": "QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX",
+      "original": "QmSYYRZS5veRXQqY2y4ekDrKyEVgz9nCDKaW1krrYvtGC3",
+      "small": "QmXT2PgXsC4XymEGZP9iFcX9FKKQZMQW5wiP7hxCvdZHxG",
+      "tiny": "QmZgAEvnzhPTqPheojV7azwVo9uemfnZzFP5AdvVzGFdZU"
+    },
+    "background": {
+      "educationHistory": [],
+      "employmentHistory": []
+    },
+    "bitcoinPubkey": "034b8a66e89f888efaf350ac6b83b6db4f14877fd3090952c008acda8fcdc00d72",
+    "contactInfo": {
+      "email": "djali@djali.org",
+      "phoneNumber": "",
+      "social": [
+        {
+          "proof": "https://github.com/alahj",
+          "type": "github",
+          "username": "alahj"
+        }
+      ],
+      "website": ""
+    },
+    "currencies": [
+      "TZEC",
+      "TLTC",
+      "TBTC",
+      "TBCH"
+    ],
+    "customFields": [],
+    "customProps": {
+      "competencies": "{&#34;programmerCompetency&#34;:[{&#34;category&#34;:&#34;Computer Science&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Data Structures&#34;,&#34;assessment&#34;:0},{&#34;item&#34;:&#34;Algorithms&#34;,&#34;assessment&#34;:1},{&#34;item&#34;:&#34;Systems Programming&#34;,&#34;assessment&#34;:2}]},{&#34;category&#34;:&#34;Software Engineering&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Source Code Version Control&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Build Automation&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Automated Testing&#34;,&#34;assessment&#34;:-1}]},{&#34;category&#34;:&#34;Programming&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Problem Decomposition&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Systems Decomposition&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Communication&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Code Organization Within A File&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Code Organization Across Files&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Source Tree Organization&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Code Readability&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Defensive Coding&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Error Handling&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;IDE&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;API&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Frameworks&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Requirements&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Scripting&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Database&#34;,&#34;assessment&#34;:-1}]},{&#34;category&#34;:&#34;Experience&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Languages With Professional Experience&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Platforms With Professional Experience&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Years Of Professional Experience&#34;,&#34;assessment&#34;:-1}]},{&#34;category&#34;:&#34;Knowledge&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Tool Knowledge&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Languages Exposed To&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Knowledge Of Upcoming Technologies&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Books&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Blogs&#34;,&#34;assessment&#34;:-1}]}],&#34;actingCompetency&#34;:[{&#34;category&#34;:&#34;Production&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Synthesis&#34;,&#34;assessment&#34;:0},{&#34;item&#34;:&#34;Repertory&#34;,&#34;assessment&#34;:1},{&#34;item&#34;:&#34;Theoretical and Historical Studies&#34;,&#34;assessment&#34;:2},{&#34;item&#34;:&#34;Technology&#34;,&#34;assessment&#34;:3}]}]}",
+      "programmerCompetency": "{&#34;Computer Science&#34;:{&#34;Data Structures&#34;:3,&#34;Algorithms&#34;:2,&#34;Systems Programming&#34;:3},&#34;Software Engineering&#34;:{&#34;Source Code Version Control&#34;:-1,&#34;Build Automation&#34;:-1,&#34;Automated Testing&#34;:-1},&#34;Programming&#34;:{&#34;Problem Decomposition&#34;:-1,&#34;Systems Decomposition&#34;:-1,&#34;Communication&#34;:-1,&#34;Code Organization Within A File&#34;:-1,&#34;Code Organization Across Files&#34;:-1,&#34;Source Tree Organization&#34;:-1,&#34;Code Readability&#34;:-1,&#34;Defensive Coding&#34;:-1,&#34;Error Handling&#34;:-1,&#34;IDE&#34;:-1,&#34;API&#34;:-1,&#34;Frameworks&#34;:-1,&#34;Requirements&#34;:-1,&#34;Scripting&#34;:-1,&#34;Database&#34;:-1},&#34;Experience&#34;:{&#34;Languages With Professional Experience&#34;:-1,&#34;Platforms With Professional Experience&#34;:-1,&#34;Years Of Professional Experience&#34;:-1},&#34;Knowledge&#34;:{&#34;Tool Knowledge&#34;:-1,&#34;Languages Exposed To&#34;:-1,&#34;Knowledge Of Upcoming Technologies&#34;:-1,&#34;Books&#34;:-1,&#34;Blogs&#34;:-1}}",
+      "skills": "[&#34;Java&#34;,&#34;Javascript&#34;]"
+    },
+    "extLocation": {
+      "addresses": [
+        {
+          "addressOne": "",
+          "addressTwo": "",
+          "city": "",
+          "country": "US",
+          "latitude": "",
+          "longitude": "",
+          "plusCode": "",
+          "state": "",
+          "zipCode": ""
+        }
+      ],
+      "billing": 0,
+      "primary": 0,
+      "return": 0,
+      "shipping": 0
+    },
+    "handle": "Djali",
+    "headerHashes": {
+      "large": "",
+      "medium": "",
+      "original": "",
+      "small": "",
+      "tiny": ""
+    },
+    "lastModified": "2019-10-08T07:10:34.783527678Z",
+    "location": "US, ",
+    "metaTags": {
+      "DjaliVersion": "0.0.1-dev"
+    },
+    "moderator": true,
+    "moderatorInfo": {
+      "acceptedCurrencies": [
+        "TZEC",
+        "TLTC",
+        "TBTC",
+        "TBCH"
+      ],
+      "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+      "fee": {
+        "feeType": "FIXED",
+        "fixedFee": {
+          "amount": 500,
+          "currencyCode": ""
+        },
+        "percentage": 0
+      },
+      "languages": [
+        "en-AU",
+        "en-PH"
+      ],
+      "termsAndConditions": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+    },
+    "name": "Djali Remote",
+    "nsfw": false,
+    "peerID": "QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK",
+    "preferences": {
+      "cryptocurrency": "TBTC",
+      "currencyDisplay": "FIAT",
+      "fiat": "USD",
+      "language": "en-US",
+      "measurementUnit": "ENGLISH"
+    },
+    "profileType": "djali",
+    "shortDescription": "This is the Djali test account profile...",
+    "stats": {
+      "averageRating": 3.6666667,
+      "followerCount": 1,
+      "followingCount": 0,
+      "listingCount": 7,
+      "postCount": 0,
+      "ratingCount": 6
+    },
+    "vendor": true
+  },
+  "lastPing": 1570589625
+}

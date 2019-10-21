@@ -1,0 +1,248 @@
+{
+    "contract": {
+      "vendorListings": [
+        {
+          "slug": "moderator-test",
+          "vendorID": {
+            "peerID": "QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK",
+            "handle": "Djali",
+            "pubkeys": {
+              "identity": "CAESIKX2OM1r2otRNO2JlZnNMJQt5m1Ck57lnKbWgfrWyPgv",
+              "bitcoin": "A0uKZuifiI7681Csa4O2208Uh3/TCQlSwAis2o/NwA1y"
+            },
+            "bitcoinSig": "MEQCIHmlmstMukJfXu+ekkLIV6whUH3pmkqivjHE5akbmEzGAiAXX9+QzLVJzqb/vNz52bwDNNT18Oo4/L8+TFb/gTjoNw=="
+          },
+          "metadata": {
+            "version": 4,
+            "contractType": "SERVICE",
+            "format": "FIXED_PRICE",
+            "expiry": "2019-11-08T07:09:54.395Z",
+            "acceptedCurrencies": [
+              "TBTC",
+              "TLTC",
+              "TZEC",
+              "TBCH"
+            ],
+            "pricingCurrency": "USD",
+            "language": "",
+            "escrowTimeoutHours": 1,
+            "coinType": "",
+            "coinDivisibility": 0,
+            "priceModifier": 0,
+            "serviceRateMethod": "PER_HOUR",
+            "serviceClassification": "2512-0: Software Developers"
+          },
+          "item": {
+            "title": "Moderator Test",
+            "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+            "processingTime": "1 day",
+            "price": 1000,
+            "nsfw": false,
+            "tags": [
+              "test"
+            ],
+            "images": [
+              {
+                "filename": "image.png",
+                "original": "Qme8boERwveuZFzkV19SdLDmYmxxnGpUeet47XZ6VzZJkP",
+                "large": "QmZ7VfqLP6MX4atFAPnHFDba2N2dKsXhiUMEqe4bv794EJ",
+                "medium": "QmQDxtcZEteGTK1FS7DieNjCV4spn7rJEQJh35AP3WT28H",
+                "small": "QmUBHSYDJHuYDFybqmqJK8LKXTxEExT31yFWCpUod8uPWw",
+                "tiny": "QmaZWBci9HUqeHjsPs9mTHLAVZFqrv9s7pxHqAEf731763"
+              }
+            ],
+            "categories": [
+              "2512-0"
+            ],
+            "grams": 0,
+            "condition": "New",
+            "options": [],
+            "skus": [
+              {
+                "productID": "moderator-test",
+                "surcharge": 0,
+                "quantity": 0
+              }
+            ]
+          },
+          "shippingOptions": [],
+          "taxes": [],
+          "coupons": [],
+          "moderators": [
+            "QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN"
+          ],
+          "termsAndConditions": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+          "refundPolicy": "",
+          "location": {
+            "latitude": "",
+            "longitude": "",
+            "plusCode": "",
+            "addressOne": "",
+            "addressTwo": "",
+            "city": "",
+            "state": "",
+            "country": "PH",
+            "zipCode": ""
+          }
+        }
+      ],
+      "buyerOrder": {
+        "refundAddress": "mo2nRurKgSGycz5NKkbkyHF8yR9BYc3Hf8",
+        "refundFee": 52,
+        "shipping": {
+          "shipTo": "",
+          "address": "",
+          "city": "",
+          "state": "",
+          "postalCode": "",
+          "country": "NA",
+          "addressNotes": ""
+        },
+        "buyerID": {
+          "peerID": "QmYWEo2SzZVkQHirvwB1gSNwgVHAN5xXuynYgvWvC9VcNa",
+          "handle": "Rave",
+          "pubkeys": {
+            "identity": "CAESIFzmk19LngvahGU23uQ+Rwfu8seNgWaEgoTamOrhxJI0",
+            "bitcoin": "Avt3Lz63x7Mj+wF0t9jrfc+ju6h07bLG+84VDe2v3bVz"
+          },
+          "bitcoinSig": "MEUCIQD6XK7Q1kTd6ORQvCjuZK+KDa/DMPZOihUH6k4dfhsyiwIgLQJBDlxHSbuZ/M+8Yqr5OFTJiWHzyg2CeT3ZgBRcuxA="
+        },
+        "timestamp": "2019-10-09T06:31:36.013207Z",
+        "items": [
+          {
+            "listingHash": "zb2rha5m4Qh2N8QPUGGFocRRb2RqnGdu1gRFUMM2KxvKibx7z",
+            "quantity": 0,
+            "quantity64": 1,
+            "shippingOption": {
+              "name": "",
+              "service": ""
+            },
+            "memo": "",
+            "paymentAddress": ""
+          }
+        ],
+        "payment": {
+          "method": "MODERATED",
+          "moderator": "QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN",
+          "amount": 122401,
+          "chaincode": "f9f944981613c73f34e0337c463a047a6bfcae33730a30989d2a410a3953a7a9",
+          "address": "tb1qt06hkvle5phlyvp8c5qa5g293vgp3g5wc3uaz88yt5uq762635tqechjt3",
+          "redeemScript": "635221028a01e680a1aaa96dcdb6c27aec4119744e797785a7ce57d40c76c75e9472a2682103e541c7943bec6d87cd0a7e15e74eefc21bb3a48d113ab6336a83bd6485b34681210396b8661246b512e3b990770dce5f551d2863ff2d8456f7348b7f35ad4941548953ae6756b2752103e541c7943bec6d87cd0a7e15e74eefc21bb3a48d113ab6336a83bd6485b34681ac68",
+          "moderatorKey": "A5a4ZhJGtRLjuZB3Dc5fVR0oY/8thFb3NIt/Na1JQVSJ",
+          "coin": "TBTC"
+        },
+        "ratingKeys": [
+          "A7ASCxg9+wvVykGJ/WLZr0oeVASUGUH28ISZgfnHRBw7"
+        ],
+        "alternateContactInfo": "",
+        "version": 2
+      },
+      "vendorOrderConfirmation": {
+        "orderID": "QmfCoQvERURFVpWPaoyoYtKrXkhQe9S7UskZQkAX7ujfr1",
+        "timestamp": "2019-10-09T06:31:37.872747381Z",
+        "paymentAddress": "tb1qt06hkvle5phlyvp8c5qa5g293vgp3g5wc3uaz88yt5uq762635tqechjt3",
+        "requestedAmount": 122401,
+        "ratingSignatures": [
+          {
+            "metadata": {
+              "listingSlug": "moderator-test",
+              "moderatorKey": "A5a4ZhJGtRLjuZB3Dc5fVR0oY/8thFb3NIt/Na1JQVSJ",
+              "listingTitle": "Moderator Test",
+              "thumbnail": {
+                "tiny": "QmaZWBci9HUqeHjsPs9mTHLAVZFqrv9s7pxHqAEf731763",
+                "small": "QmUBHSYDJHuYDFybqmqJK8LKXTxEExT31yFWCpUod8uPWw",
+                "medium": "QmQDxtcZEteGTK1FS7DieNjCV4spn7rJEQJh35AP3WT28H",
+                "large": "QmZ7VfqLP6MX4atFAPnHFDba2N2dKsXhiUMEqe4bv794EJ",
+                "original": "Qme8boERwveuZFzkV19SdLDmYmxxnGpUeet47XZ6VzZJkP"
+              }
+            },
+            "signature": "j2rBzvOMSCxWdr1AeGqk3a6IClz8TR4gBxmBTTVd9NohOdkLE7l2SYGX/YUVmAHYHOzVhZmIHQDvd5+HzZxjBA=="
+          }
+        ]
+      },
+      "dispute": {
+        "timestamp": "2019-10-09T06:32:32.367176100Z",
+        "claim": "AAAA",
+        "payoutAddress": "mxwXUyyJWbMEU24bUuunetZTC9z8bTiaeE",
+        "outpoints": [
+          {
+            "hash": "48e9f4d0aed194a186db536af282dc2dd5f949aaeb3589478a2bc58646edea6c",
+            "index": 0,
+            "value": 122401
+          }
+        ],
+        "serializedContract": "CpsTCg5tb2RlcmF0b3ItdGVzdBLKAQouUW1XN3lSYVFNUVFUZTFndkMxU1dNelJMRG5hTjN3VXZlNmFZcllzcU1CNDJGSxIFRGphbGkaSQokCAESIKX2OM1r2otRNO2JlZnNMJQt5m1Ck57lnKbWgfrWyPgvEiEDS4pm6J+IjvrzUKxrg7bbTxSHf9MJCVLACKzaj83ADXIiRjBEAiB5pZrLTLpCX17vnpJCyFesIVB96ZpKor4xxOWpG5hMxgIgF1/fkMy1Sc6m/7zc+dm8AzTU9fDqOPy/PkxW/4E46DcaUAgEEAIiDAjCqZTuBRDA8ay8ASoEVEJUQyoEVExUQyoEVFpFQyoEVEJDSDIDVVNEQAGyoAMbMjUxMi0wOiBTb2Z0d2FyZSBEZXZlbG9wZXJzIrcJCg5Nb2RlcmF0b3IgVGVzdBL3BkxvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LCBjb25zZXRldHVyIHNhZGlwc2NpbmcgZWxpdHIsIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgc2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQgYWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBlYSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRhIHNhbmN0dXMgZXN0IExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWlybW9kIHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1eWFtIGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJvIGVvcyBldCBhY2N1c2FtIGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2QgZ3ViZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQuGgUxIGRheSDoBzIEdGVzdDr7AQoJaW1hZ2UucG5nEi5RbWU4Ym9FUnd2ZXVaRnprVjE5U2RMRG1ZbXh4bkdwVWVldDQ3WFo2VnpaSmtQGi5RbVo3VmZxTFA2TVg0YXRGQVBuSEZEYmEyTjJkS3NYaGlVTUVxZTRidjc5NEVKIi5RbVFEeHRjWkV0ZUdUSzFGUzdEaWVOakNWNHNwbjdySkVRSmgzNUFQM1dUMjhIKi5RbVVCSFNZREpIdVlERnlicW1xSks4TEtYVHhFRXhUMzF5RldDcFVvZDh1UFd3Mi5RbWFaV0JjaTlIVXFlSGpzUHM5bVRITEFWWkZxcnY5czdweEhxQUVmNzMxNzYzQgYyNTEyLTBSA05ld2IQEg5tb2RlcmF0b3ItdGVzdEIuUW1ZdXo3SE1GNVNETUtqeVVqM3pDVHFpcTJyaEFrV3BEb3hqaHJlOE1MaUhQTkr3BkxvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LCBjb25zZXRldHVyIHNhZGlwc2NpbmcgZWxpdHIsIHNlZCBkaWFtIG5vbnVteSBlaXJtb2QgdGVtcG9yIGludmlkdW50IHV0IGxhYm9yZSBldCBkb2xvcmUgbWFnbmEgYWxpcXV5YW0gZXJhdCwgc2VkIGRpYW0gdm9sdXB0dWEuIEF0IHZlcm8gZW9zIGV0IGFjY3VzYW0gZXQganVzdG8gZHVvIGRvbG9yZXMgZXQgZWEgcmVidW0uIFN0ZXQgY2xpdGEga2FzZCBndWJlcmdyZW4sIG5vIHNlYSB0YWtpbWF0YSBzYW5jdHVzIGVzdCBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldC4gTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgc2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQgYWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBlYSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRhIHNhbmN0dXMgZXN0IExvcmVtIGlwc3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWlybW9kIHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1eWFtIGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJvIGVvcyBldCBhY2N1c2FtIGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2QgZ3ViZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQuqqADBEICUEgS6wYKIm1vMm5SdXJLZ1NHeWN6NU5La2JreUhGOHlSOUJZYzNIZjgQNBoAIsoBCi5RbVlXRW8yU3paVmtRSGlydndCMWdTTndnVkhBTjV4WHV5bllndld2QzlWY05hEgRSYXZlGkkKJAgBEiBc5pNfS54L2oRlNt7kPkcH7vLHjYFmhIKE2pjq4cSSNBIhAvt3Lz63x7Mj+wF0t9jrfc+ju6h07bLG+84VDe2v3bVzIkcwRQIhAPpcrtDWRN3o5FC8KO5kr4oNr8Mw9k6KFQfqTh1+GzKLAiAtAkEOXEdJu5n8z7xiqvk4VMmJYfPKDYJ5PdmAFFy7ECoLCMj99ewFENiLpgYyNwoxemIycmhhNW00UWgyTjhRUFVHR0ZvY1JSYjJScW5HZHUxZ1JGVU1NMkt4dktpYng3eiIAQAE6iAQIAhIuUW1ZdXo3SE1GNVNETUtqeVVqM3pDVHFpcTJyaEFrV3BEb3hqaHJlOE1MaUhQThihvAciQGY5Zjk0NDk4MTYxM2M3M2YzNGUwMzM3YzQ2M2EwNDdhNmJmY2FlMzM3MzBhMzA5ODlkMmE0MTBhMzk1M2E3YTkqPnRiMXF0MDZoa3ZsZTVwaGx5dnA4YzVxYTVnMjkzdmdwM2c1d2MzdWF6ODh5dDV1cTc2MjYzNXRxZWNoanQzMqQCNjM1MjIxMDI4YTAxZTY4MGExYWFhOTZkY2RiNmMyN2FlYzQxMTk3NDRlNzk3Nzg1YTdjZTU3ZDQwYzc2Yzc1ZTk0NzJhMjY4MjEwM2U1NDFjNzk0M2JlYzZkODdjZDBhN2UxNWU3NGVlZmMyMWJiM2E0OGQxMTNhYjYzMzZhODNiZDY0ODViMzQ2ODEyMTAzOTZiODY2MTI0NmI1MTJlM2I5OTA3NzBkY2U1ZjU1MWQyODYzZmYyZDg0NTZmNzM0OGI3ZjM1YWQ0OTQxNTQ4OTUzYWU2NzU2YjI3NTIxMDNlNTQxYzc5NDNiZWM2ZDg3Y2QwYTdlMTVlNzRlZWZjMjFiYjNhNDhkMTEzYWI2MzM2YTgzYmQ2NDg1YjM0NjgxYWM2ODohA5a4ZhJGtRLjuZB3Dc5fVR0oY/8thFb3NIt/Na1JQVSJQgRUQlRDQiEDsBILGD37C9XKQYn9YtmvSh5UBJQZQfbwhJmB+cdEHDtQAhqABAouUW1mQ29RdkVSVVJGVnBXUGFveW9ZdEtyWGtoUWU5UzdVc2taUWtBWDd1amZyMRIMCMn99ewFEPWilKADGj50YjFxdDA2aGt2bGU1cGhseXZwOGM1cWE1ZzI5M3ZncDNnNXdjM3Vhejg4eXQ1dXE3NjI2MzV0cWVjaGp0MyChvAcq+wIKtgIKDm1vZGVyYXRvci10ZXN0GiEDlrhmEka1EuO5kHcNzl9VHShj/y2EVvc0i381rUlBVIkiDk1vZGVyYXRvciBUZXN0KvABCi5RbWFaV0JjaTlIVXFlSGpzUHM5bVRITEFWWkZxcnY5czdweEhxQUVmNzMxNzYzEi5RbVVCSFNZREpIdVlERnlicW1xSks4TEtYVHhFRXhUMzF5RldDcFVvZDh1UFd3Gi5RbVFEeHRjWkV0ZUdUSzFGUzdEaWVOakNWNHNwbjdySkVRSmgzNUFQM1dUMjhIIi5RbVo3VmZxTFA2TVg0YXRGQVBuSEZEYmEyTjJkS3NYaGlVTUVxZTRidjc5NEVKKi5RbWU4Ym9FUnd2ZXVaRnprVjE5U2RMRG1ZbXh4bkdwVWVldDQ3WFo2VnpaSmtQEkCPasHO84xILFZ2vUB4aqTdrogKXPxNHiAHGYFNNV302iE52QsTuXZJgZf9hRWYAdgc7NWFmYgdAO93n4fNnGMEUkISQKwlywdMMNwPO/ownhxxynugzBWWuoBZe13MT/FWzHnTwaRqK3Kw18zRowE1OBBp+TQ1XBn5MM/l5bPxcYa79QlSRAgBEkCKUmw4136DiMB+hLwzCtTcn12pVo3BOtriz6CVQ9Q2fq5UuvHCODbFq2ZNecrg1CoyAsQVR0QRWL80LiW/WQAPUkQIAhJAOhPYd8sjEZV0fkQGMNDc1jSAG6SzgAxNmktR9hsQlCmM2Lj1SQK5k4WxwWu9MOJ/rB+7WgXQa6c0zsZapOCrDQ=="
+      },
+      "disputeResolution": {
+        "timestamp": "2019-10-09T06:32:50.862194587Z",
+        "orderId": "QmfCoQvERURFVpWPaoyoYtKrXkhQe9S7UskZQkAX7ujfr1",
+        "proposedBy": "QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN",
+        "resolution": "Gwapuuu",
+        "payout": {
+          "sigs": [
+            {
+              "inputIndex": 0,
+              "signature": "MEUCIQD//b0V6JiHz8lnu+O6BmH4NkwwinL3VdaB4A/NKtCRngIgNYjrPUWBRFl7hf3q7wZ6X/dw2iZmdBOKb82OLFoOlo0B"
+            }
+          ],
+          "inputs": [
+            {
+              "hash": "48e9f4d0aed194a186db536af282dc2dd5f949aaeb3589478a2bc58646edea6c",
+              "index": 0,
+              "value": 122401
+            }
+          ],
+          "buyerOutput": {
+            "address": "mxwXUyyJWbMEU24bUuunetZTC9z8bTiaeE",
+            "amount": 21715
+          },
+          "vendorOutput": {
+            "address": "mnAGNggWwfAAC67kz79LPDj2RkV7gQHcyZ",
+            "amount": 32572
+          },
+          "moderatorOutput": {
+            "address": "mtiC2B59RiCywdVV9X26u4zSFbZHyH59bk",
+            "amount": 54438
+          }
+        },
+        "moderatorRatingSigs": [
+          "MEQCIA+HTM4nc/NihYQUh4ottHCUhd1u/Uy6nnfAgnRgM332AiAGNuoT57Kzg3AF2uRfrmIfWM7BWTGbos2SnsqPFZeMzQ=="
+        ]
+      },
+      "signatures": [
+        {
+          "section": "LISTING",
+          "signatureBytes": "rCXLB0ww3A87+jCeHHHKe6DMFZa6gFl7XcxP8VbMedPBpGorcrDXzNGjATU4EGn5NDVcGfkwz+Xls/Fxhrv1CQ=="
+        },
+        {
+          "section": "ORDER",
+          "signatureBytes": "ilJsONd+g4jAfoS8MwrU3J9dqVaNwTra4s+glUPUNn6uVLrxwjg2xatmTXnK4NQqMgLEFUdEEVi/NC4lv1kADw=="
+        },
+        {
+          "section": "ORDER_CONFIRMATION",
+          "signatureBytes": "OhPYd8sjEZV0fkQGMNDc1jSAG6SzgAxNmktR9hsQlCmM2Lj1SQK5k4WxwWu9MOJ/rB+7WgXQa6c0zsZapOCrDQ=="
+        },
+        {
+          "section": "DISPUTE",
+          "signatureBytes": "dMOatI+7gKcLMdXWKi27hdfIL//93Tr9F/seSw7WLqUEIP5diNWedAO6yQjlFI4r9jtAi/RkVN0z/EvQa2FACQ=="
+        },
+        {
+          "section": "DISPUTE_RESOLUTION",
+          "signatureBytes": "P4IDBBjQ0HS62wLWrtLbavKWwBTO4CXwtV5bD2WqOm68Q5ar/ERPjcKz7PjMrVenw227syOUlU88vLcsgtCrAQ=="
+        }
+      ]
+    },
+    "state": "DECIDED",
+    "read": false,
+    "funded": true,
+    "unreadChatMessages": 0,
+    "paymentAddressTransactions": [
+      {
+        "txid": "48e9f4d0aed194a186db536af282dc2dd5f949aaeb3589478a2bc58646edea6c",
+        "value": 122401,
+        "confirmations": 0,
+        "height": 0,
+        "timestamp": "2019-10-09T06:31:41.250264900Z"
+      }
+    ]
+  }

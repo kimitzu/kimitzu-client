@@ -1,0 +1,169 @@
+{
+  "contract": {
+      "vendorListings": [
+          {
+              "slug": "sasha-grey-to-be-manipulated-to-debug-our-code-nsfw",
+              "vendorID": {
+                  "peerID": "sellerToRate",
+                  "handle": "Rave",
+                  "pubkeys": {
+                      "identity": "CAESIFzmk19LngvahGU23uQ+Rwfu8seNgWaEgoTamOrhxJI0",
+                      "bitcoin": "Avt3Lz63x7Mj+wF0t9jrfc+ju6h07bLG+84VDe2v3bVz"
+                  },
+                  "bitcoinSig": "MEUCIQD6XK7Q1kTd6ORQvCjuZK+KDa/DMPZOihUH6k4dfhsyiwIgLQJBDlxHSbuZ/M+8Yqr5OFTJiWHzyg2CeT3ZgBRcuxA="
+              },
+              "metadata": {
+                  "version": 4,
+                  "contractType": "SERVICE",
+                  "format": "FIXED_PRICE",
+                  "expiry": "2019-11-15T05:19:10.084Z",
+                  "acceptedCurrencies": [
+                      "TBTC",
+                      "TLTC",
+                      "TZEC",
+                      "TBCH"
+                  ],
+                  "pricingCurrency": "USD",
+                  "language": "",
+                  "escrowTimeoutHours": 1,
+                  "coinType": "",
+                  "coinDivisibility": 100000000,
+                  "priceModifier": 0,
+                  "serviceRateMethod": "FIXED",
+                  "serviceClassification": "1345-1: Academic, University: Head of Department or Faculty"
+              },
+              "item": {
+                  "title": "Sasha Grey To Be Manipulated To Debug our Code (NSFW)",
+                  "description": "",
+                  "processingTime": "1 day",
+                  "price": 500,
+                  "nsfw": false,
+                  "tags": [
+                      "debug",
+                      "sianlasagalikesthis"
+                  ],
+                  "images": [
+                      {
+                          "filename": "image.png",
+                          "original": "QmRQZRfzLzk3w1mZXLw2gFoh1nJ3E2XozrCbFN1sC5m2Ux",
+                          "large": "QmYELwwhP2XNN1ftM8NQzE5QfDSQQ1oEbTgZWVH2siiuyy",
+                          "medium": "QmcDuU4vkojEDfi1NbzCSMYpUCwneYzxU4oN57R9yN4x12",
+                          "small": "QmcqzKXWZBGsW1deKAL6XQi2ysjCTa9DS6H7QtaWHkiWhN",
+                          "tiny": "QmVQQhZyoHcs9S7nHoVuERtiWSwBGF7XpgtKZtV9RGFE5S"
+                      }
+                  ],
+                  "categories": [
+                      "1345-1"
+                  ],
+                  "grams": 0,
+                  "condition": "New",
+                  "skus": [
+                      {
+                          "productID": "",
+                          "surcharge": 0,
+                          "quantity": 0
+                      }
+                  ]
+              },
+              "termsAndConditions": "",
+              "refundPolicy": "",
+              "location": {
+                  "latitude": "",
+                  "longitude": "",
+                  "plusCode": "",
+                  "addressOne": "",
+                  "addressTwo": "",
+                  "city": "",
+                  "state": "",
+                  "country": "",
+                  "zipCode": ""
+              }
+          }
+      ],
+      "buyerOrder": {
+          "refundAddress": "mpVmmcsH6e9Bw4DjTJWkeBFgVcWDhuLbqM",
+          "refundFee": 0,
+          "shipping": {
+              "shipTo": "",
+              "address": "",
+              "city": "",
+              "state": "",
+              "postalCode": "",
+              "country": "NA",
+              "addressNotes": ""
+          },
+          "buyerID": {
+              "peerID": "buyerToBeRated",
+              "handle": "e.lprofessor",
+              "pubkeys": {
+                  "identity": "CAESILYXzKj7SxzrQVXFWYAJtFLQzBM+2PmwgfxS2fawQte7",
+                  "bitcoin": "AlwZBb6yt4qhrd5wBwMJEUFcGHeiXkJuLF873V2Eikx3"
+              },
+              "bitcoinSig": "MEUCIQCPX7Vms4XcRCLPgYRphlf1KwDLm4gwp+a4RQtiJsDSkAIgJOzzYe+K9hVsvhz1xJ2pp8bt3J0IgoOeO7Lbl9bitbY="
+          },
+          "timestamp": "2019-10-16T06:10:55.735432900Z",
+          "items": [
+              {
+                  "listingHash": "zb2rhejsJgG5SRCkMYw3dxhRUGPeon3njKk1vxdUM3yUzU1vE",
+                  "quantity": 0,
+                  "quantity64": 1,
+                  "shippingOption": {
+                      "name": "",
+                      "service": ""
+                  },
+                  "memo": "",
+                  "paymentAddress": ""
+              }
+          ],
+          "payment": {
+              "method": "ADDRESS_REQUEST",
+              "moderator": "",
+              "amount": 61112,
+              "chaincode": "",
+              "address": "",
+              "redeemScript": "",
+              "coin": "TBTC"
+          },
+          "ratingKeys": [
+              "A2Ko4rS6gSIdz1c+7HXcld3HEoKOhX49BZFwkvPaGmy0"
+          ],
+          "alternateContactInfo": "",
+          "version": 2
+      },
+      "vendorOrderConfirmation": {
+          "orderID": "purchasedListingToBeRated",
+          "timestamp": "2019-10-16T06:10:58.746761900Z",
+          "paymentAddress": "mq64EwJLjrv12CG761Ma4oTsY8nsmUGG9U",
+          "requestedAmount": 61112,
+          "ratingSignatures": [
+          ]
+      },
+      "signatures": [
+          {
+              "section": "LISTING",
+              "signatureBytes": "Pyce2vrFepA2ugYaE5d+YvE/iQ8RA8Rwclv4e/r+zz2piQsKcPvSNbqEJPEka7ThHVukM8xZQxM/iW3Z5W0LCg=="
+          },
+          {
+              "section": "ORDER",
+              "signatureBytes": "2vAfU3/uddi1LReHqeJU4dbde0kNHPygKhF+KQMx215LlK+L7GgSPaXp5ZHgK/6HbI6CmCTd63JkzBASblNAAQ=="
+          },
+          {
+              "section": "ORDER_CONFIRMATION",
+              "signatureBytes": "QNJrSPP9uj9IMsmAYUSndS2c3TPKYAcTPwlXVVy5ktmMFXnlotiLa1z6gUWiQW27pd7iohQKSLL3KrGX5TB8AQ=="
+          }
+      ]
+  },
+  "state": "AWAITING_FULFILLMENT",
+  "read": true,
+  "funded": true,
+  "unreadChatMessages": 0,
+  "paymentAddressTransactions": [
+      {
+          "txid": "46cb4c51b373c435795e618bc20b4b589486f0594a4460f176e562cb3221bf25",
+          "value": 61112,
+          "confirmations": 0,
+          "height": 0,
+          "timestamp": "2019-10-16T06:14:23.537723Z"
+      }
+  ]
+}

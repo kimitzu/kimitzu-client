@@ -13,7 +13,7 @@ const OrderSummaryItemSegment = ({ children, date, title }: Props) => (
       <h5 className="uk-text-bold">{title}</h5>
       {date ? (
         <h5 className="color-secondary uk-margin-left">
-          {moment(date).format('MMMM DD, YYYY h:mm:ss a')}
+          {moment(new Date(date).toISOString()).format('MMMM DD, YYYY h:mm:ss a')}
         </h5>
       ) : null}
     </div>

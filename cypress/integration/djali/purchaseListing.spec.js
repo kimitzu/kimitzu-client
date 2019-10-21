@@ -90,8 +90,16 @@ context('Purchase', () => {
 
     cy.get('#djali-btn').click()
 
+
+
     setTimeout(() => {
-      webSocketMock.sendMsg()
+      webSocketMock.sendMsg(`{"notification":{
+        "coinType":"TBTC",
+        "fundingTotal":4805,
+        "notificationId":"QmPjf7PKW6Bx58A7yWDsAuvpu6MrMKJWRAt19WPom7MzuP",
+        "orderId":"QmfBMEAAhmvTzktS31QAwPKj89kiyhSDJeUZBx1vyHLkfd",
+        "type":"payment"}
+      }`)
     }, 5000)
 
     cy.wait('@purchase').then(function(xhr) {

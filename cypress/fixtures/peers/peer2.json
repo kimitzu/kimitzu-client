@@ -1,0 +1,117 @@
+{
+  "peerID": "peerId2",
+  "profile": {
+    "about": "Test",
+    "avatarHashes": {
+      "large": "QmSxMXZUy4uquXmTX6foL9jCxSiyJVF3P2MgJji9FsBEX2",
+      "medium": "QmbUGGrrcaGrjwoLekVnm2EgmJyMa4duPJGVQZR2JVcjh7",
+      "original": "QmaFS6kMsxcs3hoeMCHcpJHKe6XNDuEdNUykaUnLaKJDd3",
+      "small": "QmXTW2o9K19JnFiv4kC2p3Xv6MnraDzGdnRfZEB1DC6syY",
+      "tiny": "Qme7AsTDSTXqbbnw76cH2nm24BSETApax1hbbfbLsTZXuy"
+    },
+    "background": {
+      "educationHistory": [],
+      "employmentHistory": []
+    },
+    "bitcoinPubkey": "026dbf2cd8a2ffb9b8942b01a4c7c62ec2c02ff9b4550749614b892f4ee56f0bac",
+    "contactInfo": {
+      "email": "test@djali.org",
+      "phoneNumber": "",
+      "social": [],
+      "website": ""
+    },
+    "currencies": [
+      "TBTC",
+      "TBCH",
+      "TZEC",
+      "TLTC"
+    ],
+    "customFields": [
+      {
+        "label": "Age",
+        "value": "23"
+      }
+    ],
+    "customProps": {
+      "competencies": "{&#34;programmerCompetency&#34;:[{&#34;category&#34;:&#34;Computer Science&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Data Structures&#34;,&#34;assessment&#34;:0},{&#34;item&#34;:&#34;Algorithms&#34;,&#34;assessment&#34;:1},{&#34;item&#34;:&#34;Systems Programming&#34;,&#34;assessment&#34;:2}]},{&#34;category&#34;:&#34;Software Engineering&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Source Code Version Control&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Build Automation&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Automated Testing&#34;,&#34;assessment&#34;:-1}]},{&#34;category&#34;:&#34;Programming&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Problem Decomposition&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Systems Decomposition&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Communication&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Code Organization Within A File&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Code Organization Across Files&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Source Tree Organization&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Code Readability&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Defensive Coding&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Error Handling&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;IDE&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;API&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Frameworks&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Requirements&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Scripting&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Database&#34;,&#34;assessment&#34;:-1}]},{&#34;category&#34;:&#34;Experience&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Languages With Professional Experience&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Platforms With Professional Experience&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Years Of Professional Experience&#34;,&#34;assessment&#34;:-1}]},{&#34;category&#34;:&#34;Knowledge&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Tool Knowledge&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Languages Exposed To&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Knowledge Of Upcoming Technologies&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Books&#34;,&#34;assessment&#34;:-1},{&#34;item&#34;:&#34;Blogs&#34;,&#34;assessment&#34;:-1}]}],&#34;actingCompetency&#34;:[{&#34;category&#34;:&#34;Production&#34;,&#34;subCategories&#34;:[{&#34;item&#34;:&#34;Synthesis&#34;,&#34;assessment&#34;:0},{&#34;item&#34;:&#34;Repertory&#34;,&#34;assessment&#34;:1},{&#34;item&#34;:&#34;Theoretical and Historical Studies&#34;,&#34;assessment&#34;:2},{&#34;item&#34;:&#34;Technology&#34;,&#34;assessment&#34;:3}]}]}",
+      "programmerCompetency": "{}",
+      "skills": "[]"
+    },
+    "extLocation": {
+      "addresses": [
+        {
+          "addressOne": "",
+          "addressTwo": "",
+          "city": "",
+          "country": "US",
+          "latitude": "",
+          "longitude": "",
+          "plusCode": "",
+          "state": "",
+          "zipCode": ""
+        }
+      ],
+      "billing": 0,
+      "primary": 0,
+      "return": 0,
+      "shipping": 0
+    },
+    "handle": "Hello",
+    "headerHashes": {
+      "large": "",
+      "medium": "",
+      "original": "",
+      "small": "",
+      "tiny": ""
+    },
+    "lastModified": "2019-10-09T08:20:21.881672119Z",
+    "location": "US, ",
+    "metaTags": {
+      "DjaliVersion": "0.0.1-dev"
+    },
+    "moderator": true,
+    "moderatorInfo": {
+      "acceptedCurrencies": [
+        "TBTC",
+        "TBCH",
+        "TZEC",
+        "TLTC"
+      ],
+      "description": "I am a moderator here, and as such, have been asked to investigate the recent accusations of wrongdoing by an associate of our own. We can be 100% confirmed that our associate was neither paid, nor involved in this case, nor did he have a relationship with the person being accused. The accuser in question has also denied any involvement and made his own allegations of wrongdoing in the past. ",
+      "fee": {
+        "feeType": "FIXED",
+        "fixedFee": {
+          "amount": 500,
+          "currencyCode": "USD"
+        },
+        "percentage": 0
+      },
+      "languages": [
+        "en-PH"
+      ],
+      "termsAndConditions": "My terms as a moderator are to prevent a person who is not well behaved from causing a problem by being rude or by being aggressive or by being unreasonable. If you have to ask why someone has been banned, I will give it to you. If they are well-behaved, I will let them in."
+    },
+    "name": "Moderator Worldsss",
+    "nsfw": false,
+    "peerID": "QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN",
+    "preferences": {
+      "cryptocurrency": "TBTC",
+      "currencyDisplay": "FIAT",
+      "fiat": "PHP",
+      "language": "en-US",
+      "measurementUnit": "ENGLISH"
+    },
+    "profileType": "djali",
+    "shortDescription": "Test...",
+    "stats": {
+      "averageRating": 5,
+      "followerCount": 0,
+      "followingCount": 1,
+      "listingCount": 30,
+      "postCount": 0,
+      "ratingCount": 1
+    },
+    "vendor": true
+  },
+  "lastPing": 1570684104
+}

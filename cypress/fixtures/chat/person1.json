@@ -1,0 +1,19 @@
+[{
+  "message": "last message on peer 1",
+  "messageId": "QmWNpvWhQyAbJJ38g87hb7LsEbvH7tJGcbxPsDub9k2H5r",
+  "outgoing": false,
+  "peerId": "peerId1",
+  "read": false,
+  "subject": "",
+  "timestamp": "2019-10-09T17:25:22.8465819+08:00"
+},
+{
+  "message": "1st message",
+  "messageId": "QmeDkmBUPTJvBy5v74ikcvBZZdhbV7Yz7gYQBdxvpqnsta",
+  "outgoing": true,
+  "peerId": "peerId1",
+  "read": false,
+  "subject": "",
+  "timestamp": "2019-10-09T17:25:07.9522061+08:00"
+}
+]

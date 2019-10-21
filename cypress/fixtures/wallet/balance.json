@@ -1,0 +1,23 @@
+{
+  "TBCH": {
+    "confirmed": 400000000,
+    "height": 1333477,
+    "unconfirmed": 400000000
+  },
+  "TBTC": {
+    "confirmed": 100000000,
+    "height": 1580928,
+    "unconfirmed": 100000000
+  },
+  "TLTC": {
+    "confirmed": 200000000,
+    "height": 1214796,
+    "unconfirmed": 200000000
+  },
+  "TZEC": {
+    "confirmed": 300000000,
+    "height": 636612,
+    "unconfirmed": 300000000
+  }
+}
+
