@@ -1,4 +1,5 @@
 import AddressForm from './AddressForm'
+import CrashReportingForm from './CrashReportingForm'
 import ListingCouponsForm from './ListingCouponsForm'
 import ListingCryptoCurrenciesForm from './ListingCryptoCurrenciesForm'
 import ListingGeneralForm from './ListingGeneralForm'
@@ -15,6 +16,7 @@ import TermsOfService from './TermsOfService'
 
 export {
   AddressForm,
+  CrashReportingForm,
   ListingCouponsForm,
   ListingCryptoCurrenciesForm,
   ListingGeneralForm,

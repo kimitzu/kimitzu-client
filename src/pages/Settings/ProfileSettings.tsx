@@ -7,6 +7,7 @@ import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
 import {
   AddressForm,
+  CrashReportingForm,
   ModeratorForm,
   ModeratorSelectionForm,
   RegistrationForm,
@@ -582,13 +583,22 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       label: 'Competencies',
     }
 
-    const blockedPeersComponent = {
-      component: (
-        <div className="uk-margin-bottom uk-width-1-1">
-          <BlockedPeersCard settings={this.state.settings} />
-        </div>
-      ),
-      label: 'Blocked Peers',
+    const otherSettings = [
+      {
+        component: (
+          <div className="uk-margin-bottom uk-width-1-1">
+            <BlockedPeersCard settings={this.state.settings} />
+          </div>
+        ),
+        label: 'Blocked Peers',
+      },
+    ]
+
+    if (isElectron()) {
+      otherSettings.push({
+        component: <CrashReportingForm />,
+        label: 'Crash Reporting',
+      })
     }
 
     return [
@@ -604,7 +614,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       [storeModeratorSelectionComponent],
       securityComponent,
       [skillsComponent, competenciesComponent],
-      [blockedPeersComponent],
+      otherSettings,
     ]
   }
 

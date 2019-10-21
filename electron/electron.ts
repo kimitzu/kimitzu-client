@@ -1,14 +1,43 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu, MenuItem, shell } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  crashReporter,
+  dialog,
+  ipcMain,
+  Menu,
+  MenuItem,
+  remote,
+  shell,
+} from 'electron'
 import * as isDev from 'electron-is-dev'
 import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
+import * as fs from 'fs'
 import * as path from 'path'
 
 import LocalServer from './LocalServer'
 
+interface UserPreferences {
+  enableCrashReporting: boolean
+  [key: string]: any
+}
+
+let mainWindow
 let obServer
 let djaliServices
 let hasCheckedForUpdatesOnLaunch = false
+let userPreferences: UserPreferences = { enableCrashReporting: false }
+const userPrefPath = path.join((app || remote.app).getPath('userData'), 'user-preferences.json')
+const crashReporterConfig = {
+  productName: 'Djali',
+  companyName: 'Djali Foundation',
+  submitURL: 'http://localhost:1127/crashreports', // TODO: Update to deployed URL
+  uploadToServer: userPreferences.enableCrashReporting,
+}
+
+const createUserPref = (data: UserPreferences) => {
+  fs.writeFileSync(userPrefPath, JSON.stringify(data))
+}
 
 autoUpdater.logger = log
 log.info(`Djali Client v.${app.getVersion()} is starting...`)
@@ -33,7 +62,22 @@ if (!isDev && !process.argv.includes('--noexternal')) {
   djaliServices.start()
 }
 
-let mainWindow
+if (!fs.existsSync(userPrefPath)) {
+  console.log(`creating user preferences...`)
+  try {
+    createUserPref(userPreferences)
+  } catch (error) {
+    console.log(`Error creating user-preferences.json: ${error}`)
+  }
+} else {
+  try {
+    userPreferences = JSON.parse(fs.readFileSync(userPrefPath, 'utf8'))
+  } catch (error) {
+    console.log(`Error while reading user-preferences.json: ${error}`)
+  }
+}
+
+crashReporter.start(crashReporterConfig)
 
 const createWindow = async () => {
   const helpSubmenu = {
@@ -66,6 +110,19 @@ const createWindow = async () => {
 
   ipcMain.on('contextmenu', () => {
     menu.popup()
+  })
+
+  ipcMain.on('requestCrashReporterConfig', () => {
+    mainWindow.send('crashReporterConfig', crashReporterConfig)
+  })
+
+  ipcMain.on('requestUserPreferences', () => {
+    mainWindow.send('userPreferences', userPreferences)
+  })
+
+  ipcMain.on('updateUserPreferences', (e, data: UserPreferences) => {
+    userPreferences = data
+    createUserPref(data)
   })
 
   await app.whenReady()
