@@ -15,6 +15,7 @@ import Listing from '../models/Listing'
 import Order from '../models/Order'
 import Profile from '../models/Profile'
 
+import ListingExpiredOrNotFound from '../components/Errors/ListingExpiredOrNotFound'
 import { CircleSpinner } from '../components/Spinner'
 import PaymentNotification, { Notification } from '../interfaces/PaymentNotification'
 import currency from '../models/Currency'
@@ -200,6 +201,10 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           </div>
         </div>
       )
+    }
+
+    if (listing.hasExpired) {
+      return <ListingExpiredOrNotFound />
     }
 
     let interactivePane
@@ -506,6 +511,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       })
       this.setState({
         isPending: false,
+        isRequestingMerchantAddress: false,
       })
       return
     }

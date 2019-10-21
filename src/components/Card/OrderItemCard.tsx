@@ -15,6 +15,11 @@ const OrderItemCard = ({ data }: OrderItemCardProps) => (
         src={data.thumbnail ? `${config.djaliHost}/djali/media?id=${data.thumbnail}` : ''}
         alt=""
         width="150"
+        onError={(ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
+          const image = ev.target as HTMLImageElement
+          image.onerror = null
+          image.src = `${config.host}/images/picture.png`
+        }}
       />
     </div>
     <div className="uk-margin-left">

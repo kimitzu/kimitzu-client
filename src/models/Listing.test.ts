@@ -2,6 +2,11 @@ import Listing from './Listing'
 
 test('Properly initialize initial object state', () => {
   const listing = new Listing()
+  const today = new Date()
+  const expirationDate = new Date(listing.metadata.expiry)
+  expect(today.getFullYear() + 1).toEqual(expirationDate.getFullYear())
+
+  // Mock the expiration date
   listing.metadata.expiry = '1996-02-29T16:00:00.000Z'
 
   expect(JSON.stringify(listing)).toEqual(

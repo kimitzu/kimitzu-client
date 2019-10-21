@@ -22,6 +22,7 @@ import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import decodeHtml from '../utils/Unescape'
 import './ListingInformation.css'
 
+import ListingExpiredOrNotFound from '../components/Errors/ListingExpiredOrNotFound'
 import { CircleSpinner } from '../components/Spinner'
 import OrderRatings from '../constants/OrderRatings.json'
 import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
@@ -85,6 +86,7 @@ class ListingProfile extends Component<Props, State> {
     }
     this.handleBuy = this.handleBuy.bind(this)
     this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
+    this.handleRenew = this.handleRenew.bind(this)
   }
 
   public async componentDidMount() {
@@ -141,6 +143,25 @@ class ListingProfile extends Component<Props, State> {
     return ''
   }
 
+  public async handleRenew() {
+    window.UIkit.modal
+      .confirm(`Renew the listing <b>${this.state.listing.item.title}</b> for <b>1 year</b>?`)
+      .then(
+        async () => {
+          await this.state.listing.renew()
+          this.setState({
+            listing: this.state.listing,
+          })
+          window.UIkit.modal.alert('Listing successfully renewed!').then(() => {
+            window.location.hash = '/'
+          })
+        },
+        () => {
+          // Cancelled, do nothing.
+        }
+      )
+  }
+
   public render() {
     const { listing, profile, imageData, quantity, ratingSummary } = this.state
     const { background } = profile
@@ -174,29 +195,37 @@ class ListingProfile extends Component<Props, State> {
     }
 
     if (this.state.hasFailed) {
-      return (
-        <div className="uk-flex uk-flex-row uk-flex-center">
-          <div className="uk-margin-top uk-text-center">
-            <img src={`${config.host}/images/warning.png`} height="100" width="100" />
-            <h1 className="uk-text-danger uk-margin-top">Unable to Retrieve Listing.</h1>
-            <p>
-              The listing you requested has either expired on the Djali network or does not exist.
-            </p>
-
-            <div className="uk-margin-top uk-text-left">
-              <p>Suggestions:</p>
-              <ul className="uk-margin-left">
-                <li>Browse other listings.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )
+      return <ListingExpiredOrNotFound />
     }
 
     return (
       <div id="container">
         <div className="uk-card uk-card-default uk-card-body card-head">
+          {listing.hasExpired && !listing.isOwner ? (
+            <div
+              className="uk-alert-danger uk-padding-small uk-text-center uk-margin-bottom"
+              uk-alert
+            >
+              This listing has expired, contact the vendor for more details.
+            </div>
+          ) : null}
+          {listing.hasExpired && listing.isOwner ? (
+            <div
+              className="uk-alert-danger uk-padding-small uk-text-center uk-margin-bottom"
+              uk-alert
+            >
+              This listing has expired.{' '}
+              <a
+                href="#"
+                onClick={async evt => {
+                  evt.preventDefault()
+                  this.handleRenew()
+                }}
+              >
+                Renew for one year.
+              </a>
+            </div>
+          ) : null}
           {listing.isOwner ? (
             <div className="uk-margin-bottom uk-align-right">
               <Button
@@ -311,6 +340,7 @@ class ListingProfile extends Component<Props, State> {
                     <Button
                       className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold"
                       onClick={this.handleBuy}
+                      disabled={listing.hasExpired}
                     >
                       <span uk-icon="icon: cart" /> CHECKOUT
                     </Button>

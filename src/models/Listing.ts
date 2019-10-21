@@ -151,13 +151,18 @@ class Listing implements ListingInterface {
   public refundPolicy: string = ''
 
   constructor(props?: Listing) {
-    const expirationDate = new Date()
-    expirationDate.setMonth(expirationDate.getMonth() + 1)
-    this.metadata.expiry = expirationDate.toISOString()
     if (props) {
       Object.assign(this, props)
+    } else {
+      const now = new Date()
+      now.setFullYear(now.getFullYear() + 1)
+      this.metadata.expiry = now.toISOString()
     }
     this.normalize()
+  }
+
+  public get hasExpired() {
+    return new Date(this.metadata.expiry) <= new Date()
   }
 
   public normalize() {
@@ -222,11 +227,15 @@ class Listing implements ListingInterface {
     await Profile.retrieve('', true)
   }
 
+  public async renew() {
+    const currentExpiration = new Date(this.metadata.expiry)
+    currentExpiration.setFullYear(currentExpiration.getFullYear() + 1)
+    this.metadata.expiry = currentExpiration.toISOString()
+    await this.update()
+  }
+
   public async update() {
     const denormalizedListingObject = this.denormalize()
-    const now = new Date()
-    now.setMonth(now.getMonth() + 3)
-    denormalizedListingObject.metadata.expiry = now.toISOString()
     await Axios.put(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
     await Profile.publish()
     await Profile.retrieve('', true)

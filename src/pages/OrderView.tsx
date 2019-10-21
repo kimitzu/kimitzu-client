@@ -684,7 +684,10 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             <OrderSummaryItemSegment title="Send Payment To">
               <PaymentQRCard
                 amount={order.contract.buyerOrder.payment.amount}
-                address={order.contract.vendorOrderConfirmation.paymentAddress}
+                address={
+                  order.contract.vendorOrderConfirmation.paymentAddress ||
+                  order.contract.buyerOrder.payment.address
+                }
                 cryptocurrency={order.contract.buyerOrder.payment.coin}
                 handleCopyToClipboard={field => {
                   console.log(field)
