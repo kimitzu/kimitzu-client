@@ -65,6 +65,7 @@ class Search implements State {
   }
   public plusCode: string = ''
   public query: string = ''
+  public responseStatus: number = 200
   public sort: string = 'x.item.title <= y.item.title'
   public isSearching: boolean = false
   public results: SearchResults = {
@@ -287,6 +288,7 @@ class Search implements State {
     const result = await Axios.post(`${config.djaliHost}/djali/search`, searchObject, {
       withCredentials: true,
     })
+    this.responseStatus = result.status
     this.paginate.totalPages = Math.ceil(result.data.count / this.paginate.limit)
 
     if (result.data.data) {

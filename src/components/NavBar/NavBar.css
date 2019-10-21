@@ -7,7 +7,6 @@
 }
 #search-bar {
   background-color: #fff;
-  /* color: var(--primar y); */
   font-size: 0.85rem;
 }
 #search-bar-form {
@@ -23,16 +22,9 @@
 #navbar-center-item {
   width: 52%;
 }
-#account {
-  text-align: right;
+.navbar-icon {
   color: #fff !important;
-  margin-right: 5%;
-  min-height: 0;
-  cursor: pointer;
 }
 #create-listing {
-  color: white;
-}
-.uk-navbar-item {
-  min-height: 60px;
+  color: #ffffff;
 }

@@ -128,7 +128,7 @@ class Home extends Component<HomeProps, HomeState> {
               <div className="uk-align-center">
                 <div data-uk-spinner="ratio: 3" />
               </div>
-            ) : !search.results.data ? (
+            ) : search.responseStatus === 204 ? (
               <div
                 className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
                 id="empty-results"
@@ -291,8 +291,7 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   private async handleDropdownSelect(itemValue, itemId) {
-    // TODO: Update filter and use item id
-    this.handleFilterChange('item.categories', itemValue)
+    this.state.search.query = itemValue
     await this.handleSearchSubmit()
   }
 }

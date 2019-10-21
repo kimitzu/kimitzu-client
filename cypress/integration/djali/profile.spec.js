@@ -92,8 +92,8 @@ context('Profile', () => {
   })
 
   it('should display expected values on Profile Tab', () => {
-    cy.get('#account > svg').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(7) > a').click()
+    cy.get('#account').click()
+    cy.get('#view-profile').click()
 
     cy.get('#title-about')
       .contains('About')
@@ -149,8 +149,8 @@ context('Profile', () => {
 
     cy.wait(200)
 
-    cy.get('#account > svg').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(7) > a').click()
+    cy.get('#account').click()
+    cy.get('#view-profile').click()
     cy.get(':nth-child(2) > #tab-label').click()
 
     cy.get('#QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn')
@@ -163,8 +163,8 @@ context('Profile', () => {
   })
 
   it('should display expected values on Store Tab', () => {
-    cy.get('#account > svg').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(7) > a').click()
+    cy.get('#account').click()
+    cy.get('#view-profile').click()
     cy.get(':nth-child(3) > #tab-label').click()
 
     cy.contains('Buyer Ratings')

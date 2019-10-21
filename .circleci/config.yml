@@ -16,6 +16,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+            - /root/.cache/Cypress
       - run:
           name: unit-tests
           command: npm run react-test

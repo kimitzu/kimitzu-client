@@ -74,7 +74,7 @@ context('Edit Profile', () => {
 
   it('should update General Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(9) > a').click()
+    cy.get('#settings').click()
 
     cy.wait(500)
 
@@ -120,7 +120,7 @@ context('Edit Profile', () => {
 
   it('should update Social Medial Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(9) > a').click()
+    cy.get('#settings').click()
 
     cy.wait(500)
 
@@ -163,7 +163,7 @@ context('Edit Profile', () => {
 
   it('should update Education Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(9) > a').click()
+    cy.get('#settings').click()
 
     cy.wait(500)
 
@@ -205,7 +205,7 @@ context('Edit Profile', () => {
 
   it('should update Work History Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(9) > a').click()
+    cy.get('#settings').click()
 
     cy.wait(500)
 
@@ -246,7 +246,7 @@ context('Edit Profile', () => {
 
   it('should update Address Profile Setting', () => {
     cy.get('#account').click()
-    cy.get('#navbar-right-item > .uk-padding-small > .uk-nav > :nth-child(9) > a').click()
+    cy.get('#settings').click()
 
     cy.wait(500)
 
