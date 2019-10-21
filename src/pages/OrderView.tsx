@@ -833,7 +833,11 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       this.setState({
         loadIndicator: LOAD_INDICATOR.FULFILL,
       })
-      await this.state.order.fulfill(this.state.orderFulfillRatings, this.state.note)
+      await this.state.order.fulfill(
+        this.state.orderFulfillRatings,
+        this.state.note,
+        this.state.review
+      )
       const order = await Order.retrieve(this.state.order.contract.vendorOrderConfirmation.orderID)
       this.setState({
         order,

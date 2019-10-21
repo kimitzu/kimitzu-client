@@ -92,6 +92,7 @@ context('Rate Buyer', () => {
 
       expect(request.orderId).to.equal('purchasedListingToBeRated')
       expect(request.note).to.equal('Sample Note')
+      expect(request.buyerRating.comment).to.equal('Sample Text Area Review')
     })
   })
 

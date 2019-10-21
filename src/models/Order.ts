@@ -405,7 +405,7 @@ class Order implements OrderInterface {
     }
   }
 
-  public async fulfill(ratings: RatingInput[], note?: string) {
+  public async fulfill(ratings: RatingInput[], note?: string, review?: string) {
     const parsedRatings = ratings.map(obj => {
       return {
         max: obj.starCount,
@@ -416,7 +416,7 @@ class Order implements OrderInterface {
     })
 
     const buyerRating = {
-      comment: note, // TODO: Change to review because note is a per-transaction note
+      comment: review,
       fields: parsedRatings,
     }
 
