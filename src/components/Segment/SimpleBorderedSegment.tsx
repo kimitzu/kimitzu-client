@@ -4,13 +4,14 @@ import './SimpleBorderedSegment.css'
 
 interface Props {
   children?: JSX.Element | JSX.Element[]
+  header?: JSX.Element | JSX.Element[]
   imageSrc?: string
   icon?: string
   title?: string
   sideButtons?: JSX.Element | JSX.Element[] | null
 }
 
-const SimpleBorderedSegment = ({ children, icon, imageSrc, sideButtons, title }: Props) => (
+const SimpleBorderedSegment = ({ children, header, icon, imageSrc, sideButtons, title }: Props) => (
   <div
     className="default-border uk-flex uk-flex-row uk-flex-top uk-width-1-1"
     id="simple-bordered-segment"
@@ -25,6 +26,7 @@ const SimpleBorderedSegment = ({ children, icon, imageSrc, sideButtons, title }:
         className={imageSrc || icon ? 'uk-margin-small-left uk-width-1-1' : 'uk-width-1-1'}
       >
         {title ? <h5 className="uk-text-bold">{title}</h5> : null}
+        {header}
         {children}
       </div>
       {sideButtons || null}

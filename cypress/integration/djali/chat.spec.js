@@ -66,6 +66,11 @@ context('Chat', () => {
       url: 'http://localhost:4002/ob/chat',
       response: {}
     }).as('sendChat')
+    cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
 
     cy.visit('http://localhost:3000/', {
       onBeforeLoad(win) {

@@ -232,6 +232,11 @@ a:hover {
   width: 100%;
 }
 
+#small-star-rating-wrapper > div.dv-star-rating {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
 .bold-nav {
   font-weight: bold;
 }

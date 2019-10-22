@@ -332,10 +332,14 @@ class Profile implements ProfileSchema {
   }
 
   public postSave() {
-    if (this.moderatorInfo.fee.fixedFee && this.moderatorInfo.fee.fixedFee.amount) {
-      this.moderatorInfo.fee.fixedFee.amount = this.moderatorInfo.fee.fixedFee.amount / 100
+    const { fixedFee } = this.moderatorInfo.fee
+    if (fixedFee && fixedFee.amount) {
+      fixedFee.amount = fixedFee.amount / 100
     }
-    this.customProps.competencies = JSON.parse(decodeHtml(this.customProps.competencies as string))
+    const { competencies } = this.customProps
+    if (competencies) {
+      this.customProps.competencies = JSON.parse(decodeHtml(competencies as string))
+    }
   }
 
   public async update() {

@@ -64,6 +64,11 @@ context('Register', () => {
       url: 'http://localhost:4002/ob/moderators?async=true',
       response: {},
     })
+    cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
 
     cy.visit('http://localhost:3000/', { failOnStatusCode: false })
   })

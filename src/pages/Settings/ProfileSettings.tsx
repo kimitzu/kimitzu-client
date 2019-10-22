@@ -75,6 +75,7 @@ interface NavItem extends SubNavItem {
 interface GeneralProfileProps {
   profileContext: {
     currentUser: Profile
+    settings: Settings
     updateCurrentUser: (profile: Profile) => void
   }
 }
@@ -167,7 +168,6 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   public async componentDidMount() {
     try {
       const profileData = this.props.profileContext.currentUser
-
       if (!profileData.customProps.programmerCompetency) {
         profileData.customProps.programmerCompetency = '{}'
       }
@@ -179,8 +179,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       const competency = JSON.parse(decodeHtml(profileData.customProps.programmerCompetency))
       const skills = JSON.parse(decodeHtml(profileData.customProps.skills))
       const isAuthenticationActivated = await Profile.isAuthenticationActivated()
-      const settings = await Settings.retrieve()
-
+      const settings = this.props.profileContext.settings
       const competencySelector = this.state.competencySelector.load(profileData.customProps
         .competencies as AssessmentSummary)
 

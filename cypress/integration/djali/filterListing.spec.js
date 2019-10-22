@@ -36,6 +36,11 @@ context('Filter', () => {
       url: 'http://localhost:4002/ob/chatconversations',
       response: [],
     })
+    cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
     cy.visit('http://localhost:3000/')
   })
 

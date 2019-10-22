@@ -1,5 +1,7 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
+import { Link } from 'react-router-dom'
+import StarRatingComponent from 'react-star-rating-component'
 
 import { Button } from '../components/Button'
 import { PaymentQRCard, SideMenuWithContentCard } from '../components/Card'
@@ -343,13 +345,19 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               date={new Date(order.contract.refund!.timestamp)}
             >
               <SimpleBorderedSegment
-                title={order.vendor ? order.vendor!.name : ''}
                 imageSrc={
                   order.vendor!.avatarHashes.original
                     ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
                     : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
+                <div className="uk-flex">
+                  <h5 className="uk-text-bold">
+                    <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                      {order.vendor ? order.vendor!.name : ''}
+                    </Link>
+                  </h5>
+                </div>
                 <p className="color-secondary">
                   Order Refunded. Transaction ID:
                   <br />
@@ -366,9 +374,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               date={new Date(order.contract.disputeAcceptance!.timestamp)}
             >
               <SimpleBorderedSegment
-                title={`${
-                  this.state.order.contract.disputeAcceptance!.closedByProfile.name
-                } accepted the dispute payout.`}
                 imageSrc={
                   order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
                     ? `${config.djaliHost}/djali/media?id=${
@@ -377,6 +382,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               />
+              <h5 className="uk-text-bold">
+                <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                  {`${this.state.order.contract.disputeAcceptance!.closedByProfile.name} `}
+                </Link>
+                accepted the dispute payout.
+              </h5>
             </OrderSummaryItemSegment>
           </div>
         ) : null}
@@ -510,16 +521,37 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               date={new Date(order.contract.buyerOrderCompletion.timestamp)}
             >
               <SimpleBorderedSegment
-                title={order.buyer ? order.buyer!.name : ''}
                 imageSrc={
                   order.buyer!.avatarHashes.original
                     ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
                     : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
-                <p className="color-secondary">
-                  {decodeHtml(order.contract.buyerOrderCompletion.ratings[0].ratingData.review)}
-                </p>
+                {
+                  <div className="uk flex">
+                    <div className="uk-flex uk-flex-row">
+                      <h5 className="uk-text-bold uk-flex-2">
+                        <Link to={`/profile/${order.contract.buyerOrder.buyerID.peerID}`}>
+                          {order.buyer ? order.buyer!.name : ''}
+                        </Link>
+                      </h5>
+                      <div id="small-star-rating-wrapper" className="uk-flex-1 uk-text-right">
+                        <StarRatingComponent
+                          starCount={5}
+                          value={order.contract.buyerOrderCompletion.ratings[0].ratingData.overall}
+                          name="orderRatings"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="color-secondary">
+                        {decodeHtml(
+                          order.contract.buyerOrderCompletion.ratings[0].ratingData.review
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                }
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
@@ -581,13 +613,19 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               date={new Date(order.contract.vendorOrderFulfillment[0].timestamp)}
             >
               <SimpleBorderedSegment
-                title={order.vendor ? order.vendor!.name : ''}
                 imageSrc={
                   order.vendor!.avatarHashes.medium
                     ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
                     : `${process.env.PUBLIC_URL}/images/user.svg`
                 }
               >
+                <div className="uk-flex">
+                  <h5 className="uk-text-bold">
+                    <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                      {order.vendor ? order.vendor!.name : ''}
+                    </Link>
+                  </h5>
+                </div>
                 <p className="color-secondary">
                   {decodeHtml(order.contract.vendorOrderFulfillment[0].note)}
                 </p>
@@ -609,7 +647,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 }
               >
                 <SimpleBorderedSegment
-                  title={order.vendor ? order.vendor!.name : ''}
                   imageSrc={
                     order.vendor!.avatarHashes.medium
                       ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
@@ -635,17 +672,26 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     ) : null
                   }
                 >
-                  {order.role === 'vendor' ? (
-                    <p className="color-secondary">
-                      You received the order from{' '}
-                      <a href={`${config.host}/#/profile/${order.buyer!.peerID}`}>
-                        {order.buyer!.name}
-                      </a>{' '}
-                      and can fulfill it whenever you're ready.
-                    </p>
-                  ) : (
-                    <p className="color-secondary">Your order is now being processed...</p>
-                  )}
+                  <div className="uk-flex">
+                    <h5 className="uk-text-bold">
+                      <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                        {order.vendor ? order.vendor!.name : ''}
+                      </Link>
+                    </h5>
+                  </div>
+                  <p className="color-secondary">
+                    {order.role === 'vendor' ? (
+                      <p className="color-secondary">
+                        You received the order from{' '}
+                        <a href={`${config.host}/#/profile/${order.buyer!.peerID}`}>
+                          {order.buyer!.name}
+                        </a>{' '}
+                        and can fulfill it whenever you're ready.
+                      </p>
+                    ) : (
+                      <p className="color-secondary">Your order is now being processed...</p>
+                    )}
+                  </p>
                 </SimpleBorderedSegment>
               </OrderSummaryItemSegment>
             </div>
@@ -654,26 +700,31 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                 title="Payment Details"
                 date={new Date(order.contract.buyerOrder.timestamp)}
               >
-                <SimpleBorderedSegment
-                  title={`${order.cryptoValue} to ${
-                    order.vendor
-                      ? order.vendor!.name || order.contract.vendorListings[0].vendorID.peerID
-                      : order.contract.vendorOrderConfirmation.paymentAddress
-                  }`}
-                  icon="check"
-                >
-                  {order.paymentAddressTransactions.map(paymentTx => {
-                    return (
-                      <p key={paymentTx.txid} className="color-secondary">
-                        {currency.humanizeCrypto(paymentTx.value)}{' '}
-                        {order.contract.buyerOrder.payment.coin} - {paymentTx.confirmations}{' '}
-                        confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
-                        {order.paymentAddressTransactions.length > 1
-                          ? 'Partial Payment'
-                          : 'Full Payment'}
-                      </p>
-                    )
-                  })}
+                <SimpleBorderedSegment icon="check">
+                  <div>
+                    <div className="uk-flex">
+                      <h5 className="uk-text-bold">
+                        {`${order.cryptoValue} to `}
+                        <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                          {order.vendor
+                            ? order.vendor!.name || order.contract.vendorListings[0].vendorID.peerID
+                            : order.contract.vendorOrderConfirmation.paymentAddress}
+                        </Link>
+                      </h5>
+                    </div>
+                    {order.paymentAddressTransactions.map(paymentTx => {
+                      return (
+                        <p key={paymentTx.txid} className="color-secondary">
+                          {currency.humanizeCrypto(paymentTx.value)}{' '}
+                          {order.contract.buyerOrder.payment.coin} - {paymentTx.confirmations}{' '}
+                          confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
+                          {order.paymentAddressTransactions.length > 1
+                            ? 'Partial Payment'
+                            : 'Full Payment'}
+                        </p>
+                      )
+                    })}
+                  </div>
                 </SimpleBorderedSegment>
               </OrderSummaryItemSegment>
             </div>

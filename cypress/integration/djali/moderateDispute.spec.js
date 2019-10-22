@@ -52,6 +52,11 @@ context('Filter', () => {
       response: []
     })
     cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
+    cy.route({
       method: 'POST',
       url: 'http://localhost:4002/ob/closedispute',
       response: {}

@@ -33,7 +33,7 @@ const renderReviews = (ratings?: Rating[], djaliRatings?: RatingSummary['djali']
       )
     })
   } else if (djaliRatings && djaliRatings.buyerRatings) {
-    return djaliRatings.buyerRatings.map((buyerRating: DjaliRatingItem) => {
+    return djaliRatings.buyerRatings.map((buyerRating: DjaliRatingItem, index: number) => {
       const { comment, fields, sourceId, reviewer, avatar, timestamp } = buyerRating
       if (!fields) {
         return null
@@ -44,7 +44,7 @@ const renderReviews = (ratings?: Rating[], djaliRatings?: RatingSummary['djali']
         }, 0) / fields.length
       return (
         <UserReviewSegment
-          key={timestamp}
+          key={`${timestamp}${index}`}
           imgSrc={avatar}
           reviewer={reviewer || 'User'}
           review={comment}

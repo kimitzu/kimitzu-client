@@ -57,6 +57,11 @@ context('Browse Listing', () => {
       url: 'http://localhost:8109/djali/listing?hash=QmewzcB7xj43mModCeUMUBC5Rx8uTKQQ2JzSDeVAghN1XK',
       response: 'fixture:listings/violin.json'
     })
+    cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
 
     cy.visit('http://localhost:3000/')
   })

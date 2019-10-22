@@ -32,9 +32,13 @@ const FollowersCardGroup = ({ peerIDs, isFollowingList }: Props) => {
     )
     const nextProfiles = await Promise.all(
       nextPeerIDs.map(async peerID => {
-        const profile = await Profile.retrieve(peerID)
-        const isFollowing = isFollowingList || (await Profile.isFollowing(peerID))
-        return Object.assign(profile, { isFollowing })
+        try {
+          const profile = await Profile.retrieve(peerID)
+          const isFollowing = isFollowingList || (await Profile.isFollowing(peerID))
+          return Object.assign(profile, { isFollowing })
+        } catch (error) {
+          return Object.assign(new Profile(), { isFollowing: false })
+        }
       })
     )
     setProfiles([...profiles, ...nextProfiles])
@@ -72,11 +76,16 @@ const FollowersCardGroup = ({ peerIDs, isFollowingList }: Props) => {
   return (
     <div>
       <div className="uk-grid-small" data-uk-grid>
-        {profiles.map((profile, index) => (
-          <div key={`${profile.peerID}${index}`}>
-            <FollowerCard profile={profile} handleFollowBtn={handleFollow} />
-          </div>
-        ))}
+        {profiles.map((profile, index) => {
+          if (!profile.peerID) {
+            return null
+          }
+          return (
+            <div key={`${profile.peerID}${index}`}>
+              <FollowerCard profile={profile} handleFollowBtn={handleFollow} />
+            </div>
+          )
+        })}
       </div>
       {isFetching ? <DottedSpinner /> : null}
     </div>

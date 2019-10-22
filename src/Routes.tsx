@@ -3,7 +3,6 @@ import { HashRouter, Route, Switch, withRouter } from 'react-router-dom'
 import { BreadCrumb } from './components/BreadCrumb'
 import { NavBar } from './components/NavBar'
 import CurrentUserContext from './contexts/CurrentUserContext'
-import ProfileModel from './models/Profile'
 import {
   Checkout,
   CreateListing,
@@ -29,7 +28,7 @@ interface RouteProps {
 
 const Routes = ({ history }: RouteProps) => (
   <CurrentUserContext.Consumer>
-    {({ currentUser, updateCurrentUser }) => (
+    {({ currentUser, settings, updateCurrentUser }) => (
       <HashRouter>
         <NavBar profile={currentUser} isSearchBarShow />
         {history.length > 1 ? <BreadCrumb history={history} /> : null}
@@ -39,12 +38,12 @@ const Routes = ({ history }: RouteProps) => (
           <Route
             path="/profile"
             exact
-            render={props => <Profile {...props} currentUser={currentUser} />}
+            render={props => <Profile {...props} profileContext={{ settings, currentUser }} />}
           />
           <Route
             path="/profile/:id"
             exact
-            render={props => <Profile {...props} currentUser={currentUser} />}
+            render={props => <Profile {...props} profileContext={{ settings, currentUser }} />}
           />
           <Route
             path="/listing/create"
@@ -56,7 +55,10 @@ const Routes = ({ history }: RouteProps) => (
             path="/settings"
             exact
             render={props => (
-              <ProfileSettings {...props} profileContext={{ currentUser, updateCurrentUser }} />
+              <ProfileSettings
+                {...props}
+                profileContext={{ currentUser, settings, updateCurrentUser }}
+              />
             )}
           />
           <Route

@@ -82,6 +82,11 @@ context('Wallet', () => {
       response: 8
     })
     cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
+    cy.route({
       method: 'POST',
       url: 'http://localhost:4002/wallet/spend',
       response: {}

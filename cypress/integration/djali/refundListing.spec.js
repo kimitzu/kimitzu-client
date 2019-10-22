@@ -49,6 +49,11 @@ context('Refund Listing', () => {
       response: [],
     })
     cy.route({
+      method: 'GET',
+      url: ' http://localhost:4002/ob/settings',
+      response: 'fixture:settings/primary.json',
+    })
+    cy.route({
       method: 'POST',
       url: 'http://localhost:4002/ob/refund',
       response: {},

@@ -9,6 +9,7 @@ import FloatingChat from './pages/Chat/FloatingChat'
 import Routes from './Routes'
 
 import Profile from './models/Profile'
+import Settings from './models/Settings'
 
 import config from './config'
 import CurrentUserContext from './contexts/CurrentUserContext'
@@ -64,6 +65,7 @@ interface State {
   [x: string]: any
   search: Search
   breadCrumb: BreadCrumb
+  settings: Settings
 }
 
 class App extends React.Component<{}, State> {
@@ -73,6 +75,7 @@ class App extends React.Component<{}, State> {
   constructor(props) {
     super(props)
     const profile = new Profile()
+    const settings = new Settings()
     this.state = {
       height: 680,
       isReady: false,
@@ -81,6 +84,7 @@ class App extends React.Component<{}, State> {
       isAuthenticated: true,
       secondTimer: 5,
       profile,
+      settings,
       search: searchInstance,
       breadCrumb: breadCrumbInstance,
     }
@@ -132,7 +136,14 @@ class App extends React.Component<{}, State> {
   }
 
   private renderContent() {
-    const { isAuthenticated, showSignup, isReady, isServerConnected } = this.state
+    const {
+      isAuthenticated,
+      showSignup,
+      isReady,
+      isServerConnected,
+      settings,
+      profile,
+    } = this.state
     if (!isReady) {
       return <FullPageSpinner message="Please wait..." />
     } else if (isReady && !isServerConnected) {
@@ -158,7 +169,8 @@ class App extends React.Component<{}, State> {
     return (
       <CurrentUserContext.Provider
         value={{
-          currentUser: this.state.profile,
+          settings,
+          currentUser: profile,
           updateCurrentUser: this.updateProfile,
         }}
       >
@@ -174,9 +186,11 @@ class App extends React.Component<{}, State> {
 
     try {
       const profile = await Profile.retrieve('', true)
+      const settings = await Settings.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
       this.setState({
         profile,
+        settings,
         isReady: true,
         isServerConnected: true,
         isAuthenticated: document.cookie !== '' || !authRequest.data.authentication,

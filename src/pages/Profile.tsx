@@ -38,7 +38,10 @@ interface RouteProps {
 }
 
 interface ProfilePageProps extends RouteComponentProps<RouteProps> {
-  currentUser: Profile
+  profileContext: {
+    currentUser: Profile
+    settings: Settings
+  }
 }
 
 class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
@@ -71,22 +74,22 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       loadingStatus: 'Retrieving Profile',
     })
 
-    let profile
+    let profile: Profile
+    const currentUser: Profile = this.props.profileContext.currentUser
 
     try {
       if (id) {
         profile = await Profile.retrieve(id, true)
       } else {
-        profile = this.props.currentUser
+        profile = currentUser
       }
     } catch (e) {
       this.setState({
         isError: true,
         isLoading: false,
       })
+      return
     }
-
-    const currentUser: Profile = this.props.currentUser
 
     this.setState({
       loadingStatus: 'Retrieving Followers',
@@ -97,7 +100,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     this.setState({
       loadingStatus: 'Retrieving Settings',
     })
-    const settings = await Settings.retrieve()
+    const settings = this.props.profileContext.settings
     const isBlocked = settings.blockedNodes.includes(id)
     const isOwner = !id || id === currentUser.peerID // Check if the supplied peerID is your own peerID
     const search = this.state.search
@@ -240,14 +243,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     if (!canSendRequest || isOwner) {
       return
     }
-    this.setState({ canSendRequest: false })
+    this.setState({ canSendRequest: false, isFollowing: !isFollowing })
     try {
       if (!isFollowing) {
         await Profile.follow(peerID)
       } else {
         await Profile.unfollow(peerID)
       }
-      this.setState({ isFollowing: !isFollowing, canSendRequest: true })
+      this.setState({ canSendRequest: true })
     } catch (error) {
       window.UIkit.notification(
         `${error.message}. Please try again later or make sure that the Djali server is running.`,
@@ -255,7 +258,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           status: 'danger',
         }
       )
-      this.setState({ canSendRequest: true })
+      this.setState({ canSendRequest: true, isFollowing: !isFollowing })
     }
   }
 
@@ -267,10 +270,17 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     }
     this.setState({ canSendRequest: false })
     try {
+      const { settings } = this.props.profileContext
+      const { blockedNodes } = settings
       if (!isBlocked) {
         await Settings.blockANode(peerID)
+        blockedNodes.push(peerID)
       } else {
         await Settings.unblockANode(peerID)
+        const index = blockedNodes.findIndex(nodeID => nodeID === peerID)
+        if (index !== -1) {
+          blockedNodes.splice(index, 1)
+        }
       }
       this.setState({ isBlocked: !isBlocked, canSendRequest: true })
     } catch (error) {
