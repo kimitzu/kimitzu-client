@@ -17,7 +17,7 @@ This will host the client on port `3000`.
 
 # Advanced
 
-For users who want to host their Djali instance remotely, see  [Advanced Installation Instructions](InstallationInstructions.md)
+For users who want to host their Djali instance remotely, see  [Installation Instructions](INSTALL.md)
 
 # Tests
 
