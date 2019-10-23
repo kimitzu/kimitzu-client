@@ -7,7 +7,7 @@ import { SideMenuWithContentCard } from '../../components/Card'
 import { AddressesCardGroup } from '../../components/CardGroup'
 import {
   AddressForm,
-  CrashReportingForm,
+  MiscSettingsForm,
   ModeratorForm,
   ModeratorSelectionForm,
   RegistrationForm,
@@ -595,8 +595,8 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
 
     if (isElectron()) {
       otherSettings.push({
-        component: <CrashReportingForm />,
-        label: 'Crash Reporting',
+        component: <MiscSettingsForm />,
+        label: 'Miscellaneous',
       })
     }
 

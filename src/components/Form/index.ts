@@ -1,10 +1,10 @@
 import AddressForm from './AddressForm'
-import CrashReportingForm from './CrashReportingForm'
 import ListingCouponsForm from './ListingCouponsForm'
 import ListingCryptoCurrenciesForm from './ListingCryptoCurrenciesForm'
 import ListingGeneralForm from './ListingGeneralForm'
 import ListingPhotosForm from './ListingPhotosForm'
 import ListingTermsAndConditionsForm from './ListingTermsAndConditionsForm'
+import MiscSettingsForm from './MiscSettingsForm'
 import ModeratorForm from './ModeratorForm'
 import ModeratorSelectionForm from './ModeratorSelectionForm'
 import RegistrationForm from './RegistrationForm'
@@ -16,12 +16,12 @@ import TermsOfService from './TermsOfService'
 
 export {
   AddressForm,
-  CrashReportingForm,
   ListingCouponsForm,
   ListingCryptoCurrenciesForm,
   ListingGeneralForm,
   ListingPhotosForm,
   ListingTermsAndConditionsForm,
+  MiscSettingsForm,
   ModeratorSelectionForm,
   RegistrationForm,
   ReviewForm,

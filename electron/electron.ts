@@ -19,6 +19,7 @@ import LocalServer from './LocalServer'
 
 interface UserPreferences {
   enableCrashReporting: boolean
+  autoInstallUpdate: boolean
   [key: string]: any
 }
 
@@ -26,7 +27,7 @@ let mainWindow
 let obServer
 let djaliServices
 let hasCheckedForUpdatesOnLaunch = false
-let userPreferences: UserPreferences = { enableCrashReporting: false }
+let userPreferences: UserPreferences = { enableCrashReporting: false, autoInstallUpdate: false }
 const userPrefPath = path.join((app || remote.app).getPath('userData'), 'user-preferences.json')
 const crashReporterConfig = {
   productName: 'Djali',
@@ -62,22 +63,36 @@ if (!isDev && !process.argv.includes('--noexternal')) {
   djaliServices.start()
 }
 
-if (!fs.existsSync(userPrefPath)) {
-  console.log(`creating user preferences...`)
-  try {
-    createUserPref(userPreferences)
-  } catch (error) {
-    console.log(`Error creating user-preferences.json: ${error}`)
-  }
-} else {
-  try {
-    userPreferences = JSON.parse(fs.readFileSync(userPrefPath, 'utf8'))
-  } catch (error) {
-    console.log(`Error while reading user-preferences.json: ${error}`)
-  }
+try {
+  userPreferences = JSON.parse(fs.readFileSync(userPrefPath, 'utf8'))
+} catch (error) {
+  console.log(`Error while reading user-preferences.json: ${error}`)
 }
 
+autoUpdater.autoDownload = userPreferences.autoInstallUpdate
+
 crashReporter.start(crashReporterConfig)
+
+const askCrashReportingPermission = async (window: BrowserWindow) => {
+  if (!fs.existsSync(userPrefPath)) {
+    const reportingDialog = await dialog.showMessageBox(window, {
+      type: 'info',
+      title: 'Crash Reporting',
+      message:
+        'Do you want to send the crash reports to the developers? Information about the crash will be sent to the server such as CPU architecture, operation system, thread contexts, etc.',
+      buttons: ['Yes', 'No'],
+    })
+    if (reportingDialog.response === 0) {
+      userPreferences.enableCrashReporting = true
+      crashReporter.setUploadToServer(true)
+    }
+    try {
+      createUserPref(userPreferences)
+    } catch (error) {
+      console.log(`Error creating user-preferences.json: ${error}`)
+    }
+  }
+}
 
 const createWindow = async () => {
   const helpSubmenu = {
@@ -148,12 +163,16 @@ const createWindow = async () => {
   } else {
     mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   }
+  askCrashReportingPermission(mainWindow)
   mainWindow.on('closed', () => (mainWindow = null))
 }
 
-app.on('ready', () => {
+app.on('ready', async () => {
   autoUpdater.checkForUpdatesAndNotify()
   createWindow()
+  setTimeout(() => {
+    autoUpdater.checkForUpdatesAndNotify() // Check for updates every 24 hours if the app continues to run
+  }, 1000 * 60 * 60 * 24)
 })
 
 app.on('window-all-closed', () => {
@@ -178,6 +197,9 @@ autoUpdater.on('error', error => {
 })
 
 autoUpdater.on('update-available', async info => {
+  if (userPreferences.autoInstallUpdate) {
+    return
+  }
   const updateDialog = await dialog.showMessageBox(mainWindow, {
     type: 'info',
     title: 'New Update',
@@ -215,7 +237,7 @@ autoUpdater.on('download-progress', progressObj => {
 autoUpdater.on('update-downloaded', async () => {
   const updatesDialog = await dialog.showMessageBox(mainWindow, {
     title: 'Install Updates',
-    message: 'Updates downloaded, application will be quit for update...',
+    message: 'Updates were downloaded, the application will quit to install the update...',
   })
   if (updatesDialog) {
     setImmediate(() => autoUpdater.quitAndInstall())

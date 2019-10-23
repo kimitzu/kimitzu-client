@@ -5,12 +5,14 @@ import { Button } from '../Button'
 
 interface UserPreferences {
   enableCrashReporting: boolean
+  autoInstallUpdate: boolean
   [key: string]: any
 }
 
-const CrashReportingForm = () => {
+const MiscSettingsForm = () => {
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
     enableCrashReporting: false,
+    autoInstallUpdate: false,
   })
   const [hasChanges, setHasChanges] = useState<boolean>(false)
   useEffect(() => {
@@ -30,16 +32,25 @@ const CrashReportingForm = () => {
   }
   const electron = window.require('electron')
   const { ipcRenderer } = electron
-  const handleChange = () => {
+  const handleChange = (fieldName: string, value: any) => {
     setHasChanges(true)
     setUserPreferences(prevState => {
-      prevState.enableCrashReporting = !prevState.enableCrashReporting
+      prevState[fieldName] = value
       return { ...prevState }
     })
   }
   const handleSave = () => {
-    ipcRenderer.send('updateUserPreferences', userPreferences)
+    try {
+      ipcRenderer.send('updateUserPreferences', userPreferences)
+      setHasChanges(false)
+      window.UIkit.notification('Settings successfully updated', { status: 'success' })
+    } catch (error) {
+      window.UIkit.notification('Something went wrong. Please try again later', {
+        status: 'danger',
+      })
+    }
   }
+  const { autoInstallUpdate, enableCrashReporting } = userPreferences
   return (
     <div className="uk-form uk-margin uk-width-1-1">
       <div className="uk-flex uk-flex-column">
@@ -47,12 +58,26 @@ const CrashReportingForm = () => {
           <input
             className="uk-checkbox"
             type="checkbox"
-            checked={userPreferences.enableCrashReporting}
-            onChange={handleChange}
+            checked={enableCrashReporting}
+            onChange={() => handleChange('enableCrashReporting', !enableCrashReporting)}
           />{' '}
           Enable Crash Reporting
         </label>
         <label className="form-label-desciptor">Send crash reports to the developers</label>
+      </div>
+      <div className="uk-flex uk-flex-column uk-margin-top">
+        <label>
+          <input
+            className="uk-checkbox"
+            type="checkbox"
+            checked={autoInstallUpdate}
+            onChange={() => handleChange('autoInstallUpdate', !autoInstallUpdate)}
+          />{' '}
+          Auto install updates
+        </label>
+        <label className="form-label-desciptor">
+          Updates will be downloaded and installed automatically
+        </label>
       </div>
       <div className="uk-margin-top">
         <Button
@@ -67,4 +92,4 @@ const CrashReportingForm = () => {
   )
 }
 
-export default CrashReportingForm
+export default MiscSettingsForm
