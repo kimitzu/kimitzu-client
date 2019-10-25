@@ -1,5 +1,11 @@
 import classNames from 'classnames'
-import React, { InputHTMLAttributes, SelectHTMLAttributes, useEffect, useState } from 'react'
+import React, {
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import './AutoCompleteSelect.css'
 
@@ -16,8 +22,8 @@ interface Option {
   value: string
 }
 
-let searchResults: Option[] = []
 let selectOptions: Option[] = []
+let debounce = 0
 
 const AutoCompleteSelect = ({
   defaultSelectorVal,
@@ -26,20 +32,49 @@ const AutoCompleteSelect = ({
   selectProps,
   onChange,
 }: Props) => {
-  const [inputValue, setInputValue] = useState('')
   const [code, setCode] = useState('')
-  const [show, setShow] = useState(false)
   const [focused, setFocused] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const [resultLimit, setResultLimit] = useState(20)
+  const [searchID, setSearchID] = useState(Math.random().toString())
+  const [searchMaxResultCount, setSearchMaxResultCount] = useState(0)
+  const [searchResults, setSearchResults] = useState([] as Option[])
+  const [show, setShow] = useState(false)
+  const resultRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>
+
+  /**
+   * Trigger controls for `useEffect(() => {}, [inputValue])`
+   * so that it only executes the search when ready.
+   */
+  const [didMount, setDidMount] = useState(false)
 
   useEffect(() => {
     selectOptions = options
     if (!defaultSelectorVal) {
       setResults(selectOptions)
+      setSearchMaxResultCount(selectOptions.length)
     } else {
       const filterOption = selectOptions.find(s => s.value === defaultSelectorVal) as Option
       setInputValue(filterOption.label || defaultSelectorVal)
     }
+    setDidMount(true)
   }, [])
+
+  /**
+   * Execute search when `inputValue` changes.
+   */
+  useEffect(() => {
+    if (!didMount) {
+      return
+    }
+
+    window.clearTimeout(debounce)
+    const debounceMethod = window.setTimeout(() => {
+      setResultLimit(20)
+      executeSearch(true)
+    }, 250)
+    debounce = debounceMethod
+  }, [inputValue])
 
   /**
    * Limit the search results as lagging will occur on 1000+ entries
@@ -47,25 +82,30 @@ const AutoCompleteSelect = ({
    * @param searchResultsFull - Options[]
    */
   function setResults(searchResultsFull: Option[]) {
-    const clone = JSON.parse(JSON.stringify(searchResultsFull))
-    clone.splice(20, searchResultsFull.length - 10)
-    searchResults = clone
+    const clone = [...searchResultsFull] as Option[]
+    clone.splice(resultLimit, searchResultsFull.length - resultLimit)
+    setSearchResults(clone)
+  }
+
+  function executeSearch(newSearch: boolean) {
+    const query = inputValue.toLowerCase()
+    const len = query.length
+    const res = selectOptions.filter(o => {
+      return (
+        new RegExp('\\b' + query + '.*', 'ig').test(o.label) ||
+        o.value.substring(0, len) === Number(query).toString()
+      )
+    })
+    setSearchMaxResultCount(res.length)
+    setResults(res)
+    setShow(true)
+    if (newSearch) {
+      setSearchID(Math.random().toString())
+    }
   }
 
   function inputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value)
-    const query = e.target.value.toLowerCase()
-    const len = query.length
-    const res = selectOptions.filter(
-      o =>
-        o.label.toLowerCase().substring(0, len) === query ||
-        o.value.substring(0, len) === Number(query).toString() ||
-        o.label.toLowerCase().includes(query)
-    )
-
-    setResults(res)
-
-    setShow(true)
   }
 
   const dropdownClass = classNames({
@@ -77,6 +117,8 @@ const AutoCompleteSelect = ({
     if (show) {
       setShow(false)
     } else {
+      setSearchID(Math.random().toString())
+      setDidMount(true)
       setShow(true)
     }
   }
@@ -98,10 +140,24 @@ const AutoCompleteSelect = ({
       }
     }
     setShow(false)
+    setDidMount(false)
   }
 
   function dropdownFocused(e) {
     setFocused(true)
+  }
+
+  function executeInfiniteScroll() {
+    const MAX_SCROLL_HEIGHT = resultRef.current.scrollHeight - resultRef.current.clientHeight
+    const MAX_SCROLL_HEIGHT_EXECUTE_EXTENSION = MAX_SCROLL_HEIGHT * 0.8
+
+    if (
+      resultRef.current.scrollTop >= MAX_SCROLL_HEIGHT_EXECUTE_EXTENSION &&
+      resultLimit <= searchMaxResultCount + 10
+    ) {
+      setResultLimit(resultLimit + 10)
+      executeSearch(false)
+    }
   }
 
   return (
@@ -117,7 +173,14 @@ const AutoCompleteSelect = ({
         autoComplete="off"
       />
       <a id="arrow" data-uk-icon="icon: triangle-down" onClick={toggleDropdown} />
-      <div id="option-container" className={dropdownClass} tabIndex={1}>
+      <div
+        id="option-container"
+        className={dropdownClass}
+        tabIndex={1}
+        key={searchID}
+        ref={resultRef}
+        onScroll={executeInfiniteScroll}
+      >
         <ul id="uloptions">
           {searchResults.map(op => (
             <li id={op.value} key={op.value} onClick={selectValue} onFocus={dropdownFocused}>
