@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ModeratorCard } from '../Card'
 import { DottedSpinner } from '../Spinner'
@@ -22,6 +22,8 @@ interface Props {
   isListing?: boolean
 }
 
+let timeoutFunction
+
 const ModeratorSelectionForm = ({
   availableModerators,
   handleBtnClick,
@@ -36,6 +38,20 @@ const ModeratorSelectionForm = ({
   isListing,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
+  const [delayedComponent, setDelayedComponent] = useState(<></>)
+
+  if (!timeoutFunction) {
+    timeoutFunction = setTimeout(() => {
+      setDelayedComponent(
+        <>
+          <hr />
+          <p>It is taking a while to crawl the network for available moderators.</p>
+          <p>Please wait a little longer or come back later.</p>
+        </>
+      )
+    }, 10000)
+  }
+
   return (
     <div className="uk-width-1-1">
       <div className="uk-inline uk-width-1-1">
@@ -70,6 +86,7 @@ const ModeratorSelectionForm = ({
           <div className="uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-height-1-1">
             <DottedSpinner>
               <p>Searching the network for moderators...</p>
+              {delayedComponent}
             </DottedSpinner>
           </div>
         ) : availableModerators.length === 0 ? (
@@ -91,7 +108,7 @@ const ModeratorSelectionForm = ({
                       className="uk-button uk-button-primary"
                       onClick={() => handleBtnClick(moderator, index, 'add')}
                     >
-                      +
+                      <span uk-icon="icon: plus" />
                     </Button>
 
                     <a
@@ -121,7 +138,7 @@ const ModeratorSelectionForm = ({
                   className="uk-button uk-button-primary moderator-card-btn"
                   onClick={() => handleBtnClick(moderator, index, 'remove')}
                 >
-                  {`\xD7`}
+                  <span uk-icon="icon: close" />
                 </Button>
 
                 <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>

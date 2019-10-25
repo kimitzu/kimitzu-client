@@ -66,6 +66,7 @@ const AddressForm = ({
 
   const [location, setLocation] = useState(baseLocationObject)
   const [isLoading, setIsLoading] = useState(false)
+  const [isOpenLocationCodeValid, setIsOpenLocationCodeValid] = useState(false)
 
   useEffect(() => {
     if (data) {
@@ -151,19 +152,27 @@ const AddressForm = ({
             />
             <input
               id="plus-code"
-              className="uk-input"
+              className={`uk-input ${
+                isOpenLocationCodeValid ? 'uk-form-success' : 'uk-form-danger'
+              }`}
               value={location.plusCode}
               type="text"
               onChange={event => {
                 const plusCode = event.target.value
                 location.plusCode = plusCode
                 if (OpenLocationCode.isValid(plusCode)) {
-                  const decodedLocation = OpenLocationCode.decode(plusCode)
-                  location.latitude = decodedLocation.latitudeCenter.toString()
-                  location.longitude = decodedLocation.longitudeCenter.toString()
+                  try {
+                    const decodedLocation = OpenLocationCode.decode(plusCode)
+                    location.latitude = decodedLocation.latitudeCenter.toString()
+                    location.longitude = decodedLocation.longitudeCenter.toString()
+                    setIsOpenLocationCodeValid(true)
+                  } catch (e) {
+                    setIsOpenLocationCodeValid(false)
+                  }
                 } else {
                   location.latitude = ''
                   location.longitude = ''
+                  setIsOpenLocationCodeValid(false)
                 }
                 setLocation({ ...location })
               }}
