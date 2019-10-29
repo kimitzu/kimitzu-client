@@ -39,6 +39,7 @@ import {
   competencySelectorInstance,
   CompetencySelectorModel,
 } from '../../models/CompetencySelector'
+import { ModeratorManager, moderatorManagerInstance } from '../../models/ModeratorManager'
 import Profile from '../../models/Profile'
 import Settings from '../../models/Settings'
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
@@ -93,9 +94,7 @@ interface GeneralProfileState {
   currentAction: number
   isAuthenticationActivated: boolean
   skills: string[]
-  availableModerators: Profile[]
-  selectedModerators: Profile[]
-  originalModerators: Profile[]
+  moderatorManager: ModeratorManager
   selectedModerator: Profile
   hasFetchedAModerator: boolean
   settings: Settings
@@ -108,13 +107,15 @@ interface GeneralProfileState {
 }
 
 class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState> {
+  private debounce = 0
+
   constructor(props: GeneralProfileProps) {
     super(props)
     const profile = props.profileContext.currentUser
     const settings = new Settings()
     this.state = {
       addressFormUpdateIndex: -1,
-      availableModerators: [],
+      moderatorManager: moderatorManagerInstance,
       avatar: '',
       competencySelector: competencySelectorInstance,
       currentAction: subContentActions.NONE,
@@ -127,13 +128,11 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       isAuthenticationActivated: false,
       isLoading: true,
       isSubmitting: false,
-      originalModerators: [],
       profile,
       seachResultComp: [],
       searhCompQuery: '',
       selectedCompetency: [],
       selectedModerator: new Profile(),
-      selectedModerators: [],
       settings,
       showTest: false,
       skills: [],
@@ -148,7 +147,6 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     this.handleDeactivateAuthentication = this.handleDeactivateAuthentication.bind(this)
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
-    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
     this.handleProfileSave = this.handleProfileSave.bind(this)
     this.handleRoundSelector = this.handleRoundSelector.bind(this)
     this.handleSelectAddress = this.handleSelectAddress.bind(this)
@@ -158,6 +156,8 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     this.handleSelectParentItem = this.handleSelectParentItem.bind(this)
     this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
     this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
+    this.handleModeratorSelect = this.handleModeratorSelect.bind(this)
+    this.handleModeratorRemove = this.handleModeratorRemove.bind(this)
     this.mapSubcontents = this.mapSubcontents.bind(this)
     this.searchCompetency = this.searchCompetency.bind(this)
     this.selectCompetencyDropdown = this.selectCompetencyDropdown.bind(this)
@@ -191,16 +191,6 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
         isAuthenticationActivated,
         settings,
       })
-
-      setTimeout(async () => {
-        const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
-          Profile.retrieve(moderator)
-        )
-        const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
-        this.setState({
-          selectedModerators: moderatorProfiles,
-        })
-      })
     } catch (error) {
       if (error.response) {
         if (!error.response.data.success) {
@@ -209,33 +199,12 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       }
     }
 
-    const moderatorListResponse = { data: webSocketResponsesInstance.moderatorIDs }
-
-    if (moderatorListResponse.data) {
-      moderatorListResponse.data.forEach(async (moderatorId, index) => {
-        let moderator: Profile
-        try {
-          moderator = await Profile.retrieve(moderatorId)
-
-          if (moderator.peerID === this.props.profileContext.currentUser.peerID) {
-            return
-          }
-        } catch (e) {
-          return
-        }
-        const { availableModerators, originalModerators } = this.state
-        this.setState({
-          availableModerators: [...availableModerators, moderator],
-          originalModerators: [...originalModerators, moderator],
-        })
-        if (index === 0) {
-          this.setState({ hasFetchedAModerator: true })
-        }
-      })
-    }
+    moderatorManagerInstance.selectedModerators = [...moderatorManagerInstance.favoriteModerators]
 
     this.setState({
       isLoading: false,
+      hasFetchedAModerator: true,
+      moderatorManager: moderatorManagerInstance,
     })
   }
 
@@ -485,9 +454,9 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     const storeModeratorSelectionComponent = {
       component: (
         <ModeratorSelectionForm
-          availableModerators={this.state.availableModerators}
-          selectedModerators={this.state.selectedModerators}
-          handleBtnClick={this.handleModeratorSelection}
+          moderatorManager={this.state.moderatorManager}
+          handleSelectModerator={this.handleModeratorSelect}
+          handleRemoveModerator={this.handleModeratorRemove}
           handleSubmit={this.handleSubmitModeratorSelection}
           handleModeratorSearch={this.handleModeratorSearch}
           handleMoreInfo={this.handleShowModeratorModal}
@@ -916,27 +885,42 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     })
   }
 
-  private handleModeratorSelection(moderator: Profile, index: number, type) {
-    const { availableModerators, selectedModerators } = this.state
-    if (type === 'add') {
-      availableModerators.splice(index, 1)
-      selectedModerators.push(moderator)
-    } else if (type === 'remove') {
-      selectedModerators.splice(index, 1)
-      availableModerators.push(moderator)
-    }
-    this.setState({ availableModerators, selectedModerators })
+  private handleModeratorRemove(moderator: Profile, index: number) {
+    moderatorManagerInstance.removeModeratorFromSelection(moderator, index)
+    this.setState({
+      moderatorManager: moderatorManagerInstance,
+    })
+  }
+
+  private handleModeratorSelect(moderator: Profile, moderatorSource: string, index: number) {
+    moderatorManagerInstance.selectModerator(moderator, moderatorSource, index)
+    this.setState({
+      moderatorManager: moderatorManagerInstance,
+    })
   }
 
   private async handleSubmitModeratorSelection() {
-    this.state.settings.storeModerators = this.state.selectedModerators.map(
+    this.state.settings.storeModerators = this.state.moderatorManager.selectedModerators.map(
       moderator => moderator.peerID
     )
     try {
-      await this.state.settings.save()
+      await this.state.settings.update({
+        storeModerators: this.state.settings.storeModerators,
+      })
       window.UIkit.notification('Moderators saved', { status: 'success' })
     } catch (e) {
-      window.UIkit.notification(e.message, { status: 'danger' })
+      /**
+       * Removing last 2 characters due to
+       * weird server error response with extra '{}' at the end, as in:
+       * {reason: '...'}{}
+       */
+      const errorResponse = JSON.parse(e.response.data.slice(0, -2))
+      if (errorResponse.reason === 'listing expiration must be in the future') {
+        window.UIkit.notification('Moderators saved.', { status: 'success' })
+        window.UIkit.notification('Warning: You have expired listings', { status: 'warning' })
+      } else {
+        window.UIkit.notification(e.message, { status: 'danger' })
+      }
     }
   }
 
@@ -949,36 +933,13 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   private async handleModeratorSearch(searchStr: string) {
-    if (!searchStr) {
+    window.clearTimeout(this.debounce)
+    this.debounce = window.setTimeout(async () => {
+      moderatorManagerInstance.find(searchStr)
       this.setState({
-        availableModerators: this.state.originalModerators,
+        moderatorManager: moderatorManagerInstance,
       })
-      return
-    }
-
-    if (this.state.availableModerators.length > 0) {
-      const filteredMods = this.state.availableModerators.filter(mod => {
-        return mod.peerID.includes(searchStr)
-      })
-      this.setState({
-        availableModerators: filteredMods,
-      })
-      return
-    }
-
-    if (searchStr.length < 46) {
-      return
-    }
-
-    const retrievedProfile = await Profile.retrieve(searchStr, true)
-    const isAlreadySelected = this.state.selectedModerators.some(
-      moderator => moderator.peerID === retrievedProfile.peerID
-    )
-    if (retrievedProfile.moderator && !isAlreadySelected) {
-      this.setState({
-        availableModerators: [retrievedProfile],
-      })
-    }
+    }, 500)
   }
 
   private async handleProfileUpdate() {

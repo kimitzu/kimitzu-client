@@ -5,14 +5,15 @@ import { DottedSpinner } from '../Spinner'
 
 import Profile from '../../models/Profile'
 
+import { ModeratorManager } from '../../models/ModeratorManager'
 import { Button } from '../Button'
 import './ModeratorSelectionForm.css'
 
 interface Props {
-  selectedModerators: Profile[]
-  availableModerators: Profile[]
+  moderatorManager: ModeratorManager
   handleModeratorSearch: (value: string) => void
-  handleBtnClick: (profile: Profile, index: number, type: string) => void
+  handleSelectModerator: (moderator: Profile, moderatorSource: string, index: number) => void
+  handleRemoveModerator: (moderator: Profile, index: number) => void
   handleMoreInfo: (profile: Profile) => void
   handleSubmit: () => void
   showSpinner?: boolean
@@ -25,17 +26,17 @@ interface Props {
 let timeoutFunction
 
 const ModeratorSelectionForm = ({
-  availableModerators,
-  handleBtnClick,
+  handleSelectModerator,
+  handleRemoveModerator,
   handleModeratorSearch,
   handleMoreInfo,
   handleSubmit,
-  selectedModerators,
   showSpinner,
   submitLabel,
   handleFullSubmit,
   isNew,
   isListing,
+  moderatorManager,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   const [delayedComponent, setDelayedComponent] = useState(<></>)
@@ -52,6 +53,36 @@ const ModeratorSelectionForm = ({
     }, 10000)
   }
 
+  const generateModeratorCard = (moderatorSource, moderator, index) => {
+    return (
+      <li
+        id={`${moderatorSource}-${moderator.peerID}`}
+        key={moderator.peerID}
+        className="uk-margin-remove"
+      >
+        <ModeratorCard profile={moderator}>
+          <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
+            <Button
+              id={`${moderatorSource}-add-${moderator.peerID}`}
+              className="uk-button uk-button-primary"
+              onClick={() => handleSelectModerator(moderator, moderatorSource, index)}
+            >
+              <span uk-icon="icon: plus" />
+            </Button>
+
+            <a
+              id={`${moderatorSource}-info-${moderator.peerID}`}
+              className="moderator-card-more-link"
+              onClick={() => handleMoreInfo(moderator)}
+            >
+              More...
+            </a>
+          </div>
+        </ModeratorCard>
+      </li>
+    )
+  }
+
   return (
     <div className="uk-width-1-1">
       <div className="uk-inline uk-width-1-1">
@@ -65,7 +96,7 @@ const ModeratorSelectionForm = ({
             setSearchVal(value)
             handleModeratorSearch(value)
           }}
-          placeholder="Search by moderator ID"
+          placeholder="Search by moderator name or ID"
         />
         <a
           className="uk-form-icon uk-form-icon-flip"
@@ -89,54 +120,73 @@ const ModeratorSelectionForm = ({
               {delayedComponent}
             </DottedSpinner>
           </div>
-        ) : availableModerators.length === 0 ? (
+        ) : moderatorManager.availableModerators.length === 0 &&
+          moderatorManager.favoriteModerators.length === 0 &&
+          moderatorManager.recentModerators.length === 0 ? (
           <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">
             <h5>No moderators found or available.</h5>
           </div>
         ) : (
-          <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list">
-            {availableModerators.map((moderator, index) => (
-              <li
-                id={`moderator-${moderator.peerID}`}
-                key={moderator.peerID}
-                className="uk-margin-remove"
-              >
-                <ModeratorCard profile={moderator}>
-                  <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
-                    <Button
-                      id={`moderator-add-${moderator.peerID}`}
-                      className="uk-button uk-button-primary"
-                      onClick={() => handleBtnClick(moderator, index, 'add')}
-                    >
-                      <span uk-icon="icon: plus" />
-                    </Button>
+          <>
+            {moderatorManager.searchResultModerators.length > 0 ? (
+              <>
+                <p className="title">Search Result</p>
 
-                    <a
-                      id={`moderator-info-${moderator.peerID}`}
-                      className="moderator-card-more-link"
-                      onClick={() => handleMoreInfo(moderator)}
-                    >
-                      More...
-                    </a>
-                  </div>
-                </ModeratorCard>
-              </li>
-            ))}
-          </ul>
+                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                  {moderatorManager.searchResultModerators.map((moderator, index) =>
+                    generateModeratorCard('searchResultModerators', moderator, index)
+                  )}
+                </ul>
+              </>
+            ) : null}
+            {moderatorManager.favoriteModerators.length > 0 ? (
+              <>
+                <p className="title">Favorites</p>
+
+                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                  {moderatorManager.favoriteModerators.map((moderator, index) =>
+                    generateModeratorCard('favoriteModerators', moderator, index)
+                  )}
+                </ul>
+              </>
+            ) : null}
+            {moderatorManager.recentModerators.length > 0 ? (
+              <>
+                <p className="title">Recent</p>
+
+                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                  {moderatorManager.recentModerators.map((moderator, index) =>
+                    generateModeratorCard('recentModerators', moderator, index)
+                  )}
+                </ul>
+              </>
+            ) : null}
+            {moderatorManager.availableModerators.length > 0 ? (
+              <>
+                <p className="title">Available</p>
+
+                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                  {moderatorManager.availableModerators.map((moderator, index) =>
+                    generateModeratorCard('availableModerators', moderator, index)
+                  )}
+                </ul>
+              </>
+            ) : null}
+          </>
         )}
       </div>
       <div
         id="selected-moderators"
         className="uk-margin-top uk-panel uk-panel-scrollable uk-padding-remove"
       >
-        {selectedModerators.map((moderator, index) => (
+        {moderatorManager.selectedModerators.map((moderator, index) => (
           <div className="uk-margin-small-top" key={moderator.peerID}>
             <ModeratorCard profile={moderator}>
               <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
                 <Button
                   id={`moderator-remove-${moderator.peerID}`}
                   className="uk-button uk-button-primary moderator-card-btn"
-                  onClick={() => handleBtnClick(moderator, index, 'remove')}
+                  onClick={() => handleRemoveModerator(moderator, index)}
                 >
                   <span uk-icon="icon: close" />
                 </Button>

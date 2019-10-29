@@ -41,6 +41,7 @@ class Settings implements SettingsInterface {
     username: '',
   }
   public storeModerators: string[] = []
+  public recentModerators: string[] = []
   public termsAndConditions: string = ''
   public version: string = ''
 
@@ -53,6 +54,11 @@ class Settings implements SettingsInterface {
   public async save() {
     await Axios.get(`${config.openBazaarHost}/ob/settings`)
     await Axios.put(`${config.openBazaarHost}/ob/settings`, this)
+  }
+
+  public async update(settings) {
+    Object.assign(this, settings)
+    await Axios.patch(`${config.openBazaarHost}/ob/settings`, settings)
   }
 }
 

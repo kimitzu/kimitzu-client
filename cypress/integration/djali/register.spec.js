@@ -13,6 +13,11 @@ context('Register', () => {
       response: 'fixture:profile/empty.json',
     })
     cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      response: 'fixture:profile/moderator.json'
+    })
+    cy.route({
       method: 'POST',
       url: 'http://localhost:4002/ob/profile',
       response: {},

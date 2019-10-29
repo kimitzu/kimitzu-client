@@ -53,6 +53,11 @@ context('Chat', () => {
     })
     cy.route({
       method: 'GET',
+      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      response: 'fixture:profile/moderator.json'
+    })
+    cy.route({
+      method: 'GET',
       url: 'http://localhost:8109/djali/peer/get?id=peerId1',
       response: 'fixture:peers/peer1.json'
     })

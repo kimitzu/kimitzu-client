@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import config from '../config'
+import Profile from './Profile'
 
 interface ModeratorResponse {
   id: string
@@ -7,17 +8,20 @@ interface ModeratorResponse {
 }
 
 class WebSocketResponses {
-  public moderatorIDs: string[] = []
+  public moderators: Profile[] = []
 
   public async initialize() {
     const moderatorWebsocketResponse = await Axios.get(
       `${config.openBazaarHost}/ob/moderators?async=true`
     )
 
-    window.socket.addEventListener('message', socketData => {
+    window.socket.addEventListener('message', async socketData => {
       const jsonSocketData = JSON.parse(socketData.data) as ModeratorResponse
       if (jsonSocketData.id && jsonSocketData.id === moderatorWebsocketResponse.data.id) {
-        this.moderatorIDs.push(jsonSocketData.peerId)
+        const moderatorProfile = await Profile.retrieve(jsonSocketData.peerId)
+        const event = new CustomEvent('moderator-resolve', { detail: moderatorProfile })
+        window.dispatchEvent(event)
+        this.moderators.push(moderatorProfile)
       }
     })
   }

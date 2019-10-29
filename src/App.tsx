@@ -14,6 +14,7 @@ import Settings from './models/Settings'
 import config from './config'
 import CurrentUserContext from './contexts/CurrentUserContext'
 import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
+import { moderatorManagerInstance } from './models/ModeratorManager'
 import { Search, searchInstance } from './models/Search'
 
 if (isElectron()) {
@@ -188,6 +189,7 @@ class App extends React.Component<{}, State> {
       const profile = await Profile.retrieve('', true)
       const settings = await Settings.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
+      await moderatorManagerInstance.initialize(settings)
       this.setState({
         profile,
         settings,

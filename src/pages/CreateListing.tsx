@@ -15,10 +15,10 @@ import {
 import { ModeratorInfoModal } from '../components/Modal'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Listing from '../models/Listing'
+import { ModeratorManager, moderatorManagerInstance } from '../models/ModeratorManager'
 import Profile from '../models/Profile'
 import Settings from '../models/Settings'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
-import PlusCode from '../utils/Location/PlusCode'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
 const cryptoCurrenciesConstants = [...CryptoCurrencies()]
@@ -36,6 +36,7 @@ interface RouteParams {
 
 interface CreateListingProps extends RouteComponentProps<RouteParams> {
   currentUser: Profile
+  settings: Settings
 }
 
 interface CreateListingState {
@@ -45,21 +46,23 @@ interface CreateListingState {
   tempImages: string[]
   isLoading: boolean
   selectedModerator: Profile
-  availableModerators: Profile[]
-  selectedModerators: Profile[]
-  originalModerators: Profile[]
+  moderatorManager: ModeratorManager
+  settings: Settings
   hasFetchedAModerator: boolean
   isListingNew: boolean
   [key: string]: any
 }
 
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
+  private debounce = 0
+
   constructor(props: CreateListingProps) {
     super(props)
     const listing = new Listing()
     const profile = this.props.currentUser
 
     this.state = {
+      settings: new Settings(),
       currentUser: profile,
       currentFormIndex: 0,
       tempImages: [],
@@ -70,7 +73,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       listing,
       selectedModerator: new Profile(),
       originalModerators: [],
-      // === TODO: Implement handlers
+      // === TODO: Implement handlers if shipping will be supported in the future
       shippingOptions: {
         destination: '',
         optionTitle: '',
@@ -84,24 +87,25 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           },
         ],
       },
-      availableModerators: [],
-      selectedModerators: [],
+      // === Moderators
+      moderatorManager: moderatorManagerInstance,
     }
     this.handleAddCoupons = this.handleAddCoupons.bind(this)
     this.handleAddShippingService = this.handleAddShippingService.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmitForm = this.handleSubmitForm.bind(this)
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
-    this.handleAddressChange = this.handleAddressChange.bind(this)
     this.handleRemoveRow = this.handleRemoveRow.bind(this)
     this.handleSubmitModeratorSelection = this.handleSubmitModeratorSelection.bind(this)
-    this.handleModeratorSelection = this.handleModeratorSelection.bind(this)
     this.handleShowModeratorModal = this.handleShowModeratorModal.bind(this)
     this.handleModeratorSearch = this.handleModeratorSearch.bind(this)
+    this.handleModeratorSelect = this.handleModeratorSelect.bind(this)
+    this.handleModeratorRemove = this.handleModeratorRemove.bind(this)
   }
 
   public async componentDidMount() {
     const id = this.props.match.params.id
+    const settings = this.props.settings
 
     if (id) {
       const { listing, imageData } = await Listing.retrieve(id)
@@ -113,6 +117,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         window.location.hash = '/'
         return
       }
+      await moderatorManagerInstance.setSelectedModerators(listing.moderators)
 
       const images = imageData.map(img => img.src)
       this.setState({
@@ -123,24 +128,21 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     } else {
       const listing = { ...this.state.listing }
       listing.metadata.acceptedCurrencies = [...cryptoCurrencies]
+      moderatorManagerInstance.selectedModerators = []
     }
 
     const profile = this.props.currentUser
-    const settings = await Settings.retrieve()
-    const moderatorProfilesRequest = settings.storeModerators.map(moderator =>
-      Profile.retrieve(moderator)
-    )
-    const moderatorProfiles = await Promise.all(moderatorProfilesRequest)
 
     this.setState({
+      moderatorManager: moderatorManagerInstance,
       currentUser: profile,
-      availableModerators: moderatorProfiles,
-      originalModerators: moderatorProfiles,
+      settings,
+      hasFetchedAModerator: true,
     })
   }
 
   get contents() {
-    const { availableModerators, selectedModerators, hasFetchedAModerator } = this.state
+    const { hasFetchedAModerator } = this.state
     const {
       handleInputChange,
       handleSubmitForm,
@@ -232,11 +234,11 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <div className="uk-flex uk-flex-column uk-width-1-1">
-            {availableModerators.length <= 0 && selectedModerators.length <= 0 ? (
+            {moderatorManagerInstance.favoriteModerators!.length <= 0 ? (
               <div className="uk-alert-warning uk-padding-small uk-margin-bottom" uk-alert>
-                It seems like you have no moderators setup.
+                It seems like you have no favorite moderators setup.
                 <br />
-                Review moderators in the{' '}
+                You may set this up in the{' '}
                 <a
                   href="#"
                   onClick={event => {
@@ -250,9 +252,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
               </div>
             ) : null}
             <ModeratorSelectionForm
-              availableModerators={availableModerators}
-              selectedModerators={selectedModerators}
-              handleBtnClick={this.handleModeratorSelection}
+              moderatorManager={this.state.moderatorManager}
+              handleSelectModerator={this.handleModeratorSelect}
+              handleRemoveModerator={this.handleModeratorRemove}
               handleSubmit={handleSubmitModeratorSelection}
               handleModeratorSearch={this.handleModeratorSearch}
               handleMoreInfo={handleShowModeratorModal}
@@ -322,21 +324,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     return this.contents[currentFormIndex]
   }
 
-  public handleAddressChange(field: string, value: string | string[]) {
-    this.handleInputChange(`location.${field}`, value, 'listing')
-  }
-
   public handleInputChange(field: string, value: any, parentField?: string) {
     if (parentField) {
       const subFieldData = this.state[parentField]
-      if (field === 'location.plusCode') {
-        if (PlusCode.isValid(value)) {
-          const plusCodeBounds = PlusCode.decode(value)
-          const { longitudeCenter, latitudeCenter } = plusCodeBounds
-          NestedJSONUpdater(subFieldData, 'location.latitude', latitudeCenter.toString())
-          NestedJSONUpdater(subFieldData, 'location.longitude', longitudeCenter.toString())
-        }
-      }
       NestedJSONUpdater(subFieldData, field, value)
       this.setState({ ...this.state })
     } else {
@@ -451,21 +441,23 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.setState({ listing })
   }
 
-  private handleModeratorSelection(moderator: Profile, index: number, type) {
-    const { availableModerators, selectedModerators } = this.state
-    if (type === 'add') {
-      availableModerators.splice(index, 1)
-      selectedModerators.push(moderator)
-    } else if (type === 'remove') {
-      selectedModerators.splice(index, 1)
-      availableModerators.push(moderator)
-    }
-    this.setState({ availableModerators, selectedModerators })
+  private handleModeratorRemove(moderator: Profile, index: number) {
+    moderatorManagerInstance.removeModeratorFromSelection(moderator, index)
+    this.setState({
+      moderatorManager: moderatorManagerInstance,
+    })
+  }
+
+  private handleModeratorSelect(moderator: Profile, moderatorSource: string, index: number) {
+    moderatorManagerInstance.selectModerator(moderator, moderatorSource, index)
+    this.setState({
+      moderatorManager: moderatorManagerInstance,
+    })
   }
 
   private handleSubmitModeratorSelection() {
-    const { listing, selectedModerators, currentFormIndex } = this.state
-    listing.moderators = selectedModerators.map(moderator => moderator.peerID)
+    const { listing, moderatorManager, currentFormIndex } = this.state
+    listing.moderators = moderatorManager.selectedModerators.map(moderator => moderator.peerID)
     this.setState({
       listing,
       currentFormIndex: currentFormIndex + 1,
@@ -481,36 +473,13 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   private async handleModeratorSearch(searchStr: string) {
-    if (!searchStr) {
+    window.clearTimeout(this.debounce)
+    this.debounce = window.setTimeout(async () => {
+      moderatorManagerInstance.find(searchStr)
       this.setState({
-        availableModerators: this.state.originalModerators,
+        moderatorManager: moderatorManagerInstance,
       })
-      return
-    }
-
-    if (this.state.availableModerators.length > 0) {
-      const filteredMods = this.state.availableModerators.filter(mod => {
-        return mod.peerID.includes(searchStr)
-      })
-      this.setState({
-        availableModerators: filteredMods,
-      })
-      return
-    }
-
-    if (searchStr.length < 46) {
-      return
-    }
-
-    const retrievedProfile = await Profile.retrieve(searchStr, true)
-    const isAlreadySelected = this.state.selectedModerators.some(
-      moderator => moderator.peerID === retrievedProfile.peerID
-    )
-    if (retrievedProfile.moderator && !isAlreadySelected) {
-      this.setState({
-        availableModerators: [retrievedProfile],
-      })
-    }
+    }, 500)
   }
 }
 
