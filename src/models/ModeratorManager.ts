@@ -47,17 +47,32 @@ class ModeratorManager implements Moderators {
   }
 
   public selectModerator(moderator: Profile, moderatorSource: string, index: number) {
-    if (moderatorSource === 'availableModerators') {
+    if (moderatorSource === 'searchResultModerators') {
+      /**
+       * Search selection is most likely found on 'available moderators' list
+       */
+      if (!this.favoriteModerators.some(mod => mod.peerID === moderator.peerID)) {
+        this.saveRecentModerator(moderator)
+      }
+    } else if (moderatorSource === 'availableModerators') {
+      this.saveRecentModerator(moderator)
+    }
+    this[moderatorSource].splice(index, 1)
+    if (!this.selectedModerators.some(mod => mod.peerID === moderator.peerID)) {
+      this.selectedModerators.push(moderator)
+    }
+  }
+
+  public async saveRecentModerator(moderator: Profile) {
+    if (!this.recentModerators.some(mod => moderator.peerID === mod.peerID)) {
       this.recentModerators.unshift(moderator)
       this.recentModerators.splice(5)
       const settings = this.settings
       settings.recentModerators = this.recentModerators.map(mod => mod.peerID)
-      settings.update({
+      await settings.update({
         recentModerators: settings.recentModerators,
       })
     }
-    this[moderatorSource].splice(index, 1)
-    this.selectedModerators.push(moderator)
   }
 
   public removeModeratorFromSelection(moderator: Profile, index: number) {
@@ -82,15 +97,20 @@ class ModeratorManager implements Moderators {
     )
 
     const PROFILE_ID_LENGTH = 46
-    if (searchString.length < PROFILE_ID_LENGTH) {
+    if (searchString.length < PROFILE_ID_LENGTH || searchString.trim().includes(' ')) {
+      return
+    }
+
+    const isAlreadySelected = this.selectedModerators.some(
+      moderator => moderator.peerID === searchString
+    )
+
+    if (isAlreadySelected) {
       return
     }
 
     const moderatorProfileResult = await Profile.retrieve(searchString)
-    const isAlreadySelected = this.selectedModerators.some(
-      moderator => moderator.peerID === moderatorProfileResult.peerID
-    )
-    if (moderatorProfileResult.moderator && !isAlreadySelected) {
+    if (moderatorProfileResult.moderator) {
       this.searchResultModerators.push(moderatorProfileResult)
     }
   }

@@ -1,5 +1,5 @@
 import React, { Component, ReactNode } from 'react'
-import { RouteComponentProps } from 'react-router'
+import { Prompt, RouteComponentProps } from 'react-router'
 import { SideMenuWithContentCard } from '../components/Card'
 import {
   AddressForm,
@@ -50,6 +50,7 @@ interface CreateListingState {
   settings: Settings
   hasFetchedAModerator: boolean
   isListingNew: boolean
+  isListingSaved: boolean
   [key: string]: any
 }
 
@@ -69,6 +70,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isLoading: false,
       hasFetchedAModerator: true,
       isListingNew: true,
+      isListingSaved: false,
       // === Formal Schema
       listing,
       selectedModerator: new Profile(),
@@ -234,7 +236,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       {
         component: (
           <div className="uk-flex uk-flex-column uk-width-1-1">
-            {moderatorManagerInstance.favoriteModerators!.length <= 0 ? (
+            {this.state.settings.storeModerators.length <= 0 ? (
               <div className="uk-alert-warning uk-padding-small uk-margin-bottom" uk-alert>
                 It seems like you have no favorite moderators setup.
                 <br />
@@ -396,6 +398,9 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
           status: 'success',
         })
       }
+      this.setState({
+        isListingSaved: true,
+      })
       await this.state.currentUser.crawlOwnListings()
       setTimeout(() => {
         window.location.hash = '/'
@@ -419,6 +424,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const { selectedModerator } = this.state
     return (
       <div className="background-body full-vh uk-padding-small">
+        <Prompt
+          when={!this.state.isListingSaved}
+          message="Your changes will not be saved. Continue?"
+        />
         <SideMenuWithContentCard
           mainContentTitle={currentForm.title}
           menuContent={{

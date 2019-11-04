@@ -68,6 +68,7 @@
   },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && yarn compile:electron && electron .\"",
+    "start:production": "cross-env REACT_APP_ENVIRONMENT=production yarn start",
     "start:develop": "cross-env REACT_APP_ENVIRONMENT=development yarn start",
     "start:stage": "cross-env REACT_APP_ENVIRONMENT=staging yarn start",
     "electron-build": "electron-builder",

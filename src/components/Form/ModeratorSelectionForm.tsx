@@ -5,7 +5,7 @@ import { DottedSpinner } from '../Spinner'
 
 import Profile from '../../models/Profile'
 
-import { ModeratorManager } from '../../models/ModeratorManager'
+import { ModeratorManager, moderatorManagerInstance } from '../../models/ModeratorManager'
 import { Button } from '../Button'
 import './ModeratorSelectionForm.css'
 
@@ -40,6 +40,7 @@ const ModeratorSelectionForm = ({
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   const [delayedComponent, setDelayedComponent] = useState(<></>)
+  const dropdownRef = React.createRef<HTMLDivElement>()
 
   if (!timeoutFunction) {
     timeoutFunction = setTimeout(() => {
@@ -53,6 +54,12 @@ const ModeratorSelectionForm = ({
     }, 10000)
   }
 
+  useEffect(() => {
+    if (moderatorManager.selectedModerators.length <= 0 && dropdownRef) {
+      window.UIkit.dropdown(dropdownRef.current).show()
+    }
+  }, [])
+
   const generateModeratorCard = (moderatorSource, moderator, index) => {
     return (
       <li
@@ -61,11 +68,14 @@ const ModeratorSelectionForm = ({
         className="uk-margin-remove"
       >
         <ModeratorCard profile={moderator}>
-          <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
+          <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle">
             <Button
               id={`${moderatorSource}-add-${moderator.peerID}`}
               className="uk-button uk-button-primary"
-              onClick={() => handleSelectModerator(moderator, moderatorSource, index)}
+              onClick={() => {
+                window.UIkit.dropdown(dropdownRef.current).hide()
+                handleSelectModerator(moderator, moderatorSource, index)
+              }}
             >
               <span uk-icon="icon: plus" />
             </Button>
@@ -84,7 +94,7 @@ const ModeratorSelectionForm = ({
   }
 
   return (
-    <div className="uk-width-1-1">
+    <div>
       <div className="uk-inline uk-width-1-1">
         <input
           id="moderator-search"
@@ -93,8 +103,12 @@ const ModeratorSelectionForm = ({
           value={searchVal}
           onChange={e => {
             const { value } = e.target
+            window.UIkit.dropdown(dropdownRef.current).show()
             setSearchVal(value)
             handleModeratorSearch(value)
+          }}
+          onClick={() => {
+            window.UIkit.dropdown(dropdownRef.current).show()
           }}
           placeholder="Search by moderator name or ID"
         />
@@ -111,7 +125,8 @@ const ModeratorSelectionForm = ({
       <div
         className="uk-padding-remove uk-panel-scrollable"
         id="moderator-selection-dropdown"
-        data-uk-dropdown="pos: bottom-justify; mode: click"
+        data-uk-dropdown="pos: bottom-justify; mode: click; offset: 0"
+        ref={dropdownRef}
       >
         {showSpinner && searchVal.length === 0 ? (
           <div className="uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-height-1-1">
@@ -127,12 +142,12 @@ const ModeratorSelectionForm = ({
             <h5>No moderators found or available.</h5>
           </div>
         ) : (
-          <>
+          <div className="moderator-list">
             {moderatorManager.searchResultModerators.length > 0 ? (
               <>
                 <p className="title">Search Result</p>
 
-                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.searchResultModerators.map((moderator, index) =>
                     generateModeratorCard('searchResultModerators', moderator, index)
                   )}
@@ -143,7 +158,7 @@ const ModeratorSelectionForm = ({
               <>
                 <p className="title">Favorites</p>
 
-                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.favoriteModerators.map((moderator, index) =>
                     generateModeratorCard('favoriteModerators', moderator, index)
                   )}
@@ -154,7 +169,7 @@ const ModeratorSelectionForm = ({
               <>
                 <p className="title">Recent</p>
 
-                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.recentModerators.map((moderator, index) =>
                     generateModeratorCard('recentModerators', moderator, index)
                   )}
@@ -165,14 +180,14 @@ const ModeratorSelectionForm = ({
               <>
                 <p className="title">Available</p>
 
-                <ul className="uk-nav uk-dropdown-nav uk-width-1-1 uk-list uk-margin-small-top">
+                <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.availableModerators.map((moderator, index) =>
                     generateModeratorCard('availableModerators', moderator, index)
                   )}
                 </ul>
               </>
             ) : null}
-          </>
+          </div>
         )}
       </div>
       <div
