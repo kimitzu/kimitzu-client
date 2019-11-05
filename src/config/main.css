@@ -101,6 +101,10 @@ textarea {
   border-right: none;
 }
 
+span.filled-icon > svg > polygon {
+  fill: var(--primary);
+}
+
 .border-remove-vertical {
   border-top: none;
   border-bottom: none;

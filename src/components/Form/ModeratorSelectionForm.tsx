@@ -71,7 +71,7 @@ const ModeratorSelectionForm = ({
           <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle">
             <Button
               id={`${moderatorSource}-add-${moderator.peerID}`}
-              className="uk-button uk-button-primary"
+              className="moderator-card-btn uk-button uk-button-primary"
               onClick={() => {
                 window.UIkit.dropdown(dropdownRef.current).hide()
                 handleSelectModerator(moderator, moderatorSource, index)
@@ -200,7 +200,7 @@ const ModeratorSelectionForm = ({
               <div className="uk-flex uk-flex-column uk-flex-1 uk-flex-center uk-flex-middle">
                 <Button
                   id={`moderator-remove-${moderator.peerID}`}
-                  className="uk-button uk-button-primary moderator-card-btn"
+                  className="moderator-card-btn uk-button uk-button-primary"
                   onClick={() => handleRemoveModerator(moderator, index)}
                 >
                   <span uk-icon="icon: close" />

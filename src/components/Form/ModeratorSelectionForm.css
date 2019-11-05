@@ -13,9 +13,14 @@
 .title {
   padding-top: 1vh;
   padding-left: 1vh;
-  font-size: 0.90rem;
+  font-size: 0.9rem;
   font-weight: bold;
 }
 .moderator-list {
-  box-shadow: 0 10px 6px -6px var(--border-color)
+  box-shadow: 0 10px 6px -6px var(--border-color);
+}
+.moderator-card-btn {
+  line-height: inherit !important;
+  min-width: 10px !important;
+  padding: 5px !important;
 }
