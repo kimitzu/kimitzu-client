@@ -18,26 +18,47 @@ class ModeratorManager implements Moderators {
   public searchResultModerators: Profile[] = []
   public settings: Settings = new Settings()
   public debounce: number = 0
+  public currentPeerID: string = ''
 
-  public async initialize(settings: Settings) {
+  public async initialize(settings: Settings, currentPeerID: string) {
     this.settings = settings
-    const favoriteModeratorsRequest = settings.storeModerators.map(moderator =>
-      Profile.retrieve(moderator)
-    )
-    const recentModeratorsRequest = settings.recentModerators.map(moderator =>
-      Profile.retrieve(moderator)
-    )
-    const favoriteModerators = await Promise.all(favoriteModeratorsRequest)
-    const recentModerators = await Promise.all(recentModeratorsRequest)
-    this.favoriteModerators = favoriteModerators
-    this.recentModerators = recentModerators
-    const asyncModeratorList = [...webSocketResponsesInstance.moderators]
-    this.availableModerators = [...this.availableModerators, ...asyncModeratorList]
+    this.currentPeerID = currentPeerID
+    settings.storeModerators.forEach(async moderator => {
+      try {
+        const profile = await Profile.retrieve(moderator)
+        this.favoriteModerators.push(profile)
+      } catch (e) {
+        // Silently ignore unresolved moderators
+      }
+    })
+    settings.recentModerators.forEach(async moderator => {
+      try {
+        const profile = await Profile.retrieve(moderator)
+        this.recentModerators.push(profile)
+      } catch (e) {
+        // Silently ignore unresolved moderators
+      }
+    })
 
     const resolveAsyncModerators = (e: CustomEvent) => {
-      this.availableModerators = [...this.availableModerators, e.detail]
+      const profile = e.detail as Profile
+
+      if (this.currentPeerID === profile.peerID) {
+        return
+      }
+
+      if (settings.storeModerators.includes(profile.peerID)) {
+        return
+      }
+
+      if (settings.recentModerators.includes(profile.peerID)) {
+        return
+      }
+
+      this.availableModerators = [...this.availableModerators, profile]
     }
     window.addEventListener('moderator-resolve', resolveAsyncModerators as EventListener)
+    webSocketResponsesInstance.initialize()
   }
 
   public async setSelectedModerators(moderatorIDs: string[]) {
@@ -69,16 +90,27 @@ class ModeratorManager implements Moderators {
       this.recentModerators.splice(5)
       const settings = this.settings
       settings.recentModerators = this.recentModerators.map(mod => mod.peerID)
-      await settings.update({
-        recentModerators: settings.recentModerators,
-      })
+      await settings.save()
     }
   }
 
-  public removeModeratorFromSelection(moderator: Profile, index: number) {
+  public removeModeratorFromSelection(
+    moderator: Profile,
+    index: number,
+    returnToAvailable?: boolean
+  ) {
     this.selectedModerators.splice(index, 1)
     if (this.settings.storeModerators.includes(moderator.peerID)) {
-      this.favoriteModerators.push(moderator)
+      if (returnToAvailable) {
+        this.favoriteModerators.splice(index, 1)
+        this.availableModerators.push(moderator)
+      } else {
+        this.favoriteModerators.push(moderator)
+      }
+    } else if (this.settings.recentModerators.includes(moderator.peerID)) {
+      if (!this.recentModerators.some(mod => moderator.peerID === mod.peerID)) {
+        this.recentModerators.push(moderator)
+      }
     } else {
       this.availableModerators.push(moderator)
     }
@@ -90,11 +122,18 @@ class ModeratorManager implements Moderators {
       return
     }
 
-    this.searchResultModerators = this.availableModerators.filter(
-      moderator =>
-        moderator.peerID === searchString ||
-        new RegExp('\\b' + searchString + '.*', 'ig').test(moderator.name)
-    )
+    const filterModerator = moderator =>
+      moderator.peerID === searchString ||
+      new RegExp('\\b' + searchString + '.*', 'ig').test(moderator.name)
+
+    const availableModeratorResults = this.availableModerators.filter(filterModerator)
+    const recentModeratorResults = this.recentModerators.filter(filterModerator)
+    const favoriteModeratorResults = this.favoriteModerators.filter(filterModerator)
+    this.searchResultModerators = [
+      ...favoriteModeratorResults,
+      ...recentModeratorResults,
+      ...availableModeratorResults,
+    ]
 
     const PROFILE_ID_LENGTH = 46
     if (searchString.length < PROFILE_ID_LENGTH || searchString.trim().includes(' ')) {

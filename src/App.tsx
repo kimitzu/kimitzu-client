@@ -189,7 +189,7 @@ class App extends React.Component<{}, State> {
       const profile = await Profile.retrieve('', true)
       const settings = await Settings.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
-      await moderatorManagerInstance.initialize(settings)
+      moderatorManagerInstance.initialize(settings, profile.peerID)
       this.setState({
         profile,
         settings,

@@ -17,7 +17,6 @@ declare global {
 
 const socket = new WebSocket(`${config.websocketHost}`)
 window.socket = socket
-webSocketResponsesInstance.initialize()
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

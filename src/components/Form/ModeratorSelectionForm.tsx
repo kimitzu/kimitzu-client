@@ -21,6 +21,7 @@ interface Props {
   handleFullSubmit?: (event: React.FormEvent) => void
   isNew?: boolean
   isListing?: boolean
+  hideFavorites?: boolean
 }
 
 let timeoutFunction
@@ -37,6 +38,7 @@ const ModeratorSelectionForm = ({
   isNew,
   isListing,
   moderatorManager,
+  hideFavorites,
 }: Props) => {
   const [searchVal, setSearchVal] = useState('')
   const [delayedComponent, setDelayedComponent] = useState(<></>)
@@ -139,22 +141,30 @@ const ModeratorSelectionForm = ({
           moderatorManager.favoriteModerators.length === 0 &&
           moderatorManager.recentModerators.length === 0 ? (
           <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">
-            <h5>No moderators found or available.</h5>
+            <h5>No moderators available.</h5>
           </div>
         ) : (
           <div className="moderator-list">
-            {moderatorManager.searchResultModerators.length > 0 ? (
+            {searchVal ? (
               <>
                 <p className="title">Search Result</p>
 
-                <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
-                  {moderatorManager.searchResultModerators.map((moderator, index) =>
-                    generateModeratorCard('searchResultModerators', moderator, index)
-                  )}
-                </ul>
+                {moderatorManager.searchResultModerators.length > 0 ? (
+                  <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
+                    {moderatorManager.searchResultModerators.map((moderator, index) =>
+                      generateModeratorCard('searchResultModerators', moderator, index)
+                    )}
+                  </ul>
+                ) : (
+                  <>
+                    <p className="uk-text-center">
+                      No results for <span className="uk-text-bold">{searchVal}</span>
+                    </p>
+                  </>
+                )}
               </>
             ) : null}
-            {moderatorManager.favoriteModerators.length > 0 ? (
+            {moderatorManager.favoriteModerators.length > 0 && !hideFavorites ? (
               <>
                 <p className="title">Favorites</p>
 

@@ -55,11 +55,6 @@ class Settings implements SettingsInterface {
     await Axios.get(`${config.openBazaarHost}/ob/settings`)
     await Axios.put(`${config.openBazaarHost}/ob/settings`, this)
   }
-
-  public async update(settings) {
-    Object.assign(this, settings)
-    await Axios.patch(`${config.openBazaarHost}/ob/settings`, settings)
-  }
 }
 
 export default Settings

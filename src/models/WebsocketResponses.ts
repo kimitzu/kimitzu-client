@@ -8,8 +8,6 @@ interface ModeratorResponse {
 }
 
 class WebSocketResponses {
-  public moderators: Profile[] = []
-
   public async initialize() {
     const moderatorWebsocketResponse = await Axios.get(
       `${config.openBazaarHost}/ob/moderators?async=true`
@@ -21,7 +19,6 @@ class WebSocketResponses {
         const moderatorProfile = await Profile.retrieve(jsonSocketData.peerId)
         const event = new CustomEvent('moderator-resolve', { detail: moderatorProfile })
         window.dispatchEvent(event)
-        this.moderators.push(moderatorProfile)
       }
     })
   }

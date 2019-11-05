@@ -455,6 +455,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       component: (
         <ModeratorSelectionForm
           moderatorManager={this.state.moderatorManager}
+          hideFavorites
           handleSelectModerator={this.handleModeratorSelect}
           handleRemoveModerator={this.handleModeratorRemove}
           handleSubmit={this.handleSubmitModeratorSelection}
@@ -464,7 +465,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           submitLabel={'Save'}
         />
       ),
-      label: 'Moderators',
+      label: 'Favorite Moderators',
     }
 
     const skillsComponent = {
@@ -886,7 +887,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   private handleModeratorRemove(moderator: Profile, index: number) {
-    moderatorManagerInstance.removeModeratorFromSelection(moderator, index)
+    moderatorManagerInstance.removeModeratorFromSelection(moderator, index, true)
     this.setState({
       moderatorManager: moderatorManagerInstance,
     })
@@ -903,11 +904,25 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     this.state.settings.storeModerators = this.state.moderatorManager.selectedModerators.map(
       moderator => moderator.peerID
     )
+    const recentModerators = moderatorManagerInstance.recentModerators.filter(recentMod => {
+      return !moderatorManagerInstance.selectedModerators.some(
+        favoriteMod => favoriteMod.peerID === recentMod.peerID
+      )
+    })
+    this.state.settings.recentModerators = recentModerators.map(moderator => moderator.peerID)
+
+    moderatorManagerInstance.recentModerators = [...recentModerators]
+    moderatorManagerInstance.favoriteModerators = [
+      ...this.state.moderatorManager.selectedModerators,
+    ]
+
     try {
-      await this.state.settings.update({
-        storeModerators: this.state.settings.storeModerators,
-      })
+      await this.state.settings.save()
       window.UIkit.notification('Moderators saved', { status: 'success' })
+      this.setState({
+        settings: this.state.settings,
+        moderatorManager: this.state.moderatorManager,
+      })
     } catch (e) {
       /**
        * Removing last 2 characters due to
