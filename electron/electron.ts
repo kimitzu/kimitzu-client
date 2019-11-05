@@ -43,6 +43,7 @@ const createUserPref = (data: UserPreferences) => {
 autoUpdater.logger = log
 log.info(`Djali Client v.${app.getVersion()} is starting...`)
 autoUpdater.autoDownload = false
+autoUpdater.allowDowngrade = true
 
 if (!isDev && !process.argv.includes('--noexternal')) {
   const fileName =
@@ -63,10 +64,12 @@ if (!isDev && !process.argv.includes('--noexternal')) {
   djaliServices.start()
 }
 
-try {
-  userPreferences = JSON.parse(fs.readFileSync(userPrefPath, 'utf8'))
-} catch (error) {
-  console.log(`Error while reading user-preferences.json: ${error}`)
+if (!fs.existsSync(userPrefPath)) {
+  try {
+    userPreferences = JSON.parse(fs.readFileSync(userPrefPath, 'utf8'))
+  } catch (error) {
+    log.error(`Error while reading user-preferences.json: ${error}`)
+  }
 }
 
 autoUpdater.autoDownload = userPreferences.autoInstallUpdate
@@ -78,18 +81,21 @@ const askCrashReportingPermission = async (window: BrowserWindow) => {
     const reportingDialog = await dialog.showMessageBox(window, {
       type: 'info',
       title: 'Crash Reporting',
-      message:
-        'Do you want to send the crash reports to the developers? Information about the crash will be sent to the server such as CPU architecture, operation system, thread contexts, etc.',
-      buttons: ['Yes', 'No'],
+      message: 'Do you want to send the crash reports to the developers?',
+      buttons: ['Yes', 'No', 'Learn More'],
     })
     if (reportingDialog.response === 0) {
       userPreferences.enableCrashReporting = true
       crashReporter.setUploadToServer(true)
+    } else if (reportingDialog.response === 2) {
+      askCrashReportingPermission(window) // open the dialog again since the dialog closes when selecting any of the buttons
+      shell.openExternal('https://www.techopedia.com/definition/13529/windows-minidump')
+      return
     }
     try {
       createUserPref(userPreferences)
     } catch (error) {
-      console.log(`Error creating user-preferences.json: ${error}`)
+      log.error(`Error creating user-preferences.json: ${error}`)
     }
   }
 }

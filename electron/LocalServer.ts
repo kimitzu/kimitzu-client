@@ -1,4 +1,5 @@
 import { spawn, SpawnOptions } from 'child_process'
+import log from 'electron-log'
 import * as path from 'path'
 
 interface LocalServerOptions {
@@ -29,31 +30,43 @@ class LocalServer implements LocalServerProps {
   }
 
   public start(args: string[] = []) {
-    const { file, filePath, isRunning } = this
+    const { file, filePath, isRunning, isStopping, name } = this
+    log.info(`${name} is starting`)
+
+    if (isStopping) {
+      this.subProcess.once('exit', () => {
+        this.start(args)
+      })
+      log.info(`Will start after ${name} server shutdown is complete.`)
+      return
+    }
 
     if (isRunning) {
+      log.error(`${name} is aleady running.`)
       throw new Error('Server is already running.')
     }
 
     this.subProcess = spawn(path.join(filePath, file), args)
 
     this.subProcess.on('error', error => {
-      console.log(error)
+      log.error(`${name} server error: ${error}`)
     })
 
     this.subProcess.on('exit', (code, signal) => {
       const logMsg = code
-        ? `Server exited with code: ${code}`
-        : `Server exited at request of signal: ${signal}`
-      console.log(logMsg)
+        ? `Server exited with code: ${code}.`
+        : `Server exited at request of signal: ${signal}.`
+      log.info(logMsg)
       this.isRunning = false
     })
 
     this.isRunning = true
+    log.info(`${name} server is running.`)
   }
 
   public stop() {
-    const { isRunning, subProcess } = this
+    const { isRunning, subProcess, name } = this
+    log.info(`Stopping ${name} server/`)
     if (!isRunning) {
       return
     }
