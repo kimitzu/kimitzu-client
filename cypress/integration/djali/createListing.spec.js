@@ -35,6 +35,11 @@ context('Create Listing', () => {
       response: 'fixture:settings/primary.json',
     })
     cy.route({
+      method: 'PUT',
+      url: ' http://localhost:4002/ob/settings',
+      response: {},
+    })
+    cy.route({
       method: 'POST',
       url: ' http://localhost:4002/ob/images',
       response: 'fixture:images/listing.json',
@@ -59,6 +64,11 @@ context('Create Listing', () => {
       url: 'http://localhost:4002/ob/moderators?async=true',
       response: {},
     })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
+      response: 'fixture:listings/creative_marketing_full_response.json',
+    })
     cy.visit('http://localhost:3000/')
   })
 
@@ -67,8 +77,8 @@ context('Create Listing', () => {
     cy.get('#account').click()
     cy.contains('Create New Listing').click()
     cy.contains('General')
-    cy.get('#form-select').click()
-    cy.get('#2411-24').click()
+    cy.get('#listing-create-autocomplete').click()
+    cy.get('#listing-create-autocomplete-2411-24').click()
     cy.get('#general-title').type('The Accountant')
     cy.get('#general-type').select('Service')
     cy.get('#selector-input-general-price').clear()

@@ -8,10 +8,10 @@ interface Config {
 }
 
 const local = {
-  djaliHost: 'http://localhost:8109',
+  djaliHost: `http://${window.location.hostname}:8109`,
   host: process.env.PUBLIC_URL,
-  openBazaarHost: 'http://localhost:4002',
-  websocketHost: 'ws://localhost:4002/ws',
+  openBazaarHost: `http://${window.location.hostname}:4002`,
+  websocketHost: `ws://${window.location.hostname}:4002/ws`,
 }
 
 const remote = {

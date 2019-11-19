@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react'
 import ListingCard from '../Card/ListingCard'
 import { DottedSpinner } from '../Spinner'
 
-import Listing from '../../models/Listing'
+import { ListingResponse } from '../../models/Listing'
 import { useInfiniteScroll } from '../../utils/react-hooks'
 import './ListingCardGroup.css'
 
 interface ListingCardGroupProps {
-  data: Listing[]
+  data: ListingResponse[]
   targetCurrency?: string
   listingLimit?: number
 }
 
 const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCardGroupProps) => {
-  const [listings, setListings] = useState<Listing[]>([])
+  const [listings, setListings] = useState<ListingResponse[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const loadMoreListings = () => {
     if (listings.length >= data.length) {
@@ -36,15 +36,16 @@ const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCar
   }, [data])
   return (
     <div>
-      <div
-        className="uk-grid-small uk-child-width-1-3@s uk-child-width-1-4@m listing-container"
-        data-uk-grid
-      >
-        {listings.map((listing: Listing) => (
-          <div key={listing.hash}>
-            <ListingCard listing={listing} targetCurrency={targetCurrency} />
-          </div>
-        ))}
+      <div className="uk-flex uk-flex-center uk-grid-small" data-uk-grid>
+        {listings.map((listing: ListingResponse) => {
+          if (listing) {
+            return (
+              <div key={listing.listing.hash}>
+                <ListingCard listing={listing} targetCurrency={targetCurrency} />
+              </div>
+            )
+          }
+        })}
       </div>
       {isFetching ? <DottedSpinner /> : null}
     </div>

@@ -70,10 +70,10 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
       <div className="uk-navbar-right">
         <ul className="uk-navbar-nav">
           <li>
-            <a href="#">
-              <span className="uk-navbar-item uk-logo navbar-icon" data-uk-icon="icon: question" />
+            <a href="#" className="navbar-icon">
+              <span className="uk-navbar-item uk-logo" data-uk-icon="icon: question" />
             </a>
-            <div className="uk-navbar-dropdown uk-navbar-dropdown-width-2" uk-dropdown="offset: 0">
+            <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
               <ul className="uk-nav uk-navbar-dropdown-nav">
                 <li className="uk-active">
                   <p>Issues, questions, or suggestions?</p>
@@ -124,10 +124,10 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
             </div>
           </li>
           <li>
-            <a href="#" id="account">
-              <span className="uk-navbar-item uk-logo navbar-icon" data-uk-icon="icon: user" />
+            <a href="#" id="account" className="navbar-icon">
+              <span className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
             </a>
-            <div className="uk-navbar-dropdown" uk-dropdown="offset: 0">
+            <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
               <ul className="uk-nav uk-dropdown-nav">
                 <li id="create-new-listing">
                   <Link to="/listing/create">Create New Listing</Link>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import UIBreakpoints from '../../constants/UIBreakpoints.json'
 import './Pagination.css'
 
 interface Props {
@@ -33,13 +34,20 @@ const Pagination = ({
   const [totalPages, setTotalPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pagination, setPagination] = useState<number[]>([])
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth)
+
   const goToPage = pageNumber => {
     setCurrentPage(pageNumber)
     if (handlePageChange) {
       handlePageChange(pageNumber)
     }
   }
+
   useEffect(() => {
+    window.addEventListener('resize', () => {
+      setInnerWidth(window.innerWidth)
+    })
+
     const currentTotalPages = Math.ceil(totalRecord / recordsPerPage)
     if (selectedPage) {
       setCurrentPage(selectedPage)
@@ -77,24 +85,25 @@ const Pagination = ({
           onClick={() => goToPage(currentPage - 1)}
         />
       </li>
-      {pagination.map((item, index) => {
-        if (item === DOTTED) {
+      {innerWidth > UIBreakpoints['breakpoint-m'] &&
+        pagination.map((item, index) => {
+          if (item === DOTTED) {
+            return (
+              <li key={`pagination-disabled-${index}`} className="uk-disabled">
+                <span>...</span>
+              </li>
+            )
+          }
           return (
-            <li key={`pagination-disabled-${index}`} className="uk-disabled">
-              <span>...</span>
+            <li
+              id="pagination-item"
+              key={`pagination${item}-${index}`}
+              className={item === currentPage ? 'uk-active' : 'uk-flex uk-flex-middle'}
+            >
+              <a onClick={() => goToPage(item)}>{item}</a>
             </li>
           )
-        }
-        return (
-          <li
-            id="pagination-item"
-            key={`pagination${item}-${index}`}
-            className={item === currentPage ? 'uk-active' : 'uk-flex uk-flex-middle'}
-          >
-            <a onClick={() => goToPage(item)}>{item}</a>
-          </li>
-        )
-      })}
+        })}
       <li className="uk-flex uk-flex-middle">
         <a
           id={currentPage === totalPages ? 'disable-pagination-arrow' : ''}

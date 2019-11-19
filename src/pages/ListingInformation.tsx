@@ -24,12 +24,15 @@ import './ListingInformation.css'
 
 import ListingExpiredOrNotFound from '../components/Errors/ListingExpiredOrNotFound'
 import { CircleSpinner } from '../components/Spinner'
+import CryptoCurrencies from '../constants/CryptoCurrencies'
 import OrderRatings from '../constants/OrderRatings.json'
 import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
 import { AssessmentSummary, competencySelectorInstance } from '../models/CompetencySelector'
 import currency from '../models/Currency'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
+
+const cryptoCurrencies = CryptoCurrencies()
 
 interface Image {
   src: string
@@ -105,25 +108,29 @@ class ListingProfile extends Component<Props, State> {
         loadingStatus: 'Retrieving Ratings',
         currentUser,
       })
-      const { ratingSummary, ratings } = await listing.getRatings()
-      this.setState({ ratings, ratingSummary })
-      const updatedRatings = await Promise.all(
-        ratings.map(async (rating: Rating) => {
-          let userData
-          if (rating.ratingData.buyerID.peerID) {
+      setTimeout(async () => {
+        const { ratingSummary, ratings } = await listing.getRatings()
+        this.setState({ ratings, ratingSummary })
+        const updatedRatings = await Promise.all(
+          ratings.map(async (rating: Rating) => {
+            let userData
+            if (rating.ratingData.buyerID) {
+              return rating
+            }
+            try {
+              userData = await Profile.retrieve(rating.ratingData.buyerID!.peerID)
+            } catch (e) {
+              userData = new Profile()
+            }
+            rating.avatar = userData.getAvatarSrc('small')
             return rating
-          }
-          try {
-            userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
-          } catch (e) {
-            userData = new Profile()
-          }
-          rating.avatar = userData.getAvatarSrc('small')
-          return rating
+          })
+        )
+        this.setState({
+          ratings: updatedRatings,
         })
-      )
+      })
       this.setState({
-        ratings: updatedRatings,
         isLoading: false,
       })
     } catch (error) {
@@ -167,22 +174,8 @@ class ListingProfile extends Component<Props, State> {
     const { background } = profile
 
     const rating = Math.floor(listing.averageRating)
-    const ratingStars: JSX.Element[] = []
+    const ratingStars: JSX.Element[] = this.renderStars(rating)
     const skills = JSON.parse(decodeHtml(profile.customProps.skills)) as string[]
-
-    for (let index = 0; index < 5; index++) {
-      if (index < rating) {
-        ratingStars.push(
-          <span className="blue-fill" key={index}>
-            <a data-uk-icon="icon: star;" className="text-blue" />
-          </span>
-        )
-      } else {
-        ratingStars.push(
-          <a key={index} data-uk-icon="icon: star;" className="empty-fill text-blue" />
-        )
-      }
-    }
 
     if (this.state.isLoading) {
       return (
@@ -226,8 +219,9 @@ class ListingProfile extends Component<Props, State> {
               </a>
             </div>
           ) : null}
+
           {listing.isOwner ? (
-            <div className="uk-margin-bottom uk-align-right">
+            <div className="uk-width-1-1 uk-margin-bottom">
               <Button
                 type="button"
                 className="uk-button uk-button-default"
@@ -262,58 +256,110 @@ class ListingProfile extends Component<Props, State> {
               </Button>
             </div>
           ) : null}
-          <div id="listing-header">
-            <div id="left-content">
+          <div className="uk-grid uk-text-center" uk-grid>
+            <div className="uk-width-1-3@m">
               <CarouselListing data={imageData} />
             </div>
-            <div id="right-content">
-              <div id="head-content">
-                <p className="uk-text-large uk-text-bold text-blue">
-                  {decodeHtml(listing.item.title)}
-                </p>
-                <div className="uk-text-small">
-                  Type:{' '}
-                  <p className="uk-display-inline uk-text-bold">{listing.metadata.contractType}</p>
-                  {listing.metadata.serviceClassification ? (
-                    <div>
-                      {'  '} Classification:{' '}
-                      <p className="uk-display-inline uk-text-bold uk-text-capitalize">
-                        {listing.metadata.serviceClassification}
-                      </p>
+            <div className="uk-width-expand@m">
+              <div className="uk-flex uk-flex-column">
+                <div className="uk-flex uk-flex-column">
+                  <div className="uk-flex uk-flex-row uk-flex-between">
+                    <div className="uk-flex uk-flex-column">
+                      <div
+                        id="listing-title"
+                        className="uk-text-bold uk-text-capitalize uk-text-left"
+                      >
+                        {decodeHtml(listing.item.title)}
+                      </div>
+                      <div
+                        className="uk-flex uk-flex-row uk-margin-bottom uk-flex-middle"
+                        id="starsContainer"
+                      >
+                        {ratingSummary.count > 0 ? (
+                          <div className="uk-flex uk-flex-row">
+                            <div className="uk-margin-small-right">{ratingStars}</div>
+                            <p>{rating.toFixed(0)} Reviews</p>
+                          </div>
+                        ) : (
+                          <p className="color-secondary">No ratings.</p>
+                        )}
+                      </div>
                     </div>
-                  ) : null}
-                </div>
-                <div
-                  id="starsContainer"
-                  className="uk-margin-small-top uk-flex uk-flex-row uk-flex-middle"
-                >
-                  {ratingSummary.count > 0 ? (
-                    <>
-                      {ratingStars} <p className="uk-margin-small-left">({rating.toFixed(1)})</p>
-                    </>
-                  ) : (
-                    <p className="color-secondary">No ratings yet.</p>
-                  )}
-                </div>
-                <br />
-                <hr />
-                <p className="priceSize uk-margin-small-top uk-text-uppercase">
-                  {currency.convert(
-                    Number(listing.displayValue),
-                    listing.metadata.pricingCurrency.toUpperCase(),
-                    this.state.currentUser.preferences.fiat
-                  )}{' '}
-                  {this.state.currentUser.preferences.fiat}
-                  {listing.displayServiceRateMethod || ''}
-                </p>
-                <div id="footerContent" className="uk-margin-medium-top">
-                  <div id="footerContentLeft">
+                    <div className="uk-flex uk-flex-column">
+                      <div
+                        className="uk-flex uk-flex-row uk-flex-middle text-blue"
+                        id="price-container"
+                      >
+                        <div id="currency">{this.state.currentUser.preferences.fiat}</div>
+                        <div id="price" className="text-blue">
+                          {currency
+                            .convert(
+                              Number(listing.displayValue),
+                              listing.metadata.pricingCurrency.toUpperCase(),
+                              this.state.currentUser.preferences.fiat
+                            )
+                            .toFixed(2)}
+                        </div>
+                      </div>
+                      <div className="uk-text-right">{listing.displayServiceRateMethod || ''}</div>
+                    </div>
+                  </div>
+                  <div className="uk-grid uk-text-left" uk-grid>
+                    <div className="uk-flex uk-flex-column">
+                      <div className="uk-text-bold">Type</div>
+                      <div className="uk-text-capitalize">
+                        {listing.metadata.contractType.toLowerCase()}
+                      </div>
+                    </div>
+                    {listing.metadata.serviceClassification ? (
+                      <div className="uk-flex uk-flex-column">
+                        <div className="uk-text-bold">Classification</div>
+                        <div className="uk-text-capitalize">
+                          {listing.metadata.serviceClassification}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="uk-grid uk-text-left" uk-grid>
+                    <div className="uk-flex uk-flex-column">
+                      <div className="uk-text-bold">Payment Methods</div>
+                      <div className="uk-flex uk-flex-row">
+                        {listing.metadata.acceptedCurrencies.map(crypto => {
+                          let colorStyle
+                          if (crypto.length === 4) {
+                            colorStyle = crypto.toLowerCase().substr(1)
+                          } else {
+                            colorStyle = crypto.toLowerCase()
+                          }
+                          return (
+                            <span className={`enumeration ${colorStyle}`} key={crypto}>
+                              {crypto}
+                            </span>
+                          )
+                        })}
+                      </div>
+                    </div>
+                    {listing.item.tags.length > 0 ? (
+                      <div className="uk-flex uk-flex-column">
+                        <div className="uk-text-bold">Tags</div>
+                        <div className="uk-text-capitalize">
+                          {listing.item.tags.map(tag => (
+                            <span key={tag} className="tag uk-text-capitalize">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                  <div
+                    className="uk-margin-medium-top uk-grid uk-child-width-1-3@m uk-child-width-1-1@s"
+                    uk-grid
+                  >
                     <div>
-                      <span>Buy:</span>
-                      <a
-                        id="hourSelector"
+                      <Button
                         data-uk-icon="icon: minus;"
-                        className="text-blue uk-margin-left"
+                        className="text-blue hour-selector"
                         onClick={e => {
                           e.preventDefault()
                           this.handleQuantityChange(quantity - 1)
@@ -321,63 +367,71 @@ class ListingProfile extends Component<Props, State> {
                       />
                       <input
                         type="text"
-                        className="uk-margin-left uk-input uk-width-1-6 uk-text-center"
+                        id="order-quantity"
+                        className="uk-input uk-text-center"
                         value={quantity}
                         onChange={e => {
                           this.handleQuantityChange(Number(e.target.value))
                         }}
                       />
-                      <a
-                        id="hourSelector"
+                      <Button
                         data-uk-icon="icon: plus;"
-                        className="text-blue uk-margin-left"
+                        className="text-blue hour-selector"
                         onClick={e => {
                           e.preventDefault()
                           this.handleQuantityChange(quantity + 1)
                         }}
                       />
+                      <div>
+                        {listing.displayServiceRateMethod!.startsWith('/')
+                          ? listing.displayServiceRateMethod!.substr(1) + (quantity > 1 ? 's' : '')
+                          : listing.displayServiceRateMethod}
+                      </div>
                     </div>
                     <Button
-                      className="uk-button uk-button-primary uk-button-large uk-margin-medium-top uk-text-bold"
+                      id="checkout"
+                      className="uk-button uk-button-primary uk-text-bold uk-margin-left"
                       onClick={this.handleBuy}
                       disabled={listing.hasExpired}
                     >
                       <span uk-icon="icon: cart" /> CHECKOUT
                     </Button>
                   </div>
-                  <div id="footerContentRight">
-                    <span id="soldbytext">Sold by:</span>
-                    <div id="soldByCont">
-                      <div id="soldByContLeft">
-                        <img
-                          className="uk-border-circle imageAvatar"
-                          src={
-                            profile.avatarHashes.small
-                              ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
-                              : `${config.host}/images/user.svg`
-                          }
-                          alt="Border circle"
-                        />
-                      </div>
-                      <div id="soldByContRight">
-                        <p className="uk-text-medium uk-text-bold text-blue">{profile.name}</p>
-                        <div
-                          onClick={() => {
-                            const dmEvent = new CustomEvent('dm', { detail: profile })
-                            window.dispatchEvent(dmEvent)
-                          }}
-                        >
-                          <a data-uk-icon="icon: mail; ratio: 1.5;" className="text-blue" />
-                          <span className="uk-text-small uk-margin-small-left">Message</span>
-                        </div>
-                      </div>
+                </div>
+                <hr className="uk-margin-top uk-margin-bottom" />
+                <div className="uk-grid uk-grid-collapse" uk-grid>
+                  <Link
+                    className="uk-flex uk-flex-row text-gray uk-text-left"
+                    id="vendor-info"
+                    to={`/profile/${listing.vendorID.peerID}`}
+                  >
+                    <div className="uk-margin-small-right">
+                      <img
+                        className="uk-border-circle image-avatar"
+                        src={
+                          profile.avatarHashes.small
+                            ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
+                            : `${config.host}/images/user.svg`
+                        }
+                        alt="Border circle"
+                      />
                     </div>
-                    <Link
-                      className="uk-text-medium uk-text-bold text-blue uk-margin-small-top underlinedText"
-                      to={`/profile/${listing.vendorID.peerID}`}
-                    >
-                      GO TO STORE
-                    </Link>
+                    <div className="uk-flex uk-flex-column uk-margin-small-right">
+                      <div id="vendor-info-name">{profile.name}</div>
+                      <div>
+                        {this.renderStars(profile.stats!.averageRating)} (
+                        {profile.stats!.ratingCount})
+                      </div>
+                      <div className="text-gray">{profile.stats!.listingCount} Listings</div>
+                    </div>
+                  </Link>
+                  <div
+                    onClick={() => {
+                      const dmEvent = new CustomEvent('dm', { detail: profile })
+                      window.dispatchEvent(dmEvent)
+                    }}
+                  >
+                    <a data-uk-icon="icon: mail; ratio: 1.5;" className="text-blue" />
                   </div>
                 </div>
               </div>
@@ -392,7 +446,6 @@ class ListingProfile extends Component<Props, State> {
             </div>
           </div>
         ) : null}
-        <PayoutCard acceptedPayments={listing.metadata.acceptedCurrencies} />
         <SocialMediaCard contact={profile.contactInfo} title="Contact Information" />
         {background && background.educationHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name="Education" />
@@ -419,6 +472,24 @@ class ListingProfile extends Component<Props, State> {
         <TermsOfServiceCard data={listing.termsAndConditions || 'Nothing specified.'} />
       </div>
     )
+  }
+
+  private renderStars(rating: number): JSX.Element[] {
+    const ratingStars: JSX.Element[] = []
+    for (let index = 0; index < 5; index++) {
+      if (index < rating) {
+        ratingStars.push(
+          <span className="blue-fill" key={index}>
+            <a data-uk-icon="icon: star;" className="text-blue star" />
+          </span>
+        )
+      } else {
+        ratingStars.push(
+          <a key={index} data-uk-icon="icon: star;" className="empty-fill text-blue star" />
+        )
+      }
+    }
+    return ratingStars
   }
 
   private renderReviews() {

@@ -49,18 +49,18 @@ context('Browse Listing', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/listing?hash=QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn',
+      url: 'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
       response: 'fixture:listings/microsoft_office_installation.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/listing?hash=QmewzcB7xj43mModCeUMUBC5Rx8uTKQQ2JzSDeVAghN1XK',
+      url: 'http://localhost:8109/djali/listing?hash=Qma4JZtoBvVdm2rSPtAy2Xfk8YqL2Gh36ANKWgS1Vto6hV',
       response: 'fixture:listings/violin.json'
     })
     cy.route({
       method: 'GET',
       url: ' http://localhost:4002/ob/settings',
-      response: 'fixture:settings/primary.json',
+      response: 'fixture:settings/primary.json', 
     })
 
     cy.visit('http://localhost:3000/')
@@ -68,23 +68,16 @@ context('Browse Listing', () => {
 
   it('should display detailed information of 2 Listings', () => {
 
-    cy.get('#QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn').click()
+    cy.get('#QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C').click()
     cy.contains('Microsoft Office Suite Installation')
     cy.contains('Service')
     cy.contains('2521-0: Database Designers and Administrators')
-    cy.contains('20 USD')
+    cy.contains('USD')
+    cy.contains('20.00')
     cy.contains('Quality-focused Personal Loan Account bypass circuit web-enabled Lead Rustic Concrete Shirt leading edge Diverse feed regional Gloves Small Industrial sky blue Towels')
     cy.contains('Refined Cotton Computer partnerships Soap Intranet synthesize Books Garden International utilisation Cambodia monitor Security client-driven Persevering Handcrafted alarm approach capacitor scalable Games background Computer Director Cuban Peso Peso Convertible')
 
-    cy.get(':nth-child(1) > .uk-text-capitalize').click()
-
-    cy.get('#QmewzcB7xj43mModCeUMUBC5Rx8uTKQQ2JzSDeVAghN1XK').click()
-    cy.contains('Violin')
-    cy.contains('Service')
-    cy.contains('251-0: Software and Applications Developers and Analysts')
-    cy.contains('15 USD')
-    cy.contains('AI Generic 4th generation Pound Sterling Chair application incremental back up Bedfordshire Singapore Sausages Corporate Concrete withdrawal synthesize Small')
-    cy.contains('New Mexico Facilitator productize secondary Glen North Carolina focus group Avon San Marino customer loyalty copying Minnesota Intelligent Plastic Towels Frozen Handmade Plastic Ball Mouse navigating Faroe Islands invoice Well 1080p red infomediaries overriding')
+    cy.get('.uk-breadcrumb > :nth-child(1) > .uk-text-capitalize').click()
   })
 
   it('should verify sorting request of listings', () => {

@@ -1,4 +1,4 @@
-.imageAvatar {
+.image-avatar {
   height: 64px;
   width: 64px;
   object-fit: cover;
@@ -8,29 +8,14 @@
 }
 #container {
   background-color: #f1f9ff;
-  padding: 2rem 10% 2rem 10%;
-}
-#listing-header {
-  display: flex;
-  width: 100%;
-}
-#left-content {
-  flex: 1.5;
-  position: 'relative';
-}
-#right-content {
-  flex: 2;
-  padding-left: 30px;
+  padding: 2rem 2.5% 2rem 2.5%;
+  font-size: 16px;
 }
 .card-head {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 2rem;
-}
-#head-content {
-  display: flex;
-  flex-direction: column;
 }
 .text-blue {
   color: #2699fb !important;
@@ -41,44 +26,15 @@
 .blue-fill * {
   fill: #2699fb;
 }
-#rating {
-  height: 24px;
-  font-size: 19px;
-}
-.priceSize {
-  font-size: 1.9rem;
-}
-#footerContent {
-  display: flex;
-}
-#footerContentLeft {
-  flex: 1;
-}
-#footerContentRight {
-  flex: 1;
-}
-#hourSelector {
-  background-color: rgb(228, 225, 225);
+.hour-selector {
   padding: 7px;
-  border-radius: 5px;
+  border-radius: 20px;
+  border: 1px solid var(--primary);
+  height: 2em;
+  width: 2em;
 }
-#soldByCont {
-  display: flex;
-}
-#soldByContRight {
-  flex: 2;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-#soldByContLeft {
-  flex: 1;
-}
-.underlinedText {
-  text-decoration: underline;
-}
-#soldbytext {
-  line-height: 34px;
+.hour-selector:hover {
+  background-color: #e4e1e1;
 }
 .text-gray {
   color: #666;
@@ -86,4 +42,51 @@
 .inside-content {
   padding-top: 2%;
   padding-left: 1%;
+}
+#listing-title {
+  font-size: 2em;
+  font-weight: bold;
+}
+#price {
+  font-size: 1.9rem;
+}
+#price-container {
+  line-height: 1;
+}
+.enumeration {
+  margin-left: 0.5em;
+  line-height: 2em;
+  padding: 0.25em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-radius: 2em;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.enumeration:first-child {
+  margin-left: 0;
+}
+.tag {
+  padding: 0;
+  margin: 0;
+}
+.tag:not(:first-child)::before {
+  content: ", ";  
+}
+#order-quantity {
+  border: none;
+  width: 4em;
+}
+.star {
+  font-size: 1.5em;
+}
+#vendor-info-name {
+  font-size: 1.1em;
+  font-weight: bolder;
+}
+#vendor-info:hover {
+  cursor: pointer;
+}
+#vendor-info:hover #vendor-info-name {
+  color: #2699fb; 
 }

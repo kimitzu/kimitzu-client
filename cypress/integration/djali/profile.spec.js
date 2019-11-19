@@ -88,6 +88,11 @@ context('Profile', () => {
       url: 'http://localhost:4002/ob/profile',
       response: {}
     })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/djali/listing?hash=*',
+      response: 'fixture:listings/creative_marketing_full_response.json'
+    })
     cy.visit('http://localhost:3000/')
   })
 
@@ -153,13 +158,11 @@ context('Profile', () => {
     cy.get('#view-profile').click()
     cy.get(':nth-child(2) > #tab-label').click()
 
-    cy.get('#QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn')
-      .contains('Microsoft Office Suite Installation')
-      .contains('20.00')
+    cy.get('#Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji')
+      .contains('Creative Marketing')
 
-    cy.get('#QmewzcB7xj43mModCeUMUBC5Rx8uTKQQ2JzSDeVAghN1XK ')
-      .contains('Violins')
-      .contains('15.00')
+    cy.contains('USD')
+    cy.contains('0.38')
   })
 
   it('should display expected values on Store Tab', () => {
@@ -169,22 +172,22 @@ context('Profile', () => {
 
     cy.contains('Buyer Ratings')
     cy.get('.divider > .uk-padding-small > :nth-child(1) > :nth-child(1) > .uk-flex-1 > h4')
-      .contains('0.0/5')
+      .contains('0/5')
 
-    cy.contains('Fairness (0.0)')
-    cy.contains('Careful Reader (0.0)')
-    cy.contains('Accuracy (0.0)')
-    cy.contains('Responsiveness (0.0)')
+    cy.contains('Fairness (0)')
+    cy.contains('Careful Reader (0)')
+    cy.contains('Accuracy (0)')
+    cy.contains('Responsiveness (0)')
 
     cy.contains('Seller Ratings')
     cy.get(':nth-child(2) > .uk-padding-small > :nth-child(1) > :nth-child(1) > .uk-flex-1 > h4')
-      .contains('0.0/5')
+      .contains('0/5')
 
-    cy.contains('Overall (NaN)')
-    cy.contains('Quality (NaN)')
-    cy.contains('As Advertised (NaN)')
-    cy.contains('Delivery (NaN)')
-    cy.contains('Service (NaN)')
+    cy.contains('Overall (0)')
+    cy.contains('Quality (0)')
+    cy.contains('As Advertised (0)')
+    cy.contains('Delivery (0)')
+    cy.contains('Service (0)')
   })
 
   //TODO Followers Tab

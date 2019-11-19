@@ -63,7 +63,7 @@
     "spinkit": "^1.2.5",
     "throttle": "^1.0.3",
     "typescript": "^3.4.5",
-    "uikit": "^3.1.4",
+    "uikit": "^3.2.3",
     "use-force-update": "^1.0.6"
   },
   "scripts": {
@@ -115,7 +115,7 @@
     "eslint-plugin-cypress": "^2.6.1",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
-    "mock-socket": "^9.0.0",
+    "mock-socket": "^9.0.2",
     "prettier": "^1.17.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",

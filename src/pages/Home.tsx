@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
@@ -27,6 +26,8 @@ interface HomeState {
 }
 
 class Home extends Component<HomeProps, HomeState> {
+  private filterSidebarRef = React.createRef<HTMLDivElement>()
+
   constructor(props: any) {
     super(props)
     const profile = this.props.currentUser
@@ -58,6 +59,7 @@ class Home extends Component<HomeProps, HomeState> {
       this.handleChange('query', event.detail, 'search')
       this.handleSearchSubmit()
     }
+
     window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 
@@ -65,15 +67,41 @@ class Home extends Component<HomeProps, HomeState> {
     const { profile, rating, search } = this.state
     return (
       <div>
+        <div id="filter-sidebar" uk-offcanvas="mode: slide" ref={this.filterSidebarRef}>
+          <div className="uk-offcanvas-bar">
+            <InlineMultiDropdowns
+              title="Browse Classifications"
+              handleItemSelect={this.handleDropdownSelect}
+              items={ServiceCategories}
+            />
+            <SidebarFilter
+              id="sidebar-mobile"
+              key={this.state.search.searchID}
+              profile={profile}
+              locationRadius={search.locationRadius}
+              onChange={this.handleChange}
+              onFilterChange={this.handleFilterChange}
+              onFilterSubmit={this.handleSearchSubmit}
+              onRatingChanged={this.ratingChanged}
+              onFilterDelete={this.handleFilterDelete}
+              plusCode={search.plusCode}
+              onFilterReset={this.handleFilterReset}
+              rating={rating}
+              searchInstance={this.state.search}
+            />
+          </div>
+        </div>
+
         <div className="main-container">
           <div className="child-main-container">
-            <div className="custom-width">
+            <div className="custom-width uk-visible@s">
               <InlineMultiDropdowns
                 title="Browse Classifications"
                 handleItemSelect={this.handleDropdownSelect}
                 items={ServiceCategories}
               />
               <SidebarFilter
+                id="sidebar-desktop"
                 key={this.state.search.searchID}
                 profile={profile}
                 locationRadius={search.locationRadius}
@@ -91,7 +119,16 @@ class Home extends Component<HomeProps, HomeState> {
             {search.results.data && search.results.count > 0 ? (
               <div className="custom-width-two">
                 <div className="pagination-cont">
-                  <div className="left-side-container">
+                  <div className="right-side-container">
+                    <div className="uk-hidden@s">
+                      <button
+                        className="uk-button uk-button-default uk-margin-small-right"
+                        type="button"
+                        uk-toggle="target: #filter-sidebar"
+                      >
+                        Filters
+                      </button>
+                    </div>
                     <Pagination
                       totalRecord={search.results.count}
                       recordsPerPage={search.paginate.limit}
@@ -106,7 +143,7 @@ class Home extends Component<HomeProps, HomeState> {
                       />
                     </div>
                   </div>
-                  <div className="uk-flex-1">
+                  <div className="uk-flex uk-flex-center">
                     <ListingCardGroup
                       key={search.paginate.currentPage}
                       data={search.results.data}
@@ -167,6 +204,11 @@ class Home extends Component<HomeProps, HomeState> {
 
   private async handleSearchSubmit() {
     const { search } = this.state
+
+    if (this.filterSidebarRef.current) {
+      window.UIkit.offcanvas(this.filterSidebarRef.current).hide()
+    }
+
     if (!search.query.includes(' ') && search.query.length === 46) {
       window.location.hash = `/profile/${search.query}`
       return
@@ -244,11 +286,6 @@ class Home extends Component<HomeProps, HomeState> {
 
     filters[field] = value
     modifiers[field] = modifier ? modifier : '=='
-
-    // if (!filters[field]) {
-    //   delete filters[field]
-    //   delete modifiers[field]
-    // }
 
     this.setState({
       search: this.state.search,

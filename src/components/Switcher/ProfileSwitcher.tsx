@@ -3,7 +3,7 @@ import React from 'react'
 import { FollowersCardGroup, ListingCardGroup } from '../CardGroup'
 import { ProfileBasicInfoSegment, RatingsAndReviewsSegment } from '../Segment'
 
-import Listing from '../../models/Listing'
+import Listing, { ListingResponse } from '../../models/Listing'
 import Profile from '../../models/Profile'
 
 import ClientRatings from '../../constants/ClientRatings.json'
@@ -14,7 +14,7 @@ import Rating, { RatingSummary } from '../../interfaces/Rating'
 interface Props {
   profile: Profile
   currentUser: Profile
-  listings: Listing[]
+  listings: ListingResponse[]
   ratingSummary: RatingSummary
   ratings: Rating[]
   followersList: string[]

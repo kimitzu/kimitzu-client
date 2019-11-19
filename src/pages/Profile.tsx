@@ -95,8 +95,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       loadingStatus: 'Retrieving Followers',
     })
     const isFollowing = await Profile.isFollowing(id)
-    const followersList = await Profile.getFollowersList(id)
-    const followingList = await Profile.getFollowingList(id)
+    setTimeout(async () => {
+      const followersList = await Profile.getFollowersList(id)
+      const followingList = await Profile.getFollowingList(id)
+      this.setState({
+        followersList,
+        followingList,
+      })
+    })
     this.setState({
       loadingStatus: 'Retrieving Settings',
     })
@@ -117,16 +123,11 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     this.setState({
       profile,
       search,
-      followersList,
-      followingList,
       isFollowing,
       isBlocked,
       isOwner,
       loadingStatus: 'Retrieving Ratings',
     })
-
-    const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
-    this.setState({ ratings, ratingsSummary })
 
     /**
      * Adding timeout to quickly load the profile page.
@@ -134,6 +135,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
      * in the rating section, not much is affected.
      */
     setTimeout(async () => {
+      const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
+      this.setState({ ratings, ratingsSummary })
       const updatedRatings = await Promise.all(
         ratings.map(async (rating: RatingItem) => {
           let userData

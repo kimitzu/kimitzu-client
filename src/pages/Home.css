@@ -16,11 +16,12 @@
   justify-content: center;
 }
 
-.child-main-container {
+.child-main-container { 
   display: flex;
   flex-direction: row;
   max-width: 95%;
   width: 95%;
+  justify-content: center;
 }
 
 .custom-width {
@@ -32,7 +33,7 @@
   width: 80%;
 }
 
-.left-side-container {
+.right-side-container {
   display: flex;
   height: 80px;
   align-items: center;
@@ -43,4 +44,9 @@
 .pagination-cont {
   display: flex;
   flex-direction: column;
+}
+
+.interactive-floater {
+  margin: 0;
+  padding: 0;
 }

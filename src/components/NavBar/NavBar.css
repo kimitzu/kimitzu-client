@@ -23,7 +23,11 @@
   width: 52%;
 }
 .navbar-icon {
-  color: #fff !important;
+  padding: 0 20px !important;
+}
+.navbar-icon > span {
+  color: #ffffff !important;
+  padding: 0 0 !important;
 }
 #create-listing {
   color: #ffffff;

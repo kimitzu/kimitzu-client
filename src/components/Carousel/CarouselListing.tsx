@@ -72,9 +72,9 @@ const CarouselListing = ({ data }: Props) => {
 
   return (
     <div>
-      <div className="mainImg">
+      <div className="main-img">
         <img
-          className="mainImgChild imageContain"
+          className="main-img-child image-contain"
           src={src}
           alt=""
           onClick={() =>
@@ -116,7 +116,7 @@ const CarouselListing = ({ data }: Props) => {
         data-uk-slider
         draggable={false}
       >
-        <ul id="imageList" className="uk-slider-items uk-child-width-1-4@m uk-grid">
+        <ul id="image-list" className="uk-slider-items uk-grid">
           {data.map((img, i) => {
             i++
             return (
@@ -124,14 +124,14 @@ const CarouselListing = ({ data }: Props) => {
                 key={'img' + i}
                 id={'img' + i}
                 onClick={() => prepareImage(i, img.src)}
-                className="imageListLi"
+                className="image-list-li"
               >
                 <img
                   src={img.src}
                   alt=""
                   className={[
-                    id === 'img' + i ? 'imageSelected imgHeight' : 'imgHeight',
-                    'imageCover',
+                    id === 'img' + i ? 'image-selected img-height' : 'img-height',
+                    'image-cover',
                   ].join(' ')}
                 />
               </li>
@@ -139,18 +139,18 @@ const CarouselListing = ({ data }: Props) => {
           })}
         </ul>
 
-        <div className="uk-position-center-left uk-hidden-hover navShadowLeft btnNavLeft" />
+        <div className="uk-position-center-left nav-shadow-left btn-nav-left uk-hidden-hover" />
         <span
           data-uk-icon="icon: chevron-left; ratio: 2"
-          className="uk-position-center-left uk-hidden-hover"
+          className="uk-position-center-left"
           data-uk-slidenav-previous
           data-uk-slider-item="previous"
           onClick={() => prev()}
         />
-        <div className="uk-position-center-right uk-hidden-hover navShadowRight btnNavRight" />
+        <div className="uk-position-center-right nav-shadow-right btn-nav-right uk-hidden-hover" />
         <span
           data-uk-icon="icon: chevron-right; ratio: 2"
-          className="uk-position-center-right uk-hidden-hover"
+          className="uk-position-center-right"
           data-uk-slidenav-next
           data-uk-slider-item="next"
           onClick={() => next()}

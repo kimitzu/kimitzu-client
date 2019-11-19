@@ -2,7 +2,7 @@ import Axios from 'axios'
 import config from '../config'
 import Values from '../constants/Values.json'
 import PlusCode from '../utils/Location/PlusCode'
-import Listing from './Listing'
+import Listing, { ListingResponse } from './Listing'
 
 export interface State {
   filters: Ers
@@ -31,7 +31,7 @@ export interface Paginate {
 }
 
 export interface SearchResults {
-  data: any[]
+  data: ListingResponse[]
   count: number
   limit: number
   nextStart: number
@@ -44,11 +44,6 @@ export interface Transform {
 
 export interface Spec {
   hash: string
-  thumbnail: string
-  'item.title': string
-  'item.price': string
-  'metadata.pricingCurrency': string
-  averageRating: string
 }
 
 class Search implements State {
@@ -85,11 +80,6 @@ class Search implements State {
       operation: 'shift',
       spec: {
         hash: 'hash',
-        thumbnail: 'thumbnail',
-        'item.title': 'item.title',
-        'item.price': 'item.price',
-        'metadata.pricingCurrency': 'metadata.pricingCurrency',
-        averageRating: 'averageRating',
       },
     },
   ]
@@ -107,6 +97,7 @@ class Search implements State {
     plusCode: '',
     query: '',
     sort: 'x.item.title <= y.item.title',
+    sortIndicator: '',
     isSearching: false,
     results: {
       data: [],
@@ -125,11 +116,6 @@ class Search implements State {
         operation: 'shift',
         spec: {
           hash: 'hash',
-          thumbnail: 'thumbnail',
-          'item.title': 'item.title',
-          'item.price': 'item.price',
-          'metadata.pricingCurrency': 'metadata.pricingCurrency',
-          averageRating: 'averageRating',
         },
       },
     ],
@@ -147,23 +133,6 @@ class Search implements State {
   public constructor() {
     this.saveAsOriginal()
     this.searchID = Math.random().toString()
-  }
-
-  public async clearSearch() {
-    const searchResults = {
-      data: [],
-      count: 0,
-      limit: 0,
-      nextStart: 0,
-    }
-    const paginate = {
-      limit: 25,
-      start: 0,
-      totalPages: 0,
-      currentPage: 0,
-    }
-    this.results = searchResults
-    this.paginate = paginate
   }
 
   public async nextPage() {
@@ -292,8 +261,16 @@ class Search implements State {
     this.paginate.totalPages = Math.ceil(result.data.count / this.paginate.limit)
 
     if (result.data.data) {
-      const listings = result.data.data.map(d => new Listing(d))
-      result.data.data = listings
+      let listings
+
+      try {
+        listings = await Promise.all(
+          result.data.data.map((d: Spec) => Listing.retrieve(d.hash).catch(error => null))
+        )
+        result.data.data = listings
+      } catch (e) {
+        result.data.data = []
+      }
     }
 
     this.results = result.data as SearchResults

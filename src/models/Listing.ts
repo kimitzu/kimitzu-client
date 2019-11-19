@@ -22,10 +22,14 @@ import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
 
+export interface ListingResponse {
+  vendor: Profile
+  listing: Listing
+  imageData: [{ src: string }]
+}
+
 class Listing implements ListingInterface {
-  public static async retrieve(
-    id: string
-  ): Promise<{ vendor: Profile; listing: Listing; imageData: [{ src: string }] }> {
+  public static async retrieve(id: string): Promise<ListingResponse> {
     const djaliListingRequest = await Axios.get(`${config.djaliHost}/djali/listing?hash=${id}`)
     const djaliListing = djaliListingRequest.data
 
@@ -46,7 +50,7 @@ class Listing implements ListingInterface {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
     })
 
-    const currentUser = await Profile.retrieve()
+    const currentUser = await Profile.retrieve('', false)
 
     const listing = new Listing(djaliListing)
     listing.currentUser = currentUser
@@ -141,7 +145,7 @@ class Listing implements ListingInterface {
     coinType: '',
     coinDivisibility: 100000000, // USD Default
     priceModifier: 0,
-    serviceRateMethod: 'PER_HOUR',
+    serviceRateMethod: 'FIXED',
     serviceClassification: '',
   }
   public shippingOptions: ShippingOption[] = []

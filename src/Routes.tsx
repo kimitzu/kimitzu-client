@@ -52,7 +52,13 @@ const Routes = ({ history }: RouteProps) => (
               <CreateListing {...props} currentUser={currentUser} settings={settings} />
             )}
           />
-          <Route path="/listing/edit/:id" exact component={CreateListing} />
+          <Route
+            path="/listing/edit/:id"
+            exact
+            render={props => (
+              <CreateListing {...props} currentUser={currentUser} settings={settings} />
+            )}
+          />
           <Route
             path="/settings"
             exact

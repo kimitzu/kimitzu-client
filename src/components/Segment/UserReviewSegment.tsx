@@ -1,6 +1,7 @@
 import moment from 'moment'
 import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
+import decodeHtml from '../../utils/Unescape'
 
 interface Props {
   imgSrc?: string
@@ -44,7 +45,7 @@ const UserReviewSegment = ({
             </label>
           </div>
         </div>
-        <p>{review}</p>
+        <p>{decodeHtml(review)}</p>
       </div>
     </div>
   )

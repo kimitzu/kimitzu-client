@@ -15,6 +15,7 @@ interface Props {
   inputProps?: InputHTMLAttributes<any>
   selectProps?: SelectHTMLAttributes<any>
   onChange?: (value: Option) => void
+  id?: string
 }
 
 interface Option {
@@ -31,8 +32,8 @@ const AutoCompleteSelect = ({
   options,
   selectProps,
   onChange,
+  id,
 }: Props) => {
-  const [code, setCode] = useState('')
   const [focused, setFocused] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [resultLimit, setResultLimit] = useState(20)
@@ -134,9 +135,9 @@ const AutoCompleteSelect = ({
     if (el) {
       const el2 = el.getElementsByTagName('p')[0].innerHTML
       setInputValue(el2)
-      setCode(e.target.id)
+      const code = e.target.id.split('autocomplete-')[1]
       if (onChange) {
-        onChange({ label: el2, value: e.target.id.replace('~', '') })
+        onChange({ label: el2, value: code })
       }
     }
     setShow(false)
@@ -163,8 +164,8 @@ const AutoCompleteSelect = ({
   return (
     <div id="input-selector">
       <input
-        id="input"
-        className="uk-input"
+        id={`${id}-autocomplete`}
+        className="uk-input input"
         onChange={inputChange}
         onBlur={dropdownOnBlur}
         onFocus={toggleDropdown}
@@ -183,7 +184,12 @@ const AutoCompleteSelect = ({
       >
         <ul id="uloptions">
           {searchResults.map(op => (
-            <li id={op.value} key={op.value} onClick={selectValue} onFocus={dropdownFocused}>
+            <li
+              id={`${id}-autocomplete-${op.value}`}
+              key={op.value}
+              onClick={selectValue}
+              onFocus={dropdownFocused}
+            >
               <p className="untouch">{op.label}</p>
             </li>
           ))}

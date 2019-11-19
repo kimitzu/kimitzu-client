@@ -14,6 +14,9 @@ interface Props {
 }
 
 const displayRatingValue = (originalVal: number) => {
+  if (!originalVal) {
+    return '0'
+  }
   let rating = originalVal.toFixed(2)
   if (rating.endsWith('0')) {
     rating = rating.slice(0, rating.length - 1)

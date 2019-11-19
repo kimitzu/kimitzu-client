@@ -7,12 +7,12 @@ context('Filter', () => {
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/exchangerate/btc',
-      response: {}
+      response: {},
     })
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/moderators?async=true',
-      response: {}
+      response: {},
     })
     cy.route({
       method: 'GET',
@@ -23,7 +23,7 @@ context('Filter', () => {
       method: 'GET',
       url: 'http://localhost:8109/authenticate',
       response: {
-        authenticated: false
+        authenticated: false,
       },
     })
     cy.route({
@@ -41,59 +41,72 @@ context('Filter', () => {
       url: ' http://localhost:4002/ob/settings',
       response: 'fixture:settings/primary.json',
     })
+    cy.route({
+      method: 'GET',
+      url: ' http://localhost:8109/djali/listing?hash=*',
+      response: 'fixture:listings/creative_marketing_full_response.json',
+    })
     cy.visit('http://localhost:3000/')
   })
 
   it('Should verify request filters of listings and clear filter fields when Reset button is clicked', () => {
-    // to ignore the first two calls of @filteredSearch route
+    // To ignore the first two calls of @filteredSearch route.
     cy.wait('@filteredSearch')
     cy.wait('@filteredSearch')
 
-    cy.get('#input').click()
-    cy.get('#\\32 636-5').click()
-    cy.wait('@filteredSearch')
-    // selecting a Occupation filter triggers another @filteredSearch route
+    cy.get('#sidebar-desktop-autocomplete').click()
+    cy.get('#sidebar-desktop-autocomplete-2636-5').click()
 
-    cy.get('.uk-flex > :nth-child(1) > .uk-input').clear().type('10')
-    cy.get(':nth-child(3) > .uk-input').type('99')
-    cy.get(':nth-child(7) > .uk-input').type('Sample City')
-    cy.get(':nth-child(8) > .uk-input').type('Sample State')
-    cy.get(':nth-child(9) > .uk-input').type('8GC2CMXR+X6')
-    cy.get(':nth-child(10) > .uk-select').select('Afghanistan')
-    cy.get('[for="rate1_5"] > i').click()
-    cy.get('.uk-range')
+    // selecting an Occupation Filter triggers another @filteredSearch route, ignore.
+    cy.wait('@filteredSearch')
+
+    cy.get('#sidebar-desktop-price-min')
+      .clear()
+      .type('10')
+    cy.get('#sidebar-desktop-price-max').type('99')
+    cy.get('#sidebar-desktop-location-city').type('Sample City')
+    cy.get('#sidebar-desktop-location-state').type('Sample State')
+    cy.get('#sidebar-desktop-location-pluscode').type('8GC2CMXR+X6')
+    cy.get('#sidebar-desktop-location-country').select('Afghanistan')
+    cy.get('[for="rate1_5"] > i').click({ multiple: true, force: true })
+    cy.get('#sidebar-desktop-radius-range')
       .invoke('val', 200)
       .trigger('change')
 
-    cy.get('.uk-button-primary').click()
+    cy.get('#sidebar-desktop-submit').click()
 
     cy.wait('@filteredSearch').then(function(xhr) {
       const filters = xhr.requestBody.filters
+      filters.sort()
 
-      expect(filters[1]).to.equal(`containsInArr(doc.item.categories, "2636-5")`)
-      expect(filters[2]).to.equal(`doc.location.city == "Sample City"`)
-      expect(filters[3]).to.equal(`doc.location.state == "Sample State"`)
-      expect(filters[4]).to.equal(`zipWithin("8GC2CMXR+X6", "AF", doc.location.zipCode, doc.location.country, 200000)`)
-      expect(filters[5]).to.equal(`doc.location.country == "AF"`)
-      expect(filters[6]).to.equal(`doc.averageRating >= "5"`)
-      expect(filters[7]).to.equal(`doc.item.price >= 1000&& doc.item.price <= 9900`)
+      const expected = [
+        'containsInArr(doc.item.categories, "2636-5")',
+        'doc.item.price >= 1000&& doc.item.price <= 9900',
+        'doc.location.city == "Sample City"',
+        'doc.location.country == "AF"',
+        'doc.location.state == "Sample State"',
+        'doc.metadata.contractType == "SERVICE"',
+        'geoWithin("38.44993750000002", "20.690562499999984", doc.location.latitude, doc.location.longitude, 200000)',
+      ]
+
+      expect(filters).to.deep.equal(expected)
     })
 
-    cy.get('.uk-button-default').click()
+    cy.get('#sidebar-desktop-reset').click()
 
-    cy.get('#input').should('be.empty')
-    cy.get('.uk-flex > :nth-child(1) > .uk-input').should('be.empty')
-    cy.get(':nth-child(3) > .uk-input').should('be.empty')
-    cy.get(':nth-child(7) > .uk-input').should('be.empty')
-    cy.get(':nth-child(8) > .uk-input').should('be.empty')
-    cy.get(':nth-child(9) > .uk-input').should('be.empty')
-    cy.get(':nth-child(10) > .uk-select').should('have.value', '')
+    cy.get('#sidebar-desktop-autocomplete').should('be.empty')
+    cy.get('#sidebar-desktop-price-min').should('have.value', '0')
+    cy.get('#sidebar-desktop-price-max').should('be.empty')
+    cy.get('#sidebar-desktop-location-pluscode').should('be.empty')
+    cy.get('#sidebar-desktop-location-city').should('be.empty')
+    cy.get('#sidebar-desktop-location-state').should('be.empty')
+    cy.get('#sidebar-desktop-location-country').should('have.value', '')
     cy.get('[for="rate1_1"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_2"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_3"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_4"]').should('have.class', 'dv-star-rating-empty-star')
     cy.get('[for="rate1_5"]').should('have.class', 'dv-star-rating-empty-star')
-    cy.get('.uk-range').should('have.value', '1')
+    cy.get('#sidebar-desktop-radius-range').should('have.value', '1')
   })
 
   it('Should hide own listings', () => {
@@ -103,10 +116,14 @@ context('Filter', () => {
       url: 'http://localhost:8109/djali/search',
       response: 'fixture:listings/search_many.json',
     }).as('ownerSearch')
-    cy.get('#hideOwnListingCheckbox').click()
+    cy.get('#sidebar-desktop-hideOwnListingCheckbox').click()
     cy.wait('@ownerSearch').then(function(xhr) {
       const filters = xhr.requestBody.filters
-      const expected = [`doc.metadata.contractType == "SERVICE"`, `doc.vendorID.peerID != "QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs"`, `doc.item.price >= 0`]
+      const expected = [
+        `doc.metadata.contractType == "SERVICE"`,
+        `doc.vendorID.peerID != "QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs"`,
+        `doc.item.price >= 0`,
+      ]
       cy.wrap(filters).should('deep.equal', expected)
     })
   })
@@ -118,14 +135,18 @@ context('Filter', () => {
       url: 'http://localhost:8109/djali/search',
       response: 'fixture:listings/search_many.json',
     }).as('ownerSearch')
-    cy.get('#hideOwnListingCheckbox').click()
+    cy.get('#sidebar-desktop-hideOwnListingCheckbox').click()
     cy.wait('@ownerSearch').then(function(xhr) {
       const filters = xhr.requestBody.filters
-      const expected = [`doc.metadata.contractType == "SERVICE"`, `doc.vendorID.peerID != "QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs"`, `doc.item.price >= 0`]
+      const expected = [
+        `doc.metadata.contractType == "SERVICE"`,
+        `doc.vendorID.peerID != "QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs"`,
+        `doc.item.price >= 0`,
+      ]
       cy.wrap(filters).should('deep.equal', expected)
     })
 
-    cy.get('#hideOwnListingCheckbox').click()
+    cy.get('#sidebar-desktop-hideOwnListingCheckbox').click()
     cy.wait('@ownerSearch').then(function(xhr) {
       const filters = xhr.requestBody.filters
       const expected = [`doc.metadata.contractType == "SERVICE"`, `doc.item.price >= 0`]

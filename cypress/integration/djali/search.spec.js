@@ -6,13 +6,13 @@ context('Search', () => {
     cy.server({})
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
-      response: 'fixture:profile/vendor.json',
+      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      response: 'fixture:profile/moderator.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=moderator',
-      response: 'fixture:profile/moderator.json',
+      url: 'http://localhost:8109/djali/peer/*',
+      response: 'fixture:profile/vendor.json',
     })
     cy.route({
       method: 'GET',
@@ -23,7 +23,7 @@ context('Search', () => {
       method: 'POST',
       url: 'http://localhost:8109/djali/search',
       response: 'fixture:listings/search_many.json',
-    })
+    }).as('search')
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/chatconversations',
@@ -59,31 +59,39 @@ context('Search', () => {
       url: 'http://localhost:4002/ob/moderators?async=true',
       response: {},
     })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/djali/listing?hash=*',
+      response: 'fixture:listings/creative_marketing_full_response.json',
+    })
   })
 
   it('Should see all entries in search', () => {
     cy.visit('http://localhost:3000/')
-    cy.contains('THIRD SERVER').should('exist')
-    cy.contains('2.00 USD').should('exist')
+    cy.wait('@search')
+    cy.contains('Creative Marketing').should('exist')
+    cy.contains('0.38').should('exist')
+    cy.contains('USD').should('exist')
   })
 
   it('Should properly convert to another currency', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/djali/peer/get?id=&force=true',
       response: 'fixture:profile/vendor_philippines.json',
     })
     cy.visit('http://localhost:3000/')
-    cy.contains('THIRD SERVER').should('exist')
-    cy.contains('104.08 PHP').should('exist')
+    cy.contains('Creative Marketing').should('exist')
+    cy.contains('19.77').should('exist')
+    cy.contains('PHP').should('exist')
   })
 
   it('Should open a listing', () => {
     cy.route({
       method: 'GET',
       url:
-        'http://localhost:8109/djali/listing?hash=QmehvB3hJJGcA7FBjQfcYFwWbe8jdkf94GW3qoYDCdhCTt',
-      response: 'fixture:listings/entry_fresh_ridges.json',
+        'http://localhost:8109/djali/listing?hash=Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji',
+      response: 'fixture:listings/creative_marketing_full_response.json',
     })
     cy.route({
       method: 'GET',
@@ -93,13 +101,14 @@ context('Search', () => {
     })
     cy.visit('http://localhost:3000/')
     cy.get(
-      '#QmehvB3hJJGcA7FBjQfcYFwWbe8jdkf94GW3qoYDCdhCTt > a > :nth-child(1) > .img-list'
+      ':nth-child(1) > #Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji > a > .listing-header'
     ).click()
     cy.contains('Retrieving Listing...')
-    cy.contains('Fresh Ridges').should('exist')
-    cy.get('.priceSize').should('have.html', '0.27 USD/hour')
+    cy.contains('Creative Marketing').should('exist')
+    cy.get('#price').should('have.html', '0.38')
+    cy.get('#currency').should('have.html', 'USD')
     cy.contains('noren.arevalo@gmail.com')
-    cy.contains('Bitcoin (TBTC)')
+    cy.contains('TBTC')
     cy.contains('Rave')
   })
 })

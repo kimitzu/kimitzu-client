@@ -1,32 +1,32 @@
-.imageCover {
+.image-cover {
   object-fit: cover;
 }
 
-.imageContain {
+.image-contain {
   object-fit: contain;
 }
 
-.imageSelected {
+.image-selected {
   border: 3px solid rgb(0, 89, 255);
 }
-.mainImg {
-  max-height: 300px;
-  height: 300px;
+.main-img {
+  max-height: 15em;
+  height: 15em;
   width: auto;
   display: flex;
   justify-content: center;
 }
-.mainImgChild {
+.main-img-child {
   flex: 1
 } 
-.btnNavLeft {
+.btn-nav-left {
   height: 5rem;
   width: 50%;
   display: flex;
   align-items: center;
   pointer-events: none
 }
-.btnNavRight {
+.btn-nav-right {
   height: 5rem;
   width: 50%;
   display: flex;
@@ -35,22 +35,20 @@
   pointer-events: none
 }
 
-.navShadowLeft {
-  /* box-shadow:inset 100px 0 100px -100px #1F1719; */
+.nav-shadow-left {
   box-shadow:inset 150px 0 100px -100px #1F1719;
 }
-.navShadowRight {
-  /* box-shadow:inset 100px 0 100px -100px #1F1719; */
+.nav-shadow-right {
   box-shadow:inset -150px 0 100px -100px #1F1719;
 }
-.imageListLi {
+.image-list-li {
   display: flex;
   justify-content: center;
 }
-.imgHeight {
+.img-height {
   height: 5rem;
 }
-#starsContainer {
+#stars-container {
   display: flex;
   align-items: center;
 }

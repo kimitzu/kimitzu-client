@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('/fonts/SourceSansPro-Regular.ttf') format('truetype'),
+       url('/fonts/SourceSansPro-Bold.ttf') format('truetype'),
+       url('/fonts/SourceSansPro-Black.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --primary: #2699fb;
   --secondary: #a3a3a3;
@@ -13,7 +22,7 @@
 }
 
 body * {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -320,4 +329,22 @@ a:hover {
 
 :focus {
   outline: -webkit-focus-ring-color auto 0px;
+}
+
+.btc {
+  background-color: #F7931A;
+  color: #ffffff;
+}
+
+.ltc {
+  background-color: #d3d3d3;
+}
+
+.zec {
+  background-color: #edb227;
+}
+
+.bch {
+  background-color: #478559;
+  color: #ffffff;
 }

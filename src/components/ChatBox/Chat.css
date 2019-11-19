@@ -9,7 +9,7 @@
     border-top-right-radius: 5px;
     display: flex;
     flex-direction: row;
-    z-index: 9999;
+    z-index: 99;
     overflow: hidden;
     -webkit-transition: width 0.3s, height 0.3s; /* Safari prior 6.1 */
     transition: width 0.3s, height 0.3s;

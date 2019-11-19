@@ -69,6 +69,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
           <FormLabel label="OCCUPATION CLASSIFICATION" required />
           <div id="form-select" className="uk-form-controls">
             <AutoCompleteSelect
+              id="listing-create"
               defaultSelectorVal={listing.metadata.serviceClassification!.split(':')[0] || ''}
               options={serviceTypes}
               onChange={event => {

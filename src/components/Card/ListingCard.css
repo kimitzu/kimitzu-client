@@ -1,39 +1,123 @@
-.listing-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
+div .listing-container {
   font-size: 14px;
-  color: rgb(88, 88, 88);
+  margin: 0.6em;
+  display: flex;
+  flex-direction: column;
+  height: 18em;
+  width: 15em;
+  border: var(--border-color) 1px solid;
+  border-radius: 5px;
+  box-shadow: 0px 0px 8px 0px #c4c4c4;
 }
 
-.listing {
-  height: 300px;
-  background-color: white;
+.listing-container:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 12px 3px #c4c4c4;
 }
 
-.img-list {
-  height: 200px;
-  width: 100%;
+@media (max-width: 1200px) {
+  div .listing-container {
+    font-size: 16px;
+  }
+}
+
+.listing-container .listing-header {
+  height: 10em;
+  width: 15em;
+  border-radius: 5px 5px 0 0;
   object-fit: cover;
 }
 
-.listing-small-info {
-  padding: 10px;
+.listing-container .seller-info {
+  display: flex;
+  flex-direction: row;
+  margin-top: -1.5em;
+  margin-left: 1em;
 }
 
-.price {
+.seller-info .avatar {
+  width: 3em;
+  height: 3em;
+  border-radius: 10em;
+  border: white 0.3em solid;
+  object-fit: cover;
+}
+
+.seller-info .name {
+  align-self: center;
+  padding-left: 0.4em;
+  margin-top: 0.5em;
+  font-size: 0.7em;
+  font-weight: bold;
+  color: #777777;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 5em;
+}
+
+.listing-info .title {
+  font-size: 0.8em;
+  justify-content: left;
+  height: em;
+  text-overflow: ellipsis;
+  overflow: auto;
+  text-align: initial;
+  padding-left: 1em;
+  color: #777777;
+}
+
+.stars-array .star-active {
+  color: var(--primary);
+}
+
+.stars-array .star {
+  color: var(--secondary);
+}
+
+.padded-left {
+  padding-left: 1em;
+}
+
+.padded-right {
+  padding-right: 1em;
+}
+
+.margin-top-small {
+  margin-top: 2em !important;
+}
+
+.bottom-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.price-container .value .currency {
+  font-weight: bold;
+  font-size: 0.7em;
+}
+
+.price-container .value .ammount {
   font-weight: bold;
 }
 
-.rating-text {
-  color: rgb(116, 115, 115);
-  font-size: 14px;
-}
-
-.uk-badge {
-  color: white !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+.price-container .price-type {
+  font-weight: bold;
+  font-size: 0.6em;
+  align-self: flex-end;
+  line-height: 3px;
 }

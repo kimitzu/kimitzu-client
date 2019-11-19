@@ -46,6 +46,7 @@ interface FilterProps {
   locationRadius: number
   plusCode: string
   rating: number
+  id?: string
 }
 
 const Filter = ({
@@ -59,6 +60,7 @@ const Filter = ({
   rating,
   profile,
   onFilterDelete,
+  id,
 }: FilterProps) => {
   const [originalSliderValue, setOriginalSliderValue] = useState(1)
 
@@ -74,7 +76,7 @@ const Filter = ({
         <div className="uk-margin">
           <label>
             <input
-              id="hideOwnListingCheckbox"
+              id={`${id}-hideOwnListingCheckbox`}
               className="uk-checkbox"
               type="checkbox"
               onChange={async evt => {
@@ -93,8 +95,10 @@ const Filter = ({
           <FormLabel label="OCCUPATION" />
           <div id="form-select" className="uk-form-controls">
             <AutoCompleteSelect
+              id={`${id}`}
               options={serviceTypes}
               onChange={async event => {
+                console.log(event.value)
                 onFilterChange('item.categories', event.value)
                 await onFilterSubmit()
               }}
@@ -105,6 +109,7 @@ const Filter = ({
         <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
           <div className="uk-inline">
             <input
+              id={`${id}-price-min`}
               className="uk-input"
               type="number"
               placeholder="MIN"
@@ -115,6 +120,7 @@ const Filter = ({
           <span data-uk-icon="icon: triangle-right; ratio: 2" />
           <div className="uk-inline">
             <input
+              id={`${id}-price-max`}
               className="uk-input"
               type="number"
               placeholder="MAX"
@@ -125,6 +131,7 @@ const Filter = ({
         <p> LOCATION </p>
         <div className="uk-margin">
           <input
+            id={`${id}-location-city`}
             className="uk-input"
             type="text"
             placeholder="City"
@@ -133,6 +140,7 @@ const Filter = ({
         </div>
         <div className="uk-margin">
           <input
+            id={`${id}-location-state`}
             className="uk-input"
             type="text"
             placeholder="State"
@@ -141,6 +149,7 @@ const Filter = ({
         </div>
         <div className="uk-margin">
           <input
+            id={`${id}-location-zipcode`}
             className="uk-input"
             type="text"
             placeholder="Zip"
@@ -149,6 +158,7 @@ const Filter = ({
         </div>
         <div className="uk-margin">
           <select
+            id={`${id}-location-country`}
             className="uk-select"
             onChange={event => onFilterChange('location.country', event.target.value)}
           >
@@ -161,6 +171,7 @@ const Filter = ({
         </div>
         <div className="uk-margin">
           <input
+            id={`${id}-location-pluscode`}
             className="uk-input"
             type="text"
             placeholder="Plus Code"
@@ -190,6 +201,7 @@ const Filter = ({
           </p>
           <div className="uk-margin">
             <input
+              id={`${id}-radius-range`}
               className="uk-range"
               type="range"
               value={originalSliderValue}
@@ -219,13 +231,18 @@ const Filter = ({
           </div>
         </div>
         <Button
+          id={`${id}-reset`}
           type="reset"
-          className="uk-button uk-button-default uk-margin-small-right"
+          className="uk-button uk-button-default uk-margin-small-right uk-margin-small-bottom"
           onClick={onFilterReset}
         >
           Reset
         </Button>
-        <Button type="submit" className="uk-button uk-button-primary">
+        <Button
+          id={`${id}-submit`}
+          type="submit"
+          className="uk-button uk-button-primary uk-margin-small-bottom"
+        >
           Search
         </Button>
       </form>

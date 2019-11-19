@@ -48,11 +48,6 @@ context('Purchase', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/listing?hash=QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn',
-      response: 'fixture:listings/microsoft_office_installation.json'
-    })
-    cy.route({
-      method: 'GET',
       url: 'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
       response: 'fixture:listings/microsoft_office_installation.json'
     })
@@ -82,8 +77,8 @@ context('Purchase', () => {
 
   it('should checkout a listing', () => {
     cy.wait(2000)
-    cy.get('#QmPxqKM4iBJMV3HgJpAZCc4MNv59Wx6pUVSjPc3HN7sZFn').click()
-    cy.get('#djali-btn').click()
+    cy.get('#QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C').click()
+    cy.get('#checkout').click()
     cy.get('.uk-form-controls > :nth-child(1) > .uk-radio').click()
 
     cy.contains('Microsoft Office Suite Installation')
@@ -94,8 +89,6 @@ context('Purchase', () => {
     cy.contains('0.00004805')
 
     cy.get('#djali-btn').click()
-
-
 
     setTimeout(() => {
       webSocketMock.sendMsg(`{"notification":{

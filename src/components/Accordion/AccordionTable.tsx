@@ -25,7 +25,7 @@ const Accordion = ({ data, ...props }: Props) => {
               <a className="uk-accordion-title small-font" href="#">
                 {cont.category}
               </a>
-              <div className="uk-accordion-content">
+              <div className="uk-accordion-content uk-overflow-auto">
                 <table className="uk-table uk-table-divider">
                   <thead>
                     <tr>
