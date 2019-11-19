@@ -24,6 +24,7 @@ interface Props {
   closeDropdown: () => void
   selectedIndex?: number
   style?: Style
+  id: string
 }
 
 const DropdownList = ({
@@ -37,6 +38,7 @@ const DropdownList = ({
   closeDropdown,
   selectedIndex,
   style,
+  id,
 }: Props) => {
   return (
     <div
@@ -53,7 +55,7 @@ const DropdownList = ({
             }
       }
     >
-      <ul id="dropdown-list-items" className="uk-nav uk-dropdown-nav">
+      <ul id={`${id}-dropdown-list-items`} className="uk-nav uk-dropdown-nav">
         {items.map((item: Item, index: number) => (
           <li
             key={item.title}

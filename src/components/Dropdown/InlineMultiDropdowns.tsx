@@ -14,9 +14,15 @@ interface InlineMultiDropdownsProps {
   handleItemSelect: (itemValue: string, itemId?: string) => void
   title: string
   items: Item[]
+  id: string
 }
 
-const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDropdownsProps) => {
+const InlineMultiDropdowns = ({
+  handleItemSelect,
+  title,
+  items,
+  id,
+}: InlineMultiDropdownsProps) => {
   const forceUpdate = useForceUpdate()
   const [listItems, setListItems] = useState([items])
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
@@ -57,14 +63,14 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
   }
   useEffect(() => {
     window.onclick = e => {
-      const multiDropdown = document.getElementById('multi-dropdown')
+      const multiDropdown = document.getElementById(`${id}-multi-dropdown`)
       const dropDownListItems = document.getElementById('dropdown-list-items')
       if (e.target !== multiDropdown || e.target !== dropDownListItems) {
         closeDropdown()
       }
     }
     if (dropdownHeight === 0) {
-      const dropdownElem = document.getElementById('dropdownlist')
+      const dropdownElem = document.getElementById(`${id}-dropdownlist`)
       if (dropdownElem && dropdownElem.children[1]) {
         setDropdownHeight(dropdownElem.children[1].clientHeight)
       }
@@ -73,9 +79,9 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
 
   return (
     <ul className="uk-subnav uk-subnav-pill">
-      <li id="dropdownlist">
+      <li id={`${id}-dropdownlist`}>
         <a
-          id="multi-dropdown"
+          id={`${id}-multi-dropdown`}
           onClick={e => {
             e.stopPropagation()
             return focusedIndex !== -1 ? setFocusedIndex(-1) : setFocusedIndex(0)
@@ -88,6 +94,7 @@ const InlineMultiDropdowns = ({ handleItemSelect, title, items }: InlineMultiDro
           const height = index !== 0 ? `${dropdownHeight}px` : ''
           return listItem.length > 0 ? (
             <DropdownList
+              id={id}
               key={`drop${index}`}
               style={{
                 height,

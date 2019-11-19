@@ -73,6 +73,7 @@ class Home extends Component<HomeProps, HomeState> {
               title="Browse Classifications"
               handleItemSelect={this.handleDropdownSelect}
               items={ServiceCategories}
+              id="mobile"
             />
             <SidebarFilter
               id="sidebar-mobile"
@@ -99,6 +100,7 @@ class Home extends Component<HomeProps, HomeState> {
                 title="Browse Classifications"
                 handleItemSelect={this.handleDropdownSelect}
                 items={ServiceCategories}
+                id="desktop"
               />
               <SidebarFilter
                 id="sidebar-desktop"
