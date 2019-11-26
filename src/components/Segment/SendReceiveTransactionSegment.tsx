@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { SendCryptoForm } from '../Form'
 import ReceiveTransactionSegment from './ReceiveTransactionSegment'
 
+import { localeInstance } from '../../i18n'
+
 interface SendReceiveTransactionSegmentProps {
   address: string
   selectedCryptoCurrency: string
@@ -36,7 +38,9 @@ const SendReceiveTransactionSegment = ({
   onSend,
   selectedCryptoCurrency,
 }: SendReceiveTransactionSegmentProps) => {
+  const { walletView } = localeInstance.get.localizations
   const [currentAction, setCurrentAction] = useState(actions.SEND)
+
   return (
     <div className="uk-margin-small-top uk-padding-small uk-card uk-card-default">
       <div>
@@ -45,13 +49,13 @@ const SendReceiveTransactionSegment = ({
             className={currentAction === actions.SEND ? 'uk-active' : ''}
             onClick={() => setCurrentAction(actions.SEND)}
           >
-            <a className="bold-nav">Send</a>
+            <a className="bold-nav">{walletView.sendText}</a>
           </li>
           <li
             className={currentAction === actions.RECEIVE ? 'uk-active' : ''}
             onClick={() => setCurrentAction(actions.RECEIVE)}
           >
-            <a className="bold-nav">Receive</a>
+            <a className="bold-nav">{walletView.receiveText}</a>
           </li>
         </ul>
       </div>

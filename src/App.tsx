@@ -13,6 +13,7 @@ import Settings from './models/Settings'
 
 import config from './config'
 import CurrentUserContext from './contexts/CurrentUserContext'
+import { localeInstance } from './i18n'
 import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
 import { moderatorManagerInstance } from './models/ModeratorManager'
 import { Search, searchInstance } from './models/Search'
@@ -187,6 +188,7 @@ class App extends React.Component<{}, State> {
 
     try {
       const profile = await Profile.retrieve('', true)
+      localeInstance.setLanguage(profile.preferences.language)
       const settings = await Settings.retrieve()
       const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
       moderatorManagerInstance.initialize(settings, profile.peerID)

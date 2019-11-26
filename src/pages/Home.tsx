@@ -12,6 +12,8 @@ import { Search, searchInstance } from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
+import { localeInstance } from '../i18n'
+
 import './Home.css'
 
 interface HomeProps {
@@ -26,6 +28,7 @@ interface HomeState {
 }
 
 class Home extends Component<HomeProps, HomeState> {
+  private locale = localeInstance.get.localizations
   private filterSidebarRef = React.createRef<HTMLDivElement>()
 
   constructor(props: any) {
@@ -49,6 +52,8 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
+
     this.state.search.reset()
     await this.handleSearchSubmit()
     const profile = this.props.currentUser
@@ -60,6 +65,9 @@ class Home extends Component<HomeProps, HomeState> {
       this.handleSearchSubmit()
     }
 
+    window.addEventListener('loadend', () => {
+      console.log('OK!')
+    })
     window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 
@@ -97,7 +105,7 @@ class Home extends Component<HomeProps, HomeState> {
           <div className="child-main-container">
             <div className="custom-width uk-visible@s">
               <InlineMultiDropdowns
-                title="Browse Classifications"
+                title={this.locale.homePage.headerDropdownPlaceholder}
                 handleItemSelect={this.handleDropdownSelect}
                 items={ServiceCategories}
                 id="desktop"
@@ -139,6 +147,7 @@ class Home extends Component<HomeProps, HomeState> {
                     />
                     <div className="uk-expand uk-margin-left margin-custom">
                       <FormSelector
+                        id="sortOptions"
                         options={SortOptions}
                         defaultVal={search.sortIndicator}
                         onChange={event => this.handleSortChange(event.target.value)}
@@ -172,28 +181,28 @@ class Home extends Component<HomeProps, HomeState> {
                 className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
                 id="empty-results"
               >
-                <h1>Crawling...</h1>
-                <p>Great! It seems like you just installed Djali.</p>
+                <h1>{this.locale.homePage.crawlingHeader}</h1>
+                <p>{this.locale.homePage.crawlingContent1}</p>
 
-                <p className="uk-margin-top">
-                  Please come back later as Djali crawls the listings on the network.
-                </p>
+                <p className="uk-margin-top">{this.locale.homePage.crawlingContent2}</p>
               </div>
             ) : (
               <div
                 className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
                 id="empty-results"
               >
-                <h1>No Results</h1>
-                <p>Your search did not match any listings.</p>
+                <h1>{this.locale.homePage.noResultsHeader}</h1>
+                <p>{this.locale.homePage.noResultsContent}</p>
 
                 <div className="uk-align-center uk-margin-top">
-                  <p className="color-secondary">Suggestions:</p>
+                  <p className="color-secondary">{this.locale.homePage.noResultsSuggestionsText}</p>
 
                   <ul className="uk-margin-left">
-                    <li>Try a different search keyword or filter.</li>
-                    <li>Make sure that all words are spelled correctly.</li>
-                    <li>Try more general keywords.</li>
+                    {this.locale.homePage.noResultsSuggestions.map(
+                      (suggestion: string, index: number) => (
+                        <li key={`${suggestion}${index}`}>{suggestion}</li>
+                      )
+                    )}
                   </ul>
                 </div>
               </div>

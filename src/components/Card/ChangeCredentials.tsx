@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import { localeInstance } from '../../i18n'
 import Profile from '../../models/Profile'
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
@@ -9,6 +10,10 @@ interface ChangeCredentialsProps {
 }
 
 const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
+  const {
+    localizations,
+    localizations: { settingsPage },
+  } = localeInstance.get
   const [isLoggingIn, setIslogginIn] = useState(false)
   const [isAuthenticationActivated, setIsAuthenticationActivated] = useState(false)
 
@@ -43,7 +48,7 @@ const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
         {isAuthenticationActivated ? (
           <>
             <div className="uk-margin">
-              <FormLabel label="Old Username" required />
+              <FormLabel label={settingsPage.oldUsernameLabel} required />
               <input
                 className="uk-input"
                 type="text"
@@ -52,7 +57,7 @@ const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
               />
             </div>
             <div className="uk-margin">
-              <FormLabel label="Old Password" required />
+              <FormLabel label={settingsPage.oldPasswordLabel} required />
               <input
                 className="uk-input"
                 type="password"
@@ -64,7 +69,7 @@ const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
           </>
         ) : null}
         <div className="uk-margin">
-          <FormLabel label="New Username" required />
+          <FormLabel label={settingsPage.newUsernameLabel} required />
           <input
             className="uk-input"
             type="text"
@@ -73,7 +78,7 @@ const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="New Password" required />
+          <FormLabel label={settingsPage.newPasswordLabel} required />
           <input
             className="uk-input"
             type="password"
@@ -84,7 +89,9 @@ const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
       </fieldset>
       <div className="uk-flex uk-flex-center uk-flex-column">
         <Button showSpinner={isLoggingIn} className="uk-button uk-button-primary" type="submit">
-          {isAuthenticationActivated ? 'Change Credentials' : 'Activate Authentication'}
+          {isAuthenticationActivated
+            ? settingsPage.changeCredentialsBtnText
+            : settingsPage.activateAuthenticationBtnText}
         </Button>
       </div>
     </form>

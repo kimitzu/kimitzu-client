@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import ReactMde from 'react-mde'
 
 import { Listing } from '../../interfaces/Listing'
 import { Button } from '../Button'
@@ -7,16 +8,17 @@ import { AutoCompleteSelect, InputSelector } from '../Input'
 import { FormLabel } from '../Label'
 import { RadioButtons } from '../RadioButton'
 import { FormSelector } from '../Selector'
+import InlineFormFields from './InlineFormFields'
 
-import ReactMde from 'react-mde'
-import 'react-mde/lib/styles/css/react-mde-all.css'
 import ListingTypes from '../../constants/ListingTypes.json'
 import ServiceRateMethods from '../../constants/ServiceRateMethods.json'
 import ServiceTypes from '../../constants/ServiceTypes.json'
-import decodeHtml from '../../utils/Unescape'
-import InlineFormFields from './InlineFormFields'
-
 import { TabSelection } from '../../interfaces/Misc'
+import decodeHtml from '../../utils/Unescape'
+
+import { localeInstance } from '../../i18n'
+
+import 'react-mde/lib/styles/css/react-mde-all.css'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
 
@@ -50,10 +52,13 @@ interface Props {
 }
 
 const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: Props) => {
+  const {
+    localizations,
+    localizations: { listingForm },
+  } = localeInstance.get
+
   const skuPointer = data.item.skus[0]
-
   const [listing, setListing] = useState(data)
-
   const [st, setSelectedTab] = useState('write')
   const selectedTab: TabSelection = st as TabSelection
 
@@ -66,7 +71,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="OCCUPATION CLASSIFICATION" required />
+          <FormLabel label={listingForm.classificationLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <AutoCompleteSelect
               id="listing-create"
@@ -92,7 +97,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
         </div>
 
         <div className="uk-margin">
-          <FormLabel label="TITLE" required />
+          <FormLabel label={localizations.titleLabel.toUpperCase()} required />
           <input
             id="general-title"
             className="uk-input"
@@ -104,9 +109,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
               handleChange('item', item)
             }}
           />
-          <label className="form-label-desciptor">
-            Something descriptive that clearly explains your service
-          </label>
+          <label className="form-label-desciptor">{listingForm.titleDescriptor}</label>
         </div>
         <InlineFormFields
           fields={[
@@ -124,7 +127,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 />
               ),
               label: {
-                name: 'TYPE',
+                name: localizations.typeLabel.toUpperCase(),
                 required: true,
               },
             },
@@ -151,10 +154,10 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 />
               ),
               label: {
-                name: 'PRICE',
+                name: listingForm.priceLabel.toUpperCase(),
                 required: true,
               },
-              descriptiveLabel: 'Set your price and its currency',
+              descriptiveLabel: listingForm.priceDescriptor,
             },
             {
               component: (
@@ -171,10 +174,10 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 />
               ),
               label: {
-                name: 'RATE METHOD',
+                name: listingForm.rateMethodLabel.toUpperCase(),
                 required: true,
               },
-              descriptiveLabel: 'How would you like to charge clients?',
+              descriptiveLabel: listingForm.rateMethodDescriptor,
             },
           ]}
         />
@@ -204,21 +207,20 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 />
               ),
               label: {
-                name: 'SERVICE QUANTITY',
+                name: listingForm.serviceQuantityLabel.toUpperCase(),
               },
-              descriptiveLabel:
-                'How many service units would you like to offer? (Leave blank if you do not want to use this field).',
+              descriptiveLabel: listingForm.serviceQuantityDescriptor,
             },
             {
               component: (
                 <RadioButtons
                   options={[
                     {
-                      label: 'Yes',
+                      label: localizations.yesText,
                       value: true,
                     },
                     {
-                      label: 'No',
+                      label: localizations.noText,
                       value: false,
                     },
                   ]}
@@ -230,14 +232,14 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                 />
               ),
               label: {
-                name: 'MATURE CONTENT(NSFW, Adult, 18+, etc)',
+                name: `${listingForm.matureContentLabel.toUpperCase()} (NSFW, Adult, 18+, etc)`,
               },
-              descriptiveLabel: 'The overall condition of your listing',
+              // descriptiveLabel: 'The overall condition of your listing',
             },
           ]}
         />
         <div className="uk-margin">
-          <FormLabel label="DESCRIPTION" />
+          <FormLabel label={localizations.descriptionLabel.toUpperCase()} />
           <ReactMde
             value={decodeHtml(listing.item.description)}
             onChange={value => {
@@ -261,14 +263,14 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            UPDATE LISTING
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleContinue}
         >
-          NEXT
+          {localizations.nextBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

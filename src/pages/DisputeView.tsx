@@ -21,6 +21,9 @@ import Dispute from '../models/Dispute'
 import GroupMessage from '../models/GroupMessage'
 import Profile from '../models/Profile'
 import decodeHtml from '../utils/Unescape'
+
+import { localeInstance } from '../i18n'
+
 import './DisputeView.css'
 
 interface RouteParams {
@@ -56,6 +59,8 @@ const LOAD_INDICATOR = {
 }
 
 class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
+  private locale = localeInstance.get.localizations
+
   constructor(props) {
     super(props)
     const dispute = new Dispute()
@@ -79,6 +84,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
     const id = this.props.match.params.id
     const dispute = await Dispute.retrieve(id)
     const currentUser = await Profile.retrieve()
@@ -153,7 +159,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
       return (
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
-            <CircleSpinner message={`Loading...`} />
+            <CircleSpinner message={this.locale.disputeViewPage.spinnerText} />
           </div>
         </div>
       )
@@ -165,15 +171,15 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     switch (currentContent) {
       case CONTENT_CONSTANTS.MAIN_CONTENT:
         content = this.renderMainContent()
-        currentTitle = 'SUMMARY'
+        currentTitle = this.locale.orderViewPage.summaryText.toUpperCase()
         break
       case CONTENT_CONSTANTS.DISPUTE_FORM:
         content = this.renderDisputeForm()
-        currentTitle = 'DISPUTE ORDER'
+        currentTitle = this.locale.orderViewPage.disputeOrderHeader.toUpperCase()
         break
       case CONTENT_CONSTANTS.DISCUSSION:
         content = this.renderDiscussionContent()
-        currentTitle = 'DISCUSSION'
+        currentTitle = this.locale.orderViewPage.discussionText.toUpperCase()
         break
       default:
         content = null
@@ -186,16 +192,19 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
           showBackBtn={currentContent !== CONTENT_CONSTANTS.MAIN_CONTENT}
           handleBackBtn={this.handleBackBtn}
           menuContent={{
-            title: order.role === 'buyer' ? 'Purchase' : 'Sale',
+            title:
+              order.role === 'buyer'
+                ? this.locale.orderViewPage.purchaseText
+                : this.locale.orderViewPage.saleText,
             navItems: [
               {
-                label: 'Summary',
+                label: this.locale.orderViewPage.summaryText,
                 handler: () => {
                   this.handleContentChange(CONTENT_CONSTANTS.MAIN_CONTENT)
                 },
               },
               {
-                label: 'Discussion',
+                label: this.locale.orderViewPage.discussionText,
                 handler: () => {
                   this.handleContentChange(CONTENT_CONSTANTS.DISCUSSION)
                 },
@@ -224,11 +233,10 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
 
         {dispute.isExpired ? (
           <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment title="Dispute Expired">
+            <OrderSummaryItemSegment title={this.locale.orderViewPage.disputeExpiredHeader}>
               <SimpleBorderedSegment>
                 <p className="color-secondary">
-                  Time is up! You failed to make a decision in time. The vendor can now claim the
-                  funds.
+                  {this.locale.disputeViewPage.disputeExpiredParagraph}
                 </p>
               </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
@@ -238,9 +246,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
         {dispute.state === 'DISPUTED' ? (
           <div className="uk-margin-bottom">
             <SimpleBorderedSegment>
-              <p className="color-secondary">
-                You have an hour to process the dispute and make a decision.
-              </p>
+              <p className="color-secondary">{this.locale.disputeViewPage.disputedNoteParagraph}</p>
             </SimpleBorderedSegment>
           </div>
         ) : null}
@@ -248,7 +254,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
         {dispute.step >= 2 ? (
           <div className="uk-margin-bottom">
             <OrderSummaryItemSegment
-              title="Dispute Payout"
+              title={this.locale.orderViewPage.disputePayoutHeader}
               date={new Date(dispute.resolution.timestamp)}
             >
               <SimpleBorderedSegment>
@@ -276,9 +282,12 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
         ) : null}
 
         <div className="uk-margin-bottom">
-          <OrderSummaryItemSegment title="Dispute Started" date={new Date(dispute.timestamp)}>
+          <OrderSummaryItemSegment
+            title={this.locale.orderViewPage.disputeStartedHeader}
+            date={new Date(dispute.timestamp)}
+          >
             <SimpleBorderedSegment
-              title={`${dispute.buyer.name} is disputing the order`}
+              title={`${dispute.buyer.name} ${this.locale.disputeViewPage.buyerDisputingHeader}`}
               imageSrc={
                 dispute.buyer.avatarHashes.medium
                   ? `${config.djaliHost}/djali/media?id=${dispute.buyer.avatarHashes.medium}`
@@ -290,7 +299,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
                     className="uk-button uk-button-primary btn-fix"
                     onClick={e => this.setState({ currentContent: CONTENT_CONSTANTS.DISPUTE_FORM })}
                   >
-                    Resolve Dispute
+                    {this.locale.disputeViewPage.resolveSubmitBtnText}
                   </Button>
                 ) : null
               }
@@ -304,23 +313,23 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
 
         <div className="uk-margin-bottom">
           <OrderSummaryItemSegment
-            title="Accepted"
+            title={this.locale.orderViewPage.orderAcceptedHeader}
             date={new Date(dispute.vendorContract.vendorOrderConfirmation.timestamp)}
           >
             <SimpleBorderedSegment
-              title="Order Accepted"
+              title={this.locale.orderViewPage.acceptedOrderHeader}
               imageSrc={
                 dispute.vendor.avatarHashes.medium
                   ? `${config.djaliHost}/djali/media?id=${dispute.vendor.avatarHashes.medium}`
                   : `${process.env.PUBLIC_URL}/images/user.svg`
               }
             >
-              <p className="color-secondary">The vendor order has accepted the order.</p>
+              <p className="color-secondary">{this.locale.orderViewPage.orderAcceptedParagraph}</p>
             </SimpleBorderedSegment>
           </OrderSummaryItemSegment>
         </div>
 
-        <OrderSummaryItemSegment title="Order Details">
+        <OrderSummaryItemSegment title={this.locale.orderViewPage.orderDetailsHeader}>
           <SimpleBorderedSegment>
             <OrderDetailsSegment
               listingName={dispute.buyerContract.vendorListings[0].item.title}
@@ -342,11 +351,18 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     return (
       <form className="full-width" onSubmit={this.handleDisputeFormSubmit}>
         <div className="uk-margin">
-          <FormLabel label="PERCENTAGE" required />
+          <FormLabel
+            label={this.locale.disputeViewPage.orderDetailsHeader.toUpperCase()}
+            required
+          />
           <div className="slider-container-main">
             <div className="slider-stat">
-              <div className="perc-left">Buyer {100 - disputePercentage}%</div>
-              <div className="perc-right">Seller {disputePercentage}%</div>
+              <div className="perc-left">
+                {this.locale.orderViewPage.buyertext} {100 - disputePercentage}%
+              </div>
+              <div className="perc-right">
+                {this.locale.orderViewPage.sellerText} {disputePercentage}%
+              </div>
             </div>
             <div className="slider-container">
               <ReactSlider
@@ -365,13 +381,13 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="RESOLUTION" required />
+          <FormLabel label={this.locale.disputeViewPage.resolutionLabel.toUpperCase()} required />
           <div className="uk-form-controls">
             <textarea
               required
               className="uk-textarea"
               rows={3}
-              placeholder="Details of your dispute resolution"
+              placeholder={this.locale.disputeViewPage.resolutionPlaceholder}
               value={disputeResolution}
               onChange={event => {
                 this.setState({ disputeResolution: event.target.value })
@@ -385,7 +401,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
               <div uk-spinner="ratio: 1" />
             ) : (
               <Button className="uk-button uk-button-primary" type="submit">
-                SUBMIT
+                {this.locale.disputeViewPage.resolutionSubmitBtnText.toUpperCase()}
               </Button>
             )}
           </div>
@@ -420,14 +436,17 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
         sellerPercentage,
         this.state.disputeResolution
       )
-      window.UIkit.notification('Resolution sent!', {
+      window.UIkit.notification(this.locale.disputeViewPage.resolutionSuccessNotif, {
         status: 'success',
       })
       await this.handleBackBtn(true)
     } catch (e) {
-      window.UIkit.notification('Failed: ' + e.response.data.reason, {
-        status: 'danger',
-      })
+      window.UIkit.notification(
+        `${this.locale.disputeViewPage.resolutionFailedNotif}: ` + e.response.data.reason,
+        {
+          status: 'danger',
+        }
+      )
     }
   }
 

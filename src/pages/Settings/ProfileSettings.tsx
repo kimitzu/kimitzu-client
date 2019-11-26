@@ -15,7 +15,6 @@ import {
 } from '../../components/Form'
 import { ModeratorInfoModal } from '../../components/Modal'
 import { RoundSelector } from '../../components/Selector/RoundSelector'
-import { webSocketResponsesInstance } from '../../models/WebsocketResponses'
 
 import ChangeCredentials from '../../components/Card/ChangeCredentials'
 import Login from '../../components/Card/Login'
@@ -34,6 +33,7 @@ import CurrencyTypes from '../../constants/CurrencyTypes.json'
 import FiatCurrencies from '../../constants/FiatCurrencies.json'
 import Languages from '../../constants/Languages.json'
 import UnitsOfMeasurement from '../../constants/UnitsOfMeasurement.json'
+import { localeInstance } from '../../i18n'
 import {
   AssessmentSummary,
   competencySelectorInstance,
@@ -108,6 +108,7 @@ interface GeneralProfileState {
 
 class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState> {
   private debounce = 0
+  private locale = localeInstance.get.localizations
 
   constructor(props: GeneralProfileProps) {
     super(props)
@@ -166,6 +167,8 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
+
     try {
       const profileData = this.props.profileContext.currentUser
       if (!profileData.customProps.programmerCompetency) {
@@ -284,7 +287,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     delete this.state.profile.customProps.competencies[id]
     competencySelectorInstance.delete(id)
     await this.handleProfileUpdate()
-    window.UIkit.notification(`Competency Deleted!`, {
+    window.UIkit.notification(this.locale.settingsPage.competencyDeleteSuccessNotif, {
       status: 'success',
     })
     this.setState({
@@ -308,13 +311,18 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       isSubmitting: false,
       profile: this.state.profile,
     })
-    window.UIkit.notification('Competency Updated', { status: 'success' })
+    window.UIkit.notification(this.locale.settingsPage.competencyUpdateSuccessNotif, {
+      status: 'success',
+    })
   }
 
   get mainContents() {
     const { avatar, isSubmitting, profile: registrationForm, competency } = this.state
     const { handleChange, handleFormSubmit, handleSelectAddress, handleChangeAction } = this
-
+    const {
+      locale,
+      locale: { settingsPage },
+    } = this
     const securityComponent = [
       {
         component: (
@@ -323,18 +331,12 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
               <ChangeCredentials onSubmit={this.handleAuthenticationChange} />
             </div>
             <div className="uk-margin-left">
-              <p>
-                Enabling this feature will activate Djali's authentication mechanisms to protect
-                your client from unauthorized access.
-              </p>
-              <p className="uk-margin-top">
-                Other non-critical features such as search will still be accessible but payment and
-                ordering-related features will need authentication in order to proceed.
-              </p>
+              <p>{settingsPage.changeCredMsgTextA}</p>
+              <p className="uk-margin-top">{this.locale.settingsPage.changeCredMsgTextB}</p>
             </div>
           </div>
         ),
-        label: 'Authentication',
+        label: settingsPage.authenticationText,
       },
     ]
 
@@ -345,22 +347,16 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             <div>
               <Login
                 onSubmit={this.handleDeactivateAuthentication}
-                submitLabel={'Deactivate Authentication'}
+                submitLabel={settingsPage.deactivateAuthForm.submitBtnText}
               />
             </div>
             <div className="uk-margin-left">
-              <p>
-                This will deactivate Djali's authentication mechanisms and your client will no
-                longer be protected from unauthorized access.
-              </p>
-              <p className="uk-margin-top">
-                Payment and ordering-related features will no longer need authentication in order to
-                proceed.
-              </p>
+              <p>{settingsPage.deactivateAuthForm.helper1}</p>
+              <p className="uk-margin-top">{settingsPage.deactivateAuthForm.helper2}</p>
             </div>
           </div>
         ),
-        label: 'Deactivate',
+        label: settingsPage.securityNavItems.deactivate,
       })
     }
 
@@ -378,10 +374,11 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             onSubmit={handleFormSubmit}
             isSubmitting={isSubmitting}
             avatar={avatar}
+            submitButtonLabel={this.locale.saveBtnText}
           />
         </div>
       ),
-      label: 'General',
+      label: settingsPage.generalNavItem,
     }
 
     const socialMediaComponent = {
@@ -393,11 +390,11 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             onClick={handleFormSubmit}
             showSpinner={isSubmitting}
           >
-            Save
+            {locale.saveBtnText}
           </Button>
         </div>
       ),
-      label: 'Social Media',
+      label: settingsPage.profileNavItems.socialMedia,
     }
 
     const educationHistoryComponent = {
@@ -412,7 +409,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           />
         </div>
       ),
-      label: 'Education',
+      label: settingsPage.profileNavItems.education,
     }
 
     const employmentHistoryComponent = {
@@ -427,7 +424,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           />
         </div>
       ),
-      label: 'Work History',
+      label: settingsPage.profileNavItems.workHistory,
     }
 
     const addressesComponent = {
@@ -438,17 +435,17 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           locations={registrationForm.extLocation.addresses}
         />
       ),
-      label: 'Addresses',
+      label: settingsPage.profileNavItems.addresses,
     }
 
     const customDescriptionComponent = {
       component: <CustomDescriptionForm profile={this.state.profile} />,
-      label: 'Custom Descriptions',
+      label: settingsPage.profileNavItems.customDescriptions,
     }
 
     const enableModeratorFormComponent = {
       component: <ModeratorForm profile={this.state.profile} />,
-      label: 'General',
+      label: settingsPage.generalNavItem,
     }
 
     const storeModeratorSelectionComponent = {
@@ -462,10 +459,10 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           handleModeratorSearch={this.handleModeratorSearch}
           handleMoreInfo={this.handleShowModeratorModal}
           showSpinner={!this.state.hasFetchedAModerator}
-          submitLabel={'Save'}
+          submitLabel={this.locale.saveBtnText}
         />
       ),
-      label: 'Favorite Moderators',
+      label: settingsPage.favoriteModeratorsNavItem,
     }
 
     const skillsComponent = {
@@ -473,8 +470,8 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
         <div className="uk-margin-bottom uk-width-1-1">
           <TagsForm
             tags={this.state.skills}
-            formLabel={'SKILLS'}
-            submitLabel={'SAVE'}
+            formLabel={this.locale.skillsText.toUpperCase()}
+            submitLabel={this.locale.saveBtnText.toUpperCase()}
             onSubmit={async (tags: string[]) => {
               this.setState({
                 skills: tags,
@@ -482,11 +479,11 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
               this.state.profile.customProps.skills = JSON.stringify(tags)
               try {
                 await this.handleProfileUpdate()
-                window.UIkit.notification('Skills saved!', {
+                window.UIkit.notification(settingsPage.saveSkillsSuccessNotif, {
                   status: 'success',
                 })
               } catch (e) {
-                window.UIkit.notification('Error saving: ' + e.message, {
+                window.UIkit.notification(`${settingsPage.saveSkillsErrorNotif}: ${e.message}`, {
                   status: 'danger',
                 })
               }
@@ -494,7 +491,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           />
         </div>
       ),
-      label: 'General',
+      label: this.locale.settingsPage.generalNavItem,
     }
 
     const competenciesComponent = {
@@ -520,14 +517,14 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
                   onClick={this.handleCompetencyDelete}
                   showSpinner={this.state.isSubmitting}
                 >
-                  Delete
+                  {locale.deleteBtnText}
                 </Button>
                 <Button
                   className="uk-button uk-button-primary"
                   onClick={this.handleCompetencySubmit}
                   showSpinner={this.state.isSubmitting}
                 >
-                  Save
+                  {locale.saveBtnText}
                 </Button>
               </div>
             </div>
@@ -549,7 +546,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
           )}
         </div>
       ),
-      label: 'Competencies',
+      label: this.locale.competenciesText,
     }
 
     const otherSettings = [
@@ -559,14 +556,14 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             <BlockedPeersCard settings={this.state.settings} />
           </div>
         ),
-        label: 'Blocked Peers',
+        label: settingsPage.othersNavItems.blockedPeers,
       },
     ]
 
     if (isElectron()) {
       otherSettings.push({
         component: <MiscSettingsForm />,
-        label: 'Miscellaneous',
+        label: settingsPage.otherNavItems.miscellaneous,
       })
     }
 
@@ -589,6 +586,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
 
   get subContents() {
     const { addressFormUpdateIndex } = this.state
+    const { addressForm, settingsPage } = this.locale
     return {
       [subContentActions.ADD_EDUCATION]: {
         component: (
@@ -600,7 +598,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             handleProfileSave={this.handleProfileSave}
           />
         ),
-        label: 'ADD EDUCATION',
+        label: settingsPage.educationForm.addBtnText.toUpperCase(),
       },
       [subContentActions.UPDATE_EDUCATION]: {
         component: (
@@ -612,7 +610,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             handleProfileSave={this.handleProfileSave}
           />
         ),
-        label: 'UPDATE EDUCATION',
+        label: settingsPage.educationForm.updateBtnText.toUpperCase(),
       },
       [subContentActions.ADD_WORK]: {
         component: (
@@ -624,7 +622,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             handleProfileSave={this.handleProfileSave}
           />
         ),
-        label: 'ADD WORK',
+        label: settingsPage.workForm.addBtnText.toUpperCase(),
       },
       [subContentActions.UPDATE_WORK]: {
         component: (
@@ -636,7 +634,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             handleProfileSave={this.handleProfileSave}
           />
         ),
-        label: 'UPDATE WORK',
+        label: settingsPage.workForm.updateBtnText.toUpperCase(),
       },
       [subContentActions.ADD_ADDRESS]: {
         component: (
@@ -648,7 +646,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             }}
           />
         ),
-        label: 'ADD ADDRESS',
+        label: addressForm.addBtnText.toUpperCase(),
       },
       [subContentActions.UPDATE_ADDRESS]: {
         component: (
@@ -666,41 +664,49 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
             }}
           />
         ),
-        label: 'UPDATE ADDRESS',
+        label: addressForm.updateBtnText.toUpperCase(),
       },
     }
   }
 
   get navItems() {
     const { mapSubcontents, handleSelectParentItem } = this
+    const {
+      profile,
+      moderation,
+      store,
+      security,
+      skills,
+      others,
+    } = this.locale.settingsPage.navItems
     const navItems: NavItem[] = [
       {
-        label: 'Profile',
+        label: profile,
         handler: () => handleSelectParentItem(0),
         subItems: mapSubcontents(0),
       },
       {
-        label: 'Moderation',
+        label: moderation,
         handler: () => handleSelectParentItem(1),
         subItems: mapSubcontents(1),
       },
       {
-        label: 'Store',
+        label: store,
         handler: () => handleSelectParentItem(2),
         subItems: mapSubcontents(2),
       },
       {
-        label: 'Security',
+        label: security,
         handler: () => handleSelectParentItem(3),
         subItems: mapSubcontents(3),
       },
       {
-        label: 'Skills',
+        label: skills,
         handler: () => handleSelectParentItem(4),
         subItems: mapSubcontents(4),
       },
       {
-        label: 'Other Settings',
+        label: others,
         handler: () => handleSelectParentItem(5),
         subItems: mapSubcontents(5),
       },
@@ -716,11 +722,12 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   public render() {
+    const { settingsPage } = this.locale
     if (this.state.isLoading) {
       return (
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
-            <CircleSpinner message="Loading Profile..." />
+            <CircleSpinner message={settingsPage.spinnerText} />
           </div>
         </div>
       )
@@ -733,7 +740,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
         <SideMenuWithContentCard
           mainContentTitle={currentCardContent.label}
           menuContent={{
-            title: 'SETTINGS',
+            title: settingsPage.header.toUpperCase(),
             navItems,
           }}
           mainContent={currentCardContent.component}
@@ -754,12 +761,9 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     try {
       await Profile.setCredentials(oldUsername, oldPassword, newUsername, newPassword)
       Profile.logout()
-      window.UIkit.notification(
-        'New credentials accepted!\nPlease restart the server for changes to take effect.',
-        {
-          status: 'success',
-        }
-      )
+      window.UIkit.notification(this.locale.settingsPage.authUpdateSuccessNotif, {
+        status: 'success',
+      })
 
       setTimeout(() => {
         if (isElectron()) {
@@ -780,10 +784,9 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     try {
       await Profile.deleteCredentials(username, password)
       Profile.logout()
-      window.UIkit.notification(
-        'Credentials successfully deleted!\nPlease restart the server for changes to take effect.',
-        { status: 'success' }
-      )
+      window.UIkit.notification(this.locale.settingsPage.credentialsUpdateSuccessNotif, {
+        status: 'success',
+      })
       setTimeout(() => {
         window.location.hash = '/login'
       }, 5000)
@@ -855,7 +858,11 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     }
 
     await this.handleProfileUpdate()
-    window.UIkit.notification('Profile updated', { status: 'success' })
+    localeInstance.setLanguage(this.state.profile.preferences.language)
+
+    window.UIkit.notification(this.locale.settingsPage.profileUpdateSuccessNotif, {
+      status: 'success',
+    })
     this.setState({
       isSubmitting: false,
     })
@@ -880,7 +887,9 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
 
   private async handleProfileSave() {
     await this.handleProfileUpdate()
-    window.UIkit.notification('Profile saved', { status: 'success' })
+    window.UIkit.notification(this.locale.settingsPage.profileSaveSuccessNotif, {
+      status: 'success',
+    })
     this.setState({
       currentAction: subContentActions.NONE,
     })
@@ -901,6 +910,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   private async handleSubmitModeratorSelection() {
+    const { settingsPage } = this.locale
     this.state.settings.storeModerators = this.state.moderatorManager.selectedModerators.map(
       moderator => moderator.peerID
     )
@@ -918,7 +928,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
 
     try {
       await this.state.settings.save()
-      window.UIkit.notification('Moderators saved', { status: 'success' })
+      window.UIkit.notification(settingsPage.moderatorSaveSuccessNotif, { status: 'success' })
       this.setState({
         settings: this.state.settings,
         moderatorManager: this.state.moderatorManager,
@@ -931,8 +941,8 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
        */
       const errorResponse = JSON.parse(e.response.data.slice(0, -2))
       if (errorResponse.reason === 'listing expiration must be in the future') {
-        window.UIkit.notification('Moderators saved.', { status: 'success' })
-        window.UIkit.notification('Warning: You have expired listings', { status: 'warning' })
+        window.UIkit.notification(settingsPage.moderatorSaveSuccessNotif, { status: 'success' })
+        window.UIkit.notification(settingsPage.expiredListingNotif, { status: 'warning' })
       } else {
         window.UIkit.notification(e.message, { status: 'danger' })
       }

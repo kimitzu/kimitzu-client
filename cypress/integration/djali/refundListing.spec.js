@@ -70,8 +70,6 @@ context('Refund Listing', () => {
 
     cy.get('#js-modal-prompt')
       .contains('Refund')
-    cy.get('#djali-btn')
-      .contains('FULFILL ORDER')
 
     cy.get('#js-modal-prompt')
       .click()
@@ -96,11 +94,9 @@ context('Refund Listing', () => {
     cy.get(':nth-child(7)')
       .should('have.class', 'stepperCircle')
     cy.get('#contentContainerMain > :nth-child(7)')
-      .contains('REFUNDED')
-    cy.get(':nth-child(2) > :nth-child(1) > .uk-margin-small-bottom > .uk-text-bold')
-      .contains('Refunded')
-    cy.get(':nth-child(2) > :nth-child(1) > #simple-bordered-segment > .uk-flex > #simple-bordered-segment-content > .color-secondary')
-      .contains('Order Refunded')
+      .should('have.html', 'Refunded')
+    cy.get(':nth-child(1) > :nth-child(1) > .uk-margin-small-bottom > .uk-text-bold')
+      .should('have.html', 'Refunded')
   })
 
 })

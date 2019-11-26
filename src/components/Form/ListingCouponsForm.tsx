@@ -4,18 +4,9 @@ import { Button } from '../Button'
 import { InputSelector } from '../Input'
 import InlineFormFields from './InlineFormFields'
 
-import decodeHtml from '../../utils/Unescape'
+import { localeInstance } from '../../i18n'
 
-const discountOptions = [
-  {
-    label: 'Percent',
-    value: 'percent',
-  },
-  {
-    label: 'Price',
-    value: 'price',
-  },
-]
+import decodeHtml from '../../utils/Unescape'
 
 interface Coupon {
   title: string
@@ -45,11 +36,26 @@ const ListingCouponsForm = ({
   isNew,
   handleFullSubmit,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { listingForm },
+  } = localeInstance.get
+
+  const discountOptions = [
+    {
+      label: listingForm.percentLabel,
+      value: 'percent',
+    },
+    {
+      label: listingForm.priceLabel,
+      value: 'price',
+    },
+  ]
+
   return (
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <div className="uk-alert-primary uk-padding-small uk-margin-bottom">
-        Create coupons that your customers can use during checkout for exclusive offers or
-        discounts.
+        {listingForm.couponsHelper}
       </div>
       <fieldset className="uk-fieldset">
         {coupons.map((coupon: Coupon, index: number) => {
@@ -70,7 +76,7 @@ const ListingCouponsForm = ({
                   component: (
                     <input
                       id={`coupon-title-${index}`}
-                      placeholder="Coupon Title"
+                      placeholder={listingForm.couponTitlePlaceholder}
                       className="uk-input"
                       type="text"
                       value={decodeHtml(coupon.title)}
@@ -80,13 +86,14 @@ const ListingCouponsForm = ({
                       }}
                     />
                   ),
-                  label: index === 0 ? { name: 'Title' } : undefined,
+                  label:
+                    index === 0 ? { name: listingForm.couponTitleLabel.toUpperCase() } : undefined,
                 },
                 {
                   component: (
                     <input
                       id={`coupon-code-${index}`}
-                      placeholder="Discount Code"
+                      placeholder={listingForm.couponCodePlaceholder}
                       className="uk-input"
                       type="text"
                       value={coupons[index].discountCode}
@@ -96,7 +103,8 @@ const ListingCouponsForm = ({
                       }}
                     />
                   ),
-                  label: index === 0 ? { name: 'Code' } : undefined,
+                  label:
+                    index === 0 ? { name: listingForm.couponCodeLabel.toUpperCase() } : undefined,
                 },
                 {
                   component: (
@@ -104,7 +112,7 @@ const ListingCouponsForm = ({
                       id={`coupon-${index}`}
                       options={discountOptions}
                       inputProps={{
-                        placeholder: 'Discount',
+                        placeholder: listingForm.couponDiscountPlaceholder,
                         value: coupons[index].percentDiscount || coupons[index].priceDiscount,
                         onChange: event => {
                           if (coupons[index].type === 'percent') {
@@ -131,7 +139,10 @@ const ListingCouponsForm = ({
                       defaultSelectorVal={coupons[index].type}
                     />
                   ),
-                  label: index === 0 ? { name: 'Value' } : undefined,
+                  label:
+                    index === 0
+                      ? { name: listingForm.couponDiscountLabel.toUpperCase() }
+                      : undefined,
                 },
               ]}
             />
@@ -139,7 +150,7 @@ const ListingCouponsForm = ({
         })}
         <div>
           <a id="coupon-add" className="add-field" onClick={handleAddCoupon}>
-            ADD COUPON +
+            {listingForm.addCouponLink} +
           </a>
         </div>
       </fieldset>
@@ -149,14 +160,14 @@ const ListingCouponsForm = ({
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            UPDATE LISTING
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleContinue}
         >
-          NEXT
+          {localizations.nextBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

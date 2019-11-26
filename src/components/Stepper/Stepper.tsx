@@ -8,7 +8,7 @@ interface Props {
 
 const Stepper = ({ options, currentIndex }: Props) => {
   return (
-    <div id="mainCont">
+    <div className="uk-flex uk-flex-column">
       <div id="stepperMain">
         {options.map((val, i) => {
           const checkNormal = (
@@ -68,14 +68,14 @@ const Stepper = ({ options, currentIndex }: Props) => {
         {options.map((val, i) => {
           if (i === options.length - 1) {
             return (
-              <div key={val} className="textCont">
+              <div key={val} className="textCont uk-text-uppercase">
                 {val}
               </div>
             )
           } else {
             return (
               <React.Fragment key={val}>
-                <div className="textCont">{val}</div>
+                <div className="textCont uk-text-uppercase">{val}</div>
                 <div className="divmargin" />
               </React.Fragment>
             )

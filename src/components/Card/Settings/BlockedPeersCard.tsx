@@ -6,6 +6,8 @@ import { CircleSpinner } from '../../Spinner'
 import Profile from '../../../models/Profile'
 import Settings from '../../../models/Settings'
 
+import { localeInstance } from '../../../i18n'
+
 import './BlockedPeersCard.css'
 
 interface BlockedPeersCardProps {
@@ -13,6 +15,7 @@ interface BlockedPeersCardProps {
 }
 
 const BlockedPeersCard = ({ settings }: BlockedPeersCardProps) => {
+  const { blockedNodesCard } = localeInstance.get.localizations.settingsPage
   const profiles: Profile[] = []
   const [blockedPeersInformation, setBlockedPeersInformation] = useState(profiles)
   const [isFetching, setIsFetching] = useState<boolean>(true)
@@ -39,7 +42,7 @@ const BlockedPeersCard = ({ settings }: BlockedPeersCardProps) => {
       </div>
     )
   } else if (blockedPeersInformation.length === 0) {
-    return <div>No blocked peers.</div>
+    return <div>{blockedNodesCard.emptyContentText}</div>
   }
   const handleUnblock = async (nodeID, index) => {
     try {
@@ -48,9 +51,9 @@ const BlockedPeersCard = ({ settings }: BlockedPeersCardProps) => {
       const blockedPeersInfoCopy = [...blockedPeersInformation]
       blockedPeersInfoCopy.splice(index, 1)
       setBlockedPeersInformation(blockedPeersInfoCopy)
-      window.UIkit.notification('Peer unblocked successfully!', { status: 'success' })
+      window.UIkit.notification(blockedNodesCard.unblockSuccessNotif, { status: 'success' })
     } catch (error) {
-      window.UIkit.notification('Something went wrong. Please try again later.', {
+      window.UIkit.notification(blockedNodesCard.unblockErrorNotif, {
         status: 'error',
       })
     }

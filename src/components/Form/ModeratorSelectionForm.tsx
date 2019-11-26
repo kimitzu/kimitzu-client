@@ -5,8 +5,11 @@ import { DottedSpinner } from '../Spinner'
 
 import Profile from '../../models/Profile'
 
-import { ModeratorManager, moderatorManagerInstance } from '../../models/ModeratorManager'
+import { ModeratorManager } from '../../models/ModeratorManager'
 import { Button } from '../Button'
+
+import { localeInstance } from '../../i18n'
+
 import './ModeratorSelectionForm.css'
 
 interface Props {
@@ -40,6 +43,10 @@ const ModeratorSelectionForm = ({
   moderatorManager,
   hideFavorites,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { moderatorSelectionForm, listinForm },
+  } = localeInstance.get
   const [searchVal, setSearchVal] = useState('')
   const [delayedComponent, setDelayedComponent] = useState(<></>)
   const dropdownRef = React.createRef<HTMLDivElement>()
@@ -49,8 +56,8 @@ const ModeratorSelectionForm = ({
       setDelayedComponent(
         <>
           <hr />
-          <p>It is taking a while to crawl the network for available moderators.</p>
-          <p>Please wait a little longer or come back later.</p>
+          <p>{moderatorSelectionForm.crawlingNotif1}</p>
+          <p>{moderatorSelectionForm.crawlingNotif2}</p>
         </>
       )
     }, 10000)
@@ -87,7 +94,7 @@ const ModeratorSelectionForm = ({
               className="moderator-card-more-link"
               onClick={() => handleMoreInfo(moderator)}
             >
-              More...
+              {moderatorSelectionForm.showDetailsLink}
             </a>
           </div>
         </ModeratorCard>
@@ -112,7 +119,7 @@ const ModeratorSelectionForm = ({
           onClick={() => {
             window.UIkit.dropdown(dropdownRef.current).show()
           }}
-          placeholder="Search by moderator name or ID"
+          placeholder={moderatorSelectionForm.searchPlaceholder}
         />
         <a
           className="uk-form-icon uk-form-icon-flip"
@@ -133,7 +140,7 @@ const ModeratorSelectionForm = ({
         {showSpinner && searchVal.length === 0 ? (
           <div className="uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-height-1-1">
             <DottedSpinner>
-              <p>Searching the network for moderators...</p>
+              <p>{moderatorSelectionForm.searchSpinnerText}</p>
               {delayedComponent}
             </DottedSpinner>
           </div>
@@ -141,13 +148,13 @@ const ModeratorSelectionForm = ({
           moderatorManager.favoriteModerators.length === 0 &&
           moderatorManager.recentModerators.length === 0 ? (
           <div className="uk-flex uk-flex-middle uk-flex-center uk-height-1-1">
-            <h5>No moderators available.</h5>
+            <h5>{moderatorSelectionForm.noResultsHeader}</h5>
           </div>
         ) : (
           <div className="moderator-list">
             {searchVal ? (
               <>
-                <p className="title">Search Result</p>
+                <p className="title">{moderatorSelectionForm.resultsParagraph}</p>
 
                 {moderatorManager.searchResultModerators.length > 0 ? (
                   <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
@@ -158,7 +165,8 @@ const ModeratorSelectionForm = ({
                 ) : (
                   <>
                     <p className="uk-text-center">
-                      No results for <span className="uk-text-bold">{searchVal}</span>
+                      {moderatorSelectionForm.noResultsParagraph}
+                      <span className="uk-text-bold">{searchVal}</span>
                     </p>
                   </>
                 )}
@@ -166,7 +174,7 @@ const ModeratorSelectionForm = ({
             ) : null}
             {moderatorManager.favoriteModerators.length > 0 && !hideFavorites ? (
               <>
-                <p className="title">Favorites</p>
+                <p className="title">{moderatorSelectionForm.favouriteSeparatorText}</p>
 
                 <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.favoriteModerators.map((moderator, index) =>
@@ -177,7 +185,7 @@ const ModeratorSelectionForm = ({
             ) : null}
             {moderatorManager.recentModerators.length > 0 ? (
               <>
-                <p className="title">Recent</p>
+                <p className="title">{moderatorSelectionForm.recentSeparatorText}</p>
 
                 <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.recentModerators.map((moderator, index) =>
@@ -188,7 +196,7 @@ const ModeratorSelectionForm = ({
             ) : null}
             {moderatorManager.availableModerators.length > 0 ? (
               <>
-                <p className="title">Available</p>
+                <p className="title">{moderatorSelectionForm.availableSeparatorText}</p>
 
                 <ul className="uk-nav uk-dropdown-nav uk-list uk-margin-small-top">
                   {moderatorManager.availableModerators.map((moderator, index) =>
@@ -217,7 +225,7 @@ const ModeratorSelectionForm = ({
                 </Button>
 
                 <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>
-                  More...
+                  {moderatorSelectionForm.showDetailsLink}
                 </a>
               </div>
             </ModeratorCard>
@@ -230,14 +238,14 @@ const ModeratorSelectionForm = ({
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            UPDATE LISTING
+            {listinForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button
           className={`uk-button ${isNew || !isListing ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleSubmit}
         >
-          {submitLabel || 'NEXT'}
+          {submitLabel || localizations.nextBtnText.toUpperCase()}
         </Button>
       </div>
     </div>

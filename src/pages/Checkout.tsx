@@ -17,8 +17,10 @@ import Profile from '../models/Profile'
 
 import ListingExpiredOrNotFound from '../components/Errors/ListingExpiredOrNotFound'
 import { CircleSpinner } from '../components/Spinner'
+import { localeInstance } from '../i18n'
 import PaymentNotification, { Notification } from '../interfaces/PaymentNotification'
 import currency from '../models/Currency'
+
 import './Checkout.css'
 
 const cryptoCurrencies = CryptoCurrencies()
@@ -57,6 +59,7 @@ interface CheckoutState {
 
 class Checkout extends Component<CheckoutProps, CheckoutState> {
   private modal: React.ReactNode
+  private locale = localeInstance.get.localizations
 
   constructor(props: CheckoutProps) {
     super(props)
@@ -105,6 +108,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
     const id = this.props.match.params.id
     const quantity = this.props.match.params.quantity
     const listing = await Listing.retrieve(id)
@@ -192,12 +196,13 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       isRequestingMerchantAddress,
       isLoading,
     } = this.state
+    const { locale } = this
 
     if (isLoading) {
       return (
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top">
-            <CircleSpinner message="Loading..." />
+            <CircleSpinner message={locale.checkoutPage.spinnerText} />
           </div>
         </div>
       )
@@ -234,7 +239,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           <div className="uk-card uk-card-default uk-card-body uk-card-small">
             <div className="uk-flex uk-flex-center uk-flex-column uk-text-center">
               <div className="uk-align-center" uk-spinner="ratio: 3" />
-              <p>Requesting Merchant Address...</p>
+              <p>{this.locale.checkoutPage.requestAddressParagraph}</p>
             </div>
           </div>
         </div>
@@ -244,7 +249,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         <div>
           <div className="uk-margin-bottom">
             <div className="uk-card uk-card-default uk-card-body uk-card-small">
-              <h3>Coupon</h3>
+              <h3>{locale.checkoutPage.couponForm.header}</h3>
               <div className="uk-margin">
                 <form
                   onSubmit={async evt => {
@@ -255,14 +260,14 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                 >
                   <input
                     className="uk-input"
-                    placeholder="Enter coupon code"
+                    placeholder={locale.checkoutPage.couponForm.inputPlaceholder}
                     onChange={e => {
                       this.handleChange('coupon', e.target.value)
                     }}
                     value={this.state.coupon}
                   />
                   <button type="submit" className="uk-button uk-button-primary uk-margin-left">
-                    Apply
+                    {locale.checkoutPage.couponForm.submitBtnText}
                   </button>
                 </form>
               </div>
@@ -270,7 +275,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           </div>
           <div className="uk-margin-bottom">
             <div className="uk-card uk-card-default uk-card-body uk-card-small">
-              <h3>Payment Scheme</h3>
+              <h3>{locale.checkoutPage.paymentForm.header}</h3>
               <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                 <label>
                   <input
@@ -284,7 +289,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                       })
                     }}
                   />{' '}
-                  Direct Payment
+                  {locale.checkoutPage.paymentForm.directLabel}
                 </label>
                 {listing.moderators.length > 0 ? (
                   <label>
@@ -299,7 +304,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                         })
                       }}
                     />{' '}
-                    Moderated Payment
+                    {locale.checkoutPage.paymentForm.moderatedPayment}
                   </label>
                 ) : null}
               </div>
@@ -321,7 +326,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                             id="moderator-card-more-link"
                             onClick={() => this.handleMoreInfo(data)}
                           >
-                            More...
+                            {locale.checkoutPage.expandModeratorLink}
                           </a>
                         </ModeratorCard>
                       )
@@ -333,13 +338,13 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           </div>
           <div className="uk-margin-bottom">
             <div className="uk-card uk-card-default uk-card-body uk-card-small">
-              <h3>Additional Information</h3>
+              <h3>{locale.checkoutPage.additionalForm.header}</h3>
               <div className="uk-margin">
-                <FormLabel label="MEMO" />
+                <FormLabel label={locale.checkoutPage.additionalForm.memoLabel} />
                 <textarea
                   rows={4}
                   className="uk-textarea"
-                  placeholder="Provide additional details for the vendor (Optional)"
+                  placeholder={locale.checkoutPage.additionalForm.memoPlaceholder}
                   onChange={e => {
                     this.handleChange('memo', e.target.value)
                   }}
@@ -356,7 +361,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
       <div id="checkout-container" className="uk-margin background-body">
         {listing.isOwner ? (
           <div className="uk-alert-primary uk-padding-small uk-text-center" uk-alert>
-            <p>This is how your listing looks like to other users.</p>
+            <p>{locale.checkoutPage.listingOwnerHelper}</p>
           </div>
         ) : null}
         <div className="uk-flex uk-flex-row">
@@ -395,12 +400,13 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
               <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
               <h4>
-                Payment of {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
-                {this.state.payment.coinType} Received!
+                {locale.checkoutPage.receivedPaymentHeader1}{' '}
+                {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
+                {this.state.payment.coinType} {locale.checkoutPage.receivedPaymentHeader2}
               </h4>
-              <p>Thank you for your purchase!</p>
+              <p>{locale.checkoutPage.receivedPaymentParagraph}</p>
               <Link to={`/history/purchases/${this.state.payment.orderId}`}>
-                Check the status of your order.
+                {locale.checkoutPage.receivedPaymentLink}
               </Link>
             </div>
           </div>
@@ -453,7 +459,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           })
         }
       } else {
-        window.UIkit.notification('Invalid coupon code', {
+        window.UIkit.notification(this.locale.checkoutPage.applyCouponFail, {
           status: 'danger',
         })
       }
@@ -487,7 +493,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
     const isOwner = this.state.listing.isOwner
     if (isOwner) {
-      window.UIkit.notification('This is how your listing looks like to other users.', {
+      window.UIkit.notification(this.locale.checkoutPage.listingOwnerHelper, {
         status: 'primary',
       })
       this.setState({

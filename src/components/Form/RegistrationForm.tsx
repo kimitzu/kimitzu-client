@@ -1,21 +1,21 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Tab } from 'react-mde/lib/definitions/types/Tab'
+import ReactMde from 'react-mde'
 
-import { Profile } from '../../interfaces/Profile'
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
-import ReactMde from 'react-mde'
-import 'react-mde/lib/styles/css/react-mde-all.css'
 import config from '../../config'
 import Countries from '../../constants/Countries.json'
+import { TabSelection } from '../../interfaces/Misc'
+import { Profile } from '../../interfaces/Profile'
 import decodeHtml from '../../utils/Unescape'
 
-import './RegistrationForm.css'
+import { localeInstance } from '../../i18n'
 
-import { TabSelection } from '../../interfaces/Misc'
+import 'react-mde/lib/styles/css/react-mde-all.css'
+import './RegistrationForm.css'
 
 interface Props {
   avatar: string
@@ -28,13 +28,17 @@ interface Props {
   unitOfMeasurements: Array<{ label: string; value: string }>
   onChange: (field: string, value: any, parentField?: string) => void
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  submitButtonLabel?: string
 }
 
 const RegistrationForm = (props: Props) => {
+  const {
+    localizations,
+    localizations: { userForm, addressForm },
+  } = localeInstance.get
   const [st, setSelectedTab] = React.useState('write')
   const selectedTab: TabSelection = st as TabSelection
 
-  // @ts-ignore
   return (
     <form className="uk-form-stacked uk-width-1-1" onSubmit={props.onSubmit}>
       <fieldset className="uk-fieldset">
@@ -51,7 +55,7 @@ const RegistrationForm = (props: Props) => {
           />
           <div id="btn-wrapper" className="upload-btn-wrapper">
             <Button id="reg-avatar-btn" className="uk-button uk-button-primary">
-              CHANGE
+              {localizations.changePhotoBtnText}
             </Button>
             <input
               id="avatar-upload"
@@ -64,13 +68,13 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="HANDLE" required />
+          <FormLabel label={userForm.handleLabel.toUpperCase()} required />
           <div className="uk-form-controls">
             <input
               id="username"
               className="uk-input"
               type="text"
-              placeholder="John Doe"
+              placeholder={userForm.handlePlaceholder}
               value={props.data.handle || ''}
               onChange={event => props.onChange('handle', event.target.value, 'profile')}
               required
@@ -78,20 +82,20 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="NAME" />
+          <FormLabel label={userForm.nameLabel.toUpperCase()} />
           <div className="uk-form-controls">
             <input
               id="fullname"
               className="uk-input"
               type="text"
-              placeholder="John Doe"
+              placeholder={userForm.namePlaceholder}
               value={decodeHtml(props.data.name) || ''}
               onChange={event => props.onChange('name', event.target.value, 'profile')}
             />
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="DESCRIPTION" />
+          <FormLabel label={localizations.descriptionLabel.toUpperCase()} />
           <div className="uk-form-controls">
             <ReactMde
               value={decodeHtml(props.data.about) || ''}
@@ -99,7 +103,7 @@ const RegistrationForm = (props: Props) => {
               selectedTab={selectedTab}
               onTabChange={setSelectedTab}
               generateMarkdownPreview={markdown => {
-                return new Promise((resolve, reject) => {
+                return new Promise(resolve => {
                   resolve(<ReactMarkdown source={markdown} />)
                 })
               }}
@@ -107,20 +111,20 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="EMAIL" />
+          <FormLabel label={localizations.emailLabel.toUpperCase()} />
           <div className="uk-form-controls">
             <input
               id="email"
               className="uk-input"
               type="text"
-              placeholder="john@email.com"
+              placeholder={localizations.emailPlaceholder}
               value={props.data.contactInfo.email || ''}
               onChange={event => props.onChange('contactInfo.email', event.target.value, 'profile')}
             />
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="COUNTRY" required />
+          <FormLabel label={addressForm.countryLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               id="countries"
@@ -142,7 +146,7 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="PREFERRED FIAT CURRENCY" required />
+          <FormLabel label={userForm.fiatCurrencyLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               options={props.fiatCurrencies}
@@ -153,7 +157,7 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="PREFERRED CRYPTOCURRENCY" required />
+          <FormLabel label={userForm.cryptoCurrencyLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               options={props.cryptoCurrencies}
@@ -166,7 +170,7 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="DISPLAY CURRENCY" required />
+          <FormLabel label={userForm.displayCurrencyLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               options={props.currencyTypes}
@@ -179,7 +183,7 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="PREFERRED LANGUAGE" required />
+          <FormLabel label={userForm.languageLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               options={props.languages}
@@ -192,7 +196,7 @@ const RegistrationForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="PREFERRED UNITS" required />
+          <FormLabel label={userForm.unitsLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               id="preferred-units"
@@ -211,7 +215,7 @@ const RegistrationForm = (props: Props) => {
         className="uk-button uk-button-primary uk-align-center"
         showSpinner={props.isSubmitting}
       >
-        Submit
+        {props.submitButtonLabel || localizations.nextBtnText.toUpperCase()}
       </Button>
     </form>
   )

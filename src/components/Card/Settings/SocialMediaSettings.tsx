@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+
 import SocialMedia from '../../../constants/SocialMedia.json'
 import { SocialAccount } from '../../../interfaces/Profile'
 import Profile from '../../../models/Profile'
+
+import { localeInstance } from '../../../i18n'
 
 interface SocialMediaSettingsProps {
   profile: Profile
@@ -59,6 +62,10 @@ const renderFormSelector = (
   setMouseOverIndex?,
   deleteHandler?
 ) => {
+  const {
+    localizations,
+    localizations: { socialMediaForm },
+  } = localeInstance.get
   const SocialType = socialInfo
     ? SocialMedia.find(e => {
         return e.value === socialInfo!.type
@@ -104,7 +111,7 @@ const renderFormSelector = (
               <input
                 className="uk-input"
                 type="text"
-                placeholder="Username"
+                placeholder={localizations.usernameLabel}
                 value={socialInfo ? socialInfo.username : ''}
                 disabled={!socialInfo}
                 onChange={evt => {
@@ -116,7 +123,7 @@ const renderFormSelector = (
               <input
                 className="uk-input"
                 type="text"
-                placeholder="Proof"
+                placeholder={socialMediaForm.proofPlaceholder}
                 value={socialInfo ? socialInfo.proof : ''}
                 disabled={!socialInfo}
                 onChange={evt => {
@@ -126,7 +133,7 @@ const renderFormSelector = (
               <a
                 className="uk-icon-link uk-form-icon uk-form-icon-flip"
                 data-uk-icon="icon: question"
-                data-uk-tooltip="Link of a proof that you own that account (e.g. link of a post for facebook and link of a commit in github)."
+                data-uk-tooltip={socialMediaForm.proofTooltip}
               />
             </div>
           </div>

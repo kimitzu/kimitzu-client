@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import StarRatingComponent from 'react-star-rating-component'
-import Countries from '../../constants/Countries.json'
-import ServiceTypes from '../../constants/ServiceTypes.json'
+
+import { Button } from '../Button'
 import { AutoCompleteSelect } from '../Input'
 import { FormLabel } from '../Label'
 
+import Countries from '../../constants/Countries.json'
+import ServiceTypes from '../../constants/ServiceTypes.json'
 import Values from '../../constants/Values.json'
 import Profile from '../../models/Profile'
-
 import { Search, searchInstance } from '../../models/Search'
-import { Button } from '../Button'
+
+import { localeInstance } from '../../i18n'
+
 import './Filter.css'
 
 const serviceTypeIds = Object.keys(ServiceTypes)
@@ -62,6 +65,10 @@ const Filter = ({
   onFilterDelete,
   id,
 }: FilterProps) => {
+  const {
+    localizations,
+    localizations: { searchFilters, addressForm },
+  } = localeInstance.get
   const [originalSliderValue, setOriginalSliderValue] = useState(1)
 
   return (
@@ -72,7 +79,7 @@ const Filter = ({
           await onFilterSubmit()
         }}
       >
-        <legend className="uk-legend">FILTERS</legend>
+        <legend className="uk-legend">{searchFilters.header}</legend>
         <div className="uk-margin">
           <label>
             <input
@@ -88,11 +95,11 @@ const Filter = ({
                 await onFilterSubmit()
               }}
             />{' '}
-            Hide own listings
+            {searchFilters.checkboxLabel}
           </label>
         </div>
         <div className="uk-margin">
-          <FormLabel label="OCCUPATION" />
+          <FormLabel label={searchFilters.occupationLabel.toUpperCase()} />
           <div id="form-select" className="uk-form-controls">
             <AutoCompleteSelect
               id={`${id}`}
@@ -105,36 +112,38 @@ const Filter = ({
             />
           </div>
         </div>
-        <p> PRICE RANGE </p>
-        <div className="uk-margin uk-flex uk-flex-row uk-flex-center uk-flex-middle">
-          <div className="uk-inline">
-            <input
-              id={`${id}-price-min`}
-              className="uk-input"
-              type="number"
-              placeholder="MIN"
-              value={searchInstance.filters.priceMin}
-              onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
-            />
-          </div>
-          <span data-uk-icon="icon: triangle-right; ratio: 2" />
-          <div className="uk-inline">
-            <input
-              id={`${id}-price-max`}
-              className="uk-input"
-              type="number"
-              placeholder="MAX"
-              onChange={event => onFilterChange('priceMax', event.target.value, '>=')}
-            />
+        <div className="uk-margin">
+          <FormLabel label={searchFilters.priceRangeLabel.toUpperCase()} />
+          <div className="uk-flex uk-flex-row uk-flex-center uk-flex-middle">
+            <div className="uk-inline">
+              <input
+                id={`${id}-price-min`}
+                className="uk-input"
+                type="number"
+                placeholder={localizations.minimum}
+                value={searchInstance.filters.priceMin}
+                onChange={event => onFilterChange('priceMin', event.target.value, '<=')}
+              />
+            </div>
+            <span data-uk-icon="icon: triangle-right; ratio: 2" />
+            <div className="uk-inline">
+              <input
+                id={`${id}-price-max`}
+                className="uk-input"
+                type="number"
+                placeholder={localizations.maximum}
+                onChange={event => onFilterChange('priceMax', event.target.value, '>=')}
+              />
+            </div>
           </div>
         </div>
-        <p> LOCATION </p>
         <div className="uk-margin">
+          <FormLabel label={localizations.locationLabel.toUpperCase()} />
           <input
             id={`${id}-location-city`}
             className="uk-input"
             type="text"
-            placeholder="City"
+            placeholder={addressForm.citLabel}
             onChange={event => onFilterChange('location.city', event.target.value)}
           />
         </div>
@@ -143,7 +152,7 @@ const Filter = ({
             id={`${id}-location-state`}
             className="uk-input"
             type="text"
-            placeholder="State"
+            placeholder={addressForm.stateLabel}
             onChange={event => onFilterChange('location.state', event.target.value)}
           />
         </div>
@@ -152,7 +161,7 @@ const Filter = ({
             id={`${id}-location-zipcode`}
             className="uk-input"
             type="text"
-            placeholder="Zip"
+            placeholder={addressForm.zipCodeLabel}
             onChange={event => onFilterChange('location.zipCode', event.target.value)}
           />
         </div>
@@ -180,7 +189,9 @@ const Filter = ({
           />
         </div>
         <div className="uk-margin">
-          <p> RATING </p>
+          <div>
+            <FormLabel label={searchFilters.ratingsLabel.toUpperCase()} />
+          </div>
           <StarRatingComponent
             name="rate1"
             starCount={5}
@@ -191,7 +202,7 @@ const Filter = ({
         <div className="uk-margin">
           <p>
             {' '}
-            WITHIN RADIUS (
+            {searchFilters.locationRadiusLabel.toUpperCase()} (
             {locationRadius > 5000
               ? profile.preferences.measurementUnit === 'ENGLISH'
                 ? `${(locationRadius / Values.meterToMiles).toFixed(0)} miles`

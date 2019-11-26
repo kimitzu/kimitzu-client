@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { WalletBalance } from '../../interfaces/Wallet'
 import currency from '../../models/Currency'
 import Profile from '../../models/Profile'
+
+import { localeInstance } from '../../i18n'
+
 import './WalletBalanceCard.css'
 
 interface WalletBalanceCardProps {
@@ -18,6 +21,8 @@ const WalletBalanceCard = ({
 }: WalletBalanceCardProps) => {
   const [fiatConversion, setFiatConversion] = useState(0)
   const [currentUser, setCurrentUser] = useState(new Profile())
+
+  const { walletView } = localeInstance.get.localizations
 
   useEffect(() => {
     ;(async () => {
@@ -37,23 +42,23 @@ const WalletBalanceCard = ({
   return (
     <div id="crypto-balance-main" className="uk-card uk-card-default uk-card-body">
       <div id="left-cont-bal">
-        <p className="bal-bold-text">Balance</p>
+        <p className="bal-bold-text">{walletView.balanceText}</p>
         <p className="value-bal">
           {currency.humanizeCrypto(balance.confirmed)} {selectedCryptoCurrency.toUpperCase()}
         </p>
         <p className="stat-bal">
           ({currency.humanizeCrypto(balance.unconfirmed)} {selectedCryptoCurrency.toUpperCase()}{' '}
-          Unconfirmed)
+          {walletView.unconfirmedText})
         </p>
       </div>
       <div id="middle-cont-bal">
-        <p className="bal-bold-text">Fiat Value</p>
+        <p className="bal-bold-text">{walletView.fiatValText}</p>
         <p className="value-bal">
           {fiatConversion} {currentUser.preferences.fiat}
         </p>
       </div>
       <div id="right-cont-bal">
-        <p className="bal-bold-text">Transactions</p>
+        <p className="bal-bold-text">{walletView.transactionsText}</p>
         <p className="value-bal">{transactionCount}</p>
       </div>
     </div>

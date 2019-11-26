@@ -3,12 +3,15 @@ import React, { useState } from 'react'
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
 
+import { localeInstance } from '../../i18n'
+
 interface LoginProps {
   onSubmit: (username: string, password: string) => void
   submitLabel: string
 }
 
 const Login = ({ onSubmit, submitLabel }: LoginProps) => {
+  const { localizations } = localeInstance.get
   const [isLoggingIn, setIslogginIn] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -18,7 +21,6 @@ const Login = ({ onSubmit, submitLabel }: LoginProps) => {
     await onSubmit(username, password)
     setIslogginIn(false)
   }
-
   return (
     <form
       className="uk-form-stacked uk-flex uk-flex-column uk-width-1-1"
@@ -29,7 +31,7 @@ const Login = ({ onSubmit, submitLabel }: LoginProps) => {
     >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="Username" required />
+          <FormLabel label={localizations.usernameLabel} required />
           <input
             className="uk-input"
             type="text"
@@ -38,7 +40,7 @@ const Login = ({ onSubmit, submitLabel }: LoginProps) => {
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Password" required />
+          <FormLabel label={localizations.passwordLabel} required />
           <input
             className="uk-input"
             type="password"

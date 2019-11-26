@@ -4,7 +4,9 @@ import ReactCountryFlag from 'react-country-flag'
 
 import Profile from '../../models/Profile'
 
+import { localeInstance } from '../../i18n'
 import { Button } from '../Button'
+
 import './ModeratorInfoModal.css'
 
 interface Props {
@@ -12,6 +14,7 @@ interface Props {
 }
 
 const ModeratorInfoModal = ({ profile }: Props) => {
+  const { moderatorInfoModal } = localeInstance.get.localizations
   const { moderatorInfo, extLocation, name, peerID } = profile
   const primaryAddress = extLocation ? extLocation.addresses[extLocation.primary] : null
 
@@ -46,7 +49,7 @@ const ModeratorInfoModal = ({ profile }: Props) => {
                   window.dispatchEvent(dmEvent)
                 }}
               >
-                MESSAGE
+                {moderatorInfoModal.messageBtnText.toUpperCase()}
               </Button>
             </div>
           </div>
@@ -66,15 +69,15 @@ const ModeratorInfoModal = ({ profile }: Props) => {
                 className="uk-flex uk-flex-row uk-flex-middle uk-flex-center"
               >
                 <div className="uk-flex-1">
-                  <p>FEE</p>
+                  <label>{moderatorInfoModal.feeLabel}</label>
                 </div>
                 {acceptedCurrencies ? (
                   <div className="uk-flex-1">
-                    <p>Currencies</p>
+                    <label>{moderatorInfoModal.languagesLabel}</label>
                   </div>
                 ) : null}
                 <div className="uk-flex-1">
-                  <p>Languages</p>
+                  <label>{moderatorInfoModal.currenciesLabel}</label>
                 </div>
               </div>
               <div id="moderator-info-table-body" className="uk-flex uk-flex-row">
@@ -111,7 +114,7 @@ const ModeratorInfoModal = ({ profile }: Props) => {
           <p>{description}</p>
         </div>
         <div className="uk-margin-small-top">
-          <h5 className="uk-text-bold">Terms and Conditions</h5>
+          <h5 className="uk-text-bold">{moderatorInfoModal.termsAndConditionsHeader}</h5>
           <p id="moderator-info-terms">{termsAndConditions}</p>
         </div>
       </div>

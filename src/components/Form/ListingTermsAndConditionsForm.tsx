@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
+import ReactMde from 'react-mde'
 
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
 
+import { TabSelection } from '../../interfaces/Misc'
 import decodeHtml from '../../utils/Unescape'
 
-import ReactMarkdown from 'react-markdown'
-import ReactMde from 'react-mde'
-import 'react-mde/lib/styles/css/react-mde-all.css'
+import { localeInstance } from '../../i18n'
 
-import { TabSelection } from '../../interfaces/Misc'
+import 'react-mde/lib/styles/css/react-mde-all.css'
 
 interface Props {
   handleInputChange: (field: string, value: string, parentField?: string) => void
@@ -26,6 +27,11 @@ const ListingTermsAndConditionsForm = ({
   isNew,
   handleFullSubmit,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { listingForm },
+  } = localeInstance.get
+
   const [st, setSelectedTab] = useState('write')
   const selectedTab: TabSelection = st as TabSelection
 
@@ -33,7 +39,7 @@ const ListingTermsAndConditionsForm = ({
     <form className="uk-form-stacked uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="TERMS AND CONDITIONS" />
+          <FormLabel label={listingForm.termsAndConditionsLabel.toUpperCase()} />
           <ReactMde
             onChange={value => handleInputChange('termsAndConditions', value, 'listing')}
             value={decodeHtml(termsAndConditions)}
@@ -45,9 +51,7 @@ const ListingTermsAndConditionsForm = ({
               })
             }}
           />
-          <label className="form-label-desciptor">
-            If left blank, the listing will display "No terms and conditions entered"
-          </label>
+          <label className="form-label-desciptor">{listingForm.termsAndConditionsDescriptor}</label>
         </div>
       </fieldset>
       <div className="submit-btn-div">
@@ -56,14 +60,14 @@ const ListingTermsAndConditionsForm = ({
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            UPDATE LISTING
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleContinue}
         >
-          NEXT
+          {localizations.nextBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

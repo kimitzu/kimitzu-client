@@ -4,6 +4,8 @@ import { Button } from '../Button'
 
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
+import { localeInstance } from '../../i18n'
+
 import './ListingCryptoCurrenciesForm.css'
 
 const cryptoCurrencies = [...CryptoCurrencies()]
@@ -28,46 +30,49 @@ const ListingCryptoCurrenciesForm = ({
   acceptedCurrencies,
   isLoading,
   isNew,
-}: Props) => (
-  <form className="uk-form-stacked uk-flex uk-flex-column full-width">
-    <fieldset className="uk-fieldset">
-      <div id="crypto-checkers" className="uk-margin uk-flex">
-        {cryptoCurrencies.map((crypto: Options, index: number) => (
-          <label id="checker" className="color-primary" key={crypto.value}>
-            <input
-              id={`crypto-${index}`}
-              className="uk-checkbox input-checker"
-              type="checkbox"
-              checked={acceptedCurrencies.includes(crypto.value)}
-              onChange={event => {
-                if (event.target.checked) {
-                  acceptedCurrencies.push(crypto.value)
-                  handleInputChange('metadata.acceptedCurrencies', acceptedCurrencies, 'listing')
-                } else {
-                  const filteredEntries = acceptedCurrencies.filter(x => x !== crypto.value)
-                  handleInputChange('metadata.acceptedCurrencies', filteredEntries, 'listing')
-                }
-              }}
-            />
-            {crypto.label}
-          </label>
-        ))}
-        <label className="form-label-desciptor">
-          Accepting all coins will attract the largest audience
-        </label>
+}: Props) => {
+  const { listingForm } = localeInstance.get.localizations
+
+  return (
+    <form className="uk-form-stacked uk-flex uk-flex-column full-width">
+      <fieldset className="uk-fieldset">
+        <div id="crypto-checkers" className="uk-margin uk-flex">
+          {cryptoCurrencies.map((crypto: Options, index: number) => (
+            <label id="checker" className="color-primary" key={crypto.value}>
+              <input
+                id={`crypto-${index}`}
+                className="uk-checkbox input-checker"
+                type="checkbox"
+                checked={acceptedCurrencies.includes(crypto.value)}
+                onChange={event => {
+                  if (event.target.checked) {
+                    acceptedCurrencies.push(crypto.value)
+                    handleInputChange('metadata.acceptedCurrencies', acceptedCurrencies, 'listing')
+                  } else {
+                    const filteredEntries = acceptedCurrencies.filter(x => x !== crypto.value)
+                    handleInputChange('metadata.acceptedCurrencies', filteredEntries, 'listing')
+                  }
+                }}
+              />
+              {crypto.label}
+            </label>
+          ))}
+          <label className="form-label-desciptor">{listingForm.currenciesDescriptor}</label>
+        </div>
+      </fieldset>
+      <div className="submit-btn-div">
+        <Button
+          className="uk-button uk-button-primary"
+          id="listing-full-submit"
+          showSpinner={isLoading}
+          disabled={isLoading}
+          onClick={handleContinue}
+        >
+          {isNew ? listingForm.addBtnText.toUpperCase() : listingForm.updateBtnText.toUpperCase()}
+        </Button>
       </div>
-    </fieldset>
-    <div className="submit-btn-div">
-      <Button
-        className="uk-button uk-button-primary"
-        showSpinner={isLoading}
-        disabled={isLoading}
-        onClick={handleContinue}
-      >
-        {isNew ? 'ADD LISTING' : 'UPDATE LISTING'}
-      </Button>
-    </div>
-  </form>
-)
+    </form>
+  )
+}
 
 export default ListingCryptoCurrenciesForm

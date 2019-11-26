@@ -4,6 +4,8 @@ import { Button } from '../Button'
 import { FormLabel } from '../Label'
 import { ThumbnavSlideshow } from '../Thumbnav'
 
+import { localeInstance } from '../../i18n'
+
 interface Props {
   handleContinue: (event: React.FormEvent) => void
   images: string[]
@@ -19,11 +21,16 @@ const ListingPhotosForm = ({
   isNew,
   handleFullSubmit,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { listingForm },
+  } = localeInstance.get
+
   return (
     <form className="uk-form-stacked  uk-flex uk-flex-column full-width">
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="ADD PHOTO (Include up to 30 photos)" required />
+          <FormLabel label={listingForm.photoLabel} required />
           <ThumbnavSlideshow images={images} onChange={onChange} />
         </div>
       </fieldset>
@@ -33,14 +40,14 @@ const ListingPhotosForm = ({
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            UPDATE LISTING
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button
           className={`uk-button ${isNew ? 'uk-button-primary' : 'uk-button-default'}`}
           onClick={handleContinue}
         >
-          NEXT
+          {localizations.nextBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

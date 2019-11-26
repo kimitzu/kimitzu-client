@@ -1,26 +1,26 @@
 [
   {
-    "label": "Alphabetically (A → Z)",
+    "label": "",
     "value": "item.title_<="
   },
   {
-    "label": "Alphabetically (Z → A)",
+    "label": "",
     "value": "item.title_>="
   },
   {
-    "label": "Price (Low → High)",
+    "label": "",
     "value": "item.price_<="
   },
   {
-    "label": "Price (High → Low)",
+    "label": "",
     "value": "item.price_>="
   },
   {
-    "label": "Rating (Low → High)",
+    "label": "",
     "value": "averageRating_<="
   },
   {
-    "label": "Rating (High → Low)",
+    "label": "",
     "value": "averageRating_>="
   }
 ]

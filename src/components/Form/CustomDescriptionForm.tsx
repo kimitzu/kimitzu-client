@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
 
+import { localeInstance } from '../../i18n'
 import { CustomDescription } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
@@ -12,6 +13,10 @@ interface CustomDescriptionProps {
 }
 
 const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
+  const {
+    localizations,
+    localizations: { customDescriptionForm },
+  } = localeInstance.get
   const customDescriptions: CustomDescription[] = []
   const [descriptions, setDescriptions] = useState(customDescriptions)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -42,7 +47,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
         profile.customFields = descriptions
         setIsUpdating(true)
         await profile.update()
-        window.UIkit.notification('Profile Updated!', { status: 'success' })
+        window.UIkit.notification(customDescriptionForm.saveSuccessNotif, { status: 'success' })
         setIsUpdating(false)
       }}
     >
@@ -56,13 +61,13 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
             }}
           >
             <div className="uk-width-1-1">
-              <FormLabel label="Label" />
+              <FormLabel label={customDescriptionForm.labelLabel} />
               <div className="uk-form-controls">
                 <input
                   autoFocus
                   className="uk-input"
                   type="text"
-                  placeholder="Enter value"
+                  placeholder={customDescriptionForm.placeholder}
                   value={descriptions[index].label}
                   onChange={evt => {
                     changeHandler('label', evt.target.value, selectedIndex)
@@ -74,12 +79,12 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
               </div>
             </div>
             <div className="uk-margin-left uk-width-1-1">
-              <FormLabel label="Value" />
+              <FormLabel label={customDescriptionForm.valueLabel} />
               <div className="uk-form-controls">
                 <input
                   className="uk-input"
                   type="text"
-                  placeholder="Enter value"
+                  placeholder={customDescriptionForm.placeholder}
                   value={decodeHtml(descriptions[index].value)}
                   onChange={evt => {
                     changeHandler('value', evt.target.value, selectedIndex)
@@ -111,7 +116,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
               setDescriptions([...descriptions, { label: '', value: '' }])
             }}
           >
-            Add new field
+            {customDescriptionForm.submitBtnText}
           </Button>
         </div>
       </fieldset>
@@ -120,7 +125,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
           <div uk-spinner="ratio: 1" />
         ) : (
           <Button className="uk-button uk-button-primary uk-align-center" type="submit">
-            SAVE
+            {localizations.saveBtnText.toUpperCase()}
           </Button>
         )}
       </div>

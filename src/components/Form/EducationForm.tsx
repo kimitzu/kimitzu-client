@@ -7,6 +7,7 @@ import { FormLabel } from '../Label'
 import { FormSelector } from '../Selector'
 
 import Countries from '../../constants/Countries.json'
+import { localeInstance } from '../../i18n'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
 
@@ -23,6 +24,10 @@ interface Props {
 
 const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Props) => {
   const educationHistory = profile.background!.educationHistory
+  const {
+    localizations,
+    localizations: { educationForm, addressForm },
+  } = localeInstance.get
   const defaultObject = {
     institution: '',
     degree: '',
@@ -77,12 +82,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
     >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="Institution Name" required />
+          <FormLabel label={educationForm.institutionLabel} required />
           <input
             className="uk-input"
             type="text"
             value={decodeHtml(education.institution)}
-            placeholder="Institution or School Name"
+            placeholder={educationForm.institutionPlaceholder}
             required
             onChange={evt => {
               handleChange('institution', evt.target.value)
@@ -90,12 +95,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Degree" required />
+          <FormLabel label={educationForm.degreeLabel} required />
           <input
             className="uk-input"
             type="text"
             value={decodeHtml(education.degree)}
-            placeholder="Degree, Specialization, Major"
+            placeholder={educationForm.degreePlaceholder}
             required
             onChange={evt => {
               handleChange('degree', evt.target.value)
@@ -103,12 +108,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Description" required />
+          <FormLabel label={localizations.descriptionLabel} required />
           <textarea
             className="uk-textarea"
             rows={5}
             value={decodeHtml(education.description)}
-            placeholder="Tell us a bit about your degree and specialization"
+            placeholder={educationForm.descriptioLabel}
             required
             onChange={evt => {
               handleChange('description', evt.target.value)
@@ -132,12 +137,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
                 setIsStudyingHere(evt.target.checked)
               }}
             />{' '}
-            Currently studying here?
+            {educationForm.currentyStudyingLabel}
           </label>
         </div>
         <TwoInputs
           input1={{
-            label: 'Start Date',
+            label: localizations.startDate,
             props: {
               type: 'date',
               required: true,
@@ -150,7 +155,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             required: true,
           }}
           input2={{
-            label: 'End Date',
+            label: localizations.endDate,
             props: {
               type: 'date',
               value: !isStudyingHere ? education.period!.to.toLocaleDateString('en-CA') : '',
@@ -164,11 +169,11 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
         />
         <div className="uk-margin uk-flex uk-flex-row">
           <div className="uk-width-1-2 uk-margin-right">
-            <FormLabel label="City" required />
+            <FormLabel label={addressForm.cityLabel} required />
             <input
               className="uk-input"
               value={decodeHtml(education.location.city)}
-              placeholder="City"
+              placeholder={addressForm.cityLabel}
               required
               onChange={evt => {
                 education.location.city = evt.target.value
@@ -177,7 +182,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             />
           </div>
           <div className="uk-width-1-2">
-            <FormLabel label="Country" required />
+            <FormLabel label={addressForm.countryLabel} required />
             <FormSelector
               options={Countries}
               defaultVal={education.location.country || ''}
@@ -201,11 +206,11 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
               handleProfileSave()
             }}
           >
-            DELETE
+            {localizations.deleteBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button className="uk-button uk-button-primary" type="submit">
-          SAVE
+          {localizations.saveBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

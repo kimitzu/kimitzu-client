@@ -13,6 +13,7 @@ import Languages from '../../constants/Languages.json'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
 
+import { localeInstance } from '../../i18n'
 import './ModeratorForm.css'
 
 const parsedLanguages = Languages.map(m => {
@@ -52,6 +53,10 @@ const moderatorBaseObject = {
 } as Moderator
 
 const ModeratorForm = (props: Props) => {
+  const {
+    localizations,
+    localizations: { moderatorForm },
+  } = localeInstance.get
   const [languageTags, setLanguageTags] = useState([] as Tag[])
   const [moderator, setModerator] = useState(moderatorBaseObject)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -128,7 +133,9 @@ const ModeratorForm = (props: Props) => {
         if (!enableModerator) {
           setIsSubmitting(true)
           await props.profile.unsetModerator()
-          window.UIkit.notification('Moderator profile removed', { status: 'success' })
+          window.UIkit.notification(moderatorForm.removeSuccessNotif, {
+            status: 'success',
+          })
           setIsSubmitting(false)
           return
         }
@@ -139,7 +146,7 @@ const ModeratorForm = (props: Props) => {
 
         setIsSubmitting(true)
         await props.profile.setModerator(moderator)
-        window.UIkit.notification('Moderator profile saved!', {
+        window.UIkit.notification(moderatorForm.saveSuccessNotif, {
           status: 'success',
         })
         setIsSubmitting(false)
@@ -157,12 +164,12 @@ const ModeratorForm = (props: Props) => {
                   setEnableModerator(evt.target.checked)
                 }}
               />{' '}
-              Enable moderator functions
+              {moderatorForm.enableModLabel.toUpperCase()}
             </label>
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="DESCRIPTION" required />
+          <FormLabel label={localizations.descriptionLabel.toUpperCase()} required />
           <div className="uk-form-controls">
             <textarea
               required
@@ -170,7 +177,7 @@ const ModeratorForm = (props: Props) => {
               autoFocus
               className="uk-textarea"
               rows={3}
-              placeholder="In 500 words or less tell us something about yourself and the services you offer..."
+              placeholder={moderatorForm.descriptionPlaceholder}
               value={decodeHtml(moderator.description) || ''}
               onChange={event => {
                 handleChange('description', event.target.value)
@@ -179,14 +186,14 @@ const ModeratorForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="TERMS AND CONDITIONS" required />
+          <FormLabel label={moderatorForm.termsAndConditionsLabel.toUpperCase()} required />
           <div className="uk-form-controls">
             <textarea
               required
               className="uk-textarea"
               disabled={!enableModerator}
               rows={3}
-              placeholder="Enter Terms and Conditions"
+              placeholder={moderatorForm.termsAndConditionsLabel}
               value={decodeHtml(moderator.termsAndConditions) || ''}
               onChange={event => {
                 handleChange('termsAndConditions', event.target.value)
@@ -195,7 +202,7 @@ const ModeratorForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="LANGUAGES" required />
+          <FormLabel label={moderatorForm.languagesLabel.toUpperCase()} required />
           <div className="uk-form-controls">
             <div className="lang-tags-container">
               <ReactTags
@@ -211,7 +218,7 @@ const ModeratorForm = (props: Props) => {
           </div>
         </div>
         <div className="uk-margin">
-          <FormLabel label="FEE TYPE" required />
+          <FormLabel label={moderatorForm.feeTypeLabel.toUpperCase()} required />
           <div id="form-select" className="uk-form-controls">
             <FormSelector
               required
@@ -228,14 +235,14 @@ const ModeratorForm = (props: Props) => {
           <div className="uk-margin">
             <div className="fixed-container">
               <div className="fixed-content">
-                <FormLabel label="AMOUNT" required />
+                <FormLabel label={moderatorForm.amountLabel.toUpperCase()} required />
                 <div className="uk-form-controls">
                   <input
                     required
                     disabled={!enableModerator}
                     className="uk-input"
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder={moderatorForm.amountPlaceholder}
                     value={moderator.fee.fixedFee!.amount || ''}
                     onChange={event => {
                       moderator.fee.fixedFee!.amount = Number(event.target.value)
@@ -246,7 +253,7 @@ const ModeratorForm = (props: Props) => {
               </div>
               <div className="fixed-divider" />
               <div className="fixed-content">
-                <FormLabel label="CURRENCY" required />
+                <FormLabel label={moderatorForm.currencyLabel.toUpperCase()} required />
                 <div id="form-select" className="uk-form-controls">
                   <FormSelector
                     required
@@ -266,7 +273,7 @@ const ModeratorForm = (props: Props) => {
         {moderator.fee.feeType === 'PERCENTAGE' ||
         moderator.fee.feeType === 'FIXED_PLUS_PERCENTAGE' ? (
           <div className="uk-margin">
-            <FormLabel label="PERCENTAGE" required />
+            <FormLabel label={moderatorForm.percentageLabel.toUpperCase()} required />
             <div className="slider-container-main">
               <div className="slider-stat">
                 <div className="perc-middle">{moderator.fee.percentage}%</div>
@@ -296,7 +303,7 @@ const ModeratorForm = (props: Props) => {
           <div uk-spinner="ratio: 1" />
         ) : (
           <Button className="uk-button uk-button-primary uk-align-center" type="submit">
-            SAVE
+            {localizations.saveBtnText}
           </Button>
         )}
       </div>

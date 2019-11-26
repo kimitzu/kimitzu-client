@@ -4,16 +4,18 @@ import React, { Component } from 'react'
 import { IntroductionCard, RegistrationCard } from '../components/Card'
 import SuccessCard from '../components/Card/SuccessCard'
 import { RegistrationForm, TermsOfService } from '../components/Form'
-import Countries from '../constants/Countries.json'
+
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import CurrencyTypes from '../constants/CurrencyTypes.json'
 import FiatCurrencies from '../constants/FiatCurrencies.json'
 import Languages from '../constants/Languages.json'
 import UnitsOfMeasurement from '../constants/UnitsOfMeasurement.json'
+import Profile from '../models/Profile'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
-import Profile from '../models/Profile'
+import { localeInstance } from '../i18n'
+
 import './UserRegistration.css'
 
 const cryptoCurrencies = CryptoCurrencies()
@@ -29,6 +31,8 @@ interface State {
 }
 
 class UserRegistration extends Component<{}, State> {
+  private locale = localeInstance.get.localizations
+
   constructor(props: any) {
     super(props)
     const profile = new Profile()
@@ -48,6 +52,10 @@ class UserRegistration extends Component<{}, State> {
     this.handlePrev = this.handlePrev.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.renderCard = this.renderCard.bind(this)
+  }
+
+  public componentDidMount() {
+    this.locale = localeInstance.get.localizations
   }
 
   public async handleNext(event?: React.FormEvent) {
@@ -170,7 +178,9 @@ class UserRegistration extends Component<{}, State> {
     }
 
     await this.state.profile.save()
-    window.UIkit.notification('Registration Successful', { status: 'success' })
+    window.UIkit.notification(this.locale.registrationPage.successNotification, {
+      status: 'success',
+    })
     this.handleNext()
   }
 

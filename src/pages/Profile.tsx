@@ -12,6 +12,8 @@ import { CircleSpinner } from '../components/Spinner'
 import config from '../config'
 import Rating, { RatingSummary } from '../interfaces/Rating'
 
+import { localeInstance } from '../i18n'
+
 interface RatingItem extends Rating {
   avatar?: string
 }
@@ -45,6 +47,8 @@ interface ProfilePageProps extends RouteComponentProps<RouteProps> {
 }
 
 class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
+  private profilePageLocale = localeInstance.get.localizations.profilePage
+
   constructor(props: any) {
     super(props)
     this.state = {
@@ -206,11 +210,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top uk-text-center">
             <img src={`${config.host}/images/warning.png`} height="100" width="100" />
-            <h1 className="uk-text-danger uk-margin-top">Unable to Retrieve Profile.</h1>
-            <p>
-              The profile your requested is currently offline or does not exist in the Djali
-              network.
-            </p>
+            <h1 className="uk-text-danger uk-margin-top">
+              {this.profilePageLocale.profileNotFoundHeader}
+            </h1>
+            <p>{this.profilePageLocale.profileNotFoundSubText}</p>
           </div>
         </div>
       )

@@ -10,6 +10,8 @@ import Countries from '../../constants/Countries.json'
 import Profile from '../../models/Profile'
 import decodeHtml from '../../utils/Unescape'
 
+import { localeInstance } from '../../i18n'
+
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
 
@@ -36,7 +38,10 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
       to: new Date(),
     },
   } as EmploymentHistory
-
+  const {
+    localizations,
+    localizations: { employmentForm, addressForm },
+  } = localeInstance.get
   const [isWorkingHere, setIsWorkingHere] = useState(false)
   const [employment, setEmployment] = useState(defaultObject)
   const [targetIndex, setTargetIndex] = useState(updateIndex)
@@ -77,12 +82,12 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
     >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label="Company Name" required />
+          <FormLabel label={employmentForm.companyLabel} required />
           <input
             className="uk-input"
             type="text"
             value={decodeHtml(employment.company)}
-            placeholder="Company Name"
+            placeholder={employmentForm.companyLabel}
             required
             onChange={evt => {
               handleChange('company', evt.target.value)
@@ -90,12 +95,12 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Position" required />
+          <FormLabel label={employmentForm.positionLabel} required />
           <input
             className="uk-input"
             type="text"
             value={decodeHtml(employment.role)}
-            placeholder="Position/Rank in the company"
+            placeholder={employmentForm.positionPlaceholder}
             required
             onChange={evt => {
               handleChange('role', evt.target.value)
@@ -103,12 +108,12 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
           />
         </div>
         <div className="uk-margin">
-          <FormLabel label="Description" required />
+          <FormLabel label={localizations.descriptionLabel} required />
           <textarea
             className="uk-textarea"
             rows={5}
             value={decodeHtml(employment.description)}
-            placeholder="Tell us a bit about your work"
+            placeholder={employmentForm.descriptionPlaceholder}
             required
             onChange={evt => {
               handleChange('description', evt.target.value)
@@ -132,12 +137,12 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
                 setIsWorkingHere(evt.target.checked)
               }}
             />{' '}
-            Currently working here?
+            {employmentForm.currentlyWorkingLabel}
           </label>
         </div>
         <TwoInputs
           input1={{
-            label: 'Start Date',
+            label: localizations.startDateLabel,
             props: {
               type: 'date',
               required: true,
@@ -150,7 +155,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
             required: true,
           }}
           input2={{
-            label: 'End Date',
+            label: localizations.endDateLabel,
             props: {
               type: 'date',
               value: !isWorkingHere ? employment.period!.to.toLocaleDateString('en-CA') : '',
@@ -164,11 +169,11 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
         />
         <div className="uk-margin uk-flex uk-flex-row">
           <div className="uk-width-1-2 uk-margin-right">
-            <FormLabel label="City" required />
+            <FormLabel label={addressForm.cityLabel} required />
             <input
               className="uk-input"
               value={decodeHtml(employment.location.city)}
-              placeholder="City"
+              placeholder={addressForm.cityLabel}
               required
               onChange={evt => {
                 employment.location.city = evt.target.value
@@ -177,7 +182,7 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
             />
           </div>
           <div className="uk-width-1-2">
-            <FormLabel label="Country" required />
+            <FormLabel label={addressForm.countryLabel} required />
             <FormSelector
               options={Countries}
               defaultVal={employment.location.country || ''}
@@ -201,11 +206,11 @@ const EmploymentForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Pro
               handleProfileSave()
             }}
           >
-            DELETE
+            {localizations.deleteBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button className="uk-button uk-button-primary" type="submit">
-          SAVE
+          {localizations.saveBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

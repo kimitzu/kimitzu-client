@@ -255,7 +255,7 @@ a:hover {
 }
 
 .uk-tab > .uk-active > a {
-  color: dodgerblue !important;
+  color: var(--primary) !important;
 }
 
 .markdown-container > p {

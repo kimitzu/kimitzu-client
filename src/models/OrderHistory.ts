@@ -1,48 +1,15 @@
 import Axios from 'axios'
 import config from '../config'
+import { localeInstance } from '../i18n'
 import OrderHistoryInterface from '../interfaces/OrderHistory'
 import currency from './Currency'
 
 class OrderHistory implements OrderHistoryInterface {
   public static get filters() {
+    const { localizations } = localeInstance.get
+
     return {
-      unfunded: {
-        states: ['AWAITING_PAYMENT'],
-        description: 'Orders that have not yet paid by the buyer.',
-      },
-      pending: {
-        states: ['PENDING'],
-        description:
-          'Orders that were paid and sent to the vendor but the vendor has not yet responded.',
-      },
-      processing: {
-        states: ['AWAITING_FULFILLMENT'],
-        description: 'Orders that were fully paid and vendor is processing the order.',
-      },
-      fulfilled: {
-        states: ['FULFILLED', 'AWAITING_PICKUP'],
-        description: 'Orders that were fulfilled by the vendor.',
-      },
-      completed: {
-        states: ['COMPLETED'],
-        description: 'Orders that were completed by the buyer.',
-      },
-      refunded: {
-        states: ['REFUNDED'],
-        description: 'Orders that were refunded by the vendor.',
-      },
-      disputes: {
-        states: ['DISPUTED', 'DECIDED', 'RESOLVED', 'PAYMENT_FINALIZED'],
-        description: 'Orders with a dispute case.',
-      },
-      cancelled: {
-        states: ['CANCELLED', 'DECLINED'],
-        description: 'Orders that were canceled by the buyer or that were refused by the vendor.',
-      },
-      errors: {
-        states: ['PROCESSING_ERROR'],
-        description: 'Orders that have errors.',
-      },
+      ...localizations.constants.filters,
     }
   }
 
@@ -74,6 +41,9 @@ class OrderHistory implements OrderHistoryInterface {
 
   public static async getCases(): Promise<OrderHistory[]> {
     const cases = await Axios.get(`${config.openBazaarHost}/ob/cases`)
+    if (!cases.data.cases) {
+      return []
+    }
     const parsedCases = cases.data.cases.map(c => {
       const caseTemp = new OrderHistory(c)
       caseTemp.source = 'cases'

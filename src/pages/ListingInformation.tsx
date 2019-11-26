@@ -32,6 +32,8 @@ import currency from '../models/Currency'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
 
+import { localeInstance } from '../i18n'
+
 const cryptoCurrencies = CryptoCurrencies()
 
 interface Image {
@@ -65,6 +67,8 @@ interface Props extends RouteComponentProps<RouteProps> {
 }
 
 class ListingProfile extends Component<Props, State> {
+  private locale = localeInstance.get.localizations
+
   constructor(props: any) {
     super(props)
     const listing = new Listing()
@@ -93,8 +97,9 @@ class ListingProfile extends Component<Props, State> {
   }
 
   public async componentDidMount() {
+    // this.locale = localeInstance.get.localizations
     this.setState({
-      loadingStatus: 'Retrieving Listing',
+      loadingStatus: this.locale.listingPage.retrieveListingSpinnerText,
     })
     const id = this.props.match.params.id
     try {
@@ -105,7 +110,7 @@ class ListingProfile extends Component<Props, State> {
         listing,
         imageData,
         profile: vendor,
-        loadingStatus: 'Retrieving Ratings',
+        loadingStatus: this.locale.listingPage.retrieveRatingsSpinnerText,
         currentUser,
       })
       setTimeout(async () => {
@@ -152,14 +157,19 @@ class ListingProfile extends Component<Props, State> {
 
   public async handleRenew() {
     window.UIkit.modal
-      .confirm(`Renew the listing <b>${this.state.listing.item.title}</b> for <b>1 year</b>?`)
+      .confirm(
+        localeInstance.format(
+          this.locale.listingPage.listingRenewPrompt,
+          this.state.listing.item.title
+        )
+      )
       .then(
         async () => {
           await this.state.listing.renew()
           this.setState({
             listing: this.state.listing,
           })
-          window.UIkit.modal.alert('Listing successfully renewed!').then(() => {
+          window.UIkit.modal.alert(this.locale.listingPage.listingRenewedNotif).then(() => {
             window.location.hash = '/'
           })
         },
@@ -170,6 +180,7 @@ class ListingProfile extends Component<Props, State> {
   }
 
   public render() {
+    const { locale } = this
     const { listing, profile, imageData, quantity, ratingSummary } = this.state
     const { background } = profile
 
@@ -199,7 +210,7 @@ class ListingProfile extends Component<Props, State> {
               className="uk-alert-danger uk-padding-small uk-text-center uk-margin-bottom"
               uk-alert
             >
-              This listing has expired, contact the vendor for more details.
+              {locale.listingPage.expiredListingHelper1}
             </div>
           ) : null}
           {listing.hasExpired && listing.isOwner ? (
@@ -207,7 +218,7 @@ class ListingProfile extends Component<Props, State> {
               className="uk-alert-danger uk-padding-small uk-text-center uk-margin-bottom"
               uk-alert
             >
-              This listing has expired.{' '}
+              {locale.listingPage.expiredListingHelper2}{' '}
               <a
                 href="#"
                 onClick={async evt => {
@@ -215,7 +226,7 @@ class ListingProfile extends Component<Props, State> {
                   this.handleRenew()
                 }}
               >
-                Renew for one year.
+                {locale.listingPage.renewLink}
               </a>
             </div>
           ) : null}
@@ -229,30 +240,28 @@ class ListingProfile extends Component<Props, State> {
                   window.location.hash = `/listing/edit/${listing.hash}`
                 }}
               >
-                <span uk-icon="pencil" /> Edit
+                <span uk-icon="pencil" /> {locale.listingPage.editBtnText}
               </Button>
               <Button
                 type="button"
                 className="uk-button uk-button-danger uk-margin-left"
                 onClick={() => {
-                  window.UIkit.modal
-                    .confirm(
-                      'Are you sure you want to delete this listing? This action cannot be undone.'
-                    )
-                    .then(
-                      async () => {
-                        await listing.delete()
-                        window.UIkit.modal.alert('Listing deleted.').then(() => {
+                  window.UIkit.modal.confirm(locale.listingPage.deleteListingPromptText).then(
+                    async () => {
+                      await listing.delete()
+                      window.UIkit.modal
+                        .alert(locale.listingPage.deleteListingSuccessNotif)
+                        .then(() => {
                           window.location.hash = '/'
                         })
-                      },
-                      () => {
-                        // Do nothing when cancel is pressed
-                      }
-                    )
+                    },
+                    () => {
+                      // Do nothing when cancel is pressed
+                    }
+                  )
                 }}
               >
-                <span uk-icon="trash" /> Delete
+                <span uk-icon="trash" /> {locale.deleteBtnText}
               </Button>
             </div>
           ) : null}
@@ -278,10 +287,12 @@ class ListingProfile extends Component<Props, State> {
                         {ratingSummary.count > 0 ? (
                           <div className="uk-flex uk-flex-row">
                             <div className="uk-margin-small-right">{ratingStars}</div>
-                            <p>{rating.toFixed(0)} Reviews</p>
+                            <p>
+                              {rating.toFixed(0)} {locale.listingPage.reviewsText}
+                            </p>
                           </div>
                         ) : (
-                          <p className="color-secondary">No ratings.</p>
+                          <p className="color-secondary">{locale.listingPage.noRatingsText}</p>
                         )}
                       </div>
                     </div>
@@ -301,19 +312,22 @@ class ListingProfile extends Component<Props, State> {
                             .toFixed(2)}
                         </div>
                       </div>
-                      <div className="uk-text-right">{listing.displayServiceRateMethod || ''}</div>
+                      <div className="uk-text-right">
+                        {listing.metadata.serviceRateMethod !== 'FIXED' ? '/' : ''}
+                        {this.locale.constants.singulars[listing.metadata.serviceRateMethod]}
+                      </div>
                     </div>
                   </div>
                   <div className="uk-grid uk-text-left" uk-grid>
                     <div className="uk-flex uk-flex-column">
-                      <div className="uk-text-bold">Type</div>
+                      <div className="uk-text-bold">{locale.typeLabel}</div>
                       <div className="uk-text-capitalize">
                         {listing.metadata.contractType.toLowerCase()}
                       </div>
                     </div>
                     {listing.metadata.serviceClassification ? (
                       <div className="uk-flex uk-flex-column">
-                        <div className="uk-text-bold">Classification</div>
+                        <div className="uk-text-bold">{locale.listingPage.classificationLabel}</div>
                         <div className="uk-text-capitalize">
                           {listing.metadata.serviceClassification}
                         </div>
@@ -322,7 +336,7 @@ class ListingProfile extends Component<Props, State> {
                   </div>
                   <div className="uk-grid uk-text-left" uk-grid>
                     <div className="uk-flex uk-flex-column">
-                      <div className="uk-text-bold">Payment Methods</div>
+                      <div className="uk-text-bold">{locale.listingPage.paymentMethodsLabel}</div>
                       <div className="uk-flex uk-flex-row">
                         {listing.metadata.acceptedCurrencies.map(crypto => {
                           let colorStyle
@@ -341,7 +355,7 @@ class ListingProfile extends Component<Props, State> {
                     </div>
                     {listing.item.tags.length > 0 ? (
                       <div className="uk-flex uk-flex-column">
-                        <div className="uk-text-bold">Tags</div>
+                        <div className="uk-text-bold">{locale.listingPage.tagsLabel}</div>
                         <div className="uk-text-capitalize">
                           {listing.item.tags.map(tag => (
                             <span key={tag} className="tag uk-text-capitalize">
@@ -383,9 +397,9 @@ class ListingProfile extends Component<Props, State> {
                         }}
                       />
                       <div>
-                        {listing.displayServiceRateMethod!.startsWith('/')
-                          ? listing.displayServiceRateMethod!.substr(1) + (quantity > 1 ? 's' : '')
-                          : listing.displayServiceRateMethod}
+                        {quantity === 1
+                          ? this.locale.constants.singulars[listing.metadata.serviceRateMethod]
+                          : this.locale.constants.plurals[listing.metadata.serviceRateMethod]}
                       </div>
                     </div>
                     <Button
@@ -394,7 +408,8 @@ class ListingProfile extends Component<Props, State> {
                       onClick={this.handleBuy}
                       disabled={listing.hasExpired}
                     >
-                      <span uk-icon="icon: cart" /> CHECKOUT
+                      <span uk-icon="icon: cart" />{' '}
+                      {locale.listingPage.checkoutBtnText.toUpperCase()}
                     </Button>
                   </div>
                 </div>
@@ -440,25 +455,27 @@ class ListingProfile extends Component<Props, State> {
         </div>
         {listing.item.description ? (
           <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
-            <h3 className="uk-card-title text-blue uk-text-bold">Description</h3>
+            <h3 className="uk-card-title text-blue uk-text-bold">{locale.descriptionLabel}</h3>
             <div className="inside-content markdown-container">
               <ReactMarkdown source={listing.item.description} />
             </div>
           </div>
         ) : null}
-        <SocialMediaCard contact={profile.contactInfo} title="Contact Information" />
+        <SocialMediaCard contact={profile.contactInfo} title={locale.listingPage.contactHeader} />
         {background && background.educationHistory.length > 0 ? (
-          <ProfessionalBackgroundCard data={background} name="Education" />
+          <ProfessionalBackgroundCard data={background} name={locale.listingPage.educationHeader} />
         ) : null}
         {background && background.employmentHistory.length > 0 ? (
-          <ProfessionalBackgroundCard data={background} name="Work History" />
+          <ProfessionalBackgroundCard data={background} name={locale.listingPage.workHeader} />
         ) : null}
         {this.renderReviews()}
 
         {/* Return card if implementation is done */}
         {/* <TagsCard data={spokenLanguages || []} name="Spoken Languages" /> */}
 
-        {skills.length > 0 ? <TagsCard name="Skills" data={skills} /> : null}
+        {skills.length > 0 ? (
+          <TagsCard name={locale.listingPage.skillsHeader} data={skills} />
+        ) : null}
         {profile.customProps.competencies ? (
           <div className="uk-margin-bottom">
             <CompetencyCard
@@ -469,7 +486,9 @@ class ListingProfile extends Component<Props, State> {
             />
           </div>
         ) : null}
-        <TermsOfServiceCard data={listing.termsAndConditions || 'Nothing specified.'} />
+        <TermsOfServiceCard
+          data={listing.termsAndConditions || locale.listingPage.emptyTosContentParagraph}
+        />
       </div>
     )
   }

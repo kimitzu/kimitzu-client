@@ -5,6 +5,9 @@ import { Button } from '../components/Button'
 import OrderItemCard from '../components/Card/OrderItemCard'
 
 import OrderHistory from '../models/OrderHistory'
+
+import { localeInstance } from '../i18n'
+
 import './History.css'
 
 interface HistoryState {
@@ -23,6 +26,8 @@ interface RouteProps {
 interface HistoryProps extends RouteComponentProps<RouteProps> {}
 
 class History extends React.Component<HistoryProps, HistoryState> {
+  private locale = localeInstance.get.localizations
+
   constructor(props) {
     super(props)
     this.state = {
@@ -39,6 +44,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
     let orders: OrderHistory[] = []
     const viewType = this.props.match.params.view
 
@@ -72,35 +78,32 @@ class History extends React.Component<HistoryProps, HistoryState> {
     return (
       <div
         id="purchase-history"
-        className="uk-card uk-card-default uk-card-body uk-width-5-6@m uk-flex uk-margin-auto"
+        className="uk-card uk-card-default uk-card-body uk-width-5-6@m uk-flex uk-align-center"
       >
-        <div id="side-menu-filters" className="uk-card-default">
-          <h4 id="side-menu-filters-title" className="color-primary">
-            FILTERS
+        <div id="side-menu-filters" className="uk-width-1-6 uk-visible@m uk-margin-right">
+          <h4 id="side-menu-filters-title" className="color-primary uk-text-bold">
+            {this.locale.orderHistoryPage.filterSidebar.header.toUpperCase()}
           </h4>
           <form className="uk-margin-top">
             {this.renderFilters()}
             <Button
-              className="uk-button uk-button-link"
+              className="uk-button uk-button-link uk-margin-top"
               type="reset"
               onClick={this.handleResetFilter}
             >
-              Reset Filters
+              {this.locale.orderHistoryPage.filterSidebar.resetBtnText.toUpperCase()}
             </Button>
           </form>
         </div>
-        <div id="side-menu-purchases">
-          <div id="side-menu-purchases-header">
-            <div hidden id="left">
-              <span className="uk-margin-medium-left" uk-icon="arrow-left" />
-            </div>
+        <div id="purchase-history-main" className="uk-width-5-6 uk-align-center uk-align-left@m">
+          <div id="purchase-history-main-header">
             <div id="center">
-              <h4 id="side-menu-purchases-title" className="color-primary">
-                {this.state.viewType}
+              <h4 id="purchase-history-main-title" className="color-primary uk-text-bold">
+                {this.locale.orderHistoryPage[`${this.state.viewType.toLowerCase()}Label`]}
               </h4>
             </div>
-            <div hidden id="right">
-              <span className="uk-margin-medium-right" uk-icon="close" />
+            <div className="uk-hidden@m uk-grid uk-margin-top" uk-grid>
+              {this.renderFilters()}
             </div>
           </div>
           <div className="uk-margin">
@@ -120,7 +123,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
                 id="purchase-search-text"
                 className="uk-search-input"
                 type="search"
-                placeholder="Search by title, order #, or vendor"
+                placeholder={this.locale.orderHistoryPage.searchPlaceholder}
                 onChange={evt => {
                   this.setState({
                     query: evt.target.value,
@@ -129,9 +132,9 @@ class History extends React.Component<HistoryProps, HistoryState> {
               />
             </form>
           </div>
-          <p id="number-purchases-text">
-            {' '}
-            {this.state.filteredOrders.length || 0} {this.state.viewType.toLowerCase()} found{' '}
+          <p id="number-purchases-text" className="uk-margin-bottom">
+            {this.state.filteredOrders.length || 0}{' '}
+            {this.locale.orderHistoryPage[`${this.state.viewType.toLowerCase()}Label`]}
           </p>
           {this.state.isLoading ? (
             <div uk-spinner="ratio: 2" />
@@ -140,9 +143,9 @@ class History extends React.Component<HistoryProps, HistoryState> {
               <Link
                 to={`${window.location.hash.substr(1)}/${order.orderId || order.caseId}`}
                 key={order.orderId || order.caseId}
-                className="no-underline-on-link"
+                className="section-link"
               >
-                <OrderItemCard data={order} />
+                <OrderItemCard data={order} source={this.state.viewType.toLowerCase()} />
               </Link>
             ))
           ) : (
@@ -156,7 +159,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
   private renderFilters() {
     const { filters } = OrderHistory
     return Object.keys(filters).map(filterKey => (
-      <div key={filterKey} className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+      <div key={filterKey} className="uk-width-1-3@s uk-width-1-1@m uk-margin-small-top">
         <label className="uk-text-capitalize">
           <input
             className="uk-checkbox"

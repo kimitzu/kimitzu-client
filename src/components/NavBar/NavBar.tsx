@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Profile from '../../models/Profile'
 
+import { localeInstance } from '../../i18n'
 import './NavBar.css'
 
 interface NavBarProps {
@@ -19,6 +20,8 @@ const handleReload = () => {
 const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
   const [displayLogout, setDisplayLogout] = useState(false)
   const [srchQuery, setsrchQuery] = useState('')
+  const { navigationBar: navigationBarLocale } = localeInstance.get.localizations
+
   useEffect(() => {
     ;(async () => {
       const isAuthActivated = await Profile.isAuthenticationActivated()
@@ -58,7 +61,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                 id="search-bar"
                 className="uk-search-input"
                 type="search"
-                placeholder="What are you looking for?"
+                placeholder={navigationBarLocale.searchPlaceholder}
                 onChange={event => {
                   setsrchQuery(event.target.value)
                 }}
@@ -76,8 +79,8 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
             <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
               <ul className="uk-nav uk-navbar-dropdown-nav">
                 <li className="uk-active">
-                  <p>Issues, questions, or suggestions?</p>
-                  <p>Reach us on:</p>
+                  <p>{navigationBarLocale.supportLabel1}</p>
+                  <p>{navigationBarLocale.supportLabel2}</p>
                 </li>
                 <li>
                   {isElectron() ? (
@@ -130,27 +133,27 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
             <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
               <ul className="uk-nav uk-dropdown-nav">
                 <li id="create-new-listing">
-                  <Link to="/listing/create">Create New Listing</Link>
+                  <Link to="/listing/create">{navigationBarLocale.createNewListingLabel}</Link>
                 </li>
                 <li className="uk-nav-divider" />
                 <li id="purchase-history">
-                  <Link to="/history/purchases">Purchase History</Link>
+                  <Link to="/history/purchases">{navigationBarLocale.purchaseHistoryLabel}</Link>
                 </li>
                 <li id="sales-history">
-                  <Link to="/history/sales">Sales History</Link>
+                  <Link to="/history/sales">{navigationBarLocale.salesHistoryLabel}</Link>
                 </li>
                 <li hidden={!profile.moderator} id="case-history">
-                  <Link to="/history/cases">Case History</Link>
+                  <Link to="/history/cases">{navigationBarLocale.caseHistoryLabel}</Link>
                 </li>
                 <li className="uk-nav-divider" />
                 <li id="view-profile">
-                  <Link to="/profile">Profile</Link>
+                  <Link to="/profile">{navigationBarLocale.profileLabel}</Link>
                 </li>
                 <li id="wallet">
-                  <Link to="/wallet">Wallet</Link>
+                  <Link to="/wallet">{navigationBarLocale.walletLabel}</Link>
                 </li>
                 <li id="settings">
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/settings">{navigationBarLocale.settingsLabel}</Link>
                 </li>
                 <li
                   hidden={!displayLogout}

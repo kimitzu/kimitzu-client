@@ -176,7 +176,7 @@ context('Create Listing', () => {
 
     cy.get('#crypto-2').click()
     cy.get('#crypto-3').click()
-    cy.contains('ADD LISTING').click()
+    cy.get('#listing-full-submit').click() 
 
     const expectedRequest = {
       isOwner: false,

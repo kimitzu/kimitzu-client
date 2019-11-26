@@ -13,7 +13,7 @@ import {
   OrderSummaryItemSegment,
   SimpleBorderedSegment,
 } from '../components/Segment'
-import Stepper from '../components/Stepper/Stepper'
+import { Stepper } from '../components/Stepper'
 import config from '../config'
 import PaymentNotification from '../interfaces/PaymentNotification'
 import { RatingInput } from '../interfaces/Rating'
@@ -26,6 +26,8 @@ import ClientRatings from '../constants/ClientRatings.json'
 import OrderRatings from '../constants/OrderRatings.json'
 import currency from '../models/Currency'
 import decodeHtml from '../utils/Unescape'
+
+import { localeInstance } from '../i18n'
 
 interface RouteParams {
   id: string
@@ -66,6 +68,8 @@ const LOAD_INDICATOR = {
 }
 
 class OrderView extends React.Component<OrderViewProps, OrderViewState> {
+  private locale = localeInstance.get.localizations
+
   constructor(props) {
     super(props)
     const order = new Order()
@@ -100,13 +104,15 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
+
     const id = this.props.match.params.id
     this.setState({
-      loadingStatus: 'Retrieving Order...',
+      loadingStatus: this.locale.orderViewPage.retrieveOrderText,
     })
     const order = await Order.retrieve(id)
     this.setState({
-      loadingStatus: 'Retrieving Discussions...',
+      loadingStatus: this.locale.orderViewPage.retrieveDiscussionsText,
     })
     const groupMessage = await GroupMessage.retrieve(id)
 
@@ -209,24 +215,23 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     switch (currentContent) {
       case CONTENT_CONSTANTS.MAIN_CONTENT:
         content = this.renderMainContent()
-        currentTitle = 'SUMMARY'
+        currentTitle = this.locale.orderViewPage.summaryText.toUpperCase()
         break
       case CONTENT_CONSTANTS.FULFILL_FORM:
         content = this.renderFulfillForm()
-        currentTitle = 'FULFILL ORDER'
+        currentTitle = this.locale.orderViewPage.fulfillOrderText.toUpperCase()
         break
       case CONTENT_CONSTANTS.DISCUSSION:
         content = this.renderDiscussionContent()
-        currentTitle = 'DISCUSSION'
+        currentTitle = this.locale.orderViewPage.discussionText.toUpperCase()
         break
       case CONTENT_CONSTANTS.DISPUTE_FORM:
         content = this.renderDisputeForm()
-        currentTitle = 'PREPARE DISPUTE'
+        currentTitle = this.locale.orderViewPage.prepareDisputeText.toUpperCase()
         break
       default:
         content = null
     }
-
     return (
       <div className="uk-padding-small full-vh background-body">
         <SideMenuWithContentCard
@@ -234,16 +239,19 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           showBackBtn={currentContent !== CONTENT_CONSTANTS.MAIN_CONTENT}
           handleBackBtn={this.handleBackBtn}
           menuContent={{
-            title: order.role === 'buyer' ? 'Purchase' : 'Sale',
+            title:
+              order.role === 'buyer'
+                ? this.locale.orderViewPage.purchaseText
+                : this.locale.orderViewPage.saleText,
             navItems: [
               {
-                label: 'Summary',
+                label: this.locale.orderViewPage.summaryText,
                 handler: () => {
                   this.handleContentChange(CONTENT_CONSTANTS.MAIN_CONTENT)
                 },
               },
               {
-                label: 'Discussion',
+                label: this.locale.orderViewPage.discussionText,
                 handler: () => {
                   this.handleContentChange(CONTENT_CONSTANTS.DISCUSSION)
                 },
@@ -258,32 +266,29 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
   private renderDisputeForm() {
     return (
-      <div>
-        <p className="uk-text-center uk-text-bold">Order ID#: {this.state.order.id}</p>
-        <form className="uk-form uk-flex uk-flex-column uk-flex-center">
-          <div>
-            <FormLabel label="Claim" required />
-            <textarea
-              className="uk-textarea uk-width-1-1 uk-height-1-1"
-              rows={10}
-              cols={75}
-              value={this.state.claim}
-              onChange={e => this.handleInputChange('claim', e.target.value)}
-              placeholder="Prepare a suitable claim that has the most relevant evidence. This can help ensure you have the greatest possible chance of a dispute being found in your favor."
-            />
-          </div>
-          <div className="uk-flex uk-flex-center uk-margin-top">
-            <Button
-              className="uk-button uk-button-danger"
-              type="submit"
-              onClick={this.handleOrderDispute}
-              showSpinner={this.state.isSendingRequest}
-            >
-              Send Claim
-            </Button>
-          </div>
-        </form>
-      </div>
+      <form className="uk-form-stacked uk-flex uk-flex-column uk-width-1-1">
+        <div>
+          <FormLabel label={this.locale.orderViewPage.disputeForm.claimLabel} required />
+          <textarea
+            className="uk-textarea uk-width-1-1 uk-height-1-1"
+            rows={10}
+            cols={75}
+            value={this.state.claim}
+            onChange={e => this.handleInputChange('claim', e.target.value)}
+            placeholder={this.locale.orderViewPage.disputeForm.claimPlaceholder}
+          />
+        </div>
+        <div className="uk-flex uk-flex-center uk-margin-top">
+          <Button
+            className="uk-button uk-button-danger"
+            type="submit"
+            onClick={this.handleOrderDispute}
+            showSpinner={this.state.isSendingRequest}
+          >
+            {this.locale.orderViewPage.disputeForm.submitBtnText}
+          </Button>
+        </div>
+      </form>
     )
   }
 
@@ -295,381 +300,82 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     let currentStep = order.step
 
     if (order.step === 7) {
-      steps = ['PENDING', 'PAID', 'ACCEPTED', 'REFUNDED']
+      steps = [
+        this.locale.orderViewPage.stepperTexts.pending,
+        this.locale.orderViewPage.stepperTexts.paid,
+        this.locale.orderViewPage.stepperTexts.accepted,
+        this.locale.orderViewPage.stepperTexts.refunded,
+      ]
     } else if (order.step === 11) {
-      steps = ['DISPUTED', 'EXPIRED', 'DECIDED', 'RESOLVED']
+      steps = [
+        this.locale.orderViewPage.stepperTexts.disputed,
+        this.locale.orderViewPage.stepperTexts.expired,
+        this.locale.orderViewPage.stepperTexts.decided,
+        this.locale.orderViewPage.stepperTexts.resolved,
+      ]
       currentStep = 1
     } else if (order.step === -1) {
-      steps = ['ERROR']
+      steps = [this.locale.orderViewPage.stepperTexts.error]
       currentStep = 0
     } else if (order.step >= 8) {
-      steps = ['DISPUTED', 'DECIDED', 'RESOLVED']
+      steps = [
+        this.locale.orderViewPage.stepperTexts.disputed,
+        this.locale.orderViewPage.stepperTexts.decided,
+        this.locale.orderViewPage.stepperTexts.resolved,
+      ]
       currentStep = order.step - 8
     } else {
-      steps = ['PENDING', 'PAID', 'ACCEPTED', 'FULFILLED', 'COMPLETED']
+      steps = [
+        this.locale.orderViewPage.stepperTexts.pending,
+        this.locale.orderViewPage.stepperTexts.paid,
+        this.locale.orderViewPage.stepperTexts.accepted,
+        this.locale.orderViewPage.stepperTexts.fulfilled,
+        this.locale.orderViewPage.stepperTexts.completed,
+      ]
     }
 
     return (
-      <div className="uk-width-1-1">
-        <Stepper options={steps} currentIndex={currentStep} />
-        {order.step === -1 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment title="Processing Error">
-              <SimpleBorderedSegment>
-                <p className="color-secondary">
-                  There was an error processing this order.{' '}
-                  <span className="uk-text-capitalize uk-text-danger">
-                    {order.contract.errors!.join(',')}
-                  </span>
-                </p>
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.isDisputeExpired ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment title="Dispute Expired">
-              <SimpleBorderedSegment>
-                <p className="color-secondary">
-                  Time is up! The moderator failed to make a decision in time. The vendor can now
-                  claim the funds.
-                </p>
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step === 7 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment
-              title="Refunded"
-              date={new Date(order.contract.refund!.timestamp)}
-            >
-              <SimpleBorderedSegment
-                imageSrc={
-                  order.vendor!.avatarHashes.original
-                    ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
-                    : `${process.env.PUBLIC_URL}/images/user.svg`
-                }
-              >
-                <div className="uk-flex">
-                  <h5 className="uk-text-bold">
-                    <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                      {order.vendor ? order.vendor!.name : ''}
-                    </Link>
-                  </h5>
-                </div>
-                <p className="color-secondary">
-                  Order Refunded. Transaction ID:
-                  <br />
-                  {order.contract.refund!.refundTransaction.txid}
-                </p>
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step === 10 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment
-              title="Dispute Closed"
-              date={new Date(order.contract.disputeAcceptance!.timestamp)}
-            >
-              <SimpleBorderedSegment
-                imageSrc={
-                  order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
-                    ? `${config.djaliHost}/djali/media?id=${
-                        order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
-                      }`
-                    : `${process.env.PUBLIC_URL}/images/user.svg`
-                }
-              />
-              <h5 className="uk-text-bold">
-                <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                  {`${this.state.order.contract.disputeAcceptance!.closedByProfile.name} `}
-                </Link>
-                accepted the dispute payout.
-              </h5>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step >= 9 && order.step < 11 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment
-              title="Dispute Payout"
-              date={new Date(order.contract.disputeResolution!.timestamp)}
-            >
-              <SimpleBorderedSegment
-                sideButtons={
-                  order.step === 9 ? (
-                    <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                      <Button
-                        className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
-                        onClick={this.handleOrderFundRelease}
-                        showSpinner={this.state.isSendingRequest}
-                      >
-                        Release Funds
-                      </Button>
-                    </div>
-                  ) : null
-                }
-              >
-                <div className="uk-flex uk-flex-column">
-                  <DisputePayoutSegment
-                    name={order.vendor!.name}
-                    avatar={order.vendor!.avatarHashes.medium}
-                    amount={order.parseCrypto(
-                      order.contract.disputeResolution!.payout.vendorOutput
-                        ? order.contract.disputeResolution!.payout.vendorOutput.amount
-                        : 0
-                    )}
-                  />
-                  <DisputePayoutSegment
-                    name={order.buyer!.name}
-                    avatar={order.buyer!.avatarHashes.medium}
-                    amount={order.parseCrypto(
-                      order.contract.disputeResolution!.payout.buyerOutput
-                        ? order.contract.disputeResolution!.payout.buyerOutput.amount
-                        : 0
-                    )}
-                  />
-                  <DisputePayoutSegment
-                    name={order.moderator!.name}
-                    avatar={order.moderator!.avatarHashes.medium}
-                    amount={order.parseCrypto(
-                      order.contract.disputeResolution!.payout.moderatorOutput
-                        ? order.contract.disputeResolution!.payout.moderatorOutput.amount
-                        : 0
-                    )}
-                    note={order.contract.disputeResolution!.resolution}
-                  />
-                </div>
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step >= 8 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment
-              title="Dispute Started"
-              date={new Date(order.contract.dispute!.timestamp)}
-            >
-              <SimpleBorderedSegment title={'The order is being disputed:'}>
-                <p className="color-secondary">{decodeHtml(order.contract.dispute!.claim)}</p>
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.contract.dispute && order.step === 8 ? (
-          <div className="uk-margin-bottom">
-            <SimpleBorderedSegment
-              title="Disputing Order..."
-              sideButtons={
-                <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                  <Button
-                    className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
-                    onClick={() => {
-                      this.setState({
-                        currentContent: CONTENT_CONSTANTS.DISCUSSION,
-                      })
-                    }}
-                  >
-                    Discuss Order
-                  </Button>
-                </div>
-              }
-            >
-              <p className="color-secondary">
-                The order is being disputed. The moderator has approximately an hour to process the
-                dispute and make a decision.
-              </p>
-            </SimpleBorderedSegment>
-          </div>
-        ) : null}
-        {order.step >= 2 && order.isPaymentModerated && !order.contract.dispute ? (
-          <div className="uk-margin-bottom">
-            <SimpleBorderedSegment
-              title="Dispute Order"
-              sideButtons={
-                <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                  <Button
-                    className="uk-button uk-button-danger uk-margin-small-left max-content-width button-small-padding"
-                    onClick={() => {
-                      this.setState({
-                        currentContent: CONTENT_CONSTANTS.DISPUTE_FORM,
-                      })
-                    }}
-                  >
-                    DISPUTE
-                  </Button>
-                </div>
-              }
-            >
-              <p className="uk-text-danger">
-                This order can be disputed for 6 blocks or approximately an hour. The clock will
-                start when the funding payment is confirmed.
-              </p>
-              <p className="uk-text-muted">
-                Once the clock expires, the vendor can claim payment and finalize the order without
-                support from the moderator.
-              </p>
-            </SimpleBorderedSegment>
-          </div>
-        ) : null}
-        {order.step === 4 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment
-              title="Completed"
-              date={new Date(order.contract.buyerOrderCompletion.timestamp)}
-            >
-              <SimpleBorderedSegment
-                imageSrc={
-                  order.buyer!.avatarHashes.original
-                    ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
-                    : `${process.env.PUBLIC_URL}/images/user.svg`
-                }
-              >
-                {
-                  <div className="uk flex">
-                    <div className="uk-flex uk-flex-row">
-                      <h5 className="uk-text-bold uk-flex-2">
-                        <Link to={`/profile/${order.contract.buyerOrder.buyerID.peerID}`}>
-                          {order.buyer ? order.buyer!.name : ''}
-                        </Link>
-                      </h5>
-                      <div id="small-star-rating-wrapper" className="uk-flex-1 uk-text-right">
-                        <StarRatingComponent
-                          starCount={5}
-                          value={order.contract.buyerOrderCompletion.ratings[0].ratingData.overall}
-                          name="orderRatings"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="color-secondary">
-                        {decodeHtml(
-                          order.contract.buyerOrderCompletion.ratings[0].ratingData.review
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                }
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step === 3 && order.role === 'buyer' ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment title="Order Complete" date={new Date()}>
-              <SimpleBorderedSegment title={`${order.buyer!.name}'s review`}>
-                <div className="uk-flex-row uk-width-1-1">
-                  <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex uk-flex-row">
-                    <div className="uk-flex-1 uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
-                      <textarea
-                        className="uk-textarea uk-width-1-1 uk-height-1-1"
-                        rows={5}
-                        style={{
-                          border: disableReviewTextArea ? 'none' : '',
-                          backgroundColor: '#fff',
-                        }}
-                        disabled={disableReviewTextArea}
-                        value={review}
-                        onChange={e => this.handleInputChange('review', e.target.value)}
-                      />
-                    </div>
-                    <StarRatingGroup
-                      handleStarRatingChange={this.handleStarRatingChange}
-                      ratingType="orderCompleteRatings"
-                      ratings={orderCompleteRatings}
-                    />
-                  </form>
-                </div>
-              </SimpleBorderedSegment>
-              <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
-                <Button
-                  className="uk-button uk-button-primary"
-                  showSpinner={loadIndicator === LOAD_INDICATOR.COMPLETE}
-                  onClick={this.handleCompleteSubmit}
-                >
-                  COMPLETE ORDER
-                </Button>
-                {/* <label className="uk-margin-left">
-                  <input
-                    className="uk-checkbox uk-margin-small-right"
-                    type="checkbox"
-                    checked={isAnonymous}
-                    onChange={() => {
-                      this.handleInputChange('isAnonymous', !isAnonymous)
-                    }}
-                  />
-                  Include my name (Seen Publicly)
-                </label> */}
-              </div>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step >= 3 && order.step <= 4 ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment
-              title="Fulfilled"
-              date={new Date(order.contract.vendorOrderFulfillment[0].timestamp)}
-            >
-              <SimpleBorderedSegment
-                imageSrc={
-                  order.vendor!.avatarHashes.medium
-                    ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                    : `${process.env.PUBLIC_URL}/images/user.svg`
-                }
-              >
-                <div className="uk-flex">
-                  <h5 className="uk-text-bold">
-                    <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                      {order.vendor ? order.vendor!.name : ''}
-                    </Link>
-                  </h5>
-                </div>
-                <p className="color-secondary">
-                  {decodeHtml(order.contract.vendorOrderFulfillment[0].note)}
-                </p>
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
-        ) : null}
-        {order.step >= 2 ? (
-          <>
+      <div className="uk-width-1-1 uk-flex uk-flex-column">
+        <div className="uk-flex uk-width-1-1">
+          <Stepper options={steps} currentIndex={currentStep} />
+        </div>
+        <div className="uk-width-1-1">
+          {order.step === -1 ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment title={this.locale.orderViewPage.processErrorHeader}>
+                <SimpleBorderedSegment>
+                  <p className="color-secondary">
+                    {this.locale.orderViewPage.orderProcessErrorParagraph}{' '}
+                    <span className="uk-text-capitalize uk-text-danger">
+                      {order.contract.errors!.join(',')}
+                    </span>
+                  </p>
+                </SimpleBorderedSegment>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.isDisputeExpired ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment title="Dispute Expired">
+                <SimpleBorderedSegment>
+                  <p className="color-secondary">
+                    {this.locale.orderViewPage.disputeExpiredParagraph}
+                  </p>
+                </SimpleBorderedSegment>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.step === 7 ? (
             <div className="uk-margin-bottom">
               <OrderSummaryItemSegment
-                title="Accepted"
-                date={
-                  new Date(
-                    order.paymentAddressTransactions[
-                      order.paymentAddressTransactions.length - 1
-                    ].timestamp
-                  )
-                }
+                title={this.locale.orderViewPage.refundedHeader}
+                date={new Date(order.contract.refund!.timestamp)}
               >
                 <SimpleBorderedSegment
                   imageSrc={
-                    order.vendor!.avatarHashes.medium
-                      ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
+                    order.vendor!.avatarHashes.original
+                      ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
                       : `${process.env.PUBLIC_URL}/images/user.svg`
-                  }
-                  sideButtons={
-                    order.role === 'vendor' && order.step === 2 ? (
-                      <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                        <a
-                          href="#"
-                          className="margin-small-right text-underline"
-                          id="js-modal-prompt"
-                        >
-                          Refund
-                        </a>
-                        <Button
-                          className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
-                          onClick={this.handleFulfillOrderBtn}
-                        >
-                          FULFILL ORDER
-                        </Button>
-                      </div>
-                    ) : null
                   }
                 >
                   <div className="uk-flex">
@@ -680,115 +386,434 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
                     </h5>
                   </div>
                   <p className="color-secondary">
-                    {order.role === 'vendor' ? (
-                      <p className="color-secondary">
-                        You received the order from{' '}
-                        <a href={`${config.host}/#/profile/${order.buyer!.peerID}`}>
-                          {order.buyer!.name}
-                        </a>{' '}
-                        and can fulfill it whenever you're ready.
-                      </p>
-                    ) : (
-                      <p className="color-secondary">Your order is now being processed...</p>
-                    )}
+                    {this.locale.orderViewPage.refundedParagraph}
+                    <br />
+                    {order.contract.refund!.refundTransaction.txid}
                   </p>
                 </SimpleBorderedSegment>
               </OrderSummaryItemSegment>
             </div>
+          ) : null}
+          {order.step === 10 ? (
             <div className="uk-margin-bottom">
               <OrderSummaryItemSegment
-                title="Payment Details"
-                date={new Date(order.contract.buyerOrder.timestamp)}
+                title={this.locale.orderViewPage.disputeClosedHeader}
+                date={new Date(order.contract.disputeAcceptance!.timestamp)}
               >
-                <SimpleBorderedSegment icon="check">
-                  <div>
-                    <div className="uk-flex">
-                      <h5 className="uk-text-bold">
-                        {`${order.cryptoValue} to `}
-                        <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                          {order.vendor
-                            ? order.vendor!.name || order.contract.vendorListings[0].vendorID.peerID
-                            : order.contract.vendorOrderConfirmation.paymentAddress}
-                        </Link>
-                      </h5>
-                    </div>
-                    {order.paymentAddressTransactions.map(paymentTx => {
-                      return (
-                        <p key={paymentTx.txid} className="color-secondary">
-                          {currency.humanizeCrypto(paymentTx.value)}{' '}
-                          {order.contract.buyerOrder.payment.coin} - {paymentTx.confirmations}{' '}
-                          confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
-                          {order.paymentAddressTransactions.length > 1
-                            ? 'Partial Payment'
-                            : 'Full Payment'}
-                        </p>
-                      )
-                    })}
+                <SimpleBorderedSegment
+                  imageSrc={
+                    order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
+                      ? `${config.djaliHost}/djali/media?id=${
+                          order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
+                        }`
+                      : `${process.env.PUBLIC_URL}/images/user.svg`
+                  }
+                >
+                  <h5 className="uk-text-bold">
+                    <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                      {`${this.state.order.contract.disputeAcceptance!.closedByProfile.name} `}
+                    </Link>
+                    {this.locale.orderViewPage.payoutAcceptedHeader}
+                  </h5>
+                </SimpleBorderedSegment>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.step >= 9 && order.step < 11 ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment
+                title={this.locale.orderViewPage.disputePayoutHeader}
+                date={new Date(order.contract.disputeResolution!.timestamp)}
+              >
+                <SimpleBorderedSegment
+                  sideButtons={
+                    order.step === 9 ? (
+                      <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                        <Button
+                          className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
+                          onClick={this.handleOrderFundRelease}
+                          showSpinner={this.state.isSendingRequest}
+                        >
+                          {this.locale.orderViewPage.releaseFundBtnText}
+                        </Button>
+                      </div>
+                    ) : null
+                  }
+                >
+                  <div className="uk-flex uk-flex-column">
+                    <DisputePayoutSegment
+                      name={order.vendor!.name}
+                      avatar={order.vendor!.avatarHashes.medium}
+                      amount={order.parseCrypto(
+                        order.contract.disputeResolution!.payout.vendorOutput
+                          ? order.contract.disputeResolution!.payout.vendorOutput.amount
+                          : 0
+                      )}
+                    />
+                    <DisputePayoutSegment
+                      name={order.buyer!.name}
+                      avatar={order.buyer!.avatarHashes.medium}
+                      amount={order.parseCrypto(
+                        order.contract.disputeResolution!.payout.buyerOutput
+                          ? order.contract.disputeResolution!.payout.buyerOutput.amount
+                          : 0
+                      )}
+                    />
+                    <DisputePayoutSegment
+                      name={order.moderator!.name}
+                      avatar={order.moderator!.avatarHashes.medium}
+                      amount={order.parseCrypto(
+                        order.contract.disputeResolution!.payout.moderatorOutput
+                          ? order.contract.disputeResolution!.payout.moderatorOutput.amount
+                          : 0
+                      )}
+                      note={order.contract.disputeResolution!.resolution}
+                    />
                   </div>
                 </SimpleBorderedSegment>
               </OrderSummaryItemSegment>
             </div>
-          </>
-        ) : null}
-        {order.step === 0 && order.role === 'buyer' ? (
-          <div className="uk-margin-bottom">
-            <OrderSummaryItemSegment title="Send Payment To">
-              <PaymentQRCard
-                amount={order.contract.buyerOrder.payment.amount}
-                address={
-                  order.contract.vendorOrderConfirmation
-                    ? order.contract.vendorOrderConfirmation.paymentAddress
-                    : order.contract.buyerOrder.payment.address
+          ) : null}
+          {order.step >= 8 ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment
+                title={this.locale.orderViewPage.disputeStartedHeader}
+                date={new Date(order.contract.dispute!.timestamp)}
+              >
+                <SimpleBorderedSegment title={'The order is being disputed:'}>
+                  <p className="color-secondary">{decodeHtml(order.contract.dispute!.claim)}</p>
+                </SimpleBorderedSegment>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.contract.dispute && order.step === 8 ? (
+            <div className="uk-margin-bottom">
+              <SimpleBorderedSegment
+                title={this.locale.orderViewPage.disputingHeader}
+                sideButtons={
+                  <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                    <Button
+                      className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
+                      onClick={() => {
+                        this.setState({
+                          currentContent: CONTENT_CONSTANTS.DISCUSSION,
+                        })
+                      }}
+                    >
+                      {this.locale.orderViewPage.discussBtnText}
+                    </Button>
+                  </div>
                 }
-                cryptocurrency={order.contract.buyerOrder.payment.coin}
-                handleCopyToClipboard={field => {
-                  console.log(field)
-                }}
-                handlePay={async () => {
-                  try {
-                    await order.pay({
-                      wallet: order.contract.buyerOrder.payment.coin,
-                      address: order.contract.buyerOrder.payment.address,
-                      amount: order.contract.buyerOrder.payment.amount,
-                      feeLevel: 'NORMAL',
-                      memo: '',
-                    })
-                    window.UIkit.notification('Payment Sent!', { status: 'success' })
-                  } catch (e) {
-                    window.UIkit.notification(e.message, { status: 'danger' })
+              >
+                <p className="color-secondary">{this.locale.orderViewPage.disputingParagraph}</p>
+              </SimpleBorderedSegment>
+            </div>
+          ) : null}
+          {order.step >= 2 && order.isPaymentModerated && !order.contract.dispute ? (
+            <div className="uk-margin-bottom">
+              <SimpleBorderedSegment
+                title={this.locale.orderViewPage.disputeOrderHeader}
+                sideButtons={
+                  <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                    <Button
+                      className="uk-button uk-button-danger uk-margin-small-left max-content-width button-small-padding"
+                      onClick={() => {
+                        this.setState({
+                          currentContent: CONTENT_CONSTANTS.DISPUTE_FORM,
+                        })
+                      }}
+                    >
+                      {this.locale.orderViewPage.disputeBtnText}
+                    </Button>
+                  </div>
+                }
+              >
+                <p className="uk-text-danger">{this.locale.orderViewPage.disputeOrderParagraph1}</p>
+                <p className="uk-text-muted">{this.locale.orderViewPage.disputeOrderParagraph2}</p>
+              </SimpleBorderedSegment>
+            </div>
+          ) : null}
+          {order.step === 4 ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment
+                title={this.locale.orderViewPage.completedHeader}
+                date={new Date(order.contract.buyerOrderCompletion.timestamp)}
+              >
+                <SimpleBorderedSegment
+                  imageSrc={
+                    order.buyer!.avatarHashes.original
+                      ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
+                      : `${process.env.PUBLIC_URL}/images/user.svg`
                   }
-                }}
-              />
+                >
+                  {
+                    <div className="uk flex">
+                      <div className="uk-flex uk-flex-row">
+                        <h5 className="uk-text-bold uk-flex-2">
+                          <Link to={`/profile/${order.contract.buyerOrder.buyerID.peerID}`}>
+                            {order.buyer ? order.buyer!.name : ''}
+                          </Link>
+                        </h5>
+                        <div id="small-star-rating-wrapper" className="uk-flex-1 uk-text-right">
+                          <StarRatingComponent
+                            starCount={5}
+                            value={
+                              order.contract.buyerOrderCompletion.ratings[0].ratingData.overall
+                            }
+                            name="orderRatings"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="color-secondary">
+                          {decodeHtml(
+                            order.contract.buyerOrderCompletion.ratings[0].ratingData.review
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  }
+                </SimpleBorderedSegment>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.step === 3 && order.role === 'buyer' ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment
+                title={this.locale.orderViewPage.completeOrderText}
+                date={new Date()}
+              >
+                <SimpleBorderedSegment
+                  title={`${
+                    order.buyer!.name
+                  }'s ${this.locale.orderViewPage.fulfillOrderForm.reviewLabel.toLowerCase()}`}
+                >
+                  <div className="uk-flex-row uk-width-1-1">
+                    <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex uk-flex-row">
+                      <div className="uk-flex-1 uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
+                        <textarea
+                          className="uk-textarea uk-width-1-1 uk-height-1-1"
+                          rows={5}
+                          style={{
+                            border: disableReviewTextArea ? 'none' : '',
+                            backgroundColor: '#fff',
+                          }}
+                          disabled={disableReviewTextArea}
+                          value={review}
+                          onChange={e => this.handleInputChange('review', e.target.value)}
+                        />
+                      </div>
+                      <StarRatingGroup
+                        handleStarRatingChange={this.handleStarRatingChange}
+                        ratingType="orderCompleteRatings"
+                        ratings={orderCompleteRatings}
+                      />
+                    </form>
+                  </div>
+                </SimpleBorderedSegment>
+                <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
+                  <Button
+                    className="uk-button uk-button-primary"
+                    showSpinner={loadIndicator === LOAD_INDICATOR.COMPLETE}
+                    onClick={this.handleCompleteSubmit}
+                  >
+                    {this.locale.orderViewPage.completeOrderText.toUpperCase()}
+                  </Button>
+                </div>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.step >= 3 && order.step <= 4 ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment
+                title={this.locale.orderViewPage.fulfilledHeader}
+                date={new Date(order.contract.vendorOrderFulfillment[0].timestamp)}
+              >
+                <SimpleBorderedSegment
+                  imageSrc={
+                    order.vendor!.avatarHashes.medium
+                      ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
+                      : `${process.env.PUBLIC_URL}/images/user.svg`
+                  }
+                >
+                  <div className="uk-flex">
+                    <h5 className="uk-text-bold">
+                      <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                        {order.vendor ? order.vendor!.name : ''}
+                      </Link>
+                    </h5>
+                  </div>
+                  <p className="color-secondary">
+                    {decodeHtml(order.contract.vendorOrderFulfillment[0].note)}
+                  </p>
+                </SimpleBorderedSegment>
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.step >= 2 ? (
+            <>
+              <div className="uk-margin-bottom">
+                <OrderSummaryItemSegment
+                  title={this.locale.orderViewPage.orderAcceptedHeader}
+                  date={
+                    new Date(
+                      order.paymentAddressTransactions[
+                        order.paymentAddressTransactions.length - 1
+                      ].timestamp
+                    )
+                  }
+                >
+                  <SimpleBorderedSegment
+                    imageSrc={
+                      order.vendor!.avatarHashes.medium
+                        ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
+                        : `${process.env.PUBLIC_URL}/images/user.svg`
+                    }
+                    sideButtons={
+                      order.role === 'vendor' && order.step === 2 ? (
+                        <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
+                          <a
+                            href="#"
+                            className="margin-small-right text-underline"
+                            id="js-modal-prompt"
+                          >
+                            {this.locale.orderViewPage.refundLink}
+                          </a>
+                          <Button
+                            className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
+                            onClick={this.handleFulfillOrderBtn}
+                            id="fulfill-order-button"
+                          >
+                            {this.locale.orderViewPage.fulfillOrderBtnText}
+                          </Button>
+                        </div>
+                      ) : null
+                    }
+                  >
+                    <div className="uk-flex">
+                      <h5 className="uk-text-bold">
+                        <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                          {order.vendor ? order.vendor!.name : ''}
+                        </Link>
+                      </h5>
+                    </div>
+                    <p className="color-secondary">
+                      {order.role === 'vendor' ? (
+                        <>
+                          {`${this.locale.orderViewPage.orderAcceptedParagraph1} `}
+                          <a href={`${config.host}/#/profile/${order.buyer!.peerID}`}>
+                            {order.buyer!.name}
+                          </a>{' '}
+                          {this.locale.orderViewPage.orderAcceptedParagraph2}
+                        </>
+                      ) : (
+                        this.locale.orderViewPage.orderAcceptedParagraph3
+                      )}
+                    </p>
+                  </SimpleBorderedSegment>
+                </OrderSummaryItemSegment>
+              </div>
+              <div className="uk-margin-bottom">
+                <OrderSummaryItemSegment
+                  title={this.locale.orderViewPage.paymentHeader}
+                  date={new Date(order.contract.buyerOrder.timestamp)}
+                >
+                  <SimpleBorderedSegment icon="check">
+                    <div>
+                      <div className="uk-flex">
+                        <h5 className="uk-text-bold">
+                          {`${order.cryptoValue} to `}
+                          <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
+                            {order.vendor
+                              ? order.vendor!.name ||
+                                order.contract.vendorListings[0].vendorID.peerID
+                              : order.contract.vendorOrderConfirmation.paymentAddress}
+                          </Link>
+                        </h5>
+                      </div>
+                      {order.paymentAddressTransactions.map(paymentTx => {
+                        return (
+                          <p key={paymentTx.txid} className="color-secondary">
+                            {currency.humanizeCrypto(paymentTx.value)}{' '}
+                            {order.contract.buyerOrder.payment.coin} - {paymentTx.confirmations}{' '}
+                            confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
+                            {order.paymentAddressTransactions.length > 1
+                              ? this.locale.orderViewPage.partialPaymentText
+                              : this.locale.orderViewPage.fullPaymentText}
+                          </p>
+                        )
+                      })}
+                    </div>
+                  </SimpleBorderedSegment>
+                </OrderSummaryItemSegment>
+              </div>
+            </>
+          ) : null}
+          {order.step === 0 && order.role === 'buyer' ? (
+            <div className="uk-margin-bottom">
+              <OrderSummaryItemSegment title={this.locale.orderViewPage.sendPaymentHeader}>
+                <PaymentQRCard
+                  amount={order.contract.buyerOrder.payment.amount}
+                  address={
+                    order.contract.vendorOrderConfirmation
+                      ? order.contract.vendorOrderConfirmation.paymentAddress
+                      : order.contract.buyerOrder.payment.address
+                  }
+                  cryptocurrency={order.contract.buyerOrder.payment.coin}
+                  handleCopyToClipboard={field => {
+                    console.log(field)
+                  }}
+                  handlePay={async () => {
+                    try {
+                      await order.pay({
+                        wallet: order.contract.buyerOrder.payment.coin,
+                        address: order.contract.buyerOrder.payment.address,
+                        amount: order.contract.buyerOrder.payment.amount,
+                        feeLevel: 'NORMAL',
+                        memo: '',
+                      })
+                      window.UIkit.notification(this.locale.orderViewPage.paymentSuccessNotif, {
+                        status: 'success',
+                      })
+                    } catch (e) {
+                      window.UIkit.notification(e.message, { status: 'danger' })
+                    }
+                  }}
+                />
+              </OrderSummaryItemSegment>
+            </div>
+          ) : null}
+          {order.step === 0 && order.role === 'vendor' ? (
+            <div className="uk-margin-bottom">
+              <SimpleBorderedSegment
+                title={this.locale.orderViewPage.awaitingPaymentHeader}
+                icon="info"
+              >
+                <p className="color-secondary">
+                  {this.locale.orderViewPage.awaitingPaymentParagraph}
+                </p>
+              </SimpleBorderedSegment>
+            </div>
+          ) : null}
+          <div className="uk-margin-bottom uk-width-1-1">
+            <OrderSummaryItemSegment title={this.locale.orderViewPage.orderDetailsHeader}>
+              <SimpleBorderedSegment>
+                <OrderDetailsSegment
+                  listingName={decodeHtml(order.contract.vendorListings[0].item.title)}
+                  listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
+                  listingType="SERVICE"
+                  quantity={`${order.contract.buyerOrder.items[0].quantity ||
+                    order.contract.buyerOrder.items[0].quantity64}`}
+                  total={`${(
+                    order.value *
+                    (order.contract.buyerOrder.items[0].quantity ||
+                      order.contract.buyerOrder.items[0].quantity64)
+                  ).toFixed(2)} ${order[order.role!].preferences.fiat} (${order.cryptoValue})`}
+                  memo={decodeHtml(order.contract.buyerOrder.items[0].memo)}
+                />
+              </SimpleBorderedSegment>
             </OrderSummaryItemSegment>
           </div>
-        ) : null}
-        {order.step === 0 && order.role === 'vendor' ? (
-          <div className="uk-margin-bottom">
-            <SimpleBorderedSegment title={`Waiting for buyer to send payment...`} icon="info">
-              <p className="color-secondary">
-                Buyer has <b>NOT</b> paid for the order, yet.
-              </p>
-            </SimpleBorderedSegment>
-          </div>
-        ) : null}
-        <div className="uk-margin-bottom uk-width-1-1">
-          <OrderSummaryItemSegment title="Order Details">
-            <SimpleBorderedSegment>
-              <OrderDetailsSegment
-                listingName={decodeHtml(order.contract.vendorListings[0].item.title)}
-                listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
-                listingType="SERVICE"
-                quantity={`${order.contract.buyerOrder.items[0].quantity ||
-                  order.contract.buyerOrder.items[0].quantity64}`}
-                total={`${(
-                  order.value *
-                  (order.contract.buyerOrder.items[0].quantity ||
-                    order.contract.buyerOrder.items[0].quantity64)
-                ).toFixed(2)} ${order[order.role!].preferences.fiat} (${order.cryptoValue})`}
-                memo={decodeHtml(order.contract.buyerOrder.items[0].memo)}
-              />
-            </SimpleBorderedSegment>
-          </OrderSummaryItemSegment>
         </div>
       </div>
     )
@@ -798,18 +823,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     const { orderFulfillRatings, review, note } = this.state
     return (
       <div className="uk-flex-row uk-width-1-1">
-        <StarRatingGroup
-          handleStarRatingChange={this.handleStarRatingChange}
-          ratingType="orderFulfillRatings"
-          ratings={orderFulfillRatings}
-        />
-        <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex">
-          <fieldset className="uk-fieldset uk-width-1-1">
+        <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex uk-flex-row">
+          <fieldset className="uk-fieldset uk-flex-1 uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
             <div className="uk-margin">
               <FormLabel label="Review" />
               <textarea
                 className="uk-textarea uk-width-1-1"
-                rows={3}
+                rows={4}
                 value={review}
                 onChange={e => this.handleInputChange('review', e.target.value)}
               />
@@ -824,8 +844,13 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
               />
             </div>
           </fieldset>
+          <StarRatingGroup
+            handleStarRatingChange={this.handleStarRatingChange}
+            ratingType="orderFulfillRatings"
+            ratings={orderFulfillRatings}
+          />
         </form>
-        <div className="uk-flex uk-flex-right">
+        <div className="uk-flex uk-flex-center">
           <Button className="uk-button uk-button-primary" onClick={this.handleFulfillSubmit}>
             Submit
           </Button>
@@ -847,12 +872,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   private async handleRefund(memo: string) {
     try {
       await this.state.order.refund(memo)
-      window.UIkit.notification('Order successfully refunded!', {
+      window.UIkit.notification(this.locale.orderViewPage.refundSuccessNotif, {
         status: 'success',
       })
       window.location.reload()
     } catch (e) {
-      window.UIkit.notification('Refund failed: ' + e.message, {
+      window.UIkit.notification(`${this.locale.orderViewPage.refundErrorNotif}: ${e.message}`, {
         status: 'danger',
       })
     }
@@ -868,7 +893,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         this.state.orderCompleteRatings,
         this.state.isAnonymous
       )
-      window.UIkit.notification('Order completed: ', {
+      window.UIkit.notification(`${this.locale.orderViewPage.completedSuccessNotif}: `, {
         status: 'success',
       })
       const order = await Order.retrieve(this.state.order.contract.vendorOrderConfirmation.orderID)
@@ -897,7 +922,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       this.setState({
         order,
       })
-      window.UIkit.notification('Order fulfilled: ', {
+      window.UIkit.notification(`${this.locale.orderViewPage.fulfilledSuccessNotif}: `, {
         status: 'success',
       })
     } catch (e) {
@@ -935,7 +960,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       isSendingRequest: true,
     })
     await this.state.order.dispute(this.state.claim)
-    window.UIkit.notification('Dispute Sent!', {
+    window.UIkit.notification(this.locale.orderViewPage.openDisputeSuccessNotif, {
       status: 'success',
     })
     this.handleBackBtn(true)
@@ -949,7 +974,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       isSendingRequest: true,
     })
     await this.state.order.releaseFunds()
-    window.UIkit.notification('Fund released!', {
+    window.UIkit.notification(this.locale.orderViewPage.fundReleaseSuccessNotif, {
       status: 'success',
     })
     await this.handleBackBtn(true)

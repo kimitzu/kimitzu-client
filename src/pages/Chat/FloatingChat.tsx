@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React from 'react'
+
 import { ChatBox } from '../../components/ChatBox'
 import config from '../../config'
+import { localeInstance } from '../../i18n'
 
 interface FloatingChatState {
   conversations: any[]
@@ -121,7 +123,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
       this.setState({ currIndex: index })
     } else {
       const convDM = {
-        lastMessage: 'No conversations yet..',
+        lastMessage: localeInstance.get.localizations.chatComponent.emptyConvoText,
         outgoing: false,
         peerId: data.peerId,
         timestamp: new Date(),

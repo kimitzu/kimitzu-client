@@ -3,13 +3,15 @@ import React from 'react'
 import { FollowersCardGroup, ListingCardGroup } from '../CardGroup'
 import { ProfileBasicInfoSegment, RatingsAndReviewsSegment } from '../Segment'
 
-import Listing, { ListingResponse } from '../../models/Listing'
+import { ListingResponse } from '../../models/Listing'
 import Profile from '../../models/Profile'
 
 import ClientRatings from '../../constants/ClientRatings.json'
 import OrderRatings from '../../constants/OrderRatings.json'
 
 import Rating, { RatingSummary } from '../../interfaces/Rating'
+
+import { localeInstance } from '../../i18n'
 
 interface Props {
   profile: Profile
@@ -30,7 +32,9 @@ const ProfileSwitcher = ({
   ratingSummary,
   ratings,
 }: Props) => {
+  const { profilePage } = localeInstance.get.localizations
   const { average, count, djali } = ratingSummary
+
   return (
     <ul id="container-profile" className="uk-switcher">
       <li>
@@ -41,20 +45,20 @@ const ProfileSwitcher = ({
           <ListingCardGroup data={listings} targetCurrency={currentUser.preferences.fiat} />
         ) : (
           <div className="uk-flex uk-flex-center uk-flex-middle">
-            <h4>No available listings.</h4>
+            <h4>{profilePage.noListingHeader}</h4>
           </div>
         )}
       </li>
       <li id="profile-ratings">
         <div className="uk-flex">
           <div className="uk-flex-1 uk-padding divider border-remove-vertical border-remove-left">
-            <h4 className="uk-text-bold uk-text-center">Buyer Ratings</h4>
+            <h4 className="uk-text-bold uk-text-center">{profilePage.buyerRatingsHeader}</h4>
             <div className="uk-padding-small uk-padding-remove-horizontal">
               <RatingsAndReviewsSegment ratingInputs={ClientRatings} djaliRatings={djali} />
             </div>
           </div>
           <div className="uk-flex-1 uk-padding">
-            <h4 className="uk-text-bold uk-text-center">Seller Ratings</h4>
+            <h4 className="uk-text-bold uk-text-center">{profilePage.sellerRatingsHeader}</h4>
             <div className="uk-padding-small uk-padding-remove-horizontal">
               <RatingsAndReviewsSegment
                 ratingInputs={OrderRatings}
@@ -72,8 +76,8 @@ const ProfileSwitcher = ({
       <li>
         <FollowersCardGroup peerIDs={followingList} isFollowingList />
       </li>
-      <li>Redirecting...</li>
-      <li>Redirecting...</li>
+      <li>{profilePage.redirectSpinnerText}</li>
+      <li>{profilePage.redirectSpinnerText}</li>
     </ul>
   )
 }

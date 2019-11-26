@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 import { Button } from '../Button'
 
+import { localeInstance } from '../../i18n'
+
 interface UserPreferences {
   enableCrashReporting: boolean
   autoInstallUpdate: boolean
@@ -10,6 +12,12 @@ interface UserPreferences {
 }
 
 const MiscSettingsForm = () => {
+  const {
+    localizations,
+    localizations: {
+      settingsPage: { miscForm },
+    },
+  } = localeInstance.get
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
     enableCrashReporting: false,
     autoInstallUpdate: false,
@@ -43,9 +51,9 @@ const MiscSettingsForm = () => {
     try {
       ipcRenderer.send('updateUserPreferences', userPreferences)
       setHasChanges(false)
-      window.UIkit.notification('Settings successfully updated', { status: 'success' })
+      window.UIkit.notification(miscForm.saveSuccessNotif, { status: 'success' })
     } catch (error) {
-      window.UIkit.notification('Something went wrong. Please try again later', {
+      window.UIkit.notification(miscForm.saveErrorNotif, {
         status: 'danger',
       })
     }
@@ -61,9 +69,9 @@ const MiscSettingsForm = () => {
             checked={enableCrashReporting}
             onChange={() => handleChange('enableCrashReporting', !enableCrashReporting)}
           />{' '}
-          Enable Crash Reporting
+          {miscForm.crashReportLabel}
         </label>
-        <label className="form-label-desciptor">Send crash reports to the developers</label>
+        <label className="form-label-desciptor">{miscForm.crashReportHelper}</label>
       </div>
       <div className="uk-flex uk-flex-column uk-margin-top">
         <label>
@@ -73,11 +81,9 @@ const MiscSettingsForm = () => {
             checked={autoInstallUpdate}
             onChange={() => handleChange('autoInstallUpdate', !autoInstallUpdate)}
           />{' '}
-          Auto install updates
+          {miscForm.autoUpdatesLabel}
         </label>
-        <label className="form-label-desciptor">
-          Updates will be downloaded and installed automatically
-        </label>
+        <label className="form-label-desciptor">{miscForm.autoUpdatesHelper}</label>
       </div>
       <div className="uk-margin-top">
         <Button
@@ -85,7 +91,7 @@ const MiscSettingsForm = () => {
           hidden={!hasChanges}
           onClick={handleSave}
         >
-          SAVE
+          {localizations.saveBtnText}
         </Button>
       </div>
     </div>

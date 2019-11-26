@@ -37,7 +37,7 @@ const RatingsSummarySegment = ({
     return Object.assign(acc, { [cur.fieldName]: 0 })
   }, {})
   const keys = Object.keys(averageRatings)
-  if (ratings) {
+  if (ratings && ratings.length > 0) {
     // Get total ratings for each fieldname
     averageRatings = ratings.reduce((acc, cur) => {
       keys.forEach(key => {

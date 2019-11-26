@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
+import { Button } from '../Button'
 import { DropArea } from '../Upload'
 
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
-import { Button } from '../Button'
+
+import { localeInstance } from '../../i18n'
+
 import './ThumbnavSlideshow.css'
 
 interface Props {
@@ -12,6 +15,10 @@ interface Props {
 }
 
 const ThumbnavSlideshow = ({ images, onChange }: Props) => {
+  const {
+    photoSlideshow: { dropArea },
+  } = localeInstance.get.localizations
+
   const [photos, setPhotos] = useState(images)
   const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -49,8 +56,8 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
         <ul className="uk-slideshow-items">
           {photos.length === 0 ? (
             <DropArea
-              placeholder=" Drag and drop a photo or "
-              selectLabel="select"
+              placeholder={dropArea.placeholder}
+              selectLabel={dropArea.selectLabel}
               onImageOpen={onImageOpen}
             />
           ) : (

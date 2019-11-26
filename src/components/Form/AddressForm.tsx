@@ -10,6 +10,9 @@ import decodeHtml from '../../utils/Unescape'
 
 import OpenLocationCode from '../../utils/Location/PlusCode'
 import { Button } from '../Button'
+
+import { localeInstance } from '../../i18n'
+
 import '../Input/TwoInputs.css'
 import './AddressForm.css'
 
@@ -51,6 +54,10 @@ const AddressForm = ({
   isNew,
   handleFullSubmit,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { addressForm, listingForm },
+  } = localeInstance.get
   const baseLocationObject = {
     latitude: '',
     longitude: '',
@@ -95,7 +102,7 @@ const AddressForm = ({
       <fieldset className="uk-fieldset">
         {isListing ? null : (
           <div className="uk-margin" id="address-type-selection">
-            <FormLabel label="TYPE" />
+            <FormLabel label={localizations.typeLabel.toUpperCase()} />
             {options.map((o, index) => (
               <label key={index}>
                 <input
@@ -118,13 +125,13 @@ const AddressForm = ({
           </div>
         )}
         <div className="uk-margin">
-          <FormLabel label="STREET ADDRESSES" />
+          <FormLabel label={addressForm.streetLabel.toUpperCase()} />
           <input
             id="street-address-1"
             className="uk-input"
             type="text"
             value={decodeHtml(location.addressOne)}
-            placeholder="Street Address 1"
+            placeholder={`${addressForm.streetLabel} 1`}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleChange('addressOne', event.target.value)
             }
@@ -134,7 +141,7 @@ const AddressForm = ({
             className="uk-input"
             type="text"
             value={decodeHtml(location.addressTwo)}
-            placeholder="Street Address 2"
+            placeholder={`${addressForm.streetLabel} 2`}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               handleChange('addressTwo', event.target.value)
             }
@@ -148,7 +155,7 @@ const AddressForm = ({
               href="https://plus.codes/howitworks"
               target="_blank"
               uk-icon="icon: question"
-              uk-tooltip="What is a Plus Code?"
+              uk-tooltip={addressForm.plusCodeHelper}
             />
             <input
               id="plus-code"
@@ -181,7 +188,7 @@ const AddressForm = ({
         </div>
         <TwoInputs
           input1={{
-            label: 'LATITUDE',
+            label: addressForm.latitudeLabel.toUpperCase(),
             props: {
               id: 'latitude',
               type: 'text',
@@ -191,7 +198,7 @@ const AddressForm = ({
             },
           }}
           input2={{
-            label: 'LONGITUDE',
+            label: addressForm.longitudeLabel.toUpperCase(),
             props: {
               id: 'longitude',
               type: 'text',
@@ -203,7 +210,7 @@ const AddressForm = ({
         />
         <TwoInputs
           input1={{
-            label: 'CITY',
+            label: addressForm.cityLabel.toUpperCase(),
             props: {
               id: 'city',
               type: 'text',
@@ -213,7 +220,7 @@ const AddressForm = ({
             },
           }}
           input2={{
-            label: 'STATE',
+            label: addressForm.stateLabel.toUpperCase(),
             props: {
               id: 'state',
               type: 'text',
@@ -226,20 +233,19 @@ const AddressForm = ({
         {/* TODO: Update this component to use the general two-input wrapper. */}
         <div id="two-inputs">
           <div id="input1" className="uk-width-1-2@s">
-            <FormLabel label="Zip Code" />
+            <FormLabel label={addressForm.zipCodeLabel.toUpperCase()} />
             <input
               id="zipCode"
               className="uk-input"
               type="text"
               value={location.zipCode}
-              placeholder="Zip Code"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 handleChange('zipCode', event.target.value)
               }
             />
           </div>
           <div id="input2" className="uk-width-1-2@s">
-            <FormLabel label="Country" />
+            <FormLabel label={addressForm.countryLabel.toUpperCase()} />
             <FormSelector
               id="countries"
               defaultVal={location.country || ''}
@@ -260,7 +266,7 @@ const AddressForm = ({
               }
             }}
           >
-            DELETE
+            {localizations.deleteBtnText.toUpperCase()}
           </Button>
         ) : null}
         {!isNew && isListing ? (
@@ -269,7 +275,7 @@ const AddressForm = ({
             onClick={handleFullSubmit}
             showSpinner={isLoading}
           >
-            UPDATE LISTING
+            {listingForm.updateListingBtn.toUpperCase()}
           </Button>
         ) : null}
         <Button
@@ -277,7 +283,9 @@ const AddressForm = ({
           type="submit"
           showSpinner={isLoading}
         >
-          {isListing ? 'NEXT' : 'SAVE'}
+          {isListing
+            ? localizations.nextBtnText.toUpperCase()
+            : localizations.saveBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

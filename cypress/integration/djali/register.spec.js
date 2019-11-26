@@ -81,7 +81,7 @@ context('Register', () => {
   it('Should register an account', () => {
     cy.wait(5000)
     cy.contains('A free market for services')
-    cy.contains('GET STARTED').click()
+    cy.get('#djali-btn').click()
     cy.fixture('avatar.jpg').then(fileContent => {
       cy.get('#avatar-upload').upload({
         fileContent,

@@ -94,7 +94,7 @@ context('Edit Profile', () => {
 
     cy.get(':nth-child(9) > #form-select > .uk-select').select('Cryptocurrency')
 
-    cy.get(':nth-child(10) > #form-select > .uk-select').select('English - Philippines')
+    cy.get(':nth-child(10) > #form-select > .uk-select').select('English')
 
     cy.get('#preferred-units').select('English System  (Mile, Foot, Inch, Pound)')
 
@@ -113,7 +113,7 @@ context('Edit Profile', () => {
       expect(request.preferences.fiat).to.equal('PHP')
       expect(request.preferences.cryptocurrency).to.equal('TLTC')
       expect(request.preferences.currencyDisplay).to.equal('CRYPTO')
-      expect(request.preferences.language).to.equal('en-PH')
+      expect(request.preferences.language).to.equal('en')
       expect(request.preferences.measurementUnit).to.equal('ENGLISH')
     })
   })

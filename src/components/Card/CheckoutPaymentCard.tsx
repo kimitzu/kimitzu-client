@@ -4,6 +4,8 @@ import currency from '../../models/Currency'
 import Listing from '../../models/Listing'
 import { Button } from '../Button'
 
+import { localeInstance } from '../../i18n'
+
 interface OrderSummary {
   listingAmount: number
   shippingAmount: number
@@ -42,7 +44,7 @@ const CheckoutPaymentCard = ({
   quantity,
 }: Props) => {
   const { discount, shippingAmount, subTotalAmount, totalAmount, estimate } = orderSummary
-
+  const { paymentCard } = localeInstance.get.localizations.checkoutPage
   const sourceCurrency = listing.metadata.pricingCurrency
   const localCurrencyPrice = listing.toLocalCurrency()
 
@@ -54,18 +56,20 @@ const CheckoutPaymentCard = ({
           showSpinner={isPending}
           onClick={handlePlaceOrder}
         >
-          {isPending ? 'PENDING...' : 'PLACE ORDER NOW'}
+          {isPending
+            ? paymentCard.afterSubmitOrderBtnText.toUpperCase()
+            : paymentCard.submitOrderBtnText.toUpperCase()}
         </Button>
         <div className="uk-margin">
           <p className="uk-text-center color-secondary">
-            {isPending ? 'Awaiting payment...' : 'Clicking will advance you to the payment step'}
+            {isPending ? paymentCard.checkoutHelper1 : paymentCard.checkoutHelper2}
           </p>
         </div>
       </div>
       <hr />
       {isPending ? null : (
         <div className="uk-margin-small-top">
-          <h5 className="uk-margin-small-bottom uk-text-bold">Pay Via</h5>
+          <h5 className="uk-margin-small-bottom uk-text-bold">{paymentCard.paymentFormHeader}</h5>
           <div className="uk-form-controls uk-form-controls-text uk-height-1-1 uk-flex uk-flex-column uk-flex-start">
             {acceptedCurrencies.map((option: Option) => (
               <label key={option.value.toString()}>
@@ -83,11 +87,11 @@ const CheckoutPaymentCard = ({
         </div>
       )}
       <div className="uk-margin-top">
-        <h5 className="uk-text-bold uk-margin-small-bottom">Order Summary</h5>
+        <h5 className="uk-text-bold uk-margin-small-bottom">{paymentCard.summaryHeader}</h5>
         <div>
           <div className="uk-flex">
             <div className="uk-flex-1">
-              <label>Listing</label>
+              <label>{paymentCard.listingLabel}</label>
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
@@ -98,7 +102,7 @@ const CheckoutPaymentCard = ({
           {shippingAmount! >= 0 ? (
             <div className="uk-flex">
               <div className="uk-flex-1">
-                <label>Shipping</label>
+                <label>{paymentCard.shippingLabel}</label>
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
                 <label>
@@ -114,7 +118,7 @@ const CheckoutPaymentCard = ({
         <div className="uk-margin-top">
           <div className="uk-flex">
             <div className="uk-flex-1">
-              <label>Subtotal</label>
+              <label>{paymentCard.subtotalLabel}</label>
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
@@ -128,7 +132,7 @@ const CheckoutPaymentCard = ({
           {discount ? (
             <div className="uk-flex">
               <div className="uk-flex-1">
-                <label>Coupon</label>
+                <label>{paymentCard.couponLabel}</label>
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
                 <label>-{discount}</label>
@@ -137,7 +141,7 @@ const CheckoutPaymentCard = ({
           ) : null}
           <div className="uk-flex">
             <div className="uk-flex-1">
-              <label>Total</label>
+              <label>{paymentCard.totalLabel}</label>
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
@@ -147,13 +151,13 @@ const CheckoutPaymentCard = ({
           </div>
           {isEstimating ? (
             <div className="uk-align-right uk-margin-top">
-              <div uk-spinner="ratio: 1" /> Estimating...
+              <div uk-spinner="ratio: 1" /> {paymentCard.estimateSpinnerText}
             </div>
           ) : null}
           {estimate && !isEstimating ? (
             <div className="uk-flex uk-margin-top">
               <div className="uk-flex-1">
-                <label>Estimate</label>
+                <label>{paymentCard.estimateLabel}</label>
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
                 <label>{`${estimate} ${selectedCurrency}`}</label>

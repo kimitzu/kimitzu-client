@@ -1,0 +1,613 @@
+{
+  "usernameLabel": "Username",
+  "passwordLabel": "Password",
+  "emailLabel": "Email",
+  "locationLabel": "Location",
+  "descriptionLabel": "Description",
+  "generalLabel": "General",
+  "nextBtnText": "Next",
+  "loginBtnText": "Login",
+  "deleteBtnText": "Delete",
+  "cancelBtnText": "Cancel",
+  "changePhotoBtnText": "Change",
+  "homeBtnText": "Home",
+  "saveBtnText": "Save",
+  "titleLabel": "Title",
+  "typeLabel": "Type",
+  "yesText": "Yes",
+  "noText": "No",
+  "startDateLabel": "Start Date",
+  "endDateLabel": "End Date",
+  "addEntryText": "Add new entry",
+  "peerID": "Peer ID",
+  "minimum": "Minimum",
+  "maximum": "Maximum",
+  "intro": {
+    "helper": "New to Djali?",
+    "nextBtnText": "Get Started",
+    "appDescription": "A free market for services"
+  },
+  "moderatorsText": "Moderators",
+  "skillsText": "Skills",
+  "competenciesText": "Competencies",
+  "homePage": {
+    "headerDropdownPlaceholder": "Browse Classifications",
+    "crawlingHeader": "Crawling...",
+    "crawlingContent1": "Great! It seems like you just installed Djali.",
+    "crawlingContent2": "Please come back later as Djali crawls the listings on the network.",
+    "noResultsHeader": "No Results",
+    "noResultsContent": "Your search did not match any listings.",
+    "noResultsSuggestionsText": "Suggestions",
+    "noResultsSuggestions": [
+      "Try a different search keyword or filter.",
+      "Make sure that all words are spelled correctly.",
+      "Try more general keywords."
+    ]
+  },
+  "searchFilters": {
+    "header": "Filters",
+    "checkboxLabel": "Hide own listings",
+    "occupationLabel": "Occupation",
+    "priceRangeLabel": "Price Range",
+    "ratingsLabel": "Ratings",
+    "locationRadiusLabel": "Within radius"
+  },
+  "navigationBar": {
+    "createNewListingLabel": "Create New Listing",
+    "purchaseHistoryLabel": "Purchase History",
+    "salesHistoryLabel": "Sales History",
+    "caseHistoryLabel": "Case History",
+    "profileLabel": "Profile",
+    "walletLabel": "Wallet",
+    "settingsLabel": "Settings",
+    "supportLabel1": "Issues, questions, or suggestions?",
+    "supportLabel2": "Reach us on:",
+    "searchPlaceholder": "What are you looking for?"
+  },
+  "registrationPage": {
+    "welcomeHeader": "Welcome to",
+    "successNotification": "Registration Successful"
+  },
+  "userForm": {
+    "handleLabel": "Handle",
+    "handlePlaceholer": "john.doe",
+    "nameLabel": "Name",
+    "namePlaceholder": "John Doe",
+    "emailPlaceholder": "john@email.com",
+    "fiatCurrencyLabel": "Preferred Fiat Currency",
+    "cryptoCurrencyLabel": "Preferred Cryptocurrency",
+    "displayCurrencyLabel": "Display Currency",
+    "languageLabel": "Preferred Language",
+    "unitsLabel": "Preferred Units"
+  },
+  "tosPage": {
+    "header": "Terms of Service",
+    "tos": "The Djali community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Djali users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Djali developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Djali ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.\n\n Due to the global, peer-to-peer, censorship-resistant nature of Djali, users may see listings for services that are not currently legal in their jurisdiction. It is the responsibility of Djali users to ensure that they are in compliance with the laws of their jurisdiction.\n\nDjali operates over the Tor network by default, and the only information users are required to provide is a handle and country. Djali developers have also made a good faith effort to help users maintain their privacy while using Djali. However, Djali is experimental software, and there may be flaws that reveal sensitive information. It's also easy to de-anonymize oneself, such as by talking about one's personal life with a client, or describing oneself in too much detail. There are also many adversaries--such as governments or criminals--who work to defeat Djali's privacy mechanisms. Therefore, Djali developers do not make any guarantees regarding the ability of the software to maintain user privacy."
+  },
+  "addressForm": {
+    "streetLabel": "Street Address",
+    "latitudeLabel": "Latitude",
+    "longitudeLabel": "Longitude",
+    "cityLabel": "City",
+    "stateLabel": "State",
+    "zipCodeLabel": "Zip Code",
+    "countryLabel": "Country",
+    "countryPlaceholder": "Select Country",
+    "plusCodeHelper": "What is a Plus Code?",
+    "addBtnText": "Add Address",
+    "updateBtnText": "Update Address"
+  },
+  "listingForm": {
+    "updateBtnText": "Update Listing",
+    "addBtnText": "Create Listing",
+    "classificationLabel": "Occupation Classification",
+    "titleDescriptor": "Something descriptive that clearly explains your service.",
+    "priceLabel": "Price",
+    "priceDescriptor": "Set your price and its currency",
+    "rateMethodLabel": "Rate Method",
+    "rateMethodDescriptor": "How would you like to charge clients?",
+    "serviceQuantityLabel": "Service Quantity",
+    "serviceQuantityDescriptor": "How many service units would you like to offer? (Leave blank if you do not want to use this field)",
+    "matureContentLabel": "Mature Content",
+    "photoLabel": "ADD PHOTO (Include up to 30 photos)",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "Add a tag",
+    "tagsDescriptor": "Press \"Enter\" to add an entry",
+    "tagsHelper": "Use tags to enhance search visibility of your listing.",
+    "termsAndConditionsLabel": "Terms and Conditions",
+    "termsAndConditionsDescriptor": "If left blank, the listing will display \"No terms and conditions entered\"",
+    "moderatorsHelper1": "It seems like you have no favorite moderators setup.",
+    "moderatorsHelper2": "You may set this up in the ",
+    "moderatorsHelperLink": "settings page",
+    "couponsHelper": "Create coupons that your customers can use during checkout for exclusive offers or discounts.",
+    "couponTitleLabel": "Title",
+    "couponTitlePlaceholder": "Coupon Title",
+    "couponCodeLabel": "Code",
+    "couponCodePlaceholder": "Discount Code",
+    "couponDiscountLabel": "Value",
+    "couponDiscountPlaceholder": "Discount",
+    "addCouponLink": "Add Coupon",
+    "percentLabel": "Percent",
+    "currenciesDescriptor": "Accepting more coins will attract more customers.",
+    "abandonPrompt": "Your changes will not be saved. Continue?",
+    "notifications": {
+      "cannotEdit": "Unable to edit listing that you do not own!",
+      "addSuccess": "Listing Successfully Posted",
+      "updateSuccess": "Listing Successfully Updated"
+    },
+    "navItems": {
+      "moderatorsLabel": "Moderators",
+      "photosLabel": "Photos",
+      "couponsLabel": "Coupons",
+      "currenciesLabel": "Accepted Currencies"
+    }
+  },
+  "photoSlideshow": {
+    "dropArea": {
+      "placeholder": "Drag and drop a photo or ",
+      "selectLabel": "select"
+    }
+  },
+  "moderatorSelectionForm": {
+    "crawlingNotif1": "It is taking a while to crawl the network for available moderators.",
+    "crawlingNotif2": "Please wait a little longer or come back later.",
+    "showDetailsLink": "More...",
+    "searchPlaceholder": "Search by moderator name or ID",
+    "searchSpinnerText": "Searching the network for moderators...",
+    "noResultsHeader": "No moderators available.",
+    "noResultsParagraph": "No results for ",
+    "resultsParagraph": "Search Result",
+    "favouriteSeparatorText": "Favourite",
+    "recentSeparatorText": "Recent",
+    "availableSeparatortext": "Available"
+  },
+  "profilePage": {
+    "aboutHeader": "About",
+    "educationHeader": "Education",
+    "socialMediaHeader": "Social Media",
+    "workHistoryHeader": "Work History",
+    "skillsHeader": "Skills",
+    "othersHeader": "Other Information",
+    "competencyHeader": "Competency",
+    "noLocationParagraph": "Location not specified",
+    "noListingsHeader": "No available listings.",
+    "redirectSpinnerText": "Redirecting...",
+    "messageBtnText": "Message",
+    "buyerRatingsHeader": "Buyer Ratings",
+    "sellerRatingsHeader": "Seller Ratings",
+    "tabTitles": {
+      "profile": "Profile",
+      "store": "Store",
+      "ratings": "Ratings",
+      "following": "Following",
+      "followers": "Followers",
+      "salesHistory": "Sales History",
+      "purchaseHistory": "Purchase History"
+    },
+    "profileNotFoundHeader": "Unable to Retrieve Profile",
+    "profileNotFoundSubText": "The profile you requested is currently offline or does not exist in the Djali network."
+  },
+  "followButton": {
+    "followBtnText": "Follow",
+    "followingBtnText": "Following",
+    "followingBtnTip": "Unfollow"
+  },
+  "blockButton": {
+    "blockBtnText": "Block",
+    "blockedBtnText": "Blocked",
+    "blockedBtnTip": "Unblock"
+  },
+  "settingsPage": {
+    "header": "Settings",
+    "spinnerText": "Loading Profile...",
+    "changeCredMsgTextA": "Enabling this feature will activate Djali's authentication mechanisms to protect\nyour client from unauthorized access.",
+    "changeCredMsgTextB": "Other non-critical features such as search will still be accessible but payment and\nordering-related features will need authentication in order to proceed.",
+    "authenticationText": "Authentication",
+    "generalNavItem": "General",
+    "oldUsernameLabel": "Old Username",
+    "oldPasswordLabel": "Old Password",
+    "newUsernameLabel": "New Username",
+    "newPasswordLabel": "New Password",
+    "changeCredentialsBtnText": "Change Credentials",
+    "activateAuthenticationBtnText": "Activate Authentication",
+    "navItems": {
+      "profile": "Profile",
+      "moderation": "Moderation",
+      "store": "Store",
+      "security": "Security",
+      "skills": "Skills",
+      "others": "Other Settings"
+    },
+    "profileNavItems": {
+      "socialMedia": "Social Media",
+      "education": "Education",
+      "workHistory": "Work History",
+      "addresses": "Addresses",
+      "customDescriptions": "Custom Descriptions"
+    },
+    "securityNavItems": {
+      "auth": "Authentication",
+      "deactivate": "Deactivate"
+    },
+    "othersNavItems": {
+      "blockedPeers": "Blocked Peers",
+      "miscellaneous": "Miscellaneous"
+    },
+    "favoriteModeratorsNavItem": "Favorite Moderators",
+    "competencyDeleteSuccessNotif": "Competency Deleted!",
+    "competencyUpdateSuccessNotif": "Competency Updated!",
+    "deactivateAuthForm": {
+      "helper1": "This will deactivate Djali's authentication mechanisms and your client will no longer be protected from unauthorized access.",
+      "helper2": "Payment and ordering-related features will no longer need authentication in order to proceed.",
+      "submitBtnText": "Deactivate Authentication"
+    },
+    "saveSkillsSuccessNotif": "Skills saved!",
+    "saveSkillsErrorNotif": "Error saving",
+    "educationForm": {
+      "addBtnText": "Add Education",
+      "updateBtnText": "Update Education"
+    },
+    "workForm": {
+      "addBtnText": "Add Work",
+      "updateBtnText": "Update Work"
+    },
+    "miscForm": {
+      "saveSuccessNotif": "Settings successfully updated",
+      "saveErrorNotif": "Something went wrong. Please try again later.",
+      "crashReportLabel": "Enable Crash Reporting",
+      "crashReportHelper": "Send crash reports to the developers",
+      "autpUpdatesLabel": "Auto install updates",
+      "autoUpdatesHelper": "Updates will be downloaded and installed automatically"
+    },
+    "credentialsUpdateSuccessNotif": "Credentials successfully deleted!\nPlease restart the server for changes to take effect.",
+    "profileUpdateSuccessNotif": "Profile updated!",
+    "profileSaveSuccessNotif": "Profile saved!",
+    "moderatorSaveSuccessNotif": "Moderator saved.",
+    "expiredListingNotif": "Warning: You have expired listings",
+    "authUpdateSuccessNotif": "New credentials accepted!\nPlease restart the server for changes to take effect.",
+    "blockedNodesCard": {
+      "emptyContentText": "No blocked peers.",
+      "unblockSuccessNotif": "Peer successfully unblocked!",
+      "unblockErrorNotif": "Failed to unblock peer. Please try again later."
+    }
+  },
+  "orderHistoryPage": {
+    "searchPlaceholder": "Search by title, order #, or vendor",
+    "filterSidebar": {
+      "header": "Filter",
+      "resetBtnText": "Reset Filters"
+    },
+    "totalLabel": "Total",
+    "orderLabel": "Order",
+    "dateLabel": "Date",
+    "statusLabel": "Status",
+    "purchasesLabel": "Purchases",
+    "salesLabel": "Sales",
+    "casesLabel": "Cases"
+  },
+  "orderViewPage": {
+    "retrieveOrderText": "Retrieving Order...",
+    "retrieveDiscussionsText": "Retrieving Discussions...",
+    "summaryText": "Summary",
+    "fulfillOrderText": "Fulfill Order",
+    "discussionText": "Discussion",
+    "prepareDisputeText": "Prepare Dispute",
+    "saleText": "Sale",
+    "purchaseText": "Purchase",
+    "orderText": "Order",
+    "orderDetails": {
+      "typeLabel": "Type",
+      "quantityHeader": "Quantity",
+      "totalHeader": "Total",
+      "memoHeader": "Memo"
+    },
+    "disputeForm": {
+      "claimLabel": "Claim",
+      "claimPlaceholder": "Prepare a suitable claim that has the most relevant evidence. This can help ensure you have the greatest possible chance of a dispute being found in your favor.",
+      "submitBtnText": "Send Claim"
+    },
+    "fulfillOrderForm": {
+      "reviewLabel": "Review",
+      "noteLabel": "Label",
+      "submitBtnText": "Submit"
+    },
+    "stepperTexts": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "accepted": "Accepted",
+      "refunded": "Refunded",
+      "disputed": "Disputed",
+      "expired": "Expired",
+      "decided": "Decided",
+      "resolved": "Resolved",
+      "error": "Error",
+      "fulfilled": "Fulfilled",
+      "completed": "Completed"
+    },
+    "processErrorHeader": "Processing Error",
+    "disputeExpiredHeader": "Dispute Expired",
+    "refundedHeader": "Refunded",
+    "refundedParagraph": "Order Refunded. Transaction ID",
+    "orderProcessErrorParagraph": "There was an error processing this order.",
+    "disputeExpiredParagraph": "Time is up! The moderator failed to make a decision in time. The vendor can now claim the funds.",
+    "disputeClosedHeader": "Dispute Closed",
+    "payoutAcceptedHeader": "accepted the dispute payout.",
+    "disputePayoutHeader": "Dispute Payout",
+    "releaseFundBtnText": "Release Funds",
+    "disputeStartedHeader": "Dispute Started",
+    "disputingHeader": "Disputing Order...",
+    "discussBtnText": "Discuss Order",
+    "disputingParagraph": "The order is being disputed. The moderator has approximately an hour to process the dispute and make a decision.",
+    "disputeOrderHeader": "Dispute Order",
+    "disputeBtnText": "Dispute",
+    "disputeOrderParagraph1": "This order can be disputed for 6 blocks or approximately an hour. The clock will start when the funding payment is confirmed.",
+    "disputeOrderParagraph2": "Once the clock expires, the vendor can claim payment and finalize the order without support from the moderator.",
+    "completedHeader": "Completed",
+    "completeOrderText": "Complete Order",
+    "fulfilledHeader": "Fulfilled",
+    "orderAcceptedHeader": "Accepted",
+    "refundLink": "Refund",
+    "fulfillOrderBtnText": "Fulfill Order",
+    "orderAcceptedParagraph1": "You received the order from",
+    "orderAcceptedParagraph2": "and can fulfill it whenever you're ready.",
+    "orderAcceptedParagraph3": "Your order is now being processed...",
+    "paymentHeader": "Payment Details",
+    "partialPaymentText": "Partial Payment",
+    "fullPaymentText": "Full Payment",
+    "sendPaymentHeader": "Send Payment to",
+    "paymentSuccessNotif": "Payment Sent!",
+    "awaitingPaymentHeader": "Waiting for buyer to send payment...",
+    "awaitingPaymentParagraph": "Buyer has not yet paid the order.",
+    "orderDetailsHeader": "Order Details",
+    "refundSuccessNotif": "Order successfully refunded!",
+    "refundErrorNotif": "Refund failed",
+    "completedSuccessNotif": "Order completed: ",
+    "fulfilledSuccessNotif": "Order fulfilled: ",
+    "openDisputeSuccessNotif": "Dispute Sent!",
+    "fundReleaseSuccessNotif": "Fund Release!",
+    "acceptedOrderHeader": "Order Accepted",
+    "orderAcceptedParagraph": "The vendor has accepted the order",
+    "buyertext": "Buyer",
+    "vendorText": "Vendor",
+    "sellerText": "Seller"
+  },
+  "paymentQRCard": {
+    "header": "Pay",
+    "walletBtnText": "Pay from wallet",
+    "paymentConfirmationText": "The amount will be deducted from your wallet.",
+    "paymentHelper": "Once you have paid, it may take a bit for the interface to update.",
+    "confirmBtnText": "Pay"
+  },
+  "disputeViewPage": {
+    "spinnerText": "Loading...",
+    "disputeExpiredParagraph": "Time is up! You failed to make a decision in time. The vendor can now claim the funds.",
+    "disputedNoteParagraph": "You have an hour to process the dispute and make a decision.",
+    "buyerDisputingHeader": "is disputing the order",
+    "orderDetailsHeader": "Order Details",
+    "resolveSubmitBtnText": "Resolve Dispute",
+    "resolutionLabel": "Resolution",
+    "resolutionPlaceholder": "Details of your dispute resolution",
+    "resolutionSubmitBtnText": "Submit",
+    "resolutionSuccessNotif": "Resolution sent!",
+    "resolutionFailedNotif": "Failed",
+    "percentageLabel": "Percentage",
+    "moderatorNoteParagraph": "Moderator note:"
+  },
+  "walletView": {
+    "transactionSuccessNotif": "Transaction Sent!",
+    "transactionsText": "Transactions",
+    "sentText": "Sent",
+    "receivedText": "Received",
+    "confirmationsText": "confirmations",
+    "balanceText": "Balance",
+    "unconfirmedText": "Unconfirmed",
+    "fiatValText": "Fiat Value",
+    "sendText": "Send",
+    "receiveText": "Receive",
+    "transactionForm": {
+      "addressLabel": "Address",
+      "amountLabel": "Amount",
+      "noteLabel": "Note",
+      "submitBtnText": "Send"
+    },
+    "receiveTransactionHeader": "Receive money by scanning this QR Code."
+  },
+  "checkoutPage": {
+    "spinnerText": "Loading...",
+    "requestAddressParagraph": "Requesting Merchant Address...",
+    "couponForm": {
+      "header": "Coupon",
+      "inputPlaceholder": "Enter coupon code",
+      "submitBtnText": "Apply"
+    },
+    "paymentForm": {
+      "header": "Payment Scheme",
+      "directLabel": "Direct Payment",
+      "moderatedPayment": "Moderated Payment"
+    },
+    "expandModeratorLink": "More...",
+    "additionalForm": {
+      "header": "Additional Information",
+      "memoLabel": "Memo",
+      "memoPlaceholder": "Provide additional details for the vendor (Optional)"
+    },
+    "listingOwnerHelper": "This is how your listing looks like to other users.",
+    "receivedPaymentHeader1": "Payment of",
+    "receivedPaymentHeader2": "Received!",
+    "receivedPaymentParagraph": "Thank you for your purchase!",
+    "receivedPaymentLink": "Check the status of your order.",
+    "applyCouponFailNotif": "Invalid coupon code",
+    "paymentCard": {
+      "submitOrderBtnText": "Place order now",
+      "afterSubmitOrderBtnText": "Pending...",
+      "checkoutHelper1": "Awaiting payment...",
+      "checkoutHelper2": "Clicking will advance you to the payment step",
+      "paymentFormHeader": "Pay Via",
+      "summaryHeader": "Order Summary",
+      "listingLabel": "Listing",
+      "shippingLabel": "Shipping",
+      "subtotalLabel": "Subtotal",
+      "couponLabel": "Coupon",
+      "totalLabel": "Total",
+      "estimateSpinnerText": "Estimating...",
+      "estimateLabel": "Estimate"
+    },
+    "listingCard": {
+      "itemLabel": "Item",
+      "classificationLabel": "Classification",
+      "priceLabel": "Price",
+      "quantityLabel": "Quantity"
+    }
+  },
+  "moderatorInfoModal": {
+    "messageBtnText": "Message",
+    "feeLabel": "Fee",
+    "currenciesLabel": "Currencies",
+    "languagesLabel": "Languages",
+    "termsAndConditionsHeader": "Terms and Conditions"
+  },
+  "moderatorForm": {
+    "removeSuccessNotif": "Moderator profile removed.",
+    "saveSuccessNotif": "Moderator profile saved!",
+    "enableModLabel": "Enable moderator functions",
+    "descriptionPlaceholder": "In 500 words or less tell us something about yourself and the services you offer...",
+    "termsAndConditionsLabel": "Terms and Conditions",
+    "termsAndConditionsPlaceholder": "Enter Terms and Conditions",
+    "languagesLabel": "Languages",
+    "feeTypeLabel": "Fee Type",
+    "amountLabel": "Amount",
+    "amountPlaceholder": "Enter amount",
+    "currencyLabel": "Currency",
+    "percentageLabel": "Percentage"
+  },
+  "socialMediaForm": {
+    "proofPlaceholder": "Proof",
+    "proofTooltip": "Link of a proof that you own that account (e.g. link of a post for facebook and link of a commit in github)."
+  },
+  "educationForm": {
+    "institutionLabel": "Institution Name",
+    "institutionPlaceholder": "Institution or School Name",
+    "degreeLabel": "Degree",
+    "degreePlaceholder": "Degree, Specialization, Major",
+    "descriptionPlaceholder": "Tell us a bit about your degree and specialization",
+    "currentlyStudyingLabel": "Currently studying here?"
+  },
+  "employmentForm": {
+    "companyLabel": "Company Name",
+    "positionLabel": "Position",
+    "positionPlaceholder": "Position/Rank in the company",
+    "descriptionPlaceholder": "Tell us a bit about your work",
+    "currentlyWorkingLabel": "Currently working here?"
+  },
+  "customDescriptionForm": {
+    "saveSuccessNotif": "Profile Updated!",
+    "labelLabel": "Label",
+    "placeholder": "Enter value",
+    "valueLabel": "Value",
+    "submitBtnText": "Add new field"
+  },
+  "listingPage": {
+    "retrieveListingSpinnerText": "Retrieving Listing",
+    "retrieveRatingsSpinnerText": "Retrieving Ratings",
+    "listingRenewedNotif": "Listing successfully renewed!",
+    "expiredListingHelper1": "This listing has expired, contact the vendor for more details.",
+    "expiredListingHelper2": "This listing has expired.",
+    "renewLink": "Renew for one year.",
+    "editBtnText": "Edit",
+    "deleteListingPromptText": "Are you sure you want to delete this listing? This action cannot be undone.",
+    "deleteListingSuccessNotif": "Listing deleted.",
+    "reviewsText": "Reviews",
+    "noRatingsText": "No ratings.",
+    "classificationLabel": "Classification",
+    "paymentMethodsLabel": "Payment Methods",
+    "tagsLabel": "Tags",
+    "checkoutBtnText": "Checkout",
+    "contactHeader": "Contact Information",
+    "educationHeader": "Education",
+    "workHeader": "Work History",
+    "skillsHeader": "Skills",
+    "emptyTosContentParagraph": "Nothing specified.",
+    "notFoundComponent": {
+      "header": "Unable to Retrieve Listing.",
+      "paragraph": "The listing you requested has either expired on the Djali network or does not exist.",
+      "suggestionsText": "Suggestions",
+      "suggestions": ["Browse other listings."]
+    },
+    "listingRenewPrompt": "Renew the listing <b>{0}</b> for <b>1 year</b>?"
+  },
+  "tosCard": {
+    "header": "Terms of Service",
+    "expandText": "Show more..."
+  },
+  "chatComponent": {
+    "emptyConvoText": "No conversations yet...",
+    "messagesText": "Messages",
+    "messagePlaceholder": "Type a message..."
+  },
+  "constants": {
+    "sortOptions": {
+      "item.title_<=": "Alphabetically (A → Z)",
+      "item.title_>=": "Alphabetically (Z → A)",
+      "item.price_<=": "Price (Low → High)",
+      "item.price_>=": "Price (High → Low)",
+      "averageRating_<=": "Rating (Low → High)",
+      "averageRating_>=": "Rating (High → Low)"
+    },
+    "singulars": {
+      "PER_HOUR": "hour",
+      "PER_DAY": "day",
+      "PER_MONTH": "month",
+      "PER_MILESTONE": "milestone",
+      "FIXED": "fixed"
+    },
+    "plurals": {
+      "PER_HOUR": "hours",
+      "PER_DAY": "days",
+      "PER_MONTH": "months",
+      "PER_MILESTONE": "milestones",
+      "FIXED": "fixed"
+    },
+    "serviceRateMethods": {
+      "PER_HOUR": "Per Hour",
+      "PER_DAY": "Per Day",
+      "PER_MONTH": "Per Month",
+      "PER_MILESTONE": "Per Milestone",
+      "FIXED": "Fixed"
+    },
+    "filters": {
+      "unfunded": {
+        "states": ["AWAITING_PAYMENT"],
+        "description": "Orders that have not yet paid by the buyer."
+      },
+      "pending": {
+        "states": ["PENDING"],
+        "description": "Orders that were paid and sent to the vendor but the vendor has not yet responded."
+      },
+      "processing": {
+        "states": ["AWAITING_FULFILLMENT"],
+        "description": "Orders that were fully paid and vendor is processing the order."
+      },
+      "fulfilled": {
+        "states": ["FULFILLED", "AWAITING_PICKUP"],
+        "description": "Orders that were fulfilled by the vendor."
+      },
+      "completed": {
+        "states": ["COMPLETED"],
+        "description": "Orders that were completed by the buyer."
+      },
+      "refunded": {
+        "states": ["REFUNDED"],
+        "description": "Orders that were refunded by the vendor."
+      },
+      "disputes": {
+        "states": ["DISPUTED", "DECIDED", "RESOLVED", "PAYMENT_FINALIZED"],
+        "description": "Orders with a dispute case."
+      },
+      "cancelled": {
+        "states": ["CANCELLED", "DECLINED"],
+        "description": "Orders that were canceled by the buyer or that were refused by the vendor."
+      },
+      "errors": { "states": ["PROCESSING_ERROR"], "description": "Orders that have errors." }
+    }
+  }
+}

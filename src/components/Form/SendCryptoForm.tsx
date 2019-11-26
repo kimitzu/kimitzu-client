@@ -6,6 +6,8 @@ import { FormLabel } from '../Label'
 
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
+import { localeInstance } from '../../i18n'
+
 interface SendCryptoFormProps {
   onSend: (
     cryptoCurrency: string,
@@ -24,6 +26,8 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
   const [memo, setMemo] = useState('')
   const [isSending, setIsSending] = useState(false)
 
+  const { transactionForm } = localeInstance.get.localizations.walletView
+
   const handleSend = async () => {
     setIsSending(true)
     await onSend(cryptoCurrency, recipient, amount, 'NORMAL', memo)
@@ -41,7 +45,7 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
       >
         <fieldset className="uk-fieldset">
           <div className="uk-margin">
-            <FormLabel label="Address" required />
+            <FormLabel label={transactionForm.addressLabel} required />
             <input
               required
               className="uk-input"
@@ -51,7 +55,7 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
             />
           </div>
           <div className="uk-margin">
-            <FormLabel label="Amount" required />
+            <FormLabel label={transactionForm.amountLabel} required />
             <InputSelector
               options={CryptoCurrencies()}
               defaultSelectorVal={cryptoCurrency}
@@ -69,7 +73,7 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
             />
           </div>
           <div className="uk-margin">
-            <FormLabel label="Note" />
+            <FormLabel label={transactionForm.noteLabel} />
             <input
               className="uk-input"
               type="text"
@@ -80,7 +84,7 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
         </fieldset>
         <div className="uk-flex uk-flex-center">
           <Button showSpinner={isSending} className="uk-button uk-button-primary" type="submit">
-            Send
+            {transactionForm.submitBtnText.toUpperCase()}
           </Button>
         </div>
       </form>

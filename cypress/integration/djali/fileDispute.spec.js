@@ -127,21 +127,16 @@ context('File Dispute', () => {
       response: 'fixture:orders/ongoing_disputed_order.json'
     })
 
-    cy.contains('DISPUTED')
+    cy.get('#contentContainerMain > :nth-child(1)').should('have.html', 'Disputed')
     cy.get('#stepperMain > :nth-child(1)').should('have.class', 'stepperCircle')
 
-    cy.contains('DECIDED')
+    cy.get('#contentContainerMain > :nth-child(3)').should('have.html', 'Decided')
     cy.get('#stepperMain > :nth-child(3)').should('have.class', 'stepperCircleInactiveNormal')
 
-    cy.contains('RESOLVED')
+    cy.get('#contentContainerMain > :nth-child(5)').should('have.html', 'Resolved')
     cy.get('#stepperMain > :nth-child(5)').should('have.class', 'stepperCircleInactive')
 
     cy.contains('The order is being disputed')
-
-    // cy.contains('October 09, 9999 10:59:00 am')
-    // cy.contains('October 09, 9999 10:58:54 am')
-    // Disable HH:MM:SS timestamp for the time being
-    // TODO: align PH time with CI time
 
     cy.contains('October 09, 9999')
     cy.contains('October 09, 9999')
@@ -154,16 +149,16 @@ context('File Dispute', () => {
       response: 'fixture:orders/expired_disputed_order.json'
     })
 
-    cy.contains('DISPUTED')
+    cy.get('#contentContainerMain > :nth-child(1)').should('have.html', 'Disputed')
     cy.get('#stepperMain > :nth-child(1)').should('have.class', 'stepperCircle')
 
-    cy.contains('EXPIRED')
+    cy.get('#contentContainerMain > :nth-child(3)').should('have.html', 'Expired')
     cy.get('#stepperMain > :nth-child(3)').should('have.class', 'stepperCircle')
 
-    cy.contains('DECIDED')
+    cy.get('#contentContainerMain > :nth-child(5)').should('have.html', 'Decided')
     cy.get('#stepperMain > :nth-child(5)').should('have.class', 'stepperCircleInactiveNormal')
 
-    cy.contains('RESOLVED')
+    cy.get('#contentContainerMain > :nth-child(7)').should('have.html', 'Resolved')
     cy.get('#stepperMain > :nth-child(7)').should('have.class', 'stepperCircleInactive')
 
     cy.contains('Dispute Expired')
@@ -184,13 +179,13 @@ context('File Dispute', () => {
       response: 'fixture:orders/decided_disputed_order.json'
     })
 
-    cy.contains('DISPUTED')
+    cy.get('#contentContainerMain > :nth-child(1)').should('have.html', 'Disputed')
     cy.get('#stepperMain > :nth-child(1)').should('have.class', 'stepperCircle')
 
-    cy.contains('DECIDED')
+    cy.get('#contentContainerMain > :nth-child(3)').should('have.html', 'Decided')
     cy.get('#stepperMain > :nth-child(3)').should('have.class', 'stepperCircle')
 
-    cy.contains('RESOLVED')
+    cy.get('#contentContainerMain > :nth-child(5)').should('have.html', 'Resolved')
     cy.get('#stepperMain > :nth-child(5)').should('have.class', 'stepperCircleInactive')
 
     cy.get('#djali-btn').contains('Release Funds')
@@ -203,13 +198,13 @@ context('File Dispute', () => {
       response: 'fixture:orders/resolved_disputed_order.json'
     })
 
-    cy.contains('DISPUTED')
+    cy.get('#contentContainerMain > :nth-child(1)').should('have.html', 'Disputed')
     cy.get('#stepperMain > :nth-child(1)').should('have.class', 'stepperCircle')
 
-    cy.contains('DECIDED')
+    cy.get('#contentContainerMain > :nth-child(3)').should('have.html', 'Decided')
     cy.get('#stepperMain > :nth-child(3)').should('have.class', 'stepperCircle')
 
-    cy.contains('RESOLVED')
+    cy.get('#contentContainerMain > :nth-child(5)').should('have.html', 'Resolved')
     cy.get('#stepperMain > :nth-child(5)').should('have.class', 'stepperCircle')
   })
 })

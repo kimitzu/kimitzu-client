@@ -6,6 +6,8 @@ import Profile from '../../models/Profile'
 
 import config from '../../config'
 
+import { localeInstance } from '../../i18n'
+
 import './ProfileHeader.css'
 
 interface ViewProfileInterface {
@@ -27,6 +29,13 @@ const ProfileHeader = ({
   handleBlockBtn,
   handleFollowBtn,
 }: ViewProfileInterface) => {
+  const {
+    profilePage,
+    followButton,
+    blockButton,
+    profilePage: { tabTitles },
+  } = localeInstance.get.localizations
+
   return (
     <div>
       <div id="cover-photo" className="uk-text-right">
@@ -34,21 +43,21 @@ const ProfileHeader = ({
           <Button
             id="header-btn"
             className="uk-button uk-button-small button-hover-change-text"
-            data-hover={isFollowing ? 'Unfollow' : 'Follow'}
+            data-hover={isFollowing ? followButton.followingBtnTip : followButton.followBtnText}
             onClick={handleFollowBtn}
           >
-            <span>{isFollowing ? 'Following' : 'Follow'}</span>
+            <span>{isFollowing ? followButton.followingBtnText : followButton.followBtnText}</span>
           </Button>
           <Button id="header-btn" className="uk-button uk-button-small" onClick={handleMessageBtn}>
-            Message
+            {profilePage.messageBtnText}
           </Button>
           <Button
             id="header-btn"
             className="uk-button uk-button-small button-hover-change-text"
-            data-hover={isBlocked ? 'Unblock' : 'Block'}
+            data-hover={isBlocked ? blockButton.blockedBtnTip : blockButton.blockBtnText}
             onClick={handleBlockBtn}
           >
-            <span>{isBlocked ? 'Blocked' : 'Block'}</span>
+            <span>{isBlocked ? blockButton.blockedBtnText : blockButton.blockBtnText}</span>
           </Button>
         </div>
       </div>
@@ -73,27 +82,29 @@ const ProfileHeader = ({
           <ul data-uk-tab="connect: #container-profile">
             <li className="uk-active">
               <a href="#" id="tab-label">
-                Profile
+                {tabTitles.profile}
               </a>
             </li>
             <li>
               <a href="#" id="tab-label">
-                Store <span id="label-number"> {profile.stats!.listingCount} </span>
+                {tabTitles.store} <span id="label-number"> {profile.stats!.listingCount} </span>
               </a>
             </li>
             <li>
               <a href="#" id="tab-label">
-                Ratings
+                {tabTitles.ratings}
               </a>
             </li>
             <li>
               <a href="#" id="tab-label">
-                Followers <span id="label-number"> {profile.stats!.followerCount} </span>
+                {tabTitles.followers}{' '}
+                <span id="label-number"> {profile.stats!.followerCount} </span>
               </a>
             </li>
             <li>
               <a href="#" id="tab-label">
-                Following <span id="label-number"> {profile.stats!.followingCount} </span>
+                {tabTitles.following}{' '}
+                <span id="label-number"> {profile.stats!.followingCount} </span>
               </a>
             </li>
             {isOwner ? (
@@ -105,7 +116,7 @@ const ProfileHeader = ({
                       window.location.hash = '/history/sales'
                     }}
                   >
-                    Sales History
+                    {tabTitles.salesHistory}
                   </a>
                 </li>
                 <li>
@@ -115,7 +126,7 @@ const ProfileHeader = ({
                       window.location.hash = '/history/purchases'
                     }}
                   >
-                    Purchase History
+                    {tabTitles.purchaseHistory}
                   </a>
                 </li>
               </>

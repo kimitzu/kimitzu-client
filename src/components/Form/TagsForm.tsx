@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 
+import { Button } from '../Button'
 import { FormLabel } from '../Label'
 
-import { Button } from '../Button'
+import { localeInstance } from '../../i18n'
+
 import './TagsForm.css'
 
 interface Props {
@@ -26,6 +28,10 @@ const TagsForm = ({
   handleFullSubmit,
   isListing,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { listingForm },
+  } = localeInstance.get
   const [rawTags, setRawTags] = useState(tags)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -41,7 +47,10 @@ const TagsForm = ({
     >
       <fieldset className="uk-fieldset">
         <div className="uk-margin">
-          <FormLabel label={formLabel ? formLabel.toUpperCase() : 'TAGS'} required />
+          <FormLabel
+            label={formLabel ? formLabel.toUpperCase() : listingForm.tagsLabel.toUpperCase()}
+            required
+          />
           <TagsInput
             inputProps={{ id: 'tags' }}
             value={rawTags}
@@ -49,7 +58,7 @@ const TagsForm = ({
               setRawTags(changedTags)
             }}
           />
-          <label className="form-label-desciptor">Press "Enter" to add an entry</label>
+          <label className="form-label-desciptor">{listingForm.tagsDescriptor}</label>
         </div>
       </fieldset>
       <div className="submit-btn-div">
@@ -58,7 +67,7 @@ const TagsForm = ({
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            UPDATE LISTING
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button
@@ -66,7 +75,7 @@ const TagsForm = ({
           type="submit"
           showSpinner={isLoading}
         >
-          {submitLabel || 'NEXT'}
+          {submitLabel || localizations.nextBtnText.toUpperCase()}
         </Button>
       </div>
     </form>

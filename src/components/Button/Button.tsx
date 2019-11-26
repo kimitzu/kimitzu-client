@@ -18,10 +18,10 @@ const Button = ({ showSpinner, ...props }: Props) => {
   })
   return (
     <button
-      id="djali-btn"
       style={showSpinner ? { width: `${btnWidth}px`, height: `${btnHeight}px` } : {}}
       disabled={showSpinner}
       {...props}
+      id={props.id || 'djali-btn'}
     >
       {showSpinner ? <DottedSpinner color="#fff" /> : props.children}
     </button>

@@ -1,21 +1,22 @@
 import React from 'react'
 
-import tos from '../../constants/TermsOfService.json'
+import { localeInstance } from '../../i18n'
 
-// TODO: move somewhere else
-const termsOfService = tos.content
+const TermsOfService = () => {
+  const { tosPage } = localeInstance.get.localizations
 
-const TermsOfService = () => (
-  <form className="uk-form-stacked">
-    <fieldset className="uk-fieldset">
-      <legend id="form-title" className="uk-legend color-primary">
-        Terms of Service
-      </legend>
-    </fieldset>
-    <div className="uk-margin">
-      <textarea id="terms" className="uk-textarea" rows={18} value={termsOfService} disabled />
-    </div>
-  </form>
-)
+  return (
+    <form className="uk-form-stacked">
+      <fieldset className="uk-fieldset">
+        <legend id="form-title" className="uk-legend color-primary">
+          {tosPage.header}
+        </legend>
+      </fieldset>
+      <div className="uk-margin">
+        <textarea id="terms" className="uk-textarea" rows={18} value={tosPage.tos} disabled />
+      </div>
+    </form>
+  )
+}
 
 export default TermsOfService

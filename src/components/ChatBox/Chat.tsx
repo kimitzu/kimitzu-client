@@ -1,7 +1,9 @@
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+
 import config from '../../config'
+import { localeInstance } from '../../i18n'
 import './Chat.css'
 
 interface Props {
@@ -72,7 +74,7 @@ const Chat = ({
             height="25"
             width="25"
           />
-          <p id="msg-title-left">Messages</p>
+          <p id="msg-title-left">{localeInstance.get.localizations.chatComponent.messagesText}</p>
         </div>
         <div id="convos-left">
           <ul id="convos-ul">
@@ -163,7 +165,7 @@ const Chat = ({
                 id="chat-input"
                 maxRows={6}
                 className="message-input"
-                placeholder="Type a message..."
+                placeholder={localeInstance.get.localizations.chatComponent.messagePlaceholder}
                 useCacheForDOMMeasurements
                 onChange={e => chatBoxOnchange(e.target.value)}
                 onKeyPress={e => onKeyPress(e)}

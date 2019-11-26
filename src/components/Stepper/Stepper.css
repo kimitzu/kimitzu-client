@@ -1,93 +1,93 @@
 #mainCont {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #stepperMain {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    max-width: 100%;
-    padding: 0 20px 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 0 20px 0 20px;
 }
 
 .stepperCircle {
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #CAE7FE;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #cae7fe;
 }
 
 .stepperCircleInactive {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .stepperCircleInactiveNormal {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stepper-Bridge {
-    height: 5px;
-    background-color: #CAE7FE;
-    flex: 1;
+  height: 5px;
+  background-color: #cae7fe;
+  flex: 1;
 }
 
 .stepper-Bridge-Half {
-    height: 5px;
-    background-color: #CAE7FE;
-    width: 40%;
+  height: 5px;
+  background-color: #cae7fe;
+  width: 40%;
 }
 
 #contentContainerMain {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .textCont {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 120px;
-    color: dodgerblue;
-    height: 50px;
-    font-weight: bold;
-    font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  color: dodgerblue;
+  height: 50px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .divmargin {
-    flex: 1;
-    height: 5px;
+  flex: 1;
+  height: 5px;
 }
 
 .inactive {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .blueDot {
-    background-color: dodgerblue;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
+  background-color: dodgerblue;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
 }
 
 .blueDotNormal {
-    background-color: dodgerblue;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    position: absolute;
+  background-color: dodgerblue;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: absolute;
 }

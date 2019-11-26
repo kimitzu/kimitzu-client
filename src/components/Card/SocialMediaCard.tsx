@@ -2,6 +2,7 @@ import React from 'react'
 
 import isElectron from 'is-electron'
 import SocialMedia from '../../constants/SocialMedia.json'
+import { localeInstance } from '../../i18n'
 import { Contact } from '../../interfaces/Profile'
 import './SocialMediaCard.css'
 
@@ -11,13 +12,14 @@ interface SocialMediaCardProps {
 }
 
 const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
+  const { localizations } = localeInstance.get
   const socialMedia = contact.social
 
   return (
     <div className="uk-margin-bottom">
       <div className="uk-card uk-card-default uk-card-body">
         <h3 id="title-social-media" className="uk-card-title">
-          {title || 'Social Media'}
+          {title || localizations.profilePage.socialMediaHeader}
         </h3>
 
         {contact.email ? (
@@ -26,7 +28,7 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
               <span uk-icon="mail" />
             </div>
             <div id="account-name">
-              <p className="uk-text-capitalize">Email</p>
+              <p className="uk-text-capitalize">{localizations.emailLabel}</p>
               <a href={`mailto:${contact.email}`}>{contact.email}</a>
             </div>
           </div>

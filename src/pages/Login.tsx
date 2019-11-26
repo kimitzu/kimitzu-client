@@ -1,12 +1,21 @@
 import isElectron from 'is-electron'
 import React from 'react'
+
 import Login from '../components/Card/Login'
 import Profile from '../models/Profile'
 
+import { localeInstance } from '../i18n'
+
 class LoginPage extends React.Component {
+  private locale = localeInstance.get.localizations
+
   constructor(props) {
     super(props)
     this.handleLogin = this.handleLogin.bind(this)
+  }
+
+  public componentDidMount() {
+    this.locale = localeInstance.get.localizations
   }
 
   public async handleLogin(username: string, password: string) {
@@ -32,7 +41,7 @@ class LoginPage extends React.Component {
           <div className="uk-flex uk-flex-center">
             <img src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg" />
           </div>
-          <Login onSubmit={this.handleLogin} submitLabel={'LOGIN'} />
+          <Login onSubmit={this.handleLogin} submitLabel={this.locale.loginBtnText} />
         </div>
       </div>
     )

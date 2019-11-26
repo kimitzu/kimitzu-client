@@ -8,6 +8,10 @@ div .listing-container {
   border: var(--border-color) 1px solid;
   border-radius: 5px;
   box-shadow: 0px 0px 8px 0px #c4c4c4;
+  transition: 1s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, -0.18, 0.03, 1.57);
+  transition-delay: 0s;
 }
 
 .listing-container:hover {
@@ -76,8 +80,12 @@ div .listing-container {
   color: var(--primary);
 }
 
-.stars-array .star {
+.stars-array .star-inactive {
   color: var(--secondary);
+}
+
+.stars-array {
+  font-size: 0.75em;
 }
 
 .padded-left {

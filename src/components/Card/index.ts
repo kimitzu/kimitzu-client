@@ -7,6 +7,7 @@ import IntroductionCard from './IntroductionCard'
 import ListingAddUpdateCard from './ListingAddUpdateCard'
 import ListingCheckoutCard from './ListingCheckoutCard'
 import ModeratorCard from './ModeratorCard'
+import OtherInformationCard from './OtherInformationCard'
 import PaymentQRCard from './PaymentQRCard'
 import PayoutCard from './PayoutCard'
 import ProfessionalBackgroundCard from './ProfessionalBackgroundCard'
@@ -42,4 +43,5 @@ export {
   WalletBalanceCard,
   TransactionsHistoryCard,
   CompetencyCard,
+  OtherInformationCard,
 }

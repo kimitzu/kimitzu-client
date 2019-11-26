@@ -21,6 +21,8 @@ import Settings from '../models/Settings'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
+import { localeInstance } from '../i18n'
+
 const cryptoCurrenciesConstants = [...CryptoCurrencies()]
 cryptoCurrenciesConstants.splice(0, 1)
 const cryptoCurrencies = cryptoCurrenciesConstants.map(crypto => crypto.value)
@@ -56,6 +58,7 @@ interface CreateListingState {
 
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
   private debounce = 0
+  private locale = localeInstance.get.localizations
 
   constructor(props: CreateListingProps) {
     super(props)
@@ -106,6 +109,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public async componentDidMount() {
+    this.locale = localeInstance.get.localizations
     const id = this.props.match.params.id
     const settings = this.props.settings
 
@@ -113,7 +117,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       const { listing, imageData } = await Listing.retrieve(id)
 
       if (!listing.isOwner) {
-        window.UIkit.notification('Unable to edit listing that you do not own!', {
+        window.UIkit.notification(this.locale.listingForm.notifications.cannotEdit, {
           status: 'warning',
         })
         window.location.hash = '/'
@@ -165,7 +169,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleFullSubmit={this.handleFullSubmit}
           />
         ),
-        title: 'General',
+        title: this.locale.generalLabel,
       },
       {
         component: (
@@ -180,7 +184,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleFullSubmit={this.handleFullSubmit}
           />
         ),
-        title: 'Location',
+        title: this.locale.locationLabel,
       },
       {
         component: (
@@ -196,7 +200,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleFullSubmit={this.handleFullSubmit}
           />
         ),
-        title: 'Photos',
+        title: this.locale.listingForm.navItems.photosLabel,
       },
       // {
       //   component: (
@@ -214,7 +218,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         component: (
           <div className="uk-flex uk-flex-column uk-width-1-1">
             <div className="uk-alert-primary uk-padding-small uk-margin-bottom">
-              Use tags to enhance search visibility of your listing.
+              {this.locale.listingForm.tagsHelper}
             </div>
             <TagsForm
               onSubmit={tags => {
@@ -231,16 +235,16 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             />
           </div>
         ),
-        title: 'Tags',
+        title: this.locale.listingForm.tagsLabel,
       },
       {
         component: (
           <div className="uk-flex uk-flex-column uk-width-1-1">
             {this.state.settings.storeModerators.length <= 0 ? (
               <div className="uk-alert-warning uk-padding-small uk-margin-bottom" uk-alert>
-                It seems like you have no favorite moderators setup.
+                {this.locale.listingForm.moderatorsHelper1}
                 <br />
-                You may set this up in the{' '}
+                {this.locale.listingForm.moderatorsHelper2}
                 <a
                   href="#"
                   onClick={event => {
@@ -248,7 +252,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
                     window.location.hash = '/settings'
                   }}
                 >
-                  settings page
+                  {this.locale.listingForm.moderatorsHelperLink}
                 </a>
                 .
               </div>
@@ -267,7 +271,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             />
           </div>
         ),
-        title: 'Moderators',
+        title: this.locale.listingForm.navItems.moderatorsLabel,
       },
       {
         component: (
@@ -279,7 +283,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleFullSubmit={this.handleFullSubmit}
           />
         ),
-        title: 'Terms and Conditions',
+        title: this.locale.listingForm.termsAndConditionsLabel,
       },
       {
         component: (
@@ -293,7 +297,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             handleFullSubmit={this.handleFullSubmit}
           />
         ),
-        title: 'Coupons',
+        title: this.locale.listingForm.navItems.couponsLabel,
       },
       {
         component: (
@@ -305,7 +309,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             isNew={this.state.isListingNew}
           />
         ),
-        title: 'Accepted Currencies',
+        title: this.locale.listingForm.navItems.currenciesLabel,
       },
     ]
   }
@@ -389,12 +393,12 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       listing.item.images = [...updateOldImages, ...images]
       if (this.state.isListingNew) {
         await listing.save()
-        window.UIkit.notification('Listing Successfully Posted', {
+        window.UIkit.notification(this.locale.listingForm.notifications.addSuccess, {
           status: 'success',
         })
       } else {
         await listing.update()
-        window.UIkit.notification('Listing Successfully Updated', {
+        window.UIkit.notification(this.locale.listingForm.notifications.updateSuccess, {
           status: 'success',
         })
       }
@@ -424,14 +428,13 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const { selectedModerator } = this.state
     return (
       <div className="background-body full-vh uk-padding-small">
-        <Prompt
-          when={!this.state.isListingSaved}
-          message="Your changes will not be saved. Continue?"
-        />
+        <Prompt when={!this.state.isListingSaved} message={this.locale.listingForm.abandonPrompt} />
         <SideMenuWithContentCard
           mainContentTitle={currentForm.title}
           menuContent={{
-            title: this.state.isListingNew ? 'CREATE LISTING' : 'UPDATE LISTING',
+            title: this.state.isListingNew
+              ? this.locale.listingForm.addBtnText.toUpperCase()
+              : this.locale.listingForm.updateBtnText.toUpperCase(),
             navItems,
           }}
           mainContent={currentForm.component}

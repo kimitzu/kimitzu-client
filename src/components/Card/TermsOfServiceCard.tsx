@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { localeInstance } from '../../i18n'
+
 import './TermsOfServiceCard.css'
 
 interface TermsOfServiceCardInterface {
@@ -7,6 +9,7 @@ interface TermsOfServiceCardInterface {
 }
 
 const TermsOfServiceCard = (props: TermsOfServiceCardInterface) => {
+  const { tosCard } = localeInstance.get.localizations
   const [classToggle, setclassToggle] = useState('moreContainer')
   const [hide, setHide] = useState(false)
   const { data } = props
@@ -25,12 +28,12 @@ const TermsOfServiceCard = (props: TermsOfServiceCardInterface) => {
     <div id="listing-main">
       <div id="containerAnim" className="uk-card uk-card-default uk-card-body animCont">
         <h3 id="title-terms" className="uk-card-title">
-          Terms of Service
+          {tosCard.header}
         </h3>
         <div id="terms-content">{data}</div>
         <div className={classToggle}>
           <h5 className="uk-text-bold moreBtn" onClick={() => animate()} hidden={hide}>
-            Show more..
+            {tosCard.expandText}
           </h5>
         </div>
       </div>

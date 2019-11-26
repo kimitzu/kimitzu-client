@@ -67,7 +67,7 @@ context('Rate Buyer', () => {
       response: 'fixture:orders/purchased_order_to_be_rated.json',
     }
     )
-    cy.get('#djali-btn')
+    cy.get('#fulfill-order-button')
       .click()
 
     cy.get('[for="compensationFairness_5"] > i')
@@ -108,7 +108,7 @@ context('Rate Buyer', () => {
       response: 'fixture:orders/purchased_order_to_be_rated.json',
     })
 
-    cy.get('#djali-btn')
+    cy.get('#fulfill-order-button')
       .click()
 
     cy.get('#djali-btn')

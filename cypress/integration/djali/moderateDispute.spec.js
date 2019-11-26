@@ -81,8 +81,6 @@ context('Filter', () => {
       .click()
 
     cy.wait('@closeDispute').then((xhr) => {
-      //TODO learn how to set value of a ReactSlider using Cypress
-
       expect(xhr.requestBody.resolution).to.equal('Sample Resolution to be typed in a text area')
       expect(xhr.requestBody.buyerPercentage).to.equal(100)
       expect(xhr.requestBody.vendorPercentage).to.equal(0)

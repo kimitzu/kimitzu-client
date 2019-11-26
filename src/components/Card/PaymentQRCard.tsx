@@ -1,9 +1,14 @@
 import QRCode from 'qrcode.react'
 import React, { useState } from 'react'
+
+import { Button } from '../Button'
+
 import { OrdersSpend } from '../../interfaces/Order'
 import currency from '../../models/Currency'
 import Order from '../../models/Order'
-import { Button } from '../Button'
+
+import { localeInstance } from '../../i18n'
+
 import './PaymentQRCard.css'
 
 interface Props {
@@ -23,6 +28,10 @@ const PaymentQRCard = ({
   handlePay,
   cryptocurrency,
 }: Props) => {
+  const {
+    localizations,
+    localizations: { paymentQRCard },
+  } = localeInstance.get
   const [isPaying, setIsPaying] = useState(false)
 
   const handlePayment = async () => {
@@ -51,7 +60,7 @@ const PaymentQRCard = ({
       <div className="uk-padding uk-padding-remove-top uk-padding-remove-bottom">
         <div className="uk-flex uk-flex-middle">
           <h4 className="uk-text-bold">
-            Pay: {currency.humanizeCrypto(amount)} {cryptocurrency}
+            {paymentQRCard.header}: {currency.humanizeCrypto(amount)} {cryptocurrency}
           </h4>
           {/* <a
           className="text-underline uk-text-small uk-margin-left"
@@ -72,11 +81,11 @@ const PaymentQRCard = ({
         <div className="uk-margin uk-margin-remove-horizontal">
           <div className="uk-inline">
             <Button className="uk-button uk-button-primary" type="button">
-              Pay from wallet
+              {paymentQRCard.walletBtnText}
             </Button>
             <div id="dropID" data-uk-dropdown="mode: click">
               <div className="card-prompt">
-                Are you sure?Total is{' '}
+                {paymentQRCard.paymentConfirmationText}
                 <b>
                   {currency.humanizeCrypto(amount)} {cryptocurrency}
                 </b>
@@ -90,7 +99,7 @@ const PaymentQRCard = ({
                       }
                     }}
                   >
-                    Cancel
+                    {localizations.cancelBtnText}
                   </Button>
                   <Button
                     className="uk-button uk-button-primary"
@@ -105,7 +114,7 @@ const PaymentQRCard = ({
                     }}
                     showSpinner={isPaying}
                   >
-                    Yes, Pay
+                    {paymentQRCard.confirmBtnText}
                   </Button>
                 </div>
               </div>
@@ -113,9 +122,7 @@ const PaymentQRCard = ({
           </div>
         </div>
         <div>
-          <p className="color-secondary uk-text-break">
-            Once you have paid, it may take a bit for the interface to update.
-          </p>
+          <p className="color-secondary uk-text-break">{paymentQRCard.paymentHelper}</p>
         </div>
       </div>
     </div>
