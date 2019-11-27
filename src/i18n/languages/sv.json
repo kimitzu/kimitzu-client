@@ -1,0 +1,592 @@
+{
+  "usernameLabel": "Användarnamn",
+  "passwordLabel": "Lösenord",
+  "emailLabel": "E-post",
+  "locationLabel": "Plats",
+  "descriptionLabel": "Beskrivning",
+  "generalLabel": "Allmän",
+  "nextBtnText": "Nästa",
+  "loginBtnText": "Logga in",
+  "deleteBtnText": "Radera",
+  "cancelBtnText": "Avbryt",
+  "changePhotoBtnText": "Byta",
+  "homeBtnText": "Hem",
+  "saveBtnText": "Spara",
+  "titleLabel": "Titel",
+  "typeLabel": "Typ",
+  "yesText": "Ja",
+  "noText": "Nej",
+  "startDateLabel": "Start datum",
+  "endDateLabel": "Slutdatum",
+  "addEntryText": "Lägg till ny post",
+  "peerID": "Peer ID",
+  "minimum": "Minimum",
+  "maximum": "Maximal",
+  "intro": {
+    "helper": "Är du ny på Djali?",
+    "nextBtnText": "Komma igång",
+    "appDescription": "En fri marknad för tjänster"
+  },
+  "moderatorsText": "moderatorer",
+  "skillsText": "Kompetens",
+  "competenciesText": "kompetenser",
+  "homePage": {
+    "headerDropdownPlaceholder": "Bläddra i klassificeringar",
+    "crawlingHeader": "Krypande...",
+    "crawlingContent1": "Bra! Det verkar som om du just har installerat Djali.",
+    "crawlingContent2": "Kom tillbaka senare när Djali genomsöker listorna i nätverket.",
+    "noResultsHeader": "Inga resultat",
+    "noResultsContent": "Din sökning matchade inga listor.",
+    "noResultsSuggestionsText": "Förslag",
+    "noResultsSuggestions": [
+      "Prova ett annat sökord eller filter.",
+      "Se till att alla ord är rätt stavade.",
+      "Prova mer generella nyckelord."
+    ]
+  },
+  "searchFilters": {
+    "header": "filter",
+    "checkboxLabel": "Dölj egna listor",
+    "occupationLabel": "Ockupation",
+    "priceRangeLabel": "Prisklass",
+    "ratingsLabel": "betyg",
+    "locationRadiusLabel": "Inom radien"
+  },
+  "navigationBar": {
+    "createNewListingLabel": "Skapa ny lista",
+    "purchaseHistoryLabel": "Köphistorik",
+    "salesHistoryLabel": "Försäljningshistorik",
+    "caseHistoryLabel": "Fallhistoria",
+    "profileLabel": "Profil",
+    "walletLabel": "Plånbok",
+    "settingsLabel": "inställningar",
+    "supportLabel1": "Frågor, frågor eller förslag?",
+    "supportLabel2": "Nå oss på:",
+    "searchPlaceholder": "Vad letar du efter?"
+  },
+  "registrationPage": {
+    "welcomeHeader": "Välkommen till",
+    "successNotification": "Registrering lyckad"
+  },
+  "userForm": {
+    "handleLabel": "Hantera",
+    "handlePlaceholer": "john.doe",
+    "nameLabel": "namn",
+    "namePlaceholder": "John Doe",
+    "emailPlaceholder": "john@email.com",
+    "fiatCurrencyLabel": "Föredragen Fiat-valuta",
+    "cryptoCurrencyLabel": "Föredragen Cryptocurrency",
+    "displayCurrencyLabel": "Visa valuta",
+    "languageLabel": "Önskat språk",
+    "unitsLabel": "Föredragna enheter"
+  },
+  "tosPage": {
+    "header": "Användarvillkor",
+    "tos": "Djali-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Djali-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Djali-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Djali-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Djali, kan användare se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Djali-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Djali arbetar som standard via Tor-nätverket, och den enda information som användarna måste tillhandahålla är ett handtag och land. Djali-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Djali. Djali är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Djalis sekretessmekanismer. Därför garanterar inte Djali-utvecklare några garantier för programvarans förmåga att upprätthålla användarnas integritet."
+  },
+  "addressForm": {
+    "streetLabel": "Gatuadress",
+    "latitudeLabel": "Latitud",
+    "longitudeLabel": "Longitud",
+    "cityLabel": "Stad",
+    "stateLabel": "stat",
+    "zipCodeLabel": "Postnummer",
+    "countryLabel": "Land",
+    "countryPlaceholder": "Välj land",
+    "plusCodeHelper": "Vad är en pluskod?",
+    "addBtnText": "Lägg till adress",
+    "updateBtnText": "Uppdatera adress"
+  },
+  "listingForm": {
+    "updateBtnText": "Uppdatera notering",
+    "addBtnText": "Skapa listning",
+    "classificationLabel": "Yrkesklassificering",
+    "titleDescriptor": "Något beskrivande som tydligt förklarar din tjänst.",
+    "priceLabel": "Pris",
+    "priceDescriptor": "Ställ in ditt pris och dess valuta",
+    "rateMethodLabel": "Betygsmetod",
+    "rateMethodDescriptor": "Hur vill du debitera kunder?",
+    "serviceQuantityLabel": "Servicemängd",
+    "serviceQuantityDescriptor": "Hur många serviceenheter vill du erbjuda? (Lämna tomt om du inte vill använda det här fältet)",
+    "matureContentLabel": "Vuxet innehåll",
+    "photoLabel": "LÄGG TILL FOTO (Inkludera upp till 30 foton)",
+    "tagsLabel": "Tags",
+    "tagsPlaceholder": "Lägg till en tagg",
+    "tagsDescriptor": "Tryck på &quot;Enter&quot; för att lägga till en post",
+    "tagsHelper": "Använd taggar för att förbättra din synlighet för din lista.",
+    "termsAndConditionsLabel": "Villkor",
+    "termsAndConditionsDescriptor": "Om det lämnas tomt kommer listan att visa &quot;Inga villkor angivna&quot;",
+    "moderatorsHelper1": "Det verkar som om du inte har någon favoritmoderatorinstallation.",
+    "moderatorsHelper2": "Du kan ställa in det här i",
+    "moderatorsHelperLink": "inställningssida",
+    "couponsHelper": "Skapa kuponger som dina kunder kan använda under kassan för exklusiva erbjudanden eller rabatter.",
+    "couponTitleLabel": "Titel",
+    "couponTitlePlaceholder": "Kupongtitel",
+    "couponCodeLabel": "Koda",
+    "couponCodePlaceholder": "Rabattkod",
+    "couponDiscountLabel": "Värde",
+    "couponDiscountPlaceholder": "Rabatt",
+    "addCouponLink": "Lägg till kupong",
+    "percentLabel": "Procent",
+    "currenciesDescriptor": "Att ta emot fler mynt kommer att locka fler kunder.",
+    "abandonPrompt": "Dina ändringar sparas inte. Fortsätta?",
+    "notifications": {
+      "cannotEdit": "Det går inte att redigera listor som du inte äger!",
+      "addSuccess": "Listningen lyckades postas",
+      "updateSuccess": "Listningen har uppdaterats"
+    },
+    "navItems": {
+      "moderatorsLabel": "moderatorer",
+      "photosLabel": "foton",
+      "couponsLabel": "kuponger",
+      "currenciesLabel": "Godkända valutor"
+    }
+  },
+  "photoSlideshow": {
+    "dropArea": { "placeholder": "Dra och släpp ett foto eller", "selectLabel": "Välj" }
+  },
+  "moderatorSelectionForm": {
+    "crawlingNotif1": "Det tar ett tag att genomsöka nätverket för tillgängliga moderatorer.",
+    "crawlingNotif2": "Vänta lite längre eller kom tillbaka senare.",
+    "showDetailsLink": "Mer...",
+    "searchPlaceholder": "Sök efter moderatornamn eller ID",
+    "searchSpinnerText": "Söker i nätverket efter moderatorer ...",
+    "noResultsHeader": "Inga moderatorer tillgängliga.",
+    "noResultsParagraph": "Inga resultat för",
+    "resultsParagraph": "Sökresultat",
+    "favouriteSeparatorText": "Favorit",
+    "recentSeparatorText": "Nyligen",
+    "availableSeparatortext": "Tillgängligt"
+  },
+  "profilePage": {
+    "aboutHeader": "Handla om",
+    "educationHeader": "Utbildning",
+    "socialMediaHeader": "Sociala media",
+    "workHistoryHeader": "Jobbhistorik",
+    "skillsHeader": "Kompetens",
+    "othersHeader": "Annan information",
+    "competencyHeader": "Kompetens",
+    "noLocationParagraph": "Plats inte specificerad",
+    "noListingsHeader": "Inga tillgängliga listor.",
+    "redirectSpinnerText": "Omdirigerar ...",
+    "messageBtnText": "Meddelande",
+    "buyerRatingsHeader": "Köparbetyg",
+    "sellerRatingsHeader": "Säljarbetyg",
+    "tabTitles": {
+      "profile": "Profil",
+      "store": "Lagra",
+      "ratings": "betyg",
+      "following": "Följande",
+      "followers": "anhängare",
+      "salesHistory": "Försäljningshistorik",
+      "purchaseHistory": "Köphistorik"
+    },
+    "profileNotFoundHeader": "Det går inte att hämta profil",
+    "profileNotFoundSubText": "Profilen du begärde är för närvarande offline eller finns inte i Djali-nätverket."
+  },
+  "followButton": {
+    "followBtnText": "Följ",
+    "followingBtnText": "Följande",
+    "followingBtnTip": "Sluta följa"
+  },
+  "blockButton": {
+    "blockBtnText": "Blockera",
+    "blockedBtnText": "Blockerad",
+    "blockedBtnTip": "Häv"
+  },
+  "settingsPage": {
+    "header": "inställningar",
+    "spinnerText": "Laddar profil ...",
+    "changeCredMsgTextA": "Om du aktiverar den här funktionen aktiveras Djalis autentiseringsmekanismer för att skydda din klient från obehörig åtkomst.",
+    "changeCredMsgTextB": "Andra icke-kritiska funktioner som sökning kommer fortfarande att vara tillgängliga men betalnings- och beställningsrelaterade funktioner behöver verifiering för att kunna fortsätta.",
+    "authenticationText": "autentisering",
+    "generalNavItem": "Allmän",
+    "oldUsernameLabel": "Gammalt användarnamn",
+    "oldPasswordLabel": "Gammalt lösenord",
+    "newUsernameLabel": "Nytt användarnamn",
+    "newPasswordLabel": "nytt lösenord",
+    "changeCredentialsBtnText": "Ändra referenser",
+    "activateAuthenticationBtnText": "Aktivera autentisering",
+    "navItems": {
+      "profile": "Profil",
+      "moderation": "Måtta",
+      "store": "Lagra",
+      "security": "säkerhet",
+      "skills": "Kompetens",
+      "others": "Andra inställningar"
+    },
+    "profileNavItems": {
+      "socialMedia": "Sociala media",
+      "education": "Utbildning",
+      "workHistory": "Jobbhistorik",
+      "addresses": "adresser",
+      "customDescriptions": "Anpassade beskrivningar"
+    },
+    "securityNavItems": { "auth": "autentisering", "deactivate": "Avaktivera" },
+    "othersNavItems": { "blockedPeers": "Blockerade kamrater", "miscellaneous": "Diverse" },
+    "favoriteModeratorsNavItem": "Favorit Moderatorer",
+    "competencyDeleteSuccessNotif": "Kompetens raderad!",
+    "competencyUpdateSuccessNotif": "Kompetens uppdaterad!",
+    "deactivateAuthForm": {
+      "helper1": "Detta kommer att inaktivera Djalis autentiseringsmekanismer och din klient skyddas inte längre från obehörig åtkomst.",
+      "helper2": "Betalnings- och beställningsrelaterade funktioner behöver inte längre verifieras för att kunna fortsätta.",
+      "submitBtnText": "Inaktivera autentisering"
+    },
+    "saveSkillsSuccessNotif": "Färdigheter sparade!",
+    "saveSkillsErrorNotif": "Fel vid sparning",
+    "educationForm": {
+      "addBtnText": "Lägg till utbildning",
+      "updateBtnText": "Uppdatera utbildning"
+    },
+    "workForm": { "addBtnText": "Lägg till arbete", "updateBtnText": "Uppdatera arbete" },
+    "miscForm": {
+      "saveSuccessNotif": "Inställningarna har uppdaterats",
+      "saveErrorNotif": "Något gick fel. Försök igen senare.",
+      "crashReportLabel": "Aktivera kraschrapportering",
+      "crashReportHelper": "Skicka kraschrapporter till utvecklarna",
+      "autpUpdatesLabel": "Autoinstallera uppdateringar",
+      "autoUpdatesHelper": "Uppdateringar laddas ner och installeras automatiskt"
+    },
+    "credentialsUpdateSuccessNotif": "Intyg har raderats! Starta om servern för att ändringarna ska träda i kraft.",
+    "profileUpdateSuccessNotif": "Profil uppdaterad!",
+    "profileSaveSuccessNotif": "Profil sparad!",
+    "moderatorSaveSuccessNotif": "Moderator sparad.",
+    "expiredListingNotif": "Varning: Du har gått ut listor",
+    "authUpdateSuccessNotif": "Nya referenser accepterade! Starta om servern för att ändringarna ska träda i kraft.",
+    "blockedNodesCard": {
+      "emptyContentText": "Inga blockerade kamrater.",
+      "unblockSuccessNotif": "Peer har framgångsrikt tagits bort!",
+      "unblockErrorNotif": "Det gick inte att avblockera peer. Försök igen senare."
+    }
+  },
+  "orderHistoryPage": {
+    "searchPlaceholder": "Sök efter titel, beställningsnummer eller leverantör",
+    "filterSidebar": { "header": "Filtrera", "resetBtnText": "Återställ filter" },
+    "totalLabel": "Total",
+    "orderLabel": "Beställa",
+    "dateLabel": "Datum",
+    "statusLabel": "Status",
+    "purchasesLabel": "inköp",
+    "salesLabel": "försäljning",
+    "casesLabel": "fall"
+  },
+  "orderViewPage": {
+    "retrieveOrderText": "Hämtar order ...",
+    "retrieveDiscussionsText": "Hämtar diskussioner ...",
+    "summaryText": "Sammanfattning",
+    "fulfillOrderText": "Uppfylla beställningen",
+    "discussionText": "Diskussion",
+    "prepareDisputeText": "Förbered tvisten",
+    "saleText": "Försäljning",
+    "purchaseText": "Inköp",
+    "orderText": "Beställa",
+    "orderDetails": {
+      "typeLabel": "Typ",
+      "quantityHeader": "Kvantitet",
+      "totalHeader": "Total",
+      "memoHeader": "PM"
+    },
+    "disputeForm": {
+      "claimLabel": "Krav",
+      "claimPlaceholder": "Förbered ett lämpligt påstående som har de mest relevanta bevisen. Detta kan säkerställa att du har största möjliga chans att en tvist hittas till din fördel.",
+      "submitBtnText": "Skicka anspråk"
+    },
+    "fulfillOrderForm": {
+      "reviewLabel": "Recension",
+      "noteLabel": "Märka",
+      "submitBtnText": "Lämna"
+    },
+    "stepperTexts": {
+      "pending": "Avvaktan",
+      "paid": "betald",
+      "accepted": "Accepterad",
+      "refunded": "återbetalas",
+      "disputed": "omtvistat",
+      "expired": "Utgånget",
+      "decided": "Bestämt",
+      "resolved": "löst",
+      "error": "Fel",
+      "fulfilled": "uppfyllt",
+      "completed": "Avslutad"
+    },
+    "processErrorHeader": "Bearbetningsfel",
+    "disputeExpiredHeader": "Tvist har löpt ut",
+    "refundedHeader": "återbetalas",
+    "refundedParagraph": "Beställ återbetalas. Transaktions ID",
+    "orderProcessErrorParagraph": "Det gick inte att bearbeta den här beställningen.",
+    "disputeExpiredParagraph": "Tiden är ute! Moderatoren kunde inte fatta ett beslut i tid. Säljaren kan nu kräva pengarna.",
+    "disputeClosedHeader": "Tvist stängd",
+    "payoutAcceptedHeader": "accepterade utbetalningen av tvisten.",
+    "disputePayoutHeader": "Tvistutbetalning",
+    "releaseFundBtnText": "Släpp fonder",
+    "disputeStartedHeader": "Tvist startade",
+    "disputingHeader": "Bestrider order ...",
+    "discussBtnText": "Diskutera ordning",
+    "disputingParagraph": "Beställningen bestrids. Moderatoren har ungefär en timme att behandla tvisten och fatta ett beslut.",
+    "disputeOrderHeader": "Motsäga sig ordern",
+    "disputeBtnText": "Tvist",
+    "disputeOrderParagraph1": "Denna beställning kan ifrågasättas i 6 block eller ungefär en timme. Klockan startar när finansieringsbetalningen bekräftas.",
+    "disputeOrderParagraph2": "När klockan går ut kan leverantören kräva betalning och slutföra beställningen utan support från moderatoren.",
+    "completedHeader": "Avslutad",
+    "completeOrderText": "Komplett beställning",
+    "fulfilledHeader": "uppfyllt",
+    "orderAcceptedHeader": "Accepterad",
+    "refundLink": "Återbetalning",
+    "fulfillOrderBtnText": "Uppfylla beställningen",
+    "orderAcceptedParagraph1": "Du fick beställningen från",
+    "orderAcceptedParagraph2": "och kan fullfölja det när du är redo.",
+    "orderAcceptedParagraph3": "Din beställning behandlas nu ...",
+    "paymentHeader": "Betalningsinformation",
+    "partialPaymentText": "Delbetalning",
+    "fullPaymentText": "Full betalning",
+    "sendPaymentHeader": "Skicka betalning till",
+    "paymentSuccessNotif": "Betalning skickad!",
+    "awaitingPaymentHeader": "Väntar på att köparen skickar betalning ...",
+    "awaitingPaymentParagraph": "Köparen har ännu inte betalat beställningen.",
+    "orderDetailsHeader": "Orderdetaljer",
+    "refundSuccessNotif": "Beställningen återbetalas!",
+    "refundErrorNotif": "Återbetalning misslyckades",
+    "completedSuccessNotif": "Order slutförd:",
+    "fulfilledSuccessNotif": "Order uppfylld:",
+    "openDisputeSuccessNotif": "Tvist skickad!",
+    "fundReleaseSuccessNotif": "Släpp fonden!",
+    "acceptedOrderHeader": "Beställning accepterad",
+    "orderAcceptedParagraph": "Säljaren har accepterat beställningen",
+    "buyertext": "Köpare",
+    "vendorText": "Säljare",
+    "sellerText": "Säljare"
+  },
+  "paymentQRCard": {
+    "header": "Betala",
+    "walletBtnText": "Betala från plånboken",
+    "paymentConfirmationText": "Beloppet dras av från din plånbok.",
+    "paymentHelper": "När du har betalat kan det ta lite innan gränssnittet uppdateras.",
+    "confirmBtnText": "Betala"
+  },
+  "disputeViewPage": {
+    "spinnerText": "Läser in...",
+    "disputeExpiredParagraph": "Tiden är ute! Du misslyckades med att fatta ett beslut i tid. Säljaren kan nu kräva pengarna.",
+    "disputedNoteParagraph": "Du har en timme att behandla tvisten och fatta ett beslut.",
+    "buyerDisputingHeader": "bestrider beställningen",
+    "orderDetailsHeader": "Orderdetaljer",
+    "resolveSubmitBtnText": "Lös tvist",
+    "resolutionLabel": "Upplösning",
+    "resolutionPlaceholder": "Detaljer om din tvistlösning",
+    "resolutionSubmitBtnText": "Lämna",
+    "resolutionSuccessNotif": "Resolution skickad!",
+    "resolutionFailedNotif": "misslyckades",
+    "percentageLabel": "Procentsats",
+    "moderatorNoteParagraph": "Moderatoranteckning:"
+  },
+  "walletView": {
+    "transactionSuccessNotif": "Transaktion skickad!",
+    "transactionsText": "transaktioner",
+    "sentText": "sände",
+    "receivedText": "Mottagen",
+    "confirmationsText": "bekräftelser",
+    "balanceText": "Balans",
+    "unconfirmedText": "Obekräftad",
+    "fiatValText": "Fiat värde",
+    "sendText": "Skicka",
+    "receiveText": "Motta",
+    "transactionForm": {
+      "addressLabel": "Adress",
+      "amountLabel": "Belopp",
+      "noteLabel": "Notera",
+      "submitBtnText": "Skicka"
+    },
+    "receiveTransactionHeader": "Få pengar genom att skanna den här QR-koden."
+  },
+  "checkoutPage": {
+    "spinnerText": "Läser in...",
+    "requestAddressParagraph": "Begär försäljningsadress ...",
+    "couponForm": {
+      "header": "Kupong",
+      "inputPlaceholder": "Ange kupongkod",
+      "submitBtnText": "Tillämpa"
+    },
+    "paymentForm": {
+      "header": "Betalningssystem",
+      "directLabel": "Direktbetalning",
+      "moderatedPayment": "Modererad betalning"
+    },
+    "expandModeratorLink": "Mer...",
+    "additionalForm": {
+      "header": "ytterligare information",
+      "memoLabel": "PM",
+      "memoPlaceholder": "Ange ytterligare information för leverantören (valfritt)"
+    },
+    "listingOwnerHelper": "Så ser din lista ut för andra användare.",
+    "receivedPaymentHeader1": "Betalning av",
+    "receivedPaymentHeader2": "Mottagen!",
+    "receivedPaymentParagraph": "Tack för ditt köp!",
+    "receivedPaymentLink": "Kontrollera statusen för din beställning.",
+    "applyCouponFailNotif": "Ogiltig kupongkod",
+    "paymentCard": {
+      "submitOrderBtnText": "Lägg order nu",
+      "afterSubmitOrderBtnText": "Avvaktan...",
+      "checkoutHelper1": "Väntar på betalning...",
+      "checkoutHelper2": "Om du klickar kommer du vidare till betalningssteget",
+      "paymentFormHeader": "Betala via",
+      "summaryHeader": "Ordersammanfattning",
+      "listingLabel": "Lista",
+      "shippingLabel": "Frakt",
+      "subtotalLabel": "Delsumma",
+      "couponLabel": "Kupong",
+      "totalLabel": "Total",
+      "estimateSpinnerText": "Uppskatta ...",
+      "estimateLabel": "Uppskatta"
+    },
+    "listingCard": {
+      "itemLabel": "Artikel",
+      "classificationLabel": "Klassificering",
+      "priceLabel": "Pris",
+      "quantityLabel": "Kvantitet"
+    }
+  },
+  "moderatorInfoModal": {
+    "messageBtnText": "Meddelande",
+    "feeLabel": "Avgift",
+    "currenciesLabel": "Valutor",
+    "languagesLabel": "språk",
+    "termsAndConditionsHeader": "Villkor"
+  },
+  "moderatorForm": {
+    "removeSuccessNotif": "Moderatorprofil har tagits bort.",
+    "saveSuccessNotif": "Moderatorprofil sparad!",
+    "enableModLabel": "Aktivera moderatorfunktioner",
+    "descriptionPlaceholder": "Berätta om 500 ord eller mindre något om dig själv och de tjänster du erbjuder ...",
+    "termsAndConditionsLabel": "Villkor",
+    "termsAndConditionsPlaceholder": "Ange villkor",
+    "languagesLabel": "språk",
+    "feeTypeLabel": "Avgiftstyp",
+    "amountLabel": "Belopp",
+    "amountPlaceholder": "Ange belopp",
+    "currencyLabel": "Valuta",
+    "percentageLabel": "Procentsats"
+  },
+  "socialMediaForm": {
+    "proofPlaceholder": "Bevis",
+    "proofTooltip": "Länk till ett bevis på att du äger det kontot (t.ex. länk till ett inlägg för facebook och länk till ett engagemang i github)."
+  },
+  "educationForm": {
+    "institutionLabel": "Namn på institution",
+    "institutionPlaceholder": "Institution eller skolnamn",
+    "degreeLabel": "Grad",
+    "degreePlaceholder": "Examen, specialisering, major",
+    "descriptionPlaceholder": "Berätta lite om din examen och specialisering",
+    "currentlyStudyingLabel": "För närvarande studerar du här?"
+  },
+  "employmentForm": {
+    "companyLabel": "Företagsnamn",
+    "positionLabel": "Placera",
+    "positionPlaceholder": "Position / Rank i företaget",
+    "descriptionPlaceholder": "Berätta lite om ditt arbete",
+    "currentlyWorkingLabel": "Jobbar du här just nu?"
+  },
+  "customDescriptionForm": {
+    "saveSuccessNotif": "Profil uppdaterad!",
+    "labelLabel": "Märka",
+    "placeholder": "Ange värde",
+    "valueLabel": "Värde",
+    "submitBtnText": "Lägg till nytt fält"
+  },
+  "listingPage": {
+    "retrieveListingSpinnerText": "Hämtar listning",
+    "retrieveRatingsSpinnerText": "Hämtar betyg",
+    "listingRenewedNotif": "Listningen förnyades framgångsrikt!",
+    "expiredListingHelper1": "Denna lista har gått ut, kontakta leverantören för mer information.",
+    "expiredListingHelper2": "Denna lista har gått ut.",
+    "renewLink": "Förnya i ett år.",
+    "editBtnText": "Redigera",
+    "deleteListingPromptText": "Är du säker på att du vill ta bort den här listan? Den här åtgärden kan inte ångras.",
+    "deleteListingSuccessNotif": "Listan raderad.",
+    "reviewsText": "recensioner",
+    "noRatingsText": "Inga betyg.",
+    "classificationLabel": "Klassificering",
+    "paymentMethodsLabel": "Betalningsmetoder",
+    "tagsLabel": "Tags",
+    "checkoutBtnText": "Checka ut",
+    "contactHeader": "Kontakt information",
+    "educationHeader": "Utbildning",
+    "workHeader": "Jobbhistorik",
+    "skillsHeader": "Kompetens",
+    "emptyTosContentParagraph": "Ingenting specificerat.",
+    "notFoundComponent": {
+      "header": "Det går inte att hämta listan.",
+      "paragraph": "Listan du begärde har antingen gått ut på Djali-nätverket eller finns inte.",
+      "suggestionsText": "Förslag",
+      "suggestions": "Bläddra bland andra listor."
+    },
+    "listingRenewPrompt": "Förnya listan <b>{0}</b> för <b>1 år</b> ?"
+  },
+  "tosCard": { "header": "Användarvillkor", "expandText": "Visa mer..." },
+  "chatComponent": {
+    "emptyConvoText": "Inga samtal än ...",
+    "messagesText": "meddelanden",
+    "messagePlaceholder": "Skriv ett meddelande..."
+  },
+  "constants": {
+    "sortOptions": {
+      "item.title_<=": "Alfabetiskt (A → Z)",
+      "item.title_>=": "Alfabetiskt (Z → A)",
+      "item.price_<=": "Pris (Låg → Hög)",
+      "item.price_>=": "Pris (Hög → Låg)",
+      "averageRating_<=": "Betyg (Låg → Hög)",
+      "averageRating_>=": "Betyg (Hög → Låg)"
+    },
+    "singulars": {
+      "PER_HOUR": "timme",
+      "PER_DAY": "dag",
+      "PER_MONTH": "månad",
+      "PER_MILESTONE": "milstolpe",
+      "FIXED": "fast"
+    },
+    "plurals": {
+      "PER_HOUR": "timmar",
+      "PER_DAY": "dagar",
+      "PER_MONTH": "månader",
+      "PER_MILESTONE": "milstolpar",
+      "FIXED": "fast"
+    },
+    "serviceRateMethods": {
+      "PER_HOUR": "Per timme",
+      "PER_DAY": "Per dag",
+      "PER_MONTH": "Per månad",
+      "PER_MILESTONE": "Per milstolpe",
+      "FIXED": "Fast"
+    },
+    "filters": {
+      "unfunded": {
+        "states": "VÄNTAR PÅ BETALNING",
+        "description": "Beställningar som ännu inte har betalats av köparen."
+      },
+      "pending": {
+        "states": "AVVAKTAN",
+        "description": "Beställningar som betalades och skickades till säljaren men säljaren har ännu inte svarat."
+      },
+      "processing": {
+        "states": "AWAITING_FULFILLMENT",
+        "description": "Beställningar som betalades helt och leverantören behandlar beställningen."
+      },
+      "fulfilled": {
+        "states": "uppfyllda",
+        "description": "Beställningar som uppfylldes av säljaren."
+      },
+      "completed": {
+        "states": "AVSLUTAD",
+        "description": "Beställningar som slutfördes av köparen."
+      },
+      "refunded": {
+        "states": "betalas",
+        "description": "Beställningar som återbetalades av säljaren."
+      },
+      "disputes": { "states": "OMSTRIDD", "description": "Beställningar med tvistemål." },
+      "cancelled": {
+        "states": "AVBOKAD",
+        "description": "Beställningar som avbröts av köparen eller som vägrade av säljaren."
+      },
+      "errors": { "states": "PROCESSING_ERROR", "description": "Beställningar som har fel." }
+    }
+  }
+}

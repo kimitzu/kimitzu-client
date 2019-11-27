@@ -109,7 +109,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
     const id = this.props.match.params.id
     const settings = this.props.settings
 

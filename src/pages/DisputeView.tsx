@@ -84,7 +84,6 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
     const id = this.props.match.params.id
     const dispute = await Dispute.retrieve(id)
     const currentUser = await Profile.retrieve()

@@ -44,7 +44,6 @@ class History extends React.Component<HistoryProps, HistoryState> {
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
     let orders: OrderHistory[] = []
     const viewType = this.props.match.params.view
 

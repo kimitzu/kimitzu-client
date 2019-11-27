@@ -1,0 +1,616 @@
+{
+  "usernameLabel": "Nom d'utilisateur",
+  "passwordLabel": "Mot de passe",
+  "emailLabel": "Email",
+  "locationLabel": "Emplacement",
+  "descriptionLabel": "La description",
+  "generalLabel": "Général",
+  "nextBtnText": "Prochain",
+  "loginBtnText": "S'identifier",
+  "deleteBtnText": "Supprimer",
+  "cancelBtnText": "Annuler",
+  "changePhotoBtnText": "Changement",
+  "homeBtnText": "Accueil",
+  "saveBtnText": "sauver",
+  "titleLabel": "Titre",
+  "typeLabel": "Type",
+  "yesText": "Oui",
+  "noText": "Non",
+  "startDateLabel": "Date de début",
+  "endDateLabel": "Date de fin",
+  "addEntryText": "Ajouter une nouvelle entrée",
+  "peerID": "ID de pair",
+  "minimum": "Le minimum",
+  "maximum": "Maximum",
+  "intro": {
+    "helper": "Nouveau à Djali?",
+    "nextBtnText": "Commencer",
+    "appDescription": "Un marché libre des services"
+  },
+  "moderatorsText": "Les modérateurs",
+  "skillsText": "Compétences",
+  "competenciesText": "Les compétences",
+  "homePage": {
+    "headerDropdownPlaceholder": "Parcourir les classements",
+    "crawlingHeader": "Rampant...",
+    "crawlingContent1": "Génial! On dirait que vous venez d'installer Djali.",
+    "crawlingContent2": "Veuillez revenir plus tard car Djali explore les listes du réseau.",
+    "noResultsHeader": "Aucun résultat",
+    "noResultsContent": "Votre recherche ne correspond à aucune annonce.",
+    "noResultsSuggestionsText": "Suggestions",
+    "noResultsSuggestions": [
+      "Essayez un mot-clé ou un filtre de recherche différent.",
+      "Assurez-vous que tous les mots sont correctement orthographiés.",
+      "Essayez des mots clés plus généraux."
+    ]
+  },
+  "searchFilters": {
+    "header": "Les filtres",
+    "checkboxLabel": "Masquer ses propres listes",
+    "occupationLabel": "Occupation",
+    "priceRangeLabel": "Échelle des prix",
+    "ratingsLabel": "Évaluations",
+    "locationRadiusLabel": "Dans un rayon"
+  },
+  "navigationBar": {
+    "createNewListingLabel": "Créer une nouvelle annonce",
+    "purchaseHistoryLabel": "Historique d'achat",
+    "salesHistoryLabel": "Histoire des ventes",
+    "caseHistoryLabel": "Histoire de cas",
+    "profileLabel": "Profil",
+    "walletLabel": "Portefeuille",
+    "settingsLabel": "Paramètres",
+    "supportLabel1": "Problèmes, questions ou suggestions?",
+    "supportLabel2": "Contactez-nous sur:",
+    "searchPlaceholder": "Que cherchez-vous?"
+  },
+  "registrationPage": {
+    "welcomeHeader": "Bienvenue à",
+    "successNotification": "Inscription réussi"
+  },
+  "userForm": {
+    "handleLabel": "Manipuler",
+    "handlePlaceholer": "john.doe",
+    "nameLabel": "prénom",
+    "namePlaceholder": "John Doe",
+    "emailPlaceholder": "john@email.com",
+    "fiatCurrencyLabel": "Monnaie Fiat préférée",
+    "cryptoCurrencyLabel": "Crypto-monnaie préférée",
+    "displayCurrencyLabel": "Afficher la devise",
+    "languageLabel": "langue préférée",
+    "unitsLabel": "Unités préférées"
+  },
+  "tosPage": {
+    "header": "Conditions d'utilisation",
+    "tos": "La communauté de développeurs Djali a travaillé dur pour offrir un marché libre de services. Mais comme avec tout logiciel, il y aura des bugs. Les utilisateurs de Djali peuvent également rencontrer des trolls, des spammeurs, des voleurs et d’autres mauvais acteurs tout en utilisant l’application. Les développeurs de Djali travailleront en permanence pour fournir aux utilisateurs des outils qui les aideront à identifier, bloquer et éliminer les mauvais acteurs de l'écosystème de Djali. Cependant, ces outils peuvent parfois échouer. Les développeurs ne sont pas responsables des pertes financières associées au logiciel. En raison de la nature globale de Djali, peer-to-peer et résistant à la censure, les utilisateurs peuvent voir des listes de services qui ne sont pas légaux actuellement dans leur juridiction. Il est de la responsabilité des utilisateurs Djali de s’assurer qu’ils se conforment aux lois de leur juridiction. Djali fonctionne par défaut sur le réseau Tor et les seules informations que les utilisateurs sont tenus de fournir sont un descripteur et un pays. Les développeurs de Djali ont également fait un effort de bonne foi pour aider les utilisateurs à préserver leur vie privée lorsqu'ils utilisent Djali. Cependant, Djali est un logiciel expérimental et il peut exister des failles révélant des informations sensibles. Il est également facile de se anonymiser, par exemple en parlant de sa vie personnelle avec un client ou en se décrivant de manière trop détaillée. De nombreux adversaires - tels que des gouvernements ou des criminels - travaillent à vaincre les mécanismes de protection de la vie privée de Djali. Par conséquent, les développeurs de Djali ne donnent aucune garantie quant à la capacité du logiciel à préserver la confidentialité des utilisateurs."
+  },
+  "addressForm": {
+    "streetLabel": "Adresse de rue",
+    "latitudeLabel": "Latitude",
+    "longitudeLabel": "Longitude",
+    "cityLabel": "Ville",
+    "stateLabel": "Etat",
+    "zipCodeLabel": "Code postal",
+    "countryLabel": "Pays",
+    "countryPlaceholder": "Choisissez le pays",
+    "plusCodeHelper": "Qu'est-ce qu'un code plus?",
+    "addBtnText": "Ajoutez l'adresse",
+    "updateBtnText": "Mettre à jour l'adresse"
+  },
+  "listingForm": {
+    "updateBtnText": "Mise à jour de la liste",
+    "addBtnText": "Créer une liste",
+    "classificationLabel": "Classification de la profession",
+    "titleDescriptor": "Quelque chose de descriptif qui explique clairement votre service.",
+    "priceLabel": "Prix",
+    "priceDescriptor": "Définissez votre prix et sa devise",
+    "rateMethodLabel": "Méthode d'évaluation",
+    "rateMethodDescriptor": "Comment voudriez-vous facturer les clients?",
+    "serviceQuantityLabel": "Quantité de service",
+    "serviceQuantityDescriptor": "Combien d'unités de service aimeriez-vous offrir? (Laissez vide si vous ne voulez pas utiliser ce champ)",
+    "matureContentLabel": "Contenus pour adultes",
+    "photoLabel": "AJOUTER UNE PHOTO (inclure jusqu'à 30 photos)",
+    "tagsLabel": "Mots clés",
+    "tagsPlaceholder": "Ajouter un tag",
+    "tagsDescriptor": "Appuyez sur &quot;Entrée&quot; pour ajouter une entrée",
+    "tagsHelper": "Utilisez des balises pour améliorer la visibilité de votre annonce dans les recherches.",
+    "termsAndConditionsLabel": "Termes et conditions",
+    "termsAndConditionsDescriptor": "Si laissé vide, la liste affichera &quot;Pas de termes et conditions entrés&quot;",
+    "moderatorsHelper1": "Il semble que vous n’ayez pas de configuration de modérateurs favoris.",
+    "moderatorsHelper2": "Vous pouvez le configurer dans le",
+    "moderatorsHelperLink": "page de paramètres",
+    "couponsHelper": "Créez des coupons que vos clients peuvent utiliser lors de la commande pour des offres ou des remises exclusives.",
+    "couponTitleLabel": "Titre",
+    "couponTitlePlaceholder": "Titre du coupon",
+    "couponCodeLabel": "Code",
+    "couponCodePlaceholder": "Code de réduction",
+    "couponDiscountLabel": "Valeur",
+    "couponDiscountPlaceholder": "Remise",
+    "addCouponLink": "Ajouter un coupon",
+    "percentLabel": "Pour cent",
+    "currenciesDescriptor": "Accepter plus de pièces attirera plus de clients.",
+    "abandonPrompt": "Vos modifications ne seront pas enregistrées. Continuer?",
+    "notifications": {
+      "cannotEdit": "Impossible de modifier la liste que vous ne possédez pas!",
+      "addSuccess": "Annonce publiée avec succès",
+      "updateSuccess": "Annonce mise à jour avec succès"
+    },
+    "navItems": {
+      "moderatorsLabel": "Les modérateurs",
+      "photosLabel": "Photos",
+      "couponsLabel": "Coupons",
+      "currenciesLabel": "Devises Acceptées"
+    }
+  },
+  "photoSlideshow": {
+    "dropArea": {
+      "placeholder": "Glissez et déposez une photo ou",
+      "selectLabel": "sélectionner"
+    }
+  },
+  "moderatorSelectionForm": {
+    "crawlingNotif1": "Il faut un certain temps pour explorer le réseau à la recherche des modérateurs disponibles.",
+    "crawlingNotif2": "S'il vous plaît attendez un peu plus longtemps ou revenez plus tard.",
+    "showDetailsLink": "Plus...",
+    "searchPlaceholder": "Recherche par nom ou identifiant de modérateur",
+    "searchSpinnerText": "Rechercher sur le réseau des modérateurs ...",
+    "noResultsHeader": "Pas de modérateurs disponibles.",
+    "noResultsParagraph": "Aucun résultat pour",
+    "resultsParagraph": "Résultat de la recherche",
+    "favouriteSeparatorText": "Préféré",
+    "recentSeparatorText": "Récent",
+    "availableSeparatortext": "Disponible"
+  },
+  "profilePage": {
+    "aboutHeader": "Sur",
+    "educationHeader": "Éducation",
+    "socialMediaHeader": "Des médias sociaux",
+    "workHistoryHeader": "Antécédents de travail",
+    "skillsHeader": "Compétences",
+    "othersHeader": "les autres informations",
+    "competencyHeader": "Compétence",
+    "noLocationParagraph": "Lieu non spécifié",
+    "noListingsHeader": "Aucune liste disponible.",
+    "redirectSpinnerText": "Redirection ...",
+    "messageBtnText": "Message",
+    "buyerRatingsHeader": "Notes d'acheteur",
+    "sellerRatingsHeader": "Évaluations du vendeur",
+    "tabTitles": {
+      "profile": "Profil",
+      "store": "le magasin",
+      "ratings": "Évaluations",
+      "following": "Suivant",
+      "followers": "Suiveurs",
+      "salesHistory": "Histoire des ventes",
+      "purchaseHistory": "Historique d'achat"
+    },
+    "profileNotFoundHeader": "Impossible de récupérer le profil",
+    "profileNotFoundSubText": "Le profil que vous avez demandé est actuellement hors ligne ou n'existe pas sur le réseau Djali."
+  },
+  "followButton": {
+    "followBtnText": "Suivre",
+    "followingBtnText": "Suivant",
+    "followingBtnTip": "Se désabonner"
+  },
+  "blockButton": {
+    "blockBtnText": "Bloc",
+    "blockedBtnText": "Bloqué",
+    "blockedBtnTip": "Débloquer"
+  },
+  "settingsPage": {
+    "header": "Paramètres",
+    "spinnerText": "Chargement du profil ...",
+    "changeCredMsgTextA": "L'activation de cette fonctionnalité activera les mécanismes d'authentification de Djali pour protéger votre client des accès non autorisés.",
+    "changeCredMsgTextB": "D'autres fonctionnalités non critiques, telles que la recherche, resteront accessibles, mais les fonctionnalités liées au paiement et aux commandes nécessiteront une authentification pour continuer.",
+    "authenticationText": "Authentification",
+    "generalNavItem": "Général",
+    "oldUsernameLabel": "Ancien nom d'utilisateur",
+    "oldPasswordLabel": "ancien mot de passe",
+    "newUsernameLabel": "Nouveau nom d'utilisateur",
+    "newPasswordLabel": "nouveau mot de passe",
+    "changeCredentialsBtnText": "Changer les références",
+    "activateAuthenticationBtnText": "Activer l'authentification",
+    "navItems": {
+      "profile": "Profil",
+      "moderation": "Modération",
+      "store": "le magasin",
+      "security": "Sécurité",
+      "skills": "Compétences",
+      "others": "Autres réglages"
+    },
+    "profileNavItems": {
+      "socialMedia": "Des médias sociaux",
+      "education": "Éducation",
+      "workHistory": "Antécédents de travail",
+      "addresses": "Adresses",
+      "customDescriptions": "Descriptions personnalisées"
+    },
+    "securityNavItems": {
+      "auth": "Authentification",
+      "deactivate": "Désactiver"
+    },
+    "othersNavItems": {
+      "blockedPeers": "Pairs bloqués",
+      "miscellaneous": "Divers"
+    },
+    "favoriteModeratorsNavItem": "Modérateurs préférés",
+    "competencyDeleteSuccessNotif": "Compétence supprimée!",
+    "competencyUpdateSuccessNotif": "Compétence mise à jour!",
+    "deactivateAuthForm": {
+      "helper1": "Cela désactivera les mécanismes d'authentification de Djali et votre client ne sera plus protégé contre les accès non autorisés.",
+      "helper2": "Les fonctions liées au paiement et à la commande n'auront plus besoin d'authentification pour continuer.",
+      "submitBtnText": "Désactiver l'authentification"
+    },
+    "saveSkillsSuccessNotif": "Compétences sauvegardées!",
+    "saveSkillsErrorNotif": "Erreur d'enregistrement",
+    "educationForm": {
+      "addBtnText": "Ajouter l'éducation",
+      "updateBtnText": "Mise à jour de l'éducation"
+    },
+    "workForm": {
+      "addBtnText": "Ajouter du travail",
+      "updateBtnText": "Mise à jour du travail"
+    },
+    "miscForm": {
+      "saveSuccessNotif": "Paramètres mis à jour avec succès",
+      "saveErrorNotif": "Quelque chose s'est mal passé. Veuillez réessayer plus tard.",
+      "crashReportLabel": "Activer le rapport d'incident",
+      "crashReportHelper": "Envoyer des rapports d'erreur aux développeurs",
+      "autpUpdatesLabel": "Mises à jour d'installation automatique",
+      "autoUpdatesHelper": "Les mises à jour seront téléchargées et installées automatiquement"
+    },
+    "credentialsUpdateSuccessNotif": "Informations d'identification supprimées avec succès! Veuillez redémarrer le serveur pour que les modifications prennent effet.",
+    "profileUpdateSuccessNotif": "Profil mis à jour!",
+    "profileSaveSuccessNotif": "Profil sauvegardé!",
+    "moderatorSaveSuccessNotif": "Modérateur enregistré.",
+    "expiredListingNotif": "Attention: vos annonces ont expiré",
+    "authUpdateSuccessNotif": "Nouveaux identifiants acceptés! Veuillez redémarrer le serveur pour que les modifications prennent effet.",
+    "blockedNodesCard": {
+      "emptyContentText": "Pas de pairs bloqués.",
+      "unblockSuccessNotif": "Peer débloqué avec succès!",
+      "unblockErrorNotif": "Impossible de débloquer l'homologue. Veuillez réessayer plus tard."
+    }
+  },
+  "orderHistoryPage": {
+    "searchPlaceholder": "Recherche par titre, numéro de commande ou fournisseur",
+    "filterSidebar": {
+      "header": "Filtre",
+      "resetBtnText": "Réinitialiser les filtres"
+    },
+    "totalLabel": "Total",
+    "orderLabel": "Ordre",
+    "dateLabel": "Rendez-vous amoureux",
+    "statusLabel": "Statut",
+    "purchasesLabel": "Achats",
+    "salesLabel": "Ventes",
+    "casesLabel": "Des cas"
+  },
+  "orderViewPage": {
+    "retrieveOrderText": "Récupération de la commande ...",
+    "retrieveDiscussionsText": "Récupération des discussions ...",
+    "summaryText": "Sommaire",
+    "fulfillOrderText": "Exécuter la commande",
+    "discussionText": "Discussion",
+    "prepareDisputeText": "Préparer le différend",
+    "saleText": "Vente",
+    "purchaseText": "achat",
+    "orderText": "Ordre",
+    "orderDetails": {
+      "typeLabel": "Type",
+      "quantityHeader": "Quantité",
+      "totalHeader": "Total",
+      "memoHeader": "Note"
+    },
+    "disputeForm": {
+      "claimLabel": "Prétendre",
+      "claimPlaceholder": "Préparez une revendication appropriée contenant les preuves les plus pertinentes. Cela peut vous aider à avoir le plus de chances de trouver un différend en votre faveur.",
+      "submitBtnText": "Envoyer une réclamation"
+    },
+    "fulfillOrderForm": {
+      "reviewLabel": "La revue",
+      "noteLabel": "Étiquette",
+      "submitBtnText": "Soumettre"
+    },
+    "stepperTexts": {
+      "pending": "en attendant",
+      "paid": "Payé",
+      "accepted": "Accepté",
+      "refunded": "Remboursé",
+      "disputed": "Contesté",
+      "expired": "Expiré",
+      "decided": "Décidé",
+      "resolved": "Résolu",
+      "error": "Erreur",
+      "fulfilled": "Rempli",
+      "completed": "Terminé"
+    },
+    "processErrorHeader": "Erreur de traitement",
+    "disputeExpiredHeader": "Litige expiré",
+    "refundedHeader": "Remboursé",
+    "refundedParagraph": "Commande remboursée. identifiant de transaction",
+    "orderProcessErrorParagraph": "Une erreur s'est produite lors du traitement de cette commande.",
+    "disputeExpiredParagraph": "Le temps est écoulé! Le modérateur n'a pas pris de décision à temps. Le vendeur peut maintenant réclamer les fonds.",
+    "disputeClosedHeader": "Litige Fermé",
+    "payoutAcceptedHeader": "accepté le paiement du litige.",
+    "disputePayoutHeader": "Dispute Payout",
+    "releaseFundBtnText": "Débloquer des fonds",
+    "disputeStartedHeader": "Litige commencé",
+    "disputingHeader": "Contestation de commande ...",
+    "discussBtnText": "Discuter de l'ordre",
+    "disputingParagraph": "La commande est contestée. Le modérateur a environ une heure pour traiter le différend et prendre une décision.",
+    "disputeOrderHeader": "Ordre de contestation",
+    "disputeBtnText": "Contestation",
+    "disputeOrderParagraph1": "Cette commande peut être contestée pendant 6 pâtés de maisons ou environ une heure. Le chronomètre commencera lorsque le versement du financement sera confirmé.",
+    "disputeOrderParagraph2": "Une fois le délai écoulé, le fournisseur peut réclamer le paiement et finaliser la commande sans l'assistance du modérateur.",
+    "completedHeader": "Terminé",
+    "completeOrderText": "Complétez la commande",
+    "fulfilledHeader": "Rempli",
+    "orderAcceptedHeader": "Accepté",
+    "refundLink": "Rembourser",
+    "fulfillOrderBtnText": "Exécuter la commande",
+    "orderAcceptedParagraph1": "Vous avez reçu la commande de",
+    "orderAcceptedParagraph2": "et peut le remplir quand vous êtes prêt.",
+    "orderAcceptedParagraph3": "Votre commande est en train d'être traitée...",
+    "paymentHeader": "Détails de paiement",
+    "partialPaymentText": "Paiement partiel",
+    "fullPaymentText": "Règlement de la totalité",
+    "sendPaymentHeader": "Envoyer le paiement à",
+    "paymentSuccessNotif": "Paiement envoyé!",
+    "awaitingPaymentHeader": "En attente de l'acheteur pour envoyer le paiement ...",
+    "awaitingPaymentParagraph": "L'acheteur n'a pas encore payé la commande.",
+    "orderDetailsHeader": "détails de la commande",
+    "refundSuccessNotif": "Commande remboursée avec succès!",
+    "refundErrorNotif": "Le remboursement a échoué",
+    "completedSuccessNotif": "Commande terminée:",
+    "fulfilledSuccessNotif": "Commande accomplie:",
+    "openDisputeSuccessNotif": "Litige envoyé!",
+    "fundReleaseSuccessNotif": "Sortie de fonds!",
+    "acceptedOrderHeader": "Commande acceptée",
+    "orderAcceptedParagraph": "Le vendeur a accepté la commande",
+    "buyertext": "Acheteur",
+    "vendorText": "Vendeur",
+    "sellerText": "Vendeur"
+  },
+  "paymentQRCard": {
+    "header": "Payer",
+    "walletBtnText": "Payer à partir du portefeuille",
+    "paymentConfirmationText": "Le montant sera déduit de votre portefeuille.",
+    "paymentHelper": "Une fois que vous avez payé, la mise à jour de l'interface peut prendre un peu.",
+    "confirmBtnText": "Payer"
+  },
+  "disputeViewPage": {
+    "spinnerText": "Chargement...",
+    "disputeExpiredParagraph": "Le temps est écoulé! Vous avez omis de prendre une décision à temps. Le vendeur peut maintenant réclamer les fonds.",
+    "disputedNoteParagraph": "Vous avez une heure pour traiter le différend et prendre une décision.",
+    "buyerDisputingHeader": "est en train de contester la commande",
+    "orderDetailsHeader": "détails de la commande",
+    "resolveSubmitBtnText": "Régler le différend",
+    "resolutionLabel": "Résolution",
+    "resolutionPlaceholder": "Détails de votre résolution de conflit",
+    "resolutionSubmitBtnText": "Soumettre",
+    "resolutionSuccessNotif": "Résolution envoyée!",
+    "resolutionFailedNotif": "Échoué",
+    "percentageLabel": "Pourcentage",
+    "moderatorNoteParagraph": "Note du modérateur:"
+  },
+  "walletView": {
+    "transactionSuccessNotif": "Transaction envoyée!",
+    "transactionsText": "Transactions",
+    "sentText": "Envoyé",
+    "receivedText": "Reçu",
+    "confirmationsText": "les confirmations",
+    "balanceText": "Équilibre",
+    "unconfirmedText": "Non confirmé",
+    "fiatValText": "Valeur Fiat",
+    "sendText": "Envoyer",
+    "receiveText": "Recevoir",
+    "transactionForm": {
+      "addressLabel": "Adresse",
+      "amountLabel": "Montant",
+      "noteLabel": "Remarque",
+      "submitBtnText": "Envoyer"
+    },
+    "receiveTransactionHeader": "Recevez de l'argent en scannant ce QR Code."
+  },
+  "checkoutPage": {
+    "spinnerText": "Chargement...",
+    "requestAddressParagraph": "Demander l'adresse du marchand ...",
+    "couponForm": {
+      "header": "Coupon",
+      "inputPlaceholder": "Entrer le code de réduction",
+      "submitBtnText": "Appliquer"
+    },
+    "paymentForm": {
+      "header": "Schéma de paiement",
+      "directLabel": "Paiement direct",
+      "moderatedPayment": "Paiement modéré"
+    },
+    "expandModeratorLink": "Plus...",
+    "additionalForm": {
+      "header": "Information additionnelle",
+      "memoLabel": "Note",
+      "memoPlaceholder": "Fournir des détails supplémentaires pour le fournisseur (facultatif)"
+    },
+    "listingOwnerHelper": "Voici à quoi ressemble votre annonce aux autres utilisateurs.",
+    "receivedPaymentHeader1": "Paiement de",
+    "receivedPaymentHeader2": "Reçu!",
+    "receivedPaymentParagraph": "Merci pour votre achat!",
+    "receivedPaymentLink": "Vérifiez l'état de votre commande.",
+    "applyCouponFailNotif": "Code de Coupon Invalide",
+    "paymentCard": {
+      "submitOrderBtnText": "Faites votre commande maintenant",
+      "afterSubmitOrderBtnText": "En attendant...",
+      "checkoutHelper1": "En attente de paiement...",
+      "checkoutHelper2": "En cliquant, vous passerez à l'étape de paiement",
+      "paymentFormHeader": "Payer via",
+      "summaryHeader": "Récapitulatif de la commande",
+      "listingLabel": "Inscription",
+      "shippingLabel": "livraison",
+      "subtotalLabel": "Total",
+      "couponLabel": "Coupon",
+      "totalLabel": "Total",
+      "estimateSpinnerText": "Estimation ...",
+      "estimateLabel": "Estimation"
+    },
+    "listingCard": {
+      "itemLabel": "Article",
+      "classificationLabel": "Classification",
+      "priceLabel": "Prix",
+      "quantityLabel": "Quantité"
+    }
+  },
+  "moderatorInfoModal": {
+    "messageBtnText": "Message",
+    "feeLabel": "Frais",
+    "currenciesLabel": "Monnaies",
+    "languagesLabel": "Les langues",
+    "termsAndConditionsHeader": "Termes et conditions"
+  },
+  "moderatorForm": {
+    "removeSuccessNotif": "Le profil du modérateur a été supprimé.",
+    "saveSuccessNotif": "Profil de modérateur enregistré!",
+    "enableModLabel": "Activer les fonctions du modérateur",
+    "descriptionPlaceholder": "En 500 mots ou moins, parlez-nous de vous et des services que vous proposez ...",
+    "termsAndConditionsLabel": "Termes et conditions",
+    "termsAndConditionsPlaceholder": "Entrez les termes et conditions",
+    "languagesLabel": "Les langues",
+    "feeTypeLabel": "Type de frais",
+    "amountLabel": "Montant",
+    "amountPlaceholder": "Entrer le montant",
+    "currencyLabel": "Devise",
+    "percentageLabel": "Pourcentage"
+  },
+  "socialMediaForm": {
+    "proofPlaceholder": "Preuve",
+    "proofTooltip": "Lien d'une preuve que vous possédez ce compte (par exemple, lien d'un message pour Facebook et lien d'un commit dans github)."
+  },
+  "educationForm": {
+    "institutionLabel": "nom de l'institution",
+    "institutionPlaceholder": "Nom de l'établissement ou de l'école",
+    "degreeLabel": "Diplôme",
+    "degreePlaceholder": "Diplôme, Spécialisation, Majeure",
+    "descriptionPlaceholder": "Parlez-nous un peu de votre diplôme et de votre spécialisation",
+    "currentlyStudyingLabel": "Étudie actuellement ici?"
+  },
+  "employmentForm": {
+    "companyLabel": "Nom de la compagnie",
+    "positionLabel": "Position",
+    "positionPlaceholder": "Position / rang dans l'entreprise",
+    "descriptionPlaceholder": "Parlez-nous un peu de votre travail",
+    "currentlyWorkingLabel": "Travaille actuellement ici?"
+  },
+  "customDescriptionForm": {
+    "saveSuccessNotif": "Profil mis à jour!",
+    "labelLabel": "Étiquette",
+    "placeholder": "Entrez la valeur",
+    "valueLabel": "Valeur",
+    "submitBtnText": "Ajouter un nouveau champ"
+  },
+  "listingPage": {
+    "retrieveListingSpinnerText": "Récupération de la liste",
+    "retrieveRatingsSpinnerText": "Récupération des notes",
+    "listingRenewedNotif": "Annonce renouvelée avec succès!",
+    "expiredListingHelper1": "Cette liste a expiré, contactez le fournisseur pour plus de détails.",
+    "expiredListingHelper2": "Cette liste a expiré.",
+    "renewLink": "Renouveler pour un an.",
+    "editBtnText": "modifier",
+    "deleteListingPromptText": "Êtes-vous sûr de vouloir supprimer cette liste? Cette action ne peut pas être annulée.",
+    "deleteListingSuccessNotif": "Liste supprimée.",
+    "reviewsText": "Avis",
+    "noRatingsText": "Pas de notes.",
+    "classificationLabel": "Classification",
+    "paymentMethodsLabel": "méthodes de payement",
+    "tagsLabel": "Mots clés",
+    "checkoutBtnText": "Check-out",
+    "contactHeader": "Informations de contact",
+    "educationHeader": "Éducation",
+    "workHeader": "Antécédents de travail",
+    "skillsHeader": "Compétences",
+    "emptyTosContentParagraph": "Rien de spécifié.",
+    "notFoundComponent": {
+      "header": "Impossible de récupérer la liste.",
+      "paragraph": "La liste que vous avez demandée a expiré sur le réseau Djali ou n’existe pas.",
+      "suggestionsText": "Suggestions",
+      "suggestions": "Parcourir les autres listes."
+    },
+    "listingRenewPrompt": "Renouveler la liste <b>{0}</b> pour <b>1 an</b> ?"
+  },
+  "tosCard": {
+    "header": "Conditions d'utilisation",
+    "expandText": "Montre plus..."
+  },
+  "chatComponent": {
+    "emptyConvoText": "Pas encore de conversations ...",
+    "messagesText": "messages",
+    "messagePlaceholder": "Tapez un message ..."
+  },
+  "constants": {
+    "sortOptions": {
+      "item.title_<=": "Alphabétiquement (A → Z)",
+      "item.title_>=": "Alphabétiquement (Z → A)",
+      "item.price_<=": "Prix (Bas → Haut)",
+      "item.price_>=": "Prix (Haut → Bas)",
+      "averageRating_<=": "Note (faible → élevée)",
+      "averageRating_>=": "Note (élevée → basse)"
+    },
+    "singulars": {
+      "PER_HOUR": "heure",
+      "PER_DAY": "journée",
+      "PER_MONTH": "mois",
+      "PER_MILESTONE": "Étape importante",
+      "FIXED": "fixé"
+    },
+    "plurals": {
+      "PER_HOUR": "heures",
+      "PER_DAY": "journées",
+      "PER_MONTH": "mois",
+      "PER_MILESTONE": "jalons",
+      "FIXED": "fixé"
+    },
+    "serviceRateMethods": {
+      "PER_HOUR": "Par heure",
+      "PER_DAY": "Par jour",
+      "PER_MONTH": "Par mois",
+      "PER_MILESTONE": "Par jalon",
+      "FIXED": "Fixé"
+    },
+    "filters": {
+      "unfunded": {
+        "states": "EN ATTENTE DE PAIEMENT",
+        "description": "Commandes non encore payées par l'acheteur."
+      },
+      "pending": {
+        "states": "EN ATTENDANT",
+        "description": "Les commandes qui ont été payées et envoyées au fournisseur mais celui-ci n'a pas encore répondu."
+      },
+      "processing": {
+        "states": "AWAITING_FULFILLMENT",
+        "description": "Les commandes entièrement payées et le fournisseur traitent la commande."
+      },
+      "fulfilled": {
+        "states": "Rempli",
+        "description": "Les commandes qui ont été remplies par le vendeur."
+      },
+      "completed": {
+        "states": "TERMINÉ",
+        "description": "Commandes complétées par l'acheteur."
+      },
+      "refunded": {
+        "states": "Remboursé",
+        "description": "Les commandes qui ont été remboursés par le vendeur."
+      },
+      "disputes": {
+        "states": "CONTESTÉ",
+        "description": "Commandes avec un cas litigieux."
+      },
+      "cancelled": {
+        "states": "ANNULÉ",
+        "description": "Les commandes qui ont été annulées par l'acheteur ou qui ont été refusées par le vendeur."
+      },
+      "errors": {
+        "states": "PROCESSING_ERROR",
+        "description": "Les commandes qui ont des erreurs."
+      }
+    }
+  }
+}

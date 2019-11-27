@@ -52,8 +52,6 @@ class Home extends Component<HomeProps, HomeState> {
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
-
     this.state.search.reset()
     await this.handleSearchSubmit()
     const profile = this.props.currentUser

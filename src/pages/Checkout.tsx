@@ -108,7 +108,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
     const id = this.props.match.params.id
     const quantity = this.props.match.params.quantity
     const listing = await Listing.retrieve(id)

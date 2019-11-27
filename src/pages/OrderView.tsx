@@ -104,8 +104,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
-
     const id = this.props.match.params.id
     this.setState({
       loadingStatus: this.locale.orderViewPage.retrieveOrderText,

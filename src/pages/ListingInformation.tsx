@@ -97,7 +97,6 @@ class ListingProfile extends Component<Props, State> {
   }
 
   public async componentDidMount() {
-    // this.locale = localeInstance.get.localizations
     this.setState({
       loadingStatus: this.locale.listingPage.retrieveListingSpinnerText,
     })
@@ -357,8 +356,8 @@ class ListingProfile extends Component<Props, State> {
                       <div className="uk-flex uk-flex-column">
                         <div className="uk-text-bold">{locale.listingPage.tagsLabel}</div>
                         <div className="uk-text-capitalize">
-                          {listing.item.tags.map(tag => (
-                            <span key={tag} className="tag uk-text-capitalize">
+                          {listing.item.tags.map((tag, index) => (
+                            <span key={index} className="tag uk-text-capitalize">
                               {tag}
                             </span>
                           ))}
@@ -461,7 +460,12 @@ class ListingProfile extends Component<Props, State> {
             </div>
           </div>
         ) : null}
-        <SocialMediaCard contact={profile.contactInfo} title={locale.listingPage.contactHeader} />
+        {profile.contactInfo.email ||
+        profile.contactInfo.phoneNumber ||
+        profile.contactInfo.social.length > 0 ||
+        profile.contactInfo.website ? (
+          <SocialMediaCard contact={profile.contactInfo} title={locale.listingPage.contactHeader} />
+        ) : null}
         {background && background.educationHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name={locale.listingPage.educationHeader} />
         ) : null}

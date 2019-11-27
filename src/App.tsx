@@ -99,7 +99,7 @@ class App extends React.Component<{}, State> {
 
   public updateProfile(profile: Profile) {
     this.setState({
-      profile: { ...profile } as Profile,
+      profile,
     })
   }
 

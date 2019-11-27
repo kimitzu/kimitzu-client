@@ -14,10 +14,6 @@ class LoginPage extends React.Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  public componentDidMount() {
-    this.locale = localeInstance.get.localizations
-  }
-
   public async handleLogin(username: string, password: string) {
     try {
       await Profile.login(username, password)

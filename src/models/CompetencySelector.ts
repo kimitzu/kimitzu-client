@@ -134,6 +134,11 @@ class CompetencySelectorModel implements State {
         category: assessment.category,
         subCategories: [],
       } as FullAssessmentReport
+
+      if (!assessment.subCategories) {
+        return
+      }
+
       assessment.subCategories.forEach(item => {
         const itemReport = {} as FullAssessmentReportItem
         itemReport.item = item.item

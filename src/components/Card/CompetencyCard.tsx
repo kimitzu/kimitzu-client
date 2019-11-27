@@ -38,6 +38,9 @@ const CompetencyCard = (props: CompetencyCardProps) => {
             competency
           )
           return Object.keys(assessment).map(assessmentKey => {
+            if (assessment[assessmentKey].assessment.length <= 0) {
+              return null
+            }
             return (
               <React.Fragment key={assessmentKey}>
                 <h4>{assessment[assessmentKey].title}</h4>

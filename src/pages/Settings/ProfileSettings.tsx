@@ -167,10 +167,9 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   public async componentDidMount() {
-    this.locale = localeInstance.get.localizations
-
     try {
       const profileData = this.props.profileContext.currentUser
+      console.log(profileData)
       if (!profileData.customProps.programmerCompetency) {
         profileData.customProps.programmerCompetency = '{}'
       }
@@ -857,8 +856,10 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       this.state.profile.avatarHashes = avatarHashes
     }
 
-    await this.handleProfileUpdate()
     localeInstance.setLanguage(this.state.profile.preferences.language)
+    this.locale = localeInstance.get.localizations
+
+    await this.handleProfileUpdate()
 
     window.UIkit.notification(this.locale.settingsPage.profileUpdateSuccessNotif, {
       status: 'success',
@@ -968,8 +969,13 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   private async handleProfileUpdate() {
-    await this.state.profile.update()
-    this.props.profileContext.updateCurrentUser(this.state.profile)
+    let profile
+    try {
+      profile = await this.state.profile.update()
+    } catch (e) {
+      window.UIkit.notification(e.message, { status: 'danger' })
+    }
+    this.props.profileContext.updateCurrentUser(profile)
   }
 }
 
