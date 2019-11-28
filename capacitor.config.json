@@ -1,0 +1,8 @@
+{
+  "appId": "com.kimitzu.dev",
+  "appName": "kimitzu",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {}
+}

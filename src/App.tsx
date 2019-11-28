@@ -18,6 +18,8 @@ import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
 import { moderatorManagerInstance } from './models/ModeratorManager'
 import { Search, searchInstance } from './models/Search'
 
+// import '@ionic/react/css/core.css'
+
 if (isElectron()) {
   // tslint:disable-next-line: no-var-requires
   require('./config/notification.css')

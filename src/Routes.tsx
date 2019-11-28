@@ -17,6 +17,11 @@ import DisputeView from './pages/DisputeView'
 import OrderView from './pages/OrderView'
 import { ProfileSettings } from './pages/Settings'
 
+/* Basic CSS for apps built with Ionic */
+// import '@ionic/react/css/normalize.css'
+// import '@ionic/react/css/structure.css'
+// import '@ionic/react/css/typography.css'
+
 interface BreadHistory {
   link: string
   name: string
