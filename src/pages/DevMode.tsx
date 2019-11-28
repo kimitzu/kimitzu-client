@@ -304,7 +304,7 @@ class DevMode extends React.Component<{}, DevModeState> {
         version: 0,
         contractType: 'SERVICE',
         format: 'FIXED_PRICE',
-        expiry: '2019-11-11T11:09:49.604Z',
+        expiry: '2020-11-11T11:09:49.604Z',
         acceptedCurrencies: ['TBTC', 'TZEC', 'TLTC', 'TBCH'],
         pricingCurrency: 'USD',
         language: '',
