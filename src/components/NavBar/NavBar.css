@@ -1,5 +1,6 @@
 #nav {
   background-color: var(--primary);
+  z-index: 100;
 }
 #logo-img {
   width: 115px;

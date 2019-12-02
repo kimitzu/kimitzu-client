@@ -1,3 +1,4 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
@@ -14,6 +15,7 @@ import {
   TermsOfServiceCard,
 } from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
+import { MobileHeader } from '../components/Header'
 import { Pagination } from '../components/Pagination'
 import { RatingsAndReviewsSegment } from '../components/Segment'
 
@@ -94,6 +96,7 @@ class ListingProfile extends Component<Props, State> {
     this.handleBuy = this.handleBuy.bind(this)
     this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
     this.handleRenew = this.handleRenew.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
@@ -179,6 +182,15 @@ class ListingProfile extends Component<Props, State> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <MobileHeader />
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const { locale } = this
     const { listing, profile, imageData, quantity, ratingSummary } = this.state
     const { background } = profile

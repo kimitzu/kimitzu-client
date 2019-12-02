@@ -1,3 +1,4 @@
+import { IonApp } from '@ionic/react'
 import Axios from 'axios'
 import isElectron from 'is-electron'
 import React, { Fragment } from 'react'
@@ -18,7 +19,7 @@ import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
 import { moderatorManagerInstance } from './models/ModeratorManager'
 import { Search, searchInstance } from './models/Search'
 
-// import '@ionic/react/css/core.css'
+import '@ionic/react/css/core.css'
 
 if (isElectron()) {
   // tslint:disable-next-line: no-var-requires
@@ -124,18 +125,20 @@ class App extends React.Component<{}, State> {
   public render() {
     const { height } = this.state
     return (
-      <Fragment>
-        {isElectron() ? (
-          <>
-            <DefaultTitleBar />
-            <div style={{ overflowY: 'auto', height: `${height - 46}px` }}>
-              {this.renderContent()}
-            </div>
-          </>
-        ) : (
-          this.renderContent()
-        )}
-      </Fragment>
+      <IonApp>
+        <Fragment>
+          {isElectron() ? (
+            <>
+              <DefaultTitleBar />
+              <div style={{ overflowY: 'auto', height: `${height - 46}px` }}>
+                {this.renderContent()}
+              </div>
+            </>
+          ) : (
+            this.renderContent()
+          )}
+        </Fragment>
+      </IonApp>
     )
   }
 

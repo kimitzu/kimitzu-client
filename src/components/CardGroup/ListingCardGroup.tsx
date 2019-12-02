@@ -1,3 +1,4 @@
+import { IonItem } from '@ionic/react'
 import React, { useEffect, useState } from 'react'
 
 import ListingCard from '../Card/ListingCard'
@@ -40,9 +41,13 @@ const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCar
         {listings.map((listing: ListingResponse) => {
           if (listing) {
             return (
-              <div key={listing.listing.hash}>
+              <IonItem
+                detail={false}
+                key={listing.listing.hash}
+                routerLink={`/listing/${listing.listing.hash}`}
+              >
                 <ListingCard listing={listing} targetCurrency={targetCurrency} />
-              </div>
+              </IonItem>
             )
           }
         })}
