@@ -72,7 +72,7 @@ context('File Dispute', () => {
       response: 'fixture:orders/resolved_disputed_order.json'
     })
 
-    cy.get('#not-selected > ul > .uk-padding > .list-item').click()
+    cy.get('#desktop-discussion > .list-item').click()
     cy.get('#full-size > #messages-display-main > #messages-chat-cont > #message-input-cont > .message-input')
       .type('A Sample Discussion Message to send')
     cy.get('#img-send')

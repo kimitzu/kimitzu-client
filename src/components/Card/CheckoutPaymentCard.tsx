@@ -30,6 +30,7 @@ interface Props {
   selectedCurrency?: string
   isEstimating: boolean
   quantity: number
+  id: string
 }
 
 const CheckoutPaymentCard = ({
@@ -42,6 +43,7 @@ const CheckoutPaymentCard = ({
   isEstimating,
   listing,
   quantity,
+  id,
 }: Props) => {
   const { discount, shippingAmount, subTotalAmount, totalAmount, estimate } = orderSummary
   const { paymentCard } = localeInstance.get.localizations.checkoutPage
@@ -50,11 +52,12 @@ const CheckoutPaymentCard = ({
 
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-column uk-height-1-1">
-      <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle">
+      <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle order-below-checkout-2">
         <Button
           className="uk-button uk-button-primary"
           showSpinner={isPending}
           onClick={handlePlaceOrder}
+          id={`${id}-place-order-button`}
         >
           {isPending
             ? paymentCard.afterSubmitOrderBtnText.toUpperCase()
@@ -66,7 +69,7 @@ const CheckoutPaymentCard = ({
           </p>
         </div>
       </div>
-      <hr />
+      <hr className="order-below-checkout-2" />
       {isPending ? null : (
         <div className="uk-margin-small-top">
           <h5 className="uk-margin-small-bottom uk-text-bold">{paymentCard.paymentFormHeader}</h5>
@@ -74,6 +77,7 @@ const CheckoutPaymentCard = ({
             {acceptedCurrencies.map((option: Option) => (
               <label key={option.value.toString()}>
                 <input
+                  id={`${id}-${option.value}`}
                   className="uk-radio uk-margin-small-right"
                   type="radio"
                   checked={option.value.toString() === selectedCurrency}
@@ -164,6 +168,23 @@ const CheckoutPaymentCard = ({
               </div>
             </div>
           ) : null}
+          <hr className="order-below-checkout" />
+          <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle order-below-checkout">
+            <Button
+              className="uk-button uk-button-primary"
+              showSpinner={isPending}
+              onClick={handlePlaceOrder}
+            >
+              {isPending
+                ? paymentCard.afterSubmitOrderBtnText.toUpperCase()
+                : paymentCard.submitOrderBtnText.toUpperCase()}
+            </Button>
+            <div className="uk-margin">
+              <p className="uk-text-center color-secondary">
+                {isPending ? paymentCard.checkoutHelper1 : paymentCard.checkoutHelper2}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

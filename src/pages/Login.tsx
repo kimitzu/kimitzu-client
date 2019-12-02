@@ -33,7 +33,7 @@ class LoginPage extends React.Component {
   public render() {
     return (
       <div className="uk-container-expand full-vh background-body uk-flex uk-flex-middle uk-flex-center">
-        <div className="uk-card uk-card-default uk-width-1-3 uk-flex uk-flex-column uk-padding">
+        <div className="uk-card uk-card-default uk-width-1-3@s uk-width-1-4@l uk-width-auto uk-flex uk-flex-column uk-padding">
           <div className="uk-flex uk-flex-center">
             <img src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg" />
           </div>

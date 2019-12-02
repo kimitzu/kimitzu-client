@@ -124,7 +124,10 @@ class UserRegistration extends Component<{}, State> {
 
   public render() {
     return (
-      <div id="reg-container" className="uk-container-expand background-body">
+      <div
+        id="reg-container"
+        className="uk-container-expand background-body full-vh uk-flex uk-flex-middle uk-flex-center"
+      >
         {this.renderCard()}
       </div>
     )

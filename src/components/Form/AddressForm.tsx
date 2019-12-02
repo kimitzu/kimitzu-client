@@ -230,30 +230,29 @@ const AddressForm = ({
             },
           }}
         />
-        {/* TODO: Update this component to use the general two-input wrapper. */}
-        <div id="two-inputs">
-          <div id="input1" className="uk-width-1-2@s">
-            <FormLabel label={addressForm.zipCodeLabel.toUpperCase()} />
-            <input
-              id="zipCode"
-              className="uk-input"
-              type="text"
-              value={location.zipCode}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChange('zipCode', event.target.value)
-              }
-            />
-          </div>
-          <div id="input2" className="uk-width-1-2@s">
-            <FormLabel label={addressForm.countryLabel.toUpperCase()} />
-            <FormSelector
-              id="countries"
-              defaultVal={location.country || ''}
-              options={Countries}
-              onChange={event => handleChange('country', event.target.value)}
-            />
-          </div>
-        </div>
+        <TwoInputs
+          input1={{
+            label: addressForm.zipCodeLabel.toUpperCase(),
+            props: {
+              id: 'zipCode',
+              type: 'text',
+              value: decodeHtml(location.zipCode),
+              onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange('zipCode', event.target.value),
+            },
+          }}
+          input2={{
+            label: addressForm.countryLabel.toUpperCase(),
+            props: {
+              id: 'countries',
+              type: 'text',
+              value: decodeHtml(location.country || ''),
+              options: Countries,
+              onChange: (event: React.ChangeEvent<HTMLSelectElement>) =>
+                handleChange('country', event.target.value),
+            },
+          }}
+        />
       </fieldset>
       <div id="save-btn-div">
         {!isListing ? (

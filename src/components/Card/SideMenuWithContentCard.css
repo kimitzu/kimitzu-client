@@ -15,12 +15,33 @@
   font-size: 1.75rem;
 }
 #side-menu-with-content-card-title {
-  text-align: center;
   font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 #side-menu-with-content-card-component {
   margin-top: 2.5%;
   padding: 2% 10% 0 10%;
   min-height: 80%;
   display: flex;
+}
+.not-visible {
+  visibility: hidden;
+  margin-right: 15px;
+}
+#button-menu-create-listing {
+  visibility: hidden;
+  margin-left: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+  #side-menu-card-nav {
+    background-color: red;
+    display: none;
+  }
+  #button-menu-create-listing {
+    visibility: visible;
+  }
 }
