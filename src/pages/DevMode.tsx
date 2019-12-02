@@ -268,7 +268,7 @@ class DevMode extends React.Component<{}, DevModeState> {
         title: faker.random.words(2),
         description: faker.random.words(16),
         processingTime: '1 day',
-        price: faker.random.number({ min: 10, max: 50, precision: 2 }),
+        price: faker.random.number({ min: 10, max: 50, precision: 2 }) * 100,
         tags: faker.random.words(4).split(' '),
         images: [images[faker.random.number({ min: 0, max: images.length - 1 })]],
         categories: [randomClassification],

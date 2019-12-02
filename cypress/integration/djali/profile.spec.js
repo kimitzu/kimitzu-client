@@ -165,7 +165,7 @@ context('Profile', () => {
     cy.contains('0.38')
   })
 
-  it('should display expected values on Store Tab', () => {
+  it('should display expected values on Ratings Tab', () => {
     cy.get('#account').click()
     cy.get('#view-profile').click()
     cy.get(':nth-child(3) > #tab-label').click()
