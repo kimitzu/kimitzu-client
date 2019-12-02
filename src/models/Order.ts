@@ -7,10 +7,12 @@ import {
   Order as OrderInterface,
   OrderPaymentInformation,
   OrdersSpend,
+  PaymentAddressTransaction,
   Refund,
 } from '../interfaces/Order'
 import { RatingInput } from '../interfaces/Rating'
 import currency from './Currency'
+import PeerRating from './PeerRating'
 import Profile from './Profile'
 
 const cryptoCurrencies = CryptoCurrencies().map(crypto => crypto.value)
@@ -317,15 +319,8 @@ class Order implements OrderInterface {
   public read: boolean = false
   public funded: boolean = false
   public unreadChatMessages: number = 0
-  public paymentAddressTransactions = [
-    {
-      txid: '',
-      value: 0,
-      confirmations: 0,
-      height: 0,
-      timestamp: '',
-    },
-  ]
+  public paymentAddressTransactions: PaymentAddressTransaction[] = []
+  public refundAddressTransaction: PaymentAddressTransaction = {} as PaymentAddressTransaction
 
   constructor(props?) {
     if (props) {
@@ -426,7 +421,12 @@ class Order implements OrderInterface {
         note: note || '',
         buyerRating,
       })
+      const orderRequest = await Axios.get(
+        `${config.openBazaarHost}/ob/order/${this.contract.vendorOrderConfirmation.orderID}`
+      )
+      await PeerRating.broadcast('fulfill', orderRequest.data)
     } catch (e) {
+      console.log(e)
       throw e
     }
   }
@@ -445,7 +445,12 @@ class Order implements OrderInterface {
         orderId: this.contract.vendorOrderConfirmation.orderID,
         ratings: [ratingItem],
       })
+      const orderRequest = await Axios.get(
+        `${config.openBazaarHost}/ob/order/${this.contract.vendorOrderConfirmation.orderID}`
+      )
+      await PeerRating.broadcast('complete', orderRequest.data)
     } catch (e) {
+      console.log(e)
       throw e
     }
   }
@@ -484,6 +489,12 @@ class Order implements OrderInterface {
     } catch (e) {
       throw e
     }
+  }
+
+  public async cancel() {
+    await Axios.post(`${config.openBazaarHost}/ob/ordercancel`, {
+      orderId: this.id,
+    })
   }
 
   public get isPaymentModerated(): boolean {

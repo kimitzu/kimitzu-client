@@ -562,7 +562,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     if (isElectron()) {
       otherSettings.push({
         component: <MiscSettingsForm />,
-        label: settingsPage.otherNavItems.miscellaneous,
+        label: settingsPage.othersNavItems.miscellaneous,
       })
     }
 

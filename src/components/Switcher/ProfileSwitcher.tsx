@@ -45,7 +45,7 @@ const ProfileSwitcher = ({
           <ListingCardGroup data={listings} targetCurrency={currentUser.preferences.fiat} />
         ) : (
           <div className="uk-flex uk-flex-center uk-flex-middle">
-            <h4>{profilePage.noListingHeader}</h4>
+            <h4>{profilePage.noListingsHeader}</h4>
           </div>
         )}
       </li>

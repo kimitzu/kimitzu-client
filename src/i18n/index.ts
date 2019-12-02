@@ -1,5 +1,5 @@
-import i18n from './i18n'
+import Internationalization from './i18n'
 
-const localeInstance = new i18n()
+const localeInstance = new Internationalization()
 
-export { i18n, localeInstance }
+export { Internationalization as i18n, localeInstance }

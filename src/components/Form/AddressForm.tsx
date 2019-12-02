@@ -275,7 +275,7 @@ const AddressForm = ({
             onClick={handleFullSubmit}
             showSpinner={isLoading}
           >
-            {listingForm.updateListingBtn.toUpperCase()}
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button

@@ -70,11 +70,11 @@
   },
   "userForm": {
     "handleLabel": "Hantera",
-    "handlePlaceholer": "john.doe",
+    "handlePlaceholder": "john.doe",
     "nameLabel": "namn",
     "namePlaceholder": "John Doe",
     "emailPlaceholder": "john@email.com",
-    "fiatCurrencyLabel": "Föredragen Fiat-valuta",
+    "fiatCurrencyLabel": "Föredragen Fiatvaluta",
     "cryptoCurrencyLabel": "Föredragen Cryptocurrency",
     "displayCurrencyLabel": "Visa valuta",
     "languageLabel": "Önskat språk",
@@ -82,7 +82,7 @@
   },
   "tosPage": {
     "header": "Användarvillkor",
-    "tos": "Djali-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Djali-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Djali-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Djali-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Djali, kan användare se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Djali-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Djali arbetar som standard via Tor-nätverket, och den enda information som användarna måste tillhandahålla är ett handtag och land. Djali-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Djali. Djali är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Djalis sekretessmekanismer. Därför garanterar inte Djali-utvecklare några garantier för programvarans förmåga att upprätthålla användarnas integritet."
+    "tos": "Djali-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Djali-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Djali-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Djali-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Djali, kan användarna se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Djali-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Djali arbetar som standard via Tor-nätverket, och den enda information som användarna måste tillhandahålla är ett handtag och land. Djali-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Djali. Djali är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Djalis sekretessmekanismer. Därför gör Djali-utvecklarna inga garantier beträffande programvarans förmåga att upprätthålla användarnas integritet."
   },
   "addressForm": {
     "streetLabel": "Gatuadress",
@@ -116,7 +116,7 @@
     "tagsHelper": "Använd taggar för att förbättra din synlighet för din lista.",
     "termsAndConditionsLabel": "Villkor",
     "termsAndConditionsDescriptor": "Om det lämnas tomt kommer listan att visa &quot;Inga villkor angivna&quot;",
-    "moderatorsHelper1": "Det verkar som om du inte har någon favoritmoderatorinstallation.",
+    "moderatorsHelper1": "Det verkar som om du inte har någon inställning för favoritmoderatorer.",
     "moderatorsHelper2": "Du kan ställa in det här i",
     "moderatorsHelperLink": "inställningssida",
     "couponsHelper": "Skapa kuponger som dina kunder kan använda under kassan för exklusiva erbjudanden eller rabatter.",
@@ -146,7 +146,7 @@
     "dropArea": { "placeholder": "Dra och släpp ett foto eller", "selectLabel": "Välj" }
   },
   "moderatorSelectionForm": {
-    "crawlingNotif1": "Det tar ett tag att genomsöka nätverket för tillgängliga moderatorer.",
+    "crawlingNotif1": "Det tar en stund att genomsöka nätverket för tillgängliga moderatorer.",
     "crawlingNotif2": "Vänta lite längre eller kom tillbaka senare.",
     "showDetailsLink": "Mer...",
     "searchPlaceholder": "Sök efter moderatornamn eller ID",
@@ -244,7 +244,7 @@
       "saveErrorNotif": "Något gick fel. Försök igen senare.",
       "crashReportLabel": "Aktivera kraschrapportering",
       "crashReportHelper": "Skicka kraschrapporter till utvecklarna",
-      "autpUpdatesLabel": "Autoinstallera uppdateringar",
+      "autoUpdatesLabel": "Autoinstallera uppdateringar",
       "autoUpdatesHelper": "Uppdateringar laddas ner och installeras automatiskt"
     },
     "credentialsUpdateSuccessNotif": "Intyg har raderats! Starta om servern för att ändringarna ska träda i kraft.",
@@ -271,6 +271,12 @@
     "casesLabel": "fall"
   },
   "orderViewPage": {
+    "cancelPromptParagraph": "Är du säker på att du vill avbryta den här beställningen?",
+    "cancelText": "Avbryt",
+    "cancelOrderActionParagraph": "Säljaren kan vara offline och har ännu inte bekräftat beställningen. Du kan avbryta den här beställningen och skicka tillbaka pengarna till ditt konto.",
+    "cancelOrderText": "Beställningen har avbrutits av köparen.",
+    "cancelOrderHeader": "Avbryt beställning",
+    "canceledOrderHeader": "Order avbruten",
     "retrieveOrderText": "Hämtar order ...",
     "retrieveDiscussionsText": "Hämtar diskussioner ...",
     "summaryText": "Sammanfattning",
@@ -307,7 +313,8 @@
       "resolved": "löst",
       "error": "Fel",
       "fulfilled": "uppfyllt",
-      "completed": "Avslutad"
+      "completed": "Avslutad",
+      "canceled": "Avbokad"
     },
     "processErrorHeader": "Bearbetningsfel",
     "disputeExpiredHeader": "Tvist har löpt ut",
@@ -494,7 +501,7 @@
   "listingPage": {
     "retrieveListingSpinnerText": "Hämtar listning",
     "retrieveRatingsSpinnerText": "Hämtar betyg",
-    "listingRenewedNotif": "Listningen förnyades framgångsrikt!",
+    "listingRenewedNotif": "Listningen har förnyats!",
     "expiredListingHelper1": "Denna lista har gått ut, kontakta leverantören för mer information.",
     "expiredListingHelper2": "Denna lista har gått ut.",
     "renewLink": "Förnya i ett år.",
@@ -516,7 +523,7 @@
       "header": "Det går inte att hämta listan.",
       "paragraph": "Listan du begärde har antingen gått ut på Djali-nätverket eller finns inte.",
       "suggestionsText": "Förslag",
-      "suggestions": "Bläddra bland andra listor."
+      "suggestions": ["Bläddra bland andra listor."]
     },
     "listingRenewPrompt": "Förnya listan <b>{0}</b> för <b>1 år</b> ?"
   },
@@ -558,35 +565,38 @@
     },
     "filters": {
       "unfunded": {
-        "states": "VÄNTAR PÅ BETALNING",
+        "states": ["AWAITING_PAYMENT"],
         "description": "Beställningar som ännu inte har betalats av köparen."
       },
       "pending": {
-        "states": "AVVAKTAN",
+        "states": ["PENDING"],
         "description": "Beställningar som betalades och skickades till säljaren men säljaren har ännu inte svarat."
       },
       "processing": {
-        "states": "AWAITING_FULFILLMENT",
+        "states": ["AWAITING_FULFILLMENT"],
         "description": "Beställningar som betalades helt och leverantören behandlar beställningen."
       },
       "fulfilled": {
-        "states": "uppfyllda",
+        "states": ["FULFILLED", "AWAITING_PICKUP"],
         "description": "Beställningar som uppfylldes av säljaren."
       },
       "completed": {
-        "states": "AVSLUTAD",
+        "states": ["COMPLETED"],
         "description": "Beställningar som slutfördes av köparen."
       },
       "refunded": {
-        "states": "betalas",
+        "states": ["REFUNDED"],
         "description": "Beställningar som återbetalades av säljaren."
       },
-      "disputes": { "states": "OMSTRIDD", "description": "Beställningar med tvistemål." },
+      "disputes": {
+        "states": ["DISPUTED", "DECIDED", "RESOLVED", "PAYMENT_FINALIZED"],
+        "description": "Beställningar med tvistemål."
+      },
       "cancelled": {
-        "states": "AVBOKAD",
+        "states": ["CANCELED", "DECLINED"],
         "description": "Beställningar som avbröts av köparen eller som vägrade av säljaren."
       },
-      "errors": { "states": "PROCESSING_ERROR", "description": "Beställningar som har fel." }
+      "errors": { "states": ["PROCESSING_ERROR"], "description": "Beställningar som har fel." }
     }
   }
 }

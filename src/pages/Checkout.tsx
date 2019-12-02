@@ -458,7 +458,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           })
         }
       } else {
-        window.UIkit.notification(this.locale.checkoutPage.applyCouponFail, {
+        window.UIkit.notification(this.locale.checkoutPage.applyCouponFailNotif, {
           status: 'danger',
         })
       }

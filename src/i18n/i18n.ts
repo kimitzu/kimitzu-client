@@ -1,37 +1,96 @@
 import languages from './lang.json'
+import { Localizations, LocalizationsInterface } from './LocalizationsInterface.js'
 import mainResources from './mainResources'
 
-export default class i18n {
+export default class Internationalization {
+  /**
+   * @type {object}
+   * @desc Returns the lanuage codes and it's English name.
+   * To get just the codes call `Object.keys(i18n.languages)`
+   */
+  get languages() {
+    function swap(json) {
+      const ret = {}
+      Object.entries(json).forEach((val, key) => {
+        ret[key] = val
+      })
+      return ret
+    }
+    return swap(languages)
+  }
+
+  /**
+   * @returns {object}
+   * @desc Returns a compiled resource object depending on what locale has been
+   * selected.
+   */
+  get get(): LocalizationsInterface {
+    if (Object.keys(this.cache).includes(this.language)) {
+      return this.cache[this.language]
+    }
+
+    const compiled = { localizations: {} as Localizations }
+    if (!this.resources) {
+      this.resources = {}
+    }
+    this.resources = Object.assign(this.resources, mainResources)
+
+    Object.keys(this.resources).forEach(resourceName => {
+      let resource = this.resources[resourceName][this.language]
+      if (typeof resource === 'string') {
+        if (resource && resource.startsWith('!!Fallback')) {
+          const i18nFallback = resource.split('->')[1]
+          resource = this.resources[resourceName][i18nFallback]
+        }
+      }
+
+      if (!resource) {
+        resource = this.resources[resourceName][this.fallback]
+      }
+
+      compiled[resourceName] = resource
+    })
+
+    const handler = {
+      get(t, name) {
+        return t[name]
+      },
+    }
+    this.cache[this.language] = new Proxy(compiled, handler)
+    return compiled
+  }
+  public resources = {}
+
   /**
    * @type {string}
    * @desc Sets the locale for the entire app, components are automatically
    * updated. **Note:** please use i18n.setLanguage() since it has safeguards.
    */
-  language = 'en'
+  public language = 'en'
 
   /**
    * @type {string}
    * @desc Fallback language to use when the locale resource is not available
    * for the set language.
    */
-  fallback = 'en'
+  public fallback = 'en'
+
+  public cache = {}
 
   /**
    * Serves as a proxy to force the object to be accepted by the coverage check.
    * @param {*} data any valid javascript object
    */
-  bypass(data) {
+  public bypass(data) {
     return data
   }
-
-  cache = {}
 
   /**
    * @desc Sets the language, silently does nothing if passed with an invalid language
    * code.
    * @param {*} lang Language code to switch locale to.
    */
-  setLanguage(lang) {
+  public setLanguage(lang) {
     if (!lang) {
       return
     }
@@ -46,7 +105,7 @@ export default class i18n {
    * @desc Sets the fallback language, has the same behaviour as `setLanguage`.
    * @param {*} lang Language code to use as a fallback.
    */
-  setFallback(lang) {
+  public setFallback(lang) {
     if (Object.values(languages).includes(lang)) {
       this.fallback = lang
     } else {
@@ -67,67 +126,8 @@ export default class i18n {
    * }
    * @param {*} lang Language to use as a fallback. Note: the resource must exist.
    */
-  fallbackTo(lang) {
+  public fallbackTo(lang) {
     return `!!Fallback->${lang}`
-  }
-
-  /**
-   * @type {object}
-   * @desc Returns the lanuage codes and it's English name.
-   * To get just the codes call `Object.keys(i18n.languages)`
-   */
-  get languages() {
-    function swap(json) {
-      const ret = {}
-      Object.entries(json).forEach(x => {
-        const [val, key] = x
-        ret[key] = val
-      })
-      return ret
-    }
-    return swap(languages)
-  }
-
-  /**
-   * @returns {object}
-   * @desc Returns a compiled resource object depending on what locale has been
-   * selected.
-   */
-  get get() {
-    if (Object.keys(this.cache).includes(this.language)) {
-      return this.cache[this.language]
-    }
-
-    const compiled = {}
-    const t = this
-    if (!t.resources) {
-      t.resources = {}
-    }
-    t.resources = Object.assign(t.resources, mainResources)
-
-    Object.keys(t.resources).forEach(resourceName => {
-      let resource = t.resources[resourceName][this.language]
-      if (typeof resource == 'string') {
-        if (resource && resource.startsWith('!!Fallback')) {
-          const i18nFallback = resource.split('->')[1]
-          resource = t.resources[resourceName][i18nFallback]
-        }
-      }
-
-      if (!resource) {
-        resource = t.resources[resourceName][this.fallback]
-      }
-
-      compiled[resourceName] = resource
-    })
-
-    let handler = {
-      get(t, name) {
-        return t[name]
-      },
-    }
-    this.cache[this.language] = new Proxy(compiled, handler)
-    return compiled
   }
 
   /**
@@ -137,10 +137,10 @@ export default class i18n {
    * @example
    * Locale.format('Hello {0} {1}', 'A', 'B') // Returns 'Hello A B'
    */
-  format(stringTemplate, ...formatArgs) {
-    const text = stringTemplate.replace(/{(\d+)}/g, (match, number) => {
-      if (typeof formatArgs[number] !== 'undefined') {
-        return formatArgs[number]
+  public format(stringTemplate, ...formatArgs) {
+    const text = stringTemplate.replace(/{(\d+)}/g, (match, num) => {
+      if (typeof formatArgs[num] !== 'undefined') {
+        return formatArgs[num]
       }
       return match
     })

@@ -27,6 +27,24 @@ import OrderRatings from '../constants/OrderRatings.json'
 import currency from '../models/Currency'
 import decodeHtml from '../utils/Unescape'
 
+import OrderBuyerPayment from '../components/Segment/OrderView/OrderBuyerPayment'
+import OrderCancelAction from '../components/Segment/OrderView/OrderCancelAction'
+import OrderCancelled from '../components/Segment/OrderView/OrderCancelled'
+import OrderComplete from '../components/Segment/OrderView/OrderComplete'
+import OrderCompleteForm from '../components/Segment/OrderView/OrderCompleteForm'
+import OrderDisputeClaimMessage from '../components/Segment/OrderView/OrderDisputeClaimMessage'
+import OrderDisputeClosed from '../components/Segment/OrderView/OrderDisputeClosed'
+import OrderDisputeDecided from '../components/Segment/OrderView/OrderDisputeDecided'
+import OrderDisputeExpired from '../components/Segment/OrderView/OrderDisputeExpired'
+import OrderDisputeInProgress from '../components/Segment/OrderView/OrderDisputeInProgress'
+import OrderDisputeOpen from '../components/Segment/OrderView/OrderDisputeOpen'
+import OrderErrorSegment from '../components/Segment/OrderView/OrderError'
+import OrderFulfill from '../components/Segment/OrderView/OrderFulfill'
+import OrderFulfillForm from '../components/Segment/OrderView/OrderFulfillForm'
+import OrderPayments from '../components/Segment/OrderView/OrderPayments'
+import OrderRefunded from '../components/Segment/OrderView/OrderRefunded'
+import OrderSummary from '../components/Segment/OrderView/OrderSummary'
+import OrderVendorAwaitingPayment from '../components/Segment/OrderView/OrderVendorAwaitingPayment'
 import { localeInstance } from '../i18n'
 
 interface RouteParams {
@@ -84,8 +102,8 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       isAnonymous: false,
       loadIndicator: LOAD_INDICATOR.NO_LOAD,
       groupMessage,
-      orderFulfillRatings: ClientRatings,
-      orderCompleteRatings: OrderRatings,
+      orderFulfillRatings: [...ClientRatings],
+      orderCompleteRatings: [...OrderRatings],
       claim: '',
       id: '',
       loadingStatus: '',
@@ -101,6 +119,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleOrderDispute = this.handleOrderDispute.bind(this)
     this.handleOrderFundRelease = this.handleOrderFundRelease.bind(this)
     this.handleWebSocket = this.handleWebSocket.bind(this)
+    this.handleCancelOrder = this.handleCancelOrder.bind(this)
   }
 
   public async componentDidMount() {
@@ -122,6 +141,19 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
     if (order.contract.buyerOrder.payment.moderator && order.role !== 'moderator') {
       groupMessage.peerIds.push(order.contract.buyerOrder.payment.moderator)
+    }
+
+    if (order.contract.buyerOrderCompletion) {
+      const orderCompleteRatings = [...this.state.orderCompleteRatings]
+      const ratingData = order.contract.buyerOrderCompletion.ratings[0].ratingData
+      orderCompleteRatings[0].value = ratingData.overall
+      orderCompleteRatings[1].value = ratingData.quality
+      orderCompleteRatings[2].value = ratingData.description
+      orderCompleteRatings[3].value = ratingData.deliverySpeed
+      orderCompleteRatings[4].value = ratingData.customerService
+      this.setState({
+        orderCompleteRatings,
+      })
     }
 
     this.setState(
@@ -322,6 +354,11 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         this.locale.orderViewPage.stepperTexts.resolved,
       ]
       currentStep = order.step - 8
+    } else if (order.step === 5) {
+      steps = [
+        this.locale.orderViewPage.stepperTexts.pending,
+        this.locale.orderViewPage.stepperTexts.canceled,
+      ]
     } else {
       steps = [
         this.locale.orderViewPage.stepperTexts.pending,
@@ -338,480 +375,78 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           <Stepper options={steps} currentIndex={currentStep} />
         </div>
         <div className="uk-width-1-1">
-          {order.step === -1 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment title={this.locale.orderViewPage.processErrorHeader}>
-                <SimpleBorderedSegment>
-                  <p className="color-secondary">
-                    {this.locale.orderViewPage.orderProcessErrorParagraph}{' '}
-                    <span className="uk-text-capitalize uk-text-danger">
-                      {order.contract.errors!.join(',')}
-                    </span>
-                  </p>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
-          ) : null}
-          {order.isDisputeExpired ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment title="Dispute Expired">
-                <SimpleBorderedSegment>
-                  <p className="color-secondary">
-                    {this.locale.orderViewPage.disputeExpiredParagraph}
-                  </p>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
-          ) : null}
-          {order.step === 7 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.refundedHeader}
-                date={new Date(order.contract.refund!.timestamp)}
-              >
-                <SimpleBorderedSegment
-                  imageSrc={
-                    order.vendor!.avatarHashes.original
-                      ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
-                      : `${process.env.PUBLIC_URL}/images/user.svg`
-                  }
-                >
-                  <div className="uk-flex">
-                    <h5 className="uk-text-bold">
-                      <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                        {order.vendor ? order.vendor!.name : ''}
-                      </Link>
-                    </h5>
-                  </div>
-                  <p className="color-secondary">
-                    {this.locale.orderViewPage.refundedParagraph}
-                    <br />
-                    {order.contract.refund!.refundTransaction.txid}
-                  </p>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
-          ) : null}
-          {order.step === 10 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.disputeClosedHeader}
-                date={new Date(order.contract.disputeAcceptance!.timestamp)}
-              >
-                <SimpleBorderedSegment
-                  imageSrc={
-                    order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
-                      ? `${config.djaliHost}/djali/media?id=${
-                          order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
-                        }`
-                      : `${process.env.PUBLIC_URL}/images/user.svg`
-                  }
-                >
-                  <h5 className="uk-text-bold">
-                    <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                      {`${this.state.order.contract.disputeAcceptance!.closedByProfile.name} `}
-                    </Link>
-                    {this.locale.orderViewPage.payoutAcceptedHeader}
-                  </h5>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
-          ) : null}
+          {order.step === -1 ? <OrderErrorSegment locale={this.locale} order={order} /> : null}
+          {order.isDisputeExpired ? <OrderDisputeExpired locale={this.locale} /> : null}
+          {order.step === 7 ? <OrderRefunded locale={this.locale} order={order} /> : null}
+          {order.step === 10 ? <OrderDisputeClosed locale={this.locale} order={order} /> : null}
           {order.step >= 9 && order.step < 11 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.disputePayoutHeader}
-                date={new Date(order.contract.disputeResolution!.timestamp)}
-              >
-                <SimpleBorderedSegment
-                  sideButtons={
-                    order.step === 9 ? (
-                      <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                        <Button
-                          className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
-                          onClick={this.handleOrderFundRelease}
-                          showSpinner={this.state.isSendingRequest}
-                        >
-                          {this.locale.orderViewPage.releaseFundBtnText}
-                        </Button>
-                      </div>
-                    ) : null
-                  }
-                >
-                  <div className="uk-flex uk-flex-column">
-                    <DisputePayoutSegment
-                      name={order.vendor!.name}
-                      avatar={order.vendor!.avatarHashes.medium}
-                      amount={order.parseCrypto(
-                        order.contract.disputeResolution!.payout.vendorOutput
-                          ? order.contract.disputeResolution!.payout.vendorOutput.amount
-                          : 0
-                      )}
-                    />
-                    <DisputePayoutSegment
-                      name={order.buyer!.name}
-                      avatar={order.buyer!.avatarHashes.medium}
-                      amount={order.parseCrypto(
-                        order.contract.disputeResolution!.payout.buyerOutput
-                          ? order.contract.disputeResolution!.payout.buyerOutput.amount
-                          : 0
-                      )}
-                    />
-                    <DisputePayoutSegment
-                      name={order.moderator!.name}
-                      avatar={order.moderator!.avatarHashes.medium}
-                      amount={order.parseCrypto(
-                        order.contract.disputeResolution!.payout.moderatorOutput
-                          ? order.contract.disputeResolution!.payout.moderatorOutput.amount
-                          : 0
-                      )}
-                      note={order.contract.disputeResolution!.resolution}
-                    />
-                  </div>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
+            <OrderDisputeDecided
+              locale={this.locale}
+              order={order}
+              handleOrderFundRelease={this.handleOrderFundRelease}
+              isSendingRequest={this.state.isSendingRequest}
+            />
           ) : null}
-          {order.step >= 8 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.disputeStartedHeader}
-                date={new Date(order.contract.dispute!.timestamp)}
-              >
-                <SimpleBorderedSegment title={'The order is being disputed:'}>
-                  <p className="color-secondary">{decodeHtml(order.contract.dispute!.claim)}</p>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
-          ) : null}
+          {order.step >= 8 ? <OrderDisputeClaimMessage locale={this.locale} order={order} /> : null}
           {order.contract.dispute && order.step === 8 ? (
-            <div className="uk-margin-bottom">
-              <SimpleBorderedSegment
-                title={this.locale.orderViewPage.disputingHeader}
-                sideButtons={
-                  <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                    <Button
-                      className="uk-button uk-button-default uk-margin-small-left max-content-width button-small-padding"
-                      onClick={() => {
-                        this.setState({
-                          currentContent: CONTENT_CONSTANTS.DISCUSSION,
-                        })
-                      }}
-                    >
-                      {this.locale.orderViewPage.discussBtnText}
-                    </Button>
-                  </div>
-                }
-              >
-                <p className="color-secondary">{this.locale.orderViewPage.disputingParagraph}</p>
-              </SimpleBorderedSegment>
-            </div>
+            <OrderDisputeInProgress
+              locale={this.locale}
+              handleChangeCurrentContent={this.handleContentChange}
+            />
           ) : null}
+          {order.step === 5 ? <OrderCancelled locale={this.locale} order={order} /> : null}
           {order.step >= 2 && order.isPaymentModerated && !order.contract.dispute ? (
-            <div className="uk-margin-bottom">
-              <SimpleBorderedSegment
-                title={this.locale.orderViewPage.disputeOrderHeader}
-                sideButtons={
-                  <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                    <Button
-                      className="uk-button uk-button-danger uk-margin-small-left max-content-width button-small-padding"
-                      onClick={() => {
-                        this.setState({
-                          currentContent: CONTENT_CONSTANTS.DISPUTE_FORM,
-                        })
-                      }}
-                    >
-                      {this.locale.orderViewPage.disputeBtnText}
-                    </Button>
-                  </div>
-                }
-              >
-                <p className="uk-text-danger">{this.locale.orderViewPage.disputeOrderParagraph1}</p>
-                <p className="uk-text-muted">{this.locale.orderViewPage.disputeOrderParagraph2}</p>
-              </SimpleBorderedSegment>
-            </div>
+            <OrderDisputeOpen
+              locale={this.locale}
+              handleChangeCurrentContent={this.handleContentChange}
+            />
           ) : null}
-          {order.step === 4 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.completedHeader}
-                date={new Date(order.contract.buyerOrderCompletion.timestamp)}
-              >
-                <SimpleBorderedSegment
-                  imageSrc={
-                    order.buyer!.avatarHashes.original
-                      ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
-                      : `${process.env.PUBLIC_URL}/images/user.svg`
-                  }
-                >
-                  {
-                    <div className="uk flex">
-                      <div className="uk-flex uk-flex-row">
-                        <h5 className="uk-text-bold uk-flex-2">
-                          <Link to={`/profile/${order.contract.buyerOrder.buyerID.peerID}`}>
-                            {order.buyer ? order.buyer!.name : ''}
-                          </Link>
-                        </h5>
-                        <div id="small-star-rating-wrapper" className="uk-flex-1 uk-text-right">
-                          <StarRatingComponent
-                            starCount={5}
-                            value={
-                              order.contract.buyerOrderCompletion.ratings[0].ratingData.overall
-                            }
-                            name="orderRatings"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <p className="color-secondary">
-                          {decodeHtml(
-                            order.contract.buyerOrderCompletion.ratings[0].ratingData.review
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  }
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
-          ) : null}
+          {order.step === 4 ? <OrderComplete locale={this.locale} order={order} /> : null}
           {order.step === 3 && order.role === 'buyer' ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.completeOrderText}
-                date={new Date()}
-              >
-                <SimpleBorderedSegment
-                  title={`${
-                    order.buyer!.name
-                  }'s ${this.locale.orderViewPage.fulfillOrderForm.reviewLabel.toLowerCase()}`}
-                >
-                  <div className="uk-flex-row uk-width-1-1">
-                    <form className="uk-form uk-form-stacked uk-width-1-1 uk-flex uk-flex-row">
-                      <div className="uk-flex-1 uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
-                        <textarea
-                          className="uk-textarea uk-width-1-1 uk-height-1-1"
-                          rows={5}
-                          style={{
-                            border: disableReviewTextArea ? 'none' : '',
-                            backgroundColor: '#fff',
-                          }}
-                          disabled={disableReviewTextArea}
-                          value={review}
-                          onChange={e => this.handleInputChange('review', e.target.value)}
-                        />
-                      </div>
-                      <StarRatingGroup
-                        handleStarRatingChange={this.handleStarRatingChange}
-                        ratingType="orderCompleteRatings"
-                        ratings={orderCompleteRatings}
-                      />
-                    </form>
-                  </div>
-                </SimpleBorderedSegment>
-                <div className="uk-flex uk-flex-row uk-flex-middle uk-padding-small uk-padding-remove-horizontal">
-                  <Button
-                    className="uk-button uk-button-primary"
-                    showSpinner={loadIndicator === LOAD_INDICATOR.COMPLETE}
-                    onClick={this.handleCompleteSubmit}
-                  >
-                    {this.locale.orderViewPage.completeOrderText.toUpperCase()}
-                  </Button>
-                </div>
-              </OrderSummaryItemSegment>
-            </div>
+            <OrderCompleteForm
+              locale={this.locale}
+              order={order}
+              disableReviewTextArea={disableReviewTextArea}
+              review={
+                this.state.order.contract.buyerOrderCompletion
+                  ? this.state.order.contract.buyerOrderCompletion.ratings[0].ratingData.review
+                  : ''
+              }
+              orderCompleteRatings={this.state.orderCompleteRatings}
+              handleCompleteSubmit={this.handleCompleteSubmit}
+            />
           ) : null}
           {order.step >= 3 && order.step <= 4 ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment
-                title={this.locale.orderViewPage.fulfilledHeader}
-                date={new Date(order.contract.vendorOrderFulfillment[0].timestamp)}
-              >
-                <SimpleBorderedSegment
-                  imageSrc={
-                    order.vendor!.avatarHashes.medium
-                      ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                      : `${process.env.PUBLIC_URL}/images/user.svg`
-                  }
-                >
-                  <div className="uk-flex">
-                    <h5 className="uk-text-bold">
-                      <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                        {order.vendor ? order.vendor!.name : ''}
-                      </Link>
-                    </h5>
-                  </div>
-                  <p className="color-secondary">
-                    {decodeHtml(order.contract.vendorOrderFulfillment[0].note)}
-                  </p>
-                </SimpleBorderedSegment>
-              </OrderSummaryItemSegment>
-            </div>
+            <OrderFulfill locale={this.locale} order={order} />
           ) : null}
-          {order.step >= 2 ? (
-            <>
-              <div className="uk-margin-bottom">
-                <OrderSummaryItemSegment
-                  title={this.locale.orderViewPage.orderAcceptedHeader}
-                  date={
-                    new Date(
-                      order.paymentAddressTransactions[
-                        order.paymentAddressTransactions.length - 1
-                      ].timestamp
-                    )
-                  }
-                >
-                  <SimpleBorderedSegment
-                    imageSrc={
-                      order.vendor!.avatarHashes.medium
-                        ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
-                        : `${process.env.PUBLIC_URL}/images/user.svg`
-                    }
-                    sideButtons={
-                      order.role === 'vendor' && order.step === 2 ? (
-                        <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                          <a
-                            href="#"
-                            className="margin-small-right text-underline"
-                            id="js-modal-prompt"
-                          >
-                            {this.locale.orderViewPage.refundLink}
-                          </a>
-                          <Button
-                            className="uk-button uk-button-primary uk-margin-small-left max-content-width button-small-padding"
-                            onClick={this.handleFulfillOrderBtn}
-                            id="fulfill-order-button"
-                          >
-                            {this.locale.orderViewPage.fulfillOrderBtnText}
-                          </Button>
-                        </div>
-                      ) : null
-                    }
-                  >
-                    <div className="uk-flex">
-                      <h5 className="uk-text-bold">
-                        <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                          {order.vendor ? order.vendor!.name : ''}
-                        </Link>
-                      </h5>
-                    </div>
-                    <p className="color-secondary">
-                      {order.role === 'vendor' ? (
-                        <>
-                          {`${this.locale.orderViewPage.orderAcceptedParagraph1} `}
-                          <a href={`${config.host}/#/profile/${order.buyer!.peerID}`}>
-                            {order.buyer!.name}
-                          </a>{' '}
-                          {this.locale.orderViewPage.orderAcceptedParagraph2}
-                        </>
-                      ) : (
-                        this.locale.orderViewPage.orderAcceptedParagraph3
-                      )}
-                    </p>
-                  </SimpleBorderedSegment>
-                </OrderSummaryItemSegment>
-              </div>
-              <div className="uk-margin-bottom">
-                <OrderSummaryItemSegment
-                  title={this.locale.orderViewPage.paymentHeader}
-                  date={new Date(order.contract.buyerOrder.timestamp)}
-                >
-                  <SimpleBorderedSegment icon="check">
-                    <div>
-                      <div className="uk-flex">
-                        <h5 className="uk-text-bold">
-                          {`${order.cryptoValue} to `}
-                          <Link to={`/profile/${order.contract.vendorListings[0].vendorID.peerID}`}>
-                            {order.vendor
-                              ? order.vendor!.name ||
-                                order.contract.vendorListings[0].vendorID.peerID
-                              : order.contract.vendorOrderConfirmation.paymentAddress}
-                          </Link>
-                        </h5>
-                      </div>
-                      {order.paymentAddressTransactions.map(paymentTx => {
-                        return (
-                          <p key={paymentTx.txid} className="color-secondary">
-                            {currency.humanizeCrypto(paymentTx.value)}{' '}
-                            {order.contract.buyerOrder.payment.coin} - {paymentTx.confirmations}{' '}
-                            confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
-                            {order.paymentAddressTransactions.length > 1
-                              ? this.locale.orderViewPage.partialPaymentText
-                              : this.locale.orderViewPage.fullPaymentText}
-                          </p>
-                        )
-                      })}
-                    </div>
-                  </SimpleBorderedSegment>
-                </OrderSummaryItemSegment>
-              </div>
-            </>
+          {order.step >= 2 && order.step !== 5 ? (
+            <OrderFulfillForm
+              locale={this.locale}
+              order={order}
+              handleChangeCurrentContent={this.handleContentChange}
+            />
           ) : null}
-          {order.step === 0 && order.role === 'buyer' ? (
-            <div className="uk-margin-bottom">
-              <OrderSummaryItemSegment title={this.locale.orderViewPage.sendPaymentHeader}>
-                <PaymentQRCard
-                  amount={order.contract.buyerOrder.payment.amount}
-                  address={
-                    order.contract.vendorOrderConfirmation
-                      ? order.contract.vendorOrderConfirmation.paymentAddress
-                      : order.contract.buyerOrder.payment.address
-                  }
-                  cryptocurrency={order.contract.buyerOrder.payment.coin}
-                  handleCopyToClipboard={field => {
-                    console.log(field)
-                  }}
-                  handlePay={async () => {
-                    try {
-                      await order.pay({
-                        wallet: order.contract.buyerOrder.payment.coin,
-                        address: order.contract.buyerOrder.payment.address,
-                        amount: order.contract.buyerOrder.payment.amount,
-                        feeLevel: 'NORMAL',
-                        memo: '',
-                      })
-                      window.UIkit.notification(this.locale.orderViewPage.paymentSuccessNotif, {
-                        status: 'success',
-                      })
-                    } catch (e) {
-                      window.UIkit.notification(e.message, { status: 'danger' })
-                    }
-                  }}
-                />
-              </OrderSummaryItemSegment>
-            </div>
+          {order.step > 0 && order.paymentAddressTransactions.length > 1 ? (
+            <OrderPayments locale={this.locale} order={order} />
+          ) : null}
+          {order.step === 0 &&
+          order.role === 'buyer' &&
+          order.paymentAddressTransactions.length >= 1 ? (
+            <OrderCancelAction
+              locale={this.locale}
+              order={order}
+              handleCancelOrder={this.handleCancelOrder}
+            />
+          ) : null}
+          {order.step === 0 &&
+          order.role === 'buyer' &&
+          order.paymentAddressTransactions.length < 1 ? (
+            <OrderBuyerPayment locale={this.locale} order={order} />
           ) : null}
           {order.step === 0 && order.role === 'vendor' ? (
-            <div className="uk-margin-bottom">
-              <SimpleBorderedSegment
-                title={this.locale.orderViewPage.awaitingPaymentHeader}
-                icon="info"
-              >
-                <p className="color-secondary">
-                  {this.locale.orderViewPage.awaitingPaymentParagraph}
-                </p>
-              </SimpleBorderedSegment>
-            </div>
+            <OrderVendorAwaitingPayment locale={this.locale} />
           ) : null}
-          <div className="uk-margin-bottom uk-width-1-1">
-            <OrderSummaryItemSegment title={this.locale.orderViewPage.orderDetailsHeader}>
-              <SimpleBorderedSegment>
-                <OrderDetailsSegment
-                  listingName={decodeHtml(order.contract.vendorListings[0].item.title)}
-                  listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
-                  listingType="SERVICE"
-                  quantity={`${order.contract.buyerOrder.items[0].quantity ||
-                    order.contract.buyerOrder.items[0].quantity64}`}
-                  total={`${(
-                    order.value *
-                    (order.contract.buyerOrder.items[0].quantity ||
-                      order.contract.buyerOrder.items[0].quantity64)
-                  ).toFixed(2)} ${order[order.role!].preferences.fiat} (${order.cryptoValue})`}
-                  memo={decodeHtml(order.contract.buyerOrder.items[0].memo)}
-                />
-              </SimpleBorderedSegment>
-            </OrderSummaryItemSegment>
-          </div>
+          <OrderSummary locale={this.locale} order={order} />
         </div>
       </div>
     )
@@ -849,7 +484,11 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           />
         </form>
         <div className="uk-flex uk-flex-center">
-          <Button className="uk-button uk-button-primary" onClick={this.handleFulfillSubmit}>
+          <Button
+            className="uk-button uk-button-primary"
+            onClick={this.handleFulfillSubmit}
+            showSpinner={this.state.loadIndicator === LOAD_INDICATOR.FULFILL}
+          >
             Submit
           </Button>
         </div>
@@ -881,20 +520,17 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     }
   }
 
-  private async handleCompleteSubmit() {
-    this.setState({
-      loadIndicator: LOAD_INDICATOR.COMPLETE,
-    })
+  private async handleCompleteSubmit(orderCompleteRatingsCriteria, reviewText) {
     try {
       await this.state.order.complete(
-        this.state.review,
-        this.state.orderCompleteRatings,
+        reviewText,
+        orderCompleteRatingsCriteria,
         this.state.isAnonymous
       )
-      window.UIkit.notification(`${this.locale.orderViewPage.completedSuccessNotif}: `, {
+      window.UIkit.notification(`${this.locale.orderViewPage.completedSuccessNotif}`, {
         status: 'success',
       })
-      const order = await Order.retrieve(this.state.order.contract.vendorOrderConfirmation.orderID)
+      const order = await Order.retrieve(this.state.order.id)
       this.setState({
         order,
       })
@@ -903,7 +539,6 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         status: 'danger',
       })
     }
-    this.setState({ loadIndicator: LOAD_INDICATOR.NO_LOAD })
   }
 
   private async handleFulfillSubmit() {
@@ -978,6 +613,14 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     await this.handleBackBtn(true)
     this.setState({
       isSendingRequest: false,
+    })
+  }
+
+  private async handleCancelOrder() {
+    await this.state.order.cancel()
+    const orderUpdate = await Order.retrieve(this.state.id)
+    this.setState({
+      order: orderUpdate,
     })
   }
 
