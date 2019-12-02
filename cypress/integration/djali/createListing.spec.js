@@ -66,7 +66,8 @@ context('Create Listing', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
+      url:
+        'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
       response: 'fixture:listings/creative_marketing_full_response.json',
     })
     cy.visit('http://localhost:3000/')
@@ -176,7 +177,7 @@ context('Create Listing', () => {
 
     cy.get('#crypto-2').click()
     cy.get('#crypto-3').click()
-    cy.get('#listing-full-submit').click() 
+    cy.get('#listing-full-submit').click()
 
     const expectedRequest = {
       isOwner: false,
@@ -208,7 +209,7 @@ context('Create Listing', () => {
         grams: 0,
         condition: 'New',
         options: [],
-        skus: [{ quantity: -1, productID: '' }],
+        skus: [{ quantity: -1, productID: 'default' }],
       },
       averageRating: 0,
       hash: '',
@@ -232,12 +233,7 @@ context('Create Listing', () => {
       signature: '',
       slug: '',
       currentSlug: '',
-      vendorID: {
-        peerID: '',
-        handle: '',
-        pubkeys: { identity: '', bitcoin: '' },
-        bitcoinSig: '',
-      },
+      vendorID: { peerID: '', handle: '', pubkeys: { identity: '', bitcoin: '' }, bitcoinSig: '' },
       metadata: {
         version: 0,
         contractType: 'SERVICE',

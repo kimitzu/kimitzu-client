@@ -14,7 +14,7 @@ const IntroductionCard = (props: Props) => {
   const { intro } = localeInstance.get.localizations
 
   return (
-    <div id="main-card" className="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+    <div className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-width-3-4">
       <div className="uk-flex uk-flex-center uk-margin-small-top">
         <img id="introduction-logo" src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg" />
       </div>

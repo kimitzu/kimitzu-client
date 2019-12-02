@@ -43,8 +43,24 @@ const SideMenuWithContentCard = ({
       id="side-menu-with-content-card"
       className="uk-card uk-card-default uk-card-body uk-width-5-6@m uk-flex uk-margin-auto"
     >
+      <div
+        id="offcanvas-nav-primary"
+        data-uk-offcanvas="overlay: true"
+        onClick={e => window.UIkit.offcanvas(e.currentTarget).hide()}
+      >
+        <div className="uk-offcanvas-bar uk-flex uk-flex-column">
+          <MenuSideNav
+            id="mobile"
+            navItems={menuContent.navItems}
+            title={menuContent.title}
+            currentNavIndex={currentNavIndex}
+            currentSubNavIndex={currentSubNavIndex}
+          />
+        </div>
+      </div>
       <div id="side-menu-card-nav" className="uk-card-default">
         <MenuSideNav
+          id="desktop"
           navItems={menuContent.navItems}
           title={menuContent.title}
           currentNavIndex={currentNavIndex}
@@ -61,7 +77,13 @@ const SideMenuWithContentCard = ({
           />
         ) : null}
         <h4 id="side-menu-with-content-card-title" className="color-primary">
+          <span
+            id="button-menu-create-listing"
+            uk-icon="icon: menu; ratio: 2"
+            data-uk-toggle="target: #offcanvas-nav-primary"
+          />
           {mainContentTitle}
+          <span className="not-visible" uk-icon="icon: check; ratio: 2" />
         </h4>
         <div id="side-menu-with-content-card-component">{mainContent}</div>
       </div>

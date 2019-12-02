@@ -169,7 +169,6 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   public async componentDidMount() {
     try {
       const profileData = this.props.profileContext.currentUser
-      console.log(profileData)
       if (!profileData.customProps.programmerCompetency) {
         profileData.customProps.programmerCompetency = '{}'
       }
@@ -562,7 +561,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     if (isElectron()) {
       otherSettings.push({
         component: <MiscSettingsForm />,
-        label: settingsPage.otherNavItems.miscellaneous,
+        label: settingsPage.othersNavItems.miscellaneous,
       })
     }
 

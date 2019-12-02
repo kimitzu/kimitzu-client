@@ -70,7 +70,7 @@
   },
   "userForm": {
     "handleLabel": "Handle",
-    "handlePlaceholer": "john.doe",
+    "handlePlaceholder": "john.doe",
     "nameLabel": "Name",
     "namePlaceholder": "John Doe",
     "emailPlaceholder": "john@email.com",
@@ -256,7 +256,7 @@
       "saveErrorNotif": "Something went wrong. Please try again later.",
       "crashReportLabel": "Enable Crash Reporting",
       "crashReportHelper": "Send crash reports to the developers",
-      "autpUpdatesLabel": "Auto install updates",
+      "autoUpdatesLabel": "Auto install updates",
       "autoUpdatesHelper": "Updates will be downloaded and installed automatically"
     },
     "credentialsUpdateSuccessNotif": "Credentials successfully deleted!\nPlease restart the server for changes to take effect.",
@@ -286,6 +286,12 @@
     "casesLabel": "Cases"
   },
   "orderViewPage": {
+    "cancelPromptParagraph": "Are you sure you want to cancel this order?",
+    "cancelText": "Cancel",
+    "cancelOrderActionParagraph": "The vendor may be offline and has not yet confirmed the order. You may cancel this order and return the funds back to your account.",    
+    "cancelOrderText": "Order has been cancelled by the buyer.",
+    "cancelOrderHeader": "Cancel Order",
+    "canceledOrderHeader": "Order Canceled",
     "retrieveOrderText": "Retrieving Order...",
     "retrieveDiscussionsText": "Retrieving Discussions...",
     "summaryText": "Summary",
@@ -322,7 +328,8 @@
       "resolved": "Resolved",
       "error": "Error",
       "fulfilled": "Fulfilled",
-      "completed": "Completed"
+      "completed": "Completed",
+      "canceled": "Canceled"
     },
     "processErrorHeader": "Processing Error",
     "disputeExpiredHeader": "Dispute Expired",
@@ -604,7 +611,7 @@
         "description": "Orders with a dispute case."
       },
       "cancelled": {
-        "states": ["CANCELLED", "DECLINED"],
+        "states": ["CANCELED", "DECLINED"],
         "description": "Orders that were canceled by the buyer or that were refused by the vendor."
       },
       "errors": { "states": ["PROCESSING_ERROR"], "description": "Orders that have errors." }

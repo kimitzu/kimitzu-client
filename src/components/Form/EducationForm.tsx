@@ -113,7 +113,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             className="uk-textarea"
             rows={5}
             value={decodeHtml(education.description)}
-            placeholder={educationForm.descriptioLabel}
+            placeholder={educationForm.descriptionPlaceholder}
             required
             onChange={evt => {
               handleChange('description', evt.target.value)
@@ -137,12 +137,12 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
                 setIsStudyingHere(evt.target.checked)
               }}
             />{' '}
-            {educationForm.currentyStudyingLabel}
+            {educationForm.currentlyStudyingLabel}
           </label>
         </div>
         <TwoInputs
           input1={{
-            label: localizations.startDate,
+            label: localizations.startDateLabel,
             props: {
               type: 'date',
               required: true,
@@ -155,7 +155,7 @@ const EducationForm = ({ profile, updateIndex, isEdit, handleProfileSave }: Prop
             required: true,
           }}
           input2={{
-            label: localizations.endDate,
+            label: localizations.endDateLabel,
             props: {
               type: 'date',
               value: !isStudyingHere ? education.period!.to.toLocaleDateString('en-CA') : '',

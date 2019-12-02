@@ -117,7 +117,7 @@ const RegistrationForm = (props: Props) => {
               id="email"
               className="uk-input"
               type="text"
-              placeholder={localizations.emailPlaceholder}
+              placeholder={localizations.userForm.emailPlaceholder}
               value={props.data.contactInfo.email || ''}
               onChange={event => props.onChange('contactInfo.email', event.target.value, 'profile')}
             />

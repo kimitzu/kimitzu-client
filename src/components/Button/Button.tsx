@@ -9,13 +9,15 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = ({ showSpinner, ...props }: Props) => {
   const [btnWidth, setBtnWidth] = useState(0)
   const [btnHeight, setBtnHeight] = useState(0)
+
   useEffect(() => {
-    const btn = document.getElementById('djali-btn')
+    const btn = document.getElementById(props.id || 'djali-btn')
     if ((!btnWidth || !btnHeight) && !showSpinner && btn) {
       setBtnWidth(btn.offsetWidth)
       setBtnHeight(btn.offsetHeight)
     }
   })
+
   return (
     <button
       style={showSpinner ? { width: `${btnWidth}px`, height: `${btnHeight}px` } : {}}

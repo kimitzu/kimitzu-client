@@ -13,6 +13,7 @@ import config from '../config'
 import Rating, { RatingSummary } from '../interfaces/Rating'
 
 import { localeInstance } from '../i18n'
+import PeerRating from '../models/PeerRating'
 
 interface RatingItem extends Rating {
   avatar?: string
@@ -174,6 +175,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
         )
         this.setState({ ratingsSummary })
       }
+
+      console.log({ updatedRatings, summary: this.state.ratingsSummary })
+      const peerRatings = await PeerRating.seek(profile.peerID)
+      console.log(peerRatings)
     })
 
     this.setState({

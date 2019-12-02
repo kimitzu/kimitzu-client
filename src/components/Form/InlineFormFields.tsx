@@ -51,19 +51,21 @@ const InlineFormFields = ({ fields, sideOptions, alwaysShowSideOptions }: Props)
             }
       }
     >
-      {fields.map((field: Field, index: number) => (
-        <div key={index.toString()} id="field" className={`uk-width-1-${numberOfFields}@s`}>
-          {field.label ? (
-            <div id={field.label.name}>
-              <FormLabel required={field.label.required} label={field.label.name} />
-            </div>
-          ) : null}
-          {field.component}
-          {field.descriptiveLabel ? (
-            <label className="form-label-desciptor">{field.descriptiveLabel}</label>
-          ) : null}
-        </div>
-      ))}
+      <div className={`uk-child-width-1-${numberOfFields}@s`} data-uk-grid>
+        {fields.map((field: Field, index: number) => (
+          <div key={index.toString()} id="field">
+            {field.label ? (
+              <div id={field.label.name}>
+                <FormLabel required={field.label.required} label={field.label.name} />
+              </div>
+            ) : null}
+            {field.component}
+            {field.descriptiveLabel ? (
+              <label className="form-label-desciptor">{field.descriptiveLabel}</label>
+            ) : null}
+          </div>
+        ))}
+      </div>
       {sideOptions && showSideOptions ? (
         <div style={{ paddingTop: hasLabels ? '25px' : '0px' }} id="side-options">
           {sideOptions}

@@ -79,16 +79,16 @@ context('Purchase', () => {
     cy.wait(2000)
     cy.get('#QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C').click()
     cy.get('#checkout').click()
-    cy.get('.uk-form-controls > :nth-child(1) > .uk-radio').click()
+    cy.get('#desktop-TBTC').click()
 
     cy.contains('Microsoft Office Suite Installation')
     cy.contains('20.00')
     cy.get(':nth-child(3) > #listing-checkout-card-side-data > p').contains('1')
     cy.contains('PLACE ORDER NOW')
-    cy.get('.uk-form-controls > :nth-child(1) > .uk-radio').should('be.checked')
+    cy.get('#desktop-TBTC').should('be.checked')
     cy.contains('0.00004805')
 
-    cy.get('#djali-btn').click()
+    cy.get('#desktop-place-order-button').click()
 
     setTimeout(() => {
       webSocketMock.sendMsg(`{"notification":{

@@ -16,3 +16,28 @@
 #payment-modal > p{
   color: black;
 }
+.hide-checkout-payment-2 {
+  display: none;
+}
+.order-below-checkout-2 {
+  display: flex;
+}
+.order-below-checkout {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .hide-checkout-payment {
+    display: none;
+  }
+  .hide-checkout-payment-2 {
+    display: block;
+  }
+  .order-below-checkout {
+    display: flex;
+    margin-top: 20px;
+  }
+  .order-below-checkout-2 {
+    display: none;
+  }
+}

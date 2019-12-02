@@ -365,14 +365,40 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         ) : null}
         <div className="uk-flex uk-flex-row">
           <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
-            <div className="uk-margin-bottom">
-              <ListingCheckoutCard listing={listing} quantity={quantity} />
+            <div className="uk-margin-bottom hide-checkout-payment-2">
+              <CheckoutPaymentCard
+                id="mobile"
+                key={this.state.isPending.toString()}
+                acceptedCurrencies={cryptoCurrencies.filter(crypto => {
+                  return this.state.listing.metadata.acceptedCurrencies.includes(crypto.value)
+                })}
+                orderSummary={{
+                  discount: this.state.discount,
+                  estimate: this.state.estimate,
+                  listingAmount: Number(this.state.listing.displayValue),
+                  shippingAmount: 0,
+                  subTotalAmount: Number(this.state.listing.displayValue) * this.state.quantity,
+                  totalAmount: this.state.totalAmount,
+                }}
+                listing={this.state.listing}
+                handleOnChange={this.handleChange}
+                handlePlaceOrder={this.handlePlaceOrder}
+                isPending={this.state.isPending}
+                selectedCurrency={this.state.selectedCurrency}
+                isEstimating={this.state.isEstimating}
+                quantity={this.state.quantity}
+              />
             </div>
-
-            {interactivePane}
+            <div id="checkout-order-summary" className="uk-flex uk-flex-column">
+              <div className="uk-margin-top">
+                <ListingCheckoutCard listing={listing} quantity={quantity} />
+              </div>
+              <div className="uk-margin-top">{interactivePane}</div>
+            </div>
           </div>
-          <div className="uk-flex uk-padding-small uk-width-1-3">
+          <div className="uk-flex uk-padding-small uk-width-1-3 hide-checkout-payment">
             <CheckoutPaymentCard
+              id="desktop"
               key={this.state.isPending.toString()}
               acceptedCurrencies={cryptoCurrencies.filter(crypto => {
                 return this.state.listing.metadata.acceptedCurrencies.includes(crypto.value)
@@ -458,7 +484,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           })
         }
       } else {
-        window.UIkit.notification(this.locale.checkoutPage.applyCouponFail, {
+        window.UIkit.notification(this.locale.checkoutPage.applyCouponFailNotif, {
           status: 'danger',
         })
       }

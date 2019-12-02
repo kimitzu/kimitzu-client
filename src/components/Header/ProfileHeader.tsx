@@ -61,7 +61,7 @@ const ProfileHeader = ({
           </Button>
         </div>
       </div>
-      <div id="profile-header" className="uk-width-1-1">
+      <div id="profile-header" className="uk-width-1-1 hidden-profile-options">
         <div id="profile-header-picture">
           {profile.peerID ? (
             <img
@@ -81,28 +81,28 @@ const ProfileHeader = ({
           </div>
           <ul data-uk-tab="connect: #container-profile">
             <li className="uk-active">
-              <a href="#" id="tab-label">
+              <a href="#" id="desktop-profile-tab-label">
                 {tabTitles.profile}
               </a>
             </li>
             <li>
-              <a href="#" id="tab-label">
+              <a href="#" id="desktop-store-tab-label">
                 {tabTitles.store} <span id="label-number"> {profile.stats!.listingCount} </span>
               </a>
             </li>
             <li>
-              <a href="#" id="tab-label">
+              <a href="#" id="desktop-ratings-tab-label">
                 {tabTitles.ratings}
               </a>
             </li>
             <li>
-              <a href="#" id="tab-label">
+              <a href="#" id="desktop-followers-tab-label">
                 {tabTitles.followers}{' '}
                 <span id="label-number"> {profile.stats!.followerCount} </span>
               </a>
             </li>
             <li>
-              <a href="#" id="tab-label">
+              <a href="#" id="desktop-following-tab-label">
                 {tabTitles.following}{' '}
                 <span id="label-number"> {profile.stats!.followingCount} </span>
               </a>
@@ -111,7 +111,7 @@ const ProfileHeader = ({
               <>
                 <li>
                   <a
-                    id="tab-label"
+                    id="desktop-sales-tab-label"
                     onClick={() => {
                       window.location.hash = '/history/sales'
                     }}
@@ -121,7 +121,7 @@ const ProfileHeader = ({
                 </li>
                 <li>
                   <a
-                    id="tab-label"
+                    id="desktop-purchases-tab-label"
                     onClick={() => {
                       window.location.hash = '/history/purchases'
                     }}
@@ -131,6 +131,88 @@ const ProfileHeader = ({
                 </li>
               </>
             ) : null}
+          </ul>
+        </div>
+      </div>
+      <div id="profile-header" className="uk-width-1-1 hidden-profile-options-2">
+        <div id="profile-header-picture">
+          {profile.peerID ? (
+            <img
+              src={
+                profile.avatarHashes.medium
+                  ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.medium}`
+                  : `${config.host}/images/user.svg`
+              }
+            />
+          ) : (
+            <div uk-spinner="ratio: 3" />
+          )}
+        </div>
+        <div id="profile-header-name">
+          <h3>{profile.name}</h3>
+        </div>
+        <div id="profile-header-tab">
+          <ul data-uk-tab="connect: #container-profile">
+            <li className="uk-active">
+              <a href="#" id="mobile-profile-tab-label">
+                {tabTitles.profile}
+              </a>
+            </li>
+            <li>
+              <a href="#" id="mobile-store-tab-label">
+                {tabTitles.store} <span id="label-number"> {profile.stats!.listingCount} </span>
+              </a>
+            </li>
+            <li>
+              <a href="#" id="mobile-ratings-tab-label">
+                {tabTitles.ratings}
+              </a>
+            </li>
+            <li>
+              <a href="#" id="mobile-followers-tab-label">
+                {tabTitles.followers}{' '}
+                <span id="label-number"> {profile.stats!.followerCount} </span>
+              </a>
+            </li>
+            <li>
+              <a href="#" id="tab-label">
+                <span data-uk-icon="triangle-down">MORE </span>
+                <div data-uk-dropdown="pos: bottom-justify">
+                  <ul className="uk-nav uk-dropdown-nav">
+                    <li>
+                      <a href="#" id="mobile-following-tab-label">
+                        {tabTitles.following}{' '}
+                        <span id="label-number"> {profile.stats!.followingCount} </span>
+                      </a>
+                    </li>
+                    {isOwner ? (
+                      <>
+                        <li>
+                          <a
+                            id="mobile-sales-tab-label"
+                            onClick={() => {
+                              window.location.hash = '/history/sales'
+                            }}
+                          >
+                            {tabTitles.salesHistory}
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            id="mobile-purchases-tab-label"
+                            onClick={() => {
+                              window.location.hash = '/history/purchases'
+                            }}
+                          >
+                            {tabTitles.purchaseHistory}
+                          </a>
+                        </li>
+                      </>
+                    ) : null}
+                  </ul>
+                </div>
+              </a>
+            </li>
           </ul>
         </div>
       </div>

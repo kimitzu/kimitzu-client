@@ -124,7 +124,7 @@ context('Edit Profile', () => {
 
     cy.wait(500)
 
-    cy.get('[aria-hidden="false"] > :nth-child(2) > .uk-nav-sub > :nth-child(2) > a').click()
+    cy.get('#desktop-social-media > a').click()
 
     cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select').select('500px')
     cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input').clear().type('500pxUsername')
@@ -167,7 +167,7 @@ context('Edit Profile', () => {
 
     cy.wait(500)
 
-    cy.get('.uk-nav-sub > :nth-child(3) > a').click()
+    cy.get('#desktop-education > a').click()
     cy.get('#add-address-text').click()
 
     cy.get('.uk-fieldset > :nth-child(1) > .uk-input').type('New School Name 1')
@@ -209,7 +209,7 @@ context('Edit Profile', () => {
 
     cy.wait(500)
 
-    cy.get('.uk-nav-sub > :nth-child(4) > a').click()
+    cy.get('#desktop-work-history > a').click()
     cy.get('#add-address-text').click()
 
     cy.get('.uk-fieldset > :nth-child(1) > .uk-input').type('New Company 1')
@@ -250,7 +250,7 @@ context('Edit Profile', () => {
 
     cy.wait(500)
 
-    cy.get('.uk-nav-sub > :nth-child(5) > a').click()
+    cy.get('#desktop-addresses > a').click()
     cy.get('#address-text').click()
 
     cy.get('#street-address-1').type('New Address 1')

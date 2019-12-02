@@ -156,7 +156,7 @@ context('Profile', () => {
 
     cy.get('#account').click()
     cy.get('#view-profile').click()
-    cy.get(':nth-child(2) > #tab-label').click()
+    cy.get('#desktop-store-tab-label').click()
 
     cy.get('#Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji')
       .contains('Creative Marketing')
@@ -165,10 +165,10 @@ context('Profile', () => {
     cy.contains('0.38')
   })
 
-  it('should display expected values on Store Tab', () => {
+  it('should display expected values on Ratings Tab', () => {
     cy.get('#account').click()
     cy.get('#view-profile').click()
-    cy.get(':nth-child(3) > #tab-label').click()
+    cy.get('#desktop-ratings-tab-label').click()
 
     cy.contains('Buyer Ratings')
     cy.get('.divider > .uk-padding-small > :nth-child(1) > :nth-child(1) > .uk-flex-1 > h4')

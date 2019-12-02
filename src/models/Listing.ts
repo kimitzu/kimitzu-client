@@ -34,17 +34,9 @@ class Listing implements ListingInterface {
     const djaliListing = djaliListingRequest.data
 
     /**
-     * Load profile from cache first.
+     * Load profile from cache.
      */
     const vendor = await Profile.retrieve(djaliListing.vendorID.peerID, false)
-
-    /**
-     * Force update profile in the background to reflect changes as the
-     * user interacts with the listing.
-     */
-    // setTimeout(async () => {
-    //   await Profile.retrieve(djaliListing.vendorID.peerID, true)
-    // }, 1000)
 
     const imageData = djaliListing.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
@@ -143,7 +135,7 @@ class Listing implements ListingInterface {
     language: '',
     escrowTimeoutHours: 0,
     coinType: '',
-    coinDivisibility: 100000000, // USD Default
+    coinDivisibility: 100000000,
     priceModifier: 0,
     serviceRateMethod: 'FIXED',
     serviceClassification: '',
@@ -187,29 +179,23 @@ class Listing implements ListingInterface {
   }
 
   public denormalize(): Listing {
-    const MAX_SLUG_LENGTH = 70
-
+    const NORMAL_CURRENCY_MULTIPLIER = 100
     const listingClone = JSON.parse(JSON.stringify(this)) as Listing
-    listingClone.slug = slugify(listingClone.item.title, { remove: /[*+~.()'"!:@]/g }).substr(
-      0,
-      MAX_SLUG_LENGTH
-    )
 
     listingClone.coupons = listingClone.coupons.filter(
       coupon => coupon.discountCode !== '' || coupon.title !== ''
     )
     listingClone.coupons = listingClone.coupons.map(c => {
       if (c.priceDiscount) {
-        c.priceDiscount *= 100
+        c.priceDiscount *= NORMAL_CURRENCY_MULTIPLIER
       }
       return c
     })
 
-    listingClone.item.price *= 100
+    listingClone.item.price *= NORMAL_CURRENCY_MULTIPLIER
 
     delete listingClone.item.skus[0].variantCombo
-    listingClone.item.skus[0].productID = this.currentSlug
-    listingClone.slug = this.currentSlug
+    listingClone.item.skus[0].productID = 'default'
 
     listingClone.item.categories = this.item.categories.map(category =>
       category.split(':')[0].substr(0, 40)

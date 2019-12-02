@@ -1,66 +1,66 @@
 {
   "usernameLabel": "Nombre de usuario",
   "passwordLabel": "Contraseña",
-  "emailLabel": "Correo electrónico",
+  "emailLabel": "Email",
   "locationLabel": "Ubicación",
   "descriptionLabel": "Descripción",
   "generalLabel": "General",
-  "nextBtnText": "Siguiente",
+  "nextBtnText": "próximo",
   "loginBtnText": "Iniciar sesión",
-  "deleteBtnText": "Eliminar",
+  "deleteBtnText": "Borrar",
   "cancelBtnText": "Cancelar",
-  "changePhotoBtnText": "Cambiar",
-  "homeBtnText": "Inicio",
-  "saveBtnText": "Guardar",
+  "changePhotoBtnText": "Cambio",
+  "homeBtnText": "Casa",
+  "saveBtnText": "Salvar",
   "titleLabel": "Título",
   "typeLabel": "Tipo",
   "yesText": "Sí",
   "noText": "No",
   "startDateLabel": "Fecha de inicio",
-  "endDateLabel": "Fecha de finalización",
+  "endDateLabel": "Fecha final",
   "addEntryText": "Agregar nueva entrada",
-  "peerID": "ID de igual",
+  "peerID": "Identificación de pares",
   "minimum": "Mínimo",
   "maximum": "Máximo",
   "intro": {
     "helper": "¿Nuevo en Djali?",
-    "nextBtnText": "Comenzar",
-    "appDescription": "Un mercado libre para servicios"
+    "nextBtnText": "Empezar",
+    "appDescription": "Un mercado libre de servicios."
   },
   "moderatorsText": "Moderadores",
   "skillsText": "Habilidades",
   "competenciesText": "Competencias",
   "homePage": {
     "headerDropdownPlaceholder": "Examinar clasificaciones",
-    "crawlingHeader": "Crawling ...",
-    "crawlingContent1": "¡Genial! Parece que acabas de instalar Djali",
-    "crawlingContent2": "Vuelva más tarde cuando Djali rastree los listados en la red",
-    "noResultsHeader": "Sin resultados",
-    "noResultsContent": "Su búsqueda no coincide con ningún listado",
+    "crawlingHeader": "Arrastrándose ...",
+    "crawlingContent1": "¡Excelente! Parece que acabas de instalar Djali.",
+    "crawlingContent2": "Regrese más tarde mientras Djali rastrea los listados en la red.",
+    "noResultsHeader": "No hay resultados",
+    "noResultsContent": "Tu búsqueda no encaja con ninguna lista.",
     "noResultsSuggestionsText": "Sugerencias",
     "noResultsSuggestions": [
-      "Pruebe con una palabra clave o filtro de búsqueda diferente",
-      "Asegúrese de que todas las palabras estén escritas correctamente",
+      "Pruebe con una palabra clave o filtro de búsqueda diferente.",
+      "Asegúrese de que todas las palabras estén escritas correctamente.",
       "Prueba palabras clave más generales."
     ]
   },
   "searchFilters": {
     "header": "Filtros",
     "checkboxLabel": "Ocultar listados propios",
-    "occupationLabel": " Ocupación",
+    "occupationLabel": "Ocupación",
     "priceRangeLabel": "Rango de precios",
-    "ratingsLabel": "Valoraciones",
+    "ratingsLabel": "Calificaciones",
     "locationRadiusLabel": "Dentro del radio"
   },
   "navigationBar": {
     "createNewListingLabel": "Crear nuevo listado",
     "purchaseHistoryLabel": "Historial de compras",
     "salesHistoryLabel": "Historial de ventas",
-    "caseHistoryLabel": "Historial de casos",
+    "caseHistoryLabel": "Historia del caso",
     "profileLabel": "Perfil",
-    "walletLabel": "Monedero",
-    "settingsLabel": "Configuración",
-    "supportLabel1": "¿Problemas, preguntas o sugerencias?",
+    "walletLabel": "Billetera",
+    "settingsLabel": "Configuraciones",
+    "supportLabel1": "Problemas, preguntas o sugerencias?",
     "supportLabel2": "Contáctanos en:",
     "searchPlaceholder": "¿Qué estás buscando?"
   },
@@ -69,8 +69,8 @@
     "successNotification": "Registro exitoso"
   },
   "userForm": {
-    "handleLabel": "Manija",
-    "handlePlaceholer": "john.doe",
+    "handleLabel": "Encargarse de",
+    "handlePlaceholder": "john.doe",
     "nameLabel": "Nombre",
     "namePlaceholder": "John Doe",
     "emailPlaceholder": "john@email.com",
@@ -82,7 +82,7 @@
   },
   "tosPage": {
     "header": "Términos de servicio",
-    "tos": "La comunidad de desarrolladores de Djali ha trabajado arduamente para ofrecer un mercado libre para los servicios. Pero como con cualquier software, habrá errores. Los usuarios de Djali también pueden encontrar trolls, spammers, ladrones y otros actores malos mientras usan Los desarrolladores de la aplicación Djali trabajarán continuamente para proporcionar herramientas a los usuarios que los ayuden a identificar, bloquear y eliminar a los malos actores del ecosistema de Djali. Sin embargo, estas herramientas pueden fallar ocasionalmente. Los desarrolladores no son responsables de ninguna pérdida monetaria asociada con software. \n \n Debido a la naturaleza global, peer-to-peer, resistente a la censura de Djali, los usuarios pueden ver listados de servicios que actualmente no son legales en su jurisdicción. Es responsabilidad de los usuarios de Djali asegurarse de que cumplen con las leyes de su jurisdicción. \n \nDali opera a través de la red Tor por defecto, y la única información que los usuarios deben proporcionar es un identificador y un país. Los desarrolladores de Djali también han hecho un esfuerzo de buena fe para ayudar a los usuarios mantener su privacidad mientras usa Djali. Sin embargo, Djali es un software experimental, y puede haber fallas que revelen información confidencial. También es fácil anonimizarse, como hablar de la vida personal con un cliente o describirse con demasiados detalles. También hay muchos adversarios, como gobiernos o criminales, que trabajan para derrotar los mecanismos de privacidad de Djali. Por lo tanto, los desarrolladores de Djali no ofrecen ninguna garantía con respecto a la capacidad del software para mantener la privacidad del usuario."
+    "tos": "La comunidad de desarrolladores de Djali ha trabajado duro para ofrecer un mercado libre para los servicios. Pero como con cualquier software, habrá errores. Los usuarios de Djali también pueden encontrarse con trolls, spammers, ladrones y otros actores malos mientras usan la aplicación. Los desarrolladores de Djali trabajarán continuamente para proporcionar herramientas a los usuarios que los ayuden a identificar, bloquear y eliminar a los malos actores del ecosistema de Djali. Sin embargo, estas herramientas pueden fallar a veces. Los desarrolladores no son responsables de ninguna pérdida monetaria asociada con el software. Debido a la naturaleza global, peer-to-peer, resistente a la censura de Djali, los usuarios pueden ver listados de servicios que actualmente no son legales en su jurisdicción. Es responsabilidad de los usuarios de Djali asegurarse de que cumplen con las leyes de su jurisdicción. Djali opera a través de la red Tor de forma predeterminada, y la única información que los usuarios deben proporcionar es un identificador y un país. Los desarrolladores de Djali también han hecho un esfuerzo de buena fe para ayudar a los usuarios a mantener su privacidad mientras usan Djali. Sin embargo, Djali es un software experimental, y puede haber fallas que revelen información confidencial. También es fácil anonimizarse, como hablar de la vida personal con un cliente o describirse con demasiado detalle. También hay muchos adversarios, como gobiernos o delincuentes, que trabajan para derrotar los mecanismos de privacidad de Djali. Por lo tanto, los desarrolladores de Djali no ofrecen ninguna garantía con respecto a la capacidad del software para mantener la privacidad del usuario."
   },
   "addressForm": {
     "streetLabel": "Dirección",
@@ -94,69 +94,66 @@
     "countryLabel": "País",
     "countryPlaceholder": "Seleccionar país",
     "plusCodeHelper": "¿Qué es un código Plus?",
-    "addBtnText": "Agregar dirección",
+    "addBtnText": "Añadir dirección",
     "updateBtnText": "Actualizar dirección"
   },
   "listingForm": {
     "updateBtnText": "Actualizar listado",
     "addBtnText": "Crear listado",
-    "classificationLabel": "Clasificación de la ocupación",
-    "titleDescriptor": "Algo descriptivo que explica claramente su servicio",
+    "classificationLabel": "Clasificación de Ocupación",
+    "titleDescriptor": "Algo descriptivo que explique claramente su servicio.",
     "priceLabel": "Precio",
-    "priceDescriptor": "Establezca su precio y su moneda",
-    "rateMethodLabel": "Método de tasa",
+    "priceDescriptor": "Establece tu precio y su moneda",
+    "rateMethodLabel": "Método de tarifa",
     "rateMethodDescriptor": "¿Cómo le gustaría cobrar a los clientes?",
     "serviceQuantityLabel": "Cantidad de servicio",
-    "serviceQuantityDescriptor": "¿Cuántas unidades de servicio le gustaría ofrecer? (Deje en blanco si no desea utilizar este campo)",
+    "serviceQuantityDescriptor": "¿Cuántas unidades de servicio te gustaría ofrecer? (Déjelo en blanco si no desea utilizar este campo)",
     "matureContentLabel": "Contenido para adultos",
     "photoLabel": "AGREGAR FOTO (Incluya hasta 30 fotos)",
     "tagsLabel": "Etiquetas",
-    "tagsPlaceholder": "Agregar una etiqueta",
-    "tagsDescriptor": "Presione \" Enter \"para agregar una entrada",
-    "tagsHelper": "Use etiquetas para mejorar la visibilidad de búsqueda de su listado",
-    "termsAndConditionsLabel": "Términos y condiciones",
-    "termsAndConditionsDescriptor": "Si se deja en blanco, la lista mostrará \" No se ingresaron términos y condiciones \"",
-    "moderatorsHelper1": "Parece que no tienes una configuración de moderadores favorita",
+    "tagsPlaceholder": "Añadir una etiqueta",
+    "tagsDescriptor": "Presione &quot;Enter&quot; para agregar una entrada",
+    "tagsHelper": "Use etiquetas para mejorar la visibilidad de búsqueda de su listado.",
+    "termsAndConditionsLabel": "Términos y Condiciones",
+    "termsAndConditionsDescriptor": "Si se deja en blanco, la lista mostrará &quot;No se ingresaron términos y condiciones&quot;",
+    "moderatorsHelper1": "Parece que no tienes una configuración de moderadores favorita.",
     "moderatorsHelper2": "Puede configurar esto en el",
     "moderatorsHelperLink": "página de configuración",
-    "couponsHelper": "Cree cupones que sus clientes puedan usar durante el pago para ofertas exclusivas o descuentos",
+    "couponsHelper": "Cree cupones que sus clientes puedan usar durante el pago para ofertas exclusivas o descuentos.",
     "couponTitleLabel": "Título",
     "couponTitlePlaceholder": "Título del cupón",
     "couponCodeLabel": "Código",
     "couponCodePlaceholder": "Código de descuento",
     "couponDiscountLabel": "Valor",
     "couponDiscountPlaceholder": "Descuento",
-    "addCouponLink": "Agregar cupón",
-    "percentLabel": "Porcentaje",
-    "currencyDescriptor": "Aceptar más monedas atraerá a más clientes",
+    "addCouponLink": "Añadir cupón",
+    "percentLabel": "Por ciento",
+    "currenciesDescriptor": "Aceptar más monedas atraerá a más clientes.",
     "abandonPrompt": "Sus cambios no se guardarán. ¿Continuar?",
     "notifications": {
       "cannotEdit": "¡No se puede editar la lista que no te pertenece!",
-      "addSuccess": "Listado publicado correctamente",
-      "updateSuccess": "Listado actualizado correctamente"
+      "addSuccess": "Listado publicado con éxito",
+      "updateSuccess": "Listado actualizado con éxito"
     },
     "navItems": {
       "moderatorsLabel": "Moderadores",
       "photosLabel": "Fotos",
       "couponsLabel": "Cupones",
-      "currencyLabel": "Monedas aceptadas"
+      "currenciesLabel": "Monedas aceptadas"
     }
   },
   "photoSlideshow": {
-    "dropArea": {
-      "placeholder": "Arrastra y suelta una foto o",
-      "selectLabel": "seleccionar"
-    }
+    "dropArea": { "placeholder": "Arrastra y suelta una foto o", "selectLabel": "seleccionar" }
   },
   "moderatorSelectionForm": {
-    "crawlingNotif1": "Está tardando un tiempo en rastrear la red para los moderadores disponibles",
-    "crawlingNotif2": "Espere un poco más o vuelva más tarde",
-    "showDetailsLink": "Más ...",
-    "searchPlaceholder": "Buscar por nombre o ID del moderador",
+    "crawlingNotif1": "Está tomando un tiempo rastrear la red para los moderadores disponibles.",
+    "crawlingNotif2": "Por favor espere un poco más o regrese más tarde.",
+    "showDetailsLink": "Más...",
+    "searchPlaceholder": "Buscar por nombre de moderador o ID",
     "searchSpinnerText": "Buscando moderadores en la red ...",
-    "noResultsHeader": "No hay moderadores disponibles",
+    "noResultsHeader": "No hay moderadores disponibles.",
     "noResultsParagraph": "No hay resultados para",
-    "resultsParagraph": "Resultado de la búsqueda",
+    "resultsParagraph": "Resultado de búsqueda",
     "favouriteSeparatorText": "Favorito",
     "recentSeparatorText": "Reciente",
     "availableSeparatortext": "Disponible"
@@ -164,119 +161,104 @@
   "profilePage": {
     "aboutHeader": "Acerca de",
     "educationHeader": "Educación",
-    "socialMediaHeader": "Redes sociales",
+    "socialMediaHeader": "Medios de comunicación social",
     "workHistoryHeader": "Historial de trabajo",
     "skillsHeader": "Habilidades",
     "othersHeader": "Otra información",
     "competencyHeader": "Competencia",
     "noLocationParagraph": "Ubicación no especificada",
-    "noListingsHeader": "No hay listados disponibles",
+    "noListingsHeader": "No hay listados disponibles.",
     "redirectSpinnerText": "Redireccionando ...",
     "messageBtnText": "Mensaje",
-    "buyerRatingsHeader": "Valoraciones del comprador",
-    "sellerRatingsHeader": "Valoraciones del vendedor",
+    "buyerRatingsHeader": "Calificaciones del comprador",
+    "sellerRatingsHeader": "Calificaciones del vendedor",
     "tabTitles": {
       "profile": "Perfil",
-      "store": "Tienda",
-      "ratings": "ratings",
+      "store": "Almacenar",
+      "ratings": "Calificaciones",
       "following": "Siguiendo",
-      "seguidores": "Seguidores",
+      "followers": "Seguidores",
       "salesHistory": "Historial de ventas",
-      "buyHistory": "Historial de compras"
+      "purchaseHistory": "Historial de compras"
     },
-    "profileNotFoundHeader": "No se puede recuperar el perfil.",
+    "profileNotFoundHeader": "No se puede recuperar el perfil",
     "profileNotFoundSubText": "El perfil que solicitó está actualmente fuera de línea o no existe en la red Djali."
   },
   "followButton": {
     "followBtnText": "Seguir",
-    "followingBtnText": "Siguiente",
+    "followingBtnText": "Siguiendo",
     "followingBtnTip": "Dejar de seguir"
   },
   "blockButton": {
-    "blockBtnText": "Bloque",
-    "blockedBtnText": "Bloqueado",
-    "blockBtnTip": "Desbloquear"
+    "blockBtnText": "Bloquear",
+    "blockedBtnText": "Obstruido",
+    "blockedBtnTip": "Desatascar"
   },
   "settingsPage": {
-    "header": "Configuración",
+    "header": "Configuraciones",
     "spinnerText": "Cargando perfil ...",
-    "changeCredMsgTextA": "Habilitar esta función activará los mecanismos de autenticación de Djali para proteger a \ntu cliente de acceso no autorizado",
-    "changeCredMsgTextB": "Otras funciones no críticas, como la búsqueda, seguirán siendo accesibles, pero las funciones relacionadas con pagos y \normativas necesitarán autenticación para continuar",
-    "autenticaciónTexto": "Autenticación",
+    "changeCredMsgTextA": "Habilitar esta función activará los mecanismos de autenticación de Djali para proteger a su cliente del acceso no autorizado.",
+    "changeCredMsgTextB": "Todavía se podrá acceder a otras funciones no críticas, como la búsqueda, pero las funciones relacionadas con el pago y los pedidos necesitarán autenticación para poder continuar.",
+    "authenticationText": "Autenticación",
     "generalNavItem": "General",
-    "oldUsernameLabel": "Antiguo nombre de usuario",
+    "oldUsernameLabel": "Nombre de usuario anterior",
     "oldPasswordLabel": "Contraseña anterior",
     "newUsernameLabel": "Nuevo nombre de usuario",
     "newPasswordLabel": "Nueva contraseña",
     "changeCredentialsBtnText": "Cambiar credenciales",
-    "enableAuthenticationBtnText": "Activar autenticación",
+    "activateAuthenticationBtnText": "Activar autenticación",
     "navItems": {
       "profile": "Perfil",
       "moderation": "Moderación",
-      "store": "Tienda",
-      "seguridad": "seguridad",
+      "store": "Almacenar",
+      "security": "Seguridad",
       "skills": "Habilidades",
-      "others": "Otras configuraciones"
+      "others": "Otros ajustes"
     },
     "profileNavItems": {
-      "socialMedia": "Redes sociales",
+      "socialMedia": "Medios de comunicación social",
       "education": "Educación",
       "workHistory": "Historial de trabajo",
       "addresses": "Direcciones",
       "customDescriptions": "Descripciones personalizadas"
     },
-    "securityNavItems": {
-      "auth": "Autenticación",
-      "deactivate": "Desactivar"
-    },
-    "othersNavItems": {
-      "blockedPeers": "Pares bloqueados",
-      "miscellaneous": "Misceláneo"
-    },
+    "securityNavItems": { "auth": "Autenticación", "deactivate": "Desactivar" },
+    "othersNavItems": { "blockedPeers": "Compañeros bloqueados", "miscellaneous": "Diverso" },
     "favoriteModeratorsNavItem": "Moderadores favoritos",
-    "competencyDeleteSuccessNotif": "Competencia eliminada",
-    "competencyUpdateSuccessNotif": "¡Competencia actualizada!",
+    "competencyDeleteSuccessNotif": "Competencia eliminada!",
+    "competencyUpdateSuccessNotif": "Competencia actualizada!",
     "deactivateAuthForm": {
-      "helper1": "Esto desactivará los mecanismos de autenticación de Djali y su cliente ya no estará protegido contra el acceso no autorizado",
-      "helper2": "Las funciones relacionadas con el pago y los pedidos ya no necesitarán autenticación para continuar",
+      "helper1": "Esto desactivará los mecanismos de autenticación de Djali y su cliente ya no estará protegido contra el acceso no autorizado.",
+      "helper2": "Las funciones relacionadas con el pago y los pedidos ya no necesitarán autenticación para continuar.",
       "submitBtnText": "Desactivar autenticación"
     },
-    "saveSkillsSuccessNotif": "Habilidades guardadas",
+    "saveSkillsSuccessNotif": "Habilidades guardadas!",
     "saveSkillsErrorNotif": "Error al guardar",
-    "educationForm": {
-      "addBtnText": "Agregar educación",
-      "updateBtnText": "Actualizar educación"
-    },
-    "workForm": {
-      "addBtnText": "Agregar trabajo",
-      "updateBtnText": "Actualizar trabajo"
-    },
+    "educationForm": { "addBtnText": "Agregar educación", "updateBtnText": "Actualizar educación" },
+    "workForm": { "addBtnText": "Agregar trabajo", "updateBtnText": "Actualización de trabajo" },
     "miscForm": {
       "saveSuccessNotif": "Configuración actualizada correctamente",
-      "saveErrorNotif": "Algo salió mal. Inténtalo de nuevo más tarde",
+      "saveErrorNotif": "Algo salió mal. Por favor, inténtelo de nuevo más tarde.",
       "crashReportLabel": "Habilitar informes de bloqueo",
       "crashReportHelper": "Enviar informes de fallos a los desarrolladores",
-      "autpUpdatesLabel": "Actualizaciones de instalación automática",
+      "autoUpdatesLabel": "Actualizaciones de instalación automática",
       "autoUpdatesHelper": "Las actualizaciones se descargarán e instalarán automáticamente"
     },
-    "credentialsUpdateSuccessNotif": "¡Las credenciales se eliminaron correctamente! \nReinicie el servidor para que los cambios surtan efecto",
+    "credentialsUpdateSuccessNotif": "¡Credenciales eliminadas con éxito! Reinicie el servidor para que los cambios surtan efecto.",
     "profileUpdateSuccessNotif": "¡Perfil actualizado!",
-    "profileSaveSuccessNotif": "¡Perfil guardado!",
-    "moderatorSaveSuccessNotif": "Moderador guardado",
-    "expiredListingNotif": "Advertencia: ha expirado los listados",
-    "authUpdateSuccessNotif": "¡Nuevas credenciales aceptadas! \nReinicie el servidor para que los cambios surtan efecto",
-    "blockNodesCard": {
-      "emptyContentText": "No hay pares bloqueados",
+    "profileSaveSuccessNotif": "Perfil guardado!",
+    "moderatorSaveSuccessNotif": "Moderador guardado.",
+    "expiredListingNotif": "Advertencia: has expirado listados",
+    "authUpdateSuccessNotif": "¡Nuevas credenciales aceptadas! Reinicie el servidor para que los cambios surtan efecto.",
+    "blockedNodesCard": {
+      "emptyContentText": "No hay compañeros bloqueados.",
       "unblockSuccessNotif": "¡Peer desbloqueado con éxito!",
-      "unblockErrorNotif": "No se pudo desbloquear el par. Vuelve a intentarlo más tarde"
+      "unblockErrorNotif": "No se pudo desbloquear al igual. Por favor, inténtelo de nuevo más tarde."
     }
   },
   "orderHistoryPage": {
     "searchPlaceholder": "Buscar por título, número de pedido o proveedor",
-    "filterSidebar": {
-      "header": "Filtro",
-      "resetBtnText": "Restablecer filtros"
-    },
+    "filterSidebar": { "header": "Filtrar", "resetBtnText": "Restablecer filtros" },
     "totalLabel": "Total",
     "orderLabel": "Orden",
     "dateLabel": "Fecha",
@@ -286,28 +268,34 @@
     "casesLabel": "Casos"
   },
   "orderViewPage": {
+    "cancelPromptParagraph": "¿Estás seguro de que deseas cancelar este pedido?",
+    "cancelText": "Cancelar",
+    "cancelOrderActionParagraph": "El proveedor puede estar desconectado y aún no ha confirmado el pedido. Puede cancelar este pedido y devolver los fondos a su cuenta.",
+    "cancelOrderText": "El pedido ha sido cancelado por el comprador.",
+    "cancelOrderHeader": "Cancelar orden",
+    "canceledOrderHeader": "Orden cancelada",
     "retrieveOrderText": "Recuperando orden ...",
     "retrieveDiscussionsText": "Recuperando discusiones ...",
     "summaryText": "Resumen",
-    "fulfillOrderText": "Cumplir pedido",
+    "fulfillOrderText": "Cumplir orden",
     "discussionText": "Discusión",
     "prepareDisputeText": "Preparar disputa",
     "saleText": "Venta",
-    "buyText": "Compra",
-    "orderText": "Pedido",
+    "purchaseText": "Compra",
+    "orderText": "Orden",
     "orderDetails": {
       "typeLabel": "Tipo",
-      "amountHeader": "Cantidad",
+      "quantityHeader": "Cantidad",
       "totalHeader": "Total",
-      "memoHeader": "Memo"
+      "memoHeader": "Memorándum"
     },
     "disputeForm": {
       "claimLabel": "Reclamación",
-      "ClaimPlaceholder": "Prepare un reclamo adecuado que tenga la evidencia más relevante. Esto puede ayudar a garantizar que tenga la mayor posibilidad posible de que se encuentre una disputa a su favor",
+      "claimPlaceholder": "Prepare un reclamo adecuado que tenga la evidencia más relevante. Esto puede ayudar a garantizar que tenga la mayor posibilidad posible de que se encuentre una disputa a su favor.",
       "submitBtnText": "Enviar reclamo"
     },
     "fulfillOrderForm": {
-      "reviewLabel": "Review",
+      "reviewLabel": "revisión",
       "noteLabel": "Etiqueta",
       "submitBtnText": "Enviar"
     },
@@ -315,233 +303,232 @@
       "pending": "Pendiente",
       "paid": "Pagado",
       "accepted": "Aceptado",
-      "refunded": "Reembolsado",
-      "disputed": "Disputado",
-      "expired": "Caducado",
-      "decided": "Decidió",
+      "refunded": "Reintegrado",
+      "disputed": "Cuestionado",
+      "expired": "Muerto",
+      "decided": "Decidido",
       "resolved": "Resuelto",
       "error": "Error",
       "fulfilled": "Cumplido",
-      "completed": "Completado"
+      "completed": "Terminado",
+      "canceled": "Cancelado"
     },
-    "processErrorHeader": "Error de procesamiento",
-    "disputeExpiredHeader": "Disputa caducada",
-    "refundedHeader": "Reembolsado",
+    "processErrorHeader": "Error de proceso",
+    "disputeExpiredHeader": "Disputa expirada",
+    "refundedHeader": "Reintegrado",
     "refundedParagraph": "Pedido reembolsado. ID de transacción",
-    "orderProcessErrorParagraph": "Hubo un error al procesar este pedido",
-    "disputeExpiredParagraph": "¡Se acabó el tiempo! El moderador no pudo tomar una decisión a tiempo. El vendedor ahora puede reclamar los fondos",
+    "orderProcessErrorParagraph": "Se produjo un error al procesar este pedido.",
+    "disputeExpiredParagraph": "¡El tiempo ha terminado! El moderador no pudo tomar una decisión a tiempo. El vendedor ahora puede reclamar los fondos.",
     "disputeClosedHeader": "Disputa cerrada",
-    "payoutAcceptedHeader": "Aceptó el pago de la disputa",
+    "payoutAcceptedHeader": "Aceptó el pago de la disputa.",
     "disputePayoutHeader": "Pago de disputas",
     "releaseFundBtnText": "Liberar fondos",
     "disputeStartedHeader": "Disputa iniciada",
     "disputingHeader": "Orden de disputa ...",
-    "discusBtnText": "Discutir orden",
-    "disputingParagraph": "La orden se está disputando. El moderador tiene aproximadamente una hora para procesar la disputa y tomar una decisión",
+    "discussBtnText": "Discutir orden",
+    "disputingParagraph": "La orden está siendo disputada. El moderador tiene aproximadamente una hora para procesar la disputa y tomar una decisión.",
     "disputeOrderHeader": "Orden de disputa",
     "disputeBtnText": "Disputa",
-    "disputeOrderParagraph1": "Este pedido puede disputarse durante 6 bloques o aproximadamente una hora. El reloj comenzará cuando se confirme el pago de fondos",
-    "disputeOrderParagraph2": "Una vez que expira el reloj, el proveedor puede reclamar el pago y finalizar el pedido sin el apoyo del moderador",
-    "completeHeader": "Completado",
-    "completeOrderText": "Pedido completo",
-    "fulfilledHeader": "Fulfilled",
+    "disputeOrderParagraph1": "Esta orden puede ser disputada por 6 bloques o aproximadamente una hora. El reloj comenzará cuando se confirme el pago de fondos.",
+    "disputeOrderParagraph2": "Una vez que expira el reloj, el vendedor puede reclamar el pago y finalizar el pedido sin el apoyo del moderador.",
+    "completedHeader": "Terminado",
+    "completeOrderText": "Orden completa",
+    "fulfilledHeader": "Cumplido",
     "orderAcceptedHeader": "Aceptado",
     "refundLink": "Reembolso",
-    "completarOrderBtnText": "Cumplir pedido",
-    "orderAcceptedParagraph1": "Recibió el pedido de",
-    "orderAcceptedParagraph2": "y puede cumplirlo cuando esté listo",
-    "orderAcceptedParagraph3": "Su pedido ahora se está procesando ...",
-    "paymentHeader": "Detalles de pago",
+    "fulfillOrderBtnText": "Cumplir orden",
+    "orderAcceptedParagraph1": "Recibiste el pedido de",
+    "orderAcceptedParagraph2": "y puedes cumplirlo cuando estés listo.",
+    "orderAcceptedParagraph3": "Su orden esta siendo procesada...",
+    "paymentHeader": "Detalles del pago",
     "partialPaymentText": "Pago parcial",
     "fullPaymentText": "Pago completo",
     "sendPaymentHeader": "Enviar pago a",
-    "paymentSuccessNotif": "Pago enviado!",
+    "paymentSuccessNotif": "¡Pago enviado!",
     "awaitingPaymentHeader": "Esperando a que el comprador envíe el pago ...",
-    "awaitingPaymentParagraph": "El comprador aún no ha pagado el pedido",
+    "awaitingPaymentParagraph": "El comprador aún no ha pagado el pedido.",
     "orderDetailsHeader": "Detalles del pedido",
-    "refundSuccessNotif": "¡Pedido reembolsado correctamente!",
-    "refundErrorNotif": "Error en el reembolso",
-    "completeSuccessNotif": "Pedido completado:",
-    "fulfilledSuccessNotif": "Pedido cumplido:",
+    "refundSuccessNotif": "¡Pedido reembolsado con éxito!",
+    "refundErrorNotif": "Reembolso fallido",
+    "completedSuccessNotif": "Pedido completado:",
+    "fulfilledSuccessNotif": "Orden cumplida:",
     "openDisputeSuccessNotif": "¡Disputa enviada!",
-    "fundReleaseSuccessNotif": "¡Lanzamiento de fondos!",
-    "acceptOrderHeader": "Pedido aceptado",
-    "orderAcceptedParagraph": "El vendedor ha aceptado el pedido",
+    "fundReleaseSuccessNotif": "Lanzamiento de fondos!",
+    "acceptedOrderHeader": "Orden aceptada",
+    "orderAcceptedParagraph": "El vendedor ha aceptado el pedido.",
     "buyertext": "Comprador",
     "vendorText": "Vendedor",
     "sellerText": "Vendedor"
   },
   "paymentQRCard": {
-    "header": "Pagar",
-    "walletBtnText": "Pagar desde la billetera",
-    "paymentConfirmationText": "El importe se deducirá de su billetera",
-    "paymentHelper": "Una vez que haya pagado, la interfaz puede tardar un poco en actualizarse",
-    "confirmBtnText": "Pagar"
+    "header": "Paga",
+    "walletBtnText": "Pagar desde billetera",
+    "paymentConfirmationText": "El monto se deducirá de su billetera.",
+    "paymentHelper": "Una vez que haya pagado, la interfaz puede tardar un poco en actualizarse.",
+    "confirmBtnText": "Paga"
   },
   "disputeViewPage": {
-    "spinnerText": "Cargando ...",
-    "disputeExpiredParagraph": "¡Se acabó el tiempo! No pudo tomar una decisión a tiempo. El proveedor ahora puede reclamar los fondos",
-    "disputedNoteParagraph": "Tienes una hora para procesar la disputa y tomar una decisión",
-    "buyerDisputingHeader": "está impugnando el pedido",
-    "resolveSubmitBtnText": "Resolver disputa",
+    "spinnerText": "Cargando...",
+    "disputeExpiredParagraph": "¡El tiempo ha terminado! No tomaste una decisión a tiempo. El vendedor ahora puede reclamar los fondos.",
+    "disputedNoteParagraph": "Tiene una hora para procesar la disputa y tomar una decisión.",
+    "buyerDisputingHeader": "está disputando la orden",
+    "orderDetailsHeader": "Detalles del pedido",
+    "resolveSubmitBtnText": "Resolver disputas",
     "resolutionLabel": "Resolución",
-    "resolutionPlaceholder": "Detalles de la resolución de su disputa",
+    "resolutionPlaceholder": "Detalles de su resolución de disputas",
     "resolutionSubmitBtnText": "Enviar",
     "resolutionSuccessNotif": "¡Resolución enviada!",
-    "resolutionFailedNotif": "Failed",
-    "percentLabel": "Porcentaje",
+    "resolutionFailedNotif": "Ha fallado",
+    "percentageLabel": "Porcentaje",
     "moderatorNoteParagraph": "Nota del moderador:"
   },
   "walletView": {
     "transactionSuccessNotif": "¡Transacción enviada!",
-    "transaccionesText": "Transacciones",
-    "sentText": "Enviado",
+    "transactionsText": "Actas",
+    "sentText": "Expedido",
     "receivedText": "Recibido",
     "confirmationsText": "confirmaciones",
-    "balanceText": "Balance",
-    "unconfirmedText": "Sin confirmar",
+    "balanceText": "Equilibrar",
+    "unconfirmedText": "Inconfirmado",
     "fiatValText": "Valor Fiat",
     "sendText": "Enviar",
     "receiveText": "Recibir",
-    "transaction": {
+    "transactionForm": {
       "addressLabel": "Dirección",
       "amountLabel": "Cantidad",
       "noteLabel": "Nota",
       "submitBtnText": "Enviar"
     },
-    "receiveTransactionHeader": "Reciba dinero escaneando este código QR"
+    "receiveTransactionHeader": "Reciba dinero escaneando este código QR."
   },
   "checkoutPage": {
-    "spinnerText": "Cargando ...",
-    "requestAddressParagraph": "Solicitando dirección de comerciante ...",
+    "spinnerText": "Cargando...",
+    "requestAddressParagraph": "Solicitud de dirección del comerciante ...",
     "couponForm": {
       "header": "Cupón",
-      "inputPlaceholder": "Ingrese el código de cupón",
+      "inputPlaceholder": "Introduce el código de cupón",
       "submitBtnText": "Aplicar"
     },
-    "checkoutForm": {
+    "paymentForm": {
       "header": "Esquema de pago",
       "directLabel": "Pago directo",
       "moderatedPayment": "Pago moderado"
     },
-    "expandModeratorLink": "Más ...",
+    "expandModeratorLink": "Más...",
     "additionalForm": {
-      "header": "Información adicional",
-      "memoLabel": "Memo",
-      "memoPlaceholder": "Proporcione detalles adicionales para el proveedor (Opcional)"
+      "header": "Información Adicional",
+      "memoLabel": "Memorándum",
+      "memoPlaceholder": "Proporcionar detalles adicionales para el proveedor (Opcional)"
     },
-    "listingOwnerHelper": "Así es como se ve su listado para otros usuarios",
-    "recibidoPaymentHeader1": "Pago de",
-    "shownPaymentHeader2": "¡Recibido!",
-    "sharedPaymentParagraph": "¡Gracias por su compra!",
-    "shownPaymentLink": "Verifique el estado de su pedido",
-    "applyCouponFailNotif": "Código de cupón no válido",
+    "listingOwnerHelper": "Así es como se ve su listado para otros usuarios.",
+    "receivedPaymentHeader1": "Pago de",
+    "receivedPaymentHeader2": "¡Recibido!",
+    "receivedPaymentParagraph": "Gracias por su compra!",
+    "receivedPaymentLink": "Compruebe el estado de su pedido.",
+    "applyCouponFailNotif": "Código de cupón inválido",
     "paymentCard": {
-      "submitOrderBtnText": "Realizar pedido ahora",
-      "afterSubmitOrderBtnText": "Pendiente ...",
-      "checkoutHelper1": "En espera de pago ...",
+      "submitOrderBtnText": "Realice su orden ahora",
+      "afterSubmitOrderBtnText": "Pendiente...",
+      "checkoutHelper1": "En espera de pago...",
       "checkoutHelper2": "Al hacer clic, avanzará al paso de pago",
       "paymentFormHeader": "Pagar vía",
-      "summaryHeader": "Resumen del pedido",
+      "summaryHeader": "Resumen de pedido",
       "listingLabel": "Listado",
       "shippingLabel": "Envío",
-      "subtotalLabel": "Subtotal",
+      "subtotalLabel": "Total parcial",
       "couponLabel": "Cupón",
       "totalLabel": "Total",
       "estimateSpinnerText": "Estimando ...",
-      "estimateLabel": "Estimación"
+      "estimateLabel": "Estimar"
     },
     "listingCard": {
-      "itemLabel": "Artículo",
+      "itemLabel": "ít",
       "classificationLabel": "Clasificación",
       "priceLabel": "Precio",
-      "amountLabel": "Cantidad"
+      "quantityLabel": "Cantidad"
     }
   },
   "moderatorInfoModal": {
     "messageBtnText": "Mensaje",
-    "feeLabel": "Tarifa",
+    "feeLabel": "Cuota",
     "currenciesLabel": "Monedas",
     "languagesLabel": "Idiomas",
-    "termsAndConditionsHeader": "Términos y condiciones"
+    "termsAndConditionsHeader": "Términos y Condiciones"
   },
   "moderatorForm": {
-    "removeSuccessNotif": "Perfil del moderador eliminado",
+    "removeSuccessNotif": "Perfil del moderador eliminado.",
     "saveSuccessNotif": "¡Perfil de moderador guardado!",
     "enableModLabel": "Habilitar funciones de moderador",
     "descriptionPlaceholder": "En 500 palabras o menos cuéntanos algo sobre ti y los servicios que ofreces ...",
-    "termsAndConditionsLabel": "Términos y condiciones",
-    "termsAndConditionsPlaceholder": "Introducir términos y condiciones",
+    "termsAndConditionsLabel": "Términos y Condiciones",
+    "termsAndConditionsPlaceholder": "Ingrese los términos y condiciones",
     "languagesLabel": "Idiomas",
     "feeTypeLabel": "Tipo de tarifa",
     "amountLabel": "Cantidad",
-    "amountPlaceholder": "Introducir cantidad",
+    "amountPlaceholder": "Ingrese el monto",
     "currencyLabel": "Moneda",
-    "percentLabel": "Porcentaje"
+    "percentageLabel": "Porcentaje"
   },
   "socialMediaForm": {
     "proofPlaceholder": "Prueba",
-    "proofTooltip": "Enlace de una prueba de que posee esa cuenta (por ejemplo, enlace de una publicación para Facebook y enlace de un commit en github)"
+    "proofTooltip": "Enlace de una prueba de que posee esa cuenta (por ejemplo, enlace de una publicación para Facebook y enlace de un commit en github)."
   },
   "educationForm": {
-    "institutionLabel": "Nombre de la institución",
+    "institutionLabel": "Nombre de la Institución",
     "institutionPlaceholder": "Institución o nombre de la escuela",
-    "degreeLabel": "Grado",
-    "degreePlaceholder": "Grado, Especialización, Especialidad",
+    "degreeLabel": "La licenciatura",
+    "degreePlaceholder": "Licenciatura, Especialización, Especialidad",
     "descriptionPlaceholder": "Cuéntanos un poco sobre tu título y especialización",
-    "currentlyStudyingLabel": "¿Actualmente estás estudiando aquí?"
+    "currentlyStudyingLabel": "Actualmente estudiando aquí?"
   },
-  "EmploymentForm": {
-    "companyLabel": "Nombre de la empresa",
+  "employmentForm": {
+    "companyLabel": "nombre de empresa",
     "positionLabel": "Posición",
-    "positionPlaceholder": "Posición / Rango en la empresa",
+    "positionPlaceholder": "Puesto / Rango en la empresa",
     "descriptionPlaceholder": "Cuéntanos un poco sobre tu trabajo",
-    "currentlyWorkingLabel": "¿Actualmente trabaja aquí?"
+    "currentlyWorkingLabel": "Actualmente trabajando aquí?"
   },
   "customDescriptionForm": {
     "saveSuccessNotif": "¡Perfil actualizado!",
     "labelLabel": "Etiqueta",
-    "placeholder": "Introducir valor",
+    "placeholder": "Ingrese valor",
     "valueLabel": "Valor",
     "submitBtnText": "Agregar nuevo campo"
   },
   "listingPage": {
-    "retrieveListingSpinnerText": "Recuperando listado",
+    "retrieveListingSpinnerText": "Recuperando Listado",
     "retrieveRatingsSpinnerText": "Recuperando calificaciones",
-    "listingRenewedNotif": "¡Listado renovado con éxito!",
-    "expiredListingHelper1": "Esta lista ha caducado, comuníquese con el proveedor para obtener más detalles",
-    "expiredListingHelper2": "Esta lista ha caducado.",
-    "renewLink": "¿Renovar por un año?",
+    "listingRenewedNotif": "Listado renovado con éxito!",
+    "expiredListingHelper1": "Este listado ha expirado, contacte al vendedor para más detalles.",
+    "expiredListingHelper2": "Este listado ha expirado.",
+    "renewLink": "Renovar por un año.",
     "editBtnText": "Editar",
-    "deleteListingPromptText": "¿Está seguro de que desea eliminar esta lista? Esta acción no se puede deshacer",
-    "deleteListingSuccessNotif": "Listado eliminado",
-    "reviewsText": "Reseñas",
-    "noRatingsText": "Sin calificaciones",
+    "deleteListingPromptText": "¿Estás seguro de que deseas eliminar este listado? Esta acción no se puede deshacer.",
+    "deleteListingSuccessNotif": "Listado eliminado.",
+    "reviewsText": "Comentarios",
+    "noRatingsText": "No hay votos.",
     "classificationLabel": "Clasificación",
     "paymentMethodsLabel": "Métodos de pago",
     "tagsLabel": "Etiquetas",
-    "checkoutBtnText": "Pago",
-    "contactHeader": "Información de contacto",
+    "checkoutBtnText": "Revisa",
+    "contactHeader": "Información del contacto",
     "educationHeader": "Educación",
     "workHeader": "Historial de trabajo",
     "skillsHeader": "Habilidades",
     "emptyTosContentParagraph": "Nada especificado",
     "notFoundComponent": {
-      "header": "No se puede recuperar el listado",
-      "paragraph": "La lista que solicitó ha caducado en la red Djali o no existe",
+      "header": "No se puede recuperar el listado.",
+      "paragraph": "La lista que solicitó ha caducado en la red Djali o no existe.",
       "suggestionsText": "Sugerencias",
-      "suggestions": ["Buscar otros listados"]
+      "suggestions": ["Examinar otros listados."]
     },
-    "listingRenewPrompt": "¿Renovar el listado <b>{0}</b> por <b>1 año</b>?"
+    "listingRenewPrompt": "¿Renovar el listado <b>{0}</b> por <b>1 año</b> ?"
   },
-  "tosCard": {
-    "header": "Términos de servicio",
-    "expandText": "Mostrar más ..."
-  },
+  "tosCard": { "header": "Términos de servicio", "expandText": "Mostrar más..." },
   "chatComponent": {
     "emptyConvoText": "Aún no hay conversaciones ...",
     "messagesText": "Mensajes",
-    "messagePlaceholder": "Escriba un mensaje ..."
+    "messagePlaceholder": "Escribe un mensaje ..."
   },
   "constants": {
     "sortOptions": {
@@ -549,7 +536,7 @@
       "item.title_>=": "Alfabéticamente (Z → A)",
       "item.price_<=": "Precio (bajo → alto)",
       "item.price_>=": "Precio (alto → bajo)",
-      "averageRating_<=": "Calificación (Baja → Alta)",
+      "averageRating_<=": "Calificación (baja → alta)",
       "averageRating_>=": "Calificación (Alta → Baja)"
     },
     "singulars": {
@@ -561,7 +548,7 @@
     },
     "plurals": {
       "PER_HOUR": "horas",
-      "PER_DAY": "días",
+      "PER_DAY": "dias",
       "PER_MONTH": "meses",
       "PER_MILESTONE": "hitos",
       "FIXED": "fijo"
@@ -574,39 +561,39 @@
       "FIXED": "Fijo"
     },
     "filters": {
-      "sin fondos": {
+      "unfunded": {
         "states": ["AWAITING_PAYMENT"],
-        "description": "Pedidos que el comprador aún no ha pagado."
+        "description": "Pedidos que aún no han sido pagados por el comprador."
       },
-      "pendiente": {
-        "estados": ["PENDING"],
-        "description": "Pedidos que se pagaron y se enviaron al proveedor pero el proveedor aún no ha respondido."
+      "pending": {
+        "states": ["PENDING"],
+        "description": "Los pedidos que fueron pagados y enviados al vendedor pero el vendedor aún no ha respondido."
       },
-      "procesamiento": {
+      "processing": {
         "states": ["AWAITING_FULFILLMENT"],
         "description": "Pedidos que se pagaron por completo y el proveedor está procesando el pedido."
       },
-      "cumplido": {
+      "fulfilled": {
         "states": ["FULFILLED", "AWAITING_PICKUP"],
-        "description": "Pedidos realizados por el proveedor."
+        "description": "Pedidos realizados por el vendedor."
       },
-      "completado": {
-        "estados": ["COMPLETED"],
-        "description": "Pedidos completados por el comprador."
+      "completed": {
+        "states": ["COMPLETED"],
+        "description": "Órdenes que fueron completadas por el comprador."
       },
-      "reembolsado": {
+      "refunded": {
         "states": ["REFUNDED"],
-        "description": "Pedidos que fueron reembolsados ​​por el proveedor."
+        "description": "Pedidos que fueron reembolsados por el vendedor."
       },
-      "disputas": {
+      "disputes": {
         "states": ["DISPUTED", "DECIDED", "RESOLVED", "PAYMENT_FINALIZED"],
         "description": "Órdenes con un caso de disputa."
       },
-      "cancelado": {
-        "states": ["CANCELLED", "DECLINED"],
-        "description": "Pedidos cancelados por el comprador o rechazados por el vendedor."
+      "cancelled": {
+        "states": ["CANCELED", "DECLINED"],
+        "description": "Pedidos que fueron cancelados por el comprador o que fueron rechazados por el vendedor."
       },
-      "errores": { "estados": ["PROCESSING_ERROR"], "description": "Pedidos que tienen errores." }
+      "errors": { "states": ["PROCESSING_ERROR"], "description": "Órdenes que tienen errores." }
     }
   }
 }

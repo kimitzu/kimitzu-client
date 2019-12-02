@@ -195,7 +195,7 @@ class ListingProfile extends Component<Props, State> {
     const { listing, profile, imageData, quantity, ratingSummary } = this.state
     const { background } = profile
 
-    const rating = Math.floor(listing.averageRating)
+    const rating = Math.floor(ratingSummary.average)
     const ratingStars: JSX.Element[] = this.renderStars(rating)
     const skills = JSON.parse(decodeHtml(profile.customProps.skills)) as string[]
 
@@ -299,7 +299,7 @@ class ListingProfile extends Component<Props, State> {
                           <div className="uk-flex uk-flex-row">
                             <div className="uk-margin-small-right">{ratingStars}</div>
                             <p>
-                              {rating.toFixed(0)} {locale.listingPage.reviewsText}
+                              {ratingSummary.count.toFixed(0)} {locale.listingPage.reviewsText}
                             </p>
                           </div>
                         ) : (

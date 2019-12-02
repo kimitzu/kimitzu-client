@@ -105,4 +105,8 @@ div[class^='state-tag-'] {
 
 .state-tag-RESOLVED {
   background: #60f108 !important;
-} 
+}
+
+.state-tag-CANCELED {
+  background: #f14634 !important;
+}

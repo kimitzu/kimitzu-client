@@ -17,9 +17,10 @@ interface Props {
   navItems: NavItem[]
   currentNavIndex?: number
   currentSubNavIndex?: number
+  id?: string
 }
 
-const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex }: Props) => {
+const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex, id }: Props) => {
   const [navIndex, setNavIndex] = useState(0)
   const [subNavIndex, setSubNavIndex] = useState(0)
   useEffect(() => {
@@ -58,7 +59,10 @@ const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex }: P
           className={parentItem.subItems ? 'uk-parent uk-open' : ''}
         >
           <ul>
-            <li className="uk-padding uk-padding-remove-vertical uk-uk-padding-remove-right">
+            <li
+              className="uk-padding uk-padding-remove-vertical uk-uk-padding-remove-right"
+              id={`${id}-${parentItem.label.toLowerCase().replace(/\s+/g, '-')}`}
+            >
               <a className="list-item" onClick={() => changeNavIndex(index, parentItem.handler)}>
                 {parentItem.label}
               </a>
@@ -67,7 +71,10 @@ const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex }: P
               {parentItem.subItems ? (
                 <ul className="uk-nav-sub">
                   {parentItem.subItems.map((navItem: NavItem, subIndex: number) => (
-                    <li key={`${navItem.label}${subIndex}`}>
+                    <li
+                      key={`${navItem.label}${subIndex}`}
+                      id={`${id}-${navItem.label.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
                       <a
                         id={getSubNavId(subIndex)}
                         onClick={() => changeSubNavIndex(subIndex, index, navItem.handler)}

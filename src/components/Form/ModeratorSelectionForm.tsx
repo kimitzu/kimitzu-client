@@ -45,7 +45,7 @@ const ModeratorSelectionForm = ({
 }: Props) => {
   const {
     localizations,
-    localizations: { moderatorSelectionForm, listinForm },
+    localizations: { moderatorSelectionForm, listingForm },
   } = localeInstance.get
   const [searchVal, setSearchVal] = useState('')
   const [delayedComponent, setDelayedComponent] = useState(<></>)
@@ -238,7 +238,7 @@ const ModeratorSelectionForm = ({
             className="uk-button uk-button-primary uk-margin-small-right"
             onClick={handleFullSubmit}
           >
-            {listinForm.updateBtnText.toUpperCase()}
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         ) : null}
         <Button

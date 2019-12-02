@@ -14,10 +14,7 @@ interface Props {
 }
 
 const RegistrationCard = (props: Props) => (
-  <div
-    id="regcard"
-    className="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-flex uk-flex-center uk-flex-column uk-flex-middle"
-  >
+  <div className="uk-card uk-card-default uk-card-body uk-width-1-1 uk-width-1-2@s uk-flex uk-flex-center uk-flex-column uk-flex-middle">
     <img className="djali-logo-form" src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg" />
     <div className="uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
       {props.content}

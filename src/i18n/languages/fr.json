@@ -1,12 +1,12 @@
 {
-  "usernameLabel": "Nom d'utilisateur",
+  "usernameLabel": "Nom d&#39;utilisateur",
   "passwordLabel": "Mot de passe",
   "emailLabel": "Email",
   "locationLabel": "Emplacement",
   "descriptionLabel": "La description",
   "generalLabel": "Général",
   "nextBtnText": "Prochain",
-  "loginBtnText": "S'identifier",
+  "loginBtnText": "S&#39;identifier",
   "deleteBtnText": "Supprimer",
   "cancelBtnText": "Annuler",
   "changePhotoBtnText": "Changement",
@@ -33,7 +33,7 @@
   "homePage": {
     "headerDropdownPlaceholder": "Parcourir les classements",
     "crawlingHeader": "Rampant...",
-    "crawlingContent1": "Génial! On dirait que vous venez d'installer Djali.",
+    "crawlingContent1": "Génial! On dirait que vous venez d&#39;installer Djali.",
     "crawlingContent2": "Veuillez revenir plus tard car Djali explore les listes du réseau.",
     "noResultsHeader": "Aucun résultat",
     "noResultsContent": "Votre recherche ne correspond à aucune annonce.",
@@ -54,7 +54,7 @@
   },
   "navigationBar": {
     "createNewListingLabel": "Créer une nouvelle annonce",
-    "purchaseHistoryLabel": "Historique d'achat",
+    "purchaseHistoryLabel": "Historique d&#39;achat",
     "salesHistoryLabel": "Histoire des ventes",
     "caseHistoryLabel": "Histoire de cas",
     "profileLabel": "Profil",
@@ -70,7 +70,7 @@
   },
   "userForm": {
     "handleLabel": "Manipuler",
-    "handlePlaceholer": "john.doe",
+    "handlePlaceholder": "john.doe",
     "nameLabel": "prénom",
     "namePlaceholder": "John Doe",
     "emailPlaceholder": "john@email.com",
@@ -81,8 +81,8 @@
     "unitsLabel": "Unités préférées"
   },
   "tosPage": {
-    "header": "Conditions d'utilisation",
-    "tos": "La communauté de développeurs Djali a travaillé dur pour offrir un marché libre de services. Mais comme avec tout logiciel, il y aura des bugs. Les utilisateurs de Djali peuvent également rencontrer des trolls, des spammeurs, des voleurs et d’autres mauvais acteurs tout en utilisant l’application. Les développeurs de Djali travailleront en permanence pour fournir aux utilisateurs des outils qui les aideront à identifier, bloquer et éliminer les mauvais acteurs de l'écosystème de Djali. Cependant, ces outils peuvent parfois échouer. Les développeurs ne sont pas responsables des pertes financières associées au logiciel. En raison de la nature globale de Djali, peer-to-peer et résistant à la censure, les utilisateurs peuvent voir des listes de services qui ne sont pas légaux actuellement dans leur juridiction. Il est de la responsabilité des utilisateurs Djali de s’assurer qu’ils se conforment aux lois de leur juridiction. Djali fonctionne par défaut sur le réseau Tor et les seules informations que les utilisateurs sont tenus de fournir sont un descripteur et un pays. Les développeurs de Djali ont également fait un effort de bonne foi pour aider les utilisateurs à préserver leur vie privée lorsqu'ils utilisent Djali. Cependant, Djali est un logiciel expérimental et il peut exister des failles révélant des informations sensibles. Il est également facile de se anonymiser, par exemple en parlant de sa vie personnelle avec un client ou en se décrivant de manière trop détaillée. De nombreux adversaires - tels que des gouvernements ou des criminels - travaillent à vaincre les mécanismes de protection de la vie privée de Djali. Par conséquent, les développeurs de Djali ne donnent aucune garantie quant à la capacité du logiciel à préserver la confidentialité des utilisateurs."
+    "header": "Conditions d&#39;utilisation",
+    "tos": "La communauté de développeurs Djali a travaillé dur pour offrir un marché libre de services. Mais comme avec tout logiciel, il y aura des bugs. Les utilisateurs de Djali peuvent également rencontrer des trolls, des spammeurs, des voleurs et d’autres mauvais acteurs tout en utilisant l’application. Les développeurs de Djali travailleront en permanence pour fournir aux utilisateurs des outils qui les aideront à identifier, bloquer et éliminer les mauvais acteurs de l&#39;écosystème de Djali. Cependant, ces outils peuvent parfois échouer. Les développeurs ne sont pas responsables des pertes financières associées au logiciel. En raison de la nature globale de Djali, peer-to-peer et résistant à la censure, les utilisateurs peuvent voir des listes de services qui ne sont pas légaux actuellement dans leur juridiction. Il est de la responsabilité des utilisateurs de Djali de s’assurer qu’ils se conforment aux lois de leur juridiction. Djali fonctionne par défaut sur le réseau Tor et les seules informations que les utilisateurs sont tenus de fournir sont un descripteur et un pays. Les développeurs de Djali ont également fait un effort de bonne foi pour aider les utilisateurs à préserver leur vie privée lors de l&#39;utilisation de Djali. Cependant, Djali est un logiciel expérimental et il peut exister des failles révélant des informations sensibles. Il est également facile de se anonymiser, par exemple en parlant de sa vie personnelle avec un client ou en se décrivant de manière trop détaillée. De nombreux adversaires - tels que des gouvernements ou des criminels - travaillent à vaincre les mécanismes de protection de la vie privée de Djali. Par conséquent, les développeurs de Djali ne donnent aucune garantie quant à la capacité du logiciel à préserver la confidentialité des utilisateurs."
   },
   "addressForm": {
     "streetLabel": "Adresse de rue",
@@ -93,9 +93,9 @@
     "zipCodeLabel": "Code postal",
     "countryLabel": "Pays",
     "countryPlaceholder": "Choisissez le pays",
-    "plusCodeHelper": "Qu'est-ce qu'un code plus?",
-    "addBtnText": "Ajoutez l'adresse",
-    "updateBtnText": "Mettre à jour l'adresse"
+    "plusCodeHelper": "Qu&#39;est-ce qu&#39;un code plus?",
+    "addBtnText": "Ajoutez l&#39;adresse",
+    "updateBtnText": "Mettre à jour l&#39;adresse"
   },
   "listingForm": {
     "updateBtnText": "Mise à jour de la liste",
@@ -104,12 +104,12 @@
     "titleDescriptor": "Quelque chose de descriptif qui explique clairement votre service.",
     "priceLabel": "Prix",
     "priceDescriptor": "Définissez votre prix et sa devise",
-    "rateMethodLabel": "Méthode d'évaluation",
+    "rateMethodLabel": "Méthode d&#39;évaluation",
     "rateMethodDescriptor": "Comment voudriez-vous facturer les clients?",
     "serviceQuantityLabel": "Quantité de service",
-    "serviceQuantityDescriptor": "Combien d'unités de service aimeriez-vous offrir? (Laissez vide si vous ne voulez pas utiliser ce champ)",
+    "serviceQuantityDescriptor": "Combien d&#39;unités de service aimeriez-vous offrir? (Laissez vide si vous ne voulez pas utiliser ce champ)",
     "matureContentLabel": "Contenus pour adultes",
-    "photoLabel": "AJOUTER UNE PHOTO (inclure jusqu'à 30 photos)",
+    "photoLabel": "AJOUTER UNE PHOTO (inclure jusqu&#39;à 30 photos)",
     "tagsLabel": "Mots clés",
     "tagsPlaceholder": "Ajouter un tag",
     "tagsDescriptor": "Appuyez sur &quot;Entrée&quot; pour ajouter une entrée",
@@ -143,14 +143,11 @@
     }
   },
   "photoSlideshow": {
-    "dropArea": {
-      "placeholder": "Glissez et déposez une photo ou",
-      "selectLabel": "sélectionner"
-    }
+    "dropArea": { "placeholder": "Glissez et déposez une photo ou", "selectLabel": "sélectionner" }
   },
   "moderatorSelectionForm": {
     "crawlingNotif1": "Il faut un certain temps pour explorer le réseau à la recherche des modérateurs disponibles.",
-    "crawlingNotif2": "S'il vous plaît attendez un peu plus longtemps ou revenez plus tard.",
+    "crawlingNotif2": "S&#39;il vous plaît attendez un peu plus longtemps ou revenez plus tard.",
     "showDetailsLink": "Plus...",
     "searchPlaceholder": "Recherche par nom ou identifiant de modérateur",
     "searchSpinnerText": "Rechercher sur le réseau des modérateurs ...",
@@ -173,7 +170,7 @@
     "noListingsHeader": "Aucune liste disponible.",
     "redirectSpinnerText": "Redirection ...",
     "messageBtnText": "Message",
-    "buyerRatingsHeader": "Notes d'acheteur",
+    "buyerRatingsHeader": "Notes d&#39;acheteur",
     "sellerRatingsHeader": "Évaluations du vendeur",
     "tabTitles": {
       "profile": "Profil",
@@ -182,10 +179,10 @@
       "following": "Suivant",
       "followers": "Suiveurs",
       "salesHistory": "Histoire des ventes",
-      "purchaseHistory": "Historique d'achat"
+      "purchaseHistory": "Historique d&#39;achat"
     },
     "profileNotFoundHeader": "Impossible de récupérer le profil",
-    "profileNotFoundSubText": "Le profil que vous avez demandé est actuellement hors ligne ou n'existe pas sur le réseau Djali."
+    "profileNotFoundSubText": "Le profil que vous avez demandé est actuellement hors ligne ou n&#39;existe pas sur le réseau Djali."
   },
   "followButton": {
     "followBtnText": "Suivre",
@@ -200,16 +197,16 @@
   "settingsPage": {
     "header": "Paramètres",
     "spinnerText": "Chargement du profil ...",
-    "changeCredMsgTextA": "L'activation de cette fonctionnalité activera les mécanismes d'authentification de Djali pour protéger votre client des accès non autorisés.",
-    "changeCredMsgTextB": "D'autres fonctionnalités non critiques, telles que la recherche, resteront accessibles, mais les fonctionnalités liées au paiement et aux commandes nécessiteront une authentification pour continuer.",
+    "changeCredMsgTextA": "L&#39;activation de cette fonctionnalité activera les mécanismes d&#39;authentification de Djali pour protéger votre client des accès non autorisés.",
+    "changeCredMsgTextB": "D&#39;autres fonctionnalités non critiques, telles que la recherche, resteront accessibles, mais les fonctionnalités liées au paiement et aux commandes nécessiteront une authentification pour continuer.",
     "authenticationText": "Authentification",
     "generalNavItem": "Général",
-    "oldUsernameLabel": "Ancien nom d'utilisateur",
+    "oldUsernameLabel": "Ancien nom d&#39;utilisateur",
     "oldPasswordLabel": "ancien mot de passe",
-    "newUsernameLabel": "Nouveau nom d'utilisateur",
+    "newUsernameLabel": "Nouveau nom d&#39;utilisateur",
     "newPasswordLabel": "nouveau mot de passe",
     "changeCredentialsBtnText": "Changer les références",
-    "activateAuthenticationBtnText": "Activer l'authentification",
+    "activateAuthenticationBtnText": "Activer l&#39;authentification",
     "navItems": {
       "profile": "Profil",
       "moderation": "Modération",
@@ -225,41 +222,32 @@
       "addresses": "Adresses",
       "customDescriptions": "Descriptions personnalisées"
     },
-    "securityNavItems": {
-      "auth": "Authentification",
-      "deactivate": "Désactiver"
-    },
-    "othersNavItems": {
-      "blockedPeers": "Pairs bloqués",
-      "miscellaneous": "Divers"
-    },
+    "securityNavItems": { "auth": "Authentification", "deactivate": "Désactiver" },
+    "othersNavItems": { "blockedPeers": "Pairs bloqués", "miscellaneous": "Divers" },
     "favoriteModeratorsNavItem": "Modérateurs préférés",
     "competencyDeleteSuccessNotif": "Compétence supprimée!",
     "competencyUpdateSuccessNotif": "Compétence mise à jour!",
     "deactivateAuthForm": {
-      "helper1": "Cela désactivera les mécanismes d'authentification de Djali et votre client ne sera plus protégé contre les accès non autorisés.",
-      "helper2": "Les fonctions liées au paiement et à la commande n'auront plus besoin d'authentification pour continuer.",
-      "submitBtnText": "Désactiver l'authentification"
+      "helper1": "Cela désactivera les mécanismes d&#39;authentification de Djali et votre client ne sera plus protégé contre les accès non autorisés.",
+      "helper2": "Les fonctions liées au paiement et à la commande n&#39;auront plus besoin d&#39;authentification pour continuer.",
+      "submitBtnText": "Désactiver l&#39;authentification"
     },
     "saveSkillsSuccessNotif": "Compétences sauvegardées!",
-    "saveSkillsErrorNotif": "Erreur d'enregistrement",
+    "saveSkillsErrorNotif": "Erreur d&#39;enregistrement",
     "educationForm": {
-      "addBtnText": "Ajouter l'éducation",
-      "updateBtnText": "Mise à jour de l'éducation"
+      "addBtnText": "Ajouter l&#39;éducation",
+      "updateBtnText": "Mise à jour de l&#39;éducation"
     },
-    "workForm": {
-      "addBtnText": "Ajouter du travail",
-      "updateBtnText": "Mise à jour du travail"
-    },
+    "workForm": { "addBtnText": "Ajouter du travail", "updateBtnText": "Mise à jour du travail" },
     "miscForm": {
       "saveSuccessNotif": "Paramètres mis à jour avec succès",
-      "saveErrorNotif": "Quelque chose s'est mal passé. Veuillez réessayer plus tard.",
-      "crashReportLabel": "Activer le rapport d'incident",
-      "crashReportHelper": "Envoyer des rapports d'erreur aux développeurs",
-      "autpUpdatesLabel": "Mises à jour d'installation automatique",
+      "saveErrorNotif": "Quelque chose s&#39;est mal passé. Veuillez réessayer plus tard.",
+      "crashReportLabel": "Activer le rapport d&#39;incident",
+      "crashReportHelper": "Envoyer des rapports d&#39;erreur aux développeurs",
+      "autoUpdatesLabel": "Mises à jour d&#39;installation automatique",
       "autoUpdatesHelper": "Les mises à jour seront téléchargées et installées automatiquement"
     },
-    "credentialsUpdateSuccessNotif": "Informations d'identification supprimées avec succès! Veuillez redémarrer le serveur pour que les modifications prennent effet.",
+    "credentialsUpdateSuccessNotif": "Informations d&#39;identification supprimées avec succès! Veuillez redémarrer le serveur pour que les modifications prennent effet.",
     "profileUpdateSuccessNotif": "Profil mis à jour!",
     "profileSaveSuccessNotif": "Profil sauvegardé!",
     "moderatorSaveSuccessNotif": "Modérateur enregistré.",
@@ -268,15 +256,12 @@
     "blockedNodesCard": {
       "emptyContentText": "Pas de pairs bloqués.",
       "unblockSuccessNotif": "Peer débloqué avec succès!",
-      "unblockErrorNotif": "Impossible de débloquer l'homologue. Veuillez réessayer plus tard."
+      "unblockErrorNotif": "Impossible de débloquer l&#39;homologue. Veuillez réessayer plus tard."
     }
   },
   "orderHistoryPage": {
     "searchPlaceholder": "Recherche par titre, numéro de commande ou fournisseur",
-    "filterSidebar": {
-      "header": "Filtre",
-      "resetBtnText": "Réinitialiser les filtres"
-    },
+    "filterSidebar": { "header": "Filtre", "resetBtnText": "Réinitialiser les filtres" },
     "totalLabel": "Total",
     "orderLabel": "Ordre",
     "dateLabel": "Rendez-vous amoureux",
@@ -286,6 +271,12 @@
     "casesLabel": "Des cas"
   },
   "orderViewPage": {
+    "cancelPromptParagraph": "Êtes-vous sûr de vouloir annuler cette commande?",
+    "cancelText": "Annuler",
+    "cancelOrderActionParagraph": "Le fournisseur est peut-être hors ligne et n&#39;a pas encore confirmé la commande. Vous pouvez annuler cette commande et retourner les fonds sur votre compte.",
+    "cancelOrderText": "La commande a été annulée par l&#39;acheteur.",
+    "cancelOrderHeader": "annuler la commande",
+    "canceledOrderHeader": "Commande annulée",
     "retrieveOrderText": "Récupération de la commande ...",
     "retrieveDiscussionsText": "Récupération des discussions ...",
     "summaryText": "Sommaire",
@@ -322,26 +313,27 @@
       "resolved": "Résolu",
       "error": "Erreur",
       "fulfilled": "Rempli",
-      "completed": "Terminé"
+      "completed": "Terminé",
+      "canceled": "Annulé"
     },
     "processErrorHeader": "Erreur de traitement",
     "disputeExpiredHeader": "Litige expiré",
     "refundedHeader": "Remboursé",
     "refundedParagraph": "Commande remboursée. identifiant de transaction",
-    "orderProcessErrorParagraph": "Une erreur s'est produite lors du traitement de cette commande.",
-    "disputeExpiredParagraph": "Le temps est écoulé! Le modérateur n'a pas pris de décision à temps. Le vendeur peut maintenant réclamer les fonds.",
+    "orderProcessErrorParagraph": "Une erreur s&#39;est produite lors du traitement de cette commande.",
+    "disputeExpiredParagraph": "Le temps est écoulé! Le modérateur n&#39;a pas pris de décision à temps. Le vendeur peut maintenant réclamer les fonds.",
     "disputeClosedHeader": "Litige Fermé",
     "payoutAcceptedHeader": "accepté le paiement du litige.",
     "disputePayoutHeader": "Dispute Payout",
     "releaseFundBtnText": "Débloquer des fonds",
     "disputeStartedHeader": "Litige commencé",
-    "disputingHeader": "Contestation de commande ...",
-    "discussBtnText": "Discuter de l'ordre",
+    "disputingHeader": "Ordre de contestation ...",
+    "discussBtnText": "Discuter de l&#39;ordre",
     "disputingParagraph": "La commande est contestée. Le modérateur a environ une heure pour traiter le différend et prendre une décision.",
-    "disputeOrderHeader": "Ordre de contestation",
+    "disputeOrderHeader": "Ordonnance de contestation",
     "disputeBtnText": "Contestation",
     "disputeOrderParagraph1": "Cette commande peut être contestée pendant 6 pâtés de maisons ou environ une heure. Le chronomètre commencera lorsque le versement du financement sera confirmé.",
-    "disputeOrderParagraph2": "Une fois le délai écoulé, le fournisseur peut réclamer le paiement et finaliser la commande sans l'assistance du modérateur.",
+    "disputeOrderParagraph2": "Une fois le délai écoulé, le fournisseur peut réclamer le paiement et finaliser la commande sans l&#39;assistance du modérateur.",
     "completedHeader": "Terminé",
     "completeOrderText": "Complétez la commande",
     "fulfilledHeader": "Rempli",
@@ -349,15 +341,15 @@
     "refundLink": "Rembourser",
     "fulfillOrderBtnText": "Exécuter la commande",
     "orderAcceptedParagraph1": "Vous avez reçu la commande de",
-    "orderAcceptedParagraph2": "et peut le remplir quand vous êtes prêt.",
-    "orderAcceptedParagraph3": "Votre commande est en train d'être traitée...",
+    "orderAcceptedParagraph2": "et peut le remplir chaque fois que vous êtes prêt.",
+    "orderAcceptedParagraph3": "Votre commande est en train d&#39;être traitée...",
     "paymentHeader": "Détails de paiement",
     "partialPaymentText": "Paiement partiel",
     "fullPaymentText": "Règlement de la totalité",
     "sendPaymentHeader": "Envoyer le paiement à",
     "paymentSuccessNotif": "Paiement envoyé!",
-    "awaitingPaymentHeader": "En attente de l'acheteur pour envoyer le paiement ...",
-    "awaitingPaymentParagraph": "L'acheteur n'a pas encore payé la commande.",
+    "awaitingPaymentHeader": "En attente de l&#39;acheteur pour envoyer le paiement ...",
+    "awaitingPaymentParagraph": "L&#39;acheteur n&#39;a pas encore payé la commande.",
     "orderDetailsHeader": "détails de la commande",
     "refundSuccessNotif": "Commande remboursée avec succès!",
     "refundErrorNotif": "Le remboursement a échoué",
@@ -373,9 +365,9 @@
   },
   "paymentQRCard": {
     "header": "Payer",
-    "walletBtnText": "Payer à partir du portefeuille",
+    "walletBtnText": "Payer du portefeuille",
     "paymentConfirmationText": "Le montant sera déduit de votre portefeuille.",
-    "paymentHelper": "Une fois que vous avez payé, la mise à jour de l'interface peut prendre un peu.",
+    "paymentHelper": "Une fois que vous avez payé, la mise à jour de l&#39;interface peut prendre un peu.",
     "confirmBtnText": "Payer"
   },
   "disputeViewPage": {
@@ -410,11 +402,11 @@
       "noteLabel": "Remarque",
       "submitBtnText": "Envoyer"
     },
-    "receiveTransactionHeader": "Recevez de l'argent en scannant ce QR Code."
+    "receiveTransactionHeader": "Recevez de l&#39;argent en scannant ce QR Code."
   },
   "checkoutPage": {
     "spinnerText": "Chargement...",
-    "requestAddressParagraph": "Demander l'adresse du marchand ...",
+    "requestAddressParagraph": "Demander l&#39;adresse du marchand ...",
     "couponForm": {
       "header": "Coupon",
       "inputPlaceholder": "Entrer le code de réduction",
@@ -435,13 +427,13 @@
     "receivedPaymentHeader1": "Paiement de",
     "receivedPaymentHeader2": "Reçu!",
     "receivedPaymentParagraph": "Merci pour votre achat!",
-    "receivedPaymentLink": "Vérifiez l'état de votre commande.",
+    "receivedPaymentLink": "Vérifiez l&#39;état de votre commande.",
     "applyCouponFailNotif": "Code de Coupon Invalide",
     "paymentCard": {
       "submitOrderBtnText": "Faites votre commande maintenant",
       "afterSubmitOrderBtnText": "En attendant...",
       "checkoutHelper1": "En attente de paiement...",
-      "checkoutHelper2": "En cliquant, vous passerez à l'étape de paiement",
+      "checkoutHelper2": "En cliquant, vous passerez à l&#39;étape de paiement",
       "paymentFormHeader": "Payer via",
       "summaryHeader": "Récapitulatif de la commande",
       "listingLabel": "Inscription",
@@ -482,11 +474,11 @@
   },
   "socialMediaForm": {
     "proofPlaceholder": "Preuve",
-    "proofTooltip": "Lien d'une preuve que vous possédez ce compte (par exemple, lien d'un message pour Facebook et lien d'un commit dans github)."
+    "proofTooltip": "Lien d&#39;une preuve que vous possédez ce compte (par exemple, lien d&#39;un message pour Facebook et lien d&#39;un commit dans github)."
   },
   "educationForm": {
-    "institutionLabel": "nom de l'institution",
-    "institutionPlaceholder": "Nom de l'établissement ou de l'école",
+    "institutionLabel": "nom de l&#39;institution",
+    "institutionPlaceholder": "Nom de l&#39;établissement ou de l&#39;école",
     "degreeLabel": "Diplôme",
     "degreePlaceholder": "Diplôme, Spécialisation, Majeure",
     "descriptionPlaceholder": "Parlez-nous un peu de votre diplôme et de votre spécialisation",
@@ -495,7 +487,7 @@
   "employmentForm": {
     "companyLabel": "Nom de la compagnie",
     "positionLabel": "Position",
-    "positionPlaceholder": "Position / rang dans l'entreprise",
+    "positionPlaceholder": "Position / rang dans l&#39;entreprise",
     "descriptionPlaceholder": "Parlez-nous un peu de votre travail",
     "currentlyWorkingLabel": "Travaille actuellement ici?"
   },
@@ -531,16 +523,13 @@
       "header": "Impossible de récupérer la liste.",
       "paragraph": "La liste que vous avez demandée a expiré sur le réseau Djali ou n’existe pas.",
       "suggestionsText": "Suggestions",
-      "suggestions": "Parcourir les autres listes."
+      "suggestions": ["Parcourir les autres listes."]
     },
     "listingRenewPrompt": "Renouveler la liste <b>{0}</b> pour <b>1 an</b> ?"
   },
-  "tosCard": {
-    "header": "Conditions d'utilisation",
-    "expandText": "Montre plus..."
-  },
+  "tosCard": { "header": "Conditions d&#39;utilisation", "expandText": "Montre plus..." },
   "chatComponent": {
-    "emptyConvoText": "Pas encore de conversations ...",
+    "emptyConvoText": "Pas encore de conversation ...",
     "messagesText": "messages",
     "messagePlaceholder": "Tapez un message ..."
   },
@@ -576,39 +565,39 @@
     },
     "filters": {
       "unfunded": {
-        "states": "EN ATTENTE DE PAIEMENT",
-        "description": "Commandes non encore payées par l'acheteur."
+        "states": ["AWAITING_PAYMENT"],
+        "description": "Commandes non encore payées par l&#39;acheteur."
       },
       "pending": {
-        "states": "EN ATTENDANT",
-        "description": "Les commandes qui ont été payées et envoyées au fournisseur mais celui-ci n'a pas encore répondu."
+        "states": ["PENDING"],
+        "description": "Les commandes qui ont été payées et envoyées au fournisseur mais celui-ci n&#39;a pas encore répondu."
       },
       "processing": {
-        "states": "AWAITING_FULFILLMENT",
+        "states": ["AWAITING_FULFILLMENT"],
         "description": "Les commandes entièrement payées et le fournisseur traitent la commande."
       },
       "fulfilled": {
-        "states": "Rempli",
+        "states": ["FULFILLED", "AWAITING_PICKUP"],
         "description": "Les commandes qui ont été remplies par le vendeur."
       },
       "completed": {
-        "states": "TERMINÉ",
-        "description": "Commandes complétées par l'acheteur."
+        "states": ["COMPLETED"],
+        "description": "Commandes complétées par l&#39;acheteur."
       },
       "refunded": {
-        "states": "Remboursé",
+        "states": ["REFUNDED"],
         "description": "Les commandes qui ont été remboursés par le vendeur."
       },
       "disputes": {
-        "states": "CONTESTÉ",
+        "states": ["DISPUTED", "DECIDED", "RESOLVED", "PAYMENT_FINALIZED"],
         "description": "Commandes avec un cas litigieux."
       },
       "cancelled": {
-        "states": "ANNULÉ",
-        "description": "Les commandes qui ont été annulées par l'acheteur ou qui ont été refusées par le vendeur."
+        "states": ["CANCELED", "DECLINED"],
+        "description": "Les commandes qui ont été annulées par l&#39;acheteur ou qui ont été refusées par le vendeur."
       },
       "errors": {
-        "states": "PROCESSING_ERROR",
+        "states": ["PROCESSING_ERROR"],
         "description": "Les commandes qui ont des erreurs."
       }
     }
