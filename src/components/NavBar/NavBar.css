@@ -2,8 +2,8 @@
   background-color: var(--primary);
 }
 #logo-img {
-  width: 115px;
-  height: 60px;
+  width: 200px;
+  height: auto;
 }
 #search-bar {
   background-color: #fff;
