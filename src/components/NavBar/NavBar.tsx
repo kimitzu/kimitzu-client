@@ -132,28 +132,42 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
             </a>
             <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
               <ul className="uk-nav uk-dropdown-nav">
-                <li id="create-new-listing">
-                  <Link to="/listing/create">{navigationBarLocale.createNewListingLabel}</Link>
+                <li>
+                  <Link id="create-new-listing" to="/listing/create">
+                    {navigationBarLocale.createNewListingLabel}
+                  </Link>
                 </li>
                 <li className="uk-nav-divider" />
-                <li id="purchase-history">
-                  <Link to="/history/purchases">{navigationBarLocale.purchaseHistoryLabel}</Link>
+                <li>
+                  <Link id="purchase-history" to="/history/purchases">
+                    {navigationBarLocale.purchaseHistoryLabel}
+                  </Link>
                 </li>
-                <li id="sales-history">
-                  <Link to="/history/sales">{navigationBarLocale.salesHistoryLabel}</Link>
+                <li>
+                  <Link id="sales-history" to="/history/sales">
+                    {navigationBarLocale.salesHistoryLabel}
+                  </Link>
                 </li>
-                <li hidden={!profile.moderator} id="case-history">
-                  <Link to="/history/cases">{navigationBarLocale.caseHistoryLabel}</Link>
+                <li hidden={!profile.moderator}>
+                  <Link id="case-history" to="/history/cases">
+                    {navigationBarLocale.caseHistoryLabel}
+                  </Link>
                 </li>
                 <li className="uk-nav-divider" />
-                <li id="view-profile">
-                  <Link to="/profile">{navigationBarLocale.profileLabel}</Link>
+                <li>
+                  <Link id="view-profile" to="/profile">
+                    {navigationBarLocale.profileLabel}
+                  </Link>
                 </li>
-                <li id="wallet">
-                  <Link to="/wallet">{navigationBarLocale.walletLabel}</Link>
+                <li>
+                  <Link id="wallet" to="/wallet">
+                    {navigationBarLocale.walletLabel}
+                  </Link>
                 </li>
-                <li id="settings">
-                  <Link to="/settings">{navigationBarLocale.settingsLabel}</Link>
+                <li>
+                  <Link id="settings" to="/settings">
+                    {navigationBarLocale.settingsLabel}
+                  </Link>
                 </li>
                 <li
                   hidden={!displayLogout}
