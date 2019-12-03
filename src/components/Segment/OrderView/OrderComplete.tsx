@@ -16,7 +16,7 @@ const OrderComplete = ({ locale, order }) => (
       <SimpleBorderedSegment
         imageSrc={
           order.buyer!.avatarHashes.original
-            ? `${config.djaliHost}/djali/media?id=${order.buyer!.avatarHashes.original}`
+            ? `${config.djaliHost}/kimitzu/media?id=${order.buyer!.avatarHashes.original}`
             : `${process.env.PUBLIC_URL}/images/user.svg`
         }
       >

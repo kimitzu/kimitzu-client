@@ -254,7 +254,7 @@ class Search implements State {
       transforms: searchParams.transforms,
     }
 
-    const result = await Axios.post(`${config.djaliHost}/djali/search`, searchObject, {
+    const result = await Axios.post(`${config.djaliHost}/kimitzu/search`, searchObject, {
       withCredentials: true,
     })
     this.responseStatus = result.status

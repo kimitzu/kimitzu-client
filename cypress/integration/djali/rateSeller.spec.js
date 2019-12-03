@@ -16,7 +16,7 @@ context('Rate Buyer', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/rating_buyer.json'
     })
     cy.route({
@@ -33,7 +33,7 @@ context('Rate Buyer', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=sellerToBeRated',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=sellerToBeRated',
       response: {}
     })
     cy.route({

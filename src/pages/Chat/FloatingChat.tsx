@@ -64,7 +64,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         const indexPeerIDTemp = this.state.indexPeerID
         indexPeerIDTemp.push(cc.peerId)
         this.setState({ indexPeerID: indexPeerIDTemp })
-        const prof = await axios.get(`${config.djaliHost}/djali/peer/get?id=${cc.peerId}`)
+        const prof = await axios.get(`${config.djaliHost}/kimitzu/peer/get?id=${cc.peerId}`)
         c[i].image = `${process.env.PUBLIC_URL}/images/user.svg`
         c[i].name = cc.peerId
         if (prof && prof.data.profile) {
@@ -149,7 +149,7 @@ class FloatingChat extends React.Component<{}, FloatingChatState> {
         indexPeerIdTemp.push(socketMessageObject.message.peerId)
         this.setState({ indexPeerID: indexPeerIdTemp })
         const prof = await axios.get(
-          `${config.djaliHost}/djali/peer/get?id=${socketMessageObject.message.peerId}`
+          `${config.djaliHost}/kimitzu/peer/get?id=${socketMessageObject.message.peerId}`
         )
         let name = ''
         let image = ''

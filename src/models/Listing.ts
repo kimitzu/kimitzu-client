@@ -30,7 +30,7 @@ export interface ListingResponse {
 
 class Listing implements ListingInterface {
   public static async retrieve(id: string): Promise<ListingResponse> {
-    const djaliListingRequest = await Axios.get(`${config.djaliHost}/djali/listing?hash=${id}`)
+    const djaliListingRequest = await Axios.get(`${config.djaliHost}/kimitzu/listing?hash=${id}`)
     const djaliListing = djaliListingRequest.data
 
     /**

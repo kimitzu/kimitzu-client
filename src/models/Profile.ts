@@ -124,7 +124,7 @@ class Profile implements ProfileSchema {
   }
 
   public static async addToIndex(id: string): Promise<void> {
-    await Axios.get(`${config.djaliHost}/djali/peer/add?id=${id}`)
+    await Axios.get(`${config.djaliHost}/kimitzu/peer/add?id=${id}`)
   }
 
   public static async publish(): Promise<void> {
@@ -153,13 +153,13 @@ class Profile implements ProfileSchema {
     try {
       if (id) {
         const peerRequest = await Axios.get(
-          `${config.djaliHost}/djali/peer/get?id=${id}${force ? '&force=true' : ''}`
+          `${config.djaliHost}/kimitzu/peer/get?id=${id}${force ? '&force=true' : ''}`
         )
         const peerInfo = peerRequest.data.profile as Profile
         profile = new Profile(peerInfo)
       } else {
         const profileRequest = await Axios.get(
-          `${config.djaliHost}/djali/peer/get?id=${force ? '&force=true' : '&force=false'}`
+          `${config.djaliHost}/kimitzu/peer/get?id=${force ? '&force=true' : '&force=false'}`
         )
         /**
          * Properly handle when https://github.com/djali-foundation/djali-services/issues/3 is resolved.
@@ -366,7 +366,7 @@ class Profile implements ProfileSchema {
   }
 
   public async crawlOwnListings() {
-    await Axios.get(`${config.djaliHost}/djali/peer/add?id=${this.peerID}`)
+    await Axios.get(`${config.djaliHost}/kimitzu/peer/add?id=${this.peerID}`)
   }
 
   public processAddresses(extLocation: EXTLocation) {

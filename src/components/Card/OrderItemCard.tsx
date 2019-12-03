@@ -19,7 +19,7 @@ const OrderItemCard = ({ data, source }: OrderItemCardProps) => {
     <div className="ov-container uk-width-expand@s">
       <div className="header-img uk-visible@m">
         <img
-          src={data.thumbnail ? `${config.djaliHost}/djali/media?id=${data.thumbnail}` : ''}
+          src={data.thumbnail ? `${config.djaliHost}/kimitzu/media?id=${data.thumbnail}` : ''}
           alt="thumbnail"
           onError={(ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
             const image = ev.target as HTMLImageElement

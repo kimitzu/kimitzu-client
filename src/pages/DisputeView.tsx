@@ -289,7 +289,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
               title={`${dispute.buyer.name} ${this.locale.disputeViewPage.buyerDisputingHeader}`}
               imageSrc={
                 dispute.buyer.avatarHashes.medium
-                  ? `${config.djaliHost}/djali/media?id=${dispute.buyer.avatarHashes.medium}`
+                  ? `${config.djaliHost}/kimitzu/media?id=${dispute.buyer.avatarHashes.medium}`
                   : `${process.env.PUBLIC_URL}/images/user.svg`
               }
               sideButtons={
@@ -319,7 +319,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
               title={this.locale.orderViewPage.acceptedOrderHeader}
               imageSrc={
                 dispute.vendor.avatarHashes.medium
-                  ? `${config.djaliHost}/djali/media?id=${dispute.vendor.avatarHashes.medium}`
+                  ? `${config.djaliHost}/kimitzu/media?id=${dispute.vendor.avatarHashes.medium}`
                   : `${process.env.PUBLIC_URL}/images/user.svg`
               }
             >
@@ -332,7 +332,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
           <SimpleBorderedSegment>
             <OrderDetailsSegment
               listingName={dispute.buyerContract.vendorListings[0].item.title}
-              listingThumbnailSrc={`${config.djaliHost}/djali/media?id=${dispute.buyerContract.vendorListings[0].item.images[0].medium}`}
+              listingThumbnailSrc={`${config.djaliHost}/kimitzu/media?id=${dispute.buyerContract.vendorListings[0].item.images[0].medium}`}
               listingType="SERVICE"
               quantity={`${dispute.buyerContract.buyerOrder.items[0].quantity ||
                 dispute.buyerContract.buyerOrder.items[0].quantity64}`}

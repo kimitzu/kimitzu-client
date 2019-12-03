@@ -8,13 +8,13 @@ context('Register', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=&force=true', 
+      url: 'http://localhost:8109/kimitzu/peer/get?id=&force=true', 
       status: 404,
       response: 'fixture:profile/empty.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=moderator',
       response: 'fixture:profile/moderator.json'
     })
     cy.route({
@@ -51,7 +51,7 @@ context('Register', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/empty.json',
     })
     cy.route({
@@ -103,13 +103,13 @@ context('Register', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=&force=true',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=&force=true',
       response: 'fixture:profile/vendor.json',
     })
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=&force=false',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=&force=false',
       response: 'fixture:profile/vendor.json',
     })
 
