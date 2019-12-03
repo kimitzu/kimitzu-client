@@ -41,7 +41,8 @@ const UserReviewSegment = ({
           </div>
           <div className="uk-flex-1 uk-text-right">
             <label className="uk-text-small color-secondary">
-              {timeStamp ? moment(timeStamp).fromNow() : null}
+              <p className="uk-text-success">✓ Kimitzu Verified</p>
+              {timeStamp ? <p className="uk-text-muted">{moment(timeStamp).fromNow()}</p> : null}
             </label>
           </div>
         </div>
