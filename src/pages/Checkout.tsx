@@ -213,37 +213,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
     let interactivePane
 
-    if (isRequestingPaymentInformation) {
-      interactivePane = (
-        <div>
-          <PaymentQRCard
-            address={paymentAddress}
-            amount={amountToPay}
-            handleCopyToClipboard={this.copyToClipboard}
-            cryptocurrency={this.state.selectedCurrency}
-            memo={this.state.memo}
-            handlePay={async orderDetails => {
-              const element = document.getElementById('dropID')
-              if (element) {
-                window.UIkit.dropdown(element).hide()
-              }
-              await this.state.order.pay(orderDetails)
-            }}
-          />
-        </div>
-      )
-    } else if (isRequestingMerchantAddress) {
-      interactivePane = (
-        <div className="uk-margin-bottom">
-          <div className="uk-card uk-card-default uk-card-body uk-card-small">
-            <div className="uk-flex uk-flex-center uk-flex-column uk-text-center">
-              <div className="uk-align-center" uk-spinner="ratio: 3" />
-              <p>{this.locale.checkoutPage.requestAddressParagraph}</p>
-            </div>
-          </div>
-        </div>
-      )
-    } else {
+    if (!isRequestingPaymentInformation && !isRequestingMerchantAddress) {
       interactivePane = (
         <div>
           <div className="uk-margin-bottom">
@@ -365,6 +335,34 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         ) : null}
         <div className="uk-flex uk-flex-row">
           <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
+            {isRequestingPaymentInformation ? (
+              <div className="uk-margin-bottom">
+                <PaymentQRCard
+                  address={paymentAddress}
+                  amount={amountToPay}
+                  handleCopyToClipboard={this.copyToClipboard}
+                  cryptocurrency={this.state.selectedCurrency}
+                  memo={this.state.memo}
+                  handlePay={async orderDetails => {
+                    const element = document.getElementById('dropID')
+                    if (element) {
+                      window.UIkit.dropdown(element).hide()
+                    }
+                    await this.state.order.pay(orderDetails)
+                  }}
+                />
+              </div>
+            ) : null}
+            {isRequestingMerchantAddress ? (
+              <div className="uk-margin-bottom">
+                <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                  <div className="uk-flex uk-flex-center uk-flex-column uk-text-center">
+                    <div className="uk-align-center" uk-spinner="ratio: 3" />
+                    <p>{this.locale.checkoutPage.requestAddressParagraph}</p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <div className="uk-margin-bottom hide-checkout-payment-2">
               <CheckoutPaymentCard
                 id="mobile"
@@ -390,9 +388,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               />
             </div>
             <div id="checkout-order-summary" className="uk-flex uk-flex-column">
-              <div className="uk-margin-top">
-                <ListingCheckoutCard listing={listing} quantity={quantity} />
-              </div>
+              <ListingCheckoutCard listing={listing} quantity={quantity} />
               <div className="uk-margin-top">{interactivePane}</div>
             </div>
           </div>
