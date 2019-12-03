@@ -33,7 +33,7 @@ const ProfileSwitcher = ({
   ratings,
 }: Props) => {
   const { profilePage } = localeInstance.get.localizations
-  const { average, count, djali } = ratingSummary
+  const { average, count, kimitzu } = ratingSummary
 
   return (
     <ul id="container-profile" className="uk-switcher">
@@ -54,7 +54,7 @@ const ProfileSwitcher = ({
           <div className="uk-flex-1 uk-padding divider border-remove-vertical border-remove-left">
             <h4 className="uk-text-bold uk-text-center">{profilePage.buyerRatingsHeader}</h4>
             <div className="uk-padding-small uk-padding-remove-horizontal">
-              <RatingsAndReviewsSegment ratingInputs={ClientRatings} djaliRatings={djali} />
+              <RatingsAndReviewsSegment ratingInputs={ClientRatings} kimitzuRatings={kimitzu} />
             </div>
           </div>
           <div className="uk-flex-1 uk-padding">

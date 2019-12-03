@@ -11,7 +11,7 @@ const Button = ({ showSpinner, ...props }: Props) => {
   const [btnHeight, setBtnHeight] = useState(0)
 
   useEffect(() => {
-    const btn = document.getElementById(props.id || 'djali-btn')
+    const btn = document.getElementById(props.id || 'kimitzu-btn')
     if ((!btnWidth || !btnHeight) && !showSpinner && btn) {
       setBtnWidth(btn.offsetWidth)
       setBtnHeight(btn.offsetHeight)
@@ -23,7 +23,7 @@ const Button = ({ showSpinner, ...props }: Props) => {
       style={showSpinner ? { width: `${btnWidth}px`, height: `${btnHeight}px` } : {}}
       disabled={showSpinner}
       {...props}
-      id={props.id || 'djali-btn'}
+      id={props.id || 'kimitzu-btn'}
     >
       {showSpinner ? <DottedSpinner color="#fff" /> : props.children}
     </button>

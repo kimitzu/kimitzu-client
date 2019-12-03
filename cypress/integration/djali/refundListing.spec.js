@@ -16,19 +16,19 @@ context('Refund Listing', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/refunding_seller.json',
     })
     //Important to include this route based on the peerID on the refunding_seller.json
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=PeerOfSellerThatCanRefund',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=PeerOfSellerThatCanRefund',
       response: {},
     })
     //Important to include this route based on the buyerID.peerID on the order_to_be_refunded.json
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=PeerOfBuyer',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=PeerOfBuyer',
       response: {},
     })
     cy.route({

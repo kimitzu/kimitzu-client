@@ -11,7 +11,7 @@
     },
     "background": { "educationHistory": [], "employmentHistory": [] },
     "bitcoinPubkey": "034b8a66e89f888efaf350ac6b83b6db4f14877fd3090952c008acda8fcdc00d72",
-    "contactInfo": { "email": "djali@djali.org", "phoneNumber": "", "social": [], "website": "" },
+    "contactInfo": { "email": "kimitzu@kimitzu.ch", "phoneNumber": "", "social": [], "website": "" },
     "currencies": ["TBCH", "TZEC", "TLTC", "TBTC"],
     "customFields": [],
     "extLocation": {
@@ -33,11 +33,11 @@
       "return": 0,
       "shipping": 0
     },
-    "handle": "Djali",
+    "handle": "Kimitzu",
     "headerHashes": { "large": "", "medium": "", "original": "", "small": "", "tiny": "" },
     "lastModified": "2019-08-29T06:31:10.498375387Z",
     "location": "US, ",
-    "metaTags": { "DjaliVersion": "0.0.1-dev" },
+    "metaTags": { "KimitzuVersion": "0.0.1-dev" },
     "moderator": true,
     "moderatorInfo": {
       "acceptedCurrencies": ["TBCH", "TZEC", "TLTC", "TBTC"],
@@ -50,7 +50,7 @@
       "languages": ["en-AU", "en-PH"],
       "termsAndConditions": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
     },
-    "name": "Djali Remote",
+    "name": "Kimitzu Remote",
     "nsfw": false,
     "peerID": "QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK",
     "preferences": {
@@ -60,7 +60,7 @@
       "language": "en-US",
       "measurementUnit": "METRIC"
     },
-    "profileType": "djali",
+    "profileType": "kimitzu",
     "shortDescription": "",
     "stats": {
       "averageRating": 3,

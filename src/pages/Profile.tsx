@@ -156,10 +156,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       )
       this.setState({ ratings: updatedRatings, loadingStatus: 'Retrieving Rating Profiles' })
 
-      const { djali } = ratingsSummary
-      if (djali && djali.buyerRatings) {
-        djali.buyerRatings = await Promise.all(
-          djali.buyerRatings.map(async buyerRating => {
+      const { kimitzu } = ratingsSummary
+      if (kimitzu && kimitzu.buyerRatings) {
+        kimitzu.buyerRatings = await Promise.all(
+          kimitzu.buyerRatings.map(async buyerRating => {
             let userData
             try {
               userData = await Profile.retrieve(buyerRating.sourceId)
@@ -264,7 +264,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       this.setState({ canSendRequest: true })
     } catch (error) {
       window.UIkit.notification(
-        `${error.message}. Please try again later or make sure that the Djali server is running.`,
+        `${error.message}. Please try again later or make sure that the Kimitzu server is running.`,
         {
           status: 'danger',
         }
@@ -296,7 +296,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       this.setState({ isBlocked: !isBlocked, canSendRequest: true })
     } catch (error) {
       window.UIkit.notification(
-        `${error.message}. Please try again later or make sure that the Djali server is running.`,
+        `${error.message}. Please try again later or make sure that the Kimitzu server is running.`,
         {
           status: 'danger',
         }

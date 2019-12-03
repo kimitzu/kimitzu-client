@@ -16,7 +16,7 @@ context('Wallet', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
@@ -112,7 +112,7 @@ context('Wallet', () => {
     cy.get(':nth-child(3) > .uk-input')
       .type('SampleNoteToSend')
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@spend').then((xhr) => {

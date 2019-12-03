@@ -24,7 +24,7 @@ const IntroductionCard = (props: Props) => {
         </p>
       </div>
       <div id="introduction-footer">
-        <a id="new-to-djali-text" className="color-primary">
+        <a id="new-to-kimitzu-text" className="color-primary">
           {intro.helper}
         </a>
         <Button className="uk-button uk-button-primary" onClick={props.handleGetStarted}>

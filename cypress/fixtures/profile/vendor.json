@@ -55,7 +55,7 @@
     "headerHashes": { "large": "", "medium": "", "original": "", "small": "", "tiny": "" },
     "lastModified": "2019-08-29T05:04:50.258241Z",
     "location": "PH, ",
-    "metaTags": { "DjaliVersion": "0.0.1-dev" },
+    "metaTags": { "KimitzuVersion": "0.0.1-dev" },
     "moderator": false,
     "moderatorInfo": {
       "acceptedCurrencies": ["TBTC", "TBCH", "TZEC", "TLTC"],
@@ -78,7 +78,7 @@
       "language": "en-US",
       "measurementUnit": "METRIC"
     },
-    "profileType": "djali",
+    "profileType": "kimitzu",
     "shortDescription": "I am a software engineer most knowledgeable in developing web applications using NodeJS, Express, React, MongoDB, and Mocha.",
     "stats": {
       "averageRating": 0,

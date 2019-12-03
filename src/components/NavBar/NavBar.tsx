@@ -89,20 +89,20 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                       onClick={evt => {
                         evt.preventDefault()
                         window.openExternal(
-                          'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.djali.org?via=matrix.djali.org'
+                          'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                         )
                       }}
                     >
-                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.djali.org)
+                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                     </a>
                   ) : (
                     <a
                       href={
-                        'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.djali.org?via=matrix.djali.org'
+                        'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                       }
                       target="_blank"
                     >
-                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.djali.org)
+                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                     </a>
                   )}
                 </li>
@@ -112,13 +112,13 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                       href="#"
                       onClick={evt => {
                         evt.preventDefault()
-                        window.openExternal('https://github.com/djali-foundation/djali-client')
+                        window.openExternal('https://github.com/kimitzu/kimitzu-client')
                       }}
                     >
                       <span uk-icon="icon: github" /> Github
                     </a>
                   ) : (
-                    <a href={'https://github.com/djali-foundation/djali-client'} target="_blank">
+                    <a href={'https://github.com/kimitzu/kimitzu-client'} target="_blank">
                       <span uk-icon="icon: github" /> Github
                     </a>
                   )}
@@ -132,28 +132,42 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
             </a>
             <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
               <ul className="uk-nav uk-dropdown-nav">
-                <li id="create-new-listing">
-                  <Link to="/listing/create">{navigationBarLocale.createNewListingLabel}</Link>
+                <li>
+                  <Link id="create-new-listing" to="/listing/create">
+                    {navigationBarLocale.createNewListingLabel}
+                  </Link>
                 </li>
                 <li className="uk-nav-divider" />
-                <li id="purchase-history">
-                  <Link to="/history/purchases">{navigationBarLocale.purchaseHistoryLabel}</Link>
+                <li>
+                  <Link id="purchase-history" to="/history/purchases">
+                    {navigationBarLocale.purchaseHistoryLabel}
+                  </Link>
                 </li>
-                <li id="sales-history">
-                  <Link to="/history/sales">{navigationBarLocale.salesHistoryLabel}</Link>
+                <li>
+                  <Link id="sales-history" to="/history/sales">
+                    {navigationBarLocale.salesHistoryLabel}
+                  </Link>
                 </li>
-                <li hidden={!profile.moderator} id="case-history">
-                  <Link to="/history/cases">{navigationBarLocale.caseHistoryLabel}</Link>
+                <li hidden={!profile.moderator}>
+                  <Link id="case-history" to="/history/cases">
+                    {navigationBarLocale.caseHistoryLabel}
+                  </Link>
                 </li>
                 <li className="uk-nav-divider" />
-                <li id="view-profile">
-                  <Link to="/profile">{navigationBarLocale.profileLabel}</Link>
+                <li>
+                  <Link id="view-profile" to="/profile">
+                    {navigationBarLocale.profileLabel}
+                  </Link>
                 </li>
-                <li id="wallet">
-                  <Link to="/wallet">{navigationBarLocale.walletLabel}</Link>
+                <li>
+                  <Link id="wallet" to="/wallet">
+                    {navigationBarLocale.walletLabel}
+                  </Link>
                 </li>
-                <li id="settings">
-                  <Link to="/settings">{navigationBarLocale.settingsLabel}</Link>
+                <li>
+                  <Link id="settings" to="/settings">
+                    {navigationBarLocale.settingsLabel}
+                  </Link>
                 </li>
                 <li
                   hidden={!displayLogout}

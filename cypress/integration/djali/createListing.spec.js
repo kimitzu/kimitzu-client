@@ -6,12 +6,12 @@ context('Create Listing', () => {
     cy.server({})
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=moderator',
       response: 'fixture:profile/moderator.json',
     })
     cy.route({
@@ -21,7 +21,7 @@ context('Create Listing', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search.json',
     })
     cy.route({
@@ -67,7 +67,7 @@ context('Create Listing', () => {
     cy.route({
       method: 'GET',
       url:
-        'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
+        'http://localhost:8109/kimitzu/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
       response: 'fixture:listings/creative_marketing_full_response.json',
     })
     cy.visit('http://localhost:3000/')
@@ -76,7 +76,8 @@ context('Create Listing', () => {
   it('Should create a listing', () => {
     cy.wait(5000)
     cy.get('#account').click()
-    cy.contains('Create New Listing').click()
+    cy.get('#account').click()
+    cy.contains('Create New Listing').click({force:true})
     cy.contains('General')
     cy.get('#listing-create-autocomplete').click()
     cy.get('#listing-create-autocomplete-2411-24').click()
@@ -139,6 +140,7 @@ context('Create Listing', () => {
     cy.get('#favoriteModerators-info-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').click()
     cy.get('#moderator-info').should('have.class', 'uk-flex-top uk-modal uk-flex uk-open')
     cy.get('#moderator-info-close').click()
+    cy.get('#moderator-search').click()
     cy.get('#favoriteModerators-add-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').click()
     cy.get('#favoriteModerators-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').should('not.exist')
     cy.get('#moderator-search').click()

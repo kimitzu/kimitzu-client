@@ -23,7 +23,7 @@
   "minimum": "Minimum",
   "maximum": "Maximum",
   "intro": {
-    "helper": "New to Djali?",
+    "helper": "New to Kimitzu?",
     "nextBtnText": "Get Started",
     "appDescription": "A free market for services"
   },
@@ -33,8 +33,8 @@
   "homePage": {
     "headerDropdownPlaceholder": "Browse Classifications",
     "crawlingHeader": "Crawling...",
-    "crawlingContent1": "Great! It seems like you just installed Djali.",
-    "crawlingContent2": "Please come back later as Djali crawls the listings on the network.",
+    "crawlingContent1": "Great! It seems like you just installed Kimitzu.",
+    "crawlingContent2": "Please come back later as Kimitzu crawls the listings on the network.",
     "noResultsHeader": "No Results",
     "noResultsContent": "Your search did not match any listings.",
     "noResultsSuggestionsText": "Suggestions",
@@ -82,7 +82,7 @@
   },
   "tosPage": {
     "header": "Terms of Service",
-    "tos": "The Djali community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Djali users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Djali developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Djali ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.\n\n Due to the global, peer-to-peer, censorship-resistant nature of Djali, users may see listings for services that are not currently legal in their jurisdiction. It is the responsibility of Djali users to ensure that they are in compliance with the laws of their jurisdiction.\n\nDjali operates over the Tor network by default, and the only information users are required to provide is a handle and country. Djali developers have also made a good faith effort to help users maintain their privacy while using Djali. However, Djali is experimental software, and there may be flaws that reveal sensitive information. It's also easy to de-anonymize oneself, such as by talking about one's personal life with a client, or describing oneself in too much detail. There are also many adversaries--such as governments or criminals--who work to defeat Djali's privacy mechanisms. Therefore, Djali developers do not make any guarantees regarding the ability of the software to maintain user privacy."
+    "tos": "The Kimitzu community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Kimitzu users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Kimitzu developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Kimitzu ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.\n\n Due to the global, peer-to-peer, censorship-resistant nature of Kimitzu, users may see listings for services that are not currently legal in their jurisdiction. It is the responsibility of Kimitzu users to ensure that they are in compliance with the laws of their jurisdiction.\n\nKimitzu operates over the Tor network by default, and the only information users are required to provide is a handle and country. Kimitzu developers have also made a good faith effort to help users maintain their privacy while using Kimitzu. However, Kimitzu is experimental software, and there may be flaws that reveal sensitive information. It's also easy to de-anonymize oneself, such as by talking about one's personal life with a client, or describing oneself in too much detail. There are also many adversaries--such as governments or criminals--who work to defeat Kimitzu's privacy mechanisms. Therefore, Kimitzu developers do not make any guarantees regarding the ability of the software to maintain user privacy."
   },
   "addressForm": {
     "streetLabel": "Street Address",
@@ -185,7 +185,7 @@
       "purchaseHistory": "Purchase History"
     },
     "profileNotFoundHeader": "Unable to Retrieve Profile",
-    "profileNotFoundSubText": "The profile you requested is currently offline or does not exist in the Djali network."
+    "profileNotFoundSubText": "The profile you requested is currently offline or does not exist in the Kimitzu network."
   },
   "followButton": {
     "followBtnText": "Follow",
@@ -200,7 +200,7 @@
   "settingsPage": {
     "header": "Settings",
     "spinnerText": "Loading Profile...",
-    "changeCredMsgTextA": "Enabling this feature will activate Djali's authentication mechanisms to protect\nyour client from unauthorized access.",
+    "changeCredMsgTextA": "Enabling this feature will activate Kimitzu's authentication mechanisms to protect\nyour client from unauthorized access.",
     "changeCredMsgTextB": "Other non-critical features such as search will still be accessible but payment and\nordering-related features will need authentication in order to proceed.",
     "authenticationText": "Authentication",
     "generalNavItem": "General",
@@ -237,7 +237,7 @@
     "competencyDeleteSuccessNotif": "Competency Deleted!",
     "competencyUpdateSuccessNotif": "Competency Updated!",
     "deactivateAuthForm": {
-      "helper1": "This will deactivate Djali's authentication mechanisms and your client will no longer be protected from unauthorized access.",
+      "helper1": "This will deactivate Kimitzu's authentication mechanisms and your client will no longer be protected from unauthorized access.",
       "helper2": "Payment and ordering-related features will no longer need authentication in order to proceed.",
       "submitBtnText": "Deactivate Authentication"
     },
@@ -536,7 +536,7 @@
     "emptyTosContentParagraph": "Nothing specified.",
     "notFoundComponent": {
       "header": "Unable to Retrieve Listing.",
-      "paragraph": "The listing you requested has either expired on the Djali network or does not exist.",
+      "paragraph": "The listing you requested has either expired on the Kimitzu network or does not exist.",
       "suggestionsText": "Suggestions",
       "suggestions": ["Browse other listings."]
     },

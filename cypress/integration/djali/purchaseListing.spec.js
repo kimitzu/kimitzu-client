@@ -21,7 +21,7 @@ context('Purchase', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
@@ -33,7 +33,7 @@ context('Purchase', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search.json',
     })
     cy.route({
@@ -48,7 +48,7 @@ context('Purchase', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
+      url: 'http://localhost:8109/kimitzu/listing?hash=QmX63A8C9tfmnv9vzqjjPPCUuyoH7bD4Xsq4MdCG3xjU1C',
       response: 'fixture:listings/microsoft_office_installation.json'
     })
     cy.route({

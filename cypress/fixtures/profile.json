@@ -1,7 +1,7 @@
 {
   "peerID": "QmYzhn6wWKtGC89RdcAWtyE5A8qCSPVw2Rwsb68RkZ5ub1",
-  "handle": "Djali",
-  "name": "Djali Remote",
+  "handle": "Kimitzu",
+  "name": "Kimitzu Remote",
   "location": "PH, ",
   "about": "Lorem ipsum dolor sit amet.",
   "shortDescription": "",
@@ -15,7 +15,7 @@
     "acceptedCurrencies": ["TZEC", "TLTC", "TBTC", "TBCH"],
     "fee": { "fixedFee": { "currencyCode": "", "amount": 0 }, "percentage": 0, "feeType": "FIXED" }
   },
-  "contactInfo": { "website": "", "email": "test@djali.org", "phoneNumber": "", "social": [] },
+  "contactInfo": { "website": "", "email": "test@kimitzu.ch", "phoneNumber": "", "social": [] },
   "avatarHashes": {
     "tiny": "QmeudWfRNBRdJp9Lv6HV2XU6Q2fL5ZNXLYX45e7NkvFvY8",
     "small": "QmQXZUA2a7Rc3jHPojN7rx29NtBMQY6RRAg3Ku5r4xNvwX",
@@ -55,8 +55,8 @@
     ]
   },
   "background": { "educationHistory": [], "employmentHistory": [] },
-  "profileType": "djali",
-  "metaTags": { "DjaliVersion": "0.0.1-dev" },
+  "profileType": "kimitzu",
+  "metaTags": { "KimitzuVersion": "0.0.1-dev" },
   "preferences": {
     "currencyDisplay": "FIAT",
     "fiat": "USD",

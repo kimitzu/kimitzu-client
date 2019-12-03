@@ -1,7 +1,7 @@
 {
   "peerID": "peerId1",
   "profile": {
-    "about": "This is the Djali test account profile.  ",
+    "about": "This is the Kimitzu test account profile.  ",
     "avatarHashes": {
       "large": "QmYW7t7iioLxzMFxxUrFrLbvYGno2ZXBFXKg85NSytaXDp",
       "medium": "QmRCraQ1XKnvhNXXqtBhphc5cbn8PMxmeaNK9WYc5fs2RX",
@@ -15,7 +15,7 @@
     },
     "bitcoinPubkey": "034b8a66e89f888efaf350ac6b83b6db4f14877fd3090952c008acda8fcdc00d72",
     "contactInfo": {
-      "email": "djali@djali.org",
+      "email": "kimitzu@kimitzu.ch",
       "phoneNumber": "",
       "social": [
         {
@@ -57,7 +57,7 @@
       "return": 0,
       "shipping": 0
     },
-    "handle": "Djali",
+    "handle": "Kimitzu",
     "headerHashes": {
       "large": "",
       "medium": "",
@@ -68,7 +68,7 @@
     "lastModified": "2019-10-08T07:10:34.783527678Z",
     "location": "US, ",
     "metaTags": {
-      "DjaliVersion": "0.0.1-dev"
+      "KimitzuVersion": "0.0.1-dev"
     },
     "moderator": true,
     "moderatorInfo": {
@@ -93,7 +93,7 @@
       ],
       "termsAndConditions": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
     },
-    "name": "Djali Remote",
+    "name": "Kimitzu Remote",
     "nsfw": false,
     "peerID": "QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK",
     "preferences": {
@@ -103,8 +103,8 @@
       "language": "en-US",
       "measurementUnit": "ENGLISH"
     },
-    "profileType": "djali",
-    "shortDescription": "This is the Djali test account profile...",
+    "profileType": "kimitzu",
+    "shortDescription": "This is the Kimitzu test account profile...",
     "stats": {
       "averageRating": 3.6666667,
       "followerCount": 1,

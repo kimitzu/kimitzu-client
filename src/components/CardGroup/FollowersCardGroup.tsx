@@ -62,7 +62,7 @@ const FollowersCardGroup = ({ peerIDs, isFollowingList }: Props) => {
       })
     } catch (error) {
       window.UIkit.notification(
-        `${error.message}. Please try again later or make sure that the Djali server is running.`,
+        `${error.message}. Please try again later or make sure that the Kimitzu server is running.`,
         {
           status: 'danger',
         }

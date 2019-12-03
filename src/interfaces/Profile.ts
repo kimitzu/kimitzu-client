@@ -48,7 +48,7 @@ export interface EXTLocation {
 }
 
 export interface MetaTags {
-  DjaliVersion: string
+  KimitzuVersion: string
 }
 
 export interface Preferences {
