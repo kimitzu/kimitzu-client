@@ -14,7 +14,7 @@ const OrderRefunded = ({ locale, order }) => (
       <SimpleBorderedSegment
         imageSrc={
           order.vendor!.avatarHashes.original
-            ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.original}`
+            ? `${config.kimitzuHost}/kimitzu/media?id=${order.vendor!.avatarHashes.original}`
             : `${process.env.PUBLIC_URL}/images/user.svg`
         }
       >

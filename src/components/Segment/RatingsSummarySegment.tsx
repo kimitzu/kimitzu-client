@@ -6,7 +6,7 @@ import Rating, { RatingInput, RatingSummary } from '../../interfaces/Rating'
 interface Props {
   ratingInputs: RatingInput[]
   ratings?: Rating[]
-  djaliRatings?: RatingSummary['djali']
+  kimitzuRatings?: RatingSummary['kimitzu']
   totalAverageRating?: number
   totalReviewCount?: number
   totalStarCount?: number
@@ -27,7 +27,7 @@ const displayRatingValue = (originalVal: number) => {
 const RatingsSummarySegment = ({
   ratingInputs,
   ratings,
-  djaliRatings,
+  kimitzuRatings,
   totalAverageRating = 0,
   isInlineDisplay,
   // totalReviewCount = 0, this might need in the future
@@ -50,8 +50,8 @@ const RatingsSummarySegment = ({
     const entries = ratings.length
     // Get the average for each fieldname
     keys.forEach(key => (averageRatings[key] = averageRatings[key] / entries))
-  } else if (djaliRatings && djaliRatings.buyerRatings) {
-    const { average, buyerRatings, count } = djaliRatings
+  } else if (kimitzuRatings && kimitzuRatings.buyerRatings) {
+    const { average, buyerRatings, count } = kimitzuRatings
     totalAverageRating = (average / 100) * totalStarCount
     // totalReviewCount = count || buyerRatings!.length
     averageRatings = buyerRatings.reduce((acc, cur) => {
@@ -72,7 +72,7 @@ const RatingsSummarySegment = ({
       })
       return acc
     }, averageRatings)
-    const entries = djaliRatings.buyerRatings.length
+    const entries = kimitzuRatings.buyerRatings.length
     keys.forEach(key => (averageRatings[key] = averageRatings[key] / entries))
   }
   return (

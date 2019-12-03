@@ -1,6 +1,6 @@
-# Djali Occupation Classification Standard
+# Kimitzu Occupation Classification Standard
 
-This is the occupation classification standard used by Djali.
+This is the occupation classification standard used by Kimitzu.
 
 This is based from the [International Standard Classification of Occupations](https://en.wikipedia.org/wiki/International_Standard_Classification_of_Occupations), specifically parsed from these documents:
 

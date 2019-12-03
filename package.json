@@ -1,15 +1,15 @@
 {
-  "name": "djali-client",
+  "name": "kimitzu-client",
   "version": "0.1.0",
   "private": true,
   "author": {
-    "email": "dev@djali.org",
-    "name": "Djali Foundation",
-    "url": "https://github.com/djali-foundation"
+    "email": "dev@kimitzu.ch",
+    "name": "Kimitzu Foundation",
+    "url": "https://github.com/kimitzu"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/djali-foundation/djali-client.git"
+    "url": "https://github.com/kimitzu/kimitzu-client.git"
   },
   "dependencies": {
     "@capacitor/android": "^1.3.0",
@@ -129,11 +129,11 @@
     "tslint-react": "^4.0.0",
     "wait-on": "^3.3.0"
   },
-  "description": "Djali Client",
+  "description": "Kimitzu Client",
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
-    "appId": "com.djali.client",
+    "appId": "ch.kimitzu.client",
     "files": [
       "build/**/*",
       "node_modules/**/*"
@@ -141,8 +141,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "djali-foundation",
-        "repo": "djali-client"
+        "owner": "kimitzu",
+        "repo": "kimitzu-client"
       }
     ],
     "compression": "store",

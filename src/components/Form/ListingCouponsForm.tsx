@@ -61,12 +61,13 @@ const ListingCouponsForm = ({
         {coupons.map((coupon: Coupon, index: number) => {
           return (
             <InlineFormFields
+              alwaysShowSideOptions
               key={`coupon-${coupon.uniqueId}`}
               sideOptions={[
                 <a
                   key={`side-option-one-${index}`}
                   id={`coupon-remove-${index}`}
-                  className="uk-icon-link"
+                  className="uk-icon-link uk-margin-small-left"
                   data-uk-icon="close"
                   onClick={() => handleRemoveRow('coupon', index)}
                 />,

@@ -3,11 +3,11 @@ import React from 'react'
 import RatingsSummarySegment from './RatingsSummarySegment'
 import UserReviewSegment from './UserReviewSegment'
 
-import Rating, { DjaliRatingItem, RatingInput, RatingSummary } from '../../interfaces/Rating'
+import Rating, { KimitzuRatingItem, RatingInput, RatingSummary } from '../../interfaces/Rating'
 
 interface Props {
   ratings?: Rating[]
-  djaliRatings?: RatingSummary['djali']
+  kimitzuRatings?: RatingSummary['kimitzu']
   ratingInputs: RatingInput[]
   totalReviewCount?: number
   totalAverageRating?: number
@@ -15,7 +15,7 @@ interface Props {
   inlineSummaryDisplay?: boolean
 }
 
-const renderReviews = (ratings?: Rating[], djaliRatings?: RatingSummary['djali']) => {
+const renderReviews = (ratings?: Rating[], kimitzuRatings?: RatingSummary['kimitzu']) => {
   if (ratings) {
     return ratings.map((rating, index) => {
       const { ratingData, signature, avatar } = rating
@@ -32,8 +32,8 @@ const renderReviews = (ratings?: Rating[], djaliRatings?: RatingSummary['djali']
         />
       )
     })
-  } else if (djaliRatings && djaliRatings.buyerRatings) {
-    return djaliRatings.buyerRatings.map((buyerRating: DjaliRatingItem, index: number) => {
+  } else if (kimitzuRatings && kimitzuRatings.buyerRatings) {
+    return kimitzuRatings.buyerRatings.map((buyerRating: KimitzuRatingItem, index: number) => {
       const { comment, fields, sourceId, reviewer, avatar, timestamp } = buyerRating
       if (!fields) {
         return null
@@ -61,7 +61,7 @@ const RatingsAndReviewSegment = ({
   totalAverageRating,
   totalReviewCount,
   totalStarCount,
-  djaliRatings,
+  kimitzuRatings,
   ratingInputs,
   ratings,
   inlineSummaryDisplay,
@@ -69,14 +69,14 @@ const RatingsAndReviewSegment = ({
   <div>
     <RatingsSummarySegment
       ratings={ratings}
-      djaliRatings={djaliRatings}
+      kimitzuRatings={kimitzuRatings}
       ratingInputs={ratingInputs}
       totalAverageRating={totalAverageRating}
       totalReviewCount={totalReviewCount}
       totalStarCount={totalStarCount}
       isInlineDisplay={inlineSummaryDisplay}
     />
-    {renderReviews(ratings, djaliRatings)}
+    {renderReviews(ratings, kimitzuRatings)}
   </div>
 )
 

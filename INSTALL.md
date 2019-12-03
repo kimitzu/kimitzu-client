@@ -21,7 +21,7 @@ brew install rpm
 
 Clone the repository:
 ```
-git clone https://github.com/djali-foundation/djali-client.git
+git clone https://github.com/kimitzu/kimitzu-client.git
 ```
 
 Install dependencies
@@ -29,7 +29,7 @@ Install dependencies
 During this proces, all required system dependencies determined by the packager will be downloaded automatically on demand on macOS 10.12+ (macOS Sierra).
 
 ```
-cd djali-client
+cd kimitzu-client
 yarn install
 npm run build:local:mac
 ```
@@ -37,7 +37,7 @@ npm run build:local:mac
 ## Run
 
 Build files from previous steps can now be seen in the `dist/` folder. 
-Install `djali-client Setup 0.1.0.dmg` to install the software on your device.
+Install `kimitzu-client Setup 0.1.0.dmg` to install the software on your device.
 
 After installation, the software will be automatically launched.
 
@@ -80,41 +80,41 @@ man screen
 
 Clone the repositories
 ```
-go get -v github.com/djali-foundation/djali-go
+go get -v github.com/kimitzu/kimitzu-go
 
-go get -v github.com/djali-foundation/djali-services
+go get -v github.com/kimitzu/kimitzu-services
 
-git clone https://github.com/djali-foundation/djali-client.git
+git clone https://github.com/kimitzu/kimitzu-client.git
 ```
 
-Build Djali-Go
+Build Kimitzu-Go
 ```
-cd /GOPATH/src/github.com/djali-foundation/djali-go
+cd /GOPATH/src/github.com/kimitzu/kimitzu-go
 go build openbazaard.go
 
-./openbazaard start // <--- Run Djali GO
+./openbazaard start // <--- Run Kimitzu GO
 ```
 
-Build Djali-Services
+Build Kimitzu-Services
 ```
-cd /GOPATH/src/github.com/djali-foundation/djali-services
+cd /GOPATH/src/github.com/kimitzu/kimitzu-services
 go build services.go
 
-./services.go // <--- Run Djali Services
+./services.go // <--- Run Kimitzu Services
 ```
 
 Build Client
 ```
-cd /HOME/djali-client
+cd /HOME/kimitzu-client
 npm run build
 
-serve -s build -l 3000 // <--- Run Djali client
+serve -s build -l 3000 // <--- Run Kimitzu client
 ```
 
 # Configuring Apache
-This configuration is important for users who intend to run Djali on a remote host and who wish to point their host to a domain. This exposes the Djali ports and maps it to your intended domain.
+This configuration is important for users who intend to run Kimitzu on a remote host and who wish to point their host to a domain. This exposes the Kimitzu ports and maps it to your intended domain.
 
-> If you are OK to access your host via its IP address (eg. 1.2.3.4:3000) or you intend to run Djali locally (127.0.0.1:3000), then you may **skip** this step.
+> If you are OK to access your host via its IP address (eg. 1.2.3.4:3000) or you intend to run Kimitzu locally (127.0.0.1:3000), then you may **skip** this step.
 
 Install Apache2
 ```
@@ -132,8 +132,8 @@ sudo a2enmod proxy_wstunnel
 Sample apache2.conf
 ```
 <VirtualHost *:80>
-        ServerName djali.org // <--- change this, root domain.
-        ServerAdmin djali@djali.com
+        ServerName kimitzu.ch // <--- change this, root domain.
+        ServerAdmin kimitzu@kimitzu.com
 
         ProxyRequests Off
         ProxyPreserveHost Off
@@ -147,8 +147,8 @@ Sample apache2.conf
 </VirtualHost>
 
 <VirtualHost *:80>
-        ServerName djali-api.djali.org // <--- change this, Djali services API.
-        ServerAdmin djali-api@djali.com
+        ServerName kimitzu-api.kimitzu.ch // <--- change this, Kimitzu services API.
+        ServerAdmin kimitzu-api@kimitzu.com
 
         ProxyRequests Off
         ProxyPreserveHost Off
@@ -162,8 +162,8 @@ Sample apache2.conf
 </VirtualHost>
 
 <VirtualHost *:80>
-        ServerName djali-ob.djali.org // <--- change this, OpenBazaar layer.
-        ServerAdmin djali-ob@djali.com
+        ServerName kimitzu-ob.kimitzu.ch // <--- change this, OpenBazaar layer.
+        ServerAdmin kimitzu-ob@kimitzu.com
 
         ProxyRequests Off
         ProxyPreserveHost Off
@@ -177,8 +177,8 @@ Sample apache2.conf
 </VirtualHost>
 
 <VirtualHost *:80>
-        ServerName test.djali.org // <--- change this, Djali client.
-        ServerAdmin djali@djali.com
+        ServerName test.kimitzu.ch // <--- change this, Kimitzu client.
+        ServerAdmin kimitzu@kimitzu.com
 
         ProxyRequests Off
         ProxyPreserveHost Off
@@ -201,4 +201,4 @@ sudo service apache2 restart
 ```
 
 ## Accessing
-The Djali client can now be accessed on http://localhost:3000/.
+The Kimitzu client can now be accessed on http://localhost:3000/.

@@ -65,7 +65,7 @@
     "lastModified": "2040-10-17T09:01:24.541446500Z",
     "location": "PH, ",
     "metaTags": {
-      "DjaliVersion": "0.0.1-dev"
+      "KimitzuVersion": "0.0.1-dev"
     },
     "moderator": false,
     "moderatorInfo": {
@@ -92,7 +92,7 @@
       "language": "en-US",
       "measurementUnit": "METRIC"
     },
-    "profileType": "djali",
+    "profileType": "kimitzu",
     "shortDescription": "I am a software engineer most knowledgeable in developing web applications using NodeJS, Express, React, MongoDB, and Mocha...",
     "stats": {
       "averageRating": 4,

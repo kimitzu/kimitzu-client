@@ -59,7 +59,7 @@ const GroupChat = ({ groupMessage }: Props) => {
                       <img
                         src={
                           imageCache[messageItem.peerId!]
-                            ? `${config.djaliHost}/djali/media?id=${
+                            ? `${config.kimitzuHost}/kimitzu/media?id=${
                                 imageCache[messageItem.peerId!]
                               }`
                             : `${config.host}/images/user.png`

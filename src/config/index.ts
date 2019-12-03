@@ -1,24 +1,24 @@
 type Environment = 'local' | 'remote' | 'test'
 
 interface Config {
-  djaliHost: string
+  kimitzuHost: string
   host: string
   openBazaarHost: string
   websocketHost: string
 }
 
 const local = {
-  djaliHost: `http://${window.location.hostname}:8109`,
+  kimitzuHost: `http://${window.location.hostname}:8109`,
   host: process.env.PUBLIC_URL,
   openBazaarHost: `http://${window.location.hostname}:4002`,
   websocketHost: `ws://${window.location.hostname}:4002/ws`,
 }
 
 const remote = {
-  djaliHost: 'https://djali-api.djali.org',
-  host: 'https://test.djali.org',
-  openBazaarHost: 'https://djali-ob.djali.org',
-  websocketHost: 'wss://djali-ob.djali.org/ws',
+  kimitzuHost: 'https://kimitzu-api.kimitzu.ch',
+  host: 'https://test.kimitzu.ch',
+  openBazaarHost: 'https://kimitzu-ob.kimitzu.ch',
+  websocketHost: 'wss://kimitzu-ob.kimitzu.ch/ws',
 }
 
 function getConfig(): Config {

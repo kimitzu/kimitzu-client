@@ -6,24 +6,24 @@ context('Edit Profile', () => {
     cy.server({})
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=moderator',
       response: 'fixture:profile/moderator.json',
     })
     cy.route({
       method: 'GET',
       url: 'http://localhost:8109/authenticate',
       response: {
-        authenticated: false
+        authenticated: false,
       },
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search.json',
     })
     cy.route({
@@ -39,12 +39,12 @@ context('Edit Profile', () => {
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/exchangerate/btc',
-      response: {}
+      response: {},
     })
     cy.route({
       method: 'GET',
       url: 'http://localhost:4002/ob/moderators?async=true',
-      response: {}
+      response: {},
     })
     cy.route({
       method: 'POST',
@@ -55,18 +55,18 @@ context('Edit Profile', () => {
       method: 'POST',
       url: 'http://localhost:4002/ob/listing',
       response: {
-        slug: 'The-Accountant'
+        slug: 'The-Accountant',
       },
     }).as('newListing')
     cy.route({
       method: 'POST',
       url: 'http://localhost:4002/ob/publish',
-      response: {}
+      response: {},
     })
     cy.route({
       method: 'PUT',
       url: 'http://localhost:4002/ob/profile',
-      response: {}
+      response: {},
     }).as('updateProfile')
 
     cy.visit('http://localhost:3000/')
@@ -74,17 +74,26 @@ context('Edit Profile', () => {
 
   it('should update General Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#account').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
-    cy.get('#username').clear().type('New Handle')
+    cy.get('#username')
+      .clear()
+      .type('New Handle')
 
-    cy.get('#fullname').clear().type('New FullName')
+    cy.get('#fullname')
+      .clear()
+      .type('New FullName')
 
-    cy.get('.mde-text').clear().type('New Description')
+    cy.get('.mde-text')
+      .clear()
+      .type('New Description')
 
-    cy.get('#email').clear().type('New Email')
+    cy.get('#email')
+      .clear()
+      .type('New Email')
 
     cy.get('#countries').select('United States')
 
@@ -98,11 +107,11 @@ context('Edit Profile', () => {
 
     cy.get('#preferred-units').select('English System  (Mile, Foot, Inch, Pound)')
 
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
 
     cy.get('.uk-notification-message > div').should('exist')
 
-    cy.wait('@updateProfile').then(function(xhr){
+    cy.wait('@updateProfile').then(function(xhr) {
       const request = xhr.requestBody
 
       expect(request.handle).to.equal('New Handle')
@@ -120,50 +129,72 @@ context('Edit Profile', () => {
 
   it('should update Social Medial Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#account').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
     cy.get('#desktop-social-media > a').click()
 
-    cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select').select('500px')
-    cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input').clear().type('500pxUsername')
-    cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-2 > .uk-input').clear().type('500pxProof')
+    cy.get(
+      ':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select'
+    ).select('500px')
+    cy.get(
+      ':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input'
+    )
+      .clear()
+      .type('500pxUsername')
+    cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-2 > .uk-input')
+      .clear()
+      .type('500pxProof')
 
-    cy.get(':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select').select('Youtube')
-    cy.get(':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input').type('YoutubeUsername')
-    cy.get(':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-2 > .uk-input').type('YoutubeProof')
+    cy.get(
+      ':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select'
+    ).select('Youtube')
+    cy.get(
+      ':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input'
+    ).type('YoutubeUsername')
+    cy.get(
+      ':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-2 > .uk-input'
+    ).type('YoutubeProof')
 
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
 
     cy.get('.uk-notification-message > div').should('exist')
 
-    cy.wait('@updateProfile').then(function(xhr){
+    cy.wait('@updateProfile').then(function(xhr) {
       const request = xhr.requestBody
 
-      expect(JSON.stringify(request.contactInfo.social[0])).to.equal(JSON.stringify({
-        proof: "https://twitter.com/24th_Saint/status/1166938745167175681",
-        type: "twitter",
-        username: "@24th_saint"
-      }))
+      expect(JSON.stringify(request.contactInfo.social[0])).to.equal(
+        JSON.stringify({
+          proof: 'https://twitter.com/24th_Saint/status/1166938745167175681',
+          type: 'twitter',
+          username: '@24th_saint',
+        })
+      )
 
-      expect(JSON.stringify(request.contactInfo.social[1])).to.equal(JSON.stringify({
-        type: "500px",
-        username: "500pxUsername",
-        proof: "500pxProof"
-      }))
+      expect(JSON.stringify(request.contactInfo.social[1])).to.equal(
+        JSON.stringify({
+          type: '500px',
+          username: '500pxUsername',
+          proof: '500pxProof',
+        })
+      )
 
-      expect(JSON.stringify(request.contactInfo.social[2])).to.equal(JSON.stringify({
-        type: "youtube",
-        username: "YoutubeUsername",
-        proof: "YoutubeProof"
-      }))
+      expect(JSON.stringify(request.contactInfo.social[2])).to.equal(
+        JSON.stringify({
+          type: 'youtube',
+          username: 'YoutubeUsername',
+          proof: 'YoutubeProof',
+        })
+      )
     })
   })
 
   it('should update Education Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#account').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -183,7 +214,7 @@ context('Edit Profile', () => {
 
     cy.get('.uk-select').select('Zimbabwe')
 
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
 
     cy.get('.uk-notification-message > div').should('exist')
 
@@ -191,12 +222,12 @@ context('Edit Profile', () => {
       const educationHistory = xhr.requestBody.background.educationHistory
 
       const expectedEducationHistory = {
-        institution: "New School Name 1",
-        degree: "New Degree 1",
-        description: "New Description 1",
-        location: {city: "New City 1", country: "ZW"},
-        period: {from: "2015-01-01T00:00:00.000Z", to: "2018-01-01T00:00:00.000Z"},
-        country: {city: "New City 1", country: "ZW"},
+        institution: 'New School Name 1',
+        degree: 'New Degree 1',
+        description: 'New Description 1',
+        location: { city: 'New City 1', country: 'ZW' },
+        period: { from: '2015-01-01T00:00:00.000Z', to: '2018-01-01T00:00:00.000Z' },
+        country: { city: 'New City 1', country: 'ZW' },
       }
 
       expect(JSON.stringify(educationHistory[0])).to.equal(JSON.stringify(expectedEducationHistory))
@@ -205,7 +236,8 @@ context('Edit Profile', () => {
 
   it('should update Work History Profile Settings', () => {
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#account').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -226,27 +258,30 @@ context('Edit Profile', () => {
 
     cy.get('.uk-select').select('Afghanistan')
 
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
 
     cy.wait('@updateProfile').then(function(xhr) {
       const employmentHistory = xhr.requestBody.background.employmentHistory
 
       const expectedEmploymentHistory = {
-        company: "New Company 1",
-        role: "New Company Position",
-        description: "New Description 1",
-        location: {city: "New City 1",country: "AF"},
-        period: {from: "2015-01-01T00:00:00.000Z"},
-        country: {city: "New City 1",country: "AF"}
+        company: 'New Company 1',
+        role: 'New Company Position',
+        description: 'New Description 1',
+        location: { city: 'New City 1', country: 'AF' },
+        period: { from: '2015-01-01T00:00:00.000Z' },
+        country: { city: 'New City 1', country: 'AF' },
       }
 
-      expect(JSON.stringify(employmentHistory[0])).to.equal(JSON.stringify(expectedEmploymentHistory))
+      expect(JSON.stringify(employmentHistory[0])).to.equal(
+        JSON.stringify(expectedEmploymentHistory)
+      )
     })
   })
 
   it('should update Address Profile Setting', () => {
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#account').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -276,16 +311,16 @@ context('Edit Profile', () => {
       const addresses = xhr.requestBody.extLocation.addresses
 
       const expectedAddress = {
-          addressOne:"New Address 1",
-          addressTwo:"New Address 2",
-          city:"New City",
-          country:"AF",
-          latitude:"1.0",
-          longitude:"1.0",
-          plusCode:"New Plus Code",
-          state:"New State",
-          zipCode:"9999",
-          type:["primary","shipping","billing","return"]
+        addressOne: 'New Address 1',
+        addressTwo: 'New Address 2',
+        city: 'New City',
+        country: 'AF',
+        latitude: '1.0',
+        longitude: '1.0',
+        plusCode: 'New Plus Code',
+        state: 'New State',
+        zipCode: '9999',
+        type: ['primary', 'shipping', 'billing', 'return'],
       }
 
       expect(JSON.stringify(addresses[0])).to.equal(JSON.stringify(expectedAddress))

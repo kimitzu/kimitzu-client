@@ -16,7 +16,7 @@ context('Rate Buyer', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/rating_seller.json'
     })
     cy.route({
@@ -33,12 +33,12 @@ context('Rate Buyer', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=sellerToRate',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=sellerToRate',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=buyerToBeRated',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=buyerToBeRated',
       response: {}
     })
     cy.route({
@@ -84,7 +84,7 @@ context('Rate Buyer', () => {
     cy.get(':nth-child(2) > .uk-textarea')
       .type('Sample Note')
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@fulfillOrder').then((xhr) => {
@@ -111,7 +111,7 @@ context('Rate Buyer', () => {
     cy.get('#fulfill-order-button')
       .click()
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@fulfillOrder').then((xhr) => {

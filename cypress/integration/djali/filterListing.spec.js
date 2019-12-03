@@ -16,7 +16,7 @@ context('Filter', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
@@ -28,7 +28,7 @@ context('Filter', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search_many.json',
     }).as('filteredSearch')
     cy.route({
@@ -43,7 +43,7 @@ context('Filter', () => {
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:8109/djali/listing?hash=*',
+      url: ' http://localhost:8109/kimitzu/listing?hash=*',
       response: 'fixture:listings/creative_marketing_full_response.json',
     })
     cy.visit('http://localhost:3000/')
@@ -113,7 +113,7 @@ context('Filter', () => {
     cy.wait(2000)
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search_many.json',
     }).as('ownerSearch')
     cy.get('#sidebar-desktop-hideOwnListingCheckbox').click()
@@ -132,7 +132,7 @@ context('Filter', () => {
     cy.wait(2000)
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search_many.json',
     }).as('ownerSearch')
     cy.get('#sidebar-desktop-hideOwnListingCheckbox').click()

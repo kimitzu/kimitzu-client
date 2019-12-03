@@ -34,7 +34,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
       <nav id="nav" className="uk-navbar-container" data-uk-navbar uk-navbar="mode: click">
         <div id="navbar-left-item" className="uk-navbar-left">
           <a className="uk-navbar-item uk-logo" onClick={handleReload}>
-            <img id="logo-img" src="./images/Logo/White/SVG/Djali-White-Horizontal.svg" />
+            <img id="logo-img" src="./images/Logo/full-blue.png" />
           </a>
         </div>
         <div id="navbar-center-item" className="uk-navbar-center">

@@ -54,7 +54,7 @@
     "lastModified": "2040-10-17T06:10:36.959376600Z",
     "location": "US, ",
     "metaTags": {
-      "DjaliVersion": "0.0.1-dev"
+      "KimitzuVersion": "0.0.1-dev"
     },
     "moderator": true,
     "moderatorInfo": {
@@ -81,7 +81,7 @@
       "language": "en-US",
       "measurementUnit": "ENGLISH"
     },
-    "profileType": "djali",
+    "profileType": "kimitzu",
     "shortDescription": "Mi son alzato\nO bella ciao, bella ciao, bella ciao, ciao, ciao\nUna mattina mi son alzato\nE ho trovato l\u0026#39;invasor...",
     "stats": {
       "averageRating": 4.5,

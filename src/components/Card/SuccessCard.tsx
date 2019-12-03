@@ -13,8 +13,8 @@ interface Props {
 const SuccessCard = (props: Props) => (
   <div id="success-card" className="uk-flex-center">
     <div id="card-title">
-      <h1 className="color-primary" id="djali-text">
-        {localizations.registrationPage.welcomeHeader} DJALI, {props.name ? props.name : 'guest'}!
+      <h1 className="color-primary" id="kimitzu-text">
+        {localizations.registrationPage.welcomeHeader} KIMITZU, {props.name ? props.name : 'guest'}!
       </h1>
     </div>
     <div className="uk-flex uk-flex-column">

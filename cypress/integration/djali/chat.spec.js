@@ -21,7 +21,7 @@ context('Chat', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=&force=true',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=&force=true',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
@@ -33,7 +33,7 @@ context('Chat', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search.json'
     })
     cy.route({
@@ -53,17 +53,17 @@ context('Chat', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=moderator',
       response: 'fixture:profile/moderator.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=peerId1',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=peerId1',
       response: 'fixture:peers/peer1.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=peerId2',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=peerId2',
       response: 'fixture:peers/peer2.json'
     })
     cy.route({

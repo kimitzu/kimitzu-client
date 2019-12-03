@@ -25,13 +25,13 @@ interface UserPreferences {
 
 let mainWindow
 let obServer
-let djaliServices
+let kimitzuServices
 let hasCheckedForUpdatesOnLaunch = false
 let userPreferences: UserPreferences = { enableCrashReporting: false, autoInstallUpdate: false }
 const userPrefPath = path.join((app || remote.app).getPath('userData'), 'user-preferences.json')
 const crashReporterConfig = {
-  productName: 'Djali',
-  companyName: 'Djali Foundation',
+  productName: 'Kimitzu',
+  companyName: 'Kimitzu Foundation',
   submitURL: 'http://localhost:1127/crashreports', // TODO: Update to deployed URL
   uploadToServer: userPreferences.enableCrashReporting,
 }
@@ -41,7 +41,7 @@ const createUserPref = (data: UserPreferences) => {
 }
 
 autoUpdater.logger = log
-log.info(`Djali Client v.${app.getVersion()} is starting...`)
+log.info(`Kimitzu Client v.${app.getVersion()} is starting...`)
 autoUpdater.autoDownload = false
 autoUpdater.allowDowngrade = true
 
@@ -55,13 +55,13 @@ if (!isDev && !process.argv.includes('--noexternal')) {
     filePath: 'external',
     file: fileName,
   })
-  djaliServices = new LocalServer({
-    name: 'Djali services',
+  kimitzuServices = new LocalServer({
+    name: 'Kimitzu services',
     filePath: 'external',
     file: fileName,
   })
   obServer.start(['start', '--testnet'])
-  djaliServices.start()
+  kimitzuServices.start()
 }
 
 if (!fs.existsSync(userPrefPath)) {
@@ -107,7 +107,7 @@ const createWindow = async () => {
       {
         label: 'Website',
         click() {
-          shell.openExternal('https://djali.org')
+          shell.openExternal('https://kimitzu.ch')
         },
       },
       {
@@ -148,7 +148,7 @@ const createWindow = async () => {
 
   await app.whenReady()
   mainWindow = new BrowserWindow({
-    title: 'Djali',
+    title: 'Kimitzu',
     width: 1200,
     height: 680,
     minWidth: 1200,
@@ -185,8 +185,8 @@ app.on('window-all-closed', () => {
   if (obServer) {
     obServer.stop()
   }
-  if (djaliServices) {
-    djaliServices.stop()
+  if (kimitzuServices) {
+    kimitzuServices.stop()
   }
   if (process.platform !== 'darwin') {
     app.quit()
@@ -209,7 +209,7 @@ autoUpdater.on('update-available', async info => {
   const updateDialog = await dialog.showMessageBox(mainWindow, {
     type: 'info',
     title: 'New Update',
-    message: `Djali client v${info.version} is now availabe, do you want to download it now?`,
+    message: `Kimitzu client v${info.version} is now availabe, do you want to download it now?`,
     buttons: ['Yes', 'No'],
   })
   if (updateDialog.response === 0) {

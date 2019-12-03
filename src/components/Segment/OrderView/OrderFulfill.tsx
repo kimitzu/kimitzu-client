@@ -15,7 +15,7 @@ const OrderFulfill = ({ locale, order }) => (
       <SimpleBorderedSegment
         imageSrc={
           order.vendor!.avatarHashes.medium
-            ? `${config.djaliHost}/djali/media?id=${order.vendor!.avatarHashes.medium}`
+            ? `${config.kimitzuHost}/kimitzu/media?id=${order.vendor!.avatarHashes.medium}`
             : `${process.env.PUBLIC_URL}/images/user.svg`
         }
       >

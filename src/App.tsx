@@ -160,10 +160,10 @@ class App extends React.Component<{}, State> {
             className="uk-margin-large"
             width="150"
             height="150"
-            src="./images/Logo/Blue/SVG/Djali-Blue-Unique.svg"
+            src="./images/Logo/Blue/SVG/Kimitzu-Blue-Unique.svg"
           />
           <h4 className="uk-text-danger">We could not connect to your server.</h4>
-          <h4 className="uk-text-danger">Please make sure that the Djali Server is running. </h4>
+          <h4 className="uk-text-danger">Please make sure that the Kimitzu Server is running. </h4>
           <p className="uk-margin-large-top">Retrying in {this.state.secondTimer}s...</p>
         </div>
       )
@@ -195,7 +195,7 @@ class App extends React.Component<{}, State> {
       const profile = await Profile.retrieve('', true)
       localeInstance.setLanguage(profile.preferences.language)
       const settings = await Settings.retrieve()
-      const authRequest = await Axios.get(`${config.djaliHost}/authenticate`)
+      const authRequest = await Axios.get(`${config.kimitzuHost}/authenticate`)
       moderatorManagerInstance.initialize(settings, profile.peerID)
       this.setState({
         profile,
@@ -216,7 +216,7 @@ class App extends React.Component<{}, State> {
         }
         /**
          * Connection to server is successful but profile is not found.
-         * Possibly a new Djali instance, so show registration page.
+         * Possibly a new Kimitzu instance, so show registration page.
          */
         window.clearInterval(this.intervalTimer)
         this.setState({

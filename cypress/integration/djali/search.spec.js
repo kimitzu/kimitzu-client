@@ -6,12 +6,12 @@ context('Search', () => {
     cy.server({})
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=moderator',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=moderator',
       response: 'fixture:profile/moderator.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/*',
+      url: 'http://localhost:8109/kimitzu/peer/*',
       response: 'fixture:profile/vendor.json',
     })
     cy.route({
@@ -21,7 +21,7 @@ context('Search', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:8109/djali/search',
+      url: 'http://localhost:8109/kimitzu/search',
       response: 'fixture:listings/search_many.json',
     }).as('search')
     cy.route({
@@ -61,7 +61,7 @@ context('Search', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/listing?hash=*',
+      url: 'http://localhost:8109/kimitzu/listing?hash=*',
       response: 'fixture:listings/creative_marketing_full_response.json',
     })
   })
@@ -77,7 +77,7 @@ context('Search', () => {
   it('Should properly convert to another currency', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:8109/djali/peer/get?id=&force=true',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=&force=true',
       response: 'fixture:profile/vendor_philippines.json',
     })
     cy.visit('http://localhost:3000/')
@@ -90,7 +90,7 @@ context('Search', () => {
     cy.route({
       method: 'GET',
       url:
-        'http://localhost:8109/djali/listing?hash=Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji',
+        'http://localhost:8109/kimitzu/listing?hash=Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji',
       response: 'fixture:listings/creative_marketing_full_response.json',
     })
     cy.route({
