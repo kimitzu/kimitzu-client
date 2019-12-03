@@ -75,7 +75,7 @@ context('Rate Buyer', () => {
     cy.get('[for="customerService_5"] > i')
       .click()
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@completeOrder').then(xhr => {
@@ -101,7 +101,7 @@ context('Rate Buyer', () => {
       response: 'fixture:orders/sold_order_to_be_rated.json'
     })
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@completeOrder').then(xhr => {

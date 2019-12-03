@@ -44,8 +44,8 @@ const ListingCard = ({ listing: listingResponse, targetCurrency }: ListingProps)
           className="listing-header"
           src={
             listingResponse.listing.thumbnail.medium
-              ? `${config.djaliHost}/kimitzu/media?id=${listingResponse.listing.thumbnail.medium ||
-                  listingResponse.listing.thumbnail.small}`
+              ? `${config.kimitzuHost}/kimitzu/media?id=${listingResponse.listing.thumbnail
+                  .medium || listingResponse.listing.thumbnail.small}`
               : `${config.host}/images/picture.png`
           }
           onError={(ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -59,7 +59,7 @@ const ListingCard = ({ listing: listingResponse, targetCurrency }: ListingProps)
             className="avatar"
             src={
               listingResponse.vendor.avatarHashes.medium
-                ? `${config.djaliHost}/kimitzu/media?id=${listingResponse.vendor.avatarHashes
+                ? `${config.kimitzuHost}/kimitzu/media?id=${listingResponse.vendor.avatarHashes
                     .medium || listingResponse.vendor.avatarHashes.small}`
                 : `${config.host}/images/user.png`
             }

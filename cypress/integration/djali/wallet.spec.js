@@ -112,7 +112,7 @@ context('Wallet', () => {
     cy.get(':nth-child(3) > .uk-input')
       .type('SampleNoteToSend')
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@spend').then((xhr) => {

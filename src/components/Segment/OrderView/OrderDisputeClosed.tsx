@@ -14,7 +14,7 @@ const OrderDisputeClosed = ({ locale, order }) => (
       <SimpleBorderedSegment
         imageSrc={
           order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
-            ? `${config.djaliHost}/kimitzu/media?id=${
+            ? `${config.kimitzuHost}/kimitzu/media?id=${
                 order.contract.disputeAcceptance!.closedByProfile.avatarHashes.medium
               }`
             : `${process.env.PUBLIC_URL}/images/user.svg`

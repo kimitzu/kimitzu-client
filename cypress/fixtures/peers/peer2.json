@@ -15,7 +15,7 @@
     },
     "bitcoinPubkey": "026dbf2cd8a2ffb9b8942b01a4c7c62ec2c02ff9b4550749614b892f4ee56f0bac",
     "contactInfo": {
-      "email": "test@djali.org",
+      "email": "test@kimitzu.ch",
       "phoneNumber": "",
       "social": [],
       "website": ""
@@ -67,7 +67,7 @@
     "lastModified": "2019-10-09T08:20:21.881672119Z",
     "location": "US, ",
     "metaTags": {
-      "DjaliVersion": "0.0.1-dev"
+      "KimitzuVersion": "0.0.1-dev"
     },
     "moderator": true,
     "moderatorInfo": {
@@ -101,7 +101,7 @@
       "language": "en-US",
       "measurementUnit": "ENGLISH"
     },
-    "profileType": "djali",
+    "profileType": "kimitzu",
     "shortDescription": "Test...",
     "stats": {
       "averageRating": 5,

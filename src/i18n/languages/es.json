@@ -23,7 +23,7 @@
   "minimum": "Mínimo",
   "maximum": "Máximo",
   "intro": {
-    "helper": "¿Nuevo en Djali?",
+    "helper": "¿Nuevo en Kimitzu?",
     "nextBtnText": "Empezar",
     "appDescription": "Un mercado libre de servicios."
   },
@@ -33,8 +33,8 @@
   "homePage": {
     "headerDropdownPlaceholder": "Examinar clasificaciones",
     "crawlingHeader": "Arrastrándose ...",
-    "crawlingContent1": "¡Excelente! Parece que acabas de instalar Djali.",
-    "crawlingContent2": "Regrese más tarde mientras Djali rastrea los listados en la red.",
+    "crawlingContent1": "¡Excelente! Parece que acabas de instalar Kimitzu.",
+    "crawlingContent2": "Regrese más tarde mientras Kimitzu rastrea los listados en la red.",
     "noResultsHeader": "No hay resultados",
     "noResultsContent": "Tu búsqueda no encaja con ninguna lista.",
     "noResultsSuggestionsText": "Sugerencias",
@@ -82,7 +82,7 @@
   },
   "tosPage": {
     "header": "Términos de servicio",
-    "tos": "La comunidad de desarrolladores de Djali ha trabajado duro para ofrecer un mercado libre para los servicios. Pero como con cualquier software, habrá errores. Los usuarios de Djali también pueden encontrarse con trolls, spammers, ladrones y otros actores malos mientras usan la aplicación. Los desarrolladores de Djali trabajarán continuamente para proporcionar herramientas a los usuarios que los ayuden a identificar, bloquear y eliminar a los malos actores del ecosistema de Djali. Sin embargo, estas herramientas pueden fallar a veces. Los desarrolladores no son responsables de ninguna pérdida monetaria asociada con el software. Debido a la naturaleza global, peer-to-peer, resistente a la censura de Djali, los usuarios pueden ver listados de servicios que actualmente no son legales en su jurisdicción. Es responsabilidad de los usuarios de Djali asegurarse de que cumplen con las leyes de su jurisdicción. Djali opera a través de la red Tor de forma predeterminada, y la única información que los usuarios deben proporcionar es un identificador y un país. Los desarrolladores de Djali también han hecho un esfuerzo de buena fe para ayudar a los usuarios a mantener su privacidad mientras usan Djali. Sin embargo, Djali es un software experimental, y puede haber fallas que revelen información confidencial. También es fácil anonimizarse, como hablar de la vida personal con un cliente o describirse con demasiado detalle. También hay muchos adversarios, como gobiernos o delincuentes, que trabajan para derrotar los mecanismos de privacidad de Djali. Por lo tanto, los desarrolladores de Djali no ofrecen ninguna garantía con respecto a la capacidad del software para mantener la privacidad del usuario."
+    "tos": "La comunidad de desarrolladores de Kimitzu ha trabajado duro para ofrecer un mercado libre para los servicios. Pero como con cualquier software, habrá errores. Los usuarios de Kimitzu también pueden encontrarse con trolls, spammers, ladrones y otros actores malos mientras usan la aplicación. Los desarrolladores de Kimitzu trabajarán continuamente para proporcionar herramientas a los usuarios que los ayuden a identificar, bloquear y eliminar a los malos actores del ecosistema de Kimitzu. Sin embargo, estas herramientas pueden fallar a veces. Los desarrolladores no son responsables de ninguna pérdida monetaria asociada con el software. Debido a la naturaleza global, peer-to-peer, resistente a la censura de Kimitzu, los usuarios pueden ver listados de servicios que actualmente no son legales en su jurisdicción. Es responsabilidad de los usuarios de Kimitzu asegurarse de que cumplen con las leyes de su jurisdicción. Kimitzu opera a través de la red Tor de forma predeterminada, y la única información que los usuarios deben proporcionar es un identificador y un país. Los desarrolladores de Kimitzu también han hecho un esfuerzo de buena fe para ayudar a los usuarios a mantener su privacidad mientras usan Kimitzu. Sin embargo, Kimitzu es un software experimental, y puede haber fallas que revelen información confidencial. También es fácil anonimizarse, como hablar de la vida personal con un cliente o describirse con demasiado detalle. También hay muchos adversarios, como gobiernos o delincuentes, que trabajan para derrotar los mecanismos de privacidad de Kimitzu. Por lo tanto, los desarrolladores de Kimitzu no ofrecen ninguna garantía con respecto a la capacidad del software para mantener la privacidad del usuario."
   },
   "addressForm": {
     "streetLabel": "Dirección",
@@ -182,7 +182,7 @@
       "purchaseHistory": "Historial de compras"
     },
     "profileNotFoundHeader": "No se puede recuperar el perfil",
-    "profileNotFoundSubText": "El perfil que solicitó está actualmente fuera de línea o no existe en la red Djali."
+    "profileNotFoundSubText": "El perfil que solicitó está actualmente fuera de línea o no existe en la red Kimitzu."
   },
   "followButton": {
     "followBtnText": "Seguir",
@@ -197,7 +197,7 @@
   "settingsPage": {
     "header": "Configuraciones",
     "spinnerText": "Cargando perfil ...",
-    "changeCredMsgTextA": "Habilitar esta función activará los mecanismos de autenticación de Djali para proteger a su cliente del acceso no autorizado.",
+    "changeCredMsgTextA": "Habilitar esta función activará los mecanismos de autenticación de Kimitzu para proteger a su cliente del acceso no autorizado.",
     "changeCredMsgTextB": "Todavía se podrá acceder a otras funciones no críticas, como la búsqueda, pero las funciones relacionadas con el pago y los pedidos necesitarán autenticación para poder continuar.",
     "authenticationText": "Autenticación",
     "generalNavItem": "General",
@@ -228,7 +228,7 @@
     "competencyDeleteSuccessNotif": "Competencia eliminada!",
     "competencyUpdateSuccessNotif": "Competencia actualizada!",
     "deactivateAuthForm": {
-      "helper1": "Esto desactivará los mecanismos de autenticación de Djali y su cliente ya no estará protegido contra el acceso no autorizado.",
+      "helper1": "Esto desactivará los mecanismos de autenticación de Kimitzu y su cliente ya no estará protegido contra el acceso no autorizado.",
       "helper2": "Las funciones relacionadas con el pago y los pedidos ya no necesitarán autenticación para continuar.",
       "submitBtnText": "Desactivar autenticación"
     },
@@ -518,7 +518,7 @@
     "emptyTosContentParagraph": "Nada especificado",
     "notFoundComponent": {
       "header": "No se puede recuperar el listado.",
-      "paragraph": "La lista que solicitó ha caducado en la red Djali o no existe.",
+      "paragraph": "La lista que solicitó ha caducado en la red Kimitzu o no existe.",
       "suggestionsText": "Sugerencias",
       "suggestions": ["Examinar otros listados."]
     },

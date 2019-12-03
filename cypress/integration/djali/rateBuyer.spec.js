@@ -84,7 +84,7 @@ context('Rate Buyer', () => {
     cy.get(':nth-child(2) > .uk-textarea')
       .type('Sample Note')
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@fulfillOrder').then((xhr) => {
@@ -111,7 +111,7 @@ context('Rate Buyer', () => {
     cy.get('#fulfill-order-button')
       .click()
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@fulfillOrder').then((xhr) => {

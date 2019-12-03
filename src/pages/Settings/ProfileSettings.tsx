@@ -181,8 +181,9 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
       const skills = JSON.parse(decodeHtml(profileData.customProps.skills))
       const isAuthenticationActivated = await Profile.isAuthenticationActivated()
       const settings = this.props.profileContext.settings
-      const competencySelector = this.state.competencySelector.load(profileData.customProps
-        .competencies as AssessmentSummary)
+      const competencySelector = this.state.competencySelector.load(
+        profileData.customProps.competencies as AssessmentSummary
+      )
 
       this.setState({
         competencySelector,

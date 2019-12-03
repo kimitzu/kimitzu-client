@@ -20,7 +20,7 @@ const OrderFulfillForm = ({ locale, order, handleChangeCurrentContent }) => {
         <SimpleBorderedSegment
           imageSrc={
             order.vendor!.avatarHashes.medium
-              ? `${config.djaliHost}/kimitzu/media?id=${order.vendor!.avatarHashes.medium}`
+              ? `${config.kimitzuHost}/kimitzu/media?id=${order.vendor!.avatarHashes.medium}`
               : `${process.env.PUBLIC_URL}/images/user.svg`
           }
           sideButtons={

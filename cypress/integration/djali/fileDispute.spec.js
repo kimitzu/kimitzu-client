@@ -107,10 +107,10 @@ context('File Dispute', () => {
       response: 'fixture:orders/awaiting_fulfillment_order.json'
     })
 
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
     cy.get('.uk-textarea')
       .type('Typing a suitable claim with the most relevant evidence')
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
 
     cy.get('.uk-notification-message > div')
       .contains('Dispute Sent!')
@@ -188,7 +188,7 @@ context('File Dispute', () => {
     cy.get('#contentContainerMain > :nth-child(5)').should('have.html', 'Resolved')
     cy.get('#stepperMain > :nth-child(5)').should('have.class', 'stepperCircleInactive')
 
-    cy.get('#djali-btn').contains('Release Funds')
+    cy.get('#kimitzu-btn').contains('Release Funds')
   })
 
   it('should correctly display details of a resolved disputed order', () => {

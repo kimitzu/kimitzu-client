@@ -26,7 +26,7 @@ const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
 
 class Profile implements ProfileSchema {
   public static async deleteCredentials(username: string, password: string) {
-    const deleteRequest = await Axios.delete(`${config.djaliHost}/authenticate`, {
+    const deleteRequest = await Axios.delete(`${config.kimitzuHost}/authenticate`, {
       data: {
         username,
         password,
@@ -66,12 +66,12 @@ class Profile implements ProfileSchema {
   }
 
   public static async isAuthenticationActivated(): Promise<boolean> {
-    const queryRequest = await Axios.get(`${config.djaliHost}/authenticate`)
+    const queryRequest = await Axios.get(`${config.kimitzuHost}/authenticate`)
     return queryRequest.data.authentication as boolean
   }
 
   public static async login(username, password) {
-    const loginRequest = await Axios.post(`${config.djaliHost}/authenticate`, {
+    const loginRequest = await Axios.post(`${config.kimitzuHost}/authenticate`, {
       username,
       password,
     })
@@ -89,7 +89,7 @@ class Profile implements ProfileSchema {
   }
 
   public static async setCredentials(oldUsername, oldPassword, newUsername, newPassword) {
-    const newCredentialRequest = await Axios.patch(`${config.djaliHost}/authenticate`, {
+    const newCredentialRequest = await Axios.patch(`${config.kimitzuHost}/authenticate`, {
       username: oldUsername,
       password: oldPassword,
       newUsername,
@@ -124,7 +124,7 @@ class Profile implements ProfileSchema {
   }
 
   public static async addToIndex(id: string): Promise<void> {
-    await Axios.get(`${config.djaliHost}/kimitzu/peer/add?id=${id}`)
+    await Axios.get(`${config.kimitzuHost}/kimitzu/peer/add?id=${id}`)
   }
 
   public static async publish(): Promise<void> {
@@ -153,16 +153,16 @@ class Profile implements ProfileSchema {
     try {
       if (id) {
         const peerRequest = await Axios.get(
-          `${config.djaliHost}/kimitzu/peer/get?id=${id}${force ? '&force=true' : ''}`
+          `${config.kimitzuHost}/kimitzu/peer/get?id=${id}${force ? '&force=true' : ''}`
         )
         const peerInfo = peerRequest.data.profile as Profile
         profile = new Profile(peerInfo)
       } else {
         const profileRequest = await Axios.get(
-          `${config.djaliHost}/kimitzu/peer/get?id=${force ? '&force=true' : '&force=false'}`
+          `${config.kimitzuHost}/kimitzu/peer/get?id=${force ? '&force=true' : '&force=false'}`
         )
         /**
-         * Properly handle when https://github.com/djali-foundation/djali-services/issues/3 is resolved.
+         * Properly handle when https://github.com/kimitzu/kimitzu-services/issues/3 is resolved.
          */
         if (!profileRequest.data.profile.peerID) {
           throw new Error('Profile not found')
@@ -259,7 +259,7 @@ class Profile implements ProfileSchema {
   // public lastModified?: string = ''
   public location?: string = ''
   public metaTags?: MetaTags = {
-    DjaliVersion: '',
+    KimitzuVersion: '',
   }
   public peerID: string = ''
   public preferences: Preferences = {
@@ -366,7 +366,7 @@ class Profile implements ProfileSchema {
   }
 
   public async crawlOwnListings() {
-    await Axios.get(`${config.djaliHost}/kimitzu/peer/add?id=${this.peerID}`)
+    await Axios.get(`${config.kimitzuHost}/kimitzu/peer/add?id=${this.peerID}`)
   }
 
   public processAddresses(extLocation: EXTLocation) {

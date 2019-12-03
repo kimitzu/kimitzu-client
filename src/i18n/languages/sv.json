@@ -23,7 +23,7 @@
   "minimum": "Minimum",
   "maximum": "Maximal",
   "intro": {
-    "helper": "Är du ny på Djali?",
+    "helper": "Är du ny på Kimitzu?",
     "nextBtnText": "Komma igång",
     "appDescription": "En fri marknad för tjänster"
   },
@@ -33,8 +33,8 @@
   "homePage": {
     "headerDropdownPlaceholder": "Bläddra i klassificeringar",
     "crawlingHeader": "Krypande...",
-    "crawlingContent1": "Bra! Det verkar som om du just har installerat Djali.",
-    "crawlingContent2": "Kom tillbaka senare när Djali genomsöker listorna i nätverket.",
+    "crawlingContent1": "Bra! Det verkar som om du just har installerat Kimitzu.",
+    "crawlingContent2": "Kom tillbaka senare när Kimitzu genomsöker listorna i nätverket.",
     "noResultsHeader": "Inga resultat",
     "noResultsContent": "Din sökning matchade inga listor.",
     "noResultsSuggestionsText": "Förslag",
@@ -82,7 +82,7 @@
   },
   "tosPage": {
     "header": "Användarvillkor",
-    "tos": "Djali-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Djali-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Djali-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Djali-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Djali, kan användarna se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Djali-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Djali arbetar som standard via Tor-nätverket, och den enda information som användarna måste tillhandahålla är ett handtag och land. Djali-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Djali. Djali är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Djalis sekretessmekanismer. Därför gör Djali-utvecklarna inga garantier beträffande programvarans förmåga att upprätthålla användarnas integritet."
+    "tos": "Kimitzu-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Kimitzu-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Kimitzu-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Kimitzu-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Kimitzu, kan användarna se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Kimitzu-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Kimitzu arbetar som standard via Tor-nätverket, och den enda information som användarna måste tillhandahålla är ett handtag och land. Kimitzu-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Kimitzu. Kimitzu är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Kimitzus sekretessmekanismer. Därför gör Kimitzu-utvecklarna inga garantier beträffande programvarans förmåga att upprätthålla användarnas integritet."
   },
   "addressForm": {
     "streetLabel": "Gatuadress",
@@ -182,7 +182,7 @@
       "purchaseHistory": "Köphistorik"
     },
     "profileNotFoundHeader": "Det går inte att hämta profil",
-    "profileNotFoundSubText": "Profilen du begärde är för närvarande offline eller finns inte i Djali-nätverket."
+    "profileNotFoundSubText": "Profilen du begärde är för närvarande offline eller finns inte i Kimitzu-nätverket."
   },
   "followButton": {
     "followBtnText": "Följ",
@@ -197,7 +197,7 @@
   "settingsPage": {
     "header": "inställningar",
     "spinnerText": "Laddar profil ...",
-    "changeCredMsgTextA": "Om du aktiverar den här funktionen aktiveras Djalis autentiseringsmekanismer för att skydda din klient från obehörig åtkomst.",
+    "changeCredMsgTextA": "Om du aktiverar den här funktionen aktiveras Kimitzus autentiseringsmekanismer för att skydda din klient från obehörig åtkomst.",
     "changeCredMsgTextB": "Andra icke-kritiska funktioner som sökning kommer fortfarande att vara tillgängliga men betalnings- och beställningsrelaterade funktioner behöver verifiering för att kunna fortsätta.",
     "authenticationText": "autentisering",
     "generalNavItem": "Allmän",
@@ -228,7 +228,7 @@
     "competencyDeleteSuccessNotif": "Kompetens raderad!",
     "competencyUpdateSuccessNotif": "Kompetens uppdaterad!",
     "deactivateAuthForm": {
-      "helper1": "Detta kommer att inaktivera Djalis autentiseringsmekanismer och din klient skyddas inte längre från obehörig åtkomst.",
+      "helper1": "Detta kommer att inaktivera Kimitzus autentiseringsmekanismer och din klient skyddas inte längre från obehörig åtkomst.",
       "helper2": "Betalnings- och beställningsrelaterade funktioner behöver inte längre verifieras för att kunna fortsätta.",
       "submitBtnText": "Inaktivera autentisering"
     },
@@ -521,7 +521,7 @@
     "emptyTosContentParagraph": "Ingenting specificerat.",
     "notFoundComponent": {
       "header": "Det går inte att hämta listan.",
-      "paragraph": "Listan du begärde har antingen gått ut på Djali-nätverket eller finns inte.",
+      "paragraph": "Listan du begärde har antingen gått ut på Kimitzu-nätverket eller finns inte.",
       "suggestionsText": "Förslag",
       "suggestions": ["Bläddra bland andra listor."]
     },

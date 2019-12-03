@@ -49,23 +49,23 @@ export interface RatingInput {
 export interface RatingSummary {
   average: number
   count: number
-  djali?: DjaliRating
+  kimitzu?: KimitzuRating
   ratings: string[]
   slug: string
 }
 
-export interface DjaliRating {
+export interface KimitzuRating {
   average: number
   count: number
-  buyerRatings?: DjaliRatingItem[]
-  vendorRatings?: DjaliRatingItem[]
+  buyerRatings?: KimitzuRatingItem[]
+  vendorRatings?: KimitzuRatingItem[]
 }
 
-export interface DjaliRatingItem {
+export interface KimitzuRatingItem {
   orderId: string
   slug: string
   comment: string
-  fields: DjaliRatingItemFields[]
+  fields: KimitzuRatingItemFields[]
   sourceId: string
   targetId: string
   timestamp: string
@@ -73,7 +73,7 @@ export interface DjaliRatingItem {
   reviewer?: string // will be use for rendering reviews
 }
 
-interface DjaliRatingItemFields {
+interface KimitzuRatingItemFields {
   max: number
   score: number
   weight: number

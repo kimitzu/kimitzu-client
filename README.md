@@ -1,8 +1,8 @@
-# Djali Client
+# Kimitzu Client
 
 ![banner](https://i.imgur.com/uWoageJ.png)
 
-This repository contains the client to be used with Djali-Go and Djali-Services.
+This repository contains the client to be used with Kimitzu-Go and Kimitzu-Services.
 
 # Building
 
@@ -10,14 +10,14 @@ Run `npm run build` to build the client. This will output the build files on `./
 
 # Running
 
-> You need to run `djali-go` and `djali-services` prior to this.
+> You need to run `kimitzu-go` and `kimitzu-services` prior to this.
 
 Run `npm run serve`. 
 This will host the client on port `3000`.
 
 # Advanced
 
-For users who want to host their Djali instance remotely, see  [Installation Instructions](INSTALL.md)
+For users who want to host their Kimitzu instance remotely, see  [Installation Instructions](INSTALL.md)
 
 # Tests
 

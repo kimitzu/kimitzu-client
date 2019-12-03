@@ -30,21 +30,23 @@ export interface ListingResponse {
 
 class Listing implements ListingInterface {
   public static async retrieve(id: string): Promise<ListingResponse> {
-    const djaliListingRequest = await Axios.get(`${config.djaliHost}/kimitzu/listing?hash=${id}`)
-    const djaliListing = djaliListingRequest.data
+    const kimitzuListingRequest = await Axios.get(
+      `${config.kimitzuHost}/kimitzu/listing?hash=${id}`
+    )
+    const kimitzuListing = kimitzuListingRequest.data
 
     /**
      * Load profile from cache.
      */
-    const vendor = await Profile.retrieve(djaliListing.vendorID.peerID, false)
+    const vendor = await Profile.retrieve(kimitzuListing.vendorID.peerID, false)
 
-    const imageData = djaliListing.item.images.map((image: Image) => {
+    const imageData = kimitzuListing.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
     })
 
     const currentUser = await Profile.retrieve('', false)
 
-    const listing = new Listing(djaliListing)
+    const listing = new Listing(kimitzuListing)
     listing.currentUser = currentUser
     listing.isOwner = currentUser.peerID === listing.vendorID.peerID
 

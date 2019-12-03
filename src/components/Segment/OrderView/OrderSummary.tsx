@@ -12,7 +12,7 @@ const OrderSummary = ({ locale, order }) => (
       <SimpleBorderedSegment>
         <OrderDetailsSegment
           listingName={decodeHtml(order.contract.vendorListings[0].item.title)}
-          listingThumbnailSrc={`${config.djaliHost}/kimitzu/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
+          listingThumbnailSrc={`${config.kimitzuHost}/kimitzu/media?id=${order.contract.vendorListings[0].item.images[0].medium}`}
           listingType="SERVICE"
           quantity={`${order.contract.buyerOrder.items[0].quantity ||
             order.contract.buyerOrder.items[0].quantity64}`}

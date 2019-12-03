@@ -1,6 +1,6 @@
-# Djali Competency Standard v1.0.0-beta
+# Kimitzu Competency Standard v1.0.0-beta
 
-This document describes the JSON standard for contributing to Djali Competencies.
+This document describes the JSON standard for contributing to Kimitzu Competencies.
 
 ## Sample JSON
 

@@ -81,7 +81,7 @@ context('Register', () => {
   it('Should register an account', () => {
     cy.wait(5000)
     cy.contains('A free market for services')
-    cy.get('#djali-btn').click()
+    cy.get('#kimitzu-btn').click()
     cy.fixture('avatar.jpg').then(fileContent => {
       cy.get('#avatar-upload').upload({
         fileContent,
@@ -89,16 +89,16 @@ context('Register', () => {
         mimeType: 'image/jpg',
       })
     })
-    cy.get('#username').type('Djali')
-    cy.get('#fullname').type('Djali Remote')
+    cy.get('#username').type('Kimitzu')
+    cy.get('#fullname').type('Kimitzu Remote')
     cy.get('.mde-text').type('Lorem ipsum dolor sit amet.')
-    cy.get('#email').type('test@djali.org')
+    cy.get('#email').type('test@kimitzu.ch')
     cy.get('#countries').select('Philippines')
     cy.get('#preferred-units').select('Metric System (Kilometer, Meter, Centimeter, Grams)')
     cy.get('[type="submit"]').click()
     cy.get('#terms').should(
       'contain.text',
-      `The Djali community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Djali users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Djali developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Djali ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.`
+      `The Kimitzu community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Kimitzu users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Kimitzu developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Kimitzu ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.`
     )
 
     cy.route({
@@ -133,7 +133,7 @@ context('Register', () => {
           return: 0,
           addresses: [{ country: 'PH' }],
         },
-        handle: 'Djali',
+        handle: 'Kimitzu',
         moderator: false,
         moderatorInfo: {
           description: '',
@@ -142,15 +142,15 @@ context('Register', () => {
           acceptedCurrencies: [],
           fee: { fixedFee: { currencyCode: 'USD', amount: 0 }, percentage: 0, feeType: 'FIXED' },
         },
-        name: 'Djali Remote',
+        name: 'Kimitzu Remote',
         nsfw: false,
         vendor: true,
-        contactInfo: { website: '', email: 'test@djali.org', phoneNumber: '', social: [] },
+        contactInfo: { website: '', email: 'test@kimitzu.ch', phoneNumber: '', social: [] },
         bitcoinPubkey: '',
         currencies: [],
         headerHashes: { tiny: '', small: '', medium: '', large: '', original: '' },
         location: 'PH, ',
-        metaTags: { DjaliVersion: '' },
+        metaTags: { KimitzuVersion: '' },
         peerID: '',
         preferences: {
           currencyDisplay: 'FIAT',
@@ -178,7 +178,7 @@ context('Register', () => {
       cy.wrap(expectedProfile).should('deep.equal', profile.requestBody)
     })
 
-    cy.get('#djali-text').should('contain.html', 'Welcome to DJALI, Djali Remote!')
+    cy.get('#kimitzu-text').should('contain.html', 'Welcome to KIMITZU, Kimitzu Remote!')
 
     cy.route({
       method: 'GET',

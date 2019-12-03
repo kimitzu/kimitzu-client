@@ -89,20 +89,20 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                       onClick={evt => {
                         evt.preventDefault()
                         window.openExternal(
-                          'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.djali.org?via=matrix.djali.org'
+                          'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                         )
                       }}
                     >
-                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.djali.org)
+                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                     </a>
                   ) : (
                     <a
                       href={
-                        'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.djali.org?via=matrix.djali.org'
+                        'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                       }
                       target="_blank"
                     >
-                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.djali.org)
+                      <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                     </a>
                   )}
                 </li>
@@ -112,13 +112,13 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                       href="#"
                       onClick={evt => {
                         evt.preventDefault()
-                        window.openExternal('https://github.com/djali-foundation/djali-client')
+                        window.openExternal('https://github.com/kimitzu/kimitzu-client')
                       }}
                     >
                       <span uk-icon="icon: github" /> Github
                     </a>
                   ) : (
-                    <a href={'https://github.com/djali-foundation/djali-client'} target="_blank">
+                    <a href={'https://github.com/kimitzu/kimitzu-client'} target="_blank">
                       <span uk-icon="icon: github" /> Github
                     </a>
                   )}

@@ -20,7 +20,7 @@ const DisputePayoutSegment = ({ avatar, name, amount, note }: Props) => {
         <img
           src={
             avatar
-              ? `${config.djaliHost}/kimitzu/media?id=${avatar}`
+              ? `${config.kimitzuHost}/kimitzu/media?id=${avatar}`
               : `${process.env.PUBLIC_URL}/images/user.svg`
           }
           height={40}

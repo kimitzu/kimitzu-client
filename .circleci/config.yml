@@ -4,7 +4,7 @@ jobs:
   build:
     docker: 
       - image: cypress/browsers:node12.6.0-chrome75
-    working_directory: ~/djali-client
+    working_directory: ~/kimitzu-client
     steps:
       - checkout 
       - restore_cache: 

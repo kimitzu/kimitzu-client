@@ -70,14 +70,14 @@ context('Filter', () => {
     cy.contains('You have an hour to process the dispute and make a decision.')
     cy.contains('El Professor is disputing the order')
 
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.get('.handle-0')
       .invoke('attr', 'aria-valuenow', '50')
     cy.get('.uk-textarea')
       .type('Sample Resolution to be typed in a text area')
-    cy.get('#djali-btn')
+    cy.get('#kimitzu-btn')
       .click()
 
     cy.wait('@closeDispute').then((xhr) => {

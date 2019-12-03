@@ -76,6 +76,7 @@ context('Create Listing', () => {
   it('Should create a listing', () => {
     cy.wait(5000)
     cy.get('#account').click()
+    cy.get('#account').click()
     cy.contains('Create New Listing').click()
     cy.contains('General')
     cy.get('#listing-create-autocomplete').click()
@@ -139,6 +140,7 @@ context('Create Listing', () => {
     cy.get('#favoriteModerators-info-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').click()
     cy.get('#moderator-info').should('have.class', 'uk-flex-top uk-modal uk-flex uk-open')
     cy.get('#moderator-info-close').click()
+    cy.get('#moderator-search').click()
     cy.get('#favoriteModerators-add-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').click()
     cy.get('#favoriteModerators-QmW7yRaQMQQTe1gvC1SWMzRLDnaN3wUve6aYrYsqMB42FK').should('not.exist')
     cy.get('#moderator-search').click()
