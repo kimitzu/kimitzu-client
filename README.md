@@ -1,6 +1,6 @@
 # Kimitzu Client
 
-![banner](https://i.imgur.com/uWoageJ.png)
+![banner](./public/images/Logo/full-blue.png)
 
 This repository contains the client to be used with Kimitzu-Go and Kimitzu-Services.
 
