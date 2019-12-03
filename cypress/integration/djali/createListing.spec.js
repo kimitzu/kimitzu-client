@@ -77,7 +77,7 @@ context('Create Listing', () => {
     cy.wait(5000)
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.contains('Create New Listing').click()
+    cy.contains('Create New Listing').click({force:true})
     cy.contains('General')
     cy.get('#listing-create-autocomplete').click()
     cy.get('#listing-create-autocomplete-2411-24').click()

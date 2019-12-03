@@ -75,7 +75,7 @@ context('Edit Profile', () => {
   it('should update General Profile Settings', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -130,7 +130,7 @@ context('Edit Profile', () => {
   it('should update Social Medial Profile Settings', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -194,7 +194,7 @@ context('Edit Profile', () => {
   it('should update Education Profile Settings', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -237,7 +237,7 @@ context('Edit Profile', () => {
   it('should update Work History Profile Settings', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 
@@ -281,7 +281,7 @@ context('Edit Profile', () => {
   it('should update Address Profile Setting', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#settings').click()
+    cy.get('#settings').click({force: true})
 
     cy.wait(500)
 

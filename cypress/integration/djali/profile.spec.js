@@ -99,7 +99,7 @@ context('Profile', () => {
   it('should display expected values on Profile Tab', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#view-profile').click()
+    cy.get('#view-profile').click({force: true})
 
     cy.get('#title-about').contains('About')
 
@@ -157,7 +157,7 @@ context('Profile', () => {
 
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#view-profile').click()
+    cy.get('#view-profile').click({force: true})
     cy.get('#desktop-store-tab-label').click()
 
     cy.get('#Qmb1FjaFuXsVmvkhwQPEnuoNLR7izVPdQ6pPo6ysPwWbji').contains('Creative Marketing')
@@ -169,7 +169,7 @@ context('Profile', () => {
   it('should display expected values on Ratings Tab', () => {
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.get('#view-profile').click()
+    cy.get('#view-profile').click({force: true})
     cy.get('#desktop-ratings-tab-label').click()
 
     cy.contains('Buyer Ratings')
