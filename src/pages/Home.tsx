@@ -14,6 +14,8 @@ import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import { localeInstance } from '../i18n'
 
+import { Button } from '../components/Button'
+import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
 import './Home.css'
 
 interface HomeProps {
@@ -47,7 +49,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleFilterReset = this.handleFilterReset.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
-    this.ratingChanged = this.ratingChanged.bind(this)
+    this.handleRatingChange = this.handleRatingChange.bind(this)
     this.handleFilterDelete = this.handleFilterDelete.bind(this)
   }
 
@@ -73,6 +75,7 @@ class Home extends Component<HomeProps, HomeState> {
     const { profile, rating, search } = this.state
     return (
       <div>
+        <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
         <div id="filter-sidebar" uk-offcanvas="mode: slide" ref={this.filterSidebarRef}>
           <div className="uk-offcanvas-bar">
             <InlineMultiDropdowns
@@ -89,7 +92,7 @@ class Home extends Component<HomeProps, HomeState> {
               onChange={this.handleChange}
               onFilterChange={this.handleFilterChange}
               onFilterSubmit={this.handleSearchSubmit}
-              onRatingChanged={this.ratingChanged}
+              onRatingChanged={this.handleRatingChange}
               onFilterDelete={this.handleFilterDelete}
               plusCode={search.plusCode}
               onFilterReset={this.handleFilterReset}
@@ -116,7 +119,7 @@ class Home extends Component<HomeProps, HomeState> {
                 onChange={this.handleChange}
                 onFilterChange={this.handleFilterChange}
                 onFilterSubmit={this.handleSearchSubmit}
-                onRatingChanged={this.ratingChanged}
+                onRatingChanged={this.handleRatingChange}
                 onFilterDelete={this.handleFilterDelete}
                 plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
@@ -252,7 +255,7 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  private ratingChanged(nextValue: number, prevValue: number, name: string) {
+  private handleRatingChange(nextValue: number, prevValue: number, name: string) {
     let rating = 0
 
     if (nextValue === prevValue) {

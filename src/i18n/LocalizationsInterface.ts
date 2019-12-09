@@ -26,6 +26,7 @@ export interface Localizations {
   peerID: string
   minimum: string
   maximum: string
+  advancedSearch: string
   intro: Intro
   moderatorsText: string
   skillsText: string

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Profile from '../../models/Profile'
 
 import { localeInstance } from '../../i18n'
+import { Button } from '../Button'
 import './NavBar.css'
 
 interface NavBarProps {

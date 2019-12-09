@@ -83,8 +83,10 @@ class Search implements State {
       },
     },
   ]
+  public advancedSearch: string[] = []
 
   public original = {
+    advancedSearch: [],
     filters: {
       'metadata.contractType': 'SERVICE',
       priceMin: '0',
@@ -244,6 +246,8 @@ class Search implements State {
     if (priceRange) {
       extendedFilters.push(priceRange)
     }
+
+    extendedFilters = [...extendedFilters, ...this.advancedSearch]
 
     const searchObject = {
       query: searchParams.query,

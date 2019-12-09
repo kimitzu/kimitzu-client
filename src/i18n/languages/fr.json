@@ -22,6 +22,7 @@
   "peerID": "ID de pair",
   "minimum": "Le minimum",
   "maximum": "Maximum",
+  "advancedSearch": "Recherche Avancée",
   "intro": {
     "helper": "Nouveau à Kimitzu?",
     "nextBtnText": "Commencer",

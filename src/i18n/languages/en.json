@@ -22,6 +22,7 @@
   "peerID": "Peer ID",
   "minimum": "Minimum",
   "maximum": "Maximum",
+  "advancedSearch": "Advanced Search",
   "intro": {
     "helper": "New to Kimitzu?",
     "nextBtnText": "Get Started",

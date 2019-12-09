@@ -70,7 +70,6 @@ const Filter = ({
     localizations: { searchFilters, addressForm },
   } = localeInstance.get
   const [originalSliderValue, setOriginalSliderValue] = useState(1)
-
   return (
     <div id="main-div">
       <form
@@ -80,6 +79,17 @@ const Filter = ({
         }}
       >
         <legend className="uk-legend">{searchFilters.header}</legend>
+        <div className="uk-margin">
+          <Button
+            className="uk-button uk-button-default uk-width-1-1"
+            onClick={() => {
+              window.UIkit.modal('#advance-search-modal').show()
+            }}
+          >
+            Advanced Search
+          </Button>
+        </div>
+        <hr />
         <div className="uk-margin">
           <label>
             <input
@@ -98,6 +108,7 @@ const Filter = ({
             {searchFilters.checkboxLabel}
           </label>
         </div>
+        <hr />
         <div className="uk-margin">
           <FormLabel label={searchFilters.occupationLabel.toUpperCase()} />
           <div id="form-select" className="uk-form-controls">
@@ -105,13 +116,17 @@ const Filter = ({
               id={`${id}`}
               options={serviceTypes}
               onChange={async event => {
-                console.log(event.value)
-                onFilterChange('item.categories', event.value)
+                if (event.value === '~') {
+                  onFilterDelete('item.categories')
+                } else {
+                  onFilterChange('item.categories', event.value)
+                }
                 await onFilterSubmit()
               }}
             />
           </div>
         </div>
+        <hr />
         <div className="uk-margin">
           <FormLabel label={searchFilters.priceRangeLabel.toUpperCase()} />
           <div className="uk-flex uk-flex-row uk-flex-center uk-flex-middle">
@@ -137,13 +152,14 @@ const Filter = ({
             </div>
           </div>
         </div>
+        <hr />
         <div className="uk-margin">
           <FormLabel label={localizations.locationLabel.toUpperCase()} />
           <input
             id={`${id}-location-city`}
             className="uk-input"
             type="text"
-            placeholder={addressForm.citLabel}
+            placeholder={addressForm.cityLabel}
             onChange={event => onFilterChange('location.city', event.target.value)}
           />
         </div>
@@ -189,17 +205,6 @@ const Filter = ({
           />
         </div>
         <div className="uk-margin">
-          <div>
-            <FormLabel label={searchFilters.ratingsLabel.toUpperCase()} />
-          </div>
-          <StarRatingComponent
-            name="rate1"
-            starCount={5}
-            value={rating}
-            onStarClick={onRatingChanged}
-          />
-        </div>
-        <div className="uk-margin">
           <p>
             {' '}
             {searchFilters.locationRadiusLabel.toUpperCase()} (
@@ -240,6 +245,18 @@ const Filter = ({
               }}
             />
           </div>
+        </div>
+        <hr />
+        <div className="uk-margin">
+          <div>
+            <FormLabel label={searchFilters.ratingsLabel.toUpperCase()} />
+          </div>
+          <StarRatingComponent
+            name="rate1"
+            starCount={5}
+            value={rating}
+            onStarClick={onRatingChanged}
+          />
         </div>
         <Button
           id={`${id}-reset`}

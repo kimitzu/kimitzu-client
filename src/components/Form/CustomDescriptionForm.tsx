@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '../Button'
 import { FormLabel } from '../Label'
 
-import PhysicalCharacteristics from '../../constants/PhysicalCharacteristics.json'
+import Characteristics from '../../constants/PhysicalCharacteristics.json'
 import { localeInstance } from '../../i18n'
 import { CustomDescription } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
 
+const PhysicalCharacteristics = { ...Characteristics }
 PhysicalCharacteristics[''] = ''
 
 interface CustomDescriptionProps {
