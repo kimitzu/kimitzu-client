@@ -365,7 +365,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.setState({ shippingOptions })
   }
 
-  public handleAddCoupons() {
+  public handleAddCoupons(evt) {
+    evt.preventDefault()
     this.state.listing.addCoupon()
     this.setState({
       listing: this.state.listing,

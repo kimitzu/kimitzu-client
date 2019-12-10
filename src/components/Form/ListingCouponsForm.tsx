@@ -20,7 +20,7 @@ interface Coupon {
 interface Props {
   coupons: Coupon[]
   handleInputChange: (field: string, value: any, parentField?: string) => void
-  handleAddCoupon: () => void
+  handleAddCoupon: (event: React.MouseEvent) => void
   handleContinue: (event: React.FormEvent) => void
   handleRemoveRow: (type: string, index: number) => void
   handleFullSubmit: (event: React.FormEvent) => void
