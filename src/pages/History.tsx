@@ -101,7 +101,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
                 {this.locale.orderHistoryPage[`${this.state.viewType.toLowerCase()}Label`]}
               </h4>
             </div>
-            <div className="uk-hidden@m uk-grid uk-margin-top" uk-grid>
+            <div className="uk-hidden@m uk-grid uk-margin-top" data-uk-grid>
               {this.renderFilters()}
             </div>
           </div>

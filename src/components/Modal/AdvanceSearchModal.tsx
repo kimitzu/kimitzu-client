@@ -9,6 +9,7 @@ interface AdvanceSearchInterface {
 
 const AdvanceSearchModal = ({ onSearchSubmit }) => {
   const [filters, setFilters] = useState({} as AdvanceSearchInterface)
+  const locale = localeInstance.get.localizations
 
   function handleChange(name, value) {
     const rawFilter = { ...filters }
@@ -49,8 +50,18 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
     await onSearchSubmit()
   }
 
+  async function resetAdvancedFilters() {
+    if (Object.keys(filters).length > 0) {
+      setFilters({})
+      searchInstance.advancedSearch = []
+      await onSearchSubmit()
+    } else {
+      window.UIkit.modal('#advance-search-modal').hide()
+    }
+  }
+
   return (
-    <div id="advance-search-modal" className="uk-modal" uk-modal bg-close="false">
+    <div id="advance-search-modal" className="uk-modal" data-uk-modal bg-close="false">
       <form
         className="uk-modal-dialog"
         onSubmit={evt => {
@@ -58,21 +69,19 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
           executeSearch()
         }}
       >
-        <button className="uk-modal-close-default" type="button" uk-close>
-          <span uk-icon="icon: close" />
-        </button>
+        <button className="uk-modal-close-default" type="button" data-uk-close />
         <div className="uk-modal-header">
-          <h2 className="uk-modal-title">{localeInstance.get.localizations.advancedSearch}</h2>
+          <h2 className="uk-modal-title">{locale.advancedSearch}</h2>
         </div>
         <div className="uk-modal-body">
-          <div className="uk-grid" uk-grid>
+          <div className="uk-grid uk-grid-small" data-uk-grid>
             {Object.keys(PhysicalCharacteristics).map((characteristic, index) => {
               const values = PhysicalCharacteristics[characteristic]
 
               if (Array.isArray(values)) {
                 return (
                   <div className="uk-width-1-2@m uk-width-1-1@s" key={characteristic}>
-                    <label className="uk-form-label">{characteristic}</label>
+                    <label className="uk-form-label color-primary">{characteristic}</label>
                     <div className="uk-form-controls">
                       <select
                         className="uk-select"
@@ -95,13 +104,13 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
               } else {
                 return (
                   <div className="uk-width-1-2@m uk-width-1-1@s" key={characteristic}>
-                    <label className="uk-form-label">{characteristic}</label>
+                    <label className="uk-form-label color-primary">{characteristic}</label>
                     <div className="uk-form-controls">
                       <input
                         key={`${index}-input-start`}
                         className="uk-input uk-width-1-2"
                         type={values}
-                        placeholder={localeInstance.get.localizations.minimum}
+                        placeholder={locale.minimum}
                         onChange={evt => {
                           let filterValue = filters[characteristic]
                           if (!filterValue) {
@@ -116,7 +125,7 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
                         className="uk-input uk-width-1-2"
                         type={values}
                         min="0"
-                        placeholder={localeInstance.get.localizations.maximum}
+                        placeholder={locale.maximum}
                         onChange={evt => {
                           let filterValue = filters[characteristic]
                           if (!filterValue) {
@@ -134,17 +143,11 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
           </div>
         </div>
         <div className="uk-modal-footer uk-text-right">
-          <button
-            className="uk-button uk-button-default uk-margin-right"
-            type="reset"
-            onClick={() => {
-              setFilters({})
-            }}
-          >
-            Reset
+          <button className="uk-button uk-margin-right" type="reset" onClick={resetAdvancedFilters}>
+            {Object.keys(filters).length > 0 ? locale.reset : locale.close}
           </button>
           <button className="uk-button uk-button-primary" type="submit">
-            Search
+            {locale.search}
           </button>
         </div>
       </form>

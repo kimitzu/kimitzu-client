@@ -141,7 +141,7 @@ const Chat = ({
                   return (
                     <div className="text-msg-cont-right" key={`m${i}`}>
                       <div className="text-msg-right">{data.message}</div>
-                      {data.sent === false ? (
+                      {!data.sent ? (
                         <div className="avatar-cont-recepient">
                           <span data-uk-spinner="ratio: 0.5" />
                         </div>

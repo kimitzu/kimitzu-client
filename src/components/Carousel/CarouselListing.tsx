@@ -116,7 +116,7 @@ const CarouselListing = ({ data }: Props) => {
         data-uk-slider
         draggable={false}
       >
-        <ul id="image-list" className="uk-slider-items uk-grid">
+        <ul id="image-list" className="uk-slider-items uk-grid" data-uk-grid>
           {data.map((img, i) => {
             i++
             return (

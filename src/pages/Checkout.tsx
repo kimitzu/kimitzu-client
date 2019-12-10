@@ -245,7 +245,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           <div className="uk-margin-bottom">
             <div className="uk-card uk-card-default uk-card-body uk-card-small">
               <h3>{locale.checkoutPage.paymentForm.header}</h3>
-              <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+              <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid" data-uk-grid>
                 <label>
                   <input
                     className="uk-radio"

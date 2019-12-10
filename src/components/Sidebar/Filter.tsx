@@ -86,7 +86,7 @@ const Filter = ({
               window.UIkit.modal('#advance-search-modal').show()
             }}
           >
-            Advanced Search
+            {localizations.advancedSearch}
           </Button>
         </div>
         <hr />

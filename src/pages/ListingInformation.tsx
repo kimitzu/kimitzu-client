@@ -264,7 +264,7 @@ class ListingProfile extends Component<Props, State> {
               </Button>
             </div>
           ) : null}
-          <div className="uk-grid uk-text-center" uk-grid>
+          <div className="uk-grid uk-text-center" data-uk-grid>
             <div className="uk-width-1-3@m">
               <CarouselListing data={imageData} />
             </div>
@@ -317,7 +317,7 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                     </div>
                   </div>
-                  <div className="uk-grid uk-text-left" uk-grid>
+                  <div className="uk-grid uk-text-left" data-uk-grid>
                     <div className="uk-flex uk-flex-column">
                       <div className="uk-text-bold">{locale.typeLabel}</div>
                       <div className="uk-text-capitalize">
@@ -333,7 +333,7 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                     ) : null}
                   </div>
-                  <div className="uk-grid uk-text-left" uk-grid>
+                  <div className="uk-grid uk-text-left" data-uk-grid>
                     <div className="uk-flex uk-flex-column">
                       <div className="uk-text-bold">{locale.listingPage.paymentMethodsLabel}</div>
                       <div className="uk-flex uk-flex-row">
@@ -367,7 +367,7 @@ class ListingProfile extends Component<Props, State> {
                   </div>
                   <div
                     className="uk-margin-medium-top uk-grid uk-child-width-1-3@m uk-child-width-1-1@s"
-                    uk-grid
+                    data-uk-grid
                   >
                     <div>
                       <Button
@@ -413,7 +413,7 @@ class ListingProfile extends Component<Props, State> {
                   </div>
                 </div>
                 <hr className="uk-margin-top uk-margin-bottom" />
-                <div className="uk-grid uk-grid-collapse" uk-grid>
+                <div className="uk-grid uk-grid-collapse" data-uk-grid>
                   <Link
                     className="uk-flex uk-flex-row text-gray uk-text-left"
                     id="vendor-info"

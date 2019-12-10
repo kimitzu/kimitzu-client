@@ -23,6 +23,9 @@
   "minimum": "Minimum",
   "maximum": "Maximum",
   "advancedSearch": "Advanced Search",
+  "reset": "Reset",
+  "search": "Search",
+  "close": "Close",
   "intro": {
     "helper": "New to Kimitzu?",
     "nextBtnText": "Get Started",

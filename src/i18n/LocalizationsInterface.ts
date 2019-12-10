@@ -27,6 +27,9 @@ export interface Localizations {
   minimum: string
   maximum: string
   advancedSearch: string
+  reset: string
+  search: string
+  close: string
   intro: Intro
   moderatorsText: string
   skillsText: string
