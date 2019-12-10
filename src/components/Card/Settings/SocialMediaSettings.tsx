@@ -137,7 +137,7 @@ const renderFormSelector = (
                 href="/#"
                 onClick={evt => evt.preventDefault()}
               >
-                &nbsp;
+                {''}
               </a>
             </div>
           </div>
@@ -153,7 +153,7 @@ const renderFormSelector = (
             data-uk-icon="close"
             href="/#"
           >
-            &nbsp;
+            {''}
           </a>
         ) : null}
       </div>

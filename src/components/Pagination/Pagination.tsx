@@ -92,7 +92,7 @@ const Pagination = ({
           }}
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
       </li>
       {innerWidth > UIBreakpoints['breakpoint-m'] &&
@@ -132,7 +132,7 @@ const Pagination = ({
           }}
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
       </li>
     </ul>

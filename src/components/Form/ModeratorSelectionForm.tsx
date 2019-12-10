@@ -136,7 +136,7 @@ const ModeratorSelectionForm = ({
             handleModeratorSearch('')
           }}
         >
-          &nbsp;
+          {''}
         </a>
       </div>
       <div

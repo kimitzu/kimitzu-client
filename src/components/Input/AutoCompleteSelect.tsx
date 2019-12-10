@@ -174,7 +174,7 @@ const AutoCompleteSelect = ({
         autoComplete="off"
       />
       <a id="arrow" data-uk-icon="icon: triangle-down" onClick={toggleDropdown} href="/#">
-        &nbsp;
+        {''}
       </a>
       <div
         id="option-container"

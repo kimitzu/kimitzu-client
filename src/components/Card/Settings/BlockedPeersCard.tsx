@@ -95,7 +95,7 @@ const BlockedPeersCard = ({ settings }: BlockedPeersCardProps) => {
               }}
               href="/#"
             >
-              &nbsp;
+              {''}
             </a>
           </div>
         )

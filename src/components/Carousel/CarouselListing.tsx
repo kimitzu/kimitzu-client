@@ -104,7 +104,7 @@ const CarouselListing = ({ data }: Props) => {
               data-caption={`${i} of ${imageData.length}`}
               data-type="image"
             >
-              &nbsp;
+              {''}
             </a>
           )
         })}

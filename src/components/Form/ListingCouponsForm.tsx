@@ -75,7 +75,7 @@ const ListingCouponsForm = ({
                     handleRemoveRow('coupon', index)
                   }}
                 >
-                  &nbsp;
+                  {''}
                 </a>,
               ]}
               fields={[

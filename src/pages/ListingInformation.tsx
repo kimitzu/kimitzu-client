@@ -376,7 +376,7 @@ class ListingProfile extends Component<Props, State> {
                   {!listing.hasExpired ? (
                     <div
                       className="uk-margin-medium-top uk-grid uk-child-width-1-3@m uk-child-width-1-1@s"
-                      uk-grid
+                      data-uk-grid
                     >
                       <div>
                         <Button
@@ -468,7 +468,7 @@ class ListingProfile extends Component<Props, State> {
                       href="/#"
                       onClick={evt => evt.preventDefault()}
                     >
-                      &nbsp;
+                      {''}
                     </a>
                   </div>
                 </div>
@@ -533,7 +533,7 @@ class ListingProfile extends Component<Props, State> {
               href="/#"
               onClick={evt => evt.preventDefault()}
             >
-              &nbsp;
+              {''}
             </a>
           </span>
         )
@@ -546,7 +546,7 @@ class ListingProfile extends Component<Props, State> {
             href="/#"
             onClick={evt => evt.preventDefault()}
           >
-            &nbsp;
+            {''}
           </a>
         )
       }

@@ -76,7 +76,7 @@ const SideMenuWithContentCard = ({
             data-uk-icon="arrow-left"
             onClick={handleBackBtn}
           >
-            &nbsp;
+            {''}
           </a>
         ) : null}
         <h4 id="side-menu-with-content-card-title" className="color-primary">

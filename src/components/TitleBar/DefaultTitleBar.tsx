@@ -33,7 +33,7 @@ const DefaultTitleBar = () => {
           data-uk-icon="icon: chevron-left; ratio: 1.5"
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
         <a
           id={!canGoForward ? 'disable-icon-arrow' : ''}
@@ -45,7 +45,7 @@ const DefaultTitleBar = () => {
           data-uk-icon="icon: chevron-right; ratio: 1.5"
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
         <a
           className="icon-ref"
@@ -56,7 +56,7 @@ const DefaultTitleBar = () => {
           data-uk-icon="icon: refresh; ratio: 1.2"
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
       </div>
       <div id="url-cont">
@@ -72,7 +72,7 @@ const DefaultTitleBar = () => {
           }}
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
         <a
           id="max"
@@ -90,7 +90,7 @@ const DefaultTitleBar = () => {
           data-uk-icon={`icon: ${!isMaximize ? 'expand' : 'shrink'}; ratio: 1.3`}
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
         <a
           id="close"
@@ -101,7 +101,7 @@ const DefaultTitleBar = () => {
           }}
           href="/#"
         >
-          &nbsp;
+          {''}
         </a>
       </div>
     </div>

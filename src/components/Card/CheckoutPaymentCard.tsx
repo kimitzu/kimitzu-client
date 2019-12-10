@@ -1,3 +1,4 @@
+import { IonLoading, isPlatform } from '@ionic/react'
 import React from 'react'
 
 import currency from '../../models/Currency'
@@ -31,6 +32,16 @@ interface Props {
   isEstimating: boolean
   quantity: number
   id: string
+}
+
+const renderSpinner = (showSpinner: boolean, spinnerText: string) => {
+  return isPlatform('mobile') || isPlatform('mobileweb') ? (
+    <IonLoading isOpen={showSpinner} message={spinnerText} />
+  ) : (
+    <div className="uk-align-right uk-margin-top" hidden={!showSpinner}>
+      <div uk-spinner="ratio: 1" /> {spinnerText}
+    </div>
+  )
 }
 
 const CheckoutPaymentCard = ({
@@ -153,11 +164,7 @@ const CheckoutPaymentCard = ({
               </label>
             </div>
           </div>
-          {isEstimating ? (
-            <div className="uk-align-right uk-margin-top">
-              <div uk-spinner="ratio: 1" /> {paymentCard.estimateSpinnerText}
-            </div>
-          ) : null}
+          {renderSpinner(isEstimating, paymentCard.estimateSpinnerText)}
           {estimate && !isEstimating ? (
             <div className="uk-flex uk-margin-top">
               <div className="uk-flex-1">

@@ -63,7 +63,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                     window.dispatchEvent(dmEvent)
                   }}
                 >
-                  &nbsp;
+                  {''}
                 </a>
                 <input
                   id="search-bar"

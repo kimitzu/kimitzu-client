@@ -32,7 +32,7 @@ const RegistrationCard = (props: Props) => (
           uk-icon="icon: arrow-left"
           data-uk-slidenav-next
         >
-          &nbsp;
+          {''}
         </a>
       </div>
       <div id="footer-center" className="uk-flex-center">

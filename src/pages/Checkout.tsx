@@ -1,3 +1,4 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
@@ -7,6 +8,7 @@ import {
   ModeratorCard,
   PaymentQRCard,
 } from '../components/Card'
+import { MobileHeader } from '../components/Header'
 import { FormLabel } from '../components/Label'
 import ModeratorInfoModal from '../components/Modal/ModeratorInfoModal'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
@@ -105,6 +107,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.handleMoreInfo = this.handleMoreInfo.bind(this)
     this.estimate = this.estimate.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
@@ -186,6 +189,15 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <MobileHeader />
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const {
       listing,
       quantity,

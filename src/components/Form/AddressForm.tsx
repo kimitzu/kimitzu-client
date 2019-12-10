@@ -157,7 +157,7 @@ const AddressForm = ({
               uk-icon="icon: question"
               uk-tooltip={addressForm.plusCodeHelper}
             >
-              &nbsp;
+              {''}
             </a>
             <input
               id="plus-code"
