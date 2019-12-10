@@ -17,7 +17,12 @@ const SimpleBorderedSegment = ({ children, header, icon, imageSrc, sideButtons, 
     id="simple-bordered-segment"
   >
     {imageSrc ? (
-      <img id="simple-bordered-segment-avatar" className="uk-border-circle" src={imageSrc} />
+      <img
+        id="simple-bordered-segment-avatar"
+        className="uk-border-circle"
+        src={imageSrc}
+        alt="Avatar"
+      />
     ) : null}
     {icon ? <span className="color-primary uk-flex" uk-icon={`icon: ${icon}; ratio: 2`} /> : null}
     <div className="uk-flex uk-flex-middle uk-width-1-1">

@@ -57,7 +57,7 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
                   <p className="uk-text-capitalize">{social.type}</p>
                   {isElectron() ? (
                     <a
-                      href="#"
+                      href="/#"
                       onClick={evt => {
                         evt.preventDefault()
                         window.openExternal(link)
@@ -66,7 +66,7 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
                       {social.username}
                     </a>
                   ) : (
-                    <a href={link} target="_blank">
+                    <a href={link} target="_blank" rel="noopener noreferrer">
                       {social.username}
                     </a>
                   )}

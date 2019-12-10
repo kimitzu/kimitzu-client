@@ -28,7 +28,10 @@ const ListingCheckoutCard = ({ listing, quantity }: Props) => {
         <label id="listing-checkout-card-column-header">{listingCard.itemLabel}</label>
         <div className="uk-flex uk-flex-row">
           <div id="listing-checkout-card-img">
-            <img src={`${config.openBazaarHost}/ob/images/${listing.thumbnail.medium}`} />
+            <img
+              src={`${config.openBazaarHost}/ob/images/${listing.thumbnail.medium}`}
+              alt={listing.item.title}
+            />
           </div>
           <div id="listing-checkout-card-details" className="uk-padding-small">
             <h5>{listing.item.title}</h5>

@@ -26,26 +26,38 @@ const DefaultTitleBar = () => {
         <a
           id={!canGoBack ? 'disable-icon-arrow' : ''}
           className="icon-arrows"
-          onClick={() => {
+          onClick={evt => {
+            evt.preventDefault()
             webContents.goBack()
           }}
           data-uk-icon="icon: chevron-left; ratio: 1.5"
-        />
+          href="/#"
+        >
+          &nbsp;
+        </a>
         <a
           id={!canGoForward ? 'disable-icon-arrow' : ''}
           className="icon-arrows"
-          onClick={() => {
+          onClick={evt => {
+            evt.preventDefault()
             webContents.goForward()
           }}
           data-uk-icon="icon: chevron-right; ratio: 1.5"
-        />
+          href="/#"
+        >
+          &nbsp;
+        </a>
         <a
           className="icon-ref"
-          onClick={() => {
+          onClick={evt => {
+            evt.preventDefault()
             webContents.reload()
           }}
           data-uk-icon="icon: refresh; ratio: 1.2"
-        />
+          href="/#"
+        >
+          &nbsp;
+        </a>
       </div>
       <div id="url-cont">
         <input id="url-input" onChange={() => console.log('Feature not yet implemented')} />
@@ -54,13 +66,18 @@ const DefaultTitleBar = () => {
         <a
           id="min"
           data-uk-icon="icon: minus; ratio: 1.3"
-          onClick={() => {
+          onClick={evt => {
+            evt.preventDefault()
             currentWindow.minimize()
           }}
-        />
+          href="/#"
+        >
+          &nbsp;
+        </a>
         <a
           id="max"
-          onClick={() => {
+          onClick={evt => {
+            evt.preventDefault()
             if (!isMaximize) {
               setIsMaximize(true)
               currentWindow.maximize()
@@ -71,12 +88,21 @@ const DefaultTitleBar = () => {
             }
           }}
           data-uk-icon={`icon: ${!isMaximize ? 'expand' : 'shrink'}; ratio: 1.3`}
-        />
+          href="/#"
+        >
+          &nbsp;
+        </a>
         <a
           id="close"
           data-uk-icon="icon: close; ratio: 1.3"
-          onClick={() => currentWindow.close()}
-        />
+          onClick={evt => {
+            evt.preventDefault()
+            currentWindow.close()
+          }}
+          href="/#"
+        >
+          &nbsp;
+        </a>
       </div>
     </div>
   )

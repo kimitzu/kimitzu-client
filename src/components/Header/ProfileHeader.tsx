@@ -70,6 +70,7 @@ const ProfileHeader = ({
                   ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.medium}`
                   : `${config.host}/images/user.svg`
               }
+              alt="Avatar"
             />
           ) : (
             <div uk-spinner="ratio: 3" />
@@ -81,28 +82,28 @@ const ProfileHeader = ({
           </div>
           <ul data-uk-tab="connect: #container-profile">
             <li className="uk-active">
-              <a href="#" id="desktop-profile-tab-label">
+              <a href="/#" id="desktop-profile-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.profile}
               </a>
             </li>
             <li>
-              <a href="#" id="desktop-store-tab-label">
+              <a href="/#" id="desktop-store-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.store} <span id="label-number"> {profile.stats!.listingCount} </span>
               </a>
             </li>
             <li>
-              <a href="#" id="desktop-ratings-tab-label">
+              <a href="/#" id="desktop-ratings-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.ratings}
               </a>
             </li>
             <li>
-              <a href="#" id="desktop-followers-tab-label">
+              <a href="/#" id="desktop-followers-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.followers}{' '}
                 <span id="label-number"> {profile.stats!.followerCount} </span>
               </a>
             </li>
             <li>
-              <a href="#" id="desktop-following-tab-label">
+              <a href="/#" id="desktop-following-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.following}{' '}
                 <span id="label-number"> {profile.stats!.followingCount} </span>
               </a>
@@ -111,8 +112,10 @@ const ProfileHeader = ({
               <>
                 <li>
                   <a
+                    href="/#"
                     id="desktop-sales-tab-label"
-                    onClick={() => {
+                    onClick={evt => {
+                      evt.preventDefault()
                       window.location.hash = '/history/sales'
                     }}
                   >
@@ -121,8 +124,10 @@ const ProfileHeader = ({
                 </li>
                 <li>
                   <a
+                    href="/#"
                     id="desktop-purchases-tab-label"
-                    onClick={() => {
+                    onClick={evt => {
+                      evt.preventDefault()
                       window.location.hash = '/history/purchases'
                     }}
                   >
@@ -143,6 +148,7 @@ const ProfileHeader = ({
                   ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.medium}`
                   : `${config.host}/images/user.svg`
               }
+              alt="Avatar"
             />
           ) : (
             <div uk-spinner="ratio: 3" />
@@ -154,33 +160,37 @@ const ProfileHeader = ({
         <div id="profile-header-tab">
           <ul data-uk-tab="connect: #container-profile">
             <li className="uk-active">
-              <a href="#" id="mobile-profile-tab-label">
+              <a href="/#" id="mobile-profile-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.profile}
               </a>
             </li>
             <li>
-              <a href="#" id="mobile-store-tab-label">
+              <a href="/#" id="mobile-store-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.store} <span id="label-number"> {profile.stats!.listingCount} </span>
               </a>
             </li>
             <li>
-              <a href="#" id="mobile-ratings-tab-label">
+              <a href="/#" id="mobile-ratings-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.ratings}
               </a>
             </li>
             <li>
-              <a href="#" id="mobile-followers-tab-label">
+              <a href="/#" id="mobile-followers-tab-label" onClick={evt => evt.preventDefault()}>
                 {tabTitles.followers}{' '}
                 <span id="label-number"> {profile.stats!.followerCount} </span>
               </a>
             </li>
             <li>
-              <a href="#" id="tab-label">
+              <a href="/#" id="tab-label" onClick={evt => evt.preventDefault()}>
                 <span data-uk-icon="triangle-down">MORE </span>
                 <div data-uk-dropdown="pos: bottom-justify">
                   <ul className="uk-nav uk-dropdown-nav">
                     <li>
-                      <a href="#" id="mobile-following-tab-label">
+                      <a
+                        href="/#"
+                        id="mobile-following-tab-label"
+                        onClick={evt => evt.preventDefault()}
+                      >
                         {tabTitles.following}{' '}
                         <span id="label-number"> {profile.stats!.followingCount} </span>
                       </a>
@@ -189,8 +199,10 @@ const ProfileHeader = ({
                       <>
                         <li>
                           <a
+                            href="/#"
                             id="mobile-sales-tab-label"
-                            onClick={() => {
+                            onClick={evt => {
+                              evt.preventDefault()
                               window.location.hash = '/history/sales'
                             }}
                           >
@@ -199,8 +211,10 @@ const ProfileHeader = ({
                         </li>
                         <li>
                           <a
+                            href="/#"
                             id="mobile-purchases-tab-label"
-                            onClick={() => {
+                            onClick={evt => {
+                              evt.preventDefault()
                               window.location.hash = '/history/purchases'
                             }}
                           >

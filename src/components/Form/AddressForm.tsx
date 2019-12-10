@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { TwoInputs } from '../Input'
 import { FormLabel } from '../Label'
-import { FormSelector } from '../Selector'
 
 import Countries from '../../constants/Countries.json'
 import Location from '../../interfaces/Location'
@@ -154,9 +153,12 @@ const AddressForm = ({
               className="uk-form-icon uk-form-icon-flip"
               href="https://plus.codes/howitworks"
               target="_blank"
+              rel="noopener noreferrer"
               uk-icon="icon: question"
               uk-tooltip={addressForm.plusCodeHelper}
-            />
+            >
+              &nbsp;
+            </a>
             <input
               id="plus-code"
               className={`uk-input ${

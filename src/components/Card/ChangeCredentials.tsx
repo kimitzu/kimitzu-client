@@ -11,7 +11,6 @@ interface ChangeCredentialsProps {
 
 const ChangeCredentials = ({ onSubmit }: ChangeCredentialsProps) => {
   const {
-    localizations,
     localizations: { settingsPage },
   } = localeInstance.get
   const [isLoggingIn, setIslogginIn] = useState(false)

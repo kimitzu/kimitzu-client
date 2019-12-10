@@ -63,7 +63,14 @@ const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex, id 
               className="uk-padding uk-padding-remove-vertical uk-uk-padding-remove-right"
               id={`${id}-${parentItem.label.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <a className="list-item" onClick={() => changeNavIndex(index, parentItem.handler)}>
+              <a
+                className="list-item"
+                onClick={evt => {
+                  evt.preventDefault()
+                  changeNavIndex(index, parentItem.handler)
+                }}
+                href="/#"
+              >
                 {parentItem.label}
               </a>
             </li>
@@ -77,7 +84,11 @@ const MenuSideNav = ({ title, navItems, currentNavIndex, currentSubNavIndex, id 
                     >
                       <a
                         id={getSubNavId(subIndex)}
-                        onClick={() => changeSubNavIndex(subIndex, index, navItem.handler)}
+                        onClick={evt => {
+                          evt.preventDefault()
+                          changeSubNavIndex(subIndex, index, navItem.handler)
+                        }}
+                        href="/#"
                       >
                         {navItem.label}
                       </a>

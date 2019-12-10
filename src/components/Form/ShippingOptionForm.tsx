@@ -253,11 +253,13 @@ const ShippingOptionForm = ({
             className="add-field"
             onClick={
               disabled
-                ? () => {
+                ? evt => {
+                    evt.preventDefault()
                     console.log('Function disabled')
                   }
                 : handleAddShippingService
             }
+            href="/#"
           >
             + ADD SERVICE
           </a>

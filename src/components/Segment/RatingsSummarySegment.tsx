@@ -51,7 +51,7 @@ const RatingsSummarySegment = ({
     // Get the average for each fieldname
     keys.forEach(key => (averageRatings[key] = averageRatings[key] / entries))
   } else if (kimitzuRatings && kimitzuRatings.buyerRatings) {
-    const { average, buyerRatings, count } = kimitzuRatings
+    const { average, buyerRatings } = kimitzuRatings
     totalAverageRating = (average / 100) * totalStarCount
     // totalReviewCount = count || buyerRatings!.length
     averageRatings = buyerRatings.reduce((acc, cur) => {

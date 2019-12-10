@@ -25,7 +25,7 @@ const ModeratorCard = ({ profile, children, id, currIndex, handleSelect }: Props
     >
       <div className="uk-card-body uk-flex uk-padding-small">
         <div className="uk-flex-2 uk-flex uk-flex-center uk-flex-middle">
-          <img id="moderator-card-img" src={profile.getAvatarSrc()} />
+          <img id="moderator-card-img" src={profile.getAvatarSrc()} alt={profile.name} />
         </div>
         <div id="moderator-card-content" className="uk-padding-small uk-padding-remove-vertical">
           <h3 className="uk-card-title uk-text-bold">{profile.name}</h3>

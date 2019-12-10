@@ -80,7 +80,6 @@ context('Rate Buyer', () => {
 
     cy.wait('@completeOrder').then(xhr => {
       const request = xhr.requestBody
-      console.log(request)
       expect(request.orderId).to.equal('soldOrderThatWillBeRated')
 
       expect(request.ratings[0].customerService).to.equal(5)
@@ -106,7 +105,6 @@ context('Rate Buyer', () => {
 
     cy.wait('@completeOrder').then(xhr => {
       const request = xhr.requestBody
-      console.log(request)
       expect(request.orderId).to.equal('soldOrderThatWillBeRated')
 
       expect(request.ratings[0].customerService).to.equal(0)

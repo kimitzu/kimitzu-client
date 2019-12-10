@@ -101,7 +101,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
                 {this.locale.orderHistoryPage[`${this.state.viewType.toLowerCase()}Label`]}
               </h4>
             </div>
-            <div className="uk-hidden@m uk-grid uk-margin-top" uk-grid>
+            <div className="uk-hidden@m uk-grid uk-margin-top" data-uk-grid>
               {this.renderFilters()}
             </div>
           </div>
@@ -165,7 +165,14 @@ class History extends React.Component<HistoryProps, HistoryState> {
             type="checkbox"
             onChange={e => this.handleFilterChange(filterKey, e.target.checked)}
           />
-          <a data-uk-tooltip={filters[filterKey].description}> {filterKey}</a>
+          <a
+            data-uk-tooltip={filters[filterKey].description}
+            href="/#"
+            onClick={evt => evt.preventDefault()}
+          >
+            {' '}
+            {filterKey}
+          </a>
         </label>
       </div>
     ))

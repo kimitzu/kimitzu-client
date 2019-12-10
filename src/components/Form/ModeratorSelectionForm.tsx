@@ -92,7 +92,11 @@ const ModeratorSelectionForm = ({
             <a
               id={`${moderatorSource}-info-${moderator.peerID}`}
               className="moderator-card-more-link"
-              onClick={() => handleMoreInfo(moderator)}
+              onClick={evt => {
+                evt.preventDefault()
+                handleMoreInfo(moderator)
+              }}
+              href="/#"
             >
               {moderatorSelectionForm.showDetailsLink}
             </a>
@@ -122,14 +126,18 @@ const ModeratorSelectionForm = ({
           placeholder={moderatorSelectionForm.searchPlaceholder}
         />
         <a
+          href="/#"
           className="uk-form-icon uk-form-icon-flip"
           data-uk-icon="icon: close"
           hidden={searchVal.length === 0}
-          onClick={() => {
+          onClick={evt => {
+            evt.preventDefault()
             setSearchVal('')
             handleModeratorSearch('')
           }}
-        />
+        >
+          &nbsp;
+        </a>
       </div>
       <div
         className="uk-padding-remove uk-panel-scrollable"
@@ -224,7 +232,14 @@ const ModeratorSelectionForm = ({
                   <span uk-icon="icon: close" />
                 </Button>
 
-                <a id="moderator-card-more-link" onClick={() => handleMoreInfo(moderator)}>
+                <a
+                  id="moderator-card-more-link"
+                  onClick={evt => {
+                    evt.preventDefault()
+                    handleMoreInfo(moderator)
+                  }}
+                  href="/#"
+                >
                   {moderatorSelectionForm.showDetailsLink}
                 </a>
               </div>

@@ -22,6 +22,10 @@
   "peerID": "ID do par",
   "minimum": "Mínimo",
   "maximum": "Máximo",
+  "advancedSearch": "Pesquisa Avançada",
+  "reset": "Reset",
+  "search": "Search",
+  "close": "Close",
   "intro": {
     "helper": "Novo no Kimitzu?",
     "nextBtnText": "Iniciar",

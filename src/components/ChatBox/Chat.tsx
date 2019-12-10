@@ -1,8 +1,7 @@
 import classNames from 'classnames'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
-import config from '../../config'
 import { localeInstance } from '../../i18n'
 import './Chat.css'
 
@@ -135,29 +134,30 @@ const Chat = ({
         </div>
         <div id="messages-display-main">
           <div id="messages-display-cont">
-            {messages.map((data, i) => {
-              if (data.outgoing) {
-                return (
-                  <div className="text-msg-cont-right" key={`m${i}`}>
-                    <div className="text-msg-right">{data.message}</div>
-                    {data.sent === false ? (
-                      <div className="avatar-cont-recepient">
-                        <span data-uk-spinner="ratio: 0.5" />
-                      </div>
-                    ) : null}
-                  </div>
-                )
-              } else {
-                return (
-                  <div className="text-msg-cont-left" key={`m${i}`}>
-                    <div className="avatar-cont-recepient">
-                      <img className="avatar-recipient" src={avatarSmall} alt="Small Avatar" />
+            {messages &&
+              messages.map((data, i) => {
+                if (data.outgoing) {
+                  return (
+                    <div className="text-msg-cont-right" key={`m${i}`}>
+                      <div className="text-msg-right">{data.message}</div>
+                      {!data.sent ? (
+                        <div className="avatar-cont-recepient">
+                          <span data-uk-spinner="ratio: 0.5" />
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="text-msg-left">{data.message}</div>
-                  </div>
-                )
-              }
-            })}
+                  )
+                } else {
+                  return (
+                    <div className="text-msg-cont-left" key={`m${i}`}>
+                      <div className="avatar-cont-recepient">
+                        <img className="avatar-recipient" src={avatarSmall} alt="Small Avatar" />
+                      </div>
+                      <div className="text-msg-left">{data.message}</div>
+                    </div>
+                  )
+                }
+              })}
           </div>
           <div id="messages-chat-cont">
             <div id="message-input-cont">

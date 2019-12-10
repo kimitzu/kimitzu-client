@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Button } from '../Button'
 
 import { localeInstance } from '../../i18n'
@@ -16,7 +15,7 @@ const IntroductionCard = (props: Props) => {
   return (
     <div className="uk-width-1-2@m uk-width-3-4">
       <div className="uk-flex uk-flex-center uk-margin-small-top">
-        <img id="introduction-logo" src="./images/Logo/full-blue.png" />
+        <img id="introduction-logo" src="./images/Logo/full-blue.png" alt="Kimitzu Logo" />
       </div>
       <div id="body-item">
         <p id="description-text" className="color-primary">
@@ -24,7 +23,12 @@ const IntroductionCard = (props: Props) => {
         </p>
       </div>
       <div id="introduction-footer">
-        <a id="new-to-kimitzu-text" className="color-primary">
+        <a
+          id="new-to-kimitzu-text"
+          className="color-primary"
+          href="/#"
+          onClick={evt => evt.preventDefault()}
+        >
           {intro.helper}
         </a>
         <Button className="uk-button uk-button-primary" onClick={props.handleGetStarted}>
