@@ -145,7 +145,7 @@ context('Wallet', () => {
   }
 
   it('should display correct BITCOIN wallet values', () => {
-    cy.get('.selected > .crypto-content > .crypto-label')
+    cy.get('#TBTC-desktop')
       .contains('Bitcoin (TBTC)')
 
     const expectedBalance = 1
@@ -154,10 +154,10 @@ context('Wallet', () => {
   })
 
   it('should display correct LITECOIN wallet values', () => {
-    cy.get(':nth-child(2) > .crypto-content > .crypto-label')
+    cy.get('#TLTC-desktop')
       .click()
 
-    cy.get('.selected > .crypto-content > .crypto-label')
+    cy.get('#TLTC-desktop')
       .contains('Litecoin (TLTC)')
 
     const expectedBalance = 2
@@ -166,10 +166,10 @@ context('Wallet', () => {
   })
 
   it('should display correct ZCASH wallet values', () => {
-    cy.get(':nth-child(3) > .crypto-content > .crypto-label')
+    cy.get('#TZEC-desktop')
       .click()
 
-    cy.get('.selected > .crypto-content > .crypto-label')
+    cy.get('#TZEC-desktop')
       .contains('ZCash (TZEC)')
 
     const expectedBalance = 3
@@ -178,9 +178,9 @@ context('Wallet', () => {
   })
 
   it('should display correct BITCOIN CASH wallet values', () => {
-    cy.get(':nth-child(4) > .crypto-content > .crypto-label')
+    cy.get('#TBCH-desktop')
       .click()
-    cy.get('.selected > .crypto-content > .crypto-label')
+    cy.get('#TBCH-desktop')
       .contains('Bitcoin Cash (TBCH)')
 
     const expectedBalance = 4

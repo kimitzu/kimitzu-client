@@ -1,21 +1,15 @@
-#mainCont {
-  display: flex;
-  flex-direction: column;
-}
-
 #stepperMain {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  max-width: 100%;
-  padding: 0 20px 0 20px;
+  width: 100%;
 }
 
 .stepperCircle {
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 2.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,29 +17,29 @@
 }
 
 .stepperCircleInactive {
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
 .stepperCircleInactiveNormal {
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .stepper-Bridge {
-  height: 5px;
+  height: 0.313rem;
   background-color: #cae7fe;
   flex: 1;
 }
 
 .stepper-Bridge-Half {
-  height: 5px;
+  height: 0.313rem;
   background-color: #cae7fe;
   width: 40%;
 }
@@ -55,22 +49,23 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .textCont {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 120px;
+  width: 4.5rem;
   color: dodgerblue;
-  height: 50px;
+  height: 3.125rem;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .divmargin {
   flex: 1;
-  height: 5px;
+  height: 0.313rem;
 }
 
 .inactive {
@@ -79,15 +74,21 @@
 
 .blueDot {
   background-color: dodgerblue;
-  width: 15px;
-  height: 15px;
+  width: 0.938rem;
+  height: 0.938rem;
   border-radius: 50%;
 }
 
 .blueDotNormal {
   background-color: dodgerblue;
-  width: 15px;
-  height: 15px;
+  width: 10.938rem;
+  height: 0.938rem;
   border-radius: 50%;
   position: absolute;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
 }
