@@ -41,7 +41,7 @@ const renderReviews = (ratings: KimitzuRatings) => {
         <UserReviewSegment
           key={`${rating.orderId}`}
           imgSrc={''}
-          reviewer={'User'}
+          reviewer={rating.buyerRating.vendorID}
           review={rating.buyerRating.comment}
           timeStamp={rating.timestamp}
           starValue={rating.average}

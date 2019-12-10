@@ -27,6 +27,7 @@ export interface FulfillmentRatingInformation {
 }
 
 export interface BuyerRating {
+  vendorID: string
   comment: string
   fields: Field[]
 }
