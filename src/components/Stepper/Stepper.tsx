@@ -8,7 +8,7 @@ interface Props {
 
 const Stepper = ({ options, currentIndex }: Props) => {
   return (
-    <div className="uk-flex uk-flex-column">
+    <div id="mainCont" className="uk-width-1-1">
       <div id="stepperMain">
         {options.map((val, i) => {
           const checkNormal = (
