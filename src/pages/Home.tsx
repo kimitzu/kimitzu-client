@@ -123,7 +123,7 @@ class Home extends Component<HomeProps, HomeState> {
                 searchInstance={this.state.search}
               />
             </div>
-            {search.results.data && search.results.count > 0 ? (
+            {!search.isSearching && search.results.data && search.results.count > 0 ? (
               <div className="custom-width-two">
                 <div className="pagination-cont">
                   <div className="right-side-container">
