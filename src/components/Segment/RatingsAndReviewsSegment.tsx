@@ -34,7 +34,7 @@ const renderReviews = (ratings?: Rating[], kimitzuRatings?: RatingSummary['kimit
     })
   } else if (kimitzuRatings && kimitzuRatings.buyerRatings) {
     return kimitzuRatings.buyerRatings.map((buyerRating: KimitzuRatingItem, index: number) => {
-      const { comment, fields, sourceId, reviewer, avatar, timestamp } = buyerRating
+      const { comment, fields, reviewer, avatar, timestamp } = buyerRating
       if (!fields) {
         return null
       }

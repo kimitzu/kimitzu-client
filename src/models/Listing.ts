@@ -1,5 +1,3 @@
-import slugify from 'slugify'
-
 import Axios from 'axios'
 import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'

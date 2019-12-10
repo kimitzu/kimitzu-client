@@ -63,7 +63,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
           ) : (
             photos.map((image: string) => (
               <li key={image} className="img-li-cont">
-                <img src={image} alt="" />
+                <img src={image} alt="thumbnail" />
               </li>
             ))
           )}
@@ -77,8 +77,8 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
                 data-uk-slideshow-item={index.toString()}
                 onClick={() => setSelectedIndex(index)}
               >
-                <a href="#">
-                  <img id="image-nav" src={image} width="100" alt="" />
+                <a href="/#" onClick={evt => evt.preventDefault()}>
+                  <img id="image-nav" src={image} width="100" alt="thumbnail" />
                 </a>
               </li>
             ))}

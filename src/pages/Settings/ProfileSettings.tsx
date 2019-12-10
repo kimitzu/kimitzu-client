@@ -316,7 +316,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   get mainContents() {
-    const { avatar, isSubmitting, profile: registrationForm, competency } = this.state
+    const { avatar, isSubmitting, profile: registrationForm } = this.state
     const { handleChange, handleFormSubmit, handleSelectAddress, handleChangeAction } = this
     const {
       locale,

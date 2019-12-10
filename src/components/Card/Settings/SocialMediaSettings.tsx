@@ -134,7 +134,11 @@ const renderFormSelector = (
                 className="uk-icon-link uk-form-icon uk-form-icon-flip"
                 data-uk-icon="icon: question"
                 data-uk-tooltip={socialMediaForm.proofTooltip}
-              />
+                href="/#"
+                onClick={evt => evt.preventDefault()}
+              >
+                &nbsp;
+              </a>
             </div>
           </div>
         </div>
@@ -142,11 +146,15 @@ const renderFormSelector = (
       <div className="uk-margin-left uk-width-1-10">
         {socialInfo && mouseOverIndex === index ? (
           <a
-            onClick={() => {
+            onClick={evt => {
+              evt.preventDefault()
               deleteHandler(index)
             }}
             data-uk-icon="close"
-          />
+            href="/#"
+          >
+            &nbsp;
+          </a>
         ) : null}
       </div>
     </div>

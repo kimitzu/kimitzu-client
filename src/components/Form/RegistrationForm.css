@@ -7,6 +7,7 @@
 #reg-avatar {
   width: 150px;
   height: 150px;
+  object-fit: cover;
 }
 #reg-avatar-btn {
   line-height: 25px;

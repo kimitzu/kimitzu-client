@@ -1,10 +1,11 @@
 import isElectron from 'is-electron'
 import React, { useEffect, useState } from 'react'
-
 import { Link } from 'react-router-dom'
+
 import Profile from '../../models/Profile'
 
 import { localeInstance } from '../../i18n'
+
 import './NavBar.css'
 
 interface NavBarProps {
@@ -12,7 +13,10 @@ interface NavBarProps {
   profile: Profile
 }
 
-const handleReload = () => {
+const handleReload = (evt?) => {
+  if (evt) {
+    evt.preventDefault()
+  }
   window.location.hash = '/'
   window.location.reload()
 }
@@ -31,8 +35,8 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
   return (
     <nav id="nav" className="uk-navbar-container" data-uk-navbar uk-navbar="mode: click">
       <div id="navbar-left-item" className="uk-navbar-left">
-        <a className="uk-navbar-item uk-logo" onClick={handleReload}>
-          <img id="logo-img" src="./images/Logo/full-blue.png" />
+        <a className="uk-navbar-item uk-logo" onClick={handleReload} href="/#">
+          <img id="logo-img" src="./images/Logo/full-blue.png" alt="Kimitzu Text Logo" />
         </a>
       </div>
       <div id="navbar-center-item" className="uk-navbar-center">
@@ -47,7 +51,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
               }}
             >
               <a
-                href="#"
+                href="/#"
                 className="uk-search-icon-flip color-primary"
                 uk-icon="icon: search"
                 data-uk-search-icon
@@ -56,7 +60,9 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                   const dmEvent = new CustomEvent('srchEvent', { detail: srchQuery })
                   window.dispatchEvent(dmEvent)
                 }}
-              />
+              >
+                &nbsp;
+              </a>
               <input
                 id="search-bar"
                 className="uk-search-input"
@@ -73,7 +79,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
       <div className="uk-navbar-right">
         <ul className="uk-navbar-nav">
           <li>
-            <a href="#" className="navbar-icon">
+            <a href="/#" className="navbar-icon" onClick={evt => evt.preventDefault()}>
               <span className="uk-navbar-item uk-logo" data-uk-icon="icon: question" />
             </a>
             <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
@@ -85,7 +91,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                 <li>
                   {isElectron() ? (
                     <a
-                      href="#"
+                      href="/#"
                       onClick={evt => {
                         evt.preventDefault()
                         window.openExternal(
@@ -101,6 +107,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                         'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                       }
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                     </a>
@@ -109,7 +116,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                 <li>
                   {isElectron() ? (
                     <a
-                      href="#"
+                      href="/#"
                       onClick={evt => {
                         evt.preventDefault()
                         window.openExternal('https://github.com/kimitzu/kimitzu-client')
@@ -118,7 +125,11 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                       <span uk-icon="icon: github" /> Github
                     </a>
                   ) : (
-                    <a href={'https://github.com/kimitzu/kimitzu-client'} target="_blank">
+                    <a
+                      href={'https://github.com/kimitzu/kimitzu-client'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <span uk-icon="icon: github" /> Github
                     </a>
                   )}
@@ -127,7 +138,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
             </div>
           </li>
           <li>
-            <a href="#" id="account" className="navbar-icon">
+            <a href="/#" id="account" className="navbar-icon" onClick={evt => evt.preventDefault()}>
               <span className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
             </a>
             <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">

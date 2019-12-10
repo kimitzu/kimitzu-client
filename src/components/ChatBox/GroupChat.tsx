@@ -65,6 +65,7 @@ const GroupChat = ({ groupMessage }: Props) => {
                             : `${config.host}/images/user.png`
                         }
                         className="avatar-cont-recepient"
+                        alt="You"
                       />
                     </div>
                   ) : null}

@@ -24,7 +24,7 @@ const OrderDetailsSegment = ({
   return (
     <div className="uk-flex uk-flex-row uk-width-1-1">
       <div className="uk-margin-small-right">
-        <img src={listingThumbnailSrc} width="120" />
+        <img src={listingThumbnailSrc} width="120" alt="Avatar" />
       </div>
       <div className="uk-flex uk-flex-column uk-width-1-1">
         <div className="uk-flex-1 uk-margin-small-bottom">

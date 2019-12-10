@@ -7,34 +7,30 @@ import { Button } from '../components/Button'
 import {
   CompetencyCard,
   InformationCard,
-  PayoutCard,
   ProfessionalBackgroundCard,
   SocialMediaCard,
   TagsCard,
   TermsOfServiceCard,
 } from '../components/Card'
 import { CarouselListing } from '../components/Carousel'
+import ListingExpiredOrNotFound from '../components/Errors/ListingExpiredOrNotFound'
 import { Pagination } from '../components/Pagination'
 import { RatingsAndReviewsSegment } from '../components/Segment'
-
-import config from '../config'
-import ServiceRateMethods from '../constants/ServiceRateMethods.json'
-import decodeHtml from '../utils/Unescape'
-import './ListingInformation.css'
-
-import ListingExpiredOrNotFound from '../components/Errors/ListingExpiredOrNotFound'
 import { CircleSpinner } from '../components/Spinner'
-import CryptoCurrencies from '../constants/CryptoCurrencies'
+
 import OrderRatings from '../constants/OrderRatings.json'
-import Rating, { RatingSummary, UserReview } from '../interfaces/Rating'
+import ServiceRateMethods from '../constants/ServiceRateMethods.json'
+import Rating, { RatingSummary } from '../interfaces/Rating'
 import { AssessmentSummary, competencySelectorInstance } from '../models/CompetencySelector'
 import currency from '../models/Currency'
 import Listing from '../models/Listing'
 import Profile from '../models/Profile'
+import decodeHtml from '../utils/Unescape'
 
+import config from '../config'
 import { localeInstance } from '../i18n'
 
-const cryptoCurrencies = CryptoCurrencies()
+import './ListingInformation.css'
 
 interface Image {
   src: string
@@ -219,7 +215,7 @@ class ListingProfile extends Component<Props, State> {
             >
               {locale.listingPage.expiredListingHelper2}{' '}
               <a
-                href="#"
+                href="/#"
                 onClick={async evt => {
                   evt.preventDefault()
                   this.handleRenew()
@@ -264,7 +260,7 @@ class ListingProfile extends Component<Props, State> {
               </Button>
             </div>
           ) : null}
-          <div className="uk-grid uk-text-center" uk-grid>
+          <div className="uk-grid uk-text-center" data-uk-grid>
             <div className="uk-width-1-3@m">
               <CarouselListing data={imageData} />
             </div>
@@ -317,7 +313,7 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                     </div>
                   </div>
-                  <div className="uk-grid uk-text-left" uk-grid>
+                  <div className="uk-grid uk-text-left" data-uk-grid>
                     <div className="uk-flex uk-flex-column">
                       <div className="uk-text-bold">{locale.typeLabel}</div>
                       <div className="uk-text-capitalize">
@@ -333,7 +329,7 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                     ) : null}
                   </div>
-                  <div className="uk-grid uk-text-left" uk-grid>
+                  <div className="uk-grid uk-text-left" data-uk-grid>
                     <div className="uk-flex uk-flex-column">
                       <div className="uk-text-bold">{locale.listingPage.paymentMethodsLabel}</div>
                       <div className="uk-flex uk-flex-row">
@@ -367,7 +363,7 @@ class ListingProfile extends Component<Props, State> {
                   </div>
                   <div
                     className="uk-margin-medium-top uk-grid uk-child-width-1-3@m uk-child-width-1-1@s"
-                    uk-grid
+                    data-uk-grid
                   >
                     <div>
                       <Button
@@ -413,7 +409,7 @@ class ListingProfile extends Component<Props, State> {
                   </div>
                 </div>
                 <hr className="uk-margin-top uk-margin-bottom" />
-                <div className="uk-grid uk-grid-collapse" uk-grid>
+                <div className="uk-grid uk-grid-collapse" data-uk-grid>
                   <Link
                     className="uk-flex uk-flex-row text-gray uk-text-left"
                     id="vendor-info"
@@ -445,7 +441,14 @@ class ListingProfile extends Component<Props, State> {
                       window.dispatchEvent(dmEvent)
                     }}
                   >
-                    <a data-uk-icon="icon: mail; ratio: 1.5;" className="text-blue" />
+                    <a
+                      data-uk-icon="icon: mail; ratio: 1.5;"
+                      className="text-blue"
+                      href="/#"
+                      onClick={evt => evt.preventDefault()}
+                    >
+                      &nbsp;
+                    </a>
                   </div>
                 </div>
               </div>
@@ -503,12 +506,27 @@ class ListingProfile extends Component<Props, State> {
       if (index < rating) {
         ratingStars.push(
           <span className="blue-fill" key={index}>
-            <a data-uk-icon="icon: star;" className="text-blue star" />
+            <a
+              data-uk-icon="icon: star;"
+              className="text-blue star"
+              href="/#"
+              onClick={evt => evt.preventDefault()}
+            >
+              &nbsp;
+            </a>
           </span>
         )
       } else {
         ratingStars.push(
-          <a key={index} data-uk-icon="icon: star;" className="empty-fill text-blue star" />
+          <a
+            key={index}
+            data-uk-icon="icon: star;"
+            className="empty-fill text-blue star"
+            href="/#"
+            onClick={evt => evt.preventDefault()}
+          >
+            &nbsp;
+          </a>
         )
       }
     }

@@ -3,12 +3,10 @@ import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import {
   Contract,
-  DisputeResolution,
   Order as OrderInterface,
   OrderPaymentInformation,
   OrdersSpend,
   PaymentAddressTransaction,
-  Refund,
 } from '../interfaces/Order'
 import { RatingInput } from '../interfaces/Rating'
 import currency from './Currency'
@@ -358,7 +356,6 @@ class Order implements OrderInterface {
     try {
       const orderRequest = await Axios.post(`${config.openBazaarHost}/ob/purchase`, order)
       const paymentInformation = orderRequest.data as OrderPaymentInformation
-      paymentInformation.amount = paymentInformation.amount
       return paymentInformation
     } catch (e) {
       throw new Error(e.response.data.reason)

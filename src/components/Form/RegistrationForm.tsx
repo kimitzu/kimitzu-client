@@ -52,6 +52,7 @@ const RegistrationForm = (props: Props) => {
                   `${config.openBazaarHost}/ob/images/${props.data.avatarHashes.original}`
                 : '/images/user.svg'
             }
+            alt="Your Avatar"
           />
           <div id="btn-wrapper" className="upload-btn-wrapper">
             <Button id="reg-avatar-btn" className="uk-button uk-button-primary">

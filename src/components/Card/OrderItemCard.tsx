@@ -41,7 +41,7 @@ const OrderItemCard = ({ data, source }: OrderItemCardProps) => {
           <span className={'mono-id order-id'}>{data.orderId}</span>
           <span className={'label'}>{new Date(data.timestamp).toLocaleString()}</span>
           <div className={'spacer'} />
-          <div className="uk-grid" uk-grid>
+          <div className="uk-grid" data-uk-grid>
             {source === 'sales' || source === 'cases' ? (
               <div>
                 <div className={'label'}>{orderViewPage.buyertext}</div>
