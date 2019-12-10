@@ -17,3 +17,33 @@
     flex: 1.5;
     padding: 5px;
 }
+
+.hidden-crypto-selector {
+    display: none;
+}
+
+.hidden-crypto-selector-2 {
+    display: block;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .value-bal {
+        font-size: 20px;
+    }
+
+    #wallet-cont {
+        padding: 0px 10px 0px 10px;
+    }
+    
+    #left-side-wallet {
+        flex: 1;
+        padding: 5px;
+    }
+    .hidden-crypto-selector {
+        display: block;
+    }
+    .hidden-crypto-selector-2 {
+        display: none;
+    }
+}

@@ -78,7 +78,7 @@ class WalletView extends React.Component<WalletProps, State> {
       <div />
     ) : (
       <div id="wallet-cont">
-        <div id="left-side-wallet">
+        <div id="left-side-wallet" className="hidden-crypto-selector-2">
           <CryptoSelector
             cryptos={cryptoCurrencies}
             handleSelectChange={this.handleSelectChange}
@@ -87,6 +87,14 @@ class WalletView extends React.Component<WalletProps, State> {
           />
         </div>
         <div id="right-side-wallet" key={selectedCryptoCurrency}>
+          <div className="uk-margin-small-bottom uk-margin-small-top hidden-crypto-selector">
+            <CryptoSelector
+              cryptos={cryptoCurrencies}
+              handleSelectChange={this.handleSelectChange}
+              selected={selectedIndex}
+              balances={this.state.balances}
+            />
+          </div>
           <WalletBalanceCard
             selectedCryptoCurrency={selectedCryptoCurrency}
             balance={balance}
