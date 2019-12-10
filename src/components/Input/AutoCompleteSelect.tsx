@@ -34,7 +34,6 @@ const AutoCompleteSelect = ({
   onChange,
   id,
 }: Props) => {
-  const [focused, setFocused] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [resultLimit, setResultLimit] = useState(20)
   const [searchID, setSearchID] = useState(Math.random().toString())
@@ -114,7 +113,8 @@ const AutoCompleteSelect = ({
     showDropdown: show,
   })
 
-  function toggleDropdown() {
+  function toggleDropdown(evt) {
+    evt.preventDefault()
     if (show) {
       setShow(false)
     } else {
@@ -145,7 +145,7 @@ const AutoCompleteSelect = ({
   }
 
   function dropdownFocused(e) {
-    setFocused(true)
+    setShow(true)
   }
 
   function executeInfiniteScroll() {
@@ -173,7 +173,9 @@ const AutoCompleteSelect = ({
         tabIndex={0}
         autoComplete="off"
       />
-      <a id="arrow" data-uk-icon="icon: triangle-down" onClick={toggleDropdown} />
+      <a id="arrow" data-uk-icon="icon: triangle-down" onClick={toggleDropdown} href="/#">
+        &nbsp;
+      </a>
       <div
         id="option-container"
         className={dropdownClass}

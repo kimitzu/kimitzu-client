@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react'
+import React from 'react'
 
 import { FormLabel } from '../Label'
 import FormSelector from '../Selector/FormSelector'

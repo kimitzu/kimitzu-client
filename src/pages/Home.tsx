@@ -3,11 +3,13 @@ import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
+import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
 import { Pagination } from '../components/Pagination'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
 import SortOptions from '../constants/SortOptions.json'
+
 import Profile from '../models/Profile'
 import { Search, searchInstance } from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
@@ -48,7 +50,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleFilterReset = this.handleFilterReset.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
-    this.ratingChanged = this.ratingChanged.bind(this)
+    this.handleRatingChange = this.handleRatingChange.bind(this)
     this.handleFilterDelete = this.handleFilterDelete.bind(this)
   }
 
@@ -63,10 +65,6 @@ class Home extends Component<HomeProps, HomeState> {
       this.handleChange('query', event.detail, 'search')
       this.handleSearchSubmit()
     }
-
-    window.addEventListener('loadend', () => {
-      console.log('OK!')
-    })
     window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 
@@ -75,6 +73,7 @@ class Home extends Component<HomeProps, HomeState> {
     return (
       <IonPage>
         <IonContent>
+          <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
           <div id="filter-sidebar" uk-offcanvas="mode: slide" ref={this.filterSidebarRef}>
             <div className="uk-offcanvas-bar">
               <InlineMultiDropdowns
@@ -91,7 +90,7 @@ class Home extends Component<HomeProps, HomeState> {
                 onChange={this.handleChange}
                 onFilterChange={this.handleFilterChange}
                 onFilterSubmit={this.handleSearchSubmit}
-                onRatingChanged={this.ratingChanged}
+                onRatingChanged={this.handleRatingChange}
                 onFilterDelete={this.handleFilterDelete}
                 plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
@@ -118,7 +117,7 @@ class Home extends Component<HomeProps, HomeState> {
                   onChange={this.handleChange}
                   onFilterChange={this.handleFilterChange}
                   onFilterSubmit={this.handleSearchSubmit}
-                  onRatingChanged={this.ratingChanged}
+                  onRatingChanged={this.handleRatingChange}
                   onFilterDelete={this.handleFilterDelete}
                   plusCode={search.plusCode}
                   onFilterReset={this.handleFilterReset}
@@ -257,7 +256,7 @@ class Home extends Component<HomeProps, HomeState> {
     }
   }
 
-  private ratingChanged(nextValue: number, prevValue: number, name: string) {
+  private handleRatingChange(nextValue: number, prevValue: number, name: string) {
     let rating = 0
 
     if (nextValue === prevValue) {

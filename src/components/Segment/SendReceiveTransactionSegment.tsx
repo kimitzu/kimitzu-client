@@ -49,13 +49,17 @@ const SendReceiveTransactionSegment = ({
             className={currentAction === actions.SEND ? 'uk-active' : ''}
             onClick={() => setCurrentAction(actions.SEND)}
           >
-            <a className="bold-nav">{walletView.sendText}</a>
+            <a className="bold-nav" href="/#" onClick={evt => evt.preventDefault()}>
+              {walletView.sendText}
+            </a>
           </li>
           <li
             className={currentAction === actions.RECEIVE ? 'uk-active' : ''}
             onClick={() => setCurrentAction(actions.RECEIVE)}
           >
-            <a className="bold-nav">{walletView.receiveText}</a>
+            <a className="bold-nav" href="/#" onClick={evt => evt.preventDefault()}>
+              {walletView.receiveText}
+            </a>
           </li>
         </ul>
       </div>

@@ -15,7 +15,7 @@ interface Props {
 
 const ModeratorInfoModal = ({ profile }: Props) => {
   const { moderatorInfoModal } = localeInstance.get.localizations
-  const { moderatorInfo, extLocation, name, peerID } = profile
+  const { moderatorInfo, extLocation, name } = profile
   const primaryAddress = extLocation ? extLocation.addresses[extLocation.primary] : null
 
   if (!moderatorInfo) {
@@ -39,6 +39,7 @@ const ModeratorInfoModal = ({ profile }: Props) => {
               className="uk-border-circle"
               id="moderator-info-img"
               src={profile.getAvatarSrc()}
+              alt="Avatar"
             />
             <div className="uk-flex uk-flex-center uk-margin-small-top">
               <Button

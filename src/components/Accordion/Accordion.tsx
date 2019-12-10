@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import './Accordion.css'
 
 interface Content {
@@ -16,7 +16,11 @@ const Accordion = ({ content }: Props) => {
       <ul id="accordion-main" data-uk-accordion>
         {content.map((cont, index) => (
           <li key={`acc${index}`}>
-            <a className="uk-accordion-title" href="#">
+            <a
+              className="uk-accordion-title uk-button uk-button-link"
+              href="/#"
+              onClick={evt => evt.preventDefault()}
+            >
               {cont.title}
             </a>
             <div className="uk-accordion-content">{cont.component}</div>

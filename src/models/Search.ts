@@ -83,8 +83,10 @@ class Search implements State {
       },
     },
   ]
+  public advancedSearch: string[] = []
 
   public original = {
+    advancedSearch: [],
     filters: {
       'metadata.contractType': 'SERVICE',
       priceMin: '0',
@@ -214,7 +216,7 @@ class Search implements State {
 
     let extendedFilters = keys.map((key, index) => {
       if (values[index] === '') {
-        return
+        return null
       }
       if (key === 'item.categories') {
         return `containsInArr(doc.item.categories, "${values[index]}")`
@@ -244,6 +246,8 @@ class Search implements State {
     if (priceRange) {
       extendedFilters.push(priceRange)
     }
+
+    extendedFilters = [...extendedFilters, ...this.advancedSearch]
 
     const searchObject = {
       query: searchParams.query,

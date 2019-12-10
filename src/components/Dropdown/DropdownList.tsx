@@ -74,7 +74,9 @@ const DropdownList = ({
               closeDropdown()
             }}
           >
-            <a id="dropdown-item-title">{item.title}</a>
+            <a id="dropdown-item-title" href="/#" onClick={evt => evt.preventDefault()}>
+              {item.title}
+            </a>
             {(item.children && item.children.length > 0) || (item.tags && item.tags.length > 0) ? (
               <span className="uk-flex-1 uk-text-right" data-uk-icon="icon: triangle-right" />
             ) : null}

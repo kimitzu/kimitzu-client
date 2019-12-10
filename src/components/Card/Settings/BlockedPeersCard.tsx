@@ -6,6 +6,7 @@ import { CircleSpinner } from '../../Spinner'
 import Profile from '../../../models/Profile'
 import Settings from '../../../models/Settings'
 
+import config from '../../../config'
 import { localeInstance } from '../../../i18n'
 
 import './BlockedPeersCard.css'
@@ -72,6 +73,12 @@ const BlockedPeersCard = ({ settings }: BlockedPeersCardProps) => {
                   className="uk-border-circle"
                   id="blocked-peer-thumbnail"
                   src={blockedPeersInformation[index]!.getAvatarSrc('small')}
+                  onError={(ev: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                    const image = ev.target as HTMLImageElement
+                    image.onerror = null
+                    image.src = `${config.host}/images/user.png`
+                  }}
+                  alt={nodeID}
                 />
               </div>
               <div className="uk-padding-small uk-padding-remove-vertical uk-width-4-5 uk-text-truncate">
@@ -82,8 +89,14 @@ const BlockedPeersCard = ({ settings }: BlockedPeersCardProps) => {
             <a
               className="uk-text-right"
               data-uk-icon="icon: close"
-              onClick={() => handleUnblock(nodeID, index)}
-            />
+              onClick={evt => {
+                evt.preventDefault()
+                handleUnblock(nodeID, index)
+              }}
+              href="/#"
+            >
+              &nbsp;
+            </a>
           </div>
         )
       })}

@@ -1,11 +1,12 @@
 import { IonHeader } from '@ionic/react'
 import isElectron from 'is-electron'
 import React, { useEffect, useState } from 'react'
-
 import { Link } from 'react-router-dom'
+
 import Profile from '../../models/Profile'
 
 import { localeInstance } from '../../i18n'
+
 import './NavBar.css'
 
 interface NavBarProps {
@@ -13,7 +14,10 @@ interface NavBarProps {
   profile: Profile
 }
 
-const handleReload = () => {
+const handleReload = (evt?) => {
+  if (evt) {
+    evt.preventDefault()
+  }
   window.location.hash = '/'
   window.location.reload()
 }
@@ -33,8 +37,8 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
     <IonHeader>
       <nav id="nav" className="uk-navbar-container" data-uk-navbar uk-navbar="mode: click">
         <div id="navbar-left-item" className="uk-navbar-left">
-          <a className="uk-navbar-item uk-logo" onClick={handleReload}>
-            <img id="logo-img" src="./images/Logo/full-blue.png" />
+          <a className="uk-navbar-item uk-logo" onClick={handleReload} href="/#">
+            <img id="logo-img" src="./images/Logo/full-blue.png" alt="Kimitzu Text Logo" />
           </a>
         </div>
         <div id="navbar-center-item" className="uk-navbar-center">
@@ -49,7 +53,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                 }}
               >
                 <a
-                  href="#"
+                  href="/#"
                   className="uk-search-icon-flip color-primary"
                   uk-icon="icon: search"
                   data-uk-search-icon
@@ -58,7 +62,9 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                     const dmEvent = new CustomEvent('srchEvent', { detail: srchQuery })
                     window.dispatchEvent(dmEvent)
                   }}
-                />
+                >
+                  &nbsp;
+                </a>
                 <input
                   id="search-bar"
                   className="uk-search-input"
@@ -75,7 +81,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
         <div className="uk-navbar-right">
           <ul className="uk-navbar-nav">
             <li>
-              <a href="#" className="navbar-icon">
+              <a href="/#" className="navbar-icon" onClick={evt => evt.preventDefault()}>
                 <span className="uk-navbar-item uk-logo" data-uk-icon="icon: question" />
               </a>
               <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
@@ -87,40 +93,45 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                   <li>
                     {isElectron() ? (
                       <a
-                        href="#"
+                        href="/#"
                         onClick={evt => {
                           evt.preventDefault()
                           window.openExternal(
-                            'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.djali.org?via=matrix.djali.org'
+                            'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                           )
                         }}
                       >
-                        <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.djali.org)
+                        <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                       </a>
                     ) : (
                       <a
                         href={
-                          'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.djali.org?via=matrix.djali.org'
+                          'https://matrix.to/#/!xFlXJaVNhOkMvnpUgj:matrix.kimitzu.ch?via=matrix.kimitzu.ch'
                         }
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
-                        <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.djali.org)
+                        <span uk-icon="icon: comments" /> Matrix (Homeserver: matrix.kimitzu.ch)
                       </a>
                     )}
                   </li>
                   <li>
                     {isElectron() ? (
                       <a
-                        href="#"
+                        href="/#"
                         onClick={evt => {
                           evt.preventDefault()
-                          window.openExternal('https://github.com/djali-foundation/djali-client')
+                          window.openExternal('https://github.com/kimitzu/kimitzu-client')
                         }}
                       >
                         <span uk-icon="icon: github" /> Github
                       </a>
                     ) : (
-                      <a href={'https://github.com/djali-foundation/djali-client'} target="_blank">
+                      <a
+                        href={'https://github.com/kimitzu/kimitzu-client'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <span uk-icon="icon: github" /> Github
                       </a>
                     )}
@@ -129,33 +140,52 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
               </div>
             </li>
             <li>
-              <a href="#" id="account" className="navbar-icon">
+              <a
+                href="/#"
+                id="account"
+                className="navbar-icon"
+                onClick={evt => evt.preventDefault()}
+              >
                 <span className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
               </a>
               <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
                 <ul className="uk-nav uk-dropdown-nav">
-                  <li id="create-new-listing">
-                    <Link to="/listing/create">{navigationBarLocale.createNewListingLabel}</Link>
+                  <li>
+                    <Link id="create-new-listing" to="/listing/create">
+                      {navigationBarLocale.createNewListingLabel}
+                    </Link>
                   </li>
                   <li className="uk-nav-divider" />
-                  <li id="purchase-history">
-                    <Link to="/history/purchases">{navigationBarLocale.purchaseHistoryLabel}</Link>
+                  <li>
+                    <Link id="purchase-history" to="/history/purchases">
+                      {navigationBarLocale.purchaseHistoryLabel}
+                    </Link>
                   </li>
-                  <li id="sales-history">
-                    <Link to="/history/sales">{navigationBarLocale.salesHistoryLabel}</Link>
+                  <li>
+                    <Link id="sales-history" to="/history/sales">
+                      {navigationBarLocale.salesHistoryLabel}
+                    </Link>
                   </li>
-                  <li hidden={!profile.moderator} id="case-history">
-                    <Link to="/history/cases">{navigationBarLocale.caseHistoryLabel}</Link>
+                  <li hidden={!profile.moderator}>
+                    <Link id="case-history" to="/history/cases">
+                      {navigationBarLocale.caseHistoryLabel}
+                    </Link>
                   </li>
                   <li className="uk-nav-divider" />
-                  <li id="view-profile">
-                    <Link to="/profile">{navigationBarLocale.profileLabel}</Link>
+                  <li>
+                    <Link id="view-profile" to="/profile">
+                      {navigationBarLocale.profileLabel}
+                    </Link>
                   </li>
-                  <li id="wallet">
-                    <Link to="/wallet">{navigationBarLocale.walletLabel}</Link>
+                  <li>
+                    <Link id="wallet" to="/wallet">
+                      {navigationBarLocale.walletLabel}
+                    </Link>
                   </li>
-                  <li id="settings">
-                    <Link to="/settings">{navigationBarLocale.settingsLabel}</Link>
+                  <li>
+                    <Link id="settings" to="/settings">
+                      {navigationBarLocale.settingsLabel}
+                    </Link>
                   </li>
                   <li
                     hidden={!displayLogout}

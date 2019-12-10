@@ -1,32 +1,11 @@
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
-import { Link } from 'react-router-dom'
-import StarRatingComponent from 'react-star-rating-component'
 
 import { Button } from '../components/Button'
-import { PaymentQRCard, SideMenuWithContentCard } from '../components/Card'
+import { SideMenuWithContentCard } from '../components/Card'
 import GroupChatComponent from '../components/ChatBox/GroupChat'
 import { FormLabel } from '../components/Label'
 import { StarRatingGroup } from '../components/Rating'
-import {
-  OrderDetailsSegment,
-  OrderSummaryItemSegment,
-  SimpleBorderedSegment,
-} from '../components/Segment'
-import { Stepper } from '../components/Stepper'
-import config from '../config'
-import PaymentNotification from '../interfaces/PaymentNotification'
-import { RatingInput } from '../interfaces/Rating'
-import GroupMessage from '../models/GroupMessage'
-import Order from '../models/Order'
-
-import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
-import { CircleSpinner } from '../components/Spinner'
-import ClientRatings from '../constants/ClientRatings.json'
-import OrderRatings from '../constants/OrderRatings.json'
-import currency from '../models/Currency'
-import decodeHtml from '../utils/Unescape'
-
 import OrderBuyerPayment from '../components/Segment/OrderView/OrderBuyerPayment'
 import OrderCancelAction from '../components/Segment/OrderView/OrderCancelAction'
 import OrderCancelled from '../components/Segment/OrderView/OrderCancelled'
@@ -45,6 +24,16 @@ import OrderPayments from '../components/Segment/OrderView/OrderPayments'
 import OrderRefunded from '../components/Segment/OrderView/OrderRefunded'
 import OrderSummary from '../components/Segment/OrderView/OrderSummary'
 import OrderVendorAwaitingPayment from '../components/Segment/OrderView/OrderVendorAwaitingPayment'
+import { CircleSpinner } from '../components/Spinner'
+import { Stepper } from '../components/Stepper'
+import PaymentNotification from '../interfaces/PaymentNotification'
+import { RatingInput } from '../interfaces/Rating'
+import GroupMessage from '../models/GroupMessage'
+import Order from '../models/Order'
+
+import ClientRatings from '../constants/ClientRatings.json'
+import OrderRatings from '../constants/OrderRatings.json'
+
 import { localeInstance } from '../i18n'
 
 interface RouteParams {
@@ -323,7 +312,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   private renderMainContent() {
-    const { isAnonymous, loadIndicator, order, orderCompleteRatings, review } = this.state
+    const { order } = this.state
     const disableReviewTextArea = order.step > 3
 
     let steps

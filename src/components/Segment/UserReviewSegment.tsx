@@ -29,6 +29,7 @@ const UserReviewSegment = ({
       <img
         className="uk-border-circle user-avatar-tiny"
         src={imgSrc || `${process.env.PUBLIC_URL}/images/user.svg`}
+        alt="Avatar"
       />
       <div className="uk-flex uk-flex-column uk-width-1-1 uk-margin-small-left">
         <div className="uk-flex uk-flex-row">
@@ -41,7 +42,8 @@ const UserReviewSegment = ({
           </div>
           <div className="uk-flex-1 uk-text-right">
             <label className="uk-text-small color-secondary">
-              {timeStamp ? moment(timeStamp).fromNow() : null}
+              <p className="uk-text-success">✓ Kimitzu Verified</p>
+              {timeStamp ? <p className="uk-text-muted">{moment(timeStamp).fromNow()}</p> : null}
             </label>
           </div>
         </div>

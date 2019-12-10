@@ -15,18 +15,25 @@ interface Props {
 
 const RegistrationCard = (props: Props) => (
   <div className="uk-card uk-card-default uk-card-body uk-width-1-1 uk-width-1-2@s uk-flex uk-flex-center uk-flex-column uk-flex-middle">
-    <img className="kimitzu-logo-form" src="./images/Logo/Blue/SVG/Kimitzu-Blue-Unique.svg" />
+    <img
+      className="kimitzu-logo-form"
+      src="./images/Logo/Blue/SVG/Kimitzu-Blue-Unique.svg"
+      alt="Kimitzu Logo"
+    />
     <div className="uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
       {props.content}
     </div>
     <div className="uk-flex uk-flex-center uk-width-1-1">
       <div id="footer-left">
         <a
+          href="/#"
           className="color-primary"
           onClick={props.handlePrev}
           uk-icon="icon: arrow-left"
           data-uk-slidenav-next
-        />
+        >
+          &nbsp;
+        </a>
       </div>
       <div id="footer-center" className="uk-flex-center">
         <label className="color-primary">

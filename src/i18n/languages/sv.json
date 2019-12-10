@@ -22,6 +22,10 @@
   "peerID": "Peer ID",
   "minimum": "Minimum",
   "maximum": "Maximal",
+  "advancedSearch": "Avancerad Sökning",
+  "reset": "Reset",
+  "search": "Sök",
+  "close": "Stäng",
   "intro": {
     "helper": "Är du ny på Kimitzu?",
     "nextBtnText": "Komma igång",

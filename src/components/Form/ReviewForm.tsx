@@ -1,7 +1,6 @@
 import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
 import { RatingInput } from '../../interfaces/Rating'
-import { Button } from '../Button'
 
 interface Props {
   review: string
@@ -31,7 +30,11 @@ const renderRatings = (
               starCount={starCount || 5}
               value={value}
               onStarClick={(nextValue, prevValue, name) => {
-                handleStarRatingChange(rating.index, Number(nextValue.toString()), ratingType)
+                if (nextValue === prevValue) {
+                  handleStarRatingChange(rating.index, 0, ratingType)
+                } else {
+                  handleStarRatingChange(rating.index, Number(nextValue.toString()), ratingType)
+                }
               }}
             />
           </div>

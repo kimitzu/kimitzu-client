@@ -213,37 +213,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
     let interactivePane
 
-    if (isRequestingPaymentInformation) {
-      interactivePane = (
-        <div>
-          <PaymentQRCard
-            address={paymentAddress}
-            amount={amountToPay}
-            handleCopyToClipboard={this.copyToClipboard}
-            cryptocurrency={this.state.selectedCurrency}
-            memo={this.state.memo}
-            handlePay={async orderDetails => {
-              const element = document.getElementById('dropID')
-              if (element) {
-                window.UIkit.dropdown(element).hide()
-              }
-              await this.state.order.pay(orderDetails)
-            }}
-          />
-        </div>
-      )
-    } else if (isRequestingMerchantAddress) {
-      interactivePane = (
-        <div className="uk-margin-bottom">
-          <div className="uk-card uk-card-default uk-card-body uk-card-small">
-            <div className="uk-flex uk-flex-center uk-flex-column uk-text-center">
-              <div className="uk-align-center" uk-spinner="ratio: 3" />
-              <p>{this.locale.checkoutPage.requestAddressParagraph}</p>
-            </div>
-          </div>
-        </div>
-      )
-    } else {
+    if (!isRequestingPaymentInformation && !isRequestingMerchantAddress) {
       interactivePane = (
         <div>
           <div className="uk-margin-bottom">
@@ -275,7 +245,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           <div className="uk-margin-bottom">
             <div className="uk-card uk-card-default uk-card-body uk-card-small">
               <h3>{locale.checkoutPage.paymentForm.header}</h3>
-              <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+              <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid" data-uk-grid>
                 <label>
                   <input
                     className="uk-radio"
@@ -322,14 +292,19 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                           id={data.peerID}
                         >
                           <a
+                            href="/#"
                             id="moderator-card-more-link"
-                            onClick={() => this.handleMoreInfo(data)}
+                            onClick={evt => {
+                              evt.preventDefault()
+                              this.handleMoreInfo(data)
+                            }}
                           >
                             {locale.checkoutPage.expandModeratorLink}
                           </a>
                         </ModeratorCard>
                       )
                     }
+                    return null
                   })}
                 </div>
               ) : null}
@@ -365,6 +340,34 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         ) : null}
         <div className="uk-flex uk-flex-row">
           <div id="checkout-order-summary" className="uk-flex uk-flex-column uk-padding-small">
+            {isRequestingPaymentInformation ? (
+              <div className="uk-margin-bottom">
+                <PaymentQRCard
+                  address={paymentAddress}
+                  amount={amountToPay}
+                  handleCopyToClipboard={this.copyToClipboard}
+                  cryptocurrency={this.state.selectedCurrency}
+                  memo={this.state.memo}
+                  handlePay={async orderDetails => {
+                    const element = document.getElementById('dropID')
+                    if (element) {
+                      window.UIkit.dropdown(element).hide()
+                    }
+                    await this.state.order.pay(orderDetails)
+                  }}
+                />
+              </div>
+            ) : null}
+            {isRequestingMerchantAddress ? (
+              <div className="uk-margin-bottom">
+                <div className="uk-card uk-card-default uk-card-body uk-card-small">
+                  <div className="uk-flex uk-flex-center uk-flex-column uk-text-center">
+                    <div className="uk-align-center" uk-spinner="ratio: 3" />
+                    <p>{this.locale.checkoutPage.requestAddressParagraph}</p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <div className="uk-margin-bottom hide-checkout-payment-2">
               <CheckoutPaymentCard
                 id="mobile"
@@ -390,9 +393,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               />
             </div>
             <div id="checkout-order-summary" className="uk-flex uk-flex-column">
-              <div className="uk-margin-top">
-                <ListingCheckoutCard listing={listing} quantity={quantity} />
-              </div>
+              <ListingCheckoutCard listing={listing} quantity={quantity} />
               <div className="uk-margin-top">{interactivePane}</div>
             </div>
           </div>
@@ -423,7 +424,12 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
           <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
             <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
-              <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
+              <img
+                width="15%"
+                height="15%"
+                src={`${process.env.PUBLIC_URL}/images/check.png`}
+                alt="check"
+              />
               <h4>
                 {locale.checkoutPage.receivedPaymentHeader1}{' '}
                 {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}

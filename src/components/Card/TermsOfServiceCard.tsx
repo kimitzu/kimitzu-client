@@ -13,8 +13,8 @@ const TermsOfServiceCard = (props: TermsOfServiceCardInterface) => {
   const [classToggle, setclassToggle] = useState('moreContainer')
   const [hide, setHide] = useState(false)
   const { data } = props
+
   function animate() {
-    // TODO: Convert selectors to Refs to conform to React Best Practices
     const el = document.getElementById('terms-content')
     const elAnim = document.getElementById('containerAnim')
     if (el && elAnim) {
@@ -24,6 +24,7 @@ const TermsOfServiceCard = (props: TermsOfServiceCardInterface) => {
       setHide(true)
     }
   }
+
   return (
     <div id="listing-main">
       <div id="containerAnim" className="uk-card uk-card-default uk-card-body animCont">

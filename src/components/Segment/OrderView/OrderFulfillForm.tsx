@@ -26,7 +26,12 @@ const OrderFulfillForm = ({ locale, order, handleChangeCurrentContent }) => {
           sideButtons={
             order.role === 'vendor' && order.step === 2 ? (
               <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-around">
-                <a href="#" className="margin-small-right text-underline" id="js-modal-prompt">
+                <a
+                  href="/#"
+                  className="margin-small-right text-underline"
+                  id="js-modal-prompt"
+                  onClick={evt => evt.preventDefault()}
+                >
                   {locale.orderViewPage.refundLink}
                 </a>
                 <Button

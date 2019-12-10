@@ -22,7 +22,7 @@ const CryptoSelector = ({ cryptos, selected, handleSelectChange, balances }: Pro
           onClick={async () => await handleSelectChange(i)}
         >
           <div className="crypto-content">
-            <img src={c.icon} width="25" height="25" />
+            <img src={c.icon} width="25" height="25" alt={c.label} />
             <p className="crypto-label">{c.label}</p>
             <p className="crypto-balance">
               {currency.humanizeCrypto(balances[c.value].confirmed).toFixed(4)}{' '}

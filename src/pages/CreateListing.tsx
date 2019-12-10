@@ -9,7 +9,6 @@ import {
   ListingPhotosForm,
   ListingTermsAndConditionsForm,
   ModeratorSelectionForm,
-  ShippingOptionForm,
   TagsForm,
 } from '../components/Form'
 import { ModeratorInfoModal } from '../components/Modal'
@@ -152,7 +151,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       handleInputChange,
       handleSubmitForm,
       handleRemoveRow,
-      handleAddShippingService,
       handleShowModeratorModal,
       handleSubmitModeratorSelection,
       handleAddCoupons,
@@ -176,7 +174,11 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
             data={this.state.listing.location}
             isListing
             handleSave={location => {
-              this.state.listing.location = location
+              const { listing } = this.state
+              listing.location = location
+              this.setState({
+                listing,
+              })
               handleSubmitForm()
             }}
             isNew={this.state.isListingNew}
@@ -245,7 +247,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
                 <br />
                 {this.locale.listingForm.moderatorsHelper2}
                 <a
-                  href="#"
+                  href="/#"
                   onClick={event => {
                     event.preventDefault()
                     window.location.hash = '/settings'
@@ -363,7 +365,8 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     this.setState({ shippingOptions })
   }
 
-  public handleAddCoupons() {
+  public handleAddCoupons(evt) {
+    evt.preventDefault()
     this.state.listing.addCoupon()
     this.setState({
       listing: this.state.listing,

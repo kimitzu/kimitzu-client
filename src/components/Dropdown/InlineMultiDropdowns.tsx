@@ -81,9 +81,11 @@ const InlineMultiDropdowns = ({
     <ul className="uk-subnav uk-subnav-pill">
       <li id={`${id}-dropdownlist`}>
         <a
+          href="/#"
           id={`${id}-multi-dropdown`}
           onClick={e => {
             e.stopPropagation()
+            e.preventDefault()
             return focusedIndex !== -1 ? setFocusedIndex(-1) : setFocusedIndex(0)
           }}
         >

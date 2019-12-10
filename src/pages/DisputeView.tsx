@@ -14,14 +14,14 @@ import {
 import DisputePayoutSegment from '../components/Segment/DisputePayoutSegment'
 import { CircleSpinner } from '../components/Spinner'
 import Stepper from '../components/Stepper/Stepper'
-import config from '../config'
-import Message from '../interfaces/Message'
+
 import PaymentNotification from '../interfaces/PaymentNotification'
 import Dispute from '../models/Dispute'
 import GroupMessage from '../models/GroupMessage'
 import Profile from '../models/Profile'
 import decodeHtml from '../utils/Unescape'
 
+import config from '../config'
 import { localeInstance } from '../i18n'
 
 import './DisputeView.css'

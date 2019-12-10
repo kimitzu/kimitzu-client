@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import config from '../../config'
-import { ListingResponse } from '../../models/Listing'
-
 import { localeInstance } from '../../i18n'
 import currency from '../../models/Currency'
+import { ListingResponse } from '../../models/Listing'
 import decodeHtml from '../../utils/Unescape'
 import './ListingCard.css'
 
@@ -53,6 +52,7 @@ const ListingCard = ({ listing: listingResponse, targetCurrency }: ListingProps)
             image.onerror = null
             image.src = `${config.host}/images/picture.png`
           }}
+          alt={listingResponse.listing.item.title}
         />
         <div className="seller-info">
           <img
@@ -68,7 +68,7 @@ const ListingCard = ({ listing: listingResponse, targetCurrency }: ListingProps)
               image.onerror = null
               image.src = `${config.host}/images/user.png`
             }}
-            alt="Image"
+            alt="Vendor Avatar"
           />
           <span className="name margin-top-small">{listingResponse.vendor.name}</span>
         </div>

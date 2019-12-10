@@ -51,6 +51,7 @@ const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCar
               </IonItem>
             )
           }
+          return null
         })}
       </div>
       {isFetching ? <DottedSpinner /> : null}

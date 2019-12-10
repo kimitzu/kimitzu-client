@@ -57,18 +57,20 @@ const TransactionsHistoryCard = ({
                 </p>
                 {isElectron() ? (
                   <a
-                    href="#"
+                    href="/#"
                     className="tx-adrs"
-                    onClick={() =>
-                      window.openExternal(linkTemplate.replace('${tx}', transaction.txid))
-                    }
+                    onClick={evt => {
+                      evt.preventDefault()
+                      window.openExternal(linkTemplate.replace('%tx%', transaction.txid))
+                    }}
                   >
                     {transaction.txid}
                   </a>
                 ) : (
                   <a
-                    href={linkTemplate.replace('${tx}', transaction.txid)}
+                    href={linkTemplate.replace('%tx%', transaction.txid)}
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="tx-adrs"
                   >
                     {transaction.txid}

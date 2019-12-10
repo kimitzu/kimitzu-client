@@ -2,7 +2,7 @@ import Axios from 'axios'
 import config from '../config'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import { Dispute as DisputeInterface, RContract } from '../interfaces/Dispute'
-import { Contract, DisputeResolution } from '../interfaces/Order'
+import { DisputeResolution } from '../interfaces/Order'
 import currency from './Currency'
 import Profile from './Profile'
 

@@ -23,6 +23,7 @@ const FollowerCard = ({ profile, handleFollowBtn }: Props) => {
           id="follower-card-img"
           className="uk-border-pill"
           src={profile.getAvatarSrc('small')}
+          alt="Follower Avatar"
         />
       </div>
       <div id="follower-card-details">
