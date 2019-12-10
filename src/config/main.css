@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Source Sans Pro';
   src: url('/fonts/SourceSansPro-Regular.ttf') format('truetype'),
-       url('/fonts/SourceSansPro-Bold.ttf') format('truetype'),
-       url('/fonts/SourceSansPro-Black.ttf') format('truetype');
+    url('/fonts/SourceSansPro-Bold.ttf') format('truetype'),
+    url('/fonts/SourceSansPro-Black.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -27,6 +27,10 @@ body * {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+ion-item {
+  --padding-start: 0;
 }
 
 label,
@@ -142,6 +146,7 @@ span.filled-icon > svg > polygon {
 
 .uk-button-primary {
   background-color: var(--primary);
+  color: var(--light-text);
 }
 
 .uk-button {
@@ -332,7 +337,7 @@ a:hover {
 }
 
 .btc {
-  background-color: #F7931A;
+  background-color: #f7931a;
   color: #ffffff;
 }
 

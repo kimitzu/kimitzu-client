@@ -1,3 +1,4 @@
+import { IonContent, IonPage } from '@ionic/react'
 import isElectron from 'is-electron'
 import React, { Component, ReactNode } from 'react'
 
@@ -164,6 +165,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
     this.selectCompetencyDropdown = this.selectCompetencyDropdown.bind(this)
     this.showTest = this.showTest.bind(this)
     this.toggleCompetency = this.toggleCompetency.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
@@ -720,6 +722,14 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   }
 
   public render() {
+    return (
+      <IonPage>
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const { settingsPage } = this.locale
     if (this.state.isLoading) {
       return (

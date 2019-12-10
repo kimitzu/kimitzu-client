@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from '@ionic/react'
+import { IonContent, IonItem, IonPage } from '@ionic/react'
 import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
@@ -219,7 +219,7 @@ class ListingProfile extends Component<Props, State> {
           {listing.hasExpired && !listing.isOwner ? (
             <div
               className="uk-alert-danger uk-padding-small uk-text-center uk-margin-bottom"
-              uk-alert
+              data-uk-alert
             >
               {locale.listingPage.expiredListingHelper1}
             </div>
@@ -276,7 +276,7 @@ class ListingProfile extends Component<Props, State> {
               </Button>
             </div>
           ) : null}
-          <div className="uk-grid uk-text-center" uk-grid>
+          <div className="uk-grid uk-text-center" data-uk-grid>
             <div className="uk-width-1-3@m">
               <CarouselListing data={imageData} />
             </div>
@@ -329,7 +329,7 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                     </div>
                   </div>
-                  <div className="uk-grid uk-text-left" uk-grid>
+                  <div className="uk-grid uk-text-left" data-uk-grid>
                     <div className="uk-flex uk-flex-column">
                       <div className="uk-text-bold">{locale.typeLabel}</div>
                       <div className="uk-text-capitalize">
@@ -377,60 +377,68 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                     ) : null}
                   </div>
-                  <div
-                    className="uk-margin-medium-top uk-grid uk-child-width-1-3@m uk-child-width-1-1@s"
-                    uk-grid
-                  >
-                    <div>
-                      <Button
-                        data-uk-icon="icon: minus;"
-                        className="text-blue hour-selector"
-                        onClick={e => {
-                          e.preventDefault()
-                          this.handleQuantityChange(quantity - 1)
-                        }}
-                      />
-                      <input
-                        type="text"
-                        id="order-quantity"
-                        className="uk-input uk-text-center"
-                        value={quantity}
-                        onChange={e => {
-                          this.handleQuantityChange(Number(e.target.value))
-                        }}
-                      />
-                      <Button
-                        data-uk-icon="icon: plus;"
-                        className="text-blue hour-selector"
-                        onClick={e => {
-                          e.preventDefault()
-                          this.handleQuantityChange(quantity + 1)
-                        }}
-                      />
-                      <div>
-                        {quantity === 1
-                          ? this.locale.constants.singulars[listing.metadata.serviceRateMethod]
-                          : this.locale.constants.plurals[listing.metadata.serviceRateMethod]}
-                      </div>
-                    </div>
-                    <Button
-                      id="checkout"
-                      className="uk-button uk-button-primary uk-text-bold uk-margin-left"
-                      onClick={this.handleBuy}
-                      disabled={listing.hasExpired}
+                  {!listing.hasExpired ? (
+                    <div
+                      className="uk-margin-medium-top uk-grid uk-child-width-1-3@m uk-child-width-1-1@s"
+                      uk-grid
                     >
-                      <span uk-icon="icon: cart" />{' '}
-                      {locale.listingPage.checkoutBtnText.toUpperCase()}
-                    </Button>
-                  </div>
+                      <div>
+                        <Button
+                          data-uk-icon="icon: minus;"
+                          className="text-blue hour-selector"
+                          onClick={e => {
+                            e.preventDefault()
+                            this.handleQuantityChange(quantity - 1)
+                          }}
+                        />
+                        <input
+                          type="text"
+                          id="order-quantity"
+                          className="uk-input uk-text-center"
+                          value={quantity}
+                          onChange={e => {
+                            this.handleQuantityChange(Number(e.target.value))
+                          }}
+                        />
+                        <Button
+                          data-uk-icon="icon: plus;"
+                          className="text-blue hour-selector"
+                          onClick={e => {
+                            e.preventDefault()
+                            this.handleQuantityChange(quantity + 1)
+                          }}
+                        />
+                        <div>
+                          {quantity === 1
+                            ? this.locale.constants.singulars[listing.metadata.serviceRateMethod]
+                            : this.locale.constants.plurals[listing.metadata.serviceRateMethod]}
+                        </div>
+                      </div>
+                      <Button
+                        id="checkout"
+                        className="uk-button uk-button-primary uk-text-bold uk-margin-left"
+                        onClick={this.handleBuy}
+                        disabled={listing.hasExpired}
+                      >
+                        <span uk-icon="icon: cart" />{' '}
+                        {locale.listingPage.checkoutBtnText.toUpperCase()}
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
                 <hr className="uk-margin-top uk-margin-bottom" />
                 <div className="uk-grid uk-grid-collapse" uk-grid>
-                  <Link
+                  <IonItem
+                    className="uk-flex uk-flex-row text-gray uk-text-left"
+                    id="vendor-info"
+                    detail={false}
+                    lines="none"
+                  >
+                    {/* <Link
                     className="uk-flex uk-flex-row text-gray uk-text-left"
                     id="vendor-info"
                     to={`/profile/${listing.vendorID.peerID}`}
-                  >
+                  > */}
                     <div className="uk-margin-small-right">
                       <img
                         className="uk-border-circle image-avatar"
@@ -450,7 +458,8 @@ class ListingProfile extends Component<Props, State> {
                       </div>
                       <div className="text-gray">{profile.stats!.listingCount} Listings</div>
                     </div>
-                  </Link>
+                    {/* </Link> */}
+                  </IonItem>
                   <div
                     onClick={() => {
                       const dmEvent = new CustomEvent('dm', { detail: profile })

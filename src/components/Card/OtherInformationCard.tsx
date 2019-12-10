@@ -32,11 +32,14 @@ const OtherInformationCard = (props: OtherInformationCardInterface) => {
             </React.Fragment>
           ))}
           <p id="information-title">{localizations.peerID}</p>
-          <p> {props.data.peerID!}</p>
+          <p className="uk-text-truncate"> {props.data.peerID!}</p>
           <p id="information-title">{localizations.locationLabel}</p>
-          <p> {props.data.location || profilePage.noLocationParagraph} </p>
+          <p className="uk-text-truncate">
+            {' '}
+            {props.data.location || profilePage.noLocationParagraph}{' '}
+          </p>
           <p id="information-title">{localizations.usernameLabel}</p>
-          <p> {props.data.handle} </p>
+          <p className="uk-text-truncate"> {props.data.handle} </p>
         </div>
       </div>
     </div>

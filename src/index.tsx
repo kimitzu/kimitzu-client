@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 
 import App from './App'
 import config from './config'
-import './config/main.css'
 import { webSocketResponsesInstance } from './models/WebsocketResponses'
 import * as serviceWorker from './serviceWorker'
 

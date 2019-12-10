@@ -1,4 +1,4 @@
-import { IonApp } from '@ionic/react'
+import { IonApp, isPlatform } from '@ionic/react'
 import Axios from 'axios'
 import isElectron from 'is-electron'
 import React, { Fragment } from 'react'
@@ -20,6 +20,7 @@ import { moderatorManagerInstance } from './models/ModeratorManager'
 import { Search, searchInstance } from './models/Search'
 
 import '@ionic/react/css/core.css'
+import './config/main.css'
 
 if (isElectron()) {
   // tslint:disable-next-line: no-var-requires
@@ -182,7 +183,7 @@ class App extends React.Component<{}, State> {
         }}
       >
         <Routes history={this.state.breadCrumb.breadHistory} />
-        <FloatingChat />
+        {!(isPlatform('mobile') || isPlatform('mobileweb')) ? <FloatingChat /> : null}
       </CurrentUserContext.Provider>
     )
   }

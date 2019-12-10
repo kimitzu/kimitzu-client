@@ -14,7 +14,7 @@ const MobileHeader = ({ defaultHref }: Props) => {
     <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
-          {/* <IonBackButton defaultHref={defaultHref} /> */}
+          {/* <IonBackButton defaultHref="/" /> */}
           <IonButton onClick={() => window.history.back()}>
             <IonIcon icon={arrowBack} />
           </IonButton>

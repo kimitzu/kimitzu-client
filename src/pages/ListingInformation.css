@@ -71,7 +71,7 @@
   margin: 0;
 }
 .tag:not(:first-child)::before {
-  content: ", ";  
+  content: ', ';
 }
 #order-quantity {
   border: none;
@@ -88,5 +88,5 @@
   cursor: pointer;
 }
 #vendor-info:hover #vendor-info-name {
-  color: #2699fb; 
+  color: #2699fb;
 }

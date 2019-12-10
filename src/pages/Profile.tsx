@@ -1,3 +1,4 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React, { Component } from 'react'
 import { RouteComponentProps } from 'react-router'
 
@@ -71,6 +72,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     this.handleFollowChange = this.handleFollowChange.bind(this)
     this.handleSendMessage = this.handleSendMessage.bind(this)
     this.handleBlockPeerChange = this.handleBlockPeerChange.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
@@ -187,6 +189,14 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const {
       profile,
       followersList,
