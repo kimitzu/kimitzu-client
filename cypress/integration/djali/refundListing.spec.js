@@ -95,7 +95,7 @@ context('Refund Listing', () => {
       .should('have.class', 'stepperCircle')
     cy.get('#contentContainerMain > :nth-child(7)')
       .should('have.html', 'Refunded')
-    cy.get(':nth-child(1) > :nth-child(1) > .uk-margin-small-bottom > .uk-text-bold')
+    cy.get(':nth-child(2) > :nth-child(1) > .uk-margin-small-bottom > .uk-text-bold')
       .should('have.html', 'Refunded')
   })
 

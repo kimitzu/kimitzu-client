@@ -1,49 +1,47 @@
-
 #wallet-cont {
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    padding: 20px 150px 20px 150px;
-    box-sizing: border-box;
-    background-color: rgb(245, 245, 245);
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  padding: 20px 150px 20px 150px;
+  box-sizing: border-box;
+  background-color: rgb(245, 245, 245);
 }
 
 #right-side-wallet {
-    flex: 4;
-    padding: 5px;
+  flex: 4;
+  padding: 5px;
 }
 
 #left-side-wallet {
-    flex: 1.5;
-    padding: 5px;
+  flex: 1.5;
+  padding: 5px;
 }
 
-.hidden-crypto-selector {
-    display: none;
+.crypto-selector-mobile {
+  display: none;
 }
 
-.hidden-crypto-selector-2 {
-    display: block;
+.crypto-selector-desktop {
+  display: block;
 }
-
 
 @media only screen and (max-width: 600px) {
-    .value-bal {
-        font-size: 20px;
-    }
+  .value-bal {
+    font-size: 20px;
+  }
 
-    #wallet-cont {
-        padding: 0px 10px 0px 10px;
-    }
-    
-    #left-side-wallet {
-        flex: 1;
-        padding: 5px;
-    }
-    .hidden-crypto-selector {
-        display: block;
-    }
-    .hidden-crypto-selector-2 {
-        display: none;
-    }
+  #wallet-cont {
+    padding: 0px 10px 0px 10px;
+  }
+
+  #left-side-wallet {
+    flex: 1;
+    padding: 5px;
+  }
+  .crypto-selector-mobile {
+    display: block;
+  }
+  .crypto-selector-desktop {
+    display: none;
+  }
 }
