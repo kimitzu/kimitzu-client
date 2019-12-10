@@ -102,6 +102,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                       onChange={evt => {
                         changeHandler('value', evt.target.value, selectedIndex)
                       }}
+                      value={descriptions[index].value}
                     >
                       {descriptionElementValue.map((selection, pdIndex) => {
                         return (
