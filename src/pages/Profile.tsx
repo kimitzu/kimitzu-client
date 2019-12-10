@@ -5,26 +5,23 @@ import { ProfileHeader } from '../components/Header'
 import { CircleSpinner } from '../components/Spinner'
 import { ProfileSwitcher } from '../components/Switcher'
 
-import Rating, { RatingSummary } from '../interfaces/Rating'
-// TODO: Ratings Validation Feature
-// import PeerRating from '../models/PeerRating'
 import Profile from '../models/Profile'
 import { Search, searchInstance } from '../models/Search'
 import Settings from '../models/Settings'
 
 import config from '../config'
 import { localeInstance } from '../i18n'
-
-interface RatingItem extends Rating {
-  avatar?: string
-}
+import { CompletionRating } from '../interfaces/CompletionRating'
+import { FulfillmentRating } from '../interfaces/FulfillmentRating'
+import KimitzuCompletionRatings from '../models/KimitzuCompletionRatings'
+import KimitzuFulfillmentRatings from '../models/KimitzuFulfillmentRatings'
 
 interface ProfilePageState {
   profile: Profile
   search: Search
   isOwner: boolean
-  ratings: Rating[]
-  ratingsSummary: RatingSummary
+  kimitzuCompletionRatings: KimitzuCompletionRatings
+  kimitzuFulfillmentRatings: KimitzuFulfillmentRatings
   isFollowing: boolean
   isBlocked: boolean
   canSendRequest: boolean // To avoid click spam of follow and block buttons
@@ -49,6 +46,7 @@ interface ProfilePageProps extends RouteComponentProps<RouteProps> {
 
 class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   private profilePageLocale = localeInstance.get.localizations.profilePage
+  private kimitzuRatingsSocket: WebSocket = {} as WebSocket
 
   constructor(props: any) {
     super(props)
@@ -57,8 +55,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       currentUser: new Profile(),
       search: searchInstance,
       isOwner: true,
-      ratingsSummary: {} as RatingSummary,
-      ratings: [],
+      kimitzuCompletionRatings: new KimitzuCompletionRatings(),
+      kimitzuFulfillmentRatings: new KimitzuFulfillmentRatings(),
       isFollowing: false,
       isBlocked: false,
       canSendRequest: true,
@@ -134,50 +132,29 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       loadingStatus: 'Retrieving Ratings',
     })
 
-    /**
-     * Adding timeout to quickly load the profile page.
-     * Since this is only requesting the avatars of users
-     * in the rating section, not much is affected.
-     */
-    setTimeout(async () => {
-      const { ratings, ratingsSummary } = await Profile.getRatings(profile.peerID)
-      this.setState({ ratings, ratingsSummary })
-      const updatedRatings = await Promise.all(
-        ratings.map(async (rating: RatingItem) => {
-          let userData
-          try {
-            userData = await Profile.retrieve(rating.ratingData.buyerID.peerID)
-          } catch (e) {
-            userData = new Profile()
-          }
-          rating.avatar = userData.getAvatarSrc('small')
-          return rating
+    this.kimitzuRatingsSocket = new WebSocket(
+      `${config.kimitzuSocket.replace(/%id%/g, profile.peerID)}`
+    )
+
+    this.kimitzuRatingsSocket.addEventListener('message', evt => {
+      const data = JSON.parse(evt.data)
+      if (data.type === 'fulfill') {
+        const fullfillmentRatings = this.state.kimitzuFulfillmentRatings
+        fullfillmentRatings.add(data as FulfillmentRating)
+        this.setState({
+          kimitzuFulfillmentRatings: fullfillmentRatings,
         })
-      )
-      this.setState({ ratings: updatedRatings, loadingStatus: 'Retrieving Rating Profiles' })
-
-      const { kimitzu } = ratingsSummary
-      if (kimitzu && kimitzu.buyerRatings) {
-        kimitzu.buyerRatings = await Promise.all(
-          kimitzu.buyerRatings.map(async buyerRating => {
-            let userData
-            try {
-              userData = await Profile.retrieve(buyerRating.sourceId)
-            } catch (e) {
-              userData = new Profile()
-            }
-            if (userData) {
-              buyerRating.avatar = userData.getAvatarSrc('small')
-              buyerRating.reviewer = userData.name
-            }
-            return buyerRating
-          })
-        )
-        this.setState({ ratingsSummary })
+      } else {
+        const completionRatings = this.state.kimitzuCompletionRatings
+        completionRatings.add(data as CompletionRating)
+        this.setState({
+          kimitzuCompletionRatings: completionRatings,
+        })
       }
+    })
 
-      // TODO: Rating validation features
-      // const peerRatings = await PeerRating.seek(profile.peerID)
+    this.kimitzuRatingsSocket.addEventListener('close', () => {
+      console.warn('SOCKET CLOSED')
     })
 
     this.setState({
@@ -192,8 +169,6 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       followingList,
       isOwner,
       search,
-      ratings,
-      ratingsSummary,
       isFollowing,
       isBlocked,
     } = this.state
@@ -238,10 +213,10 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
           profile={profile}
           currentUser={this.state.currentUser}
           listings={search.results.data}
-          ratingSummary={ratingsSummary}
-          ratings={ratings}
           followersList={followersList}
           followingList={followingList}
+          kimitzuCompletionRatings={this.state.kimitzuCompletionRatings}
+          kimitzuFulfillmentRatings={this.state.kimitzuFulfillmentRatings}
         />
       </div>
     )

@@ -1,6 +1,5 @@
 import Axios from 'axios'
 import config from '../config'
-import { PeerToPeerRating } from '../interfaces/PeerToPeerRating'
 
 export type VendorType = 'fulfill' | 'complete'
 
@@ -11,11 +10,6 @@ class PeerRating {
       order
     )
     return broadcastRequest
-  }
-
-  public static async seek(id: string): Promise<PeerToPeerRating> {
-    const seekRequest = await Axios.get(`${config.kimitzuHost}/p2p/ratings/seek-sync/${id}`)
-    return seekRequest.data
   }
 }
 
