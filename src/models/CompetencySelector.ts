@@ -1,8 +1,4 @@
-import competencies, {
-  CompetencyDictionaryInterface,
-  CompetencyInterface,
-  CompetencySubcategoryInterface,
-} from '../competencies'
+import competencies, { CompetencyDictionaryInterface, CompetencyInterface } from '../competencies'
 
 export interface State {
   competencies: CompetencySelectorInterface[]

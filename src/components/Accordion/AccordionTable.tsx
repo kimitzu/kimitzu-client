@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FullAssessmentReport } from '../../models/CompetencySelector'
 import './Accordion.css'
 
@@ -22,7 +22,11 @@ const Accordion = ({ data, ...props }: Props) => {
           })
           return (
             <li key={`acclist${index}`}>
-              <a className="uk-accordion-title small-font" href="#">
+              <a
+                className="uk-accordion-title small-font"
+                href="/#"
+                onClick={evt => evt.preventDefault()}
+              >
                 {cont.category}
               </a>
               <div className="uk-accordion-content uk-overflow-auto">

@@ -12,21 +12,19 @@ interface Props {
 }
 
 const CarouselListing = ({ data }: Props) => {
-  let defaultSrc = ''
+  const [imageData, setImageData] = useState(data)
   const [id, setID] = useState('')
-  const [src, setSrc] = useState(defaultSrc)
+  const [src, setSrc] = useState('')
   const [runOnce, setRunOnce] = useState(true)
 
   useEffect(() => {
-    if (data.length < 1) {
-      data = [{ src: `${process.env.PUBLIC_URL}/images/pictureBig.png` }]
-      defaultSrc = data[0].src
-      setSrc(defaultSrc)
+    if (imageData.length < 1) {
+      setImageData([{ src: `${process.env.PUBLIC_URL}/images/pictureBig.png` }])
+      setSrc(imageData[0].src)
       simulateClick('img1')
     }
 
-    if (data.length !== 0 && runOnce) {
-      defaultSrc = data[0].src
+    if (imageData.length !== 0 && runOnce) {
       simulateClick('img1')
     }
   })
@@ -40,10 +38,10 @@ const CarouselListing = ({ data }: Props) => {
   function next() {
     const idNum = id.replace('img', '')
     let num = 0
-    if (Number(idNum) < data.length) {
+    if (Number(idNum) < imageData.length) {
       num = Number(idNum) + 1
     } else {
-      num = Number(idNum) - data.length + 1
+      num = Number(idNum) - imageData.length + 1
     }
     const newID = 'img' + num.toString()
     setRunOnce(false)
@@ -61,7 +59,7 @@ const CarouselListing = ({ data }: Props) => {
     const idNum = id.replace('img', '')
     let num = 0
     if (Number(idNum) === 1) {
-      num = Number(idNum) + data.length - 1
+      num = Number(idNum) + imageData.length - 1
     } else {
       num = Number(idNum) - 1
     }
@@ -76,7 +74,7 @@ const CarouselListing = ({ data }: Props) => {
         <img
           className="main-img-child image-contain"
           src={src}
-          alt=""
+          alt="Preview"
           onClick={() =>
             window.UIkit.lightbox(document.getElementById('lightboxcont')).show(
               Number(id.replace('img', '')) - 1
@@ -96,16 +94,18 @@ const CarouselListing = ({ data }: Props) => {
         data-uk-grid
         data-uk-lightbox="animation: slide"
       >
-        {data.map((img, i) => {
+        {imageData.map((img, i) => {
           i++
           return (
             <a
               key={`lightbox${i}`}
               className="uk-inline"
               href={img.src}
-              data-caption={`${i} of ${data.length}`}
+              data-caption={`${i} of ${imageData.length}`}
               data-type="image"
-            />
+            >
+              &nbsp;
+            </a>
           )
         })}
       </div>
@@ -117,7 +117,7 @@ const CarouselListing = ({ data }: Props) => {
         draggable={false}
       >
         <ul id="image-list" className="uk-slider-items uk-grid" data-uk-grid>
-          {data.map((img, i) => {
+          {imageData.map((img, i) => {
             i++
             return (
               <li
@@ -128,7 +128,7 @@ const CarouselListing = ({ data }: Props) => {
               >
                 <img
                   src={img.src}
-                  alt=""
+                  alt={`thumbnail-${i}`}
                   className={[
                     id === 'img' + i ? 'image-selected img-height' : 'img-height',
                     'image-cover',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { HashRouter, Route, Switch, withRouter } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import { BreadCrumb } from './components/BreadCrumb'
 import { NavBar } from './components/NavBar'
 import CurrentUserContext from './contexts/CurrentUserContext'

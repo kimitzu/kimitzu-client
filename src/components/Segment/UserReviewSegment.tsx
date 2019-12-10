@@ -29,6 +29,7 @@ const UserReviewSegment = ({
       <img
         className="uk-border-circle user-avatar-tiny"
         src={imgSrc || `${process.env.PUBLIC_URL}/images/user.svg`}
+        alt="Avatar"
       />
       <div className="uk-flex uk-flex-column uk-width-1-1 uk-margin-small-left">
         <div className="uk-flex uk-flex-row">

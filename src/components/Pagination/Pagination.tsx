@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
 import UIBreakpoints from '../../constants/UIBreakpoints.json'
+
 import './Pagination.css'
 
 interface Props {
   totalRecord: number
   recordsPerPage: number
-  pageNeigboors?: number
+  pageNeighbors?: number
   handlePageChange?: (pageNumber: number) => void
   selectedPage?: number
 }
@@ -27,7 +28,7 @@ const getRange = (start: number, end: number, step: number = 1) => {
 const Pagination = ({
   totalRecord,
   recordsPerPage = 5,
-  pageNeigboors = 2,
+  pageNeighbors = 2,
   handlePageChange,
   selectedPage,
 }: Props) => {
@@ -49,15 +50,17 @@ const Pagination = ({
     })
 
     const currentTotalPages = Math.ceil(totalRecord / recordsPerPage)
+
     if (selectedPage) {
       setCurrentPage(selectedPage)
     }
+
     setTotalPages(currentTotalPages)
-    const totalNumbers = pageNeigboors * 2 + 3 // total page numbers to display
+    const totalNumbers = pageNeighbors * 2 + 3 // total page numbers to display
     const blockCount = totalNumbers + 2 // total page numbers plus the two '...' in both left and right
     if (currentTotalPages > blockCount) {
-      const startPage = Math.max(2, currentPage - pageNeigboors)
-      const endPage = Math.min(currentTotalPages - 1, currentPage + pageNeigboors)
+      const startPage = Math.max(2, currentPage - pageNeighbors)
+      const endPage = Math.min(currentTotalPages - 1, currentPage + pageNeighbors)
       let pages = getRange(startPage, endPage)
       const showLeftDots = startPage > 2
       const showRightDots = currentTotalPages - endPage > 1
@@ -76,14 +79,21 @@ const Pagination = ({
     }
     setPagination(getRange(1, currentTotalPages))
   }, [selectedPage, totalRecord])
+
   return (
     <ul className="uk-pagination" data-uk-margin>
       <li className="uk-flex uk-flex-middle">
         <a
           id={currentPage === 1 ? 'disable-pagination-arrow' : ''}
           data-uk-icon="icon: chevron-left"
-          onClick={() => goToPage(currentPage - 1)}
-        />
+          onClick={evt => {
+            evt.preventDefault()
+            goToPage(currentPage - 1)
+          }}
+          href="/#"
+        >
+          &nbsp;
+        </a>
       </li>
       {innerWidth > UIBreakpoints['breakpoint-m'] &&
         pagination.map((item, index) => {
@@ -100,7 +110,15 @@ const Pagination = ({
               key={`pagination${item}-${index}`}
               className={item === currentPage ? 'uk-active' : 'uk-flex uk-flex-middle'}
             >
-              <a onClick={() => goToPage(item)}>{item}</a>
+              <a
+                onClick={evt => {
+                  evt.preventDefault()
+                  goToPage(item)
+                }}
+                href="/#"
+              >
+                {item}
+              </a>
             </li>
           )
         })}
@@ -108,8 +126,14 @@ const Pagination = ({
         <a
           id={currentPage === totalPages ? 'disable-pagination-arrow' : ''}
           data-uk-icon="icon: chevron-right"
-          onClick={() => goToPage(currentPage + 1)}
-        />
+          onClick={evt => {
+            evt.preventDefault()
+            goToPage(currentPage + 1)
+          }}
+          href="/#"
+        >
+          &nbsp;
+        </a>
       </li>
     </ul>
   )

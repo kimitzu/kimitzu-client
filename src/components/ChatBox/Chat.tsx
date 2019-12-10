@@ -1,8 +1,7 @@
 import classNames from 'classnames'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
-import config from '../../config'
 import { localeInstance } from '../../i18n'
 import './Chat.css'
 

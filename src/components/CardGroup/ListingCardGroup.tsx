@@ -45,6 +45,7 @@ const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCar
               </div>
             )
           }
+          return null
         })}
       </div>
       {isFetching ? <DottedSpinner /> : null}

@@ -25,6 +25,7 @@ const DisputePayoutSegment = ({ avatar, name, amount, note }: Props) => {
           }
           height={40}
           width={40}
+          alt="Avatar"
         />
       </div>
       <div className="uk-flex uk-flex-column uk-margin-small-left">

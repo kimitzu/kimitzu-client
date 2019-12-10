@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
 import config from '../../../config'
 import { Localizations } from '../../../i18n/LocalizationsInterface'
 import Order from '../../../models/Order'

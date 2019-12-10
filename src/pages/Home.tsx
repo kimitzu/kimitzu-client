@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
+import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
 import { Pagination } from '../components/Pagination'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
 import ServiceCategories from '../constants/ServiceCategories.json'
 import SortOptions from '../constants/SortOptions.json'
+
 import Profile from '../models/Profile'
 import { Search, searchInstance } from '../models/Search'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
@@ -14,8 +16,6 @@ import NestedJsonUpdater from '../utils/NestedJSONUpdater'
 
 import { localeInstance } from '../i18n'
 
-import { Button } from '../components/Button'
-import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
 import './Home.css'
 
 interface HomeProps {
@@ -64,10 +64,6 @@ class Home extends Component<HomeProps, HomeState> {
       this.handleChange('query', event.detail, 'search')
       this.handleSearchSubmit()
     }
-
-    window.addEventListener('loadend', () => {
-      console.log('OK!')
-    })
     window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 

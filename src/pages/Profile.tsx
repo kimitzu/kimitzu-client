@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import { ProfileHeader } from '../components/Header'
+import { CircleSpinner } from '../components/Spinner'
 import { ProfileSwitcher } from '../components/Switcher'
 
+import Rating, { RatingSummary } from '../interfaces/Rating'
+// TODO: Ratings Validation Feature
+// import PeerRating from '../models/PeerRating'
 import Profile from '../models/Profile'
 import { Search, searchInstance } from '../models/Search'
 import Settings from '../models/Settings'
 
-import { CircleSpinner } from '../components/Spinner'
 import config from '../config'
-import Rating, { RatingSummary } from '../interfaces/Rating'
-
 import { localeInstance } from '../i18n'
-import PeerRating from '../models/PeerRating'
 
 interface RatingItem extends Rating {
   avatar?: string
@@ -176,9 +176,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
         this.setState({ ratingsSummary })
       }
 
-      console.log({ updatedRatings, summary: this.state.ratingsSummary })
-      const peerRatings = await PeerRating.seek(profile.peerID)
-      console.log(peerRatings)
+      // TODO: Rating validation features
+      // const peerRatings = await PeerRating.seek(profile.peerID)
     })
 
     this.setState({
@@ -214,7 +213,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       return (
         <div className="uk-flex uk-flex-row uk-flex-center">
           <div className="uk-margin-top uk-text-center">
-            <img src={`${config.host}/images/warning.png`} height="100" width="100" />
+            <img src={`${config.host}/images/warning.png`} height="100" width="100" alt="error" />
             <h1 className="uk-text-danger uk-margin-top">
               {this.profilePageLocale.profileNotFoundHeader}
             </h1>

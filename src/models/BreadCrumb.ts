@@ -28,24 +28,22 @@ class BreadCrumb implements State {
       newUrl = 'Home'
     }
     if (breadState.indexOf(newUrl) === -1) {
-      let nameTemp
+      let crumbName
       const pastValue = breadHistory[breadState.length - 1].name
-      let tempName = currPage.replace(pastValue + ' ', '')
-      tempName = tempName.replace(/\//g, ' ').replace(/ .*/g, '')
       if (currPage.length > 20) {
         breadState.push(currPage.replace(' ', '/'))
-        nameTemp = currPage
+        crumbName = currPage
           .replace(pastValue + ' ', '')
           .replace(/\//g, ' ')
           .replace(/ .*/g, '')
       } else {
         breadState.push(currPage.replace(' ', '/'))
-        nameTemp = currPage
+        crumbName = currPage
       }
 
       breadHistory.push({
         link: currPage.replace(' ', '/'),
-        name: nameTemp,
+        name: crumbName,
       })
     } else {
       let index

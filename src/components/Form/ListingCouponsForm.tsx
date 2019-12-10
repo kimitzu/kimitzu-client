@@ -65,12 +65,18 @@ const ListingCouponsForm = ({
               key={`coupon-${coupon.uniqueId}`}
               sideOptions={[
                 <a
+                  href="/#"
                   key={`side-option-one-${index}`}
                   id={`coupon-remove-${index}`}
                   className="uk-icon-link uk-margin-small-left"
                   data-uk-icon="close"
-                  onClick={() => handleRemoveRow('coupon', index)}
-                />,
+                  onClick={evt => {
+                    evt.preventDefault()
+                    handleRemoveRow('coupon', index)
+                  }}
+                >
+                  &nbsp;
+                </a>,
               ]}
               fields={[
                 {
@@ -150,7 +156,7 @@ const ListingCouponsForm = ({
           )
         })}
         <div>
-          <a id="coupon-add" className="add-field" onClick={handleAddCoupon}>
+          <a id="coupon-add" className="add-field" onClick={handleAddCoupon} href="/#">
             {listingForm.addCouponLink} +
           </a>
         </div>

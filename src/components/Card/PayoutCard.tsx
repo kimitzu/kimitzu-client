@@ -27,6 +27,8 @@ const PayoutCard = (props: Props) => (
               </div>
             </div>
           )
+        } else {
+          return null
         }
       })}
     </div>

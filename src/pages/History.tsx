@@ -165,7 +165,14 @@ class History extends React.Component<HistoryProps, HistoryState> {
             type="checkbox"
             onChange={e => this.handleFilterChange(filterKey, e.target.checked)}
           />
-          <a data-uk-tooltip={filters[filterKey].description}> {filterKey}</a>
+          <a
+            data-uk-tooltip={filters[filterKey].description}
+            href="/#"
+            onClick={evt => evt.preventDefault()}
+          >
+            {' '}
+            {filterKey}
+          </a>
         </label>
       </div>
     ))

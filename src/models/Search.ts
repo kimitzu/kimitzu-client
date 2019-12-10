@@ -216,7 +216,7 @@ class Search implements State {
 
     let extendedFilters = keys.map((key, index) => {
       if (values[index] === '') {
-        return
+        return null
       }
       if (key === 'item.categories') {
         return `containsInArr(doc.item.categories, "${values[index]}")`

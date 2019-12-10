@@ -156,6 +156,7 @@ class App extends React.Component<{}, State> {
             width="150"
             height="150"
             src="./images/Logo/Blue/SVG/Kimitzu-Blue-Unique.svg"
+            alt="Kimitzu Logo"
           />
           <h4 className="uk-text-danger">We could not connect to your server.</h4>
           <h4 className="uk-text-danger">Please make sure that the Kimitzu Server is running. </h4>

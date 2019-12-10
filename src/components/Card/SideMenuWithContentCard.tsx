@@ -70,11 +70,14 @@ const SideMenuWithContentCard = ({
       <div id="side-menu-with-content-main">
         {showBackBtn ? (
           <a
+            href="/#"
             id="card-content-back-btn"
             className="color-primary"
             data-uk-icon="arrow-left"
             onClick={handleBackBtn}
-          />
+          >
+            &nbsp;
+          </a>
         ) : null}
         <h4 id="side-menu-with-content-card-title" className="color-primary">
           <span

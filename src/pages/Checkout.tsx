@@ -292,14 +292,19 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                           id={data.peerID}
                         >
                           <a
+                            href="/#"
                             id="moderator-card-more-link"
-                            onClick={() => this.handleMoreInfo(data)}
+                            onClick={evt => {
+                              evt.preventDefault()
+                              this.handleMoreInfo(data)
+                            }}
                           >
                             {locale.checkoutPage.expandModeratorLink}
                           </a>
                         </ModeratorCard>
                       )
                     }
+                    return null
                   })}
                 </div>
               ) : null}
@@ -419,7 +424,12 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
           <div id="modal-payment-success" data-uk-modal ref={modal => (this.modal = modal)}>
             <div id="payment-modal" className="uk-modal-dialog uk-modal-body">
-              <img width="15%" height="15%" src={`${process.env.PUBLIC_URL}/images/check.png`} />
+              <img
+                width="15%"
+                height="15%"
+                src={`${process.env.PUBLIC_URL}/images/check.png`}
+                alt="check"
+              />
               <h4>
                 {locale.checkoutPage.receivedPaymentHeader1}{' '}
                 {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
