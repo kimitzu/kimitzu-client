@@ -1,4 +1,14 @@
-import { IonContent, IonPage } from '@ionic/react'
+import {
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonLoading,
+  IonPage,
+  IonRadio,
+  IonRadioGroup,
+  isPlatform,
+} from '@ionic/react'
+
 import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
@@ -108,6 +118,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.handleMoreInfo = this.handleMoreInfo.bind(this)
     this.estimate = this.estimate.bind(this)
     this.renderPage = this.renderPage.bind(this)
+    this.renderPaymentSchemes = this.renderPaymentSchemes.bind(this)
   }
 
   public async componentDidMount() {
@@ -258,36 +269,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             <div className="uk-card uk-card-default uk-card-body uk-card-small">
               <h3>{locale.checkoutPage.paymentForm.header}</h3>
               <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid" data-uk-grid>
-                <label>
-                  <input
-                    className="uk-radio"
-                    type="radio"
-                    name="isPaymentSchemeDirect"
-                    checked={this.state.isPaymentSchemeDirect}
-                    onClick={() => {
-                      this.setState({
-                        isPaymentSchemeDirect: true,
-                      })
-                    }}
-                  />{' '}
-                  {locale.checkoutPage.paymentForm.directLabel}
-                </label>
-                {listing.moderators.length > 0 ? (
-                  <label>
-                    <input
-                      className="uk-radio"
-                      type="radio"
-                      name="isPaymentSchemeDirect"
-                      checked={!this.state.isPaymentSchemeDirect}
-                      onClick={() => {
-                        this.setState({
-                          isPaymentSchemeDirect: false,
-                        })
-                      }}
-                    />{' '}
-                    {locale.checkoutPage.paymentForm.moderatedPayment}
-                  </label>
-                ) : null}
+                {this.renderPaymentSchemes()}
               </div>
               {!this.state.isPaymentSchemeDirect ? (
                 <div className="uk-margin">
@@ -457,6 +439,77 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           <ModeratorInfoModal profile={this.state.selectedModerator} />
         </div>
       </div>
+    )
+  }
+
+  private renderPaymentSchemes() {
+    const { listing, isPaymentSchemeDirect } = this.state
+    const { locale } = this
+    return isPlatform('mobile') || isPlatform('mobileweb') ? (
+      <IonRadioGroup
+        onIonChange={e => {
+          e.preventDefault()
+          this.setState({ isPaymentSchemeDirect: e.detail.value })
+        }}
+      >
+        <IonItem lines="none">
+          <IonLabel className="color-primary">
+            {locale.checkoutPage.paymentForm.directLabel}
+          </IonLabel>
+          <IonRadio
+            value
+            className="uk-margin-small-right"
+            slot="start"
+            checked={isPaymentSchemeDirect}
+          />
+        </IonItem>
+        {listing.moderators.length > 0 ? (
+          <IonItem lines="none">
+            <IonLabel className="color-primary">
+              {locale.checkoutPage.paymentForm.moderatedPayment}
+            </IonLabel>
+            <IonRadio
+              value={false}
+              className="uk-margin-small-right"
+              slot="start"
+              checked={!isPaymentSchemeDirect}
+            />
+          </IonItem>
+        ) : null}
+      </IonRadioGroup>
+    ) : (
+      <>
+        <label>
+          <input
+            className="uk-radio"
+            type="radio"
+            name="isPaymentSchemeDirect"
+            checked={isPaymentSchemeDirect}
+            onClick={() => {
+              this.setState({
+                isPaymentSchemeDirect: true,
+              })
+            }}
+          />{' '}
+          {locale.checkoutPage.paymentForm.directLabel}
+        </label>
+        {listing.moderators.length > 0 ? (
+          <label>
+            <input
+              className="uk-radio"
+              type="radio"
+              name="isPaymentSchemeDirect"
+              checked={!isPaymentSchemeDirect}
+              onClick={() => {
+                this.setState({
+                  isPaymentSchemeDirect: false,
+                })
+              }}
+            />{' '}
+            {locale.checkoutPage.paymentForm.moderatedPayment}
+          </label>
+        ) : null}
+      </>
     )
   }
 

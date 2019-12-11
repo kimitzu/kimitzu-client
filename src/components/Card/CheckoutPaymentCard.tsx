@@ -1,4 +1,4 @@
-import { IonLoading, isPlatform } from '@ionic/react'
+import { IonItem, IonLabel, IonLoading, IonRadio, IonRadioGroup, isPlatform } from '@ionic/react'
 import React from 'react'
 
 import currency from '../../models/Currency'
@@ -34,16 +34,6 @@ interface Props {
   id: string
 }
 
-const renderSpinner = (showSpinner: boolean, spinnerText: string) => {
-  return isPlatform('mobile') || isPlatform('mobileweb') ? (
-    <IonLoading isOpen={showSpinner} message={spinnerText} />
-  ) : (
-    <div className="uk-align-right uk-margin-top" hidden={!showSpinner}>
-      <div uk-spinner="ratio: 1" /> {spinnerText}
-    </div>
-  )
-}
-
 const CheckoutPaymentCard = ({
   handleOnChange,
   handlePlaceOrder,
@@ -60,7 +50,54 @@ const CheckoutPaymentCard = ({
   const { paymentCard } = localeInstance.get.localizations.checkoutPage
   const sourceCurrency = listing.metadata.pricingCurrency
   const localCurrencyPrice = listing.toLocalCurrency()
-
+  const renderSpinner = () => {
+    const { estimateSpinnerText } = paymentCard
+    return isPlatform('mobile') || isPlatform('mobileweb') ? (
+      <IonLoading isOpen={isEstimating} message={estimateSpinnerText} />
+    ) : (
+      <div className="uk-align-right uk-margin-top" hidden={!isEstimating}>
+        <div uk-spinner="ratio: 1" /> {estimateSpinnerText}
+      </div>
+    )
+  }
+  const renderPaymentOptions = () => {
+    return isPlatform('mobile') || isPlatform('mobileweb') ? (
+      <IonRadioGroup
+        onIonChange={e => {
+          e.preventDefault()
+          if (!isEstimating) {
+            handleOnChange('selectedCurrency', e.detail.value)
+          }
+        }}
+      >
+        {acceptedCurrencies.map((option: Option) => (
+          <IonItem key={option.value.toString()}>
+            <IonLabel className="color-primary">{option.label}</IonLabel>
+            <IonRadio
+              className="uk-margin-small-right"
+              slot="start"
+              value={option.value}
+              checked={option.value.toString() === selectedCurrency}
+            />
+          </IonItem>
+        ))}
+      </IonRadioGroup>
+    ) : (
+      acceptedCurrencies.map((option: Option) => (
+        <label key={option.value.toString()}>
+          <input
+            id={`${id}-${option.value}`}
+            className="uk-radio uk-margin-small-right"
+            type="radio"
+            checked={option.value.toString() === selectedCurrency}
+            onChange={() => handleOnChange('selectedCurrency', option.value)}
+            name={option.value.toString()}
+          />
+          {option.label}
+        </label>
+      ))
+    )
+  }
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-column uk-height-1-1">
       <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle order-below-checkout-2">
@@ -85,19 +122,7 @@ const CheckoutPaymentCard = ({
         <div className="uk-margin-small-top">
           <h5 className="uk-margin-small-bottom uk-text-bold">{paymentCard.paymentFormHeader}</h5>
           <div className="uk-form-controls uk-form-controls-text uk-height-1-1 uk-flex uk-flex-column uk-flex-start">
-            {acceptedCurrencies.map((option: Option) => (
-              <label key={option.value.toString()}>
-                <input
-                  id={`${id}-${option.value}`}
-                  className="uk-radio uk-margin-small-right"
-                  type="radio"
-                  checked={option.value.toString() === selectedCurrency}
-                  onChange={() => handleOnChange('selectedCurrency', option.value)}
-                  name={option.value.toString()}
-                />
-                {option.label}
-              </label>
-            ))}
+            {renderPaymentOptions()}
           </div>
         </div>
       )}
@@ -164,7 +189,7 @@ const CheckoutPaymentCard = ({
               </label>
             </div>
           </div>
-          {renderSpinner(isEstimating, paymentCard.estimateSpinnerText)}
+          {renderSpinner()}
           {estimate && !isEstimating ? (
             <div className="uk-flex uk-margin-top">
               <div className="uk-flex-1">
