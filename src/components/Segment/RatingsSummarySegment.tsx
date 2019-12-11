@@ -1,15 +1,10 @@
 import React from 'react'
 import StarRatingComponent from 'react-star-rating-component'
 
-import Rating, { RatingInput, RatingSummary } from '../../interfaces/Rating'
+import KimitzuRatings from '../../models/KimitzuRatings'
 
 interface Props {
-  ratingInputs: RatingInput[]
-  ratings?: Rating[]
-  kimitzuRatings?: RatingSummary['kimitzu']
-  totalAverageRating?: number
-  totalReviewCount?: number
-  totalStarCount?: number
+  ratings: KimitzuRatings
   isInlineDisplay?: boolean
 }
 
@@ -24,57 +19,7 @@ const displayRatingValue = (originalVal: number) => {
   return rating
 }
 
-const RatingsSummarySegment = ({
-  ratingInputs,
-  ratings,
-  kimitzuRatings,
-  totalAverageRating = 0,
-  isInlineDisplay,
-  // totalReviewCount = 0, this might need in the future
-  totalStarCount = 5,
-}: Props) => {
-  let averageRatings = ratingInputs.reduce((acc, cur) => {
-    return Object.assign(acc, { [cur.fieldName]: 0 })
-  }, {})
-  const keys = Object.keys(averageRatings)
-  if (ratings && ratings.length > 0) {
-    // Get total ratings for each fieldname
-    averageRatings = ratings.reduce((acc, cur) => {
-      keys.forEach(key => {
-        if (cur.ratingData[key]) {
-          acc[key] += cur.ratingData[key]
-        }
-      })
-      return acc
-    }, averageRatings)
-    const entries = ratings.length
-    // Get the average for each fieldname
-    keys.forEach(key => (averageRatings[key] = averageRatings[key] / entries))
-  } else if (kimitzuRatings && kimitzuRatings.buyerRatings) {
-    const { average, buyerRatings } = kimitzuRatings
-    totalAverageRating = (average / 100) * totalStarCount
-    // totalReviewCount = count || buyerRatings!.length
-    averageRatings = buyerRatings.reduce((acc, cur) => {
-      if (!cur.fields) {
-        return acc
-      }
-      ratingInputs.forEach(ratingInput => {
-        const index = cur.fields.findIndex(field => {
-          if (!field.type) {
-            field.type = 0
-          }
-          return field.type === ratingInput.index
-        })
-        if (index !== -1 && index < ratingInputs.length) {
-          const { score, weight } = cur.fields[index]
-          acc[ratingInput.fieldName] += (score * weight) / 100
-        }
-      })
-      return acc
-    }, averageRatings)
-    const entries = kimitzuRatings.buyerRatings.length
-    keys.forEach(key => (averageRatings[key] = averageRatings[key] / entries))
-  }
+const RatingsSummarySegment = ({ ratings, isInlineDisplay }: Props) => {
   return (
     <div className={`uk-flex uk-flex-${isInlineDisplay ? 'row' : 'column'}`}>
       <div
@@ -83,30 +28,31 @@ const RatingsSummarySegment = ({
         }`}
       >
         <h4>
-          {displayRatingValue(totalAverageRating)}/{totalStarCount}
+          {displayRatingValue(ratings.averageRating)}/{ratings.maxRating}
         </h4>
         <StarRatingComponent
-          value={totalAverageRating}
+          value={ratings.ratingSum}
           name="average-ratings"
-          starCount={totalStarCount}
+          starCount={ratings.maxRating}
         />
       </div>
       <div className="uk-grid-divider uk-grid-small uk-flex-3 uk-flex-center" data-uk-grid>
-        {ratingInputs.map(ratingInput => (
-          <div key={ratingInput.fieldName}>
-            <div style={{ minWidth: '135px' }} className="uk-text-center">
-              <label>
-                {ratingInput.title} ({displayRatingValue(averageRatings[ratingInput.fieldName])})
-              </label>
+        {Object.keys(ratings.averageRatingBreakdown).map(rating => {
+          const ratingElement = ratings.averageRatingBreakdown[rating]
+
+          return (
+            <div key={ratingElement.title}>
+              <div style={{ minWidth: '135px' }} className="uk-text-center">
+                <label>
+                  {ratingElement.title} ({displayRatingValue(ratingElement.rating)})
+                </label>
+              </div>
+              <div className="uk-flex-center uk-flex">
+                <StarRatingComponent value={ratingElement.rating} name={ratingElement.title} />
+              </div>
             </div>
-            <div className="uk-flex-center uk-flex">
-              <StarRatingComponent
-                value={averageRatings[ratingInput.fieldName]}
-                name={ratingInput.fieldName}
-              />
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

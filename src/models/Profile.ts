@@ -147,6 +147,11 @@ class Profile implements ProfileSchema {
     return { ratingsSummary, ratings }
   }
 
+  public static async getKimitzuRatings(id: string) {
+    const fullPeerRatingData = await Axios.get(`${config.kimitzuHost}/p2p/ratings/seek-sync/${id}`)
+    return fullPeerRatingData.data
+  }
+
   public static async retrieve(id?: string, force?: boolean): Promise<Profile> {
     let profile: Profile
 
