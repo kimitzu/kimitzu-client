@@ -360,10 +360,8 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
 
     return (
       <div className="uk-width-1-1 uk-flex uk-flex-column">
-        <div className="uk-flex uk-width-1-1">
-          <Stepper options={steps} currentIndex={currentStep} />
-        </div>
         <div className="uk-width-1-1">
+          <Stepper options={steps} currentIndex={currentStep} />
           {order.step === -1 ? <OrderErrorSegment locale={this.locale} order={order} /> : null}
           {order.isDisputeExpired ? <OrderDisputeExpired locale={this.locale} /> : null}
           {order.step === 7 ? <OrderRefunded locale={this.locale} order={order} /> : null}
