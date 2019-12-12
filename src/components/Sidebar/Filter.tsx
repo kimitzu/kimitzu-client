@@ -44,6 +44,7 @@ interface FilterProps {
   onChange: (fieldName: string, value: string, parentField?: string) => void
   onFilterReset: () => void
   onFilterDelete: (field: string) => void
+  onAdvancedSearchShow: () => void
   searchInstance: Search
   profile: Profile
   locationRadius: number
@@ -60,6 +61,7 @@ const Filter = ({
   plusCode,
   onFilterReset,
   onRatingChanged,
+  onAdvancedSearchShow,
   rating,
   profile,
   onFilterDelete,
@@ -82,9 +84,7 @@ const Filter = ({
         <div className="uk-margin">
           <Button
             className="uk-button uk-button-default uk-width-1-1"
-            onClick={() => {
-              window.UIkit.modal('#advance-search-modal').show()
-            }}
+            onClick={onAdvancedSearchShow}
           >
             {localizations.advancedSearch}
           </Button>

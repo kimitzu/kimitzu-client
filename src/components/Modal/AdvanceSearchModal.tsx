@@ -1,156 +1,218 @@
-import React, { useState } from 'react'
-import PhysicalCharacteristics from '../../constants/PhysicalCharacteristics.json'
+import { Multiselect } from 'multiselect-react-dropdown'
+import React, { useEffect, useState } from 'react'
+
+import Characteristics from '../../constants/PhysicalCharacteristics.json'
 import { localeInstance } from '../../i18n/index'
 import { searchInstance } from '../../models/Search'
 
+const PhysicalCharacteristics = { ...Characteristics }
+PhysicalCharacteristics[''] = { type: '', choices: [] }
+
+interface InputRangeType {
+  min: number
+  max: number
+}
+
+type FieldType = 'selection' | 'number'
+
 interface AdvanceSearchInterface {
-  [key: string]: any
+  field: string
+  type: FieldType
+  selection: string[] | InputRangeType
 }
 
 const AdvanceSearchModal = ({ onSearchSubmit }) => {
-  const [filters, setFilters] = useState({} as AdvanceSearchInterface)
+  const [searchID, setSearchID] = useState('')
+  const [filters, setFilters] = useState([] as AdvanceSearchInterface[])
   const locale = localeInstance.get.localizations
 
-  function handleChange(name, value) {
-    const rawFilter = { ...filters }
-    if (!value) {
-      delete rawFilter[name]
+  useEffect(() => {
+    handleAddCategory()
+  }, [])
+
+  function handleAddCategory() {
+    const defaultEntry = Object.keys(PhysicalCharacteristics)[0]
+
+    const filterClone = [
+      ...filters,
+      {
+        field: defaultEntry,
+        type: PhysicalCharacteristics[defaultEntry].type,
+        selection: '',
+      },
+    ] as AdvanceSearchInterface[]
+    setFilters(filterClone)
+  }
+
+  function handleCategoryChange(index, name) {
+    const filterClone = [...filters]
+    filterClone[index].field = name
+    filterClone[index].selection = ['']
+    const type = PhysicalCharacteristics[name].type
+    filterClone[index].type = type
+    if (type === 'selection') {
+      filterClone[index].selection = []
     } else {
-      if (typeof value === 'object') {
-        if (!value.min) {
-          value.min = 0
-        }
-        if (!value.max) {
-          value.max = 99999
-        }
-      }
-      rawFilter[name] = value
+      filterClone[index].selection = { min: 0, max: 999999 }
     }
-    setFilters(rawFilter)
+    setFilters(filterClone)
+  }
+
+  function handleSelect(fieldIndex, selection) {
+    const filterClone = [...filters]
+    filterClone[fieldIndex].selection = selection
+    setFilters(filterClone)
+  }
+
+  function handleInput(fieldIndex, inputRangeType, value) {
+    const filterClone = [...filters]
+    let valueClone = Number(value)
+
+    if (!filterClone[fieldIndex].selection) {
+      filterClone[fieldIndex].selection = { min: 0, max: 999999 }
+    }
+
+    if (valueClone <= 0 || !valueClone) {
+      if (inputRangeType === 'min') {
+        valueClone = 0
+      } else {
+        valueClone = 999999
+      }
+    }
+
+    filterClone[fieldIndex].selection[inputRangeType] = valueClone
+    setFilters(filterClone)
+  }
+
+  function buildTemplate(fieldName, fieldValue) {
+    return 'getPropAsString(doc.vendorID.peerID, "%fieldName%") == "%fieldValue%" && hasProp(doc.vendorID.peerID, "%fieldName%")'
+      .replace(/%fieldName%/g, fieldName)
+      .replace(/%fieldValue%/g, fieldValue)
   }
 
   async function executeSearch() {
-    window.UIkit.modal('#advance-search-modal').hide()
-    const parsedAdvancedSearchFilters = Object.keys(filters).map(filter => {
-      const searchObject = filters[filter]
-      if (typeof searchObject === 'object') {
+    const parsedAdvancedSearchFilters = filters.map(filter => {
+      if (filter.type === 'number') {
+        filter.selection = filter.selection as InputRangeType
         const template =
           '(asInt(getPropAsString(doc.vendorID.peerID, "%fieldName%")) >= %min% && asInt(getPropAsString(doc.vendorID.peerID, "%fieldName%")) <= %max%) && hasProp(doc.vendorID.peerID, "%fieldName%")'
         return template
-          .replace(/%fieldName%/g, filter)
-          .replace(/%min%/g, searchObject.min)
-          .replace(/%max%/g, searchObject.max)
+          .replace(/%fieldName%/g, filter.field)
+          .replace(/%min%/g, filter.selection.min.toString())
+          .replace(/%max%/g, filter.selection.max.toString())
       } else {
-        const template =
-          'getPropAsString(doc.vendorID.peerID, "%fieldName%") == "%fieldValue%" && hasProp(doc.vendorID.peerID, "%fieldName%")'
-        return template.replace(/%fieldName%/g, filter).replace(/%fieldValue%/g, searchObject)
+        filter.selection = filter.selection as string[]
+        const filterStringBuilder = filter.selection.map(select => {
+          return `(${buildTemplate(filter.field, select)})`
+        })
+        return filterStringBuilder.join(' || ')
       }
     })
     searchInstance.advancedSearch = parsedAdvancedSearchFilters
-    await onSearchSubmit()
+    onSearchSubmit()
   }
 
-  async function resetAdvancedFilters() {
-    if (Object.keys(filters).length > 0) {
-      setFilters({})
+  function resetAdvancedFilters() {
+    if (filters.length > 0) {
+      setFilters([])
       searchInstance.advancedSearch = []
-      await onSearchSubmit()
-    } else {
-      window.UIkit.modal('#advance-search-modal').hide()
+      setSearchID(Math.random().toString())
     }
   }
 
-  return (
-    <div id="advance-search-modal" className="uk-modal" data-uk-modal bg-close="false">
-      <form
-        className="uk-modal-dialog"
-        onSubmit={evt => {
-          evt.preventDefault()
-          executeSearch()
-        }}
-      >
-        <button className="uk-modal-close-default" type="button" data-uk-close />
-        <div className="uk-modal-header">
-          <h2 className="uk-modal-title">{locale.advancedSearch}</h2>
-        </div>
-        <div className="uk-modal-body">
-          <div className="uk-grid uk-grid-small" data-uk-grid>
-            {Object.keys(PhysicalCharacteristics).map((characteristic, index) => {
-              const values = PhysicalCharacteristics[characteristic]
+  function deleteFilter(filterIndex) {
+    const filterClone = [...filters]
+    filterClone.splice(filterIndex, 1)
+    setFilters(filterClone)
+  }
 
-              if (Array.isArray(values)) {
-                return (
-                  <div className="uk-width-1-2@m uk-width-1-1@s" key={characteristic}>
-                    <label className="uk-form-label color-primary">{characteristic}</label>
-                    <div className="uk-form-controls">
-                      <select
-                        className="uk-select"
-                        id="form-horizontal-select"
-                        onChange={evt => {
-                          handleChange(characteristic, evt.target.value)
-                        }}
-                      >
-                        {values.map((value, valueIndex) => {
-                          return (
-                            <option key={`${value}-${valueIndex}`} value={value}>
-                              {value}
-                            </option>
-                          )
-                        })}
-                      </select>
-                    </div>
+  useEffect(() => {
+    if (filters.length < 1) {
+      handleAddCategory()
+    }
+  }, [searchID])
+
+  return (
+    <div className="uk-container uk-flex uk-flex-center uk-flex-column">
+      <div>
+        <h2>{locale.advancedSearch}</h2>
+      </div>
+      <div className="uk-width-1-2@m uk-width-1-1@s uk-align-center" key={searchID}>
+        {filters.map((filter, filterIndex) => {
+          return (
+            <div className="uk-grid uk-grid-small" data-uk-grid key={filterIndex}>
+              <div className="uk-width-1-2">
+                <select
+                  className="uk-select"
+                  onChange={evt => {
+                    handleCategoryChange(filterIndex, evt.target.value)
+                  }}
+                  value={filter.field}
+                >
+                  {Object.keys(PhysicalCharacteristics).map(characteristic => {
+                    return (
+                      <option key={`${characteristic}`} value={characteristic}>
+                        {characteristic}
+                      </option>
+                    )
+                  })}
+                </select>
+              </div>
+
+              <div className="uk-width-1-2 uk-flex uk-flex-row uk-flex-middle">
+                {filter.type === 'number' ? (
+                  <div className="uk-flex uk-flex-row uk-flex-middle">
+                    <input
+                      className="uk-input"
+                      placeholder={locale.minimum}
+                      onChange={evt => {
+                        handleInput(filterIndex, 'min', evt.target.value)
+                      }}
+                    />
+                    <input
+                      className="uk-input"
+                      placeholder={locale.maximum}
+                      onChange={evt => {
+                        handleInput(filterIndex, 'max', evt.target.value)
+                      }}
+                    />
                   </div>
-                )
-              } else {
-                return (
-                  <div className="uk-width-1-2@m uk-width-1-1@s" key={characteristic}>
-                    <label className="uk-form-label color-primary">{characteristic}</label>
-                    <div className="uk-form-controls">
-                      <input
-                        key={`${index}-input-start`}
-                        className="uk-input uk-width-1-2"
-                        type={values}
-                        placeholder={locale.minimum}
-                        onChange={evt => {
-                          let filterValue = filters[characteristic]
-                          if (!filterValue) {
-                            filterValue = {}
-                          }
-                          filterValue.min = evt.target.value
-                          handleChange(characteristic, filterValue)
-                        }}
-                      />
-                      <input
-                        key={`${index}-input-end`}
-                        className="uk-input uk-width-1-2"
-                        type={values}
-                        min="0"
-                        placeholder={locale.maximum}
-                        onChange={evt => {
-                          let filterValue = filters[characteristic]
-                          if (!filterValue) {
-                            filterValue = {}
-                          }
-                          filterValue.max = evt.target.value
-                          handleChange(characteristic, filterValue)
-                        }}
-                      />
-                    </div>
-                  </div>
-                )
-              }
-            })}
-          </div>
-        </div>
-        <div className="uk-modal-footer uk-text-right">
-          <button className="uk-button uk-margin-right" type="reset" onClick={resetAdvancedFilters}>
-            {Object.keys(filters).length > 0 ? locale.reset : locale.close}
-          </button>
-          <button className="uk-button uk-button-primary" type="submit">
-            {locale.search}
-          </button>
-        </div>
-      </form>
+                ) : (
+                  <Multiselect
+                    options={PhysicalCharacteristics[filter.field].choices}
+                    displayValue="choices"
+                    isObject={false}
+                    selectedValues={[]}
+                    onSelect={selection => {
+                      handleSelect(filterIndex, selection)
+                    }}
+                  />
+                )}
+                <span
+                  className="uk-margin-small-left cursor-pointer"
+                  data-uk-icon="icon: trash"
+                  onClick={() => {
+                    deleteFilter(filterIndex)
+                  }}
+                />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      <div className="uk-align-center uk-margin-top">
+        <button className="uk-button uk-button-default" type="button" onClick={handleAddCategory}>
+          Add Filter
+        </button>
+      </div>
+      <div className="uk-align-center">
+        <button className="uk-button uk-margin-right" type="reset" onClick={resetAdvancedFilters}>
+          {locale.reset}
+        </button>
+        <button className="uk-button uk-button-primary" type="button" onClick={executeSearch}>
+          {locale.search}
+        </button>
+      </div>
     </div>
   )
 }

@@ -27,6 +27,7 @@ interface HomeState {
   search: Search
   rating: number
   profile: Profile
+  showAdvancedSearch: boolean
 }
 
 class Home extends Component<HomeProps, HomeState> {
@@ -41,6 +42,7 @@ class Home extends Component<HomeProps, HomeState> {
       search: searchInstance,
       rating: 0,
       profile,
+      showAdvancedSearch: false,
     }
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
@@ -51,27 +53,43 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleRatingChange = this.handleRatingChange.bind(this)
     this.handleFilterDelete = this.handleFilterDelete.bind(this)
+    this.handleAdvancedSearchShow = this.handleAdvancedSearchShow.bind(this)
   }
 
   public async componentDidMount() {
     this.state.search.reset()
     await this.handleSearchSubmit()
+
     const profile = this.props.currentUser
     this.setState({ profile })
 
     const searchEvent = (event: CustomEvent) => {
-      window.location.hash = '/'
       this.handleChange('query', event.detail, 'search')
       this.handleSearchSubmit()
     }
+    window.removeEventListener('srchEvent', searchEvent as EventListener)
     window.addEventListener('srchEvent', searchEvent as EventListener)
   }
 
   public render() {
+    if (this.state.showAdvancedSearch) {
+      return this.renderAdvancedSearch()
+    }
+    return this.renderMain()
+  }
+
+  public renderAdvancedSearch() {
+    return (
+      <div className="uk-margin-top">
+        <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
+      </div>
+    )
+  }
+
+  public renderMain() {
     const { profile, rating, search } = this.state
     return (
       <div>
-        <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
         <div id="filter-sidebar" uk-offcanvas="mode: slide" ref={this.filterSidebarRef}>
           <div className="uk-offcanvas-bar">
             <InlineMultiDropdowns
@@ -90,6 +108,7 @@ class Home extends Component<HomeProps, HomeState> {
               onFilterSubmit={this.handleSearchSubmit}
               onRatingChanged={this.handleRatingChange}
               onFilterDelete={this.handleFilterDelete}
+              onAdvancedSearchShow={this.handleAdvancedSearchShow}
               plusCode={search.plusCode}
               onFilterReset={this.handleFilterReset}
               rating={rating}
@@ -117,6 +136,7 @@ class Home extends Component<HomeProps, HomeState> {
                 onFilterSubmit={this.handleSearchSubmit}
                 onRatingChanged={this.handleRatingChange}
                 onFilterDelete={this.handleFilterDelete}
+                onAdvancedSearchShow={this.handleAdvancedSearchShow}
                 plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
                 rating={rating}
@@ -210,8 +230,20 @@ class Home extends Component<HomeProps, HomeState> {
     )
   }
 
+  private handleAdvancedSearchShow() {
+    this.setState({
+      showAdvancedSearch: true,
+    })
+  }
+
   private async handleSearchSubmit() {
     const { search } = this.state
+
+    if (this.state.showAdvancedSearch) {
+      this.setState({
+        showAdvancedSearch: false,
+      })
+    }
 
     if (this.filterSidebarRef.current) {
       window.UIkit.offcanvas(this.filterSidebarRef.current).hide()
