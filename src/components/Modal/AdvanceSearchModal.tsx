@@ -22,7 +22,6 @@ interface AdvanceSearchInterface {
 }
 
 const AdvanceSearchModal = ({ onSearchSubmit }) => {
-  const [searchID, setSearchID] = useState('')
   const [filters, setFilters] = useState([] as AdvanceSearchInterface[])
   const locale = localeInstance.get.localizations
 
@@ -116,7 +115,6 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
     if (filters.length > 0) {
       setFilters([])
       searchInstance.advancedSearch = []
-      setSearchID(Math.random().toString())
     }
   }
 
@@ -126,21 +124,15 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
     setFilters(filterClone)
   }
 
-  useEffect(() => {
-    if (filters.length < 1) {
-      handleAddCategory()
-    }
-  }, [searchID])
-
   return (
     <div className="uk-container uk-flex uk-flex-center uk-flex-column">
       <div>
         <h2>{locale.advancedSearch}</h2>
       </div>
-      <div className="uk-width-1-2@m uk-width-1-1@s uk-align-center" key={searchID}>
+      <div className="uk-width-1-2@m uk-width-1-1@s uk-align-center">
         {filters.map((filter, filterIndex) => {
           return (
-            <div className="uk-grid uk-grid-small" data-uk-grid key={filterIndex}>
+            <div className="uk-grid uk-grid-small" data-uk-grid key={filter.field}>
               <div className="uk-width-1-2">
                 <select
                   className="uk-select"
