@@ -1,6 +1,15 @@
-import { IonContent, IonPage } from '@ionic/react'
+import { RefresherEventDetail } from '@ionic/core'
+import {
+  IonContent,
+  IonItem,
+  IonPage,
+  IonRefresher,
+  IonRefresherContent,
+  isPlatform,
+} from '@ionic/react'
 import React, { Component } from 'react'
 
+import { ListingCardSkeleton } from '../components/Card'
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
 import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
@@ -52,6 +61,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleRatingChange = this.handleRatingChange.bind(this)
     this.handleFilterDelete = this.handleFilterDelete.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   public async componentDidMount() {
@@ -72,8 +82,13 @@ class Home extends Component<HomeProps, HomeState> {
     const { profile, rating, search } = this.state
     return (
       <IonPage>
+        <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
         <IonContent>
-          <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
+          {isPlatform('mobile') || isPlatform('mobileweb') ? (
+            <IonRefresher slot="fixed" onIonRefresh={this.handleRefresh}>
+              <IonRefresherContent />
+            </IonRefresher>
+          ) : null}
           <div id="filter-sidebar" uk-offcanvas="mode: slide" ref={this.filterSidebarRef}>
             <div className="uk-offcanvas-bar">
               <InlineMultiDropdowns
@@ -99,7 +114,6 @@ class Home extends Component<HomeProps, HomeState> {
               />
             </div>
           </div>
-
           <div className="main-container">
             <div className="child-main-container">
               <div className="custom-width uk-visible@s">
@@ -125,34 +139,34 @@ class Home extends Component<HomeProps, HomeState> {
                   searchInstance={this.state.search}
                 />
               </div>
-              {search.results.data && search.results.count > 0 ? (
-                <div className="custom-width-two">
+              <div className="custom-width-two">
+                <div className="right-side-container">
+                  <div className="uk-hidden@s">
+                    <button
+                      className="uk-button uk-button-default uk-margin-small-right"
+                      type="button"
+                      uk-toggle="target: #filter-sidebar"
+                    >
+                      Filters
+                    </button>
+                  </div>
+                  <Pagination
+                    totalRecord={search.results.count}
+                    recordsPerPage={search.paginate.limit}
+                    handlePageChange={this.handlePaginate}
+                    selectedPage={search.paginate.currentPage + 1}
+                  />
+                  <div className="uk-expand uk-margin-left margin-custom">
+                    <FormSelector
+                      id="sortOptions"
+                      options={SortOptions}
+                      defaultVal={search.sortIndicator}
+                      onChange={event => this.handleSortChange(event.target.value)}
+                    />
+                  </div>
+                </div>
+                {search.results.data && search.results.count > 0 ? (
                   <div className="pagination-cont">
-                    <div className="right-side-container">
-                      <div className="uk-hidden@s">
-                        <button
-                          className="uk-button uk-button-default uk-margin-small-right"
-                          type="button"
-                          uk-toggle="target: #filter-sidebar"
-                        >
-                          Filters
-                        </button>
-                      </div>
-                      <Pagination
-                        totalRecord={search.results.count}
-                        recordsPerPage={search.paginate.limit}
-                        handlePageChange={this.handlePaginate}
-                        selectedPage={search.paginate.currentPage + 1}
-                      />
-                      <div className="uk-expand uk-margin-left margin-custom">
-                        <FormSelector
-                          id="sortOptions"
-                          options={SortOptions}
-                          defaultVal={search.sortIndicator}
-                          onChange={event => this.handleSortChange(event.target.value)}
-                        />
-                      </div>
-                    </div>
                     <div className="uk-flex uk-flex-center">
                       <ListingCardGroup
                         key={search.paginate.currentPage}
@@ -170,49 +184,66 @@ class Home extends Component<HomeProps, HomeState> {
                       />
                     </div>
                   </div>
-                </div>
-              ) : search.isSearching ? (
-                <div className="uk-align-center">
-                  <div data-uk-spinner="ratio: 3" />
-                </div>
-              ) : search.responseStatus === 204 ? (
-                <div
-                  className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
-                  id="empty-results"
-                >
-                  <h1>{this.locale.homePage.crawlingHeader}</h1>
-                  <p>{this.locale.homePage.crawlingContent1}</p>
-
-                  <p className="uk-margin-top">{this.locale.homePage.crawlingContent2}</p>
-                </div>
-              ) : (
-                <div
-                  className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
-                  id="empty-results"
-                >
-                  <h1>{this.locale.homePage.noResultsHeader}</h1>
-                  <p>{this.locale.homePage.noResultsContent}</p>
-
-                  <div className="uk-align-center uk-margin-top">
-                    <p className="color-secondary">
-                      {this.locale.homePage.noResultsSuggestionsText}
-                    </p>
-
-                    <ul className="uk-margin-left">
-                      {this.locale.homePage.noResultsSuggestions.map(
-                        (suggestion: string, index: number) => (
-                          <li key={`${suggestion}${index}`}>{suggestion}</li>
-                        )
-                      )}
-                    </ul>
+                ) : search.isSearching ? (
+                  <div className="uk-flex uk-flex-center uk-grid-small" data-uk-grid>
+                    {this.generateSkeletonCards(8)}
                   </div>
-                </div>
-              )}
+                ) : search.responseStatus === 204 ? (
+                  <div
+                    className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+                    id="empty-results"
+                  >
+                    <h1>{this.locale.homePage.crawlingHeader}</h1>
+                    <p>{this.locale.homePage.crawlingContent1}</p>
+
+                    <p className="uk-margin-top">{this.locale.homePage.crawlingContent2}</p>
+                  </div>
+                ) : (
+                  <div
+                    className="uk-align-center full-vh uk-flex uk-flex-column uk-flex-center uk-flex-middle"
+                    id="empty-results"
+                  >
+                    <h1>{this.locale.homePage.noResultsHeader}</h1>
+                    <p>{this.locale.homePage.noResultsContent}</p>
+
+                    <div className="uk-align-center uk-margin-top">
+                      <p className="color-secondary">
+                        {this.locale.homePage.noResultsSuggestionsText}
+                      </p>
+
+                      <ul className="uk-margin-left">
+                        {this.locale.homePage.noResultsSuggestions.map(
+                          (suggestion: string, index: number) => (
+                            <li key={`${suggestion}${index}`}>{suggestion}</li>
+                          )
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </IonContent>
       </IonPage>
     )
+  }
+
+  private generateSkeletonCards(count: number) {
+    const content: JSX.Element[] = []
+    for (let i = 0; i < count; i++) {
+      content.push(
+        <IonItem lines="none">
+          <ListingCardSkeleton key={`skeleton${i}`} />
+        </IonItem>
+      )
+    }
+    return content
+  }
+
+  private async handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+    await this.handleSearchSubmit()
+    event.detail.complete()
   }
 
   private async handleSearchSubmit() {
