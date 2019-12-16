@@ -131,7 +131,8 @@
     "appId": "ch.kimitzu.client",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "public/**/*"
     ],
     "publish": [
       {
