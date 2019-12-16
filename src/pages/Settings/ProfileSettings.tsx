@@ -382,7 +382,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
 
     const socialMediaComponent = {
       component: (
-        <div>
+        <div className="uk-width-1-1">
           <SocialMediaSettings profile={this.state.profile} />
           <Button
             className="uk-button uk-button-primary uk-align-center"
