@@ -22,6 +22,7 @@
   "peerID": "Peer ID",
   "minimum": "Minimum",
   "maximum": "Maximum",
+  "addFilter": "Add Filter",
   "advancedSearch": "Advanced Search",
   "reset": "Reset",
   "search": "Search",

@@ -22,6 +22,7 @@
   "peerID": "ID do par",
   "minimum": "Mínimo",
   "maximum": "Máximo",
+  "addFilter": "Adicionar filtro",
   "advancedSearch": "Pesquisa Avançada",
   "reset": "Reset",
   "search": "Search",
