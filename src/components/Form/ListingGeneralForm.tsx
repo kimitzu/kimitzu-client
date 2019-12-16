@@ -124,6 +124,7 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
                     metadata.contractType = event.target.value
                     handleChange('metadata', metadata)
                   }}
+                  disabled
                 />
               ),
               label: {

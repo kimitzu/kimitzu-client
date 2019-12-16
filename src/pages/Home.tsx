@@ -53,7 +53,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleDropdownSelect = this.handleDropdownSelect.bind(this)
     this.handleRatingChange = this.handleRatingChange.bind(this)
     this.handleFilterDelete = this.handleFilterDelete.bind(this)
-    this.handleAdvancedSearchShow = this.handleAdvancedSearchShow.bind(this)
+    this.handleAdvancedSearchToggle = this.handleAdvancedSearchToggle.bind(this)
   }
 
   public async componentDidMount() {
@@ -81,7 +81,10 @@ class Home extends Component<HomeProps, HomeState> {
   public renderAdvancedSearch() {
     return (
       <div className="uk-margin-top">
-        <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
+        <AdvanceSearchModal
+          onSearchSubmit={this.handleSearchSubmit}
+          onBackNavigate={this.handleAdvancedSearchToggle}
+        />
       </div>
     )
   }
@@ -108,7 +111,7 @@ class Home extends Component<HomeProps, HomeState> {
               onFilterSubmit={this.handleSearchSubmit}
               onRatingChanged={this.handleRatingChange}
               onFilterDelete={this.handleFilterDelete}
-              onAdvancedSearchShow={this.handleAdvancedSearchShow}
+              onAdvancedSearchShow={this.handleAdvancedSearchToggle}
               plusCode={search.plusCode}
               onFilterReset={this.handleFilterReset}
               rating={rating}
@@ -136,7 +139,7 @@ class Home extends Component<HomeProps, HomeState> {
                 onFilterSubmit={this.handleSearchSubmit}
                 onRatingChanged={this.handleRatingChange}
                 onFilterDelete={this.handleFilterDelete}
-                onAdvancedSearchShow={this.handleAdvancedSearchShow}
+                onAdvancedSearchShow={this.handleAdvancedSearchToggle}
                 plusCode={search.plusCode}
                 onFilterReset={this.handleFilterReset}
                 rating={rating}
@@ -230,9 +233,9 @@ class Home extends Component<HomeProps, HomeState> {
     )
   }
 
-  private handleAdvancedSearchShow() {
+  private handleAdvancedSearchToggle() {
     this.setState({
-      showAdvancedSearch: true,
+      showAdvancedSearch: !this.state.showAdvancedSearch,
     })
   }
 

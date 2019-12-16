@@ -1,10 +1,10 @@
-{  
+{
   "Age": {
     "type": "number"
   },
   "Body Type": {
     "type": "selection",
-    "choices": ["", "Slim", "Stocky", "Curvy", "Athletic", "Curvy", "Ripped", "Petite", "Toned"]
+    "choices": ["Slim", "Stocky", "Curvy", "Athletic", "Curvy", "Ripped", "Petite", "Toned"]
   },
   "Bust Size (cm)": {
     "type": "number"
@@ -12,7 +12,6 @@
   "Current Citizenship": {
     "type": "selection",
     "choices": [
-      "",
       "Afghan",
       "Albanian",
       "Algerian",
@@ -218,7 +217,6 @@
   "Disabilities": {
     "type": "selection",
     "choices": [
-      "",
       "Blind",
       "Deaf",
       "Some visual impairment",
@@ -236,30 +234,19 @@
   },
   "Eye Color": {
     "type": "selection",
-    "choices": ["", "Amber", "Blue", "Brown", "Gray", "Green", "Hazel", "Red"]
+    "choices": ["Amber", "Blue", "Brown", "Gray", "Green", "Hazel", "Red"]
   },
   "Eye Shape": {
     "type": "selection",
-    "choices": [
-      "",
-      "Large",
-      "Small",
-      "Narrow",
-      "Sharp",
-      "Squinty",
-      "Round",
-      "Wide",
-      "Heavy-lidded"
-    ]
+    "choices": ["Large", "Small", "Narrow", "Sharp", "Squinty", "Round", "Wide", "Heavy-lidded"]
   },
   "Eyebrows": {
     "type": "selection",
-    "choices": ["", "Arched", "Straight", "Sparse", "Dark", "Faint", "Thin", "Thick", "Bushy"]
+    "choices": ["Arched", "Straight", "Sparse", "Dark", "Faint", "Thin", "Thick", "Bushy"]
   },
   "Facial Hair": {
     "type": "selection",
     "choices": [
-      "",
       "Clean-shaven",
       "Smooth-shaven",
       "Beard",
@@ -272,12 +259,11 @@
   },
   "Facial Structure": {
     "type": "selection",
-    "choices": ["", "Oval", "Round", "Square", "Diamond", "Heart", "Pear", "Oblong"]
+    "choices": ["Oval", "Round", "Square", "Diamond", "Heart", "Pear", "Oblong"]
   },
   "Gender": {
     "type": "selection",
     "choices": [
-      "",
       "Male",
       "Female",
       "Agender",
@@ -296,12 +282,11 @@
   },
   "Hair Color": {
     "type": "selection",
-    "choices": ["", "Black", "Brown", "Blond", "White", "Gray", "Red"]
+    "choices": ["Black", "Brown", "Blond", "White", "Gray", "Red"]
   },
   "Hair": {
     "type": "selection",
     "choices": [
-      "",
       "Shoulder-length",
       "Spiky",
       "Shaggy",
@@ -336,7 +321,6 @@
   "Highest Educational Attainment": {
     "type": "selection",
     "choices": [
-      "",
       "Less than high school diploma",
       "High school or equivalent",
       "Some college",
@@ -353,20 +337,11 @@
   },
   "Lips": {
     "type": "selection",
-    "choices": ["", "Thin", "Narrow", "Full", "Lush"]
+    "choices": ["Thin", "Narrow", "Full", "Lush"]
   },
   "Marital Status": {
     "type": "selection",
-    "choices": [
-      "",
-      "Single",
-      "Married",
-      "Widowed",
-      "Divorced",
-      "Separated",
-      "Polyamorous",
-      "Other"
-    ]
+    "choices": ["Single", "Married", "Widowed", "Divorced", "Separated", "Polyamorous", "Other"]
   },
   "Maximum Lifting Capacity (kg)": {
     "type": "number"
@@ -374,7 +349,6 @@
   "Nose": {
     "type": "selection",
     "choices": [
-      "",
       "Snub",
       "Dainty",
       "Button",
@@ -395,12 +369,11 @@
   },
   "Piercings": {
     "type": "selection",
-    "choices": ["", "None", "Some", "Many"]
+    "choices": ["None", "Some", "Many"]
   },
   "Religion": {
     "type": "selection",
     "choices": [
-      "",
       "Christian",
       "Catholic",
       "Eastern Orthodox",
@@ -441,7 +414,6 @@
   "Sexual Orientation": {
     "type": "selection",
     "choices": [
-      "",
       "Heterosexual",
       "Homosexual",
       "Gay",
@@ -456,7 +428,6 @@
   "Skin Color": {
     "type": "selection",
     "choices": [
-      "",
       "Light",
       "Pale white",
       "White",
@@ -471,7 +442,7 @@
   },
   "Tattoos": {
     "type": "selection",
-    "choices": ["", "None", "Some", "Many"]
+    "choices": ["None", "Some", "Many"]
   },
   "Waist Size (cm)": {
     "type": "number"

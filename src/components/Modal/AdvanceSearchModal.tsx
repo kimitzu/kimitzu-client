@@ -5,6 +5,8 @@ import Characteristics from '../../constants/PhysicalCharacteristics.json'
 import { localeInstance } from '../../i18n/index'
 import { searchInstance } from '../../models/Search'
 
+import './AdvanceSearchModal.css'
+
 const PhysicalCharacteristics = { ...Characteristics }
 PhysicalCharacteristics[''] = { type: '', choices: [] }
 
@@ -15,14 +17,19 @@ interface InputRangeType {
 
 type FieldType = 'selection' | 'number'
 
-interface AdvanceSearchInterface {
+interface AdvanceSearchFilter {
   field: string
   type: FieldType
   selection: string[] | InputRangeType
 }
 
-const AdvanceSearchModal = ({ onSearchSubmit }) => {
-  const [filters, setFilters] = useState([] as AdvanceSearchInterface[])
+interface AdvanceSearchModalInterface {
+  onSearchSubmit: () => void
+  onBackNavigate: () => void
+}
+
+const AdvanceSearchModal = ({ onSearchSubmit, onBackNavigate }: AdvanceSearchModalInterface) => {
+  const [filters, setFilters] = useState([] as AdvanceSearchFilter[])
   const locale = localeInstance.get.localizations
 
   useEffect(() => {
@@ -37,9 +44,9 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
       {
         field: defaultEntry,
         type: PhysicalCharacteristics[defaultEntry].type,
-        selection: '',
+        selection: { min: 0, max: 999999 },
       },
-    ] as AdvanceSearchInterface[]
+    ] as AdvanceSearchFilter[]
     setFilters(filterClone)
   }
 
@@ -126,7 +133,14 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
 
   return (
     <div className="uk-container uk-flex uk-flex-center uk-flex-column">
-      <div>
+      <div className="uk-flex uk-flex-row uk-flex-middle">
+        <span
+          uk-icon="reply"
+          className="uk-margin-right cursor-pointer"
+          onClick={() => {
+            onBackNavigate()
+          }}
+        />
         <h2>{locale.advancedSearch}</h2>
       </div>
       <div className="uk-width-1-2@m uk-width-1-1@s uk-align-center">
@@ -155,17 +169,29 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
                 {filter.type === 'number' ? (
                   <div className="uk-flex uk-flex-row uk-flex-middle">
                     <input
+                      type={filter.type}
                       className="uk-input"
                       placeholder={locale.minimum}
                       onChange={evt => {
                         handleInput(filterIndex, 'min', evt.target.value)
                       }}
+                      min={0}
+                      value={(filter.selection as InputRangeType).min}
+                      onFocus={evt => {
+                        evt.target.select()
+                      }}
                     />
                     <input
+                      type={filter.type}
                       className="uk-input"
                       placeholder={locale.maximum}
                       onChange={evt => {
                         handleInput(filterIndex, 'max', evt.target.value)
+                      }}
+                      min={1}
+                      value={(filter.selection as InputRangeType).max}
+                      onFocus={evt => {
+                        evt.target.select()
                       }}
                     />
                   </div>
@@ -181,7 +207,7 @@ const AdvanceSearchModal = ({ onSearchSubmit }) => {
                   />
                 )}
                 <span
-                  className="uk-margin-small-left cursor-pointer"
+                  className="uk-margin-small-left cursor-pointer advanced-search-red-hover"
                   data-uk-icon="icon: trash"
                   onClick={() => {
                     deleteFilter(filterIndex)

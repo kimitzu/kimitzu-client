@@ -85,6 +85,7 @@ const Filter = ({
           <Button
             className="uk-button uk-button-default uk-width-1-1"
             onClick={onAdvancedSearchShow}
+            type="button"
           >
             {localizations.advancedSearch}
           </Button>
