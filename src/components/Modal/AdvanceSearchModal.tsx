@@ -220,7 +220,7 @@ const AdvanceSearchModal = ({ onSearchSubmit, onBackNavigate }: AdvanceSearchMod
       </div>
       <div className="uk-align-center uk-margin-top">
         <button className="uk-button uk-button-default" type="button" onClick={handleAddCategory}>
-          Add Filter
+          {locale.addFilter}
         </button>
       </div>
       <div className="uk-align-center">
