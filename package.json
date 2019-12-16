@@ -186,7 +186,7 @@
       "icon": "./build/icon.icns"
     },
     "win": {
-      "icon": "./build/icon.icns"
+      "icon": "./build/icon.png"
     }
   },
   "husky": {
