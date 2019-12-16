@@ -75,6 +75,9 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                     id="form-stacked-select"
                     onChange={evt => {
                       changeHandler('label', evt.target.value, selectedIndex)
+                      /**
+                       * Initialize default blank value
+                       */
                       changeHandler('value', descriptionElementValue[0], selectedIndex)
                     }}
                     onFocus={() => {
@@ -95,7 +98,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
               <div className="uk-margin-left uk-width-1-1">
                 <FormLabel label={customDescriptionForm.valueLabel} />
                 <div className="uk-form-controls">
-                  {Array.isArray(descriptionElementValue) ? (
+                  {descriptionElementValue.choices ? (
                     <select
                       className="uk-select"
                       id="form-stacked-select"
@@ -104,7 +107,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                       }}
                       value={descriptions[index].value}
                     >
-                      {descriptionElementValue.map((selection, pdIndex) => {
+                      {descriptionElementValue.choices.map((selection, pdIndex) => {
                         return (
                           <option key={pdIndex} value={selection}>
                             {selection}

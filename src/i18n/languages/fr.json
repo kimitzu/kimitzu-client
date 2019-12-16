@@ -22,6 +22,7 @@
   "peerID": "ID de pair",
   "minimum": "Le minimum",
   "maximum": "Maximum",
+  "addFilter": "Ajouter un filtre",
   "advancedSearch": "Recherche Avancée",
   "reset": "Reset",
   "search": "Chercher",

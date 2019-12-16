@@ -82,7 +82,7 @@ context('Create Listing', () => {
     cy.get('#listing-create-autocomplete').click()
     cy.get('#listing-create-autocomplete-2411-24').click()
     cy.get('#general-title').type('The Accountant')
-    cy.get('#general-type').select('Service')
+    cy.get('#general-type').should('be.disabled')
     cy.get('#selector-input-general-price').clear()
     cy.get('#selector-input-general-price').type('15')
     cy.get('#general-rate-method').select('Hourly')

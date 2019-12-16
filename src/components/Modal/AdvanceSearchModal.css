@@ -1,0 +1,7 @@
+.advanced-search-red-hover {
+    transition: color 0.50s;
+}
+
+.advanced-search-red-hover:hover {
+  color: red;
+}
