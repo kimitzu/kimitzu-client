@@ -147,6 +147,7 @@
       }
     ],
     "files": [
+      "**/*",
       "build/**/*",
       "node_modules/**/*",
       "public/**/*",

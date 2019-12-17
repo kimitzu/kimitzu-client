@@ -46,7 +46,11 @@ class LocalServer implements LocalServerProps {
       throw new Error('Server is already running.')
     }
 
-    this.subProcess = spawn(path.join(filePath, file), args)
+    console.log('What', path.join(filePath, file))
+
+    this.subProcess = spawn(path.join(filePath, file), args, { shell: true })
+
+    this.subProcess.stdout.pipe(process.stdout)
 
     this.subProcess.on('error', error => {
       log.error(`${name} server error: ${error}`)

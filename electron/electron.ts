@@ -52,6 +52,12 @@ if (!isDev && !process.argv.includes('--noexternal')) {
 
   const kimitzuServicesServer = 'services' + extension
 
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!1')
+  console.log('Dirname', __dirname)
+  console.log('Resources', process.resourcesPath)
+  console.log('Exec', process.execPath)
+  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!1')
+
   obServer = new LocalServer({
     name: 'Openbazaar',
     filePath: process.resourcesPath + '/lib',
