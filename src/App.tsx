@@ -155,7 +155,7 @@ class App extends React.Component<{}, State> {
             className="uk-margin-large"
             width="150"
             height="150"
-            src="./images/Logo/Blue/SVG/Kimitzu-Blue-Unique.svg"
+            src="./images/Logo/full-blue.png"
             alt="Kimitzu Logo"
           />
           <h4 className="uk-text-danger">We could not connect to your server.</h4>
