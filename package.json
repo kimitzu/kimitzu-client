@@ -128,7 +128,24 @@
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
+    "productName": "Kimitzu Client",
     "appId": "ch.kimitzu.client",
+    "extraFiles": [
+      {
+        "from": "./public/icon.icns",
+        "to": "icon.icns",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "./public/icon.png",
+        "to": "icon.png",
+        "filter": [
+          "*"
+        ]
+      }
+    ],
     "files": [
       "build/**/*",
       "node_modules/**/*",
@@ -159,10 +176,17 @@
     "compression": "store",
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": "default"
+      "target": "default",
+      "icon": "./build/icon.icns"
     },
     "linux": {
-      "target": ["deb"]
+      "target": [
+        "deb"
+      ],
+      "icon": "./build/icon.icns"
+    },
+    "win": {
+      "icon": "./build/icon.icns"
     }
   },
   "husky": {
