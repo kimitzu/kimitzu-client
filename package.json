@@ -132,7 +132,22 @@
     "files": [
       "build/**/*",
       "node_modules/**/*",
-      "public/**/*"
+      "public/**/*",
+      "lib/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "./lib/",
+        "to": "lib",
+        "filter": [
+          "*"
+        ]
+      },
+      {
+        "from": "./lib/external",
+        "to": "lib/external",
+        "filter": "*"
+      }
     ],
     "publish": [
       {
@@ -142,21 +157,12 @@
       }
     ],
     "compression": "store",
-    "extraFiles": [
-      {
-        "from": "./external/_root",
-        "to": "./",
-        "filter": "*"
-      },
-      {
-        "from": "./external",
-        "to": "./external",
-        "filter": "*"
-      }
-    ],
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": "default"
+    },
+    "linux": {
+      "target": ["deb"]
     }
   },
   "husky": {

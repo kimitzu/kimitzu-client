@@ -48,10 +48,6 @@ class LocalServer implements LocalServerProps {
 
     this.subProcess = spawn(path.join(filePath, file), args)
 
-    this.subProcess.stdout.on('data', data => {
-      console.log(data.toString())
-    })
-
     this.subProcess.on('error', error => {
       log.error(`${name} server error: ${error}`)
     })

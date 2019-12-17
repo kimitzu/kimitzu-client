@@ -29,5 +29,5 @@ package-lock.json
 /public/LocalServer.js
 /cypress/screenshots
 .vscode/launch.json
-/external
-!/external/_root
+/lib/*
+!/lib/external
