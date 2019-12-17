@@ -125,10 +125,10 @@ class App extends React.Component<{}, State> {
       <Fragment>
         {isElectron() ? (
           <>
-            <DefaultTitleBar />
-            <div style={{ overflowY: 'auto', height: `${height - 46}px` }}>
-              {this.renderContent()}
+            <div data-uk-sticky>
+              <DefaultTitleBar />
             </div>
+            <div>{this.renderContent()}</div>
           </>
         ) : (
           this.renderContent()

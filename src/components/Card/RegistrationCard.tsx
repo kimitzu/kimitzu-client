@@ -15,11 +15,7 @@ interface Props {
 
 const RegistrationCard = (props: Props) => (
   <div className="uk-card uk-card-default uk-card-body uk-width-1-1 uk-width-1-2@s uk-flex uk-flex-center uk-flex-column uk-flex-middle">
-    <img
-      className="kimitzu-logo-form"
-      src="./images/Logo/Blue/SVG/Kimitzu-Blue-Unique.svg"
-      alt="Kimitzu Logo"
-    />
+    <img className="kimitzu-logo-form" src="/images/Logo/full-blue.png" alt="Kimitzu Logo" />
     <div className="uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
       {props.content}
     </div>
