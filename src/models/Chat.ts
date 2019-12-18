@@ -86,6 +86,13 @@ class Chat {
     return this.conversations.findIndex(convo => convo.peerId === peerID)
   }
 
+  public updateSelectedConvo(peerID: string) {
+    const index = this.getConvoIndexByPeerID(peerID)
+    if (index > -1 && index < this.conversations.length) {
+      this.selectedConvoIndex = index
+    }
+  }
+
   public async sendMessageToSelectedRecipient(message: string) {
     const { selectedConversation, selectedConvoIndex } = this
     const { peerId } = selectedConversation
@@ -98,7 +105,7 @@ class Chat {
       read: true,
       subject: '',
       timestamp: new Date().toString(),
-      sent: false,
+      isSending: true,
     }
     selectedConversation.messages.push(messageData)
     selectedConversation.lastMessage = message
@@ -109,9 +116,51 @@ class Chat {
     if (response) {
       const index = this.getConvoIndexByPeerID(peerId) // get the index again because the conversations ordering might have changed
       const { messages } = this.conversations[index]
-      this.conversations[index].messages[messages.length - 1].sent = true
+      this.conversations[index].messages[messages.length - 1].isSending = false
     }
     return response
+  }
+
+  public async handleWebsocketMessage(messageData: Message) {
+    const { peerId, message, timestamp } = messageData
+    const index = this.getConvoIndexByPeerID(peerId)
+    let conversation: Conversation
+    if (index !== -1) {
+      let name = peerId
+      let image = `${config.host}/images/user.svg`
+      const profile = await Profile.retrieve(peerId)
+      if (profile) {
+        name = profile.name
+        image = profile.getAvatarSrc('small')
+      }
+      // TODO: Check messageData if it contains the right info, if yes no need to create new message object
+      const newMessage: Message = {
+        message,
+        messageId: '',
+        outgoing: false,
+        peerId: '',
+        read: false,
+        subject: '',
+        timestamp,
+      }
+      conversation = {
+        lastMessage: message,
+        outgoing: false,
+        peerId,
+        timestamp,
+        unread: 0,
+        image,
+        name,
+        messages: [newMessage],
+      }
+    } else {
+      conversation = this.conversations.splice(index, 1)[0]
+      conversation.messages.push(messageData)
+      conversation.lastMessage = message
+      conversation.timestamp = timestamp
+    }
+    this.selectedConvoIndex = 0
+    this.conversations.unshift(conversation)
   }
 
   get selectedConversation() {

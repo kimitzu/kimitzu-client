@@ -233,7 +233,7 @@ class Home extends Component<HomeProps, HomeState> {
     const content: JSX.Element[] = []
     for (let i = 0; i < count; i++) {
       content.push(
-        <IonItem lines="none">
+        <IonItem lines="none" key={`placeholder-card-${i}`}>
           <ListingCardSkeleton key={`skeleton${i}`} />
         </IonItem>
       )

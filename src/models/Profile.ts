@@ -147,7 +147,7 @@ class Profile implements ProfileSchema {
     return { ratingsSummary, ratings }
   }
 
-  public static async retrieve(id?: string, force?: boolean): Promise<Profile> {
+  public static async retrieve(id?: string, force?: boolean, simple?: boolean): Promise<Profile> {
     let profile: Profile
 
     try {
@@ -172,6 +172,10 @@ class Profile implements ProfileSchema {
       }
     } catch (e) {
       throw e
+    }
+
+    if (simple) {
+      return profile
     }
 
     if (profile.customProps.competencies) {
