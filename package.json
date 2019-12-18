@@ -130,7 +130,12 @@
   "build": {
     "productName": "Kimitzu Client",
     "appId": "ch.kimitzu.client",
-    "extraFiles": [
+    "files": [
+      "**/*",
+      "build/**/*",
+      "node_modules/**/*",
+      "public/**/*",
+      "lib/**/*",
       {
         "from": "./public/icon.icns",
         "to": "icon.icns",
@@ -145,13 +150,6 @@
           "*"
         ]
       }
-    ],
-    "files": [
-      "**/*",
-      "build/**/*",
-      "node_modules/**/*",
-      "public/**/*",
-      "lib/**/*"
     ],
     "extraResources": [
       {
@@ -172,7 +170,7 @@
     "compression": "store",
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": "default",
+      "target": "dmg",
       "icon": "./build/icon.icns"
     },
     "linux": {
