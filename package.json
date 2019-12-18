@@ -160,11 +160,6 @@
         "filter": [
           "*"
         ]
-      },
-      {
-        "from": "./lib/external",
-        "to": "lib/external",
-        "filter": "*"
       }
     ],
     "publish": [
