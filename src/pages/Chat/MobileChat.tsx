@@ -1,4 +1,5 @@
-import { IonContent, IonModal, IonPage } from '@ionic/react'
+import { RefresherEventDetail } from '@ionic/core'
+import { IonContent, IonModal, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react'
 import React, { useEffect, useState } from 'react'
 
 import { ConversationsBox, ConvoList } from '../../components/ChatBox'
@@ -7,23 +8,30 @@ import Chat from '../../models/Chat'
 
 const MobileChat = () => {
   const [chat, setChat] = useState<Chat>(new Chat())
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
   const [showConvo, setShowConvo] = useState<boolean>(false)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const chatData = await Chat.retrieve()
-        setChat(chatData)
-        await chatData.syncProfilesAndMessages()
-        setChat(new Chat(chatData))
-      } catch (error) {
-        // TODO: add handler
-        console.log(error)
-      }
-    })()
+    retrieveChat()
   }, [])
+
+  const retrieveChat = async () => {
+    try {
+      const chatData = await Chat.retrieve()
+      chatData.sortConversations()
+      if (isRefreshing) {
+        setChat(chatData)
+      }
+      await chatData.syncProfilesAndMessages()
+      setChat(new Chat(chatData))
+      setIsRefreshing(false)
+    } catch (error) {
+      // TODO: add handler
+      console.log(error)
+    }
+  }
 
   const handleRecipientChange = (peerID: string) => {
     setChat(prevState => {
@@ -60,10 +68,19 @@ const MobileChat = () => {
     setMessage(msg)
   }
 
+  const handleRefresh = (e: CustomEvent<RefresherEventDetail>) => {
+    setIsRefreshing(true)
+    retrieveChat()
+    e.detail.complete()
+  }
+
   const { selectedConversation } = chat
   return (
     <IonPage>
       <IonContent id="chat-content">
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent />
+        </IonRefresher>
         <ConvoList
           conversations={chat.conversations}
           selectedIndex={chat.selectedConvoIndex}

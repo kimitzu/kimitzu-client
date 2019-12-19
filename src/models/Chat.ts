@@ -61,6 +61,12 @@ class Chat {
     )
   }
 
+  public sortConversations() {
+    this.conversations = this.conversations.sort((a, b) => {
+      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    })
+  }
+
   public async newConversation(profile: Profile) {
     const index: number = this.getConvoIndexByPeerID(profile.peerID)
     let selectedConvo: Conversation
