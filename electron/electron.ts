@@ -193,16 +193,29 @@ app.on('ready', async () => {
 })
 
 app.on('window-all-closed', () => {
-  if (obServer) {
-    obServer.stop()
-  }
-  if (kimitzuServices) {
-    kimitzuServices.stop()
-  }
   if (process.platform !== 'darwin') {
+    if (obServer) {
+      obServer.stop()
+    }
+    if (kimitzuServices) {
+      kimitzuServices.stop()
+    }
+
     app.quit()
   }
 })
+
+app.on('before-quit', () => {
+  if (process.platform === 'darwin') {
+    if (obServer) {
+      obServer.stop()
+    }
+    if (kimitzuServices) {
+      kimitzuServices.stop()
+    }
+  }
+})
+
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
