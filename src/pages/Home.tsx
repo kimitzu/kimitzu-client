@@ -13,6 +13,7 @@ import { ListingCardSkeleton } from '../components/Card'
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
 import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
+import { NavBar } from '../components/NavBar'
 import { Pagination } from '../components/Pagination'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
@@ -82,6 +83,9 @@ class Home extends Component<HomeProps, HomeState> {
     const { profile, rating, search } = this.state
     return (
       <IonPage>
+        {isPlatform('mobile') || isPlatform('mobileweb') ? (
+          <NavBar profile={profile} isSearchBarShow /> // TODO: make separate navbar for mobile
+        ) : null}
         <AdvanceSearchModal onSearchSubmit={this.handleSearchSubmit} />
         <IonContent>
           {isPlatform('mobile') || isPlatform('mobileweb') ? (

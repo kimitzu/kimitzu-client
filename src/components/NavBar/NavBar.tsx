@@ -1,4 +1,4 @@
-import { IonHeader } from '@ionic/react'
+import { IonHeader, isPlatform } from '@ionic/react'
 import isElectron from 'is-electron'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -38,12 +38,20 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
       <nav id="nav" className="uk-navbar-container" data-uk-navbar uk-navbar="mode: click">
         <div id="navbar-left-item" className="uk-navbar-left">
           <a className="uk-navbar-item uk-logo" onClick={handleReload} href="/#">
-            <img id="logo-img" src="./images/Logo/full-blue.png" alt="Kimitzu Text Logo" />
+            <img
+              id="logo-img"
+              src={`./images/Logo/${isPlatform('mobile') ? 'square-white' : 'full-blue'}.png`}
+              alt="Kimitzu Text Logo"
+            />
           </a>
         </div>
         <div id="navbar-center-item" className="uk-navbar-center">
           {isSearchBarShow ? (
-            <div className="uk-flex uk-flex-row uk-flex-middle uk-flex-center uk-flex-1 uk-padding uk-padding-remove-vertical">
+            <div
+              className={`uk-flex uk-flex-row uk-flex-middle uk-flex-center uk-flex-1 ${
+                !isPlatform('mobile') ? 'uk-padding' : ''
+              } uk-padding-remove-vertical`}
+            >
               <form
                 className="uk-search uk-search-default uk-width-1-1"
                 onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
@@ -139,74 +147,76 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                 </ul>
               </div>
             </li>
-            <li>
-              <a
-                href="/#"
-                id="account"
-                className="navbar-icon"
-                onClick={evt => evt.preventDefault()}
-              >
-                <span className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
-              </a>
-              <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
-                <ul className="uk-nav uk-dropdown-nav">
-                  <li>
-                    <Link id="create-new-listing" to="/listing/create">
-                      {navigationBarLocale.createNewListingLabel}
-                    </Link>
-                  </li>
-                  <li className="uk-nav-divider" />
-                  <li>
-                    <Link id="purchase-history" to="/history/purchases">
-                      {navigationBarLocale.purchaseHistoryLabel}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link id="sales-history" to="/history/sales">
-                      {navigationBarLocale.salesHistoryLabel}
-                    </Link>
-                  </li>
-                  <li hidden={!profile.moderator}>
-                    <Link id="case-history" to="/history/cases">
-                      {navigationBarLocale.caseHistoryLabel}
-                    </Link>
-                  </li>
-                  <li className="uk-nav-divider" />
-                  <li>
-                    <Link id="view-profile" to="/profile">
-                      {navigationBarLocale.profileLabel}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link id="wallet" to="/wallet">
-                      {navigationBarLocale.walletLabel}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link id="settings" to="/settings">
-                      {navigationBarLocale.settingsLabel}
-                    </Link>
-                  </li>
-                  <li
-                    hidden={!displayLogout}
-                    onClick={() => {
-                      Profile.logout()
+            {!isPlatform('mobile') ? (
+              <li>
+                <a
+                  href="/#"
+                  id="account"
+                  className="navbar-icon"
+                  onClick={evt => evt.preventDefault()}
+                >
+                  <span className="uk-navbar-item uk-logo" data-uk-icon="icon: user" />
+                </a>
+                <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
+                  <ul className="uk-nav uk-dropdown-nav">
+                    <li>
+                      <Link id="create-new-listing" to="/listing/create">
+                        {navigationBarLocale.createNewListingLabel}
+                      </Link>
+                    </li>
+                    <li className="uk-nav-divider" />
+                    <li>
+                      <Link id="purchase-history" to="/history/purchases">
+                        {navigationBarLocale.purchaseHistoryLabel}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link id="sales-history" to="/history/sales">
+                        {navigationBarLocale.salesHistoryLabel}
+                      </Link>
+                    </li>
+                    <li hidden={!profile.moderator}>
+                      <Link id="case-history" to="/history/cases">
+                        {navigationBarLocale.caseHistoryLabel}
+                      </Link>
+                    </li>
+                    <li className="uk-nav-divider" />
+                    <li>
+                      <Link id="view-profile" to="/profile">
+                        {navigationBarLocale.profileLabel}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link id="wallet" to="/wallet">
+                        {navigationBarLocale.walletLabel}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link id="settings" to="/settings">
+                        {navigationBarLocale.settingsLabel}
+                      </Link>
+                    </li>
+                    <li
+                      hidden={!displayLogout}
+                      onClick={() => {
+                        Profile.logout()
 
-                      if (isElectron()) {
-                        const remote = window.remote
-                        const currentWindow = remote.getCurrentWindow()
-                        const { webContents } = currentWindow
-                        webContents.clearHistory()
-                      }
-                      handleReload()
-                    }}
-                    id="logout"
-                  >
-                    <Link to="#">Logout</Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
+                        if (isElectron()) {
+                          const remote = window.remote
+                          const currentWindow = remote.getCurrentWindow()
+                          const { webContents } = currentWindow
+                          webContents.clearHistory()
+                        }
+                        handleReload()
+                      }}
+                      id="logout"
+                    >
+                      <Link to="#">Logout</Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            ) : null}
           </ul>
         </div>
       </nav>
