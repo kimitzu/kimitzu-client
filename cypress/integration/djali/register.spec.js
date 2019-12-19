@@ -6,6 +6,18 @@ context('Register', () => {
     cy.server({
       status: 200,
     })
+
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:4002/ob/config',
+      response: {}
+    })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/kimitzu/peers',
+      response: {},
+    })
+
     cy.route({
       method: 'GET',
       url: 'http://localhost:8109/kimitzu/peer/get?id=&force=true', 
