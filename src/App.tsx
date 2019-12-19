@@ -107,16 +107,18 @@ class App extends React.Component<{}, State> {
   }
 
   public async componentDidMount() {
-    const options = {
-      resources: [`${config.openBazaarHost}/ob/config`, `${config.kimitzuHost}/kimitzu/peers`],
+    if (isElectron()) {
+      const options = {
+        resources: [`${config.openBazaarHost}/ob/config`, `${config.kimitzuHost}/kimitzu/peers`],
+      }
+      this.setState({
+        waitText: 'Connecting to Kimitzu-Go and Kimitzu-Services',
+      })
+      await waitOn(options)
+      this.setState({
+        waitText: 'Please Wait...',
+      })
     }
-    this.setState({
-      waitText: 'Connecting to Kimitzu-Go and Kimitzu-Services',
-    })
-    await waitOn(options)
-    this.setState({
-      waitText: 'Please Wait...',
-    })
 
     await this.connect()
     setTimeout(() => {
