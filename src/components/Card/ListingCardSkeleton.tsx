@@ -7,7 +7,7 @@ import './ListingCard.css'
 const ListingCardSkeleton = () => (
   <div className="listing-container">
     <img className="listing-header" src={`${config.host}/images/Logo/square-black-white.png`} />
-    <div className="uk-width-1-1 uk-padding-small uk-padding-remove-horizontal">
+    <div className="uk-width-1-1 uk-padding-small">
       <div className="uk-margin-bottom">
         <h4>
           <IonSkeletonText animated width="40%" />

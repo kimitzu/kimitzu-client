@@ -10,7 +10,7 @@ import {
   isPlatform,
 } from '@ionic/react'
 import { IonReactHashRouter } from '@ionic/react-router'
-import { home, person, pricetags, wallet } from 'ionicons/icons'
+import { home, mail, person, pricetags, wallet } from 'ionicons/icons'
 import React from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import { BreadCrumb } from './components/BreadCrumb'
@@ -25,6 +25,7 @@ import {
   Profile,
   WalletView,
 } from './pages'
+import MobileChat from './pages/Chat/MobileChat'
 import DevMode from './pages/DevMode'
 import DisputeView from './pages/DisputeView'
 import OrderView from './pages/OrderView'
@@ -48,6 +49,7 @@ const renderMobileTabs = ({ currentUser, settings, updateCurrentUser }) => (
   <IonTabs>
     <IonRouterOutlet key={window.location.href}>
       <Route path="/" exact render={props => <Home {...props} currentUser={currentUser} />} />
+      <Route path="/messages" exact component={MobileChat} />
       <Route
         path="/profile"
         exact
@@ -74,6 +76,11 @@ const renderMobileTabs = ({ currentUser, settings, updateCurrentUser }) => (
         exact
         render={props => <Checkout {...props} currentUser={currentUser} />}
       />
+      <Route
+        path="/profile/:id"
+        exact
+        render={props => <Profile {...props} profileContext={{ settings, currentUser }} />}
+      />
     </IonRouterOutlet>
     <IonTabBar slot="bottom">
       <IonTabButton
@@ -84,6 +91,15 @@ const renderMobileTabs = ({ currentUser, settings, updateCurrentUser }) => (
       >
         <IonIcon icon={home} />
         <IonLabel>Home</IonLabel>
+      </IonTabButton>
+      <IonTabButton
+        tab="messages"
+        onClick={() => {
+          window.location.hash = '/messages'
+        }}
+      >
+        <IonIcon icon={mail} />
+        <IonLabel>Messages</IonLabel>
       </IonTabButton>
       <IonTabButton tab="store" onClick={() => (window.location.hash = '/profile')}>
         <IonIcon icon={pricetags} />

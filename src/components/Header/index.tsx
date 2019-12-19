@@ -1,4 +1,5 @@
+import ChatHeader from './ChatHeader'
 import MobileHeader from './MobileHeader'
 import ProfileHeader from './ProfileHeader'
 
-export { ProfileHeader, MobileHeader }
+export { ChatHeader, ProfileHeader, MobileHeader }

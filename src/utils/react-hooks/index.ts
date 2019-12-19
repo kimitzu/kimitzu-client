@@ -1,3 +1,4 @@
+import useDidUpdate from './useDidUpdate'
 import useInfiniteScroll from './useInfiniteScroll'
 
-export { useInfiniteScroll }
+export { useDidUpdate, useInfiniteScroll }
