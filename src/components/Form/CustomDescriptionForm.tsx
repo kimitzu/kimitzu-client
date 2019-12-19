@@ -8,6 +8,8 @@ import { localeInstance } from '../../i18n'
 import { CustomDescription } from '../../interfaces/Profile'
 import Profile from '../../models/Profile'
 
+import './CustomDescriptionForm.css'
+
 const PhysicalCharacteristics = { ...Characteristics }
 PhysicalCharacteristics[''] = ''
 
@@ -62,12 +64,12 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
           return (
             <div
               key={description.label}
-              className="uk-margin uk-flex uk-flex-row uk-flex-middle uk-flex-1"
+              className="uk-card uk-card-default uk-padding-small uk-margin-small-top"
               onMouseOver={() => {
                 setHoverIndex(index)
               }}
             >
-              <div className="uk-width-1-1">
+              <div className="uk-width-1-1 uk-margin-small-top">
                 <FormLabel label={customDescriptionForm.labelLabel} />
                 <div className="uk-form-controls">
                   <select
@@ -75,6 +77,9 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                     id="form-stacked-select"
                     onChange={evt => {
                       changeHandler('label', evt.target.value, selectedIndex)
+                      /**
+                       * Initialize default blank value
+                       */
                       changeHandler('value', descriptionElementValue[0], selectedIndex)
                     }}
                     onFocus={() => {
@@ -92,10 +97,10 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                   </select>
                 </div>
               </div>
-              <div className="uk-margin-left uk-width-1-1">
+              <div className="uk-width-1-1 uk-margin-small-top">
                 <FormLabel label={customDescriptionForm.valueLabel} />
                 <div className="uk-form-controls">
-                  {Array.isArray(descriptionElementValue) ? (
+                  {descriptionElementValue.choices ? (
                     <select
                       className="uk-select"
                       id="form-stacked-select"
@@ -104,7 +109,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                       }}
                       value={descriptions[index].value}
                     >
-                      {descriptionElementValue.map((selection, pdIndex) => {
+                      {descriptionElementValue.choices.map((selection, pdIndex) => {
                         return (
                           <option key={pdIndex} value={selection}>
                             {selection}
@@ -127,7 +132,7 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                   )}
                 </div>
               </div>
-              <div className="uk-margin-left uk-width-1-6">
+              <div className="close-button-custom-desc">
                 {hoverIndex === index ? (
                   <span
                     className="uk-margin-top cursor-pointer"

@@ -22,6 +22,7 @@
   "peerID": "Peer ID",
   "minimum": "Minimum",
   "maximum": "Maximal",
+  "addFilter": "Lägg till filter",
   "advancedSearch": "Avancerad Sökning",
   "reset": "Reset",
   "search": "Sök",

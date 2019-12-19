@@ -2,3 +2,13 @@
   color: #a3a3a3;
   font-size: 0.85rem;
 }
+.close-social-media-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-borderless-social-media {
+  outline: none !important;
+  border: none !important;
+  background-color: white !important;
+}

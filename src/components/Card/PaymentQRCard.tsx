@@ -80,7 +80,7 @@ const PaymentQRCard = ({
         </div>
         <div className="uk-margin uk-margin-remove-horizontal">
           <div className="uk-inline">
-            <Button className="uk-button uk-button-primary" type="button">
+            <Button className="uk-button uk-button-primary" type="button" id="pay">
               {paymentQRCard.walletBtnText}
             </Button>
             <div id="dropID" data-uk-dropdown="mode: click">

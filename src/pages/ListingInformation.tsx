@@ -32,6 +32,8 @@ import decodeHtml from '../utils/Unescape'
 import config from '../config'
 import { localeInstance } from '../i18n'
 
+import { CompletionRating } from '../interfaces/CompletionRating'
+import KimitzuCompletionRatings from '../models/KimitzuCompletionRatings'
 import './ListingInformation.css'
 
 interface Image {
@@ -46,14 +48,13 @@ interface State {
   profile: Profile
   listing: Listing
   quantity: number
-  ratings: Rating[]
-  ratingSummary: RatingSummary
   reviewsPerPage: number
   currentReviewPage: number
   isLoading: boolean
   loadingStatus: string
   currentUser: Profile
   hasFailed: boolean
+  ratings: KimitzuCompletionRatings
 }
 
 interface RouteProps {
@@ -81,13 +82,12 @@ class ListingProfile extends Component<Props, State> {
       profile,
       currentUser: profile,
       quantity: 1,
-      ratings: [],
-      ratingSummary: { average: 0, count: 0, ratings: [], slug: '' },
       reviewsPerPage: 2,
       currentReviewPage: 1,
       isLoading: true,
       loadingStatus: '',
       hasFailed: false,
+      ratings: new KimitzuCompletionRatings(),
     }
     this.handleBuy = this.handleBuy.bind(this)
     this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
@@ -111,28 +111,19 @@ class ListingProfile extends Component<Props, State> {
         loadingStatus: this.locale.listingPage.retrieveRatingsSpinnerText,
         currentUser,
       })
-      setTimeout(async () => {
-        const { ratingSummary, ratings } = await listing.getRatings()
-        this.setState({ ratings, ratingSummary })
-        const updatedRatings = await Promise.all(
-          ratings.map(async (rating: Rating) => {
-            let userData
-            if (rating.ratingData.buyerID) {
-              return rating
-            }
-            try {
-              userData = await Profile.retrieve(rating.ratingData.buyerID!.peerID)
-            } catch (e) {
-              userData = new Profile()
-            }
-            rating.avatar = userData.getAvatarSrc('small')
-            return rating
-          })
-        )
+
+      const ratingsSocket = new WebSocket(
+        `${config.kimitzuSocket.replace(/%id%/g, `${vendor.peerID}@${listing.slug}`)}`
+      )
+      ratingsSocket.addEventListener('message', evt => {
+        const data = JSON.parse(evt.data) as CompletionRating
+        const completionRatings = this.state.ratings
+        completionRatings.add(data)
         this.setState({
-          ratings: updatedRatings,
+          ratings: completionRatings,
         })
       })
+
       this.setState({
         isLoading: false,
       })
@@ -188,11 +179,11 @@ class ListingProfile extends Component<Props, State> {
 
   private renderPage() {
     const { locale } = this
-    const { listing, profile, imageData, quantity, ratingSummary } = this.state
+    const { listing, profile, imageData, quantity } = this.state
     const { background } = profile
 
-    const rating = Math.floor(ratingSummary.average)
-    const ratingStars: JSX.Element[] = this.renderStars(rating)
+    const averageRating = Math.floor(this.state.ratings.averageRating)
+    const ratingStars: JSX.Element[] = this.renderStars(averageRating)
     const skills = JSON.parse(decodeHtml(profile.customProps.skills)) as string[]
 
     if (this.state.isLoading) {
@@ -211,7 +202,7 @@ class ListingProfile extends Component<Props, State> {
 
     return (
       <div id="container">
-        <div className="uk-card uk-card-default uk-card-body card-head">
+        <div className="uk-card uk-card-default uk-card-body card-head uk-margin-bottom">
           {listing.hasExpired && !listing.isOwner ? (
             <div
               className="uk-alert-danger uk-padding-small uk-text-center uk-margin-bottom"
@@ -291,11 +282,12 @@ class ListingProfile extends Component<Props, State> {
                         className="uk-flex uk-flex-row uk-margin-bottom uk-flex-middle"
                         id="starsContainer"
                       >
-                        {ratingSummary.count > 0 ? (
+                        {this.state.ratings.ratingCount > 0 ? (
                           <div className="uk-flex uk-flex-row">
                             <div className="uk-margin-small-right">{ratingStars}</div>
                             <p>
-                              {ratingSummary.count.toFixed(0)} {locale.listingPage.reviewsText}
+                              {this.state.ratings.ratingCount.toFixed(0)}{' '}
+                              {locale.listingPage.reviewsText}
                             </p>
                           </div>
                         ) : (
@@ -477,7 +469,7 @@ class ListingProfile extends Component<Props, State> {
           </div>
         </div>
         {listing.item.description ? (
-          <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head">
+          <div className="uk-card uk-card-default uk-card-medium uk-card-body card-head uk-margin-bottom">
             <h3 className="uk-card-title text-blue uk-text-bold">{locale.descriptionLabel}</h3>
             <div className="inside-content markdown-container">
               <ReactMarkdown source={listing.item.description} />
@@ -555,29 +547,27 @@ class ListingProfile extends Component<Props, State> {
   }
 
   private renderReviews() {
-    const { ratings, ratingSummary, currentReviewPage, reviewsPerPage } = this.state
-    const { average, count } = ratingSummary
-    if (count === 0) {
+    const { ratings, currentReviewPage, reviewsPerPage } = this.state
+    const completionRatings = Object.assign({}, ratings)
+
+    if (ratings.ratingCount === 0) {
       return null
     }
-    const ratingsCount = ratings.length
-    const ratingsToDisplay = ratings.slice(
+
+    completionRatings.ratings = completionRatings.ratings.slice(
       (currentReviewPage - 1) * reviewsPerPage,
       currentReviewPage * reviewsPerPage
     )
+
     return (
-      <div className="uk-margin-top">
-        <InformationCard title={`${count} Review${count > 1 ? 's' : ''}`}>
-          <RatingsAndReviewsSegment
-            totalAverageRating={average}
-            totalReviewCount={count}
-            ratingInputs={OrderRatings}
-            ratings={ratingsToDisplay}
-            inlineSummaryDisplay
-          />
+      <div className="uk-margin-bottom">
+        <InformationCard
+          title={`${ratings.ratingCount} Review${ratings.ratingCount > 1 ? 's' : ''}`}
+        >
+          <RatingsAndReviewsSegment ratings={completionRatings} inlineSummaryDisplay />
           <div className="uk-flex uk-flex-center">
             <Pagination
-              totalRecord={ratingsCount}
+              totalRecord={ratings.ratingCount}
               recordsPerPage={reviewsPerPage}
               handlePageChange={this.handleReviewPageChange}
               selectedPage={currentReviewPage}

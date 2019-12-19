@@ -81,14 +81,8 @@
 
 .blueDotNormal {
   background-color: dodgerblue;
-  width: 10.938rem;
+  width: 0.938rem;
   height: 0.938rem;
   border-radius: 50%;
   position: absolute;
-}
-
-@media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
-  }
 }

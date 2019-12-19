@@ -137,25 +137,25 @@ context('Edit Profile', () => {
     cy.get('#desktop-social-media > a').click()
 
     cy.get(
-      ':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select'
+      ':nth-child(1) > :nth-child(2) > .uk-grid > .uk-flex > :nth-child(1) > .uk-select'
     ).select('500px')
     cy.get(
-      ':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input'
+      ':nth-child(1) > :nth-child(2) > .uk-grid > .uk-flex > :nth-child(2) > .uk-input'
     )
       .clear()
       .type('500pxUsername')
-    cy.get(':nth-child(2) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-2 > .uk-input')
+    cy.get(':nth-child(1) > :nth-child(2) > .uk-grid > .uk-flex > :nth-child(3) > .uk-input')
       .clear()
       .type('500pxProof')
 
     cy.get(
-      ':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > :nth-child(1) > .uk-select'
+      ':nth-child(2) > :nth-child(2) > .uk-grid > .uk-flex > :nth-child(1) > .uk-select'
     ).select('Youtube')
     cy.get(
-      ':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-4.uk-margin-left > .uk-input'
+      ':nth-child(2) > :nth-child(2) > .uk-grid > .uk-flex > :nth-child(2) > .uk-input'
     ).type('YoutubeUsername')
     cy.get(
-      ':nth-child(3) > :nth-child(2) > .uk-grid-small > .uk-flex > .uk-width-1-2 > .uk-input'
+      ':nth-child(2) > :nth-child(2) > .uk-grid > .uk-flex > :nth-child(3) > .uk-input'
     ).type('YoutubeProof')
 
     cy.get('#kimitzu-btn').click()
@@ -167,21 +167,13 @@ context('Edit Profile', () => {
 
       expect(JSON.stringify(request.contactInfo.social[0])).to.equal(
         JSON.stringify({
-          proof: 'https://twitter.com/24th_Saint/status/1166938745167175681',
-          type: 'twitter',
-          username: '@24th_saint',
+          proof: '500pxProof',
+          type: '500px',
+          username: '500pxUsername',
         })
       )
 
       expect(JSON.stringify(request.contactInfo.social[1])).to.equal(
-        JSON.stringify({
-          type: '500px',
-          username: '500pxUsername',
-          proof: '500pxProof',
-        })
-      )
-
-      expect(JSON.stringify(request.contactInfo.social[2])).to.equal(
         JSON.stringify({
           type: 'youtube',
           username: 'YoutubeUsername',

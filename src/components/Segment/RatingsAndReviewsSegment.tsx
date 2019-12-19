@@ -3,81 +3,61 @@ import React from 'react'
 import RatingsSummarySegment from './RatingsSummarySegment'
 import UserReviewSegment from './UserReviewSegment'
 
-import Rating, { KimitzuRatingItem, RatingInput, RatingSummary } from '../../interfaces/Rating'
+import Rating, { KimitzuRatingItem, RatingSummary } from '../../interfaces/Rating'
+import KimitzuCompletionRatings from '../../models/KimitzuCompletionRatings'
+import KimitzuFulfillmentRatings from '../../models/KimitzuFulfillmentRatings'
+import KimitzuRatings from '../../models/KimitzuRatings'
 
 interface Props {
-  ratings?: Rating[]
-  kimitzuRatings?: RatingSummary['kimitzu']
-  ratingInputs: RatingInput[]
-  totalReviewCount?: number
-  totalAverageRating?: number
-  totalStarCount?: number
+  ratings: KimitzuRatings
   inlineSummaryDisplay?: boolean
 }
 
-const renderReviews = (ratings?: Rating[], kimitzuRatings?: RatingSummary['kimitzu']) => {
-  if (ratings) {
-    return ratings.map((rating, index) => {
-      const { ratingData, signature, avatar } = rating
-      const { customerService, deliverySpeed, description, overall, quality } = ratingData
-      const averageRating = (customerService + deliverySpeed + description + overall + quality) / 5
+const renderReviews = (ratings: KimitzuRatings) => {
+  if (ratings.type === 'complete') {
+    const ratingInformation = ratings as KimitzuCompletionRatings
+    return ratingInformation.ratings.map((rating, index) => {
+      const ratingElement = rating.ratings[0].ratingData
+      // const { ratingData, signature, avatar } = rating
+      // const { customerService, deliverySpeed, description, overall, quality } = ratingData
+      // const averageRating = (customerService + deliverySpeed + description + overall + quality) / 5
       return (
         <UserReviewSegment
-          key={`${signature}${index}`}
-          imgSrc={avatar}
-          reviewer={ratingData.buyerName}
-          review={ratingData.review}
-          timeStamp={ratingData.timestamp}
-          starValue={averageRating}
+          key={`${rating.orderId}`}
+          imgSrc={''}
+          reviewer={ratingElement.buyerName}
+          review={ratingElement.review}
+          timeStamp={ratingElement.timestamp}
+          starValue={rating.average}
         />
       )
     })
-  } else if (kimitzuRatings && kimitzuRatings.buyerRatings) {
-    return kimitzuRatings.buyerRatings.map((buyerRating: KimitzuRatingItem, index: number) => {
-      const { comment, fields, reviewer, avatar, timestamp } = buyerRating
-      if (!fields) {
-        return null
-      }
-      const averageRating =
-        fields.reduce((acc, cur) => {
-          return acc + (cur.score * cur.weight) / 100
-        }, 0) / fields.length
+  } else {
+    const ratingInformation = ratings as KimitzuFulfillmentRatings
+    return ratingInformation.ratings.map(rating => {
+      // Old calculation for reference
+      // return acc + (cur.score * cur.weight) / 100
       return (
         <UserReviewSegment
-          key={`${timestamp}${index}`}
-          imgSrc={avatar}
-          reviewer={reviewer || 'User'}
-          review={comment}
-          timeStamp={timestamp}
-          starValue={averageRating}
+          key={`${rating.orderId}`}
+          imgSrc={''}
+          reviewer={rating.buyerRating.vendorID}
+          review={rating.buyerRating.comment}
+          timeStamp={rating.timestamp}
+          starValue={rating.average}
         />
       )
     })
   }
-  return null
 }
 
-const RatingsAndReviewSegment = ({
-  totalAverageRating,
-  totalReviewCount,
-  totalStarCount,
-  kimitzuRatings,
-  ratingInputs,
-  ratings,
-  inlineSummaryDisplay,
-}: Props) => (
-  <div>
-    <RatingsSummarySegment
-      ratings={ratings}
-      kimitzuRatings={kimitzuRatings}
-      ratingInputs={ratingInputs}
-      totalAverageRating={totalAverageRating}
-      totalReviewCount={totalReviewCount}
-      totalStarCount={totalStarCount}
-      isInlineDisplay={inlineSummaryDisplay}
-    />
-    {renderReviews(ratings, kimitzuRatings)}
-  </div>
-)
+const RatingsAndReviewSegment = ({ ratings, inlineSummaryDisplay }: Props) => {
+  return (
+    <div>
+      <RatingsSummarySegment ratings={ratings} isInlineDisplay={inlineSummaryDisplay} />
+      {renderReviews(ratings)}
+    </div>
+  )
+}
 
 export default RatingsAndReviewSegment

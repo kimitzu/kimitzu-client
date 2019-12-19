@@ -6,21 +6,18 @@ import { ProfileBasicInfoSegment, RatingsAndReviewsSegment } from '../Segment'
 import { ListingResponse } from '../../models/Listing'
 import Profile from '../../models/Profile'
 
-import ClientRatings from '../../constants/ClientRatings.json'
-import OrderRatings from '../../constants/OrderRatings.json'
-
-import Rating, { RatingSummary } from '../../interfaces/Rating'
-
 import { localeInstance } from '../../i18n'
+import KimitzuCompletionRatings from '../../models/KimitzuCompletionRatings'
+import KimitzuFulfillmentRatings from '../../models/KimitzuFulfillmentRatings'
 
 interface Props {
   profile: Profile
   currentUser: Profile
   listings: ListingResponse[]
-  ratingSummary: RatingSummary
-  ratings: Rating[]
   followersList: string[]
   followingList: string[]
+  kimitzuFulfillmentRatings: KimitzuFulfillmentRatings
+  kimitzuCompletionRatings: KimitzuCompletionRatings
 }
 
 const ProfileSwitcher = ({
@@ -29,11 +26,10 @@ const ProfileSwitcher = ({
   profile,
   currentUser,
   listings,
-  ratingSummary,
-  ratings,
+  kimitzuCompletionRatings,
+  kimitzuFulfillmentRatings,
 }: Props) => {
   const { profilePage } = localeInstance.get.localizations
-  const { average, count, kimitzu } = ratingSummary
 
   return (
     <ul id="container-profile" className="uk-switcher">
@@ -54,18 +50,13 @@ const ProfileSwitcher = ({
           <div className="uk-flex-1 uk-padding divider border-remove-vertical border-remove-left">
             <h4 className="uk-text-bold uk-text-center">{profilePage.buyerRatingsHeader}</h4>
             <div className="uk-padding-small uk-padding-remove-horizontal">
-              <RatingsAndReviewsSegment ratingInputs={ClientRatings} kimitzuRatings={kimitzu} />
+              <RatingsAndReviewsSegment ratings={kimitzuCompletionRatings} />
             </div>
           </div>
           <div className="uk-flex-1 uk-padding">
             <h4 className="uk-text-bold uk-text-center">{profilePage.sellerRatingsHeader}</h4>
             <div className="uk-padding-small uk-padding-remove-horizontal">
-              <RatingsAndReviewsSegment
-                ratingInputs={OrderRatings}
-                ratings={ratings}
-                totalAverageRating={average}
-                totalReviewCount={count}
-              />
+              <RatingsAndReviewsSegment ratings={kimitzuFulfillmentRatings} />
             </div>
           </div>
         </div>

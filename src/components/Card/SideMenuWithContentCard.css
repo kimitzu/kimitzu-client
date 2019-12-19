@@ -44,4 +44,7 @@
   #button-menu-create-listing {
     visibility: visible;
   }
+  #side-menu-with-content-card-component {
+    padding: 1% 5% 1% 5%;
+  }
 }

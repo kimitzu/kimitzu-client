@@ -42,6 +42,7 @@
     "is-electron": "^2.2.0",
     "iso-639-1": "^2.0.5",
     "moment": "^2.24.0",
+    "multiselect-react-dropdown": "^1.2.8",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.6",
     "react-country-flag": "^1.0.2",
@@ -136,7 +137,8 @@
     "appId": "ch.kimitzu.client",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "public/**/*"
     ],
     "publish": [
       {

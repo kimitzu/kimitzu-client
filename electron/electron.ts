@@ -46,20 +46,23 @@ autoUpdater.autoDownload = false
 autoUpdater.allowDowngrade = true
 
 if (!isDev && !process.argv.includes('--noexternal')) {
-  const fileName =
-    process.platform === 'linux' || process.platform === 'darwin'
-      ? 'openbazaard'
-      : 'openbazaard.exe'
+  const extension = process.platform === 'linux' || process.platform === 'darwin' ? '' : '.exe'
+
+  const kimitzuGoServer = 'openbazaard' + extension
+
+  const kimitzuServicesServer = 'services' + extension
+
   obServer = new LocalServer({
     name: 'Openbazaar',
     filePath: 'external',
-    file: fileName,
+    file: kimitzuGoServer,
   })
   kimitzuServices = new LocalServer({
     name: 'Kimitzu services',
     filePath: 'external',
-    file: fileName,
+    file: kimitzuServicesServer,
   })
+
   obServer.start(['start', '--testnet'])
   kimitzuServices.start()
 }
@@ -174,11 +177,19 @@ const createWindow = async () => {
 }
 
 app.on('ready', async () => {
-  autoUpdater.checkForUpdatesAndNotify()
+  try {
+    await autoUpdater.checkForUpdatesAndNotify()
+  } catch (e) {
+    console.warn('Update Error: ' + e.message)
+  }
   createWindow()
-  setTimeout(() => {
-    autoUpdater.checkForUpdatesAndNotify() // Check for updates every 24 hours if the app continues to run
-  }, 1000 * 60 * 60 * 24)
+  setTimeout(async () => {
+    try {
+      await autoUpdater.checkForUpdatesAndNotify()
+    } catch (e) {
+      console.warn('Update Error: ' + e.message)
+    }
+  }, 1000 * 60 * 60 * 24) // Check for updates every 24 hours if the app continues to run
 })
 
 app.on('window-all-closed', () => {

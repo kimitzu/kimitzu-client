@@ -102,25 +102,29 @@ const AddressForm = ({
         {isListing ? null : (
           <div className="uk-margin" id="address-type-selection">
             <FormLabel label={localizations.typeLabel.toUpperCase()} />
-            {options.map((o, index) => (
-              <label key={index}>
-                <input
-                  className="uk-checkbox uk-margin-small-left"
-                  type="checkbox"
-                  checked={location.type ? location.type.includes(o.value) : false}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    if (event.target.checked) {
-                      location.type!.push(o.value)
-                    } else {
-                      const newData = location.type!.filter(e => e !== o.value)
-                      location.type = newData
-                    }
-                    handleChange('type', location.type)
-                  }}
-                />
-                {` ${o.label}`}
-              </label>
-            ))}
+            <div className="uk-child-width-1-2@m uk-grid-small uk-grid-match" data-uk-grid>
+              {options.map((o, index) => (
+                <div key={index} className="uk-margin-small-top">
+                  <label>
+                    <input
+                      className="uk-checkbox uk-margin-small-left"
+                      type="checkbox"
+                      checked={location.type ? location.type.includes(o.value) : false}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        if (event.target.checked) {
+                          location.type!.push(o.value)
+                        } else {
+                          const newData = location.type!.filter(e => e !== o.value)
+                          location.type = newData
+                        }
+                        handleChange('type', location.type)
+                      }}
+                    />
+                    {` ${o.label}`}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
         )}
         <div className="uk-margin">
