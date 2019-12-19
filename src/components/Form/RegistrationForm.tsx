@@ -50,7 +50,7 @@ const RegistrationForm = (props: Props) => {
               props.data.avatarHashes.original || props.avatar
                 ? props.avatar ||
                   `${config.openBazaarHost}/ob/images/${props.data.avatarHashes.original}`
-                : '/images/user.svg'
+                : `${config.host}/images/user.svg`
             }
             alt="Your Avatar"
           />

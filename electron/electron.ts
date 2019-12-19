@@ -54,12 +54,12 @@ if (!isDev && !process.argv.includes('--noexternal')) {
 
   obServer = new LocalServer({
     name: 'Openbazaar',
-    filePath: 'external',
+    filePath: process.resourcesPath + '/lib',
     file: kimitzuGoServer,
   })
   kimitzuServices = new LocalServer({
     name: 'Kimitzu services',
-    filePath: 'external',
+    filePath: process.resourcesPath + '/lib',
     file: kimitzuServicesServer,
   })
 

@@ -4,6 +4,18 @@
 context('Profile', () => {
   beforeEach(() => {
     cy.server({})
+
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:4002/ob/config',
+      response: {}
+    })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/kimitzu/peers',
+      response: {},
+    })
+
     cy.route({
       method: 'GET',
       url: 'http://localhost:8109/kimitzu/peer/*',

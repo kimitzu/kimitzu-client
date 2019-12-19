@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import isElectron from 'is-electron'
 import React, { Fragment } from 'react'
+import waitOn from 'wait-on'
 
 import { FullPageSpinner } from './components/Spinner'
 import { DefaultTitleBar } from './components/TitleBar'
@@ -68,6 +69,7 @@ interface State {
   search: Search
   breadCrumb: BreadCrumb
   settings: Settings
+  waitText: string
 }
 
 class App extends React.Component<{}, State> {
@@ -89,6 +91,7 @@ class App extends React.Component<{}, State> {
       settings,
       search: searchInstance,
       breadCrumb: breadCrumbInstance,
+      waitText: 'Please Wait...',
     }
     this.connect = this.connect.bind(this)
     this.activateTimer = this.activateTimer.bind(this)
@@ -104,6 +107,19 @@ class App extends React.Component<{}, State> {
   }
 
   public async componentDidMount() {
+    if (isElectron()) {
+      const options = {
+        resources: [`${config.openBazaarHost}/ob/config`, `${config.kimitzuHost}/kimitzu/peers`],
+      }
+      this.setState({
+        waitText: 'Connecting to Kimitzu-Go and Kimitzu-Services',
+      })
+      await waitOn(options)
+      this.setState({
+        waitText: 'Please Wait...',
+      })
+    }
+
     await this.connect()
     setTimeout(() => {
       this.setState({ height: window.innerHeight })
@@ -125,10 +141,10 @@ class App extends React.Component<{}, State> {
       <Fragment>
         {isElectron() ? (
           <>
-            <DefaultTitleBar />
-            <div style={{ overflowY: 'auto', height: `${height - 46}px` }}>
-              {this.renderContent()}
+            <div data-uk-sticky>
+              <DefaultTitleBar />
             </div>
+            <div>{this.renderContent()}</div>
           </>
         ) : (
           this.renderContent()
@@ -147,7 +163,7 @@ class App extends React.Component<{}, State> {
       profile,
     } = this.state
     if (!isReady) {
-      return <FullPageSpinner message="Please wait..." />
+      return <FullPageSpinner message={this.state.waitText} />
     } else if (isReady && !isServerConnected) {
       return (
         <div className="full-vh uk-flex uk-flex-middle uk-flex-center uk-flex-column">
@@ -155,7 +171,7 @@ class App extends React.Component<{}, State> {
             className="uk-margin-large"
             width="150"
             height="150"
-            src="./images/Logo/full-blue.png"
+            src={`${config.host}/images/Logo/full-blue.png`}
             alt="Kimitzu Logo"
           />
           <h4 className="uk-text-danger">We could not connect to your server.</h4>

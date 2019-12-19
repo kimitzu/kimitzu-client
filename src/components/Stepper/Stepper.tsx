@@ -1,4 +1,5 @@
 import React from 'react'
+import config from '../../config'
 import './Stepper.css'
 
 interface Props {
@@ -14,7 +15,7 @@ const Stepper = ({ options, currentIndex }: Props) => {
           const checkNormal = (
             <React.Fragment key={val}>
               <div className="stepperCircle">
-                <img src="/images/checked.svg" alt="check" height="30" width="30" />
+                <img src={`${config.host}/images/checked.svg`} alt="check" height="30" width="30" />
               </div>
               <div className="stepper-Bridge" />
             </React.Fragment>
@@ -22,7 +23,7 @@ const Stepper = ({ options, currentIndex }: Props) => {
 
           const checkLast = (
             <div className="stepperCircle" key={val}>
-              <img src="/images/checked.svg" alt="check" height="30" width="30" />
+              <img src={`${config.host}/images/checked.svg`} alt="check" height="30" width="30" />
             </div>
           )
 
