@@ -32,7 +32,7 @@ const userPrefPath = path.join((app || remote.app).getPath('userData'), 'user-pr
 const crashReporterConfig = {
   productName: 'Kimitzu',
   companyName: 'Kimitzu Foundation',
-  submitURL: 'http://localhost:1127/crashreports', // TODO: Update to deployed URL
+  submitURL: 'http://breakpad.kimitzu.ch/crashreports',
   uploadToServer: userPreferences.enableCrashReporting,
 }
 
