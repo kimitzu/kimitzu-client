@@ -6,7 +6,7 @@
     "type": "selection",
     "choices": ["Slim", "Stocky", "Curvy", "Athletic", "Curvy", "Ripped", "Petite", "Toned"]
   },
-  "Bust Size (cm)": {
+  "Bust Size": {
     "type": "number"
   },
   "Current Citizenship": {
@@ -315,7 +315,7 @@
       "Afro"
     ]
   },
-  "Height (cm)": {
+  "Height": {
     "type": "number"
   },
   "Highest Educational Attainment": {
@@ -332,7 +332,7 @@
       "Other"
     ]
   },
-  "Hip Size (cm)": {
+  "Hip Size": {
     "type": "number"
   },
   "Lips": {
@@ -343,7 +343,7 @@
     "type": "selection",
     "choices": ["Single", "Married", "Widowed", "Divorced", "Separated", "Polyamorous", "Other"]
   },
-  "Maximum Lifting Capacity (kg)": {
+  "Maximum Lifting Capacity": {
     "type": "number"
   },
   "Nose": {
@@ -444,10 +444,10 @@
     "type": "selection",
     "choices": ["None", "Some", "Many"]
   },
-  "Waist Size (cm)": {
+  "Waist Size": {
     "type": "number"
   },
-  "Weight (kg)": {
+  "Weight": {
     "type": "number"
   }
 }
