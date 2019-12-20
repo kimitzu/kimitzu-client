@@ -118,17 +118,24 @@ const CustomDescriptionForm = ({ profile }: CustomDescriptionProps) => {
                       })}
                     </select>
                   ) : (
-                    <input
-                      type={descriptionElementValue}
-                      value={descriptions[index].value}
-                      onChange={evt => {
-                        changeHandler('value', evt.target.value, selectedIndex)
-                      }}
-                      onFocus={() => {
-                        setSelectedIndex(index)
-                      }}
-                      className="uk-input"
-                    />
+                    <>
+                      <input
+                        type={descriptionElementValue}
+                        value={descriptions[index].value}
+                        onChange={evt => {
+                          changeHandler('value', evt.target.value, selectedIndex)
+                        }}
+                        onFocus={() => {
+                          setSelectedIndex(index)
+                        }}
+                        className="uk-input"
+                        data-uk-tooltip={
+                          description.label === 'Age'
+                            ? null
+                            : 'Please use only metric units for the meantime (kg/cm)'
+                        }
+                      />
+                    </>
                   )}
                 </div>
               </div>
