@@ -12,6 +12,7 @@
   "Current Citizenship": {
     "type": "selection",
     "choices": [
+      "United States",
       "Afghan",
       "Albanian",
       "Algerian",
@@ -202,7 +203,6 @@
       "Tuvaluan",
       "Ugandan",
       "Ukrainian",
-      "United States",
       "Uruguayan",
       "Uzbekistani",
       "Venezuelan",
