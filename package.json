@@ -1,6 +1,6 @@
 {
   "name": "kimitzu-client",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.1",
   "private": true,
   "author": {
     "email": "dev@kimitzu.ch",
