@@ -7,6 +7,8 @@ import { FormLabel } from '../Label'
 import CryptoCurrencies from '../../constants/CryptoCurrencies'
 
 import { localeInstance } from '../../i18n'
+import currency from '../../models/Currency'
+import Wallet from '../../models/Wallet'
 
 interface SendCryptoFormProps {
   onSend: (
@@ -14,7 +16,8 @@ interface SendCryptoFormProps {
     recipient: string,
     amount: number,
     feeLevel: string,
-    memo: string
+    memo: string,
+    spendAll: boolean
   ) => void
   selectedCryptoCurrency: string
 }
@@ -25,12 +28,13 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
   const [cryptoCurrency] = useState(selectedCryptoCurrency)
   const [memo, setMemo] = useState('')
   const [isSending, setIsSending] = useState(false)
+  const [spendAll, setSpendAll] = useState(false)
 
   const { transactionForm } = localeInstance.get.localizations.walletView
 
   const handleSend = async () => {
     setIsSending(true)
-    await onSend(cryptoCurrency, recipient, amount, 'NORMAL', memo)
+    await onSend(cryptoCurrency, recipient, amount, 'NORMAL', memo, spendAll)
     setIsSending(false)
   }
 
@@ -38,9 +42,15 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
     <div className="uk-width-1-1 uk-flex uk-flex-column">
       <form
         className="uk-form-stacked uk-flex uk-flex-column uk-width-1-1"
-        onSubmit={evt => {
+        onSubmit={async evt => {
           evt.preventDefault()
-          handleSend()
+          try {
+            await handleSend()
+            setAmount(0)
+            setRecipient('')
+          } catch (e) {
+            // Do nothing, errors are handled by parent component
+          }
         }}
       >
         <fieldset className="uk-fieldset">
@@ -55,11 +65,30 @@ const SendCryptoForm = ({ onSend, selectedCryptoCurrency }: SendCryptoFormProps)
             />
           </div>
           <div className="uk-margin">
+            <label>
+              <input
+                className="uk-checkbox"
+                type="checkbox"
+                onChange={async evt => {
+                  setSpendAll(evt.target.checked)
+                  if (evt.target.checked) {
+                    const balances = await Wallet.getBalances()
+                    setAmount(currency.humanizeCrypto(balances[cryptoCurrency].confirmed))
+                  } else {
+                    setAmount(0)
+                  }
+                }}
+              />{' '}
+              Spend All
+            </label>
+          </div>
+          <div className="uk-margin">
             <FormLabel label={transactionForm.amountLabel} required />
             <InputSelector
               options={CryptoCurrencies()}
               defaultSelectorVal={cryptoCurrency}
               inputProps={{
+                disabled: spendAll,
                 type: 'number',
                 value: amount,
                 onChange: e => {

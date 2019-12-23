@@ -147,7 +147,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         listing.listing.item.price * Number(quantity),
         listing.listing.metadata.pricingCurrency,
         currentUser.preferences.fiat
-      ),
+      ).value,
     })
 
     window.socket.addEventListener('message', event => {
@@ -353,7 +353,13 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
                     if (element) {
                       window.UIkit.dropdown(element).hide()
                     }
-                    await this.state.order.pay(orderDetails)
+                    try {
+                      await this.state.order.pay(orderDetails)
+                    } catch (e) {
+                      window.UIkit.notification(this.locale.errors[e.response.data.reason], {
+                        status: 'danger',
+                      })
+                    }
                   }}
                 />
               </div>
@@ -477,9 +483,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
             localListingCurrency.currency
           )
           this.setState({
-            discount: `${discount} ${localListingCurrency.currency}`,
+            discount: `${discount.value} ${discount.currency}`,
             totalAmount:
-              Number(localListingCurrency.price * this.state.quantity) - Number(discount),
+              Number(localListingCurrency.price * this.state.quantity) - Number(discount.value),
           })
         } else {
           this.setState({
@@ -501,15 +507,23 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     this.setState({
       isEstimating: true,
     })
-    const estimate = await this.state.order.estimate(
-      this.state.listing.hash,
-      this.state.quantity,
-      this.state.memo,
-      crypto,
-      this.state.coupon
-    )
+    try {
+      const estimate = await this.state.order.estimate(
+        this.state.listing.hash,
+        this.state.quantity,
+        this.state.memo,
+        crypto,
+        this.state.coupon
+      )
+      this.setState({
+        estimate,
+      })
+    } catch (e) {
+      window.UIkit.notification(this.locale.errors[e.response.data.reason], {
+        status: 'danger',
+      })
+    }
     this.setState({
-      estimate,
       isEstimating: false,
     })
   }
@@ -543,7 +557,8 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         this.state.coupon
       )
     } catch (e) {
-      window.UIkit.notification(e.message, {
+      console.log(e.response.data)
+      window.UIkit.notification(e.response.data.reason, {
         status: 'warning',
       })
       this.setState({

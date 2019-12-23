@@ -121,7 +121,7 @@ context('Wallet', () => {
     cy.get('#selector-input')
       .clear()
       .type('100')
-    cy.get(':nth-child(3) > .uk-input')
+    cy.get(':nth-child(4) > .uk-input')
       .type('SampleNoteToSend')
 
     cy.get('#kimitzu-btn')
