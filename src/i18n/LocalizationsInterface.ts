@@ -65,6 +65,12 @@ export interface Localizations {
   tosCard: TosCard
   chatComponent: ChatComponent
   constants: Constants
+  errors: Errors
+}
+
+export interface Errors {
+  ERROR_INSUFFICIENT_FUNDS: string
+  "vendor's identity signature on contact failed to verify": string
 }
 
 export interface BlockButton {

@@ -11,21 +11,26 @@ class Currency {
     })()
   }
 
-  public convert(value: number, from: string, to: string) {
+  public convert(value: number, from: string, to: string): { value: number; currency: string } {
     if (from.toUpperCase() === to.toUpperCase()) {
-      return value
+      return { value, currency: from }
     }
 
     /**
      * Fallback to default if no internet
      */
     if (!this.currencies) {
-      return value
+      return { value, currency: from }
     }
 
-    return Number(
-      (value * (this.currencies[to.toUpperCase()] / this.currencies[from.toUpperCase()])).toFixed(2)
-    )
+    return {
+      value: Number(
+        (value * (this.currencies[to.toUpperCase()] / this.currencies[from.toUpperCase()])).toFixed(
+          2
+        )
+      ),
+      currency: to,
+    }
   }
 
   public async convertCrypto(from: string, to: string, value: number): Promise<number> {

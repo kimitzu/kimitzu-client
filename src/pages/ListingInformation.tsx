@@ -173,6 +173,11 @@ class ListingProfile extends Component<Props, State> {
     const averageRating = Math.floor(this.state.ratings.averageRating)
     const ratingStars: JSX.Element[] = this.renderStars(averageRating)
     const skills = JSON.parse(decodeHtml(profile.customProps.skills)) as string[]
+    const currencyConverter = currency.convert(
+      Number(listing.displayValue),
+      listing.metadata.pricingCurrency.toUpperCase(),
+      this.state.currentUser.preferences.fiat
+    )
 
     if (this.state.isLoading) {
       return (
@@ -288,15 +293,9 @@ class ListingProfile extends Component<Props, State> {
                         className="uk-flex uk-flex-row uk-flex-middle text-blue"
                         id="price-container"
                       >
-                        <div id="currency">{this.state.currentUser.preferences.fiat}</div>
+                        <div id="currency">{currencyConverter.currency}</div>
                         <div id="price" className="text-blue">
-                          {currency
-                            .convert(
-                              Number(listing.displayValue),
-                              listing.metadata.pricingCurrency.toUpperCase(),
-                              this.state.currentUser.preferences.fiat
-                            )
-                            .toFixed(2)}
+                          {currencyConverter.value.toFixed(2)}
                         </div>
                       </div>
                       <div className="uk-text-right">

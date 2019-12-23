@@ -621,5 +621,9 @@
       },
       "errors": { "states": ["PROCESSING_ERROR"], "description": "Orders that have errors." }
     }
+  },
+  "errors": {
+    "ERROR_INSUFFICIENT_FUNDS": "Insufficient Funds",
+    "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
   }
 }
