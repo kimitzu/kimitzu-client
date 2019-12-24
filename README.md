@@ -1,25 +1,48 @@
 # Kimitzu Client
 
-![banner](./public/images/Logo/full-blue.png)
+KIMITZU                    |  A Free Market for Services
+:-------------------------:|:-------------------------:
+![](./public/images/Logo/kimitzu-icon.png) | ![](./public/images/Logo/full-blue.png) 
 
-This repository contains the client to be used with Kimitzu-Go and Kimitzu-Services.
+
+This repository contains the client to be used with [Kimitzu-Go](https://github.com/kimitzu/kimitzu-go) and [Kimitzu-Services](https://github.com/kimitzu/kimitzu-services).
+
+[![CircleCI](https://circleci.com/gh/kimitzu/kimitzu-client.svg?style=svg)](https://circleci.com/gh/kimitzu/kimitzu-client)
 
 # Building
 
-Run `npm run build` to build the client. This will output the build files on `./build`.
+Compile `kimitzu-go` and `kimitzu-services` first and copy the compiled binaries in the [lib](lib) folder.
+
+Run `npm run build:local` to package the binaries and build the client depending on the operating system you use. 
+
+Build files can be found on [./build](build).
+
+Installation files can be found on [./dist](dist).
 
 # Running
 
+## Using the installer
+
+Run the installation file and `kimitzu-go` and `kimitzu-services` will run on the background when the client is launched.
+
+Alternatively, head over to our [release page](https://github.com/kimitzu/kimitzu-client/releases) to download the installers.
+
+## Using standalone build files
+
 > You need to run `kimitzu-go` and `kimitzu-services` prior to this.
 
-Run `npm run serve`. 
-This will host the client on port `3000`.
+Run `npm run serve`. This will host the client on port `3000`.
 
 # Advanced
 
-For users who want to host their Kimitzu instance remotely, see  [Installation Instructions](INSTALL.md)
+For users who want to host their Kimitzu instance remotely, see  [Installation Instructions for Advanced Users](INSTALL.md).
 
 # Tests
 
-Unit tests: `npm run react-test`.
-UI tests: `npm run cypress:open`.
+Unit tests: `npm run react-test`
+
+Automated UI tests: `npm run cypress:open`
+
+# License
+
+This project is licensed under the MIT License. You can view [LICENSE.MD](LICENSE) for more details.
