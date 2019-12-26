@@ -136,7 +136,6 @@ class App extends React.Component<{}, State> {
   }
 
   public render() {
-    const { height } = this.state
     return (
       <Fragment>
         {isElectron() ? (

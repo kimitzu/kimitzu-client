@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import {
   app,
   BrowserWindow,
@@ -63,8 +64,21 @@ if (!isDev && !process.argv.includes('--noexternal')) {
     file: kimitzuServicesServer,
   })
 
-  obServer.start(['start', '--testnet'])
-  kimitzuServices.start()
+  Axios.get(`http://localhost:4002/ob/config`)
+    .then(() => {
+      // Do nothing, server already launched.
+    })
+    .catch(e => {
+      obServer.start(['start', '--testnet'])
+    })
+
+  Axios.get(`http://localhost:8109/kimitzu/peers`)
+    .then(() => {
+      // Do nothing, server already started
+    })
+    .catch(e => {
+      kimitzuServices.start()
+    })
 }
 
 if (!fs.existsSync(userPrefPath)) {

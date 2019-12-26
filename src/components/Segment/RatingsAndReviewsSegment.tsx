@@ -3,7 +3,6 @@ import React from 'react'
 import RatingsSummarySegment from './RatingsSummarySegment'
 import UserReviewSegment from './UserReviewSegment'
 
-import Rating, { KimitzuRatingItem, RatingSummary } from '../../interfaces/Rating'
 import KimitzuCompletionRatings from '../../models/KimitzuCompletionRatings'
 import KimitzuFulfillmentRatings from '../../models/KimitzuFulfillmentRatings'
 import KimitzuRatings from '../../models/KimitzuRatings'
@@ -16,11 +15,8 @@ interface Props {
 const renderReviews = (ratings: KimitzuRatings) => {
   if (ratings.type === 'complete') {
     const ratingInformation = ratings as KimitzuCompletionRatings
-    return ratingInformation.ratings.map((rating, index) => {
+    return ratingInformation.ratings.map(rating => {
       const ratingElement = rating.ratings[0].ratingData
-      // const { ratingData, signature, avatar } = rating
-      // const { customerService, deliverySpeed, description, overall, quality } = ratingData
-      // const averageRating = (customerService + deliverySpeed + description + overall + quality) / 5
       return (
         <UserReviewSegment
           key={`${rating.orderId}`}
@@ -35,8 +31,6 @@ const renderReviews = (ratings: KimitzuRatings) => {
   } else {
     const ratingInformation = ratings as KimitzuFulfillmentRatings
     return ratingInformation.ratings.map(rating => {
-      // Old calculation for reference
-      // return acc + (cur.score * cur.weight) / 100
       return (
         <UserReviewSegment
           key={`${rating.orderId}`}
