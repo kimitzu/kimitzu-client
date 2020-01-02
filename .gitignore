@@ -31,3 +31,4 @@ package-lock.json
 .vscode/launch.json
 /lib/*
 !/lib/external
+!/lib/README.md

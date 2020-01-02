@@ -87,7 +87,7 @@
   },
   "tosPage": {
     "header": "Terms of Service",
-    "tos": "The Kimitzu community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Kimitzu users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Kimitzu developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Kimitzu ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.\n\n Due to the global, peer-to-peer, censorship-resistant nature of Kimitzu, users may see listings for services that are not currently legal in their jurisdiction. It is the responsibility of Kimitzu users to ensure that they are in compliance with the laws of their jurisdiction.\n\nKimitzu operates over the Tor network by default, and the only information users are required to provide is a handle and country. Kimitzu developers have also made a good faith effort to help users maintain their privacy while using Kimitzu. However, Kimitzu is experimental software, and there may be flaws that reveal sensitive information. It's also easy to de-anonymize oneself, such as by talking about one's personal life with a client, or describing oneself in too much detail. There are also many adversaries--such as governments or criminals--who work to defeat Kimitzu's privacy mechanisms. Therefore, Kimitzu developers do not make any guarantees regarding the ability of the software to maintain user privacy."
+    "tos": "The Kimitzu community of developers has worked hard to deliver a free market for services. But as with any software, there will be bugs. Kimitzu users may also encounter trolls, spammers, thieves, and other bad actors while using the app. Kimitzu developers will continuously work to provide tools to users that will help them identify, block, and remove bad actors from the Kimitzu ecosystem. However, these tools may fail at times. The developers are not responsible for any monetary loss associated with the software.\n\n Due to the global, peer-to-peer, censorship-resistant nature of Kimitzu, users may see listings for services that are not currently legal in their jurisdiction. It is the responsibility of Kimitzu users to ensure that they are in compliance with the laws of their jurisdiction.\n\nThe only information users are required to provide is a handle and country. Kimitzu developers have also made a good faith effort to help users maintain their privacy while using Kimitzu. However, Kimitzu is experimental software, and there may be flaws that reveal sensitive information. It's also easy to de-anonymize oneself, such as by talking about one's personal life with a client, or describing oneself in too much detail. There are also many adversaries--such as governments or criminals--who work to defeat Kimitzu's privacy mechanisms. Therefore, Kimitzu developers do not make any guarantees regarding the ability of the software to maintain user privacy."
   },
   "addressForm": {
     "streetLabel": "Street Address",
@@ -293,7 +293,7 @@
   "orderViewPage": {
     "cancelPromptParagraph": "Are you sure you want to cancel this order?",
     "cancelText": "Cancel",
-    "cancelOrderActionParagraph": "The vendor may be offline and has not yet confirmed the order. You may cancel this order and return the funds back to your account.",    
+    "cancelOrderActionParagraph": "The vendor may be offline and has not yet confirmed the order. You may cancel this order and return the funds back to your account.",
     "cancelOrderText": "Order has been cancelled by the buyer.",
     "cancelOrderHeader": "Cancel Order",
     "canceledOrderHeader": "Order Canceled",
@@ -621,5 +621,9 @@
       },
       "errors": { "states": ["PROCESSING_ERROR"], "description": "Orders that have errors." }
     }
+  },
+  "errors": {
+    "ERROR_INSUFFICIENT_FUNDS": "Insufficient Funds",
+    "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
   }
 }

@@ -180,6 +180,11 @@ const AdvanceSearchModal = ({ onSearchSubmit, onBackNavigate }: AdvanceSearchMod
                       onFocus={evt => {
                         evt.target.select()
                       }}
+                      data-uk-tooltip={
+                        filter.field === 'Age'
+                          ? null
+                          : 'Please use only metric units for the meantime (kg/cm)'
+                      }
                     />
                     <input
                       type={filter.type}
@@ -193,6 +198,11 @@ const AdvanceSearchModal = ({ onSearchSubmit, onBackNavigate }: AdvanceSearchMod
                       onFocus={evt => {
                         evt.target.select()
                       }}
+                      data-uk-tooltip={
+                        filter.field === 'Age'
+                          ? null
+                          : 'Please use only metric units for the meantime (kg/cm)'
+                      }
                     />
                   </div>
                 ) : (

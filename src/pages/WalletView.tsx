@@ -4,6 +4,7 @@ import { CryptoSelector, TransactionsHistoryCard, WalletBalanceCard } from '../c
 import { SendReceiveTransactionSegment } from '../components/Segment'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 
+import { localeInstance } from '../i18n'
 import { Transactions } from '../interfaces/Wallet'
 import currency from '../models/Currency'
 import Wallet from '../models/Wallet'
@@ -124,11 +125,12 @@ class WalletView extends React.Component<WalletProps, State> {
     recipient: string,
     amount: number,
     feeLevel: string,
-    memo: string
+    memo: string,
+    spendAll?: boolean
   ) {
     const parsedAmount = currency.dehumanizeCrypto(amount)
     try {
-      await Wallet.send(cryptoCurrency, recipient, parsedAmount, feeLevel, memo)
+      await Wallet.send(cryptoCurrency, recipient, parsedAmount, feeLevel, memo, spendAll)
       window.UIkit.notification({
         message: 'Transaction Sent!',
         status: 'success',
@@ -137,7 +139,7 @@ class WalletView extends React.Component<WalletProps, State> {
       })
     } catch (e) {
       window.UIkit.notification({
-        message: e.message,
+        message: localeInstance.get.localizations.errors[e.response.data.reason],
         status: 'danger',
         pos: 'top-right',
         timeout: 5000,

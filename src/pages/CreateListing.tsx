@@ -20,6 +20,7 @@ import Settings from '../models/Settings'
 import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
+import { Link } from 'react-router-dom'
 import { localeInstance } from '../i18n'
 
 const cryptoCurrenciesConstants = [...CryptoCurrencies()]
@@ -246,16 +247,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
                 {this.locale.listingForm.moderatorsHelper1}
                 <br />
                 {this.locale.listingForm.moderatorsHelper2}
-                <a
-                  href="/#"
-                  onClick={event => {
-                    event.preventDefault()
-                    window.location.hash = '/settings'
-                  }}
-                >
-                  {this.locale.listingForm.moderatorsHelperLink}
-                </a>
-                .
+                <Link to="/settings">{this.locale.listingForm.moderatorsHelperLink}</Link>.
               </div>
             ) : null}
             <ModeratorSelectionForm

@@ -32,7 +32,7 @@ const userPrefPath = path.join((app || remote.app).getPath('userData'), 'user-pr
 const crashReporterConfig = {
   productName: 'Kimitzu',
   companyName: 'Kimitzu Foundation',
-  submitURL: 'http://localhost:1127/crashreports', // TODO: Update to deployed URL
+  submitURL: 'http://breakpad.kimitzu.ch/crashreports',
   uploadToServer: userPreferences.enableCrashReporting,
 }
 
@@ -193,16 +193,29 @@ app.on('ready', async () => {
 })
 
 app.on('window-all-closed', () => {
-  if (obServer) {
-    obServer.stop()
-  }
-  if (kimitzuServices) {
-    kimitzuServices.stop()
-  }
   if (process.platform !== 'darwin') {
+    if (obServer) {
+      obServer.stop()
+    }
+    if (kimitzuServices) {
+      kimitzuServices.stop()
+    }
+
     app.quit()
   }
 })
+
+app.on('before-quit', () => {
+  if (process.platform === 'darwin') {
+    if (obServer) {
+      obServer.stop()
+    }
+    if (kimitzuServices) {
+      kimitzuServices.stop()
+    }
+  }
+})
+
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()

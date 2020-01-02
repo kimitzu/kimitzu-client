@@ -116,7 +116,7 @@ class App extends React.Component<{}, State> {
         resources: [`${config.openBazaarHost}/ob/config`, `${config.kimitzuHost}/kimitzu/peers`],
       }
       this.setState({
-        waitText: 'Connecting to Kimitzu-Go and Kimitzu-Services',
+        waitText: 'Connecting to Kimitzu, this might take a while...',
       })
       await waitOn(options)
       this.setState({
@@ -146,7 +146,9 @@ class App extends React.Component<{}, State> {
         <Fragment>
           {isElectron() ? (
             <>
-              <DefaultTitleBar />
+              <div data-uk-sticky>
+                <DefaultTitleBar />
+              </div>
               <div>{this.renderContent()}</div>
             </>
           ) : (

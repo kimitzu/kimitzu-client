@@ -35,6 +35,11 @@ const Stars = props => {
 
 const ListingCard = ({ listing: listingResponse, targetCurrency }: ListingProps) => {
   const { localizations } = localeInstance.get
+  const currencyConverter = currency.convert(
+    Number(listingResponse.listing.displayValue),
+    listingResponse.listing.metadata.pricingCurrency,
+    targetCurrency!
+  )
 
   return (
     <div className="listing-container" id={listingResponse.listing.hash}>
@@ -78,16 +83,8 @@ const ListingCard = ({ listing: listingResponse, targetCurrency }: ListingProps)
             <Stars level={listingResponse.listing.averageRating} />
             <div className="price-container">
               <div className="value">
-                <span className="currency">{targetCurrency}</span>
-                <span className="ammount">
-                  {currency
-                    .convert(
-                      Number(listingResponse.listing.displayValue),
-                      listingResponse.listing.metadata.pricingCurrency,
-                      targetCurrency!
-                    )
-                    .toFixed(2)}
-                </span>
+                <span className="currency">{currencyConverter.currency}</span>
+                <span className="ammount">{currencyConverter.value.toFixed(2)}</span>
               </div>
               <span className="price-type">
                 {

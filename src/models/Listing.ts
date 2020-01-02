@@ -265,7 +265,7 @@ class Listing implements ListingInterface {
       this.metadata.pricingCurrency,
       this.currentUser.preferences.fiat
     )
-    return { price: localCurrency, currency: this.currentUser.preferences.fiat }
+    return { price: localCurrency.value, currency: localCurrency.currency }
   }
 
   public get displayServiceRateMethod(): string | undefined {

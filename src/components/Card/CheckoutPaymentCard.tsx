@@ -50,6 +50,11 @@ const CheckoutPaymentCard = ({
   const { paymentCard } = localeInstance.get.localizations.checkoutPage
   const sourceCurrency = listing.metadata.pricingCurrency
   const localCurrencyPrice = listing.toLocalCurrency()
+  const currencyConverter = currency.convert(
+    shippingAmount,
+    sourceCurrency,
+    localCurrencyPrice.currency
+  )
   const renderSpinner = () => {
     const { estimateSpinnerText } = paymentCard
     return isPlatform('mobile') || isPlatform('mobileweb') ? (
@@ -100,26 +105,8 @@ const CheckoutPaymentCard = ({
   }
   return (
     <div className="uk-card uk-card-default uk-card-body uk-flex uk-flex-column uk-height-1-1">
-      <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle order-below-checkout-2">
-        <Button
-          className="uk-button uk-button-primary"
-          showSpinner={isPending}
-          onClick={handlePlaceOrder}
-          id={`${id}-place-order-button`}
-        >
-          {isPending
-            ? paymentCard.afterSubmitOrderBtnText.toUpperCase()
-            : paymentCard.submitOrderBtnText.toUpperCase()}
-        </Button>
-        <div className="uk-margin">
-          <p className="uk-text-center color-secondary">
-            {isPending ? paymentCard.checkoutHelper1 : paymentCard.checkoutHelper2}
-          </p>
-        </div>
-      </div>
-      <hr className="order-below-checkout-2" />
       {isPending ? null : (
-        <div className="uk-margin-small-top">
+        <div>
           <h5 className="uk-margin-small-bottom uk-text-bold">{paymentCard.paymentFormHeader}</h5>
           <div className="uk-form-controls uk-form-controls-text uk-height-1-1 uk-flex uk-flex-column uk-flex-start">
             {renderPaymentOptions()}
@@ -146,10 +133,7 @@ const CheckoutPaymentCard = ({
               </div>
               <div className="uk-flex-1 uk-text-right uk-text-bold">
                 <label>
-                  {currency
-                    .convert(shippingAmount, sourceCurrency, localCurrencyPrice.currency)
-                    .toFixed(2)}{' '}
-                  {localCurrencyPrice.currency}
+                  {currencyConverter.value.toFixed(2)} {currencyConverter.currency}
                 </label>
               </div>
             </div>
@@ -162,10 +146,7 @@ const CheckoutPaymentCard = ({
             </div>
             <div className="uk-flex-1 uk-text-right uk-text-bold">
               <label>
-                {currency
-                  .convert(subTotalAmount, sourceCurrency, localCurrencyPrice.currency)
-                  .toFixed(2)}{' '}
-                {localCurrencyPrice.currency}
+                {currencyConverter.value.toFixed(2)} {currencyConverter.currency}
               </label>
             </div>
           </div>
@@ -217,6 +198,26 @@ const CheckoutPaymentCard = ({
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <hr className="order-below-checkout-2 uk-margin-top uk-margin-bottom" />
+
+      <div className="uk-flex uk-flex-column uk-flex-center uk-flex-middle order-below-checkout-2">
+        <Button
+          className="uk-button uk-button-primary"
+          showSpinner={isPending}
+          onClick={handlePlaceOrder}
+          id={`${id}-place-order-button`}
+        >
+          {isPending
+            ? paymentCard.afterSubmitOrderBtnText.toUpperCase()
+            : paymentCard.submitOrderBtnText.toUpperCase()}
+        </Button>
+        <div className="uk-margin">
+          <p className="uk-text-center color-secondary">
+            {isPending ? paymentCard.checkoutHelper1 : paymentCard.checkoutHelper2}
+          </p>
         </div>
       </div>
     </div>

@@ -87,7 +87,7 @@
   },
   "tosPage": {
     "header": "Användarvillkor",
-    "tos": "Kimitzu-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Kimitzu-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Kimitzu-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Kimitzu-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Kimitzu, kan användarna se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Kimitzu-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Kimitzu arbetar som standard via Tor-nätverket, och den enda information som användarna måste tillhandahålla är ett handtag och land. Kimitzu-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Kimitzu. Kimitzu är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Kimitzus sekretessmekanismer. Därför gör Kimitzu-utvecklarna inga garantier beträffande programvarans förmåga att upprätthålla användarnas integritet."
+    "tos": "Kimitzu-gruppen av utvecklare har arbetat hårt för att leverera en fri marknad för tjänster. Men som med all programvara kommer det att finnas buggar. Kimitzu-användare kan också stöta på troll, spammare, tjuvar och andra dåliga skådespelare när de använder appen. Kimitzu-utvecklare kommer kontinuerligt att arbeta för att tillhandahålla verktyg till användare som hjälper dem att identifiera, blockera och ta bort dåliga aktörer från Kimitzu-ekosystemet. Men dessa verktyg kan misslyckas ibland. Utvecklarna ansvarar inte för några ekonomiska förluster i samband med programvaran. På grund av den globala, peer-to-peer, censurbeständiga naturen hos Kimitzu, kan användarna se listor för tjänster som för närvarande inte är lagliga i deras jurisdiktion. Det är Kimitzu-användarnas ansvar att se till att de följer lagarna i deras jurisdiktion. Den enda information som användarna måste tillhandahålla är ett handtag och land. Kimitzu-utvecklare har också gjort en god troinsats för att hjälpa användare att behålla sin integritet när de använder Kimitzu. Kimitzu är dock experimentell mjukvara och det kan finnas brister som avslöjar känslig information. Det är också lätt att av anonymisera sig själv, till exempel genom att prata om sitt personliga liv med en klient, eller beskriva sig själv för mycket detaljerad. Det finns också många motståndare - till exempel regeringar eller brottslingar - som arbetar för att besegra Kimitzus sekretessmekanismer. Därför gör Kimitzu-utvecklarna inga garantier beträffande programvarans förmåga att upprätthålla användarnas integritet."
   },
   "addressForm": {
     "streetLabel": "Gatuadress",
@@ -603,5 +603,9 @@
       },
       "errors": { "states": ["PROCESSING_ERROR"], "description": "Beställningar som har fel." }
     }
-  }
+  },
+  "errors": {
+    "ERROR_INSUFFICIENT_FUNDS": "Insufficient Funds",
+    "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
+  } 
 }

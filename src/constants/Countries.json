@@ -4,6 +4,10 @@
     "value": ""
   },
   {
+    "label": "United States",
+    "value": "US"
+  },
+  {
     "label": "Afghanistan",
     "value": "AF"
   },
@@ -918,10 +922,6 @@
   {
     "label": "United Kingdom",
     "value": "GB"
-  },
-  {
-    "label": "United States",
-    "value": "US"
   },
   {
     "label": "United States Minor Outlying Islands",
