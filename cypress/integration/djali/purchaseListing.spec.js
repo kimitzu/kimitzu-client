@@ -4,7 +4,7 @@
 import WebSocketMock from "../../support/utils/WebSocketMock"
 import { WebSocket } from 'mock-socket';
 
-let webSocketMock = new WebSocketMock('ws://localhost:4002/ws')
+let webSocketMock = new WebSocketMock('ws://localhost:8100/ws')
 
 context('Purchase', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ context('Purchase', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -23,12 +23,12 @@ context('Purchase', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -50,12 +50,12 @@ context('Purchase', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/microsoft-office-suite-installation',
+      url: 'http://localhost:8100/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/microsoft-office-suite-installation',
       response: {}
     })
     cy.route({
@@ -65,24 +65,24 @@ context('Purchase', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/estimatetotal',
+      url: 'http://localhost:8100/ob/estimatetotal',
       response: 4805
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/purchase',
+      url: 'http://localhost:8100/ob/purchase',
       response: {
         "amount": 4805
       }
     }).as('purchase')
     cy.visit('http://localhost:3000/', {
       onBeforeLoad(win) {
-        cy.stub(win, "WebSocket", url => new WebSocket('ws://localhost:4002/ws'))
+        cy.stub(win, "WebSocket", url => new WebSocket('ws://localhost:8100/ws'))
       }
     })
   })

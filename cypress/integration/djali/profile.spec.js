@@ -7,7 +7,7 @@ context('Profile', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -40,64 +40,64 @@ context('Profile', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/ratings/QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs',
+      url: 'http://localhost:8100/ob/ratings/QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/isfollowing/undefined',
+      url: 'http://localhost:8100/ob/isfollowing/undefined',
       response: {}, //TODO Fixture
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/followers',
+      url: 'http://localhost:8100/ob/followers',
       response: [], //TODO Followers Fixture
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/following',
+      url: 'http://localhost:8100/ob/following',
       response: [], //TODO Following Fixture
     })
     cy.route({
       method: 'POST',
-      url: ' http://localhost:4002/ob/images',
+      url: ' http://localhost:8100/ob/images',
       response: 'fixture:images/listing.json',
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/listing',
+      url: 'http://localhost:8100/ob/listing',
       response: {
         slug: 'The-Accountant',
       },
     }).as('newListing')
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/publish',
+      url: 'http://localhost:8100/ob/publish',
       response: {},
     })
     cy.route({
       method: 'PUT',
-      url: 'http://localhost:4002/ob/profile',
+      url: 'http://localhost:8100/ob/profile',
       response: {},
     })
     cy.route({
@@ -155,13 +155,13 @@ context('Profile', () => {
   it('should display expected values on Store Tab', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/ratings/QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs',
+      url: 'http://localhost:8100/ob/ratings/QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs',
       response: {},
     })
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/ratings/QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs',
+      url: 'http://localhost:8100/ob/ratings/QmciKksnTX5jVFGt5kCGzt3CTPmLMAfMWRKaFsU2N2fUrs',
       response: {},
     })
 

@@ -171,8 +171,8 @@ Sample apache2.conf
                         Require all granted
         </Proxy>
 
-         ProxyPass        / http://localhost:4002/ connectiontimeout=5 timeout=300
-         ProxyPassReverse / http://localhost:4002/
+         ProxyPass        / http://localhost:8100/ connectiontimeout=5 timeout=300
+         ProxyPassReverse / http://localhost:8100/
 
 </VirtualHost>
 
@@ -190,7 +190,7 @@ Sample apache2.conf
          ProxyPassReverse / http://localhost:3000/
 
         <Location "/ws">
-                ProxyPass "ws://localhost:4002/ws"
+                ProxyPass "ws://localhost:8100/ws"
         </Location>
 </VirtualHost>
 ```

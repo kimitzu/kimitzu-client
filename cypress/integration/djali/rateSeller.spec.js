@@ -7,7 +7,7 @@ context('Rate Buyer', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -18,12 +18,12 @@ context('Rate Buyer', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -40,7 +40,7 @@ context('Rate Buyer', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
@@ -50,17 +50,17 @@ context('Rate Buyer', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatmessages?limit&offsetId&subject=soldOrderThatWillBeRated',
+      url: 'http://localhost:8100/ob/chatmessages?limit&offsetId&subject=soldOrderThatWillBeRated',
       response: []
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'POST',
-      url: ' http://localhost:4002/ob/ordercompletion',
+      url: ' http://localhost:8100/ob/ordercompletion',
       response: []
     }).as('completeOrder')
     cy.visit('http://localhost:3000/#/history/purchases/soldOrderThatWillBeRated')
@@ -69,7 +69,7 @@ context('Rate Buyer', () => {
   it('should verify the request of rating a seller (5 stars)', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/soldOrderThatWillBeRated',
+      url: 'http://localhost:8100/ob/order/soldOrderThatWillBeRated',
       response: 'fixture:orders/sold_order_to_be_rated.json'
     })
 
@@ -108,7 +108,7 @@ context('Rate Buyer', () => {
   it('should verify the request of rating a seller (0 stars)', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/soldOrderThatWillBeRated',
+      url: 'http://localhost:8100/ob/order/soldOrderThatWillBeRated',
       response: 'fixture:orders/sold_order_to_be_rated.json'
     })
 
@@ -133,7 +133,7 @@ context('Rate Buyer', () => {
   it('should verify values diplayed of a sold order that was completed and rated', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/soldOrderThatWillBeRated',
+      url: 'http://localhost:8100/ob/order/soldOrderThatWillBeRated',
       response: 'fixture:orders/rated_sold_order.json'
     })
 

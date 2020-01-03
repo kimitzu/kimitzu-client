@@ -4,7 +4,7 @@
 import WebSocketMock from "../../support/utils/WebSocketMock"
 import { WebSocket } from 'mock-socket';
 
-let webSocketMock = new WebSocketMock('ws://localhost:4002/ws')
+let webSocketMock = new WebSocketMock('ws://localhost:8100/ws')
 
 context('File Dispute', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ context('File Dispute', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -23,12 +23,12 @@ context('File Dispute', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -45,34 +45,34 @@ context('File Dispute', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/*',
+      url: 'http://localhost:8100/ob/*',
       response: [],
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/opendispute',
+      url: 'http://localhost:8100/ob/opendispute',
       response: [],
     }).as('OpenDispute')
 
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/groupchat',
+      url: 'http://localhost:8100/ob/groupchat',
       response: {}
     }).as('sendDiscussionMsg')
 
     cy.visit('http://localhost:3000/#/history/purchases/sample_order', {
       onBeforeLoad(win) {
-        cy.stub(win, "WebSocket", url => new WebSocket('ws://localhost:4002/ws'))
+        cy.stub(win, "WebSocket", url => new WebSocket('ws://localhost:8100/ws'))
       }
     })
   })
@@ -80,7 +80,7 @@ context('File Dispute', () => {
   it('should display chat box information', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sample_order',
+      url: 'http://localhost:8100/ob/order/sample_order',
       response: 'fixture:orders/resolved_disputed_order.json'
     })
 
@@ -115,7 +115,7 @@ context('File Dispute', () => {
   it('should successfully file a dispute', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sample_order',
+      url: 'http://localhost:8100/ob/order/sample_order',
       response: 'fixture:orders/awaiting_fulfillment_order.json'
     })
 
@@ -135,7 +135,7 @@ context('File Dispute', () => {
   it('should correctly display details of an ongoing disputed order', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sample_order',
+      url: 'http://localhost:8100/ob/order/sample_order',
       response: 'fixture:orders/ongoing_disputed_order.json'
     })
 
@@ -157,7 +157,7 @@ context('File Dispute', () => {
   it('should correctly display details of an expired disputed order', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sample_order',
+      url: 'http://localhost:8100/ob/order/sample_order',
       response: 'fixture:orders/expired_disputed_order.json'
     })
 
@@ -187,7 +187,7 @@ context('File Dispute', () => {
   it('should correctly display details of a decided disputed order', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sample_order',
+      url: 'http://localhost:8100/ob/order/sample_order',
       response: 'fixture:orders/decided_disputed_order.json'
     })
 
@@ -206,7 +206,7 @@ context('File Dispute', () => {
   it('should correctly display details of a resolved disputed order', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sample_order',
+      url: 'http://localhost:8100/ob/order/sample_order',
       response: 'fixture:orders/resolved_disputed_order.json'
     })
 

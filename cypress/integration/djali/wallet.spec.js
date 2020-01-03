@@ -7,7 +7,7 @@ context('Wallet', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -18,12 +18,12 @@ context('Wallet', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -40,67 +40,67 @@ context('Wallet', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/wallet/balance',
+      url: 'http://localhost:8100/wallet/balance',
       response: 'fixture:wallet/balance.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: []
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/wallet/address',
+      url: 'http://localhost:8100/wallet/address',
       response: 'fixture:wallet/addresses.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/wallet/transactions/tbtc',
+      url: 'http://localhost:8100/wallet/transactions/tbtc',
       response: 'fixture:wallet/BitcoinTxs.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/wallet/transactions/tltc',
+      url: 'http://localhost:8100/wallet/transactions/tltc',
       response: 'fixture:wallet/LitecoinTxs.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/wallet/transactions/tzec',
+      url: 'http://localhost:8100/wallet/transactions/tzec',
       response: 'fixture:wallet/ZcashTxs.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/wallet/transactions/tbch',
+      url: 'http://localhost:8100/wallet/transactions/tbch',
       response: 'fixture:wallet/BitcoinCashTxs.json'
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/TBTC/USD',
+      url: 'http://localhost:8100/ob/exchangerate/TBTC/USD',
       response: 2
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/TLTC/USD',
+      url: 'http://localhost:8100/ob/exchangerate/TLTC/USD',
       response: 4
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/TZEC/USD',
+      url: 'http://localhost:8100/ob/exchangerate/TZEC/USD',
       response: 6
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/TBCH/USD',
+      url: 'http://localhost:8100/ob/exchangerate/TBCH/USD',
       response: 8
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/wallet/spend',
+      url: 'http://localhost:8100/wallet/spend',
       response: {}
     }).as('spend')
     cy.visit('http://localhost:3000/#/wallet')

@@ -64,7 +64,7 @@ if (!isDev && !process.argv.includes('--noexternal')) {
     file: kimitzuServicesServer,
   })
 
-  Axios.get(`http://localhost:4002/ob/config`)
+  Axios.get(`http://localhost:8100/ob/config`)
     .then(() => {
       // Do nothing, server already launched.
     })
