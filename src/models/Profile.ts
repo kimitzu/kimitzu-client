@@ -18,6 +18,7 @@ import {
 } from '../interfaces/Profile'
 import Rating, { RatingSummary } from '../interfaces/Rating'
 
+import isElectron from 'is-electron'
 import defaults from '../constants/Defaults'
 import decodeHtml from '../utils/Unescape'
 
@@ -75,16 +76,23 @@ class Profile implements ProfileSchema {
       username,
       password,
     })
-    document.cookie = loginRequest.data.success
     return loginRequest
   }
 
-  public static logout() {
+  public static async logout() {
     const manipulatedExpireDate = new Date()
     manipulatedExpireDate.setDate(manipulatedExpireDate.getDate() - 1)
     document.cookie = `OpenBazaar_Auth_Cookie='';Expires=${manipulatedExpireDate.toUTCString()};Path=/`
     if (document.cookie) {
       throw new Error('Internal Error: Unable to logout, cannot clear session.')
+    }
+
+    if (isElectron()) {
+      /**
+       * Electron handles cookies differently than browsers.
+       */
+      const { session } = window.require('electron').remote
+      await session.defaultSession.clearStorageData()
     }
   }
 

@@ -75,7 +75,7 @@
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder --publish=always",
     "build": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build",
-    "build:local": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && mv public/electron/* public/ && yarn electron-build",
+    "build:local": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
     "build:remote": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
     "build:remote:ci": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build",
     "build:remote:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=remote yarn react-build",
@@ -113,7 +113,8 @@
     "cypress": "^3.4.1",
     "cz-conventional-changelog": "^3.0.2",
     "electron": "^6.0.10",
-    "electron-builder": "^21.2.0",
+    "electron-builder": "^21.0.0",
+    "electron-download-tf": "^4.3.4",
     "eslint-plugin-cypress": "^2.6.1",
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
@@ -132,25 +133,7 @@
     "productName": "Kimitzu Client",
     "appId": "ch.kimitzu.client",
     "files": [
-      "**/*",
-      "build/**/*",
-      "node_modules/**/*",
-      "public/**/*",
-      "lib/**/*",
-      {
-        "from": "./public/icon.icns",
-        "to": "icon.icns",
-        "filter": [
-          "*"
-        ]
-      },
-      {
-        "from": "./public/icon.png",
-        "to": "icon.png",
-        "filter": [
-          "*"
-        ]
-      }
+      "**/*"
     ],
     "extraResources": [
       {
@@ -172,16 +155,16 @@
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": "dmg",
-      "icon": "./build/icon.icns"
+      "icon": "./public/icon.icns"
     },
     "linux": {
       "target": [
         "deb"
       ],
-      "icon": "./build/icon.icns"
+      "icon": "./public/icon.icns"
     },
     "win": {
-      "icon": "./build/icon.png"
+      "icon": "./public/icon.png"
     }
   },
   "husky": {

@@ -42,7 +42,7 @@ const ListingCheckoutCard = ({ listing, quantity }: Props) => {
               {listing.metadata.serviceClassification ? (
                 <>
                   {listingCard.classificationLabel}:{' '}
-                  <label>{ServiceTypes[listing.metadata.serviceClassification]}</label>
+                  <label>{listing.metadata.serviceClassification}</label>
                 </>
               ) : null}
             </p>
