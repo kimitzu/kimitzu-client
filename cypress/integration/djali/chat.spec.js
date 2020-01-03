@@ -4,7 +4,7 @@
 import WebSocketMock from "../../support/utils/WebSocketMock"
 import { WebSocket } from 'mock-socket';
 
-let webSocketMock = new WebSocketMock('ws://localhost:4002/ws')
+let webSocketMock = new WebSocketMock('ws://localhost:8100/ws')
 
 context('Chat', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ context('Chat', () => {
     
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -23,12 +23,12 @@ context('Chat', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -50,7 +50,7 @@ context('Chat', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: 'fixture:chat/peopleChattedWith.json',
     })
     cy.route({
@@ -80,18 +80,18 @@ context('Chat', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/chat',
+      url: 'http://localhost:8100/ob/chat',
       response: {}
     }).as('sendChat')
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
 
     cy.visit('http://localhost:3000/', {
       onBeforeLoad(win) {
-        cy.stub(win, "WebSocket", url => new WebSocket('ws://localhost:4002/ws'))
+        cy.stub(win, "WebSocket", url => new WebSocket('ws://localhost:8100/ws'))
       }
     })
   })

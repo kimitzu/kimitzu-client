@@ -9,7 +9,7 @@ context('Register', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -31,12 +31,12 @@ context('Register', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/profile',
+      url: 'http://localhost:8100/ob/profile',
       response: {},
     }).as('createProfile')
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/images',
+      url: 'http://localhost:8100/ob/images',
       response: [
         {
           filename: 'image.png',
@@ -52,7 +52,7 @@ context('Register', () => {
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/publish',
+      url: 'http://localhost:8100/ob/publish',
       response: {},
     })
     cy.route({
@@ -68,22 +68,22 @@ context('Register', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
 

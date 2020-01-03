@@ -7,7 +7,7 @@ context('Create Listing', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -38,42 +38,42 @@ context('Create Listing', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'PUT',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: {},
     })
     cy.route({
       method: 'POST',
-      url: ' http://localhost:4002/ob/images',
+      url: ' http://localhost:8100/ob/images',
       response: 'fixture:images/listing.json',
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/listing',
+      url: 'http://localhost:8100/ob/listing',
       response: { slug: 'The-Accountant' },
     }).as('newListing')
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/publish',
+      url: 'http://localhost:8100/ob/publish',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {},
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {},
     })
     cy.route({

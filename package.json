@@ -1,6 +1,6 @@
 {
   "name": "kimitzu-client",
-  "version": "0.1.1-alpha.1",
+  "version": "0.2.0-alpha.1",
   "private": true,
   "author": {
     "email": "dev@kimitzu.ch",
@@ -75,7 +75,7 @@
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder --publish=always",
     "build": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build",
-    "build:local": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
+    "build:local": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && mv public/electron/* public/ && yarn electron-build",
     "build:remote": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
     "build:remote:ci": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build",
     "build:remote:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=remote yarn react-build",
@@ -89,7 +89,8 @@
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose",
     "cypress:open": "cypress open",
     "serve": "serve -S build -l 3000",
-    "ci:cypress:test": "CI=false npm run build:remote:ci && serve -S build -l 3000 & wait-on http://localhost:3000 && cypress run --browser chrome"
+    "ci:cypress:test": "CI=false npm run build:remote:ci && serve -S build -l 3000 & wait-on http://localhost:3000 && cypress run --browser chrome",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -108,6 +109,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.1",
+    "conventional-changelog-cli": "^2.0.31",
     "cypress": "^3.4.1",
     "cz-conventional-changelog": "^3.0.2",
     "electron": "^6.0.10",

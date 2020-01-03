@@ -7,7 +7,7 @@ context('Browse Listing', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -18,12 +18,12 @@ context('Browse Listing', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -45,17 +45,17 @@ context('Browse Listing', () => {
     }).as('search')
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/violin',
+      url: 'http://localhost:8100/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/violin',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/microsoft-office-suite-installation',
+      url: 'http://localhost:8100/ob/ratings/QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN/microsoft-office-suite-installation',
       response: {}
     })
     cy.route({
@@ -70,7 +70,7 @@ context('Browse Listing', () => {
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json', 
     })
 
