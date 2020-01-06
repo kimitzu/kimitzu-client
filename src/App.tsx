@@ -213,8 +213,28 @@ class App extends React.Component<{}, State> {
         settings,
         isReady: true,
         isServerConnected: true,
-        isAuthenticated: document.cookie !== '' || !authRequest.data.authentication,
       })
+
+      if (isElectron()) {
+        /**
+         * Additional checks if the electron client is used as cookies
+         * are handled differently.
+         */
+        const { session } = window.require('electron').remote
+        const kimitzuCookie = await session.defaultSession.cookies.get({ url: config.kimitzuHost })
+        const openbazaarCookie = await session.defaultSession.cookies.get({
+          url: config.openBazaarHost,
+        })
+
+        this.setState({
+          isAuthenticated: kimitzuCookie.length >= 1 && openbazaarCookie.length >= 1,
+        })
+      } else {
+        this.setState({
+          isAuthenticated: document.cookie !== '' || !authRequest.data.authentication,
+        })
+      }
+
       this.setState({
         profile,
       })

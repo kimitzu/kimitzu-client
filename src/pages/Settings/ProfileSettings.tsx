@@ -759,7 +759,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   ) {
     try {
       await Profile.setCredentials(oldUsername, oldPassword, newUsername, newPassword)
-      Profile.logout()
+      await Profile.logout()
       window.UIkit.notification(this.locale.settingsPage.authUpdateSuccessNotif, {
         status: 'success',
       })
@@ -782,7 +782,7 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
   private async handleDeactivateAuthentication(username: string, password: string) {
     try {
       await Profile.deleteCredentials(username, password)
-      Profile.logout()
+      await Profile.logout()
       window.UIkit.notification(this.locale.settingsPage.credentialsUpdateSuccessNotif, {
         status: 'success',
       })

@@ -182,8 +182,8 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                 </li>
                 <li
                   hidden={!displayLogout}
-                  onClick={() => {
-                    Profile.logout()
+                  onClick={async () => {
+                    await Profile.logout()
 
                     if (isElectron()) {
                       const remote = window.remote
