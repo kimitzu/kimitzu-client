@@ -227,7 +227,9 @@ class App extends React.Component<{}, State> {
         })
 
         this.setState({
-          isAuthenticated: kimitzuCookie.length >= 1 && openbazaarCookie.length >= 1,
+          isAuthenticated:
+            (kimitzuCookie.length >= 1 && openbazaarCookie.length >= 1) ||
+            !authRequest.data.authentication,
         })
       } else {
         this.setState({
