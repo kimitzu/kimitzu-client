@@ -1,3 +1,14 @@
+# [0.3.0-beta](https://github.com/kimitzu/kimitzu-client/compare/v0.1.1-alpha.1...v0.3.0-beta) (2020-01-08)
+
+
+### Bug Fixes
+
+* **app:** halt process launching if openbazaar or services daemon is online ([#23](https://github.com/kimitzu/kimitzu-client/issues/23)) ([4319516](https://github.com/kimitzu/kimitzu-client/commit/43195165058c27871c22a816ba52a750901491bd)), closes [#22](https://github.com/kimitzu/kimitzu-client/issues/22)
+* **app:** state logic to show login page on startup ([c61eb9c](https://github.com/kimitzu/kimitzu-client/commit/c61eb9c322afba6ed8a3f8970ff5063ece72970b))
+* **authentication:** accommodate electron-specific mechanisms for cookie-based auth ([#27](https://github.com/kimitzu/kimitzu-client/issues/27)) ([34fea48](https://github.com/kimitzu/kimitzu-client/commit/34fea486a96ab9e7f33bf601f6bee014ef5b1ce8))
+
+
+
 # [0.2.0-alpha.1](https://github.com/kimitzu/kimitzu-client/compare/v0.1.1-alpha.1...v0.2.0-alpha.1) (2020-01-03)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "kimitzu-client",
-  "version": "0.2.0-alpha.1",
+  "version": "0.3.0-beta",
   "private": true,
   "author": {
     "email": "dev@kimitzu.ch",
@@ -74,7 +74,7 @@
     "start:develop": "cross-env REACT_APP_ENVIRONMENT=development yarn start",
     "start:stage": "cross-env REACT_APP_ENVIRONMENT=staging yarn start",
     "electron-build": "electron-builder",
-    "release": "yarn react-build && electron-builder --publish=always",
+    "release": "electron-builder --publish=always",
     "build": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build",
     "build:local": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
     "build:remote": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
@@ -157,7 +157,8 @@
       "icon": "./public/icon.icns"
     },
     "linux": {
-      "icon": "./public/icon.icns"
+      "icon": "./public/icon.icns",
+      "target": ["AppImage", "deb", "snap"]
     },
     "win": {
       "icon": "./public/icon.png"
