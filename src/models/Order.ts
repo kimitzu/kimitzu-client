@@ -358,7 +358,7 @@ class Order implements OrderInterface {
       const paymentInformation = orderRequest.data as OrderPaymentInformation
       return paymentInformation
     } catch (e) {
-      throw new Error(e.response.data.reason)
+      throw e
     }
   }
 
