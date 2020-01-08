@@ -46,7 +46,7 @@ const CheckoutPaymentCard = ({
   quantity,
   id,
 }: Props) => {
-  const { discount, shippingAmount, subTotalAmount, totalAmount, estimate } = orderSummary
+  const { discount, shippingAmount, totalAmount, estimate } = orderSummary
   const { paymentCard } = localeInstance.get.localizations.checkoutPage
   const sourceCurrency = listing.metadata.pricingCurrency
   const localCurrencyPrice = listing.toLocalCurrency()

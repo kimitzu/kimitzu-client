@@ -17,8 +17,35 @@ class LoginPage extends React.Component {
 
   public async handleLogin(username: string, password: string) {
     try {
-      await Profile.login(username, password)
+      const credentialRequest = await Profile.login(username, password)
+      const cookie = credentialRequest.data.success
+      document.cookie = cookie
+
       if (isElectron()) {
+        /**
+         * Electron handles cookies differently than browsers.
+         */
+        const { session } = window.require('electron').remote
+
+        const credentialParts = cookie.split('=')
+        const today = new Date()
+        today.setDate(today.getDate() + 1)
+
+        const kimitzuCookie = {
+          url: config.kimitzuHost,
+          name: credentialParts[0],
+          value: credentialParts[1],
+          expirationDate: today.getTime() * 1000, // Expires in 1 day
+        }
+        const openbazaarCookie = {
+          url: config.openBazaarHost,
+          name: credentialParts[0],
+          value: credentialParts[1],
+          expirationDate: today.getTime() * 1000, // Expires in 1 day
+        }
+        await session.defaultSession.cookies.set(kimitzuCookie)
+        await session.defaultSession.cookies.set(openbazaarCookie)
+
         const remote = window.remote
         const currentWindow = remote.getCurrentWindow()
         const { webContents } = currentWindow
@@ -27,7 +54,10 @@ class LoginPage extends React.Component {
       window.location.hash = '/'
       window.location.reload()
     } catch (e) {
-      window.UIkit.notification(e.response.data.error, { status: 'danger' })
+      console.error(e)
+      window.UIkit.notification(e.response ? e.response.data.error : e.message, {
+        status: 'danger',
+      })
     }
   }
 

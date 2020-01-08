@@ -30,5 +30,4 @@ package-lock.json
 /cypress/screenshots
 .vscode/launch.json
 /lib/*
-!/lib/external
 !/lib/README.md

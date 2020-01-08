@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import {
   app,
   BrowserWindow,
@@ -14,6 +15,7 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as waitOn from 'wait-on'
 
 import LocalServer from './LocalServer'
 
@@ -63,8 +65,27 @@ if (!isDev && !process.argv.includes('--noexternal')) {
     file: kimitzuServicesServer,
   })
 
-  obServer.start(['start', '--testnet'])
-  kimitzuServices.start()
+  const launchServers = async () => {
+    try {
+      await Axios.get(`http://localhost:8100/ob/config`)
+    } catch (e) {
+      obServer.start(['start'])
+    }
+
+    const options = {
+      resources: ['http://localhost:8100/ob/config'],
+    }
+
+    await waitOn(options)
+
+    try {
+      await Axios.get(`http://localhot:8109/kimitzu/peers`)
+    } catch (e) {
+      kimitzuServices.start()
+    }
+  }
+
+  launchServers()
 }
 
 if (!fs.existsSync(userPrefPath)) {

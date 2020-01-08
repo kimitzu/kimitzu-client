@@ -7,7 +7,7 @@ context('Refund Listing', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -18,12 +18,12 @@ context('Refund Listing', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -52,22 +52,22 @@ context('Refund Listing', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatmessages?limit&offsetId&subject=sampleOrderToBeRefunded',
+      url: 'http://localhost:8100/ob/chatmessages?limit&offsetId&subject=sampleOrderToBeRefunded',
       response: [],
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/refund',
+      url: 'http://localhost:8100/ob/refund',
       response: {},
     }).as('refundOrder')
     cy.visit('http://localhost:3000/#/history/sales/sampleOrderToBeRefunded')
@@ -76,7 +76,7 @@ context('Refund Listing', () => {
   it('should verify refund order request', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sampleOrderToBeRefunded',
+      url: 'http://localhost:8100/ob/order/sampleOrderToBeRefunded',
       response: 'fixture:orders/order_to_be_refunded.json',
     })
 
@@ -99,7 +99,7 @@ context('Refund Listing', () => {
   it('should display the values a refunded order', () => {
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/order/sampleOrderToBeRefunded',
+      url: 'http://localhost:8100/ob/order/sampleOrderToBeRefunded',
       response: 'fixture:orders/refunded_order.json',
     })
 

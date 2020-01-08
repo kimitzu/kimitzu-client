@@ -7,7 +7,7 @@ context('Filter', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/config',
+      url: 'http://localhost:8100/ob/config',
       response: {}
     })
     cy.route({
@@ -18,12 +18,12 @@ context('Filter', () => {
 
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/exchangerate/btc',
+      url: 'http://localhost:8100/ob/exchangerate/btc',
       response: {}
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/moderators?async=true',
+      url: 'http://localhost:8100/ob/moderators?async=true',
       response: {}
     })
     cy.route({
@@ -33,7 +33,7 @@ context('Filter', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/case/QmP4bZDCpsb5DMZnTKDoaUGzeGrnySYMbS6wrTyegV5QUW',
+      url: 'http://localhost:8100/ob/case/QmP4bZDCpsb5DMZnTKDoaUGzeGrnySYMbS6wrTyegV5QUW',
       response: 'fixture:case/disputed_case.json'
     })
     cy.route({
@@ -45,7 +45,7 @@ context('Filter', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatconversations',
+      url: 'http://localhost:8100/ob/chatconversations',
       response: [],
     })
     cy.route({
@@ -60,17 +60,17 @@ context('Filter', () => {
     })
     cy.route({
       method: 'GET',
-      url: 'http://localhost:4002/ob/chatmessages?limit&offsetId&subject=QmP4bZDCpsb5DMZnTKDoaUGzeGrnySYMbS6wrTyegV5QUW',
+      url: 'http://localhost:8100/ob/chatmessages?limit&offsetId&subject=QmP4bZDCpsb5DMZnTKDoaUGzeGrnySYMbS6wrTyegV5QUW',
       response: []
     })
     cy.route({
       method: 'GET',
-      url: ' http://localhost:4002/ob/settings',
+      url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json',
     })
     cy.route({
       method: 'POST',
-      url: 'http://localhost:4002/ob/closedispute',
+      url: 'http://localhost:8100/ob/closedispute',
       response: {}
     }).as('closeDispute')
 
