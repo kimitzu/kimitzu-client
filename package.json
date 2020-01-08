@@ -65,7 +65,8 @@
     "throttle": "^1.0.3",
     "typescript": "^3.4.5",
     "uikit": "^3.2.3",
-    "use-force-update": "^1.0.6"
+    "use-force-update": "^1.0.6",
+    "wait-on": "^3.3.0"
   },
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && yarn compile:electron && electron .\"",
@@ -123,8 +124,7 @@
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "tslint-react": "^4.0.0",
-    "wait-on": "^3.3.0"
+    "tslint-react": "^4.0.0"
   },
   "description": "Kimitzu Client",
   "main": "public/electron.js",
@@ -154,13 +154,9 @@
     "compression": "store",
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": "dmg",
       "icon": "./public/icon.icns"
     },
     "linux": {
-      "target": [
-        "deb"
-      ],
       "icon": "./public/icon.icns"
     },
     "win": {
