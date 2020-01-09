@@ -2,14 +2,9 @@
 
 Please include a summary of the changes. Please also include relevant motivation and context. List any dependencies that are required for this change or relevant affected files.
 
-- [x] Added feature X
-- [x] Fix Y causing bug Z
-
 # Type of change
 
-- [x] A new feature
-- [x] A bug fix
-- [x] Other
+Specify if this change is either one of the following: A new feature, A bug fix, Various Changes
 
 # Affected Issues
 
