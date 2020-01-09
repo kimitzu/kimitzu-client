@@ -78,16 +78,17 @@ const Chat = ({
         <div id="convos-left">
           <ul id="convos-ul">
             {convos.map((data, i) => {
-              const newTime = new Date(data.timestamp)
+              const convoTime = new Date(data.timestamp)
               const now = new Date()
               let timeStat
-              if (newTime.getDate() === now.getDate()) {
-                timeStat = newTime.toLocaleTimeString(navigator.language, {
+              if (now.getTime() - convoTime.getTime() <= 86400000) {
+                // Equal to today
+                timeStat = convoTime.toLocaleTimeString(navigator.language, {
                   hour: '2-digit',
                   minute: '2-digit',
                 })
               } else {
-                timeStat = newTime.toLocaleDateString()
+                timeStat = convoTime.toLocaleDateString()
               }
               return (
                 <li key={i}>

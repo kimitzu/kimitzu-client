@@ -100,7 +100,7 @@ context('Chat', () => {
     cy.get('#header-left')
       .click()
     cy.get('#convo0 > .convos-message-cont > .convos-message-header > .message-time')
-      .contains('10/9/2020')
+      .contains('1/1/2020')
     cy.get('#convo0 > .convos-message-cont > .convos-message-teaser > .message')
       .contains('last message on peer 1')
     cy.get('#convo0')
