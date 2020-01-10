@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import React, { Component, ReactNode } from 'react'
 import { Prompt, RouteComponentProps } from 'react-router'
 import { SideMenuWithContentCard } from '../components/Card'
@@ -21,6 +22,7 @@ import ImageUploaderInstance from '../utils/ImageUploaderInstance'
 import NestedJSONUpdater from '../utils/NestedJSONUpdater'
 
 import { Link } from 'react-router-dom'
+import config from '../config'
 import { localeInstance } from '../i18n'
 
 const cryptoCurrenciesConstants = [...CryptoCurrencies()]
@@ -374,6 +376,17 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     })
 
     const newImages = this.state.tempImages.filter(image => !image.startsWith('http'))
+
+    if (listing.item.images.length <= 0 && this.state.tempImages.length <= 0) {
+      const defaultLogo = await Axios.get(`${config.host}/icon.png`, { responseType: 'blob' })
+      const defaultLogoBase64 = await ImageUploaderInstance.convertToBase64(defaultLogo.data)
+      newImages.push(defaultLogoBase64)
+    }
+
+    if (listing.item.tags.length <= 0) {
+      listing.item.tags.push('Kimitzu')
+    }
+
     const imageUpload = newImages.map(base64Image => ImageUploaderInstance.uploadImage(base64Image))
     const updateOldImages = this.state.listing.item.images.filter(oldElements => {
       return this.state.tempImages.find(updatedElements => {
@@ -385,6 +398,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     try {
       const images = await Promise.all(imageUpload)
       listing.item.images = [...updateOldImages, ...images]
+
       if (this.state.isListingNew) {
         await listing.save()
         window.UIkit.notification(this.locale.listingForm.notifications.addSuccess, {
@@ -404,7 +418,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         window.location.hash = '/'
       }, 2000)
     } catch (e) {
-      window.UIkit.notification(e.message, {
+      window.UIkit.notification(e.response.data.reason || e.message, {
         status: 'danger',
       })
       this.setState({
