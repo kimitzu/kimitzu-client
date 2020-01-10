@@ -557,7 +557,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         this.state.coupon
       )
     } catch (e) {
-      console.log(e.response.data)
       window.UIkit.notification(e.response.data.reason, {
         status: 'warning',
       })
