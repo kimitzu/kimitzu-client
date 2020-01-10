@@ -27,8 +27,7 @@
 }
 #body-item {
   padding-bottom: 4%;
-  justify-content: center;
-  display: flex;
+  text-align: center;
 }
 #introduction-footer {
   display: flex;
