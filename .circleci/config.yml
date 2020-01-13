@@ -17,14 +17,22 @@ jobs:
           paths:
             - ./node_modules
             - /root/.cache/Cypress
+      - run:
+          name: build-ci
+          command: CI=false npm run build:remote:ci
+      - persist_to_workspace:
+          root:  ~/
+          paths:
+            - kimitzu-client/*
+            - .cache/Cypress
   test:
     docker: 
       - image: cypress/browsers:node12.6.0-chrome75
     working_directory: ~/kimitzu-client
     steps:
+      - attach_workspace:
+          at: ~/
       - checkout
-      - restore_cache: 
-          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: unit-tests
           command: npm run react-test
@@ -32,6 +40,23 @@ jobs:
           name: cypress-tests
           command: npm run ci:cypress:test
       - store_artifacts:
+          path: ./cypress/screenshots
+
+  deploy:
+    docker: 
+      - image: cypress/browsers:node12.6.0-chrome75
+    working_directory: ~/kimitzu-client
+    steps:
+      - attach_workspace:
+          at: ~/
+      - checkout
+      - run:
+          name: build-and-draft-linux
+          command: npm run build:local:mainnet -- --publish=always --linux
+      - run:
+          name: build:-and-draft-windows
+          command: npm run build:local:mainnet -- --publish=always --windows
+      - store_test_results:
           path: ./cypress/screenshots
 
 workflows:
@@ -42,3 +67,6 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
