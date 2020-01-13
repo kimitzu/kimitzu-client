@@ -171,6 +171,9 @@ const createWindow = async () => {
   })
 
   await app.whenReady()
+
+  const icon = process.platform === 'linux' ? 'icon.png' : 'favicon.ico'
+
   mainWindow = new BrowserWindow({
     title: 'Kimitzu',
     width: 1200,
@@ -178,7 +181,7 @@ const createWindow = async () => {
     minWidth: 1200,
     minHeight: 680,
     center: true,
-    icon: path.join(__dirname, 'favicon.ico'),
+    icon: path.join(__dirname, icon),
     autoHideMenuBar: true,
     frame: false,
     webPreferences: {
