@@ -17,6 +17,14 @@ jobs:
           paths:
             - ./node_modules
             - /root/.cache/Cypress
+  test:
+    docker: 
+      - image: cypress/browsers:node12.6.0-chrome75
+    working_directory: ~/kimitzu-client
+    steps:
+      - checkout
+      - restore_cache: 
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: unit-tests
           command: npm run react-test
@@ -25,3 +33,12 @@ jobs:
           command: npm run ci:cypress:test
       - store_artifacts:
           path: ./cypress/screenshots
+
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
