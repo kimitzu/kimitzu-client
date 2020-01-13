@@ -3,9 +3,12 @@ version: 2.1
 jobs:
   build:
     docker: 
-      - image: cypress/browsers:node12.6.0-chrome75
+      - image: cypress/base:ubuntu16-12.13.1
     working_directory: ~/kimitzu-client
     steps:
+      - run:
+          name: install-wine-dependency
+          command: dpkg --add-architecture i386 && apt install wine
       - checkout 
       - restore_cache: 
           key: dependency-cache-{{ checksum "package.json" }}
@@ -27,7 +30,7 @@ jobs:
             - .cache/Cypress
   test:
     docker: 
-      - image: cypress/browsers:node12.6.0-chrome75
+      - image: cypress/base:ubuntu16-12.13.1
     working_directory: ~/kimitzu-client
     steps:
       - attach_workspace:
@@ -44,7 +47,7 @@ jobs:
 
   deploy:
     docker: 
-      - image: cypress/browsers:node12.6.0-chrome75
+      - image: cypress/base:ubuntu16-12.13.1
     working_directory: ~/kimitzu-client
     steps:
       - attach_workspace:
