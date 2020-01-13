@@ -112,7 +112,7 @@
   "devDependencies": {
     "concurrently": "^4.1.1",
     "conventional-changelog-cli": "^2.0.31",
-    "cypress": "^3.4.1",
+    "cypress": "^3.8.2",
     "cz-conventional-changelog": "^3.0.2",
     "electron": "^6.0.10",
     "electron-builder": "^21.0.0",
@@ -131,10 +131,12 @@
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
+    "extends": null,
     "productName": "Kimitzu Client",
     "appId": "ch.kimitzu.client",
     "files": [
-      "**/*"
+      "./build/*",
+      "./public/*"
     ],
     "extraResources": [
       {
@@ -159,7 +161,11 @@
     },
     "linux": {
       "icon": "./public/icon.icns",
-      "target": ["AppImage", "deb", "snap"]
+      "target": [
+        "AppImage",
+        "deb",
+        "snap"
+      ]
     },
     "win": {
       "icon": "./public/icon.png"

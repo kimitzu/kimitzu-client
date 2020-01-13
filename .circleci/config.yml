@@ -52,10 +52,10 @@ jobs:
       - checkout
       - run:
           name: build-and-draft-linux
-          command: npm run build:local:mainnet -- --publish=always --linux
+          command: CI=false npm run build:local:mainnet -- --publish=always --linux
       - run:
           name: build:-and-draft-windows
-          command: npm run build:local:mainnet -- --publish=always --windows
+          command: CI=false npm run build:local:mainnet -- --publish=always --windows
       - store_test_results:
           path: ./cypress/screenshots
 
