@@ -3,12 +3,9 @@ version: 2.1
 jobs:
   build:
     docker: 
-      - image: cypress/base:ubuntu16-12.13.1
+      - image: kimitzu/deploy-env
     working_directory: ~/kimitzu-client
     steps:
-      - run:
-          name: install-wine-dependency
-          command: dpkg --add-architecture i386 && apt install wine
       - checkout 
       - restore_cache: 
           key: dependency-cache-{{ checksum "package.json" }}
@@ -30,7 +27,7 @@ jobs:
             - .cache/Cypress
   test:
     docker: 
-      - image: cypress/base:ubuntu16-12.13.1
+      - image: kimitzu/deploy-env
     working_directory: ~/kimitzu-client
     steps:
       - attach_workspace:
@@ -43,11 +40,10 @@ jobs:
           name: cypress-tests
           command: npm run ci:cypress:test
       - store_artifacts:
-          path: ./cypress/screenshots
-
+          path: ./cypress/videos
   deploy:
     docker: 
-      - image: cypress/base:ubuntu16-12.13.1
+      - image: kimitzu/deploy-env
     working_directory: ~/kimitzu-client
     steps:
       - attach_workspace:
@@ -60,7 +56,7 @@ jobs:
           name: build:-and-draft-windows
           command: CI=false npm run build:local:mainnet -- --publish=always --windows
       - store_test_results:
-          path: ./cypress/screenshots
+          path: ./dist
 
 workflows:
   version: 2
