@@ -5,7 +5,7 @@ RUN dpkg --add-architecture i386
 
 # Install Build Dependencies
 RUN apt-get update
-RUN apt-get install wget gnupg2 curl build-essential git software-properties-common xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 -y
+RUN apt-get install ca-certificates apt-transport-https wget gnupg2 curl build-essential git software-properties-common xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 gnupg-agent -y
 
 # Install wine
 RUN wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -19,6 +19,9 @@ RUN \
 # Install chrome, nodejs, yarn, snapcraft
 RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 RUN apt-get install -y google-chrome-stable nodejs snapcraft
 RUN apt-get install -y --install-recommends winehq-stable
 RUN rm -rf /var/lib/apt/lists/*
