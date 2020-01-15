@@ -1,4 +1,7 @@
 /// <reference types="Cypress" />
+
+import Initialize from "../../support/utils/Initialize"
+
 /* global context, cy, Cypress */
 
 context('Register', () => {
@@ -7,16 +10,7 @@ context('Register', () => {
       status: 200,
     })
 
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8100/ob/config',
-      response: {}
-    })
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8109/kimitzu/peers',
-      response: {},
-    })
+    Initialize(cy)
 
     cy.route({
       method: 'GET',

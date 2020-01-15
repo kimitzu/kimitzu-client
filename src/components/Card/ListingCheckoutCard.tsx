@@ -1,7 +1,6 @@
 import React from 'react'
 
 import config from '../../config'
-import ServiceTypes from '../../constants/ServiceTypes.json'
 import { localeInstance } from '../../i18n'
 import Listing from '../../models/Listing'
 

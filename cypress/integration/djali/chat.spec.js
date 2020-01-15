@@ -3,6 +3,7 @@
 
 import WebSocketMock from "../../support/utils/WebSocketMock"
 import { WebSocket } from 'mock-socket';
+import Initialize from "../../support/utils/Initialize";
 
 let webSocketMock = new WebSocketMock('ws://localhost:8100/ws')
 
@@ -10,16 +11,7 @@ context('Chat', () => {
   beforeEach(() => {
     cy.server({})
     
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8100/ob/config',
-      response: {}
-    })
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8109/kimitzu/peers',
-      response: {},
-    })
+    Initialize(cy)
 
     cy.route({
       method: 'GET',
