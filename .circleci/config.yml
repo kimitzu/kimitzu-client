@@ -20,6 +20,24 @@ jobs:
       - run:
           name: build-ci
           command: CI=false npm run build:remote:ci
+      - run:
+          name: build-kimitzu-go
+          command: |
+            go get -u github.com/kimitzu/kimitzu-go
+            cd $GOPATH/src/github.com/kimitzu/kimitzu-go
+            go build openbazaard.go
+            xgo -go=1.12 --targets=windows/amd64 .
+            cp openbazaard ~/kimitzu-client/lib
+      - run:
+          name: build-kimitzu-services
+          command: |
+            go get -u github.com/kimitzu/kimitzu-services
+            cd $GOPATH/src/github.com/kimitzu/kimitzu-services
+            packr2
+            go build services.go
+            xgo -go=1.12 --targets=windows/amd64 .
+            cp kimitzu-go-windows-4.0-amd64.exe ~/kimitzu-client/lib/openbazaard.exe
+            cp services ~/kimitzu-client/lib/services
       - persist_to_workspace:
           root:  ~/
           paths:
@@ -48,6 +66,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+      - run:
+          name: snapcraft-login
+          command: mkdir .snapcraft && echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
       - checkout
       - run:
           name: build-and-draft-linux
@@ -69,3 +90,6 @@ workflows:
       - deploy:
           requires:
             - test
+          filters:
+            branches:
+              only: develop

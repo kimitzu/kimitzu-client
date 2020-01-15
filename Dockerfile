@@ -16,10 +16,10 @@ RUN \
   wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
   echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 
-# Install chrome, nodejs, yarn
+# Install chrome, nodejs, yarn, snapcraft
 RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
-RUN apt-get install -y google-chrome-stable nodejs
+RUN apt-get install -y google-chrome-stable nodejs snapcraft
 RUN apt-get install -y --install-recommends winehq-stable
 RUN rm -rf /var/lib/apt/lists/*
 RUN npm install -g yarn
@@ -32,6 +32,8 @@ RUN tar -zxvf go1.12.4.linux-amd64.tar.gz -C /usr/local/
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+RUN go get -u github.com/gobuffalo/packr/v2/packr2
+RUN go get github.com/karalabe/xgo
 
 # "fake" dbus address to prevent errors
 # https://github.com/SeleniumHQ/docker-selenium/issues/87
