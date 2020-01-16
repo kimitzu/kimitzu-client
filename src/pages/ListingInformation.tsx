@@ -169,7 +169,7 @@ class ListingProfile extends Component<Props, State> {
   public render() {
     return (
       <IonPage>
-        <MobileHeader />
+        <MobileHeader showBackBtn />
         <IonContent>{this.renderPage()}</IonContent>
       </IonPage>
     )

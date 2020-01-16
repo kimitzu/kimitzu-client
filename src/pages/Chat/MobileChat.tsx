@@ -3,7 +3,7 @@ import { IonContent, IonModal, IonPage, IonRefresher, IonRefresherContent } from
 import React, { useEffect, useState } from 'react'
 
 import { ConversationsBox, ConvoList } from '../../components/ChatBox'
-import { ChatHeader } from '../../components/Header'
+import { ChatHeader, MobileHeader } from '../../components/Header'
 import { FullPageSpinner } from '../../components/Spinner'
 import Chat from '../../models/Chat'
 
@@ -81,6 +81,7 @@ const MobileChat = () => {
   const { selectedConversation } = chat
   return (
     <IonPage>
+      <MobileHeader title="MESSAGES" />
       <IonContent id="chat-content">
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent />

@@ -12,8 +12,8 @@ import React, { Component } from 'react'
 import { ListingCardSkeleton } from '../components/Card'
 import ListingCardGroup from '../components/CardGroup/ListingCardGroup'
 import { InlineMultiDropdowns } from '../components/Dropdown'
+import { HomeHeader } from '../components/Header'
 import AdvanceSearchModal from '../components/Modal/AdvanceSearchModal'
-import { NavBar } from '../components/NavBar'
 import { Pagination } from '../components/Pagination'
 import { FormSelector } from '../components/Selector'
 import SidebarFilter from '../components/Sidebar/Filter'
@@ -66,6 +66,7 @@ class Home extends Component<HomeProps, HomeState> {
     this.handleFilterDelete = this.handleFilterDelete.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handleAdvancedSearchToggle = this.handleAdvancedSearchToggle.bind(this)
+    this.handleSearchEvent = this.handleSearchEvent.bind(this)
   }
 
   public async componentDidMount() {
@@ -75,12 +76,11 @@ class Home extends Component<HomeProps, HomeState> {
     const profile = this.props.currentUser
     this.setState({ profile })
 
-    const searchEvent = (event: CustomEvent) => {
-      this.handleChange('query', event.detail, 'search')
-      this.handleSearchSubmit()
-    }
-    window.removeEventListener('srchEvent', searchEvent as EventListener)
-    window.addEventListener('srchEvent', searchEvent as EventListener)
+    window.addEventListener('srchEvent', this.handleSearchEvent as EventListener)
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('srchEvent', this.handleSearchEvent as EventListener)
   }
 
   public render() {
@@ -106,7 +106,8 @@ class Home extends Component<HomeProps, HomeState> {
     return (
       <IonPage>
         {isPlatform('mobile') || isPlatform('mobileweb') ? (
-          <NavBar profile={profile} isSearchBarShow /> // TODO: make separate navbar for mobile
+          // <NavBar profile={profile} isSearchBarShow /> // TODO: make separate navbar for mobile
+          <HomeHeader />
         ) : null}
         <IonContent>
           {isPlatform('mobile') || isPlatform('mobileweb') ? (
@@ -254,6 +255,11 @@ class Home extends Component<HomeProps, HomeState> {
         </IonContent>
       </IonPage>
     )
+  }
+
+  private handleSearchEvent(event: CustomEvent) {
+    this.handleChange('query', event.detail, 'search')
+    this.handleSearchSubmit()
   }
 
   private generateSkeletonCards(count: number) {

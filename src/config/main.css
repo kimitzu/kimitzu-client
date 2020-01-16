@@ -29,6 +29,15 @@ body * {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ion-color-primary {
+  --ion-color-base: var(--primary) !important;
+}
+
+ion-toolbar.sc-ion-searchbar-ios-h,
+ion-toolbar .sc-ion-searchbar-ios-h {
+  padding: 10px;
+}
+
 ion-item {
   --padding-start: 0;
 }

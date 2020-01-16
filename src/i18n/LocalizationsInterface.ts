@@ -66,6 +66,7 @@ export interface Localizations {
   chatComponent: ChatComponent
   constants: Constants
   errors: Errors
+  mobileHeader: MobileHeader
 }
 
 export interface Errors {
@@ -626,4 +627,8 @@ export interface TransactionForm {
   amountLabel: string
   noteLabel: string
   submitBtnText: string
+}
+
+export interface MobileHeader {
+  searchPlaceholder: string
 }

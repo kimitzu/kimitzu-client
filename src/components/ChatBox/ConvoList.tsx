@@ -1,3 +1,4 @@
+import { isPlatform } from '@ionic/react'
 import React from 'react'
 
 import Conversation from '../../interfaces/Conversation'
@@ -31,7 +32,9 @@ const ConvoList = ({ conversations, onRecipientChange, selectedIndex }: Props) =
             <div
               id={`convo${i}`}
               className={
-                i === selectedIndex ? 'convos-content-cont isActive' : 'convos-content-cont'
+                !isPlatform('mobile') && i === selectedIndex
+                  ? 'convos-content-cont isActive'
+                  : 'convos-content-cont'
               }
               onClick={() => {
                 onRecipientChange(data.peerId)
