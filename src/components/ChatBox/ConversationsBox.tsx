@@ -1,3 +1,4 @@
+import { IonContent, IonFooter, IonToolbar } from '@ionic/react'
 import React, { useRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
@@ -33,7 +34,8 @@ const ConversationsBox = ({
   useDidUpdate(scrollToBottom, [conversation])
   return (
     <>
-      <div id="messages-display-cont">
+      {/* <div id="messages-display-cont"> */}
+      <IonContent scrollEvents>
         {conversation.messages.map((data, i) => {
           if (data.outgoing) {
             return (
@@ -58,35 +60,42 @@ const ConversationsBox = ({
           }
         })}
         <div id="messages-end" ref={messagesEnd} />
-      </div>
-      <div id="messages-chat-cont">
-        <div id="message-input-cont">
-          <TextareaAutosize
-            id="chat-input"
-            maxRows={6}
-            className="message-input"
-            placeholder={localeInstance.get.localizations.chatComponent.messagePlaceholder}
-            useCacheForDOMMeasurements
-            onChange={e => chatBoxOnChange(e.target.value)}
-            onKeyPress={onKeyPress ? e => onKeyPress(e) : console.log('')}
-            value={chatValue}
-            disabled={disabled}
-          />
-        </div>
-        <div id="message-button-cont">
-          <div id="message-button-cont-two" onClick={sendMsg}>
-            <div id="send-text-cont">
-              <img
-                id="img-send"
-                src={`${process.env.PUBLIC_URL}/images/send.svg`}
-                alt="Smiley face"
-                width="27"
-                height="27"
+      </IonContent>
+      {/* </div> */}
+      <IonFooter>
+        <IonToolbar>
+          <div id="messages-chat-cont">
+            <div id="message-input-cont">
+              <TextareaAutosize
+                id="chat-input"
+                maxRows={6}
+                className="message-input"
+                placeholder={localeInstance.get.localizations.chatComponent.messagePlaceholder}
+                useCacheForDOMMeasurements
+                onChange={e => chatBoxOnChange(e.target.value)}
+                onKeyPress={onKeyPress ? e => onKeyPress(e) : console.log('')}
+                value={chatValue}
+                disabled={disabled}
               />
             </div>
+            <div id="message-button-cont">
+              <div id="message-button-cont-two" onClick={sendMsg}>
+                <div id="send-text-cont">
+                  <img
+                    id="img-send"
+                    src={`${process.env.PUBLIC_URL}/images/send.svg`}
+                    alt="Smiley face"
+                    width="27"
+                    height="27"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </IonToolbar>
+      </IonFooter>
+      {/* <div id="messages-chat-cont"> */}
+      {/* </div> */}
     </>
   )
 }

@@ -5,7 +5,7 @@ import React from 'react'
 interface Props {
   title: string
   handleBackBtn: () => void
-  peerID: string
+  peerID?: string
 }
 
 const ChatHeader = ({ title, handleBackBtn, peerID }: Props) => (
@@ -15,9 +15,11 @@ const ChatHeader = ({ title, handleBackBtn, peerID }: Props) => (
         <IonIcon icon={arrowBack} />
       </IonButton>
     </IonButtons>
-    <IonTitle className="uk-text-center">{title}</IonTitle>
+    <IonTitle size="small" className="uk-text-center uk-text-truncate">
+      {title}
+    </IonTitle>
     <IonButtons slot="end">
-      <IonButton routerLink={`/profile/${peerID}`}>
+      <IonButton disabled={peerID === undefined} routerLink={`/profile/${peerID}`}>
         <IonIcon icon={person} />
       </IonButton>
     </IonButtons>

@@ -5,6 +5,10 @@ import { localeInstance } from '../i18n'
 import Conversation, { Message } from '../interfaces/Conversation'
 import Profile from './Profile'
 
+interface Draft {
+  [key: string]: string
+}
+
 class Chat {
   public static async retrieve(): Promise<Chat> {
     const convoRequest = await Axios.get(`${config.openBazaarHost}/ob/chatconversations`)
@@ -36,6 +40,7 @@ class Chat {
 
   public conversations: Conversation[] = []
   public selectedConvoIndex: number = 0
+  public draft: Draft = {}
 
   constructor(props?) {
     if (props) {
@@ -47,14 +52,18 @@ class Chat {
     this.conversations = await Promise.all(
       this.conversations.map(async (convo: Conversation, index: number) => {
         const { peerId } = convo
-        const profile = await Profile.retrieve(peerId, false, true)
-        if (profile) {
-          convo.name = profile.name
-          convo.image = `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
-        }
         const messages: Message[] = await Chat.retrieveMessages(peerId)
         if (messages) {
           convo.messages = messages.reverse()
+        }
+        try {
+          const profile = await Profile.retrieve(peerId, false, true)
+          if (profile) {
+            convo.name = profile.name
+            convo.image = `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
+          }
+        } catch (error) {
+          // Do nothing. Use default peerID as name and default user image
         }
         return convo
       })
@@ -67,8 +76,21 @@ class Chat {
     })
   }
 
-  public async newConversation(profile: Profile) {
-    const index: number = this.getConvoIndexByPeerID(profile.peerID)
+  // accepts profile or peerID
+  public async newConversation(target: Profile | string) {
+    let peerID: string
+    let image: string
+    let name: string
+    if (typeof target === 'string') {
+      peerID = target
+      image = `${process.env.PUBLIC_URL}/images/user.svg`
+      name = target
+    } else {
+      peerID = target.peerID
+      name = target.name
+      image = target.getAvatarSrc('small')
+    }
+    const index: number = this.getConvoIndexByPeerID(peerID)
     let selectedConvo: Conversation
     if (index !== -1) {
       selectedConvo = this.conversations.splice(index, 1)[0]
@@ -76,16 +98,30 @@ class Chat {
       selectedConvo = {
         lastMessage: localeInstance.get.localizations.chatComponent.emptyConvoText,
         outgoing: false,
-        peerId: profile.peerID,
+        peerId: peerID,
         timestamp: new Date().toString(),
         unread: 0,
-        image: profile.getAvatarSrc('small'),
-        name: profile.name,
+        image,
+        name,
         messages: [],
       }
     }
     this.conversations.unshift(selectedConvo)
     this.selectedConvoIndex = 0
+    if (typeof target === 'string') {
+      try {
+        const profile = await Profile.retrieve(target)
+        /**
+         * Get convo index again because indexes may have change
+         * after retrieving the profile
+         */
+        const convoIndex = this.getConvoIndexByPeerID(target)
+        this.conversations[convoIndex].name = profile.name
+        this.conversations[convoIndex].image = profile.getAvatarSrc('small')
+      } catch (error) {
+        // Do nothing.
+      }
+    }
   }
 
   public getConvoIndexByPeerID(peerID: string): number {
@@ -99,9 +135,14 @@ class Chat {
     }
   }
 
-  public async sendMessageToSelectedRecipient(message: string) {
+  public async sendMessageToSelectedRecipient() {
     const { selectedConversation, selectedConvoIndex } = this
     const { peerId } = selectedConversation
+    const message = this.draft[peerId]
+    if (!message || /^\s*$/.test(message)) {
+      return
+    }
+    this.draft[peerId] = ''
     this.conversations.splice(selectedConvoIndex, 1)
     const messageData: Message = {
       message,
@@ -120,7 +161,11 @@ class Chat {
     this.selectedConvoIndex = 0
     const response = await Chat.sendMessage(peerId, message)
     if (response) {
-      const index = this.getConvoIndexByPeerID(peerId) // get the index again because the conversations ordering might have changed
+      /**
+       * Get the index again before updating because the conversations
+       * ordering might have changed.
+       */
+      const index = this.getConvoIndexByPeerID(peerId)
       const { messages } = this.conversations[index]
       this.conversations[index].messages[messages.length - 1].isSending = false
     }
@@ -139,7 +184,10 @@ class Chat {
         name = profile.name
         image = profile.getAvatarSrc('small')
       }
-      // TODO: Check messageData if it contains the right info, if yes no need to create new message object
+      /**
+       * TODO: Check messageData if it contains the right info.
+       * If yes no need to create new message object
+       */
       const newMessage: Message = {
         message,
         messageId: '',
@@ -169,7 +217,19 @@ class Chat {
     this.conversations.unshift(conversation)
   }
 
-  get selectedConversation() {
+  public handleWriteMessage(message: string) {
+    this.draft[this.selectedConversation.peerId] = message
+  }
+
+  get writtenMessage(): string {
+    const { selectedConversation, draft } = this
+    if (!selectedConversation) {
+      return ''
+    }
+    return draft[selectedConversation.peerId] || ''
+  }
+
+  get selectedConversation(): Conversation {
     const { conversations, selectedConvoIndex } = this
     return conversations[selectedConvoIndex]
   }

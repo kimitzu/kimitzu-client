@@ -412,38 +412,38 @@ class ListingProfile extends Component<Props, State> {
                   ) : null}
                 </div>
                 <hr className="uk-margin-top uk-margin-bottom" />
-                <div className="uk-grid uk-grid-collapse" uk-grid>
+                <div className="uk-grid uk-grid-collapse" data-uk-grid>
                   <IonItem
                     className="uk-flex uk-flex-row text-gray uk-text-left"
                     id="vendor-info"
                     detail={false}
                     lines="none"
                   >
-                    {/* <Link
-                    className="uk-flex uk-flex-row text-gray uk-text-left"
-                    id="vendor-info"
-                    to={`/profile/${listing.vendorID.peerID}`}
-                  > */}
-                    <div className="uk-margin-small-right">
-                      <img
-                        className="uk-border-circle image-avatar"
-                        src={
-                          profile.avatarHashes.small
-                            ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
-                            : `${config.host}/images/user.svg`
-                        }
-                        alt="Border circle"
-                      />
-                    </div>
-                    <div className="uk-flex uk-flex-column uk-margin-small-right">
-                      <div id="vendor-info-name">{profile.name}</div>
-                      <div>
-                        {this.renderStars(profile.stats!.averageRating)} (
-                        {profile.stats!.ratingCount})
+                    <Link
+                      className="uk-flex uk-flex-row text-gray uk-text-left"
+                      id="vendor-info"
+                      to={`/profile/${listing.vendorID.peerID}`}
+                    >
+                      <div className="uk-margin-small-right">
+                        <img
+                          className="uk-border-circle image-avatar"
+                          src={
+                            profile.avatarHashes.small
+                              ? `${config.openBazaarHost}/ob/images/${profile.avatarHashes.small}`
+                              : `${config.host}/images/user.svg`
+                          }
+                          alt="Border circle"
+                        />
                       </div>
-                      <div className="text-gray">{profile.stats!.listingCount} Listings</div>
-                    </div>
-                    {/* </Link> */}
+                      <div className="uk-flex uk-flex-column uk-margin-small-right">
+                        <div id="vendor-info-name">{profile.name}</div>
+                        <div>
+                          {this.renderStars(profile.stats!.averageRating)} (
+                          {profile.stats!.ratingCount})
+                        </div>
+                        <div className="text-gray">{profile.stats!.listingCount} Listings</div>
+                      </div>
+                    </Link>
                   </IonItem>
                   <div
                     onClick={() => {

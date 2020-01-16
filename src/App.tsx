@@ -1,4 +1,4 @@
-import { IonApp, isPlatform } from '@ionic/react'
+import { IonApp, IonContent, IonPage, isPlatform } from '@ionic/react'
 import Axios from 'axios'
 import isElectron from 'is-electron'
 import React, { Fragment } from 'react'
@@ -17,6 +17,7 @@ import config from './config'
 import CurrentUserContext from './contexts/CurrentUserContext'
 import { localeInstance } from './i18n'
 import { BreadCrumb, breadCrumbInstance } from './models/BreadCrumb'
+import Chat from './models/Chat'
 import { moderatorManagerInstance } from './models/ModeratorManager'
 import { Search, searchInstance } from './models/Search'
 
@@ -74,6 +75,7 @@ interface State {
   breadCrumb: BreadCrumb
   settings: Settings
   waitText: string
+  chat: Chat
 }
 
 class App extends React.Component<{}, State> {
@@ -84,6 +86,7 @@ class App extends React.Component<{}, State> {
     super(props)
     const profile = new Profile()
     const settings = new Settings()
+    const chat = new Chat()
     this.state = {
       height: 680,
       isReady: false,
@@ -96,12 +99,15 @@ class App extends React.Component<{}, State> {
       search: searchInstance,
       breadCrumb: breadCrumbInstance,
       waitText: 'Please Wait...',
+      chat,
     }
     this.connect = this.connect.bind(this)
     this.activateTimer = this.activateTimer.bind(this)
     this.renderContent = this.renderContent.bind(this)
     this.updateBreadCrumb = this.updateBreadCrumb.bind(this)
     this.updateProfile = this.updateProfile.bind(this)
+    this.handleChatEvent = this.handleChatEvent.bind(this)
+    this.handleWebSocket = this.handleWebSocket.bind(this)
   }
 
   public updateProfile(profile: Profile) {
@@ -131,6 +137,13 @@ class App extends React.Component<{}, State> {
     this.updateBreadCrumb()
     window.onhashchange = () => {
       this.updateBreadCrumb()
+    }
+  }
+
+  public componentWillUnmount() {
+    if (this.state.isAuthenticated) {
+      window.removeEventListener('dm', this.handleChatEvent as EventListener)
+      window.socket.removeEventListener('message', this.handleWebSocket)
     }
   }
 
@@ -166,6 +179,7 @@ class App extends React.Component<{}, State> {
       isServerConnected,
       settings,
       profile,
+      chat,
     } = this.state
     if (!isReady) {
       return <FullPageSpinner message={this.state.waitText} />
@@ -185,7 +199,15 @@ class App extends React.Component<{}, State> {
         </div>
       )
     } else if (showSignup) {
-      return <UserRegistration />
+      return (
+        <IonPage>
+          <IonContent>
+            <div>
+              <UserRegistration />
+            </div>
+          </IonContent>
+        </IonPage>
+      )
     } else if (!isAuthenticated) {
       return <Login />
     }
@@ -195,11 +217,14 @@ class App extends React.Component<{}, State> {
         value={{
           settings,
           currentUser: profile,
+          chat,
           updateCurrentUser: this.updateProfile,
         }}
       >
-        <Routes history={this.state.breadCrumb.breadHistory} />
-        {!(isPlatform('mobile') || isPlatform('mobileweb')) ? <FloatingChat /> : null}
+        <Routes chat={chat} history={this.state.breadCrumb.breadHistory} />
+        {!(isPlatform('mobile') || isPlatform('mobileweb')) ? (
+          <FloatingChat chatData={chat} />
+        ) : null}
       </CurrentUserContext.Provider>
     )
   }
@@ -207,9 +232,10 @@ class App extends React.Component<{}, State> {
   private async connect() {
     this.setState({ isReady: false, isServerConnected: false })
     window.clearInterval(this.intervalTimer)
-
+    let isAuthenticated = false
     try {
       const profile = await Profile.retrieve('', true)
+      const chat = await Chat.retrieve()
       localeInstance.setLanguage(profile.preferences.language)
       const settings = await Settings.retrieve()
       const authRequest = await Axios.get(`${config.kimitzuHost}/authenticate`)
@@ -217,9 +243,13 @@ class App extends React.Component<{}, State> {
       this.setState({
         profile,
         settings,
+        chat,
         isReady: true,
         isServerConnected: true,
       })
+
+      await chat.syncProfilesAndMessages()
+      this.setState({ chat })
 
       if (isElectron()) {
         /**
@@ -232,18 +262,18 @@ class App extends React.Component<{}, State> {
           url: config.openBazaarHost,
         })
 
-        this.setState({
-          isAuthenticated:
-            (kimitzuCookie.length >= 1 && openbazaarCookie.length >= 1) ||
-            !authRequest.data.authentication,
-        })
+        isAuthenticated =
+          (kimitzuCookie.length >= 1 && openbazaarCookie.length >= 1) ||
+          !authRequest.data.authentication
       } else {
-        this.setState({
-          isAuthenticated: document.cookie !== '' || !authRequest.data.authentication,
-        })
+        isAuthenticated = document.cookie !== '' || !authRequest.data.authentication
       }
-
+      if (isAuthenticated) {
+        window.socket.addEventListener('message', this.handleWebSocket)
+        window.addEventListener('dm', this.handleChatEvent as EventListener)
+      }
       this.setState({
+        isAuthenticated,
         profile,
       })
     } catch (error) {
@@ -266,6 +296,24 @@ class App extends React.Component<{}, State> {
         this.activateTimer()
       }
       this.setState({ isReady: true })
+    }
+  }
+
+  private async handleWebSocket(data) {
+    const socketMessageObject = JSON.parse(data.data)
+    const { chat } = this.state
+    if (socketMessageObject.message && !socketMessageObject.message.subject) {
+      const messageData = socketMessageObject.message
+      await chat.handleWebsocketMessage(messageData)
+    }
+  }
+
+  private handleChatEvent(event: CustomEvent) {
+    const { chat } = this.state
+    chat.newConversation(event.detail)
+    if (isPlatform('mobile')) {
+      window.location.hash = `/messages/${event.detail.peerID}`
+      window.location.reload()
     }
   }
 
