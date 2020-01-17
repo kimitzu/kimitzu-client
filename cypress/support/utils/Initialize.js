@@ -1,4 +1,4 @@
-const initialize = (cy) => {
+const Initialize = (cy) => {
     cy.route({
         method: 'GET',
         url: 'http://localhost:8100/ob/config',
@@ -11,4 +11,4 @@ const initialize = (cy) => {
     })
 }
 
-export default initialize
+export default Initialize

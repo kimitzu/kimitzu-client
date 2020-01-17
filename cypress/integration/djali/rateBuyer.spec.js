@@ -1,13 +1,13 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
-import initialize from "../../support/utils/Initialize"
+import Initialize from "../../support/utils/Initialize"
 
 context('Rate Buyer', () => {
   beforeEach(() => {
     cy.server({})
 
-    initialize(cy)
+    Initialize(cy)
 
     cy.route({
       method: 'GET',
@@ -70,8 +70,8 @@ context('Rate Buyer', () => {
       method: 'GET',
       url: 'http://localhost:8100/ob/order/purchasedListingToBeRated',
       response: 'fixture:orders/purchased_order_to_be_rated.json',
-    }
-    )
+    })
+
     cy.get('#fulfill-order-button')
       .click()
 

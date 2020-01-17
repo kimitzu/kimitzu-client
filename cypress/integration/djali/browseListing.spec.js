@@ -1,13 +1,13 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
-import initialize from "../../support/utils/Initialize"
+import Initialize from "../../support/utils/Initialize"
 
 context('Browse Listing', () => {
   beforeEach(() => {
     cy.server({})
 
-    initialize(cy)
+    Initialize(cy)
 
     cy.route({
       method: 'GET',

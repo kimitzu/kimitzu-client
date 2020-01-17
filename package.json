@@ -1,6 +1,6 @@
 {
   "name": "kimitzu-client",
-  "version": "0.3.3-beta",
+  "version": "0.4.0-beta",
   "private": true,
   "author": {
     "email": "dev@kimitzu.ch",
@@ -77,9 +77,9 @@
     "release": "electron-builder --publish=always",
     "build": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build",
     "build:local:mainnet": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
-    "build:local": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
-    "build:remote": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
+    "build:local:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
     "build:remote:ci": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build",
+    "build:remote:mainnet": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=remote yarn react-build",
     "build:remote:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=remote yarn react-build",
     "cpext": "cp -r external/ build/external/ && mv build/external/_root/locationmap.json build/locationmap.json && mv build/external/_root/locdat.zip build/locdat.zip",
     "react-start": "react-scripts start",
@@ -91,7 +91,7 @@
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose",
     "cypress:open": "cypress open",
     "serve": "serve -S build -l 3000",
-    "ci:cypress:test": "CI=false npm run build:remote:ci && serve -S build -l 3000 & wait-on http://localhost:3000 && cypress run --browser chrome",
+    "ci:cypress:test": "serve -S build -l 3000 & wait-on http://localhost:3000 && cypress run --browser chrome",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "eslintConfig": {
@@ -112,7 +112,7 @@
   "devDependencies": {
     "concurrently": "^4.1.1",
     "conventional-changelog-cli": "^2.0.31",
-    "cypress": "^3.4.1",
+    "cypress": "^3.8.2",
     "cz-conventional-changelog": "^3.0.2",
     "electron": "^6.0.10",
     "electron-builder": "^21.0.0",
@@ -131,10 +131,12 @@
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
+    "extends": null,
     "productName": "Kimitzu Client",
     "appId": "ch.kimitzu.client",
     "files": [
-      "**/*"
+      "./build/*",
+      "./public/*"
     ],
     "extraResources": [
       {
@@ -159,7 +161,11 @@
     },
     "linux": {
       "icon": "./public/icon.icns",
-      "target": ["AppImage", "deb", "snap"]
+      "target": [
+        "AppImage",
+        "deb",
+        "snap"
+      ]
     },
     "win": {
       "icon": "./public/icon.png"
