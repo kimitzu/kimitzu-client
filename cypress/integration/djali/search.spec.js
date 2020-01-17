@@ -1,20 +1,13 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
+import initialize from "../../support/utils/Initialize"
+
 context('Search', () => {
   beforeEach(() => {
     cy.server({})
 
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8100/ob/config',
-      response: {}
-    })
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8109/kimitzu/peers',
-      response: {},
-    })
+    initialize(cy)
 
     cy.route({
       method: 'GET',
