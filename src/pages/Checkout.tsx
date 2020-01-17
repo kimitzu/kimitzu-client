@@ -438,7 +438,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               />
               <h4>
                 {locale.checkoutPage.receivedPaymentHeader1}{' '}
-                {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
+                <span id="payment-modal-amount">
+                  {currency.humanizeCrypto(this.state.payment.fundingTotal)}
+                </span>{' '}
                 {this.state.payment.coinType} {locale.checkoutPage.receivedPaymentHeader2}
               </h4>
               <p>{locale.checkoutPage.receivedPaymentParagraph}</p>

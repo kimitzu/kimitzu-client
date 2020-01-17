@@ -1,8 +1,7 @@
 /// <reference types="Cypress" />
+/* global context, cy, Cypress */
 
 import Initialize from "../../support/utils/Initialize"
-
-/* global context, cy, Cypress */
 
 context('Create Listing', () => {
   beforeEach(() => {

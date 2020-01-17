@@ -36,6 +36,10 @@ const ProfileHeader = ({
     profilePage: { tabTitles },
   } = localeInstance.get.localizations
 
+  const navigateToSettings = () => {
+    window.location.hash = '/settings'
+  }
+
   return (
     <div>
       <div id="cover-photo" className="uk-text-right">
@@ -58,6 +62,18 @@ const ProfileHeader = ({
             onClick={handleBlockBtn}
           >
             <span>{isBlocked ? blockButton.blockedBtnText : blockButton.blockBtnText}</span>
+          </Button>
+        </div>
+        <div hidden={!isOwner} className="uk-button-group">
+          <Button
+            id="header-btn"
+            className="uk-button uk-button-small"
+            onClick={navigateToSettings}
+          >
+            <span>
+              {localeInstance.get.localizations.listingPage.editBtnText}{' '}
+              {localeInstance.get.localizations.navigationBar.profileLabel}
+            </span>
           </Button>
         </div>
       </div>

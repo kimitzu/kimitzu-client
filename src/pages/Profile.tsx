@@ -138,6 +138,13 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
     this.kimitzuRatingsSocket.addEventListener('message', evt => {
       const data = JSON.parse(evt.data)
+      if (data.notification) {
+        /**
+         * Component should not handle this event
+         */
+        return
+      }
+
       if (data.type === 'fulfill') {
         const fullfillmentRatings = this.state.kimitzuFulfillmentRatings
         fullfillmentRatings.add(data as FulfillmentRating)

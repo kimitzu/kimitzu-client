@@ -1,8 +1,7 @@
 /// <reference types="Cypress" />
+/* global context, cy, Cypress */
 
 import Initialize from "../../support/utils/Initialize"
-
-/* global context, cy, Cypress */
 
 context('Browse Listing', () => {
   beforeEach(() => {
@@ -32,6 +31,7 @@ context('Browse Listing', () => {
         authenticated: false
       },
     })
+    
     cy.route({
       method: 'POST',
       url: 'http://localhost:8109/kimitzu/search',
@@ -66,6 +66,11 @@ context('Browse Listing', () => {
       method: 'GET',
       url: ' http://localhost:8100/ob/settings',
       response: 'fixture:settings/primary.json', 
+    })
+    cy.route({
+      method: 'GET',
+      url: 'http://localhost:8109/kimitzu/peer/get?id=QmYuz7HMF5SDMKjyUj3zCTqiq2rhAkWpDoxjhre8MLiHPN',
+      response: 'fixture:profile.json'
     })
 
     cy.visit('http://localhost:3000/')

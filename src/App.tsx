@@ -109,7 +109,7 @@ class App extends React.Component<{}, State> {
   public async componentDidMount() {
     if (isElectron()) {
       const options = {
-        resources: [`${config.openBazaarHost}/ob/config`, `${config.kimitzuHost}/kimitzu/peers`],
+        resources: [`${config.openBazaarHost}/ob/config`, `${config.kimitzuHost}/info/version`],
       }
       this.setState({
         waitText: 'Connecting to Kimitzu, this might take a while...',

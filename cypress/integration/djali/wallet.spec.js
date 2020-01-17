@@ -1,8 +1,7 @@
 /// <reference types="Cypress" />
+/* global context, cy, Cypress */
 
 import Initialize from "../../support/utils/Initialize"
-
-/* global context, cy, Cypress */
 
 context('Wallet', () => {
   beforeEach(() => {
@@ -135,10 +134,9 @@ context('Wallet', () => {
     cy.get('.uk-text-bold')
       .contains(`expected${cryptoCurr}Address`)
 
-    for (let i=1; i<=txNum; i++)
-    {
+    for (let i = 1; i <= txNum; i++) {
       cy.get(`:nth-child(${i})`)
-        .contains(`${i % 2 ? '' : '-' }0.00000123 ${cryptoCurr}`)
+        .contains(`${i % 2 ? '' : '-'}0.00000123 ${cryptoCurr}`)
       cy.get(`:nth-child(${i})`)
         .contains(`${i % 2 ? 'RECEIVED' : 'SENT'}`)
       cy.get(`:nth-child(${i})`)

@@ -12,6 +12,7 @@ context('File Dispute', () => {
     cy.server({})
 
     Initialize(cy)
+    
     cy.route({
       method: 'GET',
       url: 'http://localhost:8100/ob/exchangerate/btc',
