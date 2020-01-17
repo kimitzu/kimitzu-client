@@ -533,7 +533,8 @@
   "chatComponent": {
     "emptyConvoText": "Aún no hay conversaciones ...",
     "messagesText": "Mensajes",
-    "messagePlaceholder": "Escribe un mensaje ..."
+    "messagePlaceholder": "Escribe un mensaje ...",
+    "spinnerText": "Recuperando mensajes ..."
   },
   "constants": {
     "sortOptions": {

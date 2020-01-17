@@ -4,10 +4,15 @@ import React, { useEffect, useState } from 'react'
 
 import { ConversationsBox, ConvoList } from '../../components/ChatBox'
 import { ChatHeader, MobileHeader } from '../../components/Header'
-import { FullPageSpinner } from '../../components/Spinner'
+import { CircleSpinner } from '../../components/Spinner'
+import { localeInstance } from '../../i18n'
 import Chat from '../../models/Chat'
 
-const MobileChat = () => {
+interface Props {
+  chatData: Chat
+}
+
+const MobileChat = ({ chatData }: Props) => {
   const [chat, setChat] = useState<Chat>(new Chat())
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [isRetrieving, setIsRetrieving] = useState<boolean>(true)
@@ -16,19 +21,24 @@ const MobileChat = () => {
   const [showConvo, setShowConvo] = useState<boolean>(false)
 
   useEffect(() => {
-    retrieveChat()
+    setChat(new Chat(chatData))
+    setIsRetrieving(false)
   }, [])
+
+  useEffect(() => {
+    setChat(new Chat(chatData))
+  }, [chatData])
 
   const retrieveChat = async () => {
     try {
-      const chatData = await Chat.retrieve()
-      chatData.sortConversations()
+      const updatedChat = await Chat.retrieve()
+      updatedChat.sortConversations()
       if (isRefreshing) {
-        setChat(chatData)
+        setChat(updatedChat)
       }
       // TODO: add handler if profile cannot retrieve
-      await chatData.syncProfilesAndMessages()
-      setChat(new Chat(chatData))
+      await updatedChat.syncProfilesAndMessages()
+      setChat(new Chat(updatedChat))
     } catch (error) {
       // TODO: add handler
       console.log(error)
@@ -93,7 +103,9 @@ const MobileChat = () => {
             onRecipientChange={handleRecipientChange}
           />
         ) : (
-          <FullPageSpinner message="Retrieving messages..." />
+          <div className="uk-flex uk-flex-center uk-flex-middle uk-height-1-1">
+            <CircleSpinner message={localeInstance.get.localizations.chatComponent.spinnerText} />
+          </div>
         )}
         <IonModal isOpen={showConvo}>
           {chat.conversations.length > 0 ? (

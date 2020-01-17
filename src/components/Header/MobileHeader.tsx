@@ -25,12 +25,17 @@ const MobileHeader = ({ defaultHref, showBackBtn, title }: Props) => {
       <IonToolbar color="primary">
         {showBackBtn ? (
           <IonButtons slot="start">
-            <IonButton onClick={() => window.history.back()}>
+            <IonButton
+              onClick={e => {
+                e.stopPropagation()
+                window.history.back()
+              }}
+            >
               <IonIcon icon={arrowBack} />
             </IonButton>
           </IonButtons>
         ) : null}
-        {title ? <IonTitle>{title}</IonTitle> : null}
+        {title ? <IonTitle className="uk-text-center">{title}</IonTitle> : null}
       </IonToolbar>
     </IonHeader>
   )

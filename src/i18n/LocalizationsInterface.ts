@@ -84,6 +84,7 @@ export interface ChatComponent {
   emptyConvoText: string
   messagesText: string
   messagePlaceholder: string
+  spinnerText: string
 }
 
 export interface CheckoutPage {

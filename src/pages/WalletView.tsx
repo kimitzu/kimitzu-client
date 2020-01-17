@@ -1,6 +1,8 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React from 'react'
 
 import { CryptoSelector, TransactionsHistoryCard, WalletBalanceCard } from '../components/Card'
+import { MobileHeader } from '../components/Header'
 import { SendReceiveTransactionSegment } from '../components/Segment'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 
@@ -40,6 +42,7 @@ class WalletView extends React.Component<WalletProps, State> {
     }
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleSend = this.handleSend.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async handleSelectChange(index) {
@@ -65,6 +68,17 @@ class WalletView extends React.Component<WalletProps, State> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <MobileHeader
+          title={localeInstance.get.localizations.navigationBar.walletLabel.toUpperCase()}
+        />
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const { selectedIndex } = this.state
     const selectedCryptoCurrency = cryptoCurrencies[selectedIndex].value
     const linkTemplate = cryptoCurrencies[selectedIndex].explorer

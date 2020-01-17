@@ -202,7 +202,7 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
   public render() {
     return (
       <IonPage>
-        <MobileHeader />
+        <MobileHeader showBackBtn />
         <IonContent>{this.renderPage()}</IonContent>
       </IonPage>
     )

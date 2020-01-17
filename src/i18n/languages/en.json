@@ -554,7 +554,8 @@
   "chatComponent": {
     "emptyConvoText": "No conversations yet...",
     "messagesText": "Messages",
-    "messagePlaceholder": "Type a message..."
+    "messagePlaceholder": "Type a message...",
+    "spinnerText": "Retrieving messages..."
   },
   "constants": {
     "sortOptions": {

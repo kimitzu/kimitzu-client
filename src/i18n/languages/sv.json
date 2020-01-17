@@ -536,7 +536,8 @@
   "chatComponent": {
     "emptyConvoText": "Inga samtal än ...",
     "messagesText": "meddelanden",
-    "messagePlaceholder": "Skriv ett meddelande..."
+    "messagePlaceholder": "Skriv ett meddelande...",
+    "spinnerText": "Hämtar meddelanden ..."
   },
   "constants": {
     "sortOptions": {

@@ -536,7 +536,8 @@
   "chatComponent": {
     "emptyConvoText": "Pas encore de conversation ...",
     "messagesText": "messages",
-    "messagePlaceholder": "Tapez un message ..."
+    "messagePlaceholder": "Tapez un message ...",
+    "spinnerText": "Récupération des messages ..."
   },
   "constants": {
     "sortOptions": {

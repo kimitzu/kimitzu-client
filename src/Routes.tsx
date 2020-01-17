@@ -12,7 +12,7 @@ import {
 import { IonReactHashRouter } from '@ionic/react-router'
 import { home, mail, person, pricetags, wallet } from 'ionicons/icons'
 import React, { useEffect, useState } from 'react'
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { BreadCrumb } from './components/BreadCrumb'
 import { NavBar } from './components/NavBar'
 import CurrentUserContext from './contexts/CurrentUserContext'
@@ -48,7 +48,7 @@ interface RouteProps {
   chat: Chat
 }
 
-const MobileTabs = ({ currentUser, settings, updateCurrentUser }) => {
+const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
   const TAB_CONSTANTS = {
     HOME: 0,
     MESSAGES: 1,
@@ -81,18 +81,21 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser }) => {
   useEffect(() => {
     const { hash } = window.location
     updateSelectedTab(hash)
-    console.log(selectedTab)
   }, [])
-  console.log(selectedTab)
   return (
     <IonTabs>
       <IonRouterOutlet key={window.location.href}>
+        <Redirect exact path="/tabs" to="/tabs/home" />
         <Route
           path="/tabs/home"
           exact
           render={props => <Home {...props} currentUser={currentUser} />}
         />
-        <Route path="/tabs/messages" exact component={MobileChat} />
+        <Route
+          path="/tabs/messages"
+          exact
+          render={props => <MobileChat {...props} chatData={chat} />}
+        />
         <Route
           path="/tabs/profile"
           exact
@@ -179,10 +182,12 @@ const Routes = ({ history, chat }: RouteProps) => {
           return (
             <IonReactHashRouter>
               <IonRouterOutlet>
+                <Redirect exact path="/" to="/tabs/home" />
                 <Route
                   path="/tabs"
                   component={() => (
                     <MobileTabs
+                      chat={chat}
                       currentUser={currentUser}
                       settings={settings}
                       updateCurrentUser={updateCurrentUser}
