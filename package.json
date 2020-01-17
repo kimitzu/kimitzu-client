@@ -135,8 +135,8 @@
     "productName": "Kimitzu Client",
     "appId": "ch.kimitzu.client",
     "files": [
-      "./build/*",
-      "./public/*"
+      "./build/**/*",
+      "./public/**/*"
     ],
     "extraResources": [
       {
