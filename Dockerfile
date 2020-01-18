@@ -20,15 +20,15 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN npm install -g yarn
 
 # Install golang
-# RUN wget https://storage.googleapis.com/golang/go1.12.4.linux-amd64.tar.gz
-# RUN tar -zxvf go1.12.4.linux-amd64.tar.gz -C /usr/local/
+RUN wget https://storage.googleapis.com/golang/go1.12.4.linux-amd64.tar.gz
+RUN tar -zxvf go1.12.4.linux-amd64.tar.gz -C /usr/local/
 
 # Go ENV settings
-# ENV GOPATH /go
-# ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
-# RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+RUN go get -u -v github.com/kimitzu/kimitzu-go
 # RUN go get -u github.com/gobuffalo/packr/v2/packr2
-# RUN go get -u -v github.com/kimitzu/kimitzu-go
 # RUN go get -u -v github.com/kimitzu/kimitzu-services
 
 # "fake" dbus address to prevent errors
