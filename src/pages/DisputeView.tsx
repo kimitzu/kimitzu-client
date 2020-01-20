@@ -1,3 +1,4 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 import ReactSlider from 'react-slider'
@@ -5,6 +6,7 @@ import ReactSlider from 'react-slider'
 import { Button } from '../components/Button'
 import { SideMenuWithContentCard } from '../components/Card'
 import GroupChatComponent from '../components/ChatBox/GroupChat'
+import { MobileHeader } from '../components/Header'
 import { FormLabel } from '../components/Label'
 import {
   OrderDetailsSegment,
@@ -81,6 +83,7 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
     this.handleContentChange = this.handleContentChange.bind(this)
     this.handleDisputeFormSubmit = this.handleDisputeFormSubmit.bind(this)
     this.handleWebSocket = this.handleWebSocket.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
@@ -152,14 +155,21 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <MobileHeader showBackBtn />
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const { currentContent, isLoading, dispute: order } = this.state
 
     if (isLoading) {
       return (
-        <div className="uk-flex uk-flex-row uk-flex-center">
-          <div className="uk-margin-top">
-            <CircleSpinner message={this.locale.disputeViewPage.spinnerText} />
-          </div>
+        <div className="uk-flex uk-flex-center uk-flex-middle uk-height-1-1">
+          <CircleSpinner message={this.locale.disputeViewPage.spinnerText} />
         </div>
       )
     }

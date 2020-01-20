@@ -191,10 +191,8 @@ class ListingProfile extends Component<Props, State> {
 
     if (this.state.isLoading) {
       return (
-        <div className="uk-flex uk-flex-row uk-flex-center">
-          <div className="uk-margin-top">
-            <CircleSpinner message={`${this.state.loadingStatus}...`} />
-          </div>
+        <div className="uk-flex uk-flex-center uk-flex-middle uk-height-1-1">
+          <CircleSpinner message={`${this.state.loadingStatus}...`} />
         </div>
       )
     }

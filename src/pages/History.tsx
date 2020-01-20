@@ -1,8 +1,10 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
 import { Button } from '../components/Button'
 import OrderItemCard from '../components/Card/OrderItemCard'
+import { MobileHeader } from '../components/Header'
 
 import OrderHistory from '../models/OrderHistory'
 
@@ -17,6 +19,7 @@ interface HistoryState {
   isLoading: boolean
   viewType: string
   query: string
+  pageTitle: string
 }
 
 interface RouteProps {
@@ -37,27 +40,33 @@ class History extends React.Component<HistoryProps, HistoryState> {
       filters: [],
       isLoading: true,
       query: '',
+      pageTitle: '',
     }
     this.renderFilters = this.renderFilters.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.handleResetFilter = this.handleResetFilter.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
     let orders: OrderHistory[] = []
     const viewType = this.props.match.params.view
+    let pageTitle = ''
 
     switch (viewType) {
       case 'purchases': {
         orders = await OrderHistory.getPurchases()
+        pageTitle = this.locale.navigationBar.purchaseHistoryLabel
         break
       }
       case 'sales': {
         orders = await OrderHistory.getSales()
+        pageTitle = this.locale.navigationBar.salesHistoryLabel
         break
       }
       case 'cases': {
         orders = await OrderHistory.getCases()
+        pageTitle = this.locale.navigationBar.caseHistoryLabel
         break
       }
       default:
@@ -67,6 +76,7 @@ class History extends React.Component<HistoryProps, HistoryState> {
 
     this.setState({
       orders,
+      pageTitle,
       filteredOrders: orders,
       isLoading: false,
       viewType: viewType.toUpperCase(),
@@ -74,6 +84,15 @@ class History extends React.Component<HistoryProps, HistoryState> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <MobileHeader showBackBtn title={this.state.pageTitle.toUpperCase()} />
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     return (
       <div
         id="purchase-history"

@@ -12,7 +12,7 @@ import {
 import { IonReactHashRouter } from '@ionic/react-router'
 import { home, mail, person, pricetags, wallet } from 'ionicons/icons'
 import React, { useEffect, useState } from 'react'
-import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { BreadCrumb } from './components/BreadCrumb'
 import { NavBar } from './components/NavBar'
 import CurrentUserContext from './contexts/CurrentUserContext'
@@ -183,6 +183,9 @@ const Routes = ({ history, chat }: RouteProps) => {
             <IonReactHashRouter>
               <IonRouterOutlet>
                 <Redirect exact path="/" to="/tabs/home" />
+                <Redirect exact path="/profile" to="/tabs/profile" />
+                <Redirect exact path="/wallet" to="/tabs/wallet" />
+                <Redirect exact path="/settings" to="/tabs/settings" />
                 <Route
                   path="/tabs"
                   component={() => (
@@ -192,6 +195,13 @@ const Routes = ({ history, chat }: RouteProps) => {
                       settings={settings}
                       updateCurrentUser={updateCurrentUser}
                     />
+                  )}
+                />
+                <Route
+                  path="/listing/create"
+                  exact
+                  render={props => (
+                    <CreateListing {...props} currentUser={currentUser} settings={settings} />
                   )}
                 />
                 <Route
@@ -223,6 +233,10 @@ const Routes = ({ history, chat }: RouteProps) => {
                   exact
                   render={props => <MobileConversation chatData={chat} {...props} />}
                 />
+                <Route path="/history/:view" exact component={History} />
+                <Route path="/history/cases/:id" exact component={DisputeView} />
+                <Route path="/history/:view/:id" exact component={OrderView} />
+                <Route path="/dev" exact component={DevMode} />
               </IonRouterOutlet>
             </IonReactHashRouter>
           )

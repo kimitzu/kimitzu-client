@@ -2,7 +2,6 @@ import {
   IonContent,
   IonItem,
   IonLabel,
-  IonLoading,
   IonPage,
   IonRadio,
   IonRadioGroup,

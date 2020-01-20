@@ -1,9 +1,11 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import { Button } from '../components/Button'
 import { SideMenuWithContentCard } from '../components/Card'
 import GroupChatComponent from '../components/ChatBox/GroupChat'
+import { MobileHeader } from '../components/Header'
 import { FormLabel } from '../components/Label'
 import { StarRatingGroup } from '../components/Rating'
 import OrderBuyerPayment from '../components/Segment/OrderView/OrderBuyerPayment'
@@ -109,6 +111,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleOrderFundRelease = this.handleOrderFundRelease.bind(this)
     this.handleWebSocket = this.handleWebSocket.bind(this)
     this.handleCancelOrder = this.handleCancelOrder.bind(this)
+    this.renderPage = this.renderPage.bind(this)
   }
 
   public async componentDidMount() {
@@ -217,6 +220,15 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
   }
 
   public render() {
+    return (
+      <IonPage>
+        <MobileHeader showBackBtn />
+        <IonContent>{this.renderPage()}</IonContent>
+      </IonPage>
+    )
+  }
+
+  private renderPage() {
     const { currentContent, isLoading, order } = this.state
     let content
     let currentTitle

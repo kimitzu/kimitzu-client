@@ -1,3 +1,4 @@
+import { IonContent, IonPage } from '@ionic/react'
 import React, { Component, ReactNode } from 'react'
 import { Prompt, RouteComponentProps } from 'react-router'
 import { SideMenuWithContentCard } from '../components/Card'
@@ -11,6 +12,7 @@ import {
   ModeratorSelectionForm,
   TagsForm,
 } from '../components/Form'
+import { MobileHeader } from '../components/Header'
 import { ModeratorInfoModal } from '../components/Modal'
 import CryptoCurrencies from '../constants/CryptoCurrencies'
 import Listing from '../models/Listing'
@@ -419,23 +421,38 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
   public render() {
     const { navItems, currentForm } = this
-    const { selectedModerator } = this.state
+    const { selectedModerator, isListingNew } = this.state
     return (
-      <div className="background-body full-vh uk-padding-small">
-        <Prompt when={!this.state.isListingSaved} message={this.locale.listingForm.abandonPrompt} />
-        <SideMenuWithContentCard
-          mainContentTitle={currentForm.title}
-          menuContent={{
-            title: this.state.isListingNew
+      <IonPage>
+        <MobileHeader
+          showBackBtn
+          title={
+            isListingNew
               ? this.locale.listingForm.addBtnText.toUpperCase()
-              : this.locale.listingForm.updateBtnText.toUpperCase(),
-            navItems,
-          }}
-          mainContent={currentForm.component}
-          currentNavIndex={this.state.currentFormIndex}
+              : this.locale.listingForm.updateBtnText.toUpperCase()
+          }
         />
-        <ModeratorInfoModal profile={selectedModerator} />
-      </div>
+        <IonContent>
+          <div className="background-body full-vh uk-padding-small">
+            <Prompt
+              when={!this.state.isListingSaved}
+              message={this.locale.listingForm.abandonPrompt}
+            />
+            <SideMenuWithContentCard
+              mainContentTitle={currentForm.title}
+              menuContent={{
+                title: this.state.isListingNew
+                  ? this.locale.listingForm.addBtnText.toUpperCase()
+                  : this.locale.listingForm.updateBtnText.toUpperCase(),
+                navItems,
+              }}
+              mainContent={currentForm.component}
+              currentNavIndex={this.state.currentFormIndex}
+            />
+            <ModeratorInfoModal profile={selectedModerator} />
+          </div>
+        </IonContent>
+      </IonPage>
     )
   }
 

@@ -2,7 +2,7 @@ import { IonContent, IonPage } from '@ionic/react'
 import React, { Component } from 'react'
 import { RouteComponentProps } from 'react-router'
 
-import { ProfileHeader } from '../components/Header'
+import { MobileHeader, ProfileHeader, StoreMobileHeader } from '../components/Header'
 import { CircleSpinner } from '../components/Spinner'
 import { ProfileSwitcher } from '../components/Switcher'
 
@@ -32,6 +32,7 @@ interface ProfilePageState {
   followingList: string[]
   isError: boolean
   currentUser: Profile
+  isPeerIDProvided: boolean
 }
 
 interface RouteProps {
@@ -66,6 +67,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
       followersList: [],
       followingList: [],
       isError: false,
+      isPeerIDProvided: false,
     }
     this.handleFollowChange = this.handleFollowChange.bind(this)
     this.handleSendMessage = this.handleSendMessage.bind(this)
@@ -85,6 +87,7 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
     try {
       if (id) {
         profile = await Profile.retrieve(id, true)
+        this.setState({ isPeerIDProvided: true })
       } else {
         profile = currentUser
       }
@@ -167,6 +170,11 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
   public render() {
     return (
       <IonPage>
+        {this.state.isPeerIDProvided ? (
+          <MobileHeader showBackBtn />
+        ) : (
+          <StoreMobileHeader title="STORE" />
+        )}
         <IonContent>{this.renderPage()}</IonContent>
       </IonPage>
     )
@@ -186,10 +194,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
     if (this.state.isLoading) {
       return (
-        <div className="uk-flex uk-flex-row uk-flex-center">
-          <div className="uk-margin-top">
-            <CircleSpinner message={`${this.state.loadingStatus}...`} />
-          </div>
+        <div className="uk-flex uk-flex-center uk-flex-middle uk-height-1-1">
+          <CircleSpinner message={`${this.state.loadingStatus}...`} />
         </div>
       )
     }
