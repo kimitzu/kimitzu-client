@@ -86,8 +86,8 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
     try {
       if (id) {
-        profile = await Profile.retrieve(id, true)
         this.setState({ isPeerIDProvided: true })
+        profile = await Profile.retrieve(id, true)
       } else {
         profile = currentUser
       }

@@ -53,9 +53,7 @@ class Chat {
       this.conversations.map(async (convo: Conversation, index: number) => {
         const { peerId } = convo
         const messages: Message[] = await Chat.retrieveMessages(peerId)
-        if (messages) {
-          convo.messages = messages.reverse()
-        }
+        convo.messages = messages ? messages.reverse() : []
         try {
           const profile = await Profile.retrieve(peerId, false, true)
           if (profile) {

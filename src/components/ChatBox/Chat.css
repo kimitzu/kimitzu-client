@@ -320,8 +320,8 @@
 }
 
 .text-msg-right {
-  background-color: dodgerblue;
-  color: white;
+  background-color: var(--primary);
+  color: #fff;
   padding: 12px;
   border-radius: 8px;
   font-size: 14px;

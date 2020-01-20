@@ -17,17 +17,16 @@ const MobileChat = ({ chatData }: Props) => {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [isRetrieving, setIsRetrieving] = useState<boolean>(true)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
-  const [message, setMessage] = useState<string>('')
   const [showConvo, setShowConvo] = useState<boolean>(false)
 
   useEffect(() => {
-    setChat(new Chat(chatData))
+    setChat(chatData)
     setIsRetrieving(false)
   }, [])
 
   useEffect(() => {
-    setChat(new Chat(chatData))
-  }, [chatData])
+    setChat(chatData)
+  }, chatData.conversations)
 
   const retrieveChat = async () => {
     try {
@@ -66,11 +65,7 @@ const MobileChat = ({ chatData }: Props) => {
   }
 
   const handleSendMsg = async () => {
-    if (/^\s*$/.test(message)) {
-      return
-    }
     setIsDisabled(true)
-    setMessage('')
     const res = await chat.sendMessageToSelectedRecipient()
     setChat(new Chat(chat))
     if (res) {
@@ -79,7 +74,8 @@ const MobileChat = ({ chatData }: Props) => {
   }
 
   const handleMessageChange = msg => {
-    setMessage(msg)
+    chat.handleWriteMessage(msg)
+    setChat(new Chat(chat))
   }
 
   const handleRefresh = (e: CustomEvent<RefresherEventDetail>) => {
@@ -88,7 +84,13 @@ const MobileChat = ({ chatData }: Props) => {
     e.detail.complete()
   }
 
-  const { selectedConversation } = chat
+  const { selectedConversation, writtenMessage } = chat
+  let title = ''
+  let selectedPeerID = ''
+  if (selectedConversation) {
+    title = selectedConversation.name || selectedConversation.peerId
+    selectedPeerID = selectedConversation.peerId
+  }
   return (
     <IonPage>
       <MobileHeader title="MESSAGES" />
@@ -108,22 +110,18 @@ const MobileChat = ({ chatData }: Props) => {
           </div>
         )}
         <IonModal isOpen={showConvo}>
-          {chat.conversations.length > 0 ? (
-            <>
-              <ChatHeader
-                title={selectedConversation.name}
-                peerID={selectedConversation.peerId}
-                handleBackBtn={handleBackBtn}
-              />
+          <>
+            <ChatHeader title={title} peerID={selectedPeerID} handleBackBtn={handleBackBtn} />
+            {selectedConversation ? (
               <ConversationsBox
                 conversation={selectedConversation}
                 chatBoxOnChange={handleMessageChange}
-                chatValue={message}
+                chatValue={writtenMessage}
                 disabled={isDisabled}
                 sendMsg={handleSendMsg}
               />
-            </>
-          ) : null}
+            ) : null}
+          </>
         </IonModal>
       </IonContent>
     </IonPage>

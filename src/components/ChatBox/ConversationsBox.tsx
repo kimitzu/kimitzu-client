@@ -1,5 +1,5 @@
 import { IonContent, IonFooter, IonToolbar } from '@ionic/react'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import { localeInstance } from '../../i18n'
@@ -26,6 +26,9 @@ const ConversationsBox = ({
   sendMsg,
 }: Props) => {
   const messagesEnd = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    scrollToBottom()
+  }, [conversation.messages.length])
   const scrollToBottom = () => {
     if (messagesEnd && messagesEnd.current) {
       messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
@@ -34,34 +37,37 @@ const ConversationsBox = ({
   useDidUpdate(scrollToBottom, [conversation])
   return (
     <>
-      {/* <div id="messages-display-cont"> */}
       <IonContent scrollEvents>
-        {conversation.messages.map((data, i) => {
-          if (data.outgoing) {
-            return (
-              <div className="text-msg-cont-right" key={`m${i}`}>
-                <div className="text-msg-right">{data.message}</div>
-                {data.isSending ? (
-                  <div className="avatar-cont-recepient">
-                    <span data-uk-spinner="ratio: 0.5" />
-                  </div>
-                ) : null}
-              </div>
-            )
-          } else {
-            return (
-              <div className="text-msg-cont-left" key={`m${i}`}>
-                <div className="avatar-cont-recepient">
-                  <img className="avatar-recipient" src={conversation.image} alt="Small Avatar" />
+        <div
+          style={{ minHeight: '100%' }}
+          className="uk-flex uk-flex-bottom uk-flex-right uk-flex-column"
+        >
+          {conversation.messages.map((data, i) => {
+            if (data.outgoing) {
+              return (
+                <div className="text-msg-cont-right" key={`m${i}`}>
+                  <div className="text-msg-right">{data.message}</div>
+                  {data.isSending ? (
+                    <div className="avatar-cont-recepient">
+                      <span data-uk-spinner="ratio: 0.5" />
+                    </div>
+                  ) : null}
                 </div>
-                <div className="text-msg-left">{data.message}</div>
-              </div>
-            )
-          }
-        })}
+              )
+            } else {
+              return (
+                <div className="text-msg-cont-left" key={`m${i}`}>
+                  <div className="avatar-cont-recepient">
+                    <img className="avatar-recipient" src={conversation.image} alt="Small Avatar" />
+                  </div>
+                  <div className="text-msg-left">{data.message}</div>
+                </div>
+              )
+            }
+          })}
+        </div>
         <div id="messages-end" ref={messagesEnd} />
       </IonContent>
-      {/* </div> */}
       <IonFooter>
         <IonToolbar>
           <div id="messages-chat-cont">
@@ -94,8 +100,6 @@ const ConversationsBox = ({
           </div>
         </IonToolbar>
       </IonFooter>
-      {/* <div id="messages-chat-cont"> */}
-      {/* </div> */}
     </>
   )
 }
