@@ -48,12 +48,21 @@ class Chat {
     }
   }
 
-  public async syncProfilesAndMessages() {
+  public async syncMessages() {
     this.conversations = await Promise.all(
       this.conversations.map(async (convo: Conversation, index: number) => {
         const { peerId } = convo
         const messages: Message[] = await Chat.retrieveMessages(peerId)
         convo.messages = messages ? messages.reverse() : []
+        return convo
+      })
+    )
+  }
+
+  public async syncProfiles() {
+    this.conversations = await Promise.all(
+      this.conversations.map(async (convo: Conversation, index: number) => {
+        const { peerId } = convo
         try {
           const profile = await Profile.retrieve(peerId, false, true)
           if (profile) {

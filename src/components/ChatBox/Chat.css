@@ -329,6 +329,10 @@
   word-wrap: break-word;
 }
 
+#conversation-container {
+  min-height: 100%;
+}
+
 /* for scroll-bar */
 
 /* width */

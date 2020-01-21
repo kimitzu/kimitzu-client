@@ -248,7 +248,10 @@ class App extends React.Component<{}, State> {
         isServerConnected: true,
       })
 
-      await chat.syncProfilesAndMessages()
+      /** Chat retrieves faster than retrieving profiles. Display the conversations first then update the profile details. */
+      await chat.syncMessages()
+      this.setState({ chat })
+      await chat.syncProfiles()
       this.setState({ chat })
 
       if (isElectron()) {

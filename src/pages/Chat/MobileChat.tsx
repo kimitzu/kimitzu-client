@@ -1,9 +1,9 @@
 import { RefresherEventDetail } from '@ionic/core'
-import { IonContent, IonModal, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react'
+import { IonContent, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react'
 import React, { useEffect, useState } from 'react'
 
-import { ConversationsBox, ConvoList } from '../../components/ChatBox'
-import { ChatHeader, MobileHeader } from '../../components/Header'
+import { ConvoList } from '../../components/ChatBox'
+import { MobileHeader } from '../../components/Header'
 import { CircleSpinner } from '../../components/Spinner'
 import { localeInstance } from '../../i18n'
 import Chat from '../../models/Chat'
@@ -16,8 +16,6 @@ const MobileChat = ({ chatData }: Props) => {
   const [chat, setChat] = useState<Chat>(new Chat())
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [isRetrieving, setIsRetrieving] = useState<boolean>(true)
-  const [isDisabled, setIsDisabled] = useState<boolean>(false)
-  const [showConvo, setShowConvo] = useState<boolean>(false)
 
   useEffect(() => {
     setChat(chatData)
@@ -36,7 +34,9 @@ const MobileChat = ({ chatData }: Props) => {
         setChat(updatedChat)
       }
       // TODO: add handler if profile cannot retrieve
-      await updatedChat.syncProfilesAndMessages()
+      await updatedChat.syncMessages()
+      setChat(new Chat(updatedChat))
+      await updatedChat.syncProfiles()
       setChat(new Chat(updatedChat))
     } catch (error) {
       // TODO: add handler
@@ -51,31 +51,7 @@ const MobileChat = ({ chatData }: Props) => {
       prevState.updateSelectedConvo(peerID)
       return new Chat(prevState)
     })
-    setShowConvo(true)
-    setTimeout(() => {
-      const objDiv = document.getElementById('messages-display-cont')
-      if (objDiv) {
-        objDiv.scrollIntoView({ behavior: 'smooth' })
-      }
-    })
-  }
-
-  const handleBackBtn = () => {
-    setShowConvo(false)
-  }
-
-  const handleSendMsg = async () => {
-    setIsDisabled(true)
-    const res = await chat.sendMessageToSelectedRecipient()
-    setChat(new Chat(chat))
-    if (res) {
-      setIsDisabled(false)
-    }
-  }
-
-  const handleMessageChange = msg => {
-    chat.handleWriteMessage(msg)
-    setChat(new Chat(chat))
+    window.location.hash = `/messages/${peerID}`
   }
 
   const handleRefresh = (e: CustomEvent<RefresherEventDetail>) => {
@@ -84,13 +60,6 @@ const MobileChat = ({ chatData }: Props) => {
     e.detail.complete()
   }
 
-  const { selectedConversation, writtenMessage } = chat
-  let title = ''
-  let selectedPeerID = ''
-  if (selectedConversation) {
-    title = selectedConversation.name || selectedConversation.peerId
-    selectedPeerID = selectedConversation.peerId
-  }
   return (
     <IonPage>
       <MobileHeader title="MESSAGES" />
@@ -109,20 +78,6 @@ const MobileChat = ({ chatData }: Props) => {
             <CircleSpinner message={localeInstance.get.localizations.chatComponent.spinnerText} />
           </div>
         )}
-        <IonModal isOpen={showConvo}>
-          <>
-            <ChatHeader title={title} peerID={selectedPeerID} handleBackBtn={handleBackBtn} />
-            {selectedConversation ? (
-              <ConversationsBox
-                conversation={selectedConversation}
-                chatBoxOnChange={handleMessageChange}
-                chatValue={writtenMessage}
-                disabled={isDisabled}
-                sendMsg={handleSendMsg}
-              />
-            ) : null}
-          </>
-        </IonModal>
       </IonContent>
     </IonPage>
   )

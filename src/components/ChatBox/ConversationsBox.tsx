@@ -26,20 +26,17 @@ const ConversationsBox = ({
   sendMsg,
 }: Props) => {
   const messagesEnd = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    scrollToBottom()
-  }, [conversation.messages.length])
   const scrollToBottom = () => {
     if (messagesEnd && messagesEnd.current) {
       messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
-  useDidUpdate(scrollToBottom, [conversation])
+  useDidUpdate(scrollToBottom, [conversation.messages])
   return (
     <>
       <IonContent scrollEvents>
         <div
-          style={{ minHeight: '100%' }}
+          id="conversation-container"
           className="uk-flex uk-flex-bottom uk-flex-right uk-flex-column"
         >
           {conversation.messages.map((data, i) => {
@@ -85,7 +82,15 @@ const ConversationsBox = ({
               />
             </div>
             <div id="message-button-cont">
-              <div id="message-button-cont-two" onClick={sendMsg}>
+              <div
+                id="message-button-cont-two"
+                onClick={() => {
+                  sendMsg()
+                  setTimeout(() => {
+                    scrollToBottom()
+                  })
+                }}
+              >
                 <div id="send-text-cont">
                   <img
                     id="img-send"
