@@ -377,7 +377,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
 
     const newImages = this.state.tempImages.filter(image => !image.startsWith('http'))
 
-    if (listing.item.images.length <= 0 && this.state.tempImages.length <= 0) {
+    if (this.state.tempImages.length <= 0) {
       const defaultLogo = await Axios.get(`${config.host}/icon.png`, { responseType: 'blob' })
       const defaultLogoBase64 = await ImageUploaderInstance.convertToBase64(defaultLogo.data)
       newImages.push(defaultLogoBase64)
