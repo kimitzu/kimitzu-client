@@ -124,6 +124,7 @@
     "electron-download-tf": "^4.3.4",
     "eslint-plugin-cypress": "^2.6.1",
     "husky": "^2.2.0",
+    "jetifier": "^1.6.5",
     "lint-staged": "^8.1.6",
     "mock-socket": "^9.0.2",
     "prettier": "^1.17.0",
@@ -132,6 +133,7 @@
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0"
   },
+  "postinstall": "jetifier -r",
   "description": "Kimitzu Client",
   "main": "public/electron.js",
   "homepage": "./",
@@ -164,7 +166,11 @@
     },
     "linux": {
       "icon": "./public/icon.icns",
-      "target": ["AppImage", "deb", "snap"]
+      "target": [
+        "AppImage",
+        "deb",
+        "snap"
+      ]
     },
     "win": {
       "icon": "./public/icon.png"
