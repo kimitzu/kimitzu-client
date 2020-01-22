@@ -180,6 +180,11 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
                     {navigationBarLocale.createNewListingLabel}
                   </Link>
                 </li>
+                <li>
+                  <Link id="create-new-listing" to="/listing/import">
+                    {navigationBarLocale.importNewListingLabel}
+                  </Link>
+                </li>
                 <li className="uk-nav-divider" />
                 <li>
                   <Link id="purchase-history" to="/history/purchases">

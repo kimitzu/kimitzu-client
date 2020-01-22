@@ -266,6 +266,7 @@ export interface ListingPage {
   expiredListingHelper2: string
   renewLink: string
   editBtnText: string
+  exportBtnText: string
   deleteListingPromptText: string
   deleteListingSuccessNotif: string
   reviewsText: string
@@ -300,6 +301,7 @@ export interface ModeratorInfoModal {
 
 export interface NavigationBar {
   createNewListingLabel: string
+  importNewListingLabel: string
   purchaseHistoryLabel: string
   salesHistoryLabel: string
   caseHistoryLabel: string

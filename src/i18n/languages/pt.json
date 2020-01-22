@@ -58,6 +58,7 @@
     "locationRadiusLabel": "Dentro do raio"
   },
   "navigationBar": {
+    "importNewListingLabel": "Importar nova listagem",
     "createNewListingLabel": "Criar nova listagem",
     "purchaseHistoryLabel": "Histórico de compras",
     "salesHistoryLabel": "Histórico de vendas",
@@ -508,6 +509,7 @@
     "expiredListingHelper2": "Esta listagem expirou.",
     "renewLink": "Renove por um ano.",
     "editBtnText": "Editar",
+    "exportBtnText": "Baixar",
     "deleteListingPromptText": "Tem certeza de que deseja excluir esta listagem? Essa ação não pode ser desfeita.",
     "deleteListingSuccessNotif": "Listagem excluída.",
     "reviewsText": "Rever",

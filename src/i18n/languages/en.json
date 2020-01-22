@@ -58,6 +58,7 @@
     "locationRadiusLabel": "Within radius"
   },
   "navigationBar": {
+    "importNewListingLabel": "Import New Lisiting",
     "createNewListingLabel": "Create New Listing",
     "purchaseHistoryLabel": "Purchase History",
     "salesHistoryLabel": "Sales History",
@@ -526,6 +527,7 @@
     "expiredListingHelper2": "This listing has expired.",
     "renewLink": "Renew for one year.",
     "editBtnText": "Edit",
+    "exportBtnText": "Export",
     "deleteListingPromptText": "Are you sure you want to delete this listing? This action cannot be undone.",
     "deleteListingSuccessNotif": "Listing deleted.",
     "reviewsText": "Reviews",

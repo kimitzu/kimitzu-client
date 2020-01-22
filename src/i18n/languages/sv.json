@@ -58,6 +58,7 @@
     "locationRadiusLabel": "Inom radien"
   },
   "navigationBar": {
+    "importNewListingLabel": "Importera ny lista",
     "createNewListingLabel": "Skapa ny lista",
     "purchaseHistoryLabel": "Köphistorik",
     "salesHistoryLabel": "Försäljningshistorik",
@@ -511,6 +512,7 @@
     "expiredListingHelper2": "Denna lista har gått ut.",
     "renewLink": "Förnya i ett år.",
     "editBtnText": "Redigera",
+    "exportBtnText": "Nedladdning",
     "deleteListingPromptText": "Är du säker på att du vill ta bort den här listan? Den här åtgärden kan inte ångras.",
     "deleteListingSuccessNotif": "Listan raderad.",
     "reviewsText": "recensioner",
