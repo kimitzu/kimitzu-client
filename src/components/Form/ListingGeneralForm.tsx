@@ -239,6 +239,50 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
             },
           ]}
         />
+        <div className="uk-margin uk-grid" data-uk-grid>
+          <div className="uk-width-1-3@s">
+            <FormLabel label={`Phone Number`.toUpperCase()} required />
+            <input
+              id="general-phone"
+              className="uk-input"
+              type="text"
+              value={decodeHtml(listing.item.title)}
+              onChange={event => {
+                const item = listing.item
+                item.title = event.target.value
+                handleChange('item', item)
+              }}
+            />
+          </div>
+          <div className="uk-width-1-3@s">
+            <FormLabel label={`Email`.toUpperCase()} required />
+            <input
+              id="general-email"
+              className="uk-input"
+              type="text"
+              value={decodeHtml(listing.item.title)}
+              onChange={event => {
+                const item = listing.item
+                item.title = event.target.value
+                handleChange('item', item)
+              }}
+            />
+          </div>
+          <div className="uk-width-1-3@s">
+            <FormLabel label={`Website`.toUpperCase()} required />
+            <input
+              id="general-website"
+              className="uk-input"
+              type="text"
+              value={decodeHtml(listing.item.title)}
+              onChange={event => {
+                const item = listing.item
+                item.title = event.target.value
+                handleChange('item', item)
+              }}
+            />
+          </div>
+        </div>
         <div className="uk-margin">
           <FormLabel label={localizations.descriptionLabel.toUpperCase()} />
           <ReactMde
