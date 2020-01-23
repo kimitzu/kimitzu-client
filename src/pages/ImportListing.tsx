@@ -7,7 +7,7 @@ import {
   ListingCouponsForm,
   ListingCryptoCurrenciesForm,
   ListingGeneralForm,
-  ListingPhotosForm,
+  ListingImportForm,
   ListingTermsAndConditionsForm,
   ModeratorSelectionForm,
   TagsForm,
@@ -46,6 +46,7 @@ interface CreateListingState {
   isListingNew: boolean
   isListingSaved: boolean
   [key: string]: any
+  tempImages: string[]
 }
 
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
@@ -63,8 +64,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isListingNew: true,
       isListingSaved: false,
       listing,
+      tempImages: [],
     }
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
+    this.handleSubmitForm = this.handleSubmitForm.bind(this)
   }
 
   // public async componentDidMount() { }
@@ -138,11 +141,30 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     })
   }
 
+  public handleSubmitForm(event?: React.FormEvent) {
+    if (event) {
+      event.preventDefault()
+    }
+    this.setState({
+      currentFormIndex: this.state.currentFormIndex + 1,
+    })
+  }
+
   public render() {
     return (
       <div className="background-body full-vh uk-padding-small">
         <Prompt when={!this.state.isListingSaved} message={this.locale.listingForm.abandonPrompt} />
-        Hello
+        <ListingImportForm
+          handleContinue={this.handleSubmitForm}
+          images={this.state.tempImages}
+          onChange={images => {
+            this.setState({
+              tempImages: [...images],
+            })
+          }}
+          isNew={this.state.isListingNew}
+          handleFullSubmit={this.handleFullSubmit}
+        />
       </div>
     )
   }

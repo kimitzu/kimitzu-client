@@ -1,3 +1,4 @@
+import ThumbnavJSON from './ThumbnavJSON'
 import ThumbnavSlideshow from './ThumbnavSlideshow'
 
-export { ThumbnavSlideshow }
+export { ThumbnavJSON, ThumbnavSlideshow }
