@@ -9,16 +9,16 @@ import { localeInstance } from '../../i18n'
 import './ThumbnavSlideshow.css'
 
 interface Props {
-  images: string[]
+  jsons: string[]
   onChange: (images: string[]) => void
 }
 
-const ThumbnavJSON = ({ images, onChange }: Props) => {
+const ThumbnavJSON = ({ jsons, onChange }: Props) => {
   const {
     photoSlideshow: { dropArea },
   } = localeInstance.get.localizations
 
-  const [photos, setPhotos] = useState(images)
+  const [jsonsTemp, setJsonsTemp] = useState(jsons)
   const [filename, setFilename] = useState()
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [dropStyle, setDropStyle] = useState('')
@@ -40,7 +40,7 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
       if (evt.type === 'drop') {
         const dataTransfer = evt.dataTransfer
         if (dataTransfer && dataTransfer.files.length > 0) {
-          onImageOpen(dataTransfer.files)
+          // onImageOpen(dataTransfer.files)
         }
       }
     }
@@ -52,36 +52,65 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
   }, [])
 
   const handleDelete = () => {
-    images.splice(selectedIndex, 1)
-    const newPhotos = [...images]
-    setPhotos(newPhotos)
+    jsonsTemp.splice(selectedIndex, 1)
+    const newPhotos = [...jsons]
+    setJsonsTemp(newPhotos)
     setSelectedIndex(0)
     onChange(newPhotos)
   }
 
-  const onImageOpen = async (imageFiles: FileList) => {
-    const base64ImageFiles: Array<Promise<string>> = []
+  // const onImageOpen = async (imageFiles: FileList) => {
+  //   const base64ImageFiles: Array<Promise<string>> = []
 
-    if (!imageFiles) {
-      return
+  //   if (!imageFiles) {
+  //     return
+  //   }
+
+  //   // tslint:disable-next-line:prefer-for-of
+  //   for (let index = 0; index < imageFiles.length; index++) {
+  //     const imageElement = imageFiles[index]
+  //     base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
+  //   }
+
+  //   const base64ImageFilesUploadResults = await Promise.all(base64ImageFiles)
+  //   const newPhotos = [...photos, ...base64ImageFilesUploadResults]
+  //   setPhotos(newPhotos)
+  //   onChange(newPhotos)
+  // }
+
+  // const onReaderLoad = async (event) => {
+  //   const newPhotos = [...jsons, ...[event.target.result]]
+  //   setJsonsTemp(newPhotos)
+  //   onChange(newPhotos)
+  //   console.log('tete')
+  // }
+
+  // const onReaderEnd = async (event) => {
+  //   console.log(event.target.result, 'done')
+  // }
+
+  const readmultifiles = files => {
+    const reader = new FileReader()
+    const readFile = index => {
+      if (index >= files.length) {
+        return
+      }
+      const file = files[index]
+      reader.onloadend = function() {
+        // console.log(this.result)
+        const bin = this.result
+        if (bin) {
+          const jfiles = jsonsTemp
+          jfiles.push(bin.toString())
+          setJsonsTemp(jfiles)
+          onChange(jfiles)
+          readFile(index + 1)
+          console.log(jfiles)
+        }
+      }
+      reader.readAsText(file)
     }
-
-    // tslint:disable-next-line:prefer-for-of
-    for (let index = 0; index < imageFiles.length; index++) {
-      const imageElement = imageFiles[index]
-      base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
-    }
-
-    const base64ImageFilesUploadResults = await Promise.all(base64ImageFiles)
-    const newPhotos = [...photos, ...base64ImageFilesUploadResults]
-    setPhotos(newPhotos)
-    onChange(newPhotos)
-  }
-
-  const onReaderLoad = event => {
-    console.log(event.target.result)
-    const obj = JSON.parse(event.target.result)
-    console.log(obj)
+    readFile(0)
   }
 
   return (
@@ -90,8 +119,8 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
         className={`uk-position-relative ${dropStyle} custom-height-import`}
         data-uk-slideshow="animation: fade"
       >
-        <ul className="uk-slideshow-items">
-          {photos.length === 0 ? (
+        <ul>
+          {jsons.length === 0 ? (
             <div className="uk-placeholder uk-flex uk-flex-middle uk-flex-center custom-height-import">
               <span data-uk-icon="icon: cloud-upload" />
               <span className="uk-text-middle">{dropArea.placeholder}</span>
@@ -102,14 +131,8 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
                   multiple
                   onChange={evt => {
                     if (evt.target.files) {
-                      // onImageOpen(evt.target.files)
                       setFilename(evt.target.files)
-                      console.log(evt.target.files)
-                      const reader = new FileReader()
-                      reader.onload = onReaderLoad
-                      for (let i = 0; i < evt.target.files.length - 1; i++) {
-                        reader.readAsText(evt.target.files[i])
-                      }
+                      readmultifiles(evt.target.files)
                     }
                   }}
                   accept="application/JSON"
@@ -122,7 +145,7 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
 
         <div className="uk-position-bottom-center uk-position-small">
           <ul className="uk-thumbnav">
-            {photos.map((image: string, index: number) => (
+            {jsons.map((image: string, index: number) => (
               <li
                 id={`media-${index}`}
                 key={image}
@@ -139,7 +162,7 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
           </ul>
         </div>
 
-        {photos.length > 0 ? (
+        {jsons.length > 0 ? (
           <div className="uk-position-top-right uk-position-small">
             <Button
               id="media-delete"
@@ -155,7 +178,7 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
         ) : null}
       </div>
 
-      {photos.length > 0 ? (
+      {jsons.length > 0 ? (
         <div className="uk-width-1-1 uk-flex uk-flex-center uk-margin-top">
           <input
             id="file-upload"
@@ -163,7 +186,7 @@ const ThumbnavJSON = ({ images, onChange }: Props) => {
             multiple
             onChange={evt => {
               if (evt.target.files) {
-                onImageOpen(evt.target.files)
+                // onImageOpen(evt.target.files)
               }
             }}
             accept="application/JSON"

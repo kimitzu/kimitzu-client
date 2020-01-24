@@ -47,6 +47,7 @@ interface CreateListingState {
   isListingSaved: boolean
   [key: string]: any
   tempImages: string[]
+  jsons: string[]
 }
 
 class CreateListing extends Component<CreateListingProps, CreateListingState> {
@@ -65,6 +66,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
       isListingSaved: false,
       listing,
       tempImages: [],
+      jsons: [],
     }
     this.handleFullSubmit = this.handleFullSubmit.bind(this)
     this.handleSubmitForm = this.handleSubmitForm.bind(this)
@@ -73,40 +75,42 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   // public async componentDidMount() { }
 
   public async handleFullSubmit(event: React.FormEvent) {
-    event.preventDefault()
-    const listing = this.state.listing
+    alert()
+    // event.preventDefault()
+    // const listing = this.state.listing
+    const listing = JSON.parse(this.state.jsons[0])
     console.log(listing, 'listinnnggggngngngn')
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(listing))
-    const dlAnchorElem = document.getElementById('downloadAnchorElem')
-    if (dlAnchorElem) {
-      dlAnchorElem.setAttribute('href', dataStr)
-      dlAnchorElem.setAttribute('download', 'scene.json')
-      dlAnchorElem.click()
-    }
+    // const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(listing))
+    // const dlAnchorElem = document.getElementById('downloadAnchorElem')
+    // if (dlAnchorElem) {
+    //   dlAnchorElem.setAttribute('href', dataStr)
+    //   dlAnchorElem.setAttribute('download', 'scene.json')
+    //   dlAnchorElem.click()
+    // }
 
     this.setState({
       isLoading: true,
     })
 
-    const newImages = this.state.tempImages.filter(image => !image.startsWith('http'))
+    // const newImages = this.state.tempImages.filter(image => !image.startsWith('http'))
 
-    if (this.state.tempImages.length <= 0) {
-      const defaultLogo = await Axios.get(`${config.host}/icon.png`, { responseType: 'blob' })
-      const defaultLogoBase64 = await ImageUploaderInstance.convertToBase64(defaultLogo.data)
-      newImages.push(defaultLogoBase64)
-    }
+    // if (this.state.tempImages.length <= 0) {
+    //   const defaultLogo = await Axios.get(`${config.host}/icon.png`, { responseType: 'blob' })
+    //   const defaultLogoBase64 = await ImageUploaderInstance.convertToBase64(defaultLogo.data)
+    //   newImages.push(defaultLogoBase64)
+    // }
 
-    if (listing.item.tags.length <= 0) {
-      listing.item.tags.push('Kimitzu')
-    }
+    // if (listing.item.tags.length <= 0) {
+    //   listing.item.tags.push('Kimitzu')
+    // }
 
-    const imageUpload = newImages.map(base64Image => ImageUploaderInstance.uploadImage(base64Image))
-    const updateOldImages = this.state.listing.item.images.filter(oldElements => {
-      return this.state.tempImages.find(updatedElements => {
-        const id = updatedElements.split('/')
-        return oldElements.medium === id[id.length - 1]
-      })
-    })
+    // const imageUpload = newImages.map(base64Image => ImageUploaderInstance.uploadImage(base64Image))
+    // const updateOldImages = this.state.listing.item.images.filter(oldElements => {
+    //   return this.state.tempImages.find(updatedElements => {
+    //     const id = updatedElements.split('/')
+    //     return oldElements.medium === id[id.length - 1]
+    //   })
+    // })
 
     try {
       if (this.state.isListingNew) {
@@ -156,10 +160,10 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
         <Prompt when={!this.state.isListingSaved} message={this.locale.listingForm.abandonPrompt} />
         <ListingImportForm
           handleContinue={this.handleSubmitForm}
-          images={this.state.tempImages}
-          onChange={images => {
+          jsons={this.state.jsons}
+          onChange={listing => {
             this.setState({
-              tempImages: [...images],
+              jsons: [...listing],
             })
           }}
           isNew={this.state.isListingNew}

@@ -10,19 +10,13 @@ import './ListingImportForm.css'
 
 interface Props {
   handleContinue: (event: React.FormEvent) => void
-  images: string[]
+  jsons: string[]
   onChange: (images: string[]) => void
   handleFullSubmit: (event: React.FormEvent) => void
   isNew: boolean
 }
 
-const ListingImportForm = ({
-  images,
-  handleContinue,
-  onChange,
-  isNew,
-  handleFullSubmit,
-}: Props) => {
+const ListingImportForm = ({ jsons, handleContinue, onChange, isNew, handleFullSubmit }: Props) => {
   const {
     localizations,
     localizations: { listingForm },
@@ -34,15 +28,16 @@ const ListingImportForm = ({
         <fieldset className="uk-fieldset">
           <div className="uk-margin">
             <FormLabel label={listingForm.photoLabel} required />
-            <ThumbnavJSON images={images} onChange={onChange} />
+            <ThumbnavJSON jsons={jsons} onChange={onChange} />
           </div>
         </fieldset>
         <div className="submit-btn-div">
           <Button
-            className="uk-button uk-button-primary uk-margin-small-right"
+            className="uk-button uk-button-primary uk-margin-small-right uk-margin-large-top"
             onClick={handleFullSubmit}
           >
-            {listingForm.updateBtnText.toUpperCase()}
+            {/* {listingForm.updateBtnText.toUpperCase()} */}
+            pota
           </Button>
         </div>
       </form>
