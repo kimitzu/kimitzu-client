@@ -431,7 +431,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
               />
               <h4>
                 {locale.checkoutPage.receivedPaymentHeader1}{' '}
-                {currency.humanizeCrypto(this.state.payment.fundingTotal)}{' '}
+                <span id="payment-modal-amount">
+                  {currency.humanizeCrypto(this.state.payment.fundingTotal)}
+                </span>{' '}
                 {this.state.payment.coinType} {locale.checkoutPage.receivedPaymentHeader2}
               </h4>
               <p>{locale.checkoutPage.receivedPaymentParagraph}</p>
@@ -621,7 +623,6 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
         this.state.coupon
       )
     } catch (e) {
-      console.log(e.response.data)
       window.UIkit.notification(e.response.data.reason, {
         status: 'warning',
       })

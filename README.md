@@ -9,6 +9,30 @@ This repository contains the client to be used with [Kimitzu-Go](https://github.
 
 [![CircleCI](https://circleci.com/gh/kimitzu/kimitzu-client.svg?style=svg)](https://circleci.com/gh/kimitzu/kimitzu-client)
 
+# Installation
+
+## Snap
+
+[![kimitzu-client](https://snapcraft.io//kimitzu-client/badge.svg)](https://snapcraft.io/kimitzu-client)
+[![kimitzu-client](https://snapcraft.io//kimitzu-client/trending.svg?name=0)](https://snapcraft.io/kimitzu-client)
+
+Install Kimitzu Client via Snap:
+
+```
+snap install --beta kimitzu-client
+```
+
+## Installation Files
+
+Head over to our [release page](https://github.com/kimitzu/kimitzu-client/releases) to download the installers according to your platlform.
+
+Tested on:
+- Windows 10 Home (1903)
+- MacOS (Mojave)
+- Ubuntu 18.04.3
+
+The installer contains `kimitzu-go` and `kimitzu-services` which will automatically run on the background when the client is launched.
+
 # Building
 
 Compile `kimitzu-go` and `kimitzu-services` first and copy the compiled binaries in the [lib](lib) folder.
@@ -20,12 +44,6 @@ Build files can be found on [./build](build).
 Installation files can be found on [./dist](dist).
 
 # Running
-
-## Using the installer
-
-Run the installation file and `kimitzu-go` and `kimitzu-services` will run on the background when the client is launched.
-
-Alternatively, head over to our [release page](https://github.com/kimitzu/kimitzu-client/releases) to download the installers.
 
 ## Using standalone build files
 

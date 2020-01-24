@@ -13,3 +13,10 @@
   justify-content: center;
   background-color: #0000;
 }
+.thumbnav-drag-attempt {
+  border: dodgerblue 5px dashed;
+}
+.thumbnav-image-preview {
+  object-fit: contain;
+  height: 100%;
+}

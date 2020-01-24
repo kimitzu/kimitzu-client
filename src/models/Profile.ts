@@ -21,6 +21,7 @@ import Rating, { RatingSummary } from '../interfaces/Rating'
 import isElectron from 'is-electron'
 import defaults from '../constants/Defaults'
 import decodeHtml from '../utils/Unescape'
+import { cacheInstance } from './Cache'
 
 const profileDefaults = defaults.profile
 const LOCATION_TYPES = ['primary', 'shipping', 'billing', 'return']
@@ -163,6 +164,12 @@ class Profile implements ProfileSchema {
   public static async retrieve(id?: string, force?: boolean, simple?: boolean): Promise<Profile> {
     let profile: Profile
 
+    const cacheId = id ? id : '~self'
+    const profileCache = cacheInstance.retrieve(cacheId)
+    if (profileCache) {
+      return profileCache
+    }
+
     try {
       if (id) {
         const peerRequest = await Axios.get(
@@ -208,6 +215,7 @@ class Profile implements ProfileSchema {
       profile.moderatorInfo.fee.fixedFee.amount = profile.moderatorInfo.fee.fixedFee.amount / 100
     }
 
+    cacheInstance.store(cacheId, profile)
     return profile
   }
 
@@ -333,6 +341,7 @@ class Profile implements ProfileSchema {
   }
 
   public async save() {
+    cacheInstance.delete('~self')
     this.location = this.getAddress('primary')
     await Axios.post(`${config.openBazaarHost}/ob/profile`, this)
     await Profile.publish()
@@ -360,6 +369,7 @@ class Profile implements ProfileSchema {
   }
 
   public async update() {
+    cacheInstance.delete('~self')
     this.location = this.getAddress('primary')
     this.preSave()
     await Axios.put(`${config.openBazaarHost}/ob/profile`, this)

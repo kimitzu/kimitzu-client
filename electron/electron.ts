@@ -171,6 +171,9 @@ const createWindow = async () => {
   })
 
   await app.whenReady()
+
+  const icon = process.platform === 'linux' ? 'icon.png' : 'favicon.ico'
+
   mainWindow = new BrowserWindow({
     title: 'Kimitzu',
     width: 1200,
@@ -178,7 +181,7 @@ const createWindow = async () => {
     minWidth: 1200,
     minHeight: 680,
     center: true,
-    icon: path.join(__dirname, 'favicon.ico'),
+    icon: path.join(__dirname, icon),
     autoHideMenuBar: true,
     frame: false,
     webPreferences: {
@@ -193,17 +196,20 @@ const createWindow = async () => {
   } else {
     mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
   }
+
   askCrashReportingPermission(mainWindow)
+
+  try {
+    await autoUpdater.checkForUpdatesAndNotify()
+  } catch (e) {
+    console.log('Fetch update failed')
+  }
+
   mainWindow.on('closed', () => (mainWindow = null))
 }
 
 app.on('ready', async () => {
-  try {
-    await autoUpdater.checkForUpdatesAndNotify()
-  } catch (e) {
-    console.warn('Update Error: ' + e.message)
-  }
-  createWindow()
+  await createWindow()
   setTimeout(async () => {
     try {
       await autoUpdater.checkForUpdatesAndNotify()

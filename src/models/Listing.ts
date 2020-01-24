@@ -15,6 +15,7 @@ import {
 } from '../interfaces/Listing'
 import Location from '../interfaces/Location'
 import Rating, { RatingSummary } from '../interfaces/Rating'
+import { cacheInstance } from './Cache'
 import currency from './Currency'
 import Profile from './Profile'
 
@@ -28,23 +29,28 @@ export interface ListingResponse {
 
 class Listing implements ListingInterface {
   public static async retrieve(id: string): Promise<ListingResponse> {
-    const kimitzuListingRequest = await Axios.get(
-      `${config.kimitzuHost}/kimitzu/listing?hash=${id}`
-    )
-    const kimitzuListing = kimitzuListingRequest.data
+    let rawListingData
 
-    /**
-     * Load profile from cache.
-     */
-    const vendor = await Profile.retrieve(kimitzuListing.vendorID.peerID, false)
+    if (cacheInstance.retrieve(id)) {
+      rawListingData = cacheInstance.retrieve(id)
+    } else {
+      const kimitzuListingRequest = await Axios.get(
+        `${config.kimitzuHost}/kimitzu/listing?hash=${id}`
+      )
+      rawListingData = kimitzuListingRequest.data
+      cacheInstance.store(id, rawListingData)
+      rawListingData = cacheInstance.retrieve(id)
+    }
 
-    const imageData = kimitzuListing.item.images.map((image: Image) => {
+    const vendor = await Profile.retrieve(rawListingData.vendorID.peerID, false)
+
+    const imageData = rawListingData.item.images.map((image: Image) => {
       return { src: `${config.openBazaarHost}/ob/images/${image.medium}` }
     })
 
     const currentUser = await Profile.retrieve('', false)
 
-    const listing = new Listing(kimitzuListing)
+    const listing = new Listing(rawListingData)
     listing.currentUser = currentUser
     listing.isOwner = currentUser.peerID === listing.vendorID.peerID
 
@@ -52,7 +58,8 @@ class Listing implements ListingInterface {
      * Return vendor profile, listing information, and image sources separately
      * to avoid complicated mutations in the listing object.
      */
-    return { vendor, listing, imageData }
+    const processedListingData = { vendor, listing, imageData }
+    return processedListingData
   }
 
   public currentUser: Profile = new Profile()
@@ -206,6 +213,10 @@ class Listing implements ListingInterface {
     return listingClone
   }
 
+  public async publish() {
+    // await Profile.publish()
+  }
+
   public async save() {
     /**
      * Clone listing before doing any operation to prevent mutation
@@ -213,7 +224,7 @@ class Listing implements ListingInterface {
      */
     const denormalizedListingObject = this.denormalize()
     await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
-    await Profile.publish()
+    // await Profile.publish()
     await Profile.retrieve('', true)
   }
 

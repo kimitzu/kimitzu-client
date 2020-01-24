@@ -65,6 +65,7 @@ interface Props extends RouteComponentProps<RouteProps> {
 
 class ListingProfile extends Component<Props, State> {
   private locale = localeInstance.get.localizations
+  private ratingsSocket: WebSocket = {} as WebSocket
 
   constructor(props: any) {
     super(props)
@@ -110,10 +111,14 @@ class ListingProfile extends Component<Props, State> {
         currentUser,
       })
 
-      const ratingsSocket = new WebSocket(
+      this.ratingsSocket = new WebSocket(
         `${config.kimitzuSocket.replace(/%id%/g, `${vendor.peerID}@${listing.slug}`)}`
       )
-      ratingsSocket.addEventListener('message', evt => {
+      this.ratingsSocket.addEventListener('message', evt => {
+        if (JSON.parse(evt.data).notification) {
+          return
+        }
+
         const data = JSON.parse(evt.data) as CompletionRating
         const completionRatings = this.state.ratings
         completionRatings.add(data)

@@ -1,20 +1,13 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
+import Initialize from "../../support/utils/Initialize"
+
 context('Rate Buyer', () => {
   beforeEach(() => {
     cy.server({})
 
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8100/ob/config',
-      response: {}
-    })
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8109/kimitzu/peers',
-      response: {},
-    })
+    Initialize(cy)
 
     cy.route({
       method: 'GET',
@@ -77,8 +70,8 @@ context('Rate Buyer', () => {
       method: 'GET',
       url: 'http://localhost:8100/ob/order/purchasedListingToBeRated',
       response: 'fixture:orders/purchased_order_to_be_rated.json',
-    }
-    )
+    })
+
     cy.get('#fulfill-order-button')
       .click()
 

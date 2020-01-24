@@ -3,15 +3,23 @@ import isElectron from 'is-electron'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import packageInfo from '../../../package.json'
 import Profile from '../../models/Profile'
 
 import { localeInstance } from '../../i18n'
 
+import Axios from 'axios'
+import config from '../../config'
 import './NavBar.css'
 
 interface NavBarProps {
   isSearchBarShow: boolean
   profile: Profile
+}
+
+interface DaemonVersions {
+  obDaemon: string
+  kimitzuDaemon: string
 }
 
 const handleReload = (evt?) => {
@@ -26,13 +34,21 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
   const [displayLogout, setDisplayLogout] = useState(false)
   const [srchQuery, setsrchQuery] = useState('')
   const { navigationBar: navigationBarLocale } = localeInstance.get.localizations
+  const [versions, setVersions] = useState({
+    obDaemon: '...',
+    kimitzuDaemon: '...',
+  } as DaemonVersions)
 
   useEffect(() => {
     ;(async () => {
       const isAuthActivated = await Profile.isAuthenticationActivated()
       setDisplayLogout(isAuthActivated)
+
+      const daemonVersionRequest = await Axios.get(`${config.kimitzuHost}/info/version`)
+      setVersions(daemonVersionRequest.data)
     })()
   }, [])
+
   return (
     <IonHeader>
       <nav id="nav" className="uk-navbar-container" data-uk-navbar uk-navbar="mode: click">
@@ -94,6 +110,22 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
               </a>
               <div className="uk-navbar-dropdown" uk-dropdown="offset: 0; boundary: #nav">
                 <ul className="uk-nav uk-navbar-dropdown-nav">
+                  <li className="uk-text-emphasis">
+                    <div>Versions:</div>
+                    <div className="uk-margin-small-bottom">
+                      <p>Client</p>
+                      <p>v{packageInfo.version}</p>
+                    </div>
+                    <div className="uk-margin-small-bottom">
+                      <p>Kimitzu Server</p>
+                      <p>v{versions.kimitzuDaemon}</p>
+                    </div>
+                    <div className="uk-margin-small-bottom">
+                      <p>OpenBazaar Server</p>
+                      <p>v{versions.obDaemon}</p>
+                    </div>
+                  </li>
+                  <li className="uk-nav-divider" />
                   <li className="uk-active">
                     <p>{navigationBarLocale.supportLabel1}</p>
                     <p>{navigationBarLocale.supportLabel2}</p>

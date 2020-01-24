@@ -1,20 +1,13 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
+import Initialize from "../../support/utils/Initialize"
+
 context('Wallet', () => {
   beforeEach(() => {
     cy.server({})
 
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8100/ob/config',
-      response: {}
-    })
-    cy.route({
-      method: 'GET',
-      url: 'http://localhost:8109/kimitzu/peers',
-      response: {},
-    })
+    Initialize(cy)
 
     cy.route({
       method: 'GET',
@@ -141,10 +134,9 @@ context('Wallet', () => {
     cy.get('.uk-text-bold')
       .contains(`expected${cryptoCurr}Address`)
 
-    for (let i=1; i<=txNum; i++)
-    {
+    for (let i = 1; i <= txNum; i++) {
       cy.get(`:nth-child(${i})`)
-        .contains(`${i % 2 ? '' : '-' }0.00000123 ${cryptoCurr}`)
+        .contains(`${i % 2 ? '' : '-'}0.00000123 ${cryptoCurr}`)
       cy.get(`:nth-child(${i})`)
         .contains(`${i % 2 ? 'RECEIVED' : 'SENT'}`)
       cy.get(`:nth-child(${i})`)

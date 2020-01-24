@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from '../Button'
-import { DropArea } from '../Upload'
 
 import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
 
@@ -21,6 +20,35 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
 
   const [photos, setPhotos] = useState(images)
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [dropStyle, setDropStyle] = useState('')
+  const [dropRef, setDropRef] = useState(React.createRef<HTMLDivElement>())
+
+  useEffect(() => {
+    const handleDragEvents = evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
+
+      if (['dragenter', 'dragover'].includes(evt.type)) {
+        setDropStyle('thumbnav-drag-attempt')
+      }
+
+      if (['dragleave', 'drop'].includes(evt.type)) {
+        setDropStyle('')
+      }
+
+      if (evt.type === 'drop') {
+        const dataTransfer = evt.dataTransfer
+        if (dataTransfer && dataTransfer.files.length > 0) {
+          onImageOpen(dataTransfer.files)
+        }
+      }
+    }
+
+    dropRef.current!.addEventListener('dragenter', handleDragEvents, false)
+    dropRef.current!.addEventListener('dragover', handleDragEvents, false)
+    dropRef.current!.addEventListener('dragleave', handleDragEvents, false)
+    dropRef.current!.addEventListener('drop', handleDragEvents, false)
+  }, [])
 
   const handleDelete = () => {
     images.splice(selectedIndex, 1)
@@ -30,8 +58,7 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
     onChange(newPhotos)
   }
 
-  const onImageOpen = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFiles = event.target.files
+  const onImageOpen = async (imageFiles: FileList) => {
     const base64ImageFiles: Array<Promise<string>> = []
 
     if (!imageFiles) {
@@ -51,23 +78,37 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
   }
 
   return (
-    <div>
-      <div className="uk-position-relative" data-uk-slideshow="animation: fade">
+    <div ref={dropRef}>
+      <div className={`uk-position-relative ${dropStyle}`} data-uk-slideshow="animation: fade">
         <ul className="uk-slideshow-items">
           {photos.length === 0 ? (
-            <DropArea
-              placeholder={dropArea.placeholder}
-              selectLabel={dropArea.selectLabel}
-              onImageOpen={onImageOpen}
-            />
+            <div className="uk-placeholder uk-flex uk-flex-middle uk-flex-center">
+              <span data-uk-icon="icon: cloud-upload" />
+              <span className="uk-text-middle">{dropArea.placeholder}</span>
+              <div className="color-primary" data-uk-form-custom>
+                <input
+                  id="image-upload"
+                  type="file"
+                  multiple
+                  onChange={evt => {
+                    if (evt.target.files) {
+                      onImageOpen(evt.target.files)
+                    }
+                  }}
+                  accept="image/*"
+                />
+                &nbsp;{dropArea.selectLabel}
+              </div>
+            </div>
           ) : (
             photos.map((image: string) => (
               <li key={image} className="img-li-cont">
-                <img src={image} alt="thumbnail" />
+                <img src={image} alt="thumbnail" className="thumbnav-image-preview" />
               </li>
             ))
           )}
         </ul>
+
         <div className="uk-position-bottom-center uk-position-small">
           <ul className="uk-thumbnav">
             {photos.map((image: string, index: number) => (
@@ -107,7 +148,11 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
             id="file-upload"
             type="file"
             multiple
-            onChange={onImageOpen}
+            onChange={evt => {
+              if (evt.target.files) {
+                onImageOpen(evt.target.files)
+              }
+            }}
             accept="image/*"
             hidden
           />
@@ -116,7 +161,9 @@ const ThumbnavSlideshow = ({ images, onChange }: Props) => {
             onClick={evt => {
               evt.preventDefault()
               const fileUploadHandler = document.getElementById('file-upload')
-              fileUploadHandler!.click()
+              if (fileUploadHandler) {
+                fileUploadHandler!.click()
+              }
             }}
           >
             <span uk-icon="icon: plus" />

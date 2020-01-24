@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '../Button'
 
+import packageInfo from '../../../package.json'
 import { localeInstance } from '../../i18n'
 
 import './IntroductionCard.css'
@@ -21,6 +22,7 @@ const IntroductionCard = (props: Props) => {
         <p id="description-text" className="color-primary">
           {intro.appDescription}
         </p>
+        <p>Version {packageInfo.version}</p>
       </div>
       <div id="introduction-footer">
         <a
