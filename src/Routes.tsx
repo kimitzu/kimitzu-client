@@ -84,7 +84,7 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
   }, [])
   return (
     <IonTabs>
-      <IonRouterOutlet key={window.location.href}>
+      <IonRouterOutlet translate key={window.location.href}>
         <Redirect exact path="/tabs" to="/tabs/home" />
         <Route
           path="/tabs/home"
@@ -115,6 +115,7 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton
+          translate
           tab="home"
           selected={selectedTab === TAB_CONSTANTS.HOME}
           onClick={() => {
@@ -122,10 +123,11 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
             setSelectedTab(TAB_CONSTANTS.HOME)
           }}
         >
-          <IonIcon icon={home} />
-          <IonLabel>Home</IonLabel>
+          <IonIcon translate icon={home} />
+          <IonLabel translate>Home</IonLabel>
         </IonTabButton>
         <IonTabButton
+          translate
           tab="messages"
           selected={selectedTab === TAB_CONSTANTS.MESSAGES}
           onClick={() => {
@@ -133,10 +135,11 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
             setSelectedTab(TAB_CONSTANTS.MESSAGES)
           }}
         >
-          <IonIcon icon={mail} />
-          <IonLabel>Messages</IonLabel>
+          <IonIcon translate icon={mail} />
+          <IonLabel translate>Messages</IonLabel>
         </IonTabButton>
         <IonTabButton
+          translate
           tab="store"
           selected={selectedTab === TAB_CONSTANTS.STORE}
           onClick={() => {
@@ -144,10 +147,11 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
             setSelectedTab(TAB_CONSTANTS.STORE)
           }}
         >
-          <IonIcon icon={pricetags} />
-          <IonLabel>Store</IonLabel>
+          <IonIcon translate icon={pricetags} />
+          <IonLabel translate>Store</IonLabel>
         </IonTabButton>
         <IonTabButton
+          translate
           tab="wallet"
           selected={selectedTab === TAB_CONSTANTS.WALLET}
           onClick={() => {
@@ -155,10 +159,11 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
             setSelectedTab(TAB_CONSTANTS.WALLET)
           }}
         >
-          <IonIcon icon={wallet} />
-          <IonLabel>Wallet</IonLabel>
+          <IonIcon translate icon={wallet} />
+          <IonLabel translate>Wallet</IonLabel>
         </IonTabButton>
         <IonTabButton
+          translate
           tab="account"
           selected={selectedTab === TAB_CONSTANTS.ACCOUNT}
           onClick={() => {
@@ -166,8 +171,8 @@ const MobileTabs = ({ currentUser, settings, updateCurrentUser, chat }) => {
             setSelectedTab(TAB_CONSTANTS.ACCOUNT)
           }}
         >
-          <IonIcon icon={person} />
-          <IonLabel>Account</IonLabel>
+          <IonIcon translate icon={person} />
+          <IonLabel translate>Account</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>
@@ -181,7 +186,7 @@ const Routes = ({ history, chat }: RouteProps) => {
         if (isPlatform('mobile') || isPlatform('mobileweb')) {
           return (
             <IonReactHashRouter>
-              <IonRouterOutlet>
+              <IonRouterOutlet translate>
                 <Redirect exact path="/" to="/tabs/home" />
                 <Redirect exact path="/profile" to="/tabs/profile" />
                 <Redirect exact path="/wallet" to="/tabs/wallet" />
@@ -243,10 +248,10 @@ const Routes = ({ history, chat }: RouteProps) => {
         }
         return (
           <IonReactHashRouter>
-            <IonPage>
+            <IonPage translate>
               <NavBar profile={currentUser} isSearchBarShow />
               {history.length > 1 ? <BreadCrumb history={history} /> : null}
-              <IonContent>
+              <IonContent translate>
                 <Switch key={window.location.href}>
                   <Route
                     path="/"

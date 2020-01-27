@@ -68,6 +68,7 @@ const CheckoutPaymentCard = ({
   const renderPaymentOptions = () => {
     return isPlatform('mobile') || isPlatform('mobileweb') ? (
       <IonRadioGroup
+        translate
         onIonChange={e => {
           e.preventDefault()
           if (!isEstimating) {
@@ -76,9 +77,12 @@ const CheckoutPaymentCard = ({
         }}
       >
         {acceptedCurrencies.map((option: Option) => (
-          <IonItem key={option.value.toString()}>
-            <IonLabel className="color-primary">{option.label}</IonLabel>
+          <IonItem translate key={option.value.toString()}>
+            <IonLabel translate className="color-primary">
+              {option.label}
+            </IonLabel>
             <IonRadio
+              translate
               className="uk-margin-small-right"
               slot="start"
               value={option.value}

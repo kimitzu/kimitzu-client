@@ -50,7 +50,7 @@ const NavBar = ({ isSearchBarShow, profile }: NavBarProps) => {
   }, [])
 
   return (
-    <IonHeader>
+    <IonHeader translate>
       <nav id="nav" className="uk-navbar-container" data-uk-navbar uk-navbar="mode: click">
         <div id="navbar-left-item" className="uk-navbar-left">
           <a className="uk-navbar-item uk-logo" onClick={handleReload} href="/#">

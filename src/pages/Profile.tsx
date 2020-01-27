@@ -176,13 +176,13 @@ class ProfilePage extends Component<ProfilePageProps, ProfilePageState> {
 
   public render() {
     return (
-      <IonPage>
+      <IonPage translate>
         {this.state.isPeerIDProvided ? (
           <MobileHeader showBackBtn />
         ) : (
           <StoreMobileHeader title="STORE" />
         )}
-        <IonContent>{this.renderPage()}</IonContent>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }

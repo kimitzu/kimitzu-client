@@ -61,11 +61,11 @@ const MobileChat = ({ chatData }: Props) => {
   }
 
   return (
-    <IonPage>
+    <IonPage translate>
       <MobileHeader title="MESSAGES" />
-      <IonContent id="chat-content">
-        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
-          <IonRefresherContent />
+      <IonContent translate id="chat-content">
+        <IonRefresher translate slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent translate />
         </IonRefresher>
         {!isRetrieving ? (
           <ConvoList

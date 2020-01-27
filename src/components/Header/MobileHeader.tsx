@@ -1,4 +1,5 @@
 import {
+  IonBackButton,
   IonButton,
   IonButtons,
   IonHeader,
@@ -21,21 +22,26 @@ const MobileHeader = ({ defaultHref, showBackBtn, title }: Props) => {
     return null
   }
   return (
-    <IonHeader>
-      <IonToolbar color="primary">
+    <IonHeader translate>
+      <IonToolbar translate color="primary">
         {showBackBtn ? (
-          <IonButtons slot="start">
+          <IonButtons translate slot="start">
             <IonButton
+              translate
               onClick={e => {
                 e.stopPropagation()
                 window.history.back()
               }}
             >
-              <IonIcon icon={arrowBack} />
+              <IonIcon translate icon={arrowBack} />
             </IonButton>
           </IonButtons>
         ) : null}
-        {title ? <IonTitle className="uk-text-center">{title}</IonTitle> : null}
+        {title ? (
+          <IonTitle translate className="uk-text-center">
+            {title}
+          </IonTitle>
+        ) : null}
       </IonToolbar>
     </IonHeader>
   )

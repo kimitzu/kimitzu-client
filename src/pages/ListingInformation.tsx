@@ -1,4 +1,4 @@
-import { IonContent, IonItem, IonPage } from '@ionic/react'
+import { IonContent, IonItem, IonPage, isPlatform } from '@ionic/react'
 import React, { Component } from 'react'
 import { Link, RouteComponentProps } from 'react-router-dom'
 
@@ -71,7 +71,6 @@ class ListingProfile extends Component<Props, State> {
     super(props)
     const listing = new Listing()
     const profile = this.props.currentUser
-
     this.state = {
       currentIndex: 1,
       hasStarted: false,
@@ -92,16 +91,27 @@ class ListingProfile extends Component<Props, State> {
     this.handleReviewPageChange = this.handleReviewPageChange.bind(this)
     this.handleRenew = this.handleRenew.bind(this)
     this.renderPage = this.renderPage.bind(this)
+    this.retrieveListingInfo = this.retrieveListingInfo.bind(this)
+    this.handleRatingsWebsocket = this.handleRatingsWebsocket.bind(this)
   }
 
   public async componentDidMount() {
+    await this.retrieveListingInfo(this.props)
+  }
+
+  public componentWillUnmount() {
+    this.ratingsSocket.removeEventListener('message', this.handleRatingsWebsocket)
+  }
+
+  public async retrieveListingInfo(props: Props) {
     this.setState({
+      isLoading: true,
       loadingStatus: this.locale.listingPage.retrieveListingSpinnerText,
     })
-    const id = this.props.match.params.id
+    const id = props.match.params.id
     try {
       const listingData = await Listing.retrieve(id)
-      const currentUser = this.props.currentUser
+      const currentUser = props.currentUser
       const { listing, imageData, vendor } = listingData
       this.setState({
         listing,
@@ -114,18 +124,7 @@ class ListingProfile extends Component<Props, State> {
       this.ratingsSocket = new WebSocket(
         `${config.kimitzuSocket.replace(/%id%/g, `${vendor.peerID}@${listing.slug}`)}`
       )
-      this.ratingsSocket.addEventListener('message', evt => {
-        if (JSON.parse(evt.data).notification) {
-          return
-        }
-
-        const data = JSON.parse(evt.data) as CompletionRating
-        const completionRatings = this.state.ratings
-        completionRatings.add(data)
-        this.setState({
-          ratings: completionRatings,
-        })
-      })
+      this.ratingsSocket.addEventListener('message', this.handleRatingsWebsocket)
 
       this.setState({
         isLoading: false,
@@ -173,9 +172,9 @@ class ListingProfile extends Component<Props, State> {
 
   public render() {
     return (
-      <IonPage>
+      <IonPage translate>
         <MobileHeader showBackBtn />
-        <IonContent>{this.renderPage()}</IonContent>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }
@@ -417,6 +416,7 @@ class ListingProfile extends Component<Props, State> {
                 <hr className="uk-margin-top uk-margin-bottom" />
                 <div className="uk-grid uk-grid-collapse" data-uk-grid>
                   <IonItem
+                    translate
                     className="uk-flex uk-flex-row text-gray uk-text-left"
                     id="vendor-info"
                     detail={false}
@@ -544,6 +544,19 @@ class ListingProfile extends Component<Props, State> {
       }
     }
     return ratingStars
+  }
+
+  private handleRatingsWebsocket(evt) {
+    if (JSON.parse(evt.data).notification) {
+      return
+    }
+
+    const data = JSON.parse(evt.data) as CompletionRating
+    const completionRatings = this.state.ratings
+    completionRatings.add(data)
+    this.setState({
+      ratings: completionRatings,
+    })
   }
 
   private renderReviews() {

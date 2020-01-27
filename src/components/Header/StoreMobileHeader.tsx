@@ -32,46 +32,53 @@ const StoreMobileHeader = ({ title }: Props) => {
     setShowPopover(false)
   }
   return (
-    <IonHeader>
-      <IonToolbar color="primary">
-        {title ? <IonTitle className="uk-text-center">{title}</IonTitle> : null}
-        <IonButtons slot="start">
+    <IonHeader translate>
+      <IonToolbar translate color="primary">
+        {title ? (
+          <IonTitle translate className="uk-text-center">
+            {title}
+          </IonTitle>
+        ) : null}
+        <IonButtons translate slot="start">
           <div style={{ width: '46px' }} />
         </IonButtons>
-        <IonButtons slot="end">
-          <IonButton onClick={handlePopover}>
-            <IonIcon size="large" icon={more} />
+        <IonButtons translate slot="end">
+          <IonButton translate onClick={handlePopover}>
+            <IonIcon translate size="large" icon={more} />
           </IonButton>
         </IonButtons>
       </IonToolbar>
       <IonPopover event={popoverEvent} isOpen={showPopover} onDidDismiss={dismiss}>
-        <IonList className="uk-padding-small uk-padding-remove-vertical">
+        <IonList translate className="uk-padding-small uk-padding-remove-vertical">
           <IonItem
+            translate
             button
             onClick={() => {
               window.location.hash = '/listing/create'
               dismiss()
             }}
           >
-            <IonLabel>Create Listing</IonLabel>
+            <IonLabel translate>Create Listing</IonLabel>
           </IonItem>
           <IonItem
+            translate
             button
             onClick={() => {
               window.location.hash = '/history/purchases'
               dismiss()
             }}
           >
-            <IonLabel>Purchase History</IonLabel>
+            <IonLabel translate>Purchase History</IonLabel>
           </IonItem>
           <IonItem
+            translate
             button
             onClick={() => {
               window.location.hash = '/history/sales'
               dismiss()
             }}
           >
-            <IonLabel>Sales History</IonLabel>
+            <IonLabel translate>Sales History</IonLabel>
           </IonItem>
         </IonList>
       </IonPopover>

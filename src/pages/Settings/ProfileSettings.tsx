@@ -723,8 +723,8 @@ class GeneralProfile extends Component<GeneralProfileProps, GeneralProfileState>
 
   public render() {
     return (
-      <IonPage>
-        <IonContent>{this.renderPage()}</IonContent>
+      <IonPage translate>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }

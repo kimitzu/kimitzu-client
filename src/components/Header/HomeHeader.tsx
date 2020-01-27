@@ -15,14 +15,18 @@ const HomeHeader = () => {
   }
   const handleClearQuery = () => {
     setQuery('')
+    const dmEvent = new CustomEvent('srchEvent', { detail: query })
+    window.dispatchEvent(dmEvent)
   }
 
   return (
-    <IonHeader>
-      <IonToolbar color="primary">
+    <IonHeader translate>
+      <IonToolbar translate color="primary">
         <form onSubmit={handleSearchSubmit}>
           <IonSearchbar
+            translate
             color="light"
+            inputmode="search"
             onIonClear={handleClearQuery}
             onIonChange={handleQueryChange}
             placeholder={localeInstance.get.localizations.mobileHeader.searchPlaceholder}

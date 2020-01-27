@@ -50,7 +50,7 @@ const MobileConversation = ({ chatData, match }: Props) => {
   const { selectedConversation, writtenMessage } = chat
   const title = selectedConversation ? selectedConversation.name : peerID
   return (
-    <IonPage>
+    <IonPage translate>
       <ChatHeader title={title} peerID={peerID} handleBackBtn={handleBackBtn} />
       {isReady ? (
         <ConversationsBox

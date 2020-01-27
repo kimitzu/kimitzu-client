@@ -154,7 +154,7 @@ class App extends React.Component<{}, State> {
 
   public render() {
     return (
-      <IonApp>
+      <IonApp translate>
         <Fragment>
           {isElectron() ? (
             <>
@@ -200,8 +200,8 @@ class App extends React.Component<{}, State> {
       )
     } else if (showSignup) {
       return (
-        <IonPage>
-          <IonContent>
+        <IonPage translate>
+          <IonContent translate>
             <div>
               <UserRegistration />
             </div>

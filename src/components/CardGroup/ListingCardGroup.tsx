@@ -42,6 +42,7 @@ const ListingCardGroup = ({ data, targetCurrency, listingLimit = 8 }: ListingCar
           if (listing) {
             return (
               <IonItem
+                translate
                 detail={false}
                 key={listing.listing.hash}
                 routerLink={`/listing/${listing.listing.hash}`}

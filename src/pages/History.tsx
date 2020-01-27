@@ -85,9 +85,9 @@ class History extends React.Component<HistoryProps, HistoryState> {
 
   public render() {
     return (
-      <IonPage>
+      <IonPage translate>
         <MobileHeader showBackBtn title={this.state.pageTitle.toUpperCase()} />
-        <IonContent>{this.renderPage()}</IonContent>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }

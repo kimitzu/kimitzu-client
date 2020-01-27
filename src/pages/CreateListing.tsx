@@ -437,7 +437,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
     const { navItems, currentForm } = this
     const { selectedModerator, isListingNew } = this.state
     return (
-      <IonPage>
+      <IonPage translate>
         <MobileHeader
           showBackBtn
           title={
@@ -446,7 +446,7 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
               : this.locale.listingForm.updateBtnText.toUpperCase()
           }
         />
-        <IonContent>
+        <IonContent translate>
           <div className="background-body full-vh uk-padding-small">
             <Prompt
               when={!this.state.isListingSaved}

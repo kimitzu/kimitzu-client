@@ -69,11 +69,11 @@ class WalletView extends React.Component<WalletProps, State> {
 
   public render() {
     return (
-      <IonPage>
+      <IonPage translate>
         <MobileHeader
           title={localeInstance.get.localizations.navigationBar.walletLabel.toUpperCase()}
         />
-        <IonContent>{this.renderPage()}</IonContent>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }

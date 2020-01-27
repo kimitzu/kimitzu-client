@@ -156,9 +156,9 @@ class DisputeView extends React.Component<DisputeViewProps, DisputeViewState> {
 
   public render() {
     return (
-      <IonPage>
+      <IonPage translate>
         <MobileHeader showBackBtn />
-        <IonContent>{this.renderPage()}</IonContent>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }

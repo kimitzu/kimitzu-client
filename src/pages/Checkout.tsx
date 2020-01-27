@@ -200,9 +200,9 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
 
   public render() {
     return (
-      <IonPage>
+      <IonPage translate>
         <MobileHeader showBackBtn />
-        <IonContent>{this.renderPage()}</IonContent>
+        <IonContent translate>{this.renderPage()}</IonContent>
       </IonPage>
     )
   }
@@ -454,16 +454,18 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
     const { locale } = this
     return isPlatform('mobile') || isPlatform('mobileweb') ? (
       <IonRadioGroup
+        translate
         onIonChange={e => {
           e.preventDefault()
           this.setState({ isPaymentSchemeDirect: e.detail.value })
         }}
       >
-        <IonItem lines="none">
-          <IonLabel className="color-primary">
+        <IonItem translate lines="none">
+          <IonLabel translate className="color-primary">
             {locale.checkoutPage.paymentForm.directLabel}
           </IonLabel>
           <IonRadio
+            translate
             value
             className="uk-margin-small-right"
             slot="start"
@@ -471,11 +473,12 @@ class Checkout extends Component<CheckoutProps, CheckoutState> {
           />
         </IonItem>
         {listing.moderators.length > 0 ? (
-          <IonItem lines="none">
-            <IonLabel className="color-primary">
+          <IonItem translate lines="none">
+            <IonLabel translate className="color-primary">
               {locale.checkoutPage.paymentForm.moderatedPayment}
             </IonLabel>
             <IonRadio
+              translate
               value={false}
               className="uk-margin-small-right"
               slot="start"

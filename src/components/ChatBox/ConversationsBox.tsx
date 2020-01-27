@@ -34,7 +34,7 @@ const ConversationsBox = ({
   useDidUpdate(scrollToBottom, [conversation.messages])
   return (
     <>
-      <IonContent scrollEvents>
+      <IonContent translate scrollEvents>
         <div
           id="conversation-container"
           className="uk-flex uk-flex-bottom uk-flex-right uk-flex-column"
@@ -65,8 +65,8 @@ const ConversationsBox = ({
         </div>
         <div id="messages-end" ref={messagesEnd} />
       </IonContent>
-      <IonFooter>
-        <IonToolbar>
+      <IonFooter translate>
+        <IonToolbar translate>
           <div id="messages-chat-cont">
             <div id="message-input-cont">
               <TextareaAutosize

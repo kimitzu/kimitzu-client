@@ -104,15 +104,15 @@ class Home extends Component<HomeProps, HomeState> {
   public renderMain() {
     const { profile, rating, search } = this.state
     return (
-      <IonPage>
+      <IonPage translate>
         {isPlatform('mobile') || isPlatform('mobileweb') ? (
           // <NavBar profile={profile} isSearchBarShow /> // TODO: make separate navbar for mobile
           <HomeHeader />
         ) : null}
-        <IonContent>
+        <IonContent translate>
           {isPlatform('mobile') || isPlatform('mobileweb') ? (
-            <IonRefresher slot="fixed" onIonRefresh={this.handleRefresh}>
-              <IonRefresherContent />
+            <IonRefresher translate slot="fixed" onIonRefresh={this.handleRefresh}>
+              <IonRefresherContent translate />
             </IonRefresher>
           ) : null}
           <div id="filter-sidebar" uk-offcanvas="mode: slide" ref={this.filterSidebarRef}>
@@ -266,7 +266,7 @@ class Home extends Component<HomeProps, HomeState> {
     const content: JSX.Element[] = []
     for (let i = 0; i < count; i++) {
       content.push(
-        <IonItem lines="none" key={`placeholder-card-${i}`}>
+        <IonItem translate lines="none" key={`placeholder-card-${i}`}>
           <ListingCardSkeleton key={`skeleton${i}`} />
         </IonItem>
       )

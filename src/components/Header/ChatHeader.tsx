@@ -9,18 +9,18 @@ interface Props {
 }
 
 const ChatHeader = ({ title, handleBackBtn, peerID }: Props) => (
-  <IonToolbar color="primary">
-    <IonButtons slot="start">
-      <IonButton onClick={handleBackBtn}>
-        <IonIcon icon={arrowBack} />
+  <IonToolbar translate color="primary">
+    <IonButtons translate slot="start">
+      <IonButton translate onClick={handleBackBtn}>
+        <IonIcon translate icon={arrowBack} />
       </IonButton>
     </IonButtons>
-    <IonTitle size="small" className="uk-text-center uk-text-truncate">
+    <IonTitle translate size="small" className="uk-text-center uk-text-truncate">
       {title}
     </IonTitle>
-    <IonButtons slot="end">
-      <IonButton disabled={peerID === undefined} routerLink={`/profile/${peerID}`}>
-        <IonIcon icon={person} />
+    <IonButtons translate slot="end">
+      <IonButton translate disabled={peerID === undefined} routerLink={`/profile/${peerID}`}>
+        <IonIcon translate icon={person} />
       </IonButton>
     </IonButtons>
   </IonToolbar>

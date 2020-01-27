@@ -10,27 +10,27 @@ const ListingCardSkeleton = () => (
     <div className="uk-width-1-1 uk-padding-small">
       <div className="uk-margin-bottom">
         <h4>
-          <IonSkeletonText animated width="40%" />
+          <IonSkeletonText translate animated width="40%" />
         </h4>
       </div>
       <div className="uk-margin-small-bottom">
         <p>
-          <IonSkeletonText animated width="95%" />
+          <IonSkeletonText translate animated width="95%" />
         </p>
       </div>
       <div className="uk-margin-small-bottom">
         <p>
-          <IonSkeletonText animated width="90%" />
+          <IonSkeletonText translate animated width="90%" />
         </p>
       </div>
       <div className="uk-margin-small-bottom">
         <p>
-          <IonSkeletonText animated width="65%" />
+          <IonSkeletonText translate animated width="65%" />
         </p>
       </div>
       <div className="uk-margin-small-bottom">
         <p>
-          <IonSkeletonText animated width="30%" />
+          <IonSkeletonText translate animated width="30%" />
         </p>
       </div>
     </div>
