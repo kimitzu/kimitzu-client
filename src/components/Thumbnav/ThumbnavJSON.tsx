@@ -66,7 +66,7 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
         return
       }
       const file = files[index]
-      reader.onloadend = function () {
+      reader.onloadend = function() {
         const bin = this.result
         if (bin) {
           const jfiles = jsonsTemp
