@@ -457,11 +457,14 @@ class ListingProfile extends Component<Props, State> {
             </div>
           </div>
         ) : null}
-        {profile.contactInfo.email ||
-        profile.contactInfo.phoneNumber ||
-        profile.contactInfo.social.length > 0 ||
-        profile.contactInfo.website ? (
-          <SocialMediaCard contact={profile.contactInfo} title={locale.listingPage.contactHeader} />
+        {Object.values(profile.contactInfo).some(contact => !!contact) ||
+        Object.values(listing.contact).some(contact => !!contact) ||
+        profile.contactInfo.social.length > 0 ? (
+          <SocialMediaCard
+            contact={profile.contactInfo}
+            title={locale.listingPage.contactHeader}
+            listingSpecificContact={listing.contact}
+          />
         ) : null}
         {background && background.educationHistory.length > 0 ? (
           <ProfessionalBackgroundCard data={background} name={locale.listingPage.educationHeader} />
@@ -500,27 +503,25 @@ class ListingProfile extends Component<Props, State> {
       if (index < rating) {
         ratingStars.push(
           <span className="blue-fill" key={index}>
-            <a
+            <span
               data-uk-icon="icon: star;"
               className="text-blue star"
-              href="/#"
               onClick={evt => evt.preventDefault()}
             >
               &nbsp;
-            </a>
+            </span>
           </span>
         )
       } else {
         ratingStars.push(
-          <a
+          <span
             key={index}
             data-uk-icon="icon: star;"
             className="empty-fill text-blue star"
-            href="/#"
             onClick={evt => evt.preventDefault()}
           >
             &nbsp;
-          </a>
+          </span>
         )
       }
     }

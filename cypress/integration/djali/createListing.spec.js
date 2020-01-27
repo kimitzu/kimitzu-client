@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 /* global context, cy, Cypress */
 
-import Initialize from "../../support/utils/Initialize"
+import Initialize from '../../support/utils/Initialize'
 
 context('Create Listing', () => {
   beforeEach(() => {
@@ -82,7 +82,7 @@ context('Create Listing', () => {
     cy.wait(5000)
     cy.get('#account').click()
     cy.get('#account').click()
-    cy.contains('Create New Listing').click({force:true})
+    cy.contains('Create New Listing').click({ force: true })
     cy.contains('General')
     cy.get('#listing-create-autocomplete').click()
     cy.get('#listing-create-autocomplete-2411-24').click()
@@ -92,6 +92,11 @@ context('Create Listing', () => {
     cy.get('#selector-input-general-price').type('15')
     cy.get('#general-rate-method').select('Hourly')
     cy.get('.mde-text').type('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+
+    cy.get('#general-phone').type('123-123-123')
+    cy.get('#general-email').type('test@kimitzu.ch')
+    cy.get('#general-website').type('https://kimitzu.ch/')
+
     cy.contains('NEXT').click()
 
     cy.get('#address-type-selection').should('not.exist')
@@ -236,6 +241,11 @@ context('Create Listing', () => {
       price: { amount: 0, currencyCode: '', modifier: 0 },
       ratingCount: 0,
       thumbnail: { medium: '', small: '', tiny: '' },
+      contact: {
+        email: 'test@kimitzu.ch',
+        phoneNumber: '123-123-123',
+        website: 'https://kimitzu.ch/',
+      },
       nsfw: false,
       signature: '',
       slug: '',

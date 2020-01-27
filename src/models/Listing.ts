@@ -4,6 +4,7 @@ import CryptoCurrencies from '../constants/CryptoCurrencies'
 import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import Image from '../interfaces/Image'
 import {
+  Contact,
   Coupon,
   Item,
   Listing as ListingInterface,
@@ -118,6 +119,11 @@ class Listing implements ListingInterface {
     small: '',
     tiny: '',
   }
+  public contact: Contact = {
+    email: '',
+    phoneNumber: '',
+    website: '',
+  }
 
   public nsfw: boolean = false
   public signature: string = ''
@@ -213,10 +219,6 @@ class Listing implements ListingInterface {
     return listingClone
   }
 
-  public async publish() {
-    // await Profile.publish()
-  }
-
   public async save() {
     /**
      * Clone listing before doing any operation to prevent mutation
@@ -224,7 +226,7 @@ class Listing implements ListingInterface {
      */
     const denormalizedListingObject = this.denormalize()
     await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
-    // await Profile.publish()
+    await Profile.publish()
     await Profile.retrieve('', true)
   }
 

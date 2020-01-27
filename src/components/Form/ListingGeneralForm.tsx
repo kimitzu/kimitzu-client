@@ -235,50 +235,49 @@ const ListingGeneralForm = ({ data, handleContinue, isNew, handleFullSubmit }: P
               label: {
                 name: `${listingForm.matureContentLabel.toUpperCase()} (NSFW, Adult, 18+, etc)`,
               },
-              // descriptiveLabel: 'The overall condition of your listing',
             },
           ]}
         />
         <div className="uk-margin uk-grid" data-uk-grid>
           <div className="uk-width-1-3@s">
-            <FormLabel label={`Phone Number`.toUpperCase()} required />
+            <FormLabel label={`Phone Number`.toUpperCase()} />
             <input
               id="general-phone"
               className="uk-input"
               type="text"
-              value={decodeHtml(listing.item.title)}
+              value={decodeHtml(listing.contact.phoneNumber)}
               onChange={event => {
-                const item = listing.item
-                item.title = event.target.value
-                handleChange('item', item)
+                const item = listing.contact
+                item.phoneNumber = event.target.value
+                handleChange('contact', item)
               }}
             />
           </div>
           <div className="uk-width-1-3@s">
-            <FormLabel label={`Email`.toUpperCase()} required />
+            <FormLabel label={`Email`.toUpperCase()} />
             <input
               id="general-email"
               className="uk-input"
               type="text"
-              value={decodeHtml(listing.item.title)}
+              value={decodeHtml(listing.contact.email)}
               onChange={event => {
-                const item = listing.item
-                item.title = event.target.value
-                handleChange('item', item)
+                const item = listing.contact
+                item.email = event.target.value
+                handleChange('contact', item)
               }}
             />
           </div>
           <div className="uk-width-1-3@s">
-            <FormLabel label={`Website`.toUpperCase()} required />
+            <FormLabel label={`Website`.toUpperCase()} />
             <input
               id="general-website"
               className="uk-input"
               type="text"
-              value={decodeHtml(listing.item.title)}
+              value={decodeHtml(listing.contact.website)}
               onChange={event => {
-                const item = listing.item
-                item.title = event.target.value
-                handleChange('item', item)
+                const item = listing.contact
+                item.website = event.target.value
+                handleChange('contact', item)
               }}
             />
           </div>

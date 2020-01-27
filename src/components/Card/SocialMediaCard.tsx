@@ -3,15 +3,17 @@ import React from 'react'
 import isElectron from 'is-electron'
 import SocialMedia from '../../constants/SocialMedia.json'
 import { localeInstance } from '../../i18n'
-import { Contact } from '../../interfaces/Profile'
+import { Contact } from '../../interfaces/Listing.js'
+import { Contact as ProfileContact } from '../../interfaces/Profile'
 import './SocialMediaCard.css'
 
 interface SocialMediaCardProps {
-  contact: Contact
+  contact: ProfileContact
   title?: string
+  listingSpecificContact?: Contact
 }
 
-const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
+const SocialMediaCard = ({ contact, title, listingSpecificContact }: SocialMediaCardProps) => {
   const { localizations } = localeInstance.get
   const socialMedia = contact.social
 
@@ -22,14 +24,50 @@ const SocialMediaCard = ({ contact, title }: SocialMediaCardProps) => {
           {title || localizations.profilePage.socialMediaHeader}
         </h3>
 
-        {contact.email ? (
+        {contact.email || listingSpecificContact!.email ? (
           <div id="social-media">
             <div id="account-icon">
               <span uk-icon="mail" />
             </div>
             <div id="account-name">
               <p className="uk-text-capitalize">{localizations.emailLabel}</p>
-              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              <a
+                href={`mailto:${
+                  listingSpecificContact && listingSpecificContact.email
+                    ? listingSpecificContact.email
+                    : contact.email
+                }`}
+              >
+                {listingSpecificContact && listingSpecificContact.email
+                  ? listingSpecificContact.email
+                  : contact.email}
+              </a>
+            </div>
+          </div>
+        ) : null}
+
+        {listingSpecificContact && listingSpecificContact.phoneNumber ? (
+          <div id="social-media">
+            <div id="account-icon">
+              <span uk-icon="receiver" />
+            </div>
+            <div id="account-name">
+              <p className="uk-text-capitalize">{localizations.emailLabel}</p>
+              <a href={`${listingSpecificContact.phoneNumber}`}>
+                {listingSpecificContact.phoneNumber}
+              </a>
+            </div>
+          </div>
+        ) : null}
+
+        {listingSpecificContact && listingSpecificContact.website ? (
+          <div id="social-media">
+            <div id="account-icon">
+              <span uk-icon="world" />
+            </div>
+            <div id="account-name">
+              <p className="uk-text-capitalize">{localizations.emailLabel}</p>
+              <a href={`${listingSpecificContact.website}`}>{listingSpecificContact.website}</a>
             </div>
           </div>
         ) : null}
