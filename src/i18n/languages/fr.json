@@ -116,6 +116,7 @@
     "serviceQuantityDescriptor": "Combien d&#39;unités de service aimeriez-vous offrir? (Laissez vide si vous ne voulez pas utiliser ce champ)",
     "matureContentLabel": "Contenus pour adultes",
     "photoLabel": "AJOUTER UNE PHOTO (inclure jusqu&#39;à 30 photos)",
+    "importLabel": "AJOUTER DES FICHIERS JSON",
     "tagsLabel": "Mots clés",
     "tagsPlaceholder": "Ajouter un tag",
     "tagsDescriptor": "Appuyez sur &quot;Entrée&quot; pour ajouter une entrée",
@@ -150,6 +151,12 @@
   },
   "photoSlideshow": {
     "dropArea": { "placeholder": "Glissez et déposez une photo ou", "selectLabel": "sélectionner" }
+  },
+  "importPlaceholder": {
+    "dropArea": {
+      "placeholder": "Glissez et déposez une json ou ",
+      "selectLabel": "sélectionner"
+    }
   },
   "moderatorSelectionForm": {
     "crawlingNotif1": "Il faut un certain temps pour explorer le réseau à la recherche des modérateurs disponibles.",

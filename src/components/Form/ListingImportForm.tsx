@@ -25,7 +25,7 @@ const ListingImportForm = ({ jsons, onChange, handleFullSubmit }: Props) => {
       <form className="uk-form-stacked  uk-flex uk-flex-column full-width">
         <fieldset className="uk-fieldset">
           <div className="uk-margin">
-            <FormLabel label={listingForm.photoLabel} required />
+            <FormLabel label={listingForm.importLabel} required />
             <ThumbnavJSON jsons={jsons} onChange={onChange} />
           </div>
         </fieldset>
@@ -34,7 +34,7 @@ const ListingImportForm = ({ jsons, onChange, handleFullSubmit }: Props) => {
             className="uk-button uk-button-primary uk-margin-small-right uk-margin-large-top"
             onClick={handleFullSubmit}
           >
-            {listingForm.updateBtnText.toUpperCase()}
+            {listingForm.addBtnText.toUpperCase()}
           </Button>
         </div>
       </form>

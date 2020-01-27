@@ -15,7 +15,7 @@ interface Props {
 
 const ThumbnavJSON = ({ jsons, onChange }: Props) => {
   const {
-    photoSlideshow: { dropArea },
+    importPlaceholder: { dropArea },
   } = localeInstance.get.localizations
 
   const [jsonsTemp, setJsonsTemp] = useState(jsons)
