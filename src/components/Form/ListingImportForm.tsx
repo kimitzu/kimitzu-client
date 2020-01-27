@@ -9,16 +9,14 @@ import { localeInstance } from '../../i18n'
 import './ListingImportForm.css'
 
 interface Props {
-  handleContinue: (event: React.FormEvent) => void
   jsons: string[]
   onChange: (images: string[]) => void
   handleFullSubmit: (event: React.FormEvent) => void
   isNew: boolean
 }
 
-const ListingImportForm = ({ jsons, handleContinue, onChange, isNew, handleFullSubmit }: Props) => {
+const ListingImportForm = ({ jsons, onChange, handleFullSubmit }: Props) => {
   const {
-    localizations,
     localizations: { listingForm },
   } = localeInstance.get
 
@@ -36,8 +34,7 @@ const ListingImportForm = ({ jsons, handleContinue, onChange, isNew, handleFullS
             className="uk-button uk-button-primary uk-margin-small-right uk-margin-large-top"
             onClick={handleFullSubmit}
           >
-            {/* {listingForm.updateBtnText.toUpperCase()} */}
-            pota
+            {listingForm.updateBtnText.toUpperCase()}
           </Button>
         </div>
       </form>

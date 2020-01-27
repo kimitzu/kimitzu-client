@@ -237,6 +237,12 @@ class Listing implements ListingInterface {
     await Profile.retrieve('', true)
   }
 
+  public async importJson(json) {
+    Object.keys(json).map(key => {
+      this[key] = json[key]
+    })
+  }
+
   public async renew() {
     const currentExpiration = new Date(this.metadata.expiry)
     currentExpiration.setFullYear(currentExpiration.getFullYear() + 1)

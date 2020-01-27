@@ -19,7 +19,7 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
   } = localeInstance.get.localizations
 
   const [jsonsTemp, setJsonsTemp] = useState(jsons)
-  const [filename, setFilename] = useState()
+  const [filename, setFilename] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [dropStyle, setDropStyle] = useState('')
   const [dropRef, setDropRef] = useState(React.createRef<HTMLDivElement>())
@@ -53,41 +53,11 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
 
   const handleDelete = () => {
     jsonsTemp.splice(selectedIndex, 1)
-    const newPhotos = [...jsons]
-    setJsonsTemp(newPhotos)
+    const newJson = [...jsonsTemp]
+    setJsonsTemp(newJson)
     setSelectedIndex(0)
-    onChange(newPhotos)
+    onChange(newJson)
   }
-
-  // const onImageOpen = async (imageFiles: FileList) => {
-  //   const base64ImageFiles: Array<Promise<string>> = []
-
-  //   if (!imageFiles) {
-  //     return
-  //   }
-
-  //   // tslint:disable-next-line:prefer-for-of
-  //   for (let index = 0; index < imageFiles.length; index++) {
-  //     const imageElement = imageFiles[index]
-  //     base64ImageFiles.push(ImageUploaderInstance.convertToBase64(imageElement))
-  //   }
-
-  //   const base64ImageFilesUploadResults = await Promise.all(base64ImageFiles)
-  //   const newPhotos = [...photos, ...base64ImageFilesUploadResults]
-  //   setPhotos(newPhotos)
-  //   onChange(newPhotos)
-  // }
-
-  // const onReaderLoad = async (event) => {
-  //   const newPhotos = [...jsons, ...[event.target.result]]
-  //   setJsonsTemp(newPhotos)
-  //   onChange(newPhotos)
-  //   console.log('tete')
-  // }
-
-  // const onReaderEnd = async (event) => {
-  //   console.log(event.target.result, 'done')
-  // }
 
   const readmultifiles = files => {
     const reader = new FileReader()
@@ -96,8 +66,7 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
         return
       }
       const file = files[index]
-      reader.onloadend = function() {
-        // console.log(this.result)
+      reader.onloadend = function () {
         const bin = this.result
         if (bin) {
           const jfiles = jsonsTemp
@@ -105,12 +74,15 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
           setJsonsTemp(jfiles)
           onChange(jfiles)
           readFile(index + 1)
-          console.log(jfiles)
         }
       }
       reader.readAsText(file)
     }
     readFile(0)
+  }
+
+  const toArray = fileList => {
+    return Array.prototype.slice.call(fileList)
   }
 
   return (
@@ -130,9 +102,16 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
                   type="file"
                   multiple
                   onChange={evt => {
-                    if (evt.target.files) {
-                      setFilename(evt.target.files)
-                      readmultifiles(evt.target.files)
+                    const files = evt.target.files
+                    const names: string[] = filename
+                    if (files) {
+                      if (evt.target.files) {
+                        for (let i = 0; i <= files.length - 1; i++) {
+                          names.push(files[i].name)
+                          console.log(files[i].name)
+                        }
+                        readmultifiles(evt.target.files)
+                      }
                     }
                   }}
                   accept="application/JSON"
@@ -156,7 +135,7 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
                 <a href="/#" onClick={evt => evt.preventDefault()}>
                   <img id="image-nav" src="images/json-file.png" width="100" alt="thumbnail" />
                 </a>
-                {filename[index].name}
+                {filename[index]}
               </li>
             ))}
           </ul>
@@ -185,8 +164,16 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
             type="file"
             multiple
             onChange={evt => {
-              if (evt.target.files) {
-                // onImageOpen(evt.target.files)
+              const files = evt.target.files
+              const names: string[] = filename
+              if (files) {
+                if (evt.target.files) {
+                  for (let i = 0; i <= files.length - 1; i++) {
+                    names.push(files[i].name)
+                    console.log(files[i].name)
+                  }
+                  readmultifiles(evt.target.files)
+                }
               }
             }}
             accept="application/JSON"
