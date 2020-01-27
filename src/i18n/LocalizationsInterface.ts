@@ -632,4 +632,5 @@ export interface TransactionForm {
 
 export interface MobileHeader {
   searchPlaceholder: string
+  searchBtn: string
 }

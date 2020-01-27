@@ -607,6 +607,7 @@
     "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
   },
   "mobileHeader": {
-    "searchPlaceholder": "Busque em Kimitzu"
+    "searchPlaceholder": "Busque em Kimitzu",
+    "searchBtn": "Busque"
   }
 }

@@ -610,6 +610,7 @@
     "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
   },
   "mobileHeader": {
-    "searchPlaceholder": "Sök i Kimitzu"
+    "searchPlaceholder": "Sök i Kimitzu",
+    "searchBtn": "Sök"
   }
 }
