@@ -81,10 +81,6 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
     readFile(0)
   }
 
-  const toArray = fileList => {
-    return Array.prototype.slice.call(fileList)
-  }
-
   return (
     <div ref={dropRef} className="custom-height-import">
       <div
