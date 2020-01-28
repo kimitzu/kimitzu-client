@@ -80,7 +80,8 @@
     "start:stage": "cross-env REACT_APP_ENVIRONMENT=staging yarn start",
     "electron-build": "electron-builder",
     "release": "electron-builder --publish=always",
-    "prebuild:android:mainnet": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && ionic capacitor copy android",
+    "prebuild:android:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && ionic capacitor copy android",
+    "prebuild:android:mainnet": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && ionic capacitor copy android",
     "build": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build",
     "build:local:mainnet": "cross-env REACT_APP_ENVIRONMENT=production REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
     "build:local:testnet": "cross-env REACT_APP_ENVIRONMENT=staging REACT_APP_LINK=local yarn react-build && yarn compile:electron && yarn electron-build",
@@ -135,7 +136,7 @@
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.0.0"
   },
-  "postinstall": "jetifier -r",
+  "postinstall": "npx jetifier",
   "description": "Kimitzu Client",
   "main": "public/electron.js",
   "homepage": "./",

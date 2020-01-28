@@ -24,6 +24,7 @@ public class MainActivity extends BridgeActivity {
     private static final int STORAGE_PERMISSIONS_CODE = 200;
     private Node node;
     private NodeConfig nodeConfig;
+    private boolean isTestnet = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends BridgeActivity {
         if (!hasPermissions) {
             this.requestPermissions();
         } else {
-            startKimitzuServers(false);
+            startKimitzuServers();
         }
     }
 
@@ -64,7 +65,7 @@ public class MainActivity extends BridgeActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSIONS_CODE);
     }
 
-    private void startKimitzuServers(boolean isTestnet) {
+    private void startKimitzuServers() {
         String kimitzuServices = "kimitzu";
         String openbazaar = "kimitzu-ob";
         if (isTestnet) {
@@ -78,7 +79,7 @@ public class MainActivity extends BridgeActivity {
         nodeConfig.setRepoPath(obPath);
         node = new Node(nodeConfig, "", "");
 
-        Services services = new Services(kimitzuPath, isTestnet, 5);
+        Services services = new Services(kimitzuPath, isTestnet, 1);
         try {
 //            Toast.makeText(this, "Starting OpenBazaar server...", Toast.LENGTH_LONG).show();
             node.start();
@@ -100,7 +101,7 @@ public class MainActivity extends BridgeActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setTitle("Enable storage access");
                         builder.setMessage("Kimitzu needs to access storage in order to setup and run local server.");
-                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 requestPermissions();
@@ -115,7 +116,7 @@ public class MainActivity extends BridgeActivity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     } else {
-                        startKimitzuServers(false);
+                        startKimitzuServers();
                     }
                 }
             }
