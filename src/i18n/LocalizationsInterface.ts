@@ -44,6 +44,7 @@ export interface Localizations {
   addressForm: { [key: string]: string }
   listingForm: ListingForm
   photoSlideshow: PhotoSlideshow
+  importPlaceholder: ImportPlaceholder
   moderatorSelectionForm: { [key: string]: string }
   profilePage: ProfilePage
   followButton: FollowButton
@@ -221,6 +222,7 @@ export interface ListingForm {
   serviceQuantityDescriptor: string
   matureContentLabel: string
   photoLabel: string
+  importLabel: string
   tagsLabel: string
   tagsPlaceholder: string
   tagsDescriptor: string
@@ -266,6 +268,7 @@ export interface ListingPage {
   expiredListingHelper2: string
   renewLink: string
   editBtnText: string
+  exportBtnText: string
   deleteListingPromptText: string
   deleteListingSuccessNotif: string
   reviewsText: string
@@ -300,6 +303,7 @@ export interface ModeratorInfoModal {
 
 export interface NavigationBar {
   createNewListingLabel: string
+  importNewListingLabel: string
   purchaseHistoryLabel: string
   salesHistoryLabel: string
   caseHistoryLabel: string
@@ -439,6 +443,10 @@ export interface PaymentQRCard {
 }
 
 export interface PhotoSlideshow {
+  dropArea: DropArea
+}
+
+export interface ImportPlaceholder {
   dropArea: DropArea
 }
 

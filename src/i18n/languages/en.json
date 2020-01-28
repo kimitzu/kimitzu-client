@@ -58,6 +58,7 @@
     "locationRadiusLabel": "Within radius"
   },
   "navigationBar": {
+    "importNewListingLabel": "Import New Lisiting",
     "createNewListingLabel": "Create New Listing",
     "purchaseHistoryLabel": "Purchase History",
     "salesHistoryLabel": "Sales History",
@@ -115,6 +116,7 @@
     "serviceQuantityDescriptor": "How many service units would you like to offer? (Leave blank if you do not want to use this field)",
     "matureContentLabel": "Mature Content",
     "photoLabel": "ADD PHOTO (Include up to 30 photos)",
+    "importLabel": "ADD JSON FILES",
     "tagsLabel": "Tags",
     "tagsPlaceholder": "Add a tag",
     "tagsDescriptor": "Press \"Enter\" to add an entry",
@@ -150,6 +152,12 @@
   "photoSlideshow": {
     "dropArea": {
       "placeholder": "Drag and drop a photo or ",
+      "selectLabel": "select"
+    }
+  },
+  "importPlaceholder": {
+    "dropArea": {
+      "placeholder": "Drag and drop a json or ",
       "selectLabel": "select"
     }
   },
@@ -526,6 +534,7 @@
     "expiredListingHelper2": "This listing has expired.",
     "renewLink": "Renew for one year.",
     "editBtnText": "Edit",
+    "exportBtnText": "Export",
     "deleteListingPromptText": "Are you sure you want to delete this listing? This action cannot be undone.",
     "deleteListingSuccessNotif": "Listing deleted.",
     "reviewsText": "Reviews",

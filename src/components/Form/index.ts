@@ -2,6 +2,7 @@ import AddressForm from './AddressForm'
 import ListingCouponsForm from './ListingCouponsForm'
 import ListingCryptoCurrenciesForm from './ListingCryptoCurrenciesForm'
 import ListingGeneralForm from './ListingGeneralForm'
+import ListingImportForm from './ListingImportForm'
 import ListingPhotosForm from './ListingPhotosForm'
 import ListingTermsAndConditionsForm from './ListingTermsAndConditionsForm'
 import MiscSettingsForm from './MiscSettingsForm'
@@ -19,6 +20,7 @@ export {
   ListingCouponsForm,
   ListingCryptoCurrenciesForm,
   ListingGeneralForm,
+  ListingImportForm,
   ListingPhotosForm,
   ListingTermsAndConditionsForm,
   MiscSettingsForm,
