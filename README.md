@@ -13,6 +13,9 @@ This repository contains the client to be used with [Kimitzu-Go](https://github.
 
 ## Snap
 
+[![kimitzu-client](https://snapcraft.io//kimitzu-client/badge.svg)](https://snapcraft.io/kimitzu-client)
+[![kimitzu-client](https://snapcraft.io//kimitzu-client/trending.svg?name=0)](https://snapcraft.io/kimitzu-client)
+
 Install Kimitzu Client via Snap:
 
 ```

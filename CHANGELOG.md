@@ -1,3 +1,18 @@
+## [0.4.1-beta](https://github.com/kimitzu/kimitzu-client/compare/v0.3.3-beta...v0.4.1-beta) (2020-01-21)
+
+
+### Bug Fixes
+
+* **app:** change appimage dock icon to linux-compatible format ([#47](https://github.com/kimitzu/kimitzu-client/issues/47)) ([593110f](https://github.com/kimitzu/kimitzu-client/commit/593110fc2f16c6abc06e4aba1fdfee58177358aa)), closes [#42](https://github.com/kimitzu/kimitzu-client/issues/42)
+* **create listing:** fix conditions when setting a default listing image ([3150987](https://github.com/kimitzu/kimitzu-client/commit/31509873b7903c1fdd89341580539c9467d9fd37))
+
+
+### Features
+
+* **app:** add 'edit profile' button on profile page ([#49](https://github.com/kimitzu/kimitzu-client/issues/49)) ([8fbe805](https://github.com/kimitzu/kimitzu-client/commit/8fbe80596a3f0705fba1148af3691caf1be6b0e2)), closes [#46](https://github.com/kimitzu/kimitzu-client/issues/46)
+
+
+
 # [0.3.0-beta](https://github.com/kimitzu/kimitzu-client/compare/v0.1.1-alpha.1...v0.3.0-beta) (2020-01-08)
 
 

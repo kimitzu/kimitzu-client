@@ -370,7 +370,6 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   public async handleFullSubmit(event: React.FormEvent) {
     event.preventDefault()
     const listing = this.state.listing
-    console.log(listing, 'listinnnggggngngngn')
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(listing))
     const dlAnchorElem = document.getElementById('downloadAnchorElem')
     if (dlAnchorElem) {

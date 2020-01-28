@@ -16,12 +16,12 @@ interface RouteParams {
   id: string
 }
 
-interface CreateListingProps extends RouteComponentProps<RouteParams> {
+interface ImportListingProps extends RouteComponentProps<RouteParams> {
   currentUser: Profile
   settings: Settings
 }
 
-interface CreateListingState {
+interface ImportListingState {
   listing: Listing
   currentUser: Profile
   isLoading: boolean
@@ -32,10 +32,10 @@ interface CreateListingState {
   jsons: string[]
 }
 
-class CreateListing extends Component<CreateListingProps, CreateListingState> {
+class ImportListing extends Component<ImportListingProps, ImportListingState> {
   private locale = localeInstance.get.localizations
 
-  constructor(props: CreateListingProps) {
+  constructor(props: ImportListingProps) {
     super(props)
     const listing = new Listing()
     const profile = this.props.currentUser
@@ -109,4 +109,4 @@ class CreateListing extends Component<CreateListingProps, CreateListingState> {
   }
 }
 
-export default CreateListing
+export default ImportListing

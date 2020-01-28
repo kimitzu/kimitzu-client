@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { Button } from '../Button'
 
-import ImageUploaderInstance from '../../utils/ImageUploaderInstance'
-
 import { localeInstance } from '../../i18n'
 
 import './ThumbnavSlideshow.css'
@@ -35,13 +33,6 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
 
       if (['dragleave', 'drop'].includes(evt.type)) {
         setDropStyle('')
-      }
-
-      if (evt.type === 'drop') {
-        const dataTransfer = evt.dataTransfer
-        if (dataTransfer && dataTransfer.files.length > 0) {
-          // onImageOpen(dataTransfer.files)
-        }
       }
     }
 
@@ -104,7 +95,6 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
                       if (evt.target.files) {
                         for (let i = 0; i <= files.length - 1; i++) {
                           names.push(files[i].name)
-                          console.log(files[i].name)
                         }
                         readmultifiles(evt.target.files)
                       }
@@ -166,7 +156,6 @@ const ThumbnavJSON = ({ jsons, onChange }: Props) => {
                 if (evt.target.files) {
                   for (let i = 0; i <= files.length - 1; i++) {
                     names.push(files[i].name)
-                    console.log(files[i].name)
                   }
                   readmultifiles(evt.target.files)
                 }
