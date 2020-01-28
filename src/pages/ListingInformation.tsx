@@ -238,6 +238,24 @@ class ListingProfile extends Component<Props, State> {
               </Button>
               <Button
                 type="button"
+                className="uk-button uk-button-default uk-margin-left"
+                onClick={() => {
+                  const dataStr =
+                    'data:text/json;charset=utf-8,' +
+                    encodeURIComponent(JSON.stringify(listing.exportFormat()))
+                  const dlAnchorElem = document.getElementById('downloadAnchorElem')
+                  if (dlAnchorElem) {
+                    dlAnchorElem.setAttribute('href', dataStr)
+                    dlAnchorElem.setAttribute('download', 'scene.json')
+                    dlAnchorElem.click()
+                  }
+                }}
+              >
+                <a id="downloadAnchorElem" />
+                <span uk-icon="download" /> {locale.listingPage.exportBtnText}
+              </Button>
+              <Button
+                type="button"
                 className="uk-button uk-button-danger uk-margin-left"
                 onClick={() => {
                   window.UIkit.modal.confirm(locale.listingPage.deleteListingPromptText).then(

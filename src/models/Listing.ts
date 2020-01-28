@@ -219,6 +219,19 @@ class Listing implements ListingInterface {
     return listingClone
   }
 
+  public exportFormat(): Listing {
+    const listingClone = JSON.parse(JSON.stringify(this)) as Listing
+    listingClone.isOwner = false
+    const currUser = new Profile()
+    listingClone.currentUser = currUser
+
+    return listingClone
+  }
+
+  public async publish() {
+    // await Profile.publish()
+  }
+
   public async save() {
     /**
      * Clone listing before doing any operation to prevent mutation
@@ -228,6 +241,12 @@ class Listing implements ListingInterface {
     await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
     await Profile.publish()
     await Profile.retrieve('', true)
+  }
+
+  public async importJson(json) {
+    Object.keys(json).map(key => {
+      this[key] = json[key]
+    })
   }
 
   public async renew() {

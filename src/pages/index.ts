@@ -2,6 +2,7 @@ import Checkout from './Checkout'
 import CreateListing from './CreateListing'
 import History from './History'
 import Home from './Home'
+import ImportListing from './ImportListing'
 import ListingInformation from './ListingInformation'
 import Login from './Login'
 import Profile from './Profile'
@@ -18,4 +19,5 @@ export {
   Profile,
   History,
   WalletView,
+  ImportListing,
 }

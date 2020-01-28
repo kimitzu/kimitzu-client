@@ -8,6 +8,7 @@ import {
   CreateListing,
   History,
   Home,
+  ImportListing,
   ListingInformation,
   Profile,
   WalletView,
@@ -50,6 +51,13 @@ const Routes = ({ history }: RouteProps) => (
             exact
             render={props => (
               <CreateListing {...props} currentUser={currentUser} settings={settings} />
+            )}
+          />
+          <Route
+            path="/listing/import"
+            exact
+            render={props => (
+              <ImportListing {...props} currentUser={currentUser} settings={settings} />
             )}
           />
           <Route

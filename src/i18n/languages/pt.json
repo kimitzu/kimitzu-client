@@ -58,6 +58,7 @@
     "locationRadiusLabel": "Dentro do raio"
   },
   "navigationBar": {
+    "importNewListingLabel": "Importar nova listagem",
     "createNewListingLabel": "Criar nova listagem",
     "purchaseHistoryLabel": "Histórico de compras",
     "salesHistoryLabel": "Histórico de vendas",
@@ -115,6 +116,7 @@
     "serviceQuantityDescriptor": "Quantas unidades de serviço você gostaria de oferecer? (Deixe em branco se não desejar usar este campo)",
     "matureContentLabel": "Conteúdo adulto",
     "photoLabel": "ADICIONAR FOTOGRAFIA (Incluir até 30 fotos)",
+    "importLabel": "ADICIONAR ARQUIVOS JSON",
     "tagsLabel": "Tag",
     "tagsPlaceholder": "Adicionar uma etiqueta",
     "tagsDescriptor": "Pressione &quot;Enter&quot; para adicionar uma entrada",
@@ -149,6 +151,12 @@
   },
   "photoSlideshow": {
     "dropArea": { "placeholder": "Arraste e solte uma foto ou", "selectLabel": "selecionar" }
+  },
+  "importPlaceholder": {
+    "dropArea": {
+      "placeholder": "Arraste e solte uma json ou ",
+      "selectLabel": "selecionar"
+    }
   },
   "moderatorSelectionForm": {
     "crawlingNotif1": "Está demorando um pouco para rastrear a rede em busca de moderadores disponíveis.",
@@ -508,6 +516,7 @@
     "expiredListingHelper2": "Esta listagem expirou.",
     "renewLink": "Renove por um ano.",
     "editBtnText": "Editar",
+    "exportBtnText": "Baixar",
     "deleteListingPromptText": "Tem certeza de que deseja excluir esta listagem? Essa ação não pode ser desfeita.",
     "deleteListingSuccessNotif": "Listagem excluída.",
     "reviewsText": "Rever",

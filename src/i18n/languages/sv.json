@@ -58,6 +58,7 @@
     "locationRadiusLabel": "Inom radien"
   },
   "navigationBar": {
+    "importNewListingLabel": "Importera ny lista",
     "createNewListingLabel": "Skapa ny lista",
     "purchaseHistoryLabel": "Köphistorik",
     "salesHistoryLabel": "Försäljningshistorik",
@@ -115,6 +116,7 @@
     "serviceQuantityDescriptor": "Hur många serviceenheter vill du erbjuda? (Lämna tomt om du inte vill använda det här fältet)",
     "matureContentLabel": "Vuxet innehåll",
     "photoLabel": "LÄGG TILL FOTO (Inkludera upp till 30 foton)",
+    "importLabel": "LÄGG TILL JSON-FILER",
     "tagsLabel": "Tags",
     "tagsPlaceholder": "Lägg till en tagg",
     "tagsDescriptor": "Tryck på &quot;Enter&quot; för att lägga till en post",
@@ -149,6 +151,12 @@
   },
   "photoSlideshow": {
     "dropArea": { "placeholder": "Dra och släpp ett foto eller", "selectLabel": "Välj" }
+  },
+  "importPlaceholder": {
+    "dropArea": {
+      "placeholder": "Dra och släpp ett json eller ",
+      "selectLabel": "Välj"
+    }
   },
   "moderatorSelectionForm": {
     "crawlingNotif1": "Det tar en stund att genomsöka nätverket för tillgängliga moderatorer.",
@@ -511,6 +519,7 @@
     "expiredListingHelper2": "Denna lista har gått ut.",
     "renewLink": "Förnya i ett år.",
     "editBtnText": "Redigera",
+    "exportBtnText": "Nedladdning",
     "deleteListingPromptText": "Är du säker på att du vill ta bort den här listan? Den här åtgärden kan inte ångras.",
     "deleteListingSuccessNotif": "Listan raderad.",
     "reviewsText": "recensioner",
