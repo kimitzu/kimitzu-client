@@ -611,7 +611,16 @@
     }
   },
   "errors": {
-    "ERROR_INSUFFICIENT_FUNDS": "Insufficient Funds",
-    "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
+    "ERROR_INSUFFICIENT_FUNDS": "Fondos insuficientes",
+    "vendor's identity signature on contact failed to verify": "No se pudo verificar la identidad del proveedor"
+  },
+  "orderConfirmOffline": {
+    "message": "Este pedido se realizó cuando estaba desconectado, ¿aceptar pedido?",
+    "acceptOrder": "Aceptar pedido",
+    "rejectOrder": "Orden de rechazo",
+    "orderAccepted": "Pedido aceptado",
+    "orderRejected": "Pedido rechazado",
+    "vendorDeclineMessage": "Ha rechazado este pedido",
+    "buyerDeclinedMessage": "Pedido rechazado por el proveedor de servicios"
   }
 }

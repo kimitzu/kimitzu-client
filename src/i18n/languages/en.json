@@ -634,5 +634,14 @@
   "errors": {
     "ERROR_INSUFFICIENT_FUNDS": "Insufficient Funds",
     "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
+  },
+  "orderConfirmOffline": {
+    "message": "This order was made when you were offline, accept order?",
+    "acceptOrder": "Accept Order",
+    "rejectOrder": "Reject Order",
+    "orderAccepted": "Order Accepted",
+    "orderRejected": "Order Rejected",
+    "vendorDeclineMessage": "You have declined this order.",
+    "buyerDeclinedMessage": "Order declined by service provider."
   }
 }

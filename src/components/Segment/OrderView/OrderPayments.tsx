@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Link } from 'react-router-dom'
+import { PaymentAddressTransaction } from '../../../interfaces/Order'
 import currency from '../../../models/Currency'
 import OrderSummaryItemSegment from '../OrderSummaryItemSegment'
 import SimpleBorderedSegment from '../SimpleBorderedSegment'
@@ -23,14 +24,17 @@ const OrderPayments = ({ locale, order }) => (
               </Link>
             </h5>
           </div>
-          {order.paymentAddressTransactions.map(paymentTx => {
+          {order.paymentAddressTransactions.map((paymentTx: PaymentAddressTransaction) => {
+            if (paymentTx.value < 0) {
+              return null
+            }
             return (
               <p key={paymentTx.txid} className="color-secondary">
                 {currency.humanizeCrypto(paymentTx.value)} {order.contract.buyerOrder.payment.coin}{' '}
                 - {paymentTx.confirmations} confirmations. {paymentTx.txid.substr(0, 10)}...{' '}
-                {order.paymentAddressTransactions.length > 1
+                {/* {order.paymentAddressTransactions.length > 1
                   ? locale.orderViewPage.partialPaymentText
-                  : locale.orderViewPage.fullPaymentText}
+                  : locale.orderViewPage.fullPaymentText} */}
               </p>
             )
           })}
