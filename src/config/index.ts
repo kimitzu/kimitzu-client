@@ -9,16 +9,11 @@ interface Config {
 }
 
 const local = {
-  // kimitzuHost: `http://${window.location.hostname || '127.0.0.1'}:8109`,
-  // kimitzuSocket: `ws://${window.location.hostname || '127.0.0.1'}:8109/p2p/ratings/seek/%id%`,
-  // host: process.env.PUBLIC_URL,
-  // openBazaarHost: `http://${window.location.hostname || '127.0.0.1'}:8100`,
-  // websocketHost: `ws://${window.location.hostname || '127.0.0.1'}:8100/ws`,
-  kimitzuHost: `http://10.0.0.15:8109`,
-  kimitzuSocket: `ws://10.0.0.15:8109/p2p/ratings/seek/%id%`,
+  kimitzuHost: `http://${window.location.hostname || '127.0.0.1'}:8109`,
+  kimitzuSocket: `ws://${window.location.hostname || '127.0.0.1'}:8109/p2p/ratings/seek/%id%`,
   host: process.env.PUBLIC_URL,
-  openBazaarHost: `http://10.0.0.15:8100`,
-  websocketHost: `ws://10.0.0.15:8100/ws`,
+  openBazaarHost: `http://${window.location.hostname || '127.0.0.1'}:8100`,
+  websocketHost: `ws://${window.location.hostname || '127.0.0.1'}:8100/ws`,
 }
 
 const remote = {
