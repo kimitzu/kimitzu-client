@@ -1,3 +1,5 @@
+# This project is discontinued.
+
 # Kimitzu Client
 
 KIMITZU                    |  A Free Market for Services
