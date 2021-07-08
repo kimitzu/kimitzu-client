@@ -521,6 +521,17 @@ class Order implements OrderInterface {
     return false
   }
 
+  public async confirmOfflineOrder(accept: boolean) {
+    try {
+      await Axios.post(`${config.openBazaarHost}/ob/orderconfirmation`, {
+        orderId: this.id,
+        reject: !accept,
+      })
+    } catch (e) {
+      throw e
+    }
+  }
+
   public async pay(orderSpend: OrdersSpend) {
     try {
       await Axios.post(`${config.openBazaarHost}/ob/orderspend`, {
@@ -530,6 +541,7 @@ class Order implements OrderInterface {
         feeLevel: orderSpend.feeLevel,
         memo: orderSpend.memo,
         orderID: this.id,
+        requireAssociateOrder: true,
       })
     } catch (e) {
       throw e

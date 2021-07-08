@@ -67,6 +67,17 @@ export interface Localizations {
   chatComponent: ChatComponent
   constants: Constants
   errors: Errors
+  orderConfirmOffline: OrderConfirmOffline
+}
+
+export interface OrderConfirmOffline {
+  message: string
+  acceptOrder: string
+  rejectOrder: string
+  orderAccepted: string
+  orderRejected: string
+  vendorDeclineMessage: string
+  buyerDeclinedMessage: string
 }
 
 export interface Errors {

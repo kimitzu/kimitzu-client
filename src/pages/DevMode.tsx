@@ -319,7 +319,7 @@ class DevMode extends React.Component<{}, DevModeState> {
       coupons: [
         {
           title: faker.random.words(1),
-          discountCode: faker.random.words(1),
+          discountCode: faker.random.word(),
           percentDiscount: faker.random.number({ min: 10, max: 90 }),
           type: 'percent',
           uniqueId: '0.5594808438923105',

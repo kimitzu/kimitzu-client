@@ -11,6 +11,7 @@ import OrderCancelAction from '../components/Segment/OrderView/OrderCancelAction
 import OrderCancelled from '../components/Segment/OrderView/OrderCancelled'
 import OrderComplete from '../components/Segment/OrderView/OrderComplete'
 import OrderCompleteForm from '../components/Segment/OrderView/OrderCompleteForm'
+import OrderConfirmOffline from '../components/Segment/OrderView/OrderConfirmOffline'
 import OrderDisputeClaimMessage from '../components/Segment/OrderView/OrderDisputeClaimMessage'
 import OrderDisputeClosed from '../components/Segment/OrderView/OrderDisputeClosed'
 import OrderDisputeDecided from '../components/Segment/OrderView/OrderDisputeDecided'
@@ -34,6 +35,7 @@ import Order from '../models/Order'
 import ClientRatings from '../constants/ClientRatings.json'
 import OrderRatings from '../constants/OrderRatings.json'
 
+import OrderVendorDeclined from '../components/Segment/OrderView/OrderVendorDeclined'
 import { localeInstance } from '../i18n'
 
 interface RouteParams {
@@ -109,6 +111,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
     this.handleOrderFundRelease = this.handleOrderFundRelease.bind(this)
     this.handleWebSocket = this.handleWebSocket.bind(this)
     this.handleCancelOrder = this.handleCancelOrder.bind(this)
+    this.handleConfirmOfflineOrder = this.handleConfirmOfflineOrder.bind(this)
   }
 
   public async componentDidMount() {
@@ -348,6 +351,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         this.locale.orderViewPage.stepperTexts.pending,
         this.locale.orderViewPage.stepperTexts.canceled,
       ]
+    } else if (order.step === 6) {
+      steps = [
+        this.locale.orderViewPage.stepperTexts.pending,
+        this.locale.orderViewPage.stepperTexts.paid,
+        `Declined`,
+      ]
     } else {
       steps = [
         this.locale.orderViewPage.stepperTexts.pending,
@@ -362,6 +371,12 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
       <div className="uk-width-1-1 uk-flex uk-flex-column">
         <div className="uk-width-1-1">
           <Stepper options={steps} currentIndex={currentStep} />
+          {order.step === 0 && order.funded && order.role === 'vendor' ? (
+            <OrderConfirmOffline
+              locale={this.locale}
+              onConfirmOfflineOrder={this.handleConfirmOfflineOrder}
+            />
+          ) : null}
           {order.step === -1 ? <OrderErrorSegment locale={this.locale} order={order} /> : null}
           {order.isDisputeExpired ? <OrderDisputeExpired locale={this.locale} /> : null}
           {order.step === 7 ? <OrderRefunded locale={this.locale} order={order} /> : null}
@@ -406,14 +421,15 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           {order.step >= 3 && order.step <= 4 ? (
             <OrderFulfill locale={this.locale} order={order} />
           ) : null}
-          {order.step >= 2 && order.step !== 5 ? (
+          {order.step === 6 ? <OrderVendorDeclined locale={this.locale} order={order} /> : null}
+          {order.step >= 2 && order.step !== 5 && order.step !== 6 ? (
             <OrderFulfillForm
               locale={this.locale}
               order={order}
               handleChangeCurrentContent={this.handleContentChange}
             />
           ) : null}
-          {order.step > 0 && order.paymentAddressTransactions.length > 1 ? (
+          {(order.step > 0 || order.funded) && order.paymentAddressTransactions.length > 1 ? (
             <OrderPayments locale={this.locale} order={order} />
           ) : null}
           {order.step === 0 &&
@@ -430,7 +446,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
           order.paymentAddressTransactions.length < 1 ? (
             <OrderBuyerPayment locale={this.locale} order={order} />
           ) : null}
-          {order.step === 0 && order.role === 'vendor' ? (
+          {order.step === 0 && order.role === 'vendor' && !order.funded ? (
             <OrderVendorAwaitingPayment locale={this.locale} />
           ) : null}
           <OrderSummary locale={this.locale} order={order} />
@@ -476,11 +492,30 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
             onClick={this.handleFulfillSubmit}
             showSpinner={this.state.loadIndicator === LOAD_INDICATOR.FULFILL}
           >
-            Submit
+            {this.locale.orderViewPage.fulfillOrderForm.submitBtnText}
           </Button>
         </div>
       </div>
     )
+  }
+
+  private async handleConfirmOfflineOrder(confirm: boolean) {
+    try {
+      await this.state.order.confirmOfflineOrder(confirm)
+      window.UIkit.notification(
+        confirm
+          ? this.locale.orderConfirmOffline.orderAccepted
+          : this.locale.orderConfirmOffline.orderRejected,
+        {
+          status: 'success',
+        }
+      )
+      window.location.reload()
+    } catch (e) {
+      window.UIkit.notification(e.response.data.reason || e.message, {
+        status: 'danger',
+      })
+    }
   }
 
   private handleContentChange(index: number) {
@@ -522,6 +557,7 @@ class OrderView extends React.Component<OrderViewProps, OrderViewState> {
         order,
       })
     } catch (e) {
+      console.log(e.response)
       window.UIkit.notification(e.message, {
         status: 'danger',
       })

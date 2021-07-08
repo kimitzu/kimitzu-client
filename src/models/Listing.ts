@@ -4,6 +4,7 @@ import CryptoCurrencies from '../constants/CryptoCurrencies'
 import ServiceRateMethods from '../constants/ServiceRateMethods.json'
 import Image from '../interfaces/Image'
 import {
+  Contact,
   Coupon,
   Item,
   Listing as ListingInterface,
@@ -117,6 +118,11 @@ class Listing implements ListingInterface {
     medium: '',
     small: '',
     tiny: '',
+  }
+  public contact: Contact = {
+    email: '',
+    phoneNumber: '',
+    website: '',
   }
 
   public nsfw: boolean = false
@@ -233,7 +239,7 @@ class Listing implements ListingInterface {
      */
     const denormalizedListingObject = this.denormalize()
     await Axios.post(`${config.openBazaarHost}/ob/listing`, denormalizedListingObject)
-    // await Profile.publish()
+    await Profile.publish()
     await Profile.retrieve('', true)
   }
 

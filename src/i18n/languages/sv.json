@@ -614,7 +614,16 @@
     }
   },
   "errors": {
-    "ERROR_INSUFFICIENT_FUNDS": "Insufficient Funds",
-    "vendor's identity signature on contact failed to verify": "Failed to verify vendor identity"
-  } 
+    "ERROR_INSUFFICIENT_FUNDS": "Otillräckliga medel",
+    "vendor's identity signature on contact failed to verify": "Det gick inte att verifiera leverantörens identitet"
+  },
+  "orderConfirmOffline": {
+    "message": "Den här beställningen gjordes när du var offline, acceptera beställning?",
+    "acceptOrder": "Acceptera order",
+    "rejectOrder": "Avvisa order",
+    "orderAccepted": "Order Accepted",
+    "orderRejected": "Order avvisat",
+    "vendorDeclineMessage": "Du har avböjt den här beställningen.",
+    "buyerDeclinedMessage": "Beställningen avböts av tjänsteleverantören."
+  }
 }

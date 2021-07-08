@@ -9,6 +9,7 @@ export interface Listing {
   peerSlug: string
   ratingCount: number
   thumbnail: Thumbnail
+  contact: Contact
 
   nsfw: boolean
   signature: string
@@ -22,6 +23,12 @@ export interface Listing {
   moderators: string[]
   termsAndConditions: string
   refundPolicy: string
+}
+
+export interface Contact {
+  email: string
+  phoneNumber: string
+  website: string
 }
 
 export interface Price {
