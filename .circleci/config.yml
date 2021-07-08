@@ -1,13 +1,16 @@
 version: 2.1
 
+orbs:
+  win: circleci/windows@2.2.0
+
 jobs:
-  build:
-    docker: 
+  build-linux:
+    docker:
       - image: kimitzu/deploy-env
     working_directory: ~/kimitzu-client
     steps:
-      - checkout 
-      - restore_cache: 
+      - checkout
+      - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install-dependencies
@@ -20,13 +23,50 @@ jobs:
       - run:
           name: build-ci
           command: CI=false npm run build:remote:ci
+      - run:
+          name: build-kimitzu-go
+          command: |
+            cd $GOPATH/src/github.com/kimitzu/kimitzu-go
+            go build openbazaard.go
+            cp openbazaard ~/kimitzu-client/lib
+      - run:
+          name: build-kimitzu-services
+          command: |
+            cd lib
+            wget https://github.com/kimitzu/kimitzu-services/releases/latest/download/kimitzu-services-linux-amd64 -O services
       - persist_to_workspace:
-          root:  ~/
+          root: ~/
           paths:
             - kimitzu-client/*
             - .cache/Cypress
+  build-windows:
+    executor: win/default
+    working_directory: ~/kimitzu-client
+    steps:
+      - checkout
+      - run:
+          name: install-gcc
+          command: |
+            choco install mingw
+      - run:
+          name: build-kimitzu-go
+          command: |
+            go get -u github.com/kimitzu/kimitzu-go
+            cd $env:GOPATH/src/github.com/kimitzu/kimitzu-go
+            go build openbazaard.go
+            Copy-Item "openbazaard.exe" -Destination "~/kimitzu-client/lib/"
+      - run:
+          name: build-kimitzu-services
+          command: |
+            cd lib
+            wget https://github.com/kimitzu/kimitzu-services/releases/latest/download/kimitzu-services-windows-x86_64.exe -OutFile services.exe
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - kimitzu-client/
+            - .cache/Cypress
   test:
-    docker: 
+    docker:
       - image: kimitzu/deploy-env
     working_directory: ~/kimitzu-client
     steps:
@@ -41,12 +81,48 @@ jobs:
           command: npm run ci:cypress:test
       - store_artifacts:
           path: ./cypress/videos
+  deploy-linux:
+    docker:
+      - image: kimitzu/deploy-env
+    working_directory: ~/kimitzu-client
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: snapcraft-login
+          command: mkdir .snapcraft && echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+      - checkout
+      - run:
+          name: build-and-draft-linux
+          command: CI=false npm run build:local:mainnet -- --publish=always --linux
+      - store_artifacts:
+          path: ./dist
+  deploy-windows:
+    executor: win/default
+    working_directory: ~/kimitzu-client
+    steps:
+      - attach_workspace:
+          at: ~/
+      - checkout
+      - run:
+          name: build-and-draft-linux
+          command: CI=false npm run build:local:mainnet -- --publish=always --windows
+      - store_artifacts:
+          path: ./dist
 
 workflows:
   version: 2
   build-test-and-deploy:
     jobs:
-      - build
+      - build-linux
+      - build-windows
       - test:
           requires:
-            - build
+            - build-linux
+            - build-windows
+      - deploy-linux:
+          requires:
+            - test
+      - deploy-windows:
+          requires:
+            - test

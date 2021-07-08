@@ -20,19 +20,6 @@ jobs:
       - run:
           name: build-ci
           command: CI=false npm run build:remote:ci
-      - run:
-          name: build-kimitzu-go
-          command: |
-            cd $GOPATH/src/github.com/kimitzu/kimitzu-go
-            go build openbazaard.go
-            cp openbazaard ~/kimitzu-client/lib
-      - run:
-          name: build-kimitzu-services
-          command: |
-            cd $GOPATH/src/github.com/kimitzu/kimitzu-services
-            packr2
-            go build services.go
-            cp services ~/kimitzu-client/lib/services
       - persist_to_workspace:
           root:  ~/
           paths:
@@ -54,22 +41,6 @@ jobs:
           command: npm run ci:cypress:test
       - store_artifacts:
           path: ./cypress/videos
-  deploy:
-    docker: 
-      - image: kimitzu/deploy-env
-    working_directory: ~/kimitzu-client
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: snapcraft-login
-          command: mkdir .snapcraft && echo $SNAPCRAFT_LOGIN_FILE | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
-      - checkout
-      - run:
-          name: build-and-draft-linux
-          command: CI=false npm run build:local:mainnet -- --publish=always --linux
-      - store_artifacts:
-          path: ./dist
 
 workflows:
   version: 2
@@ -79,9 +50,3 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: develop
